@@ -1,13 +1,16 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { DM_Sans } from "next/font/google";
+import { Benne } from "next/font/google";
+
 import "./styles/globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const DmSansFont = DM_Sans({
+  variable: "--font-dm-sans",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const BenneFont = Benne({
+  weight: "400",
+  variable: "--font-benne",
   subsets: ["latin"],
 });
 
@@ -20,7 +23,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${DmSansFont.variable} ${BenneFont.variable} antialiased`}
       >
         {children}
       </body>
