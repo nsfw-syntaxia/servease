@@ -12,7 +12,7 @@ const LandingPage = () => {
             height={40}
             sizes="100vw"
             alt=""
-            src="/Servease Logo (Album Cover) (3) 1.svg"
+            src="/Servease Logo.svg"
           />
           <div className={styles.servease1}>
             <span className={styles.serv1}>serv</span>
@@ -30,6 +30,25 @@ const LandingPage = () => {
           <div className={styles.star} />
           <div className={styles.signIn}>Sign in</div>
           <div className={styles.star} />
+        </div>
+      </div>
+
+      <div className={styles.heroImage}>
+        <div className={styles.divinheroImage}>
+          <b className={styles.bridgingClientsAndContainer}>
+            <p className={styles.areYouLooking}>{`Bridging Clients `}</p>
+            <p className={styles.areYouLooking}>and Services with Ease</p>
+          </b>
+          <div className={styles.discoverASmarter}>
+            Discover a smarter way to connect with local services. Servease
+            brings together clients and providers in a seamless digital hub
+            built for speed, trust, and ease.
+            <div className={styles.button}>
+              <div className={styles.star} />
+              <div className={styles.joinServeaseNow}>Join servease now</div>
+              <div className={styles.star} />
+            </div>
+          </div>
         </div>
       </div>
 
@@ -390,23 +409,6 @@ const LandingPage = () => {
             />
           </div>
           <div className={styles.electricCar2svgFill} />
-        </div>
-      </div>
-      <div className={styles.heroImage}>
-        <div className={styles.image10} />
-        <div className={styles.discoverASmarter}>
-          Discover a smarter way to connect with local services. Servease brings
-          together clients and providers in a seamless digital hub built for
-          speed, trust, and ease.
-        </div>
-        <b className={styles.bridgingClientsAndContainer}>
-          <p className={styles.areYouLooking}>{`Bridging Clients `}</p>
-          <p className={styles.areYouLooking}>and Services with Ease</p>
-        </b>
-        <div className={styles.button}>
-          <div className={styles.star} />
-          <div className={styles.joinServeaseNow}>Join servease now</div>
-          <div className={styles.star} />
         </div>
       </div>
 
