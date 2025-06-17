@@ -4,6 +4,7 @@ import styles from "../styles/LandingPage.module.css";
 const LandingPage = () => {
   return (
     <div className={styles.landingPage}>
+      // /* -----NAVIGATION BAR----- */ //
       <div className={styles.navigation}>
         <div className={styles.navigationlogo}>
           <Image
@@ -32,7 +33,7 @@ const LandingPage = () => {
           <div className={styles.star} />
         </div>
       </div>
-
+      // /* -----HERO IMAGE----- */ //
       <div className={styles.heroImage}>
         <div className={styles.divinheroImage}>
           <b className={styles.bridgingClientsAndContainer}>
@@ -51,46 +52,46 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
-
-      <div className={styles.aboutusbox}>
-        <div className={styles.aboutUsChild}>
-          <b className={styles.aboutUs1}>
-            <span className={styles.aboutUsTxtContainer}>
-              <span>About Us</span>
-            </span>
-          </b>
-          <div className={styles.serveaseIsYour}>
-            Servease is your go-to platform for discovering and connecting with
-            trusted local service providers. Designed for both clients and
-            professionals, our goal is to make finding, comparing, and choosing
-            services simple and stress-free.
+      // /* -----ABOUT US SECTION----- */ //
+      <div className={styles.aboutUsSection}>
+        <div className={styles.servChild}>
+          <Image
+            className={styles.subtractIcon}
+            width={110}
+            height={110}
+            sizes="100vw"
+            alt=""
+            src="/Subtract.png"
+          />
+          <div className={styles.servChild1}>100+</div>
+          <div className={styles.serviceFacilities}>Service Facilities</div>
+        </div>
+        <div className={styles.aboutusbox}>
+          <div className={styles.aboutUsChild}>
+            <b className={styles.aboutUs1}>
+              <span className={styles.aboutUsTxtContainer}>
+                <span>About Us</span>
+              </span>
+            </b>
+            <div className={styles.serveaseIsYour}>
+              Servease is your go-to platform for discovering and connecting
+              with trusted local service providers. Designed for both clients
+              and professionals, our goal is to make finding, comparing, and
+              choosing services simple and stress-free.
+            </div>
+            <div className={styles.fromHomeRepairs}>
+              From home repairs to personal care, Servease brings everything you
+              need into one easy-to-use platform — saving you time and helping
+              businesses grow.
+            </div>
           </div>
-          <div className={styles.fromHomeRepairs}>
-            From home repairs to personal care, Servease brings everything you
-            need into one easy-to-use platform — saving you time and helping
-            businesses grow.
+
+          <div className={styles.aboutUsintersect}>
+            <div className={styles.intersectIcon9}></div>
+            <div className={styles.intersectIcon10}></div>
           </div>
         </div>
-
-        <div className={styles.aboutUsintersect}>
-          <div className={styles.intersectIcon9}></div>
-          <div className={styles.intersectIcon10}></div>
-        </div>
       </div>
-
-      <div className={styles.servChild}>
-        <Image
-          className={styles.subtractIcon}
-          width={110}
-          height={110}
-          sizes="100vw"
-          alt=""
-          src="/Subtract.png"
-        />
-        <div className={styles.servChild1}>100+</div>
-        <div className={styles.serviceFacilities}>Service Facilities</div>
-      </div>
-
       <div className={styles.smartscheduling} />
       <div className={styles.whyChooseServeaseContainer}>
         <span className={styles.whyChooseServ}>
@@ -345,7 +346,6 @@ const LandingPage = () => {
       <div className={styles.makeConfidentDecisions}>
         Make confident decisions with all the information at your fingertips.
       </div>
-
       <div className={styles.register}>
         <div className={styles.background}>
           <div className={styles.heading2}>
@@ -394,7 +394,6 @@ const LandingPage = () => {
           <div className={styles.electricCar2svgFill} />
         </div>
       </div>
-
       <Image
         className={styles.serveaseLogoAlbumCover1}
         width={145}
