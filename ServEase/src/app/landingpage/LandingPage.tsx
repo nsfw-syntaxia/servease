@@ -237,7 +237,6 @@ const LandingPage = () => {
               src="/Intersect6.svg"
             />
           </div>
-          <div className={styles.smartscheduling} />
           <b className={styles.smartScheduling}>Smart Scheduling</b>
           <div className={styles.avoidConflictsWith}>
             Avoid conflicts with real-time booking and calendar sync.
@@ -248,6 +247,10 @@ const LandingPage = () => {
           <b
             className={styles.transparentTrustworthy}
           >{`Transparent & Trustworthy`}</b>
+          <div className={styles.makeConfidentDecisions}>
+            Make confident decisions with all the information at your
+            fingertips.
+          </div>
         </div>
 
         <div className={styles.builtForGrowthBox}>
@@ -270,14 +273,79 @@ const LandingPage = () => {
           </div>
           <div>
             <b className={styles.instantMessaging}>Instant Messaging</b>
-            <div className={styles.findTrustedProfessionals}>
-              Connect with clients actively searching for what you offer. Grow
-              your business with ease.
+            <div className={styles.connectInstantlyFor}>
+              Connect instantly for questions, updates, and confirmations.
             </div>
           </div>
         </div>
       </div>
       // /* -----SIGN IN SECTION----- */ //
+      <div className={styles.register}>
+        <div className={styles.background}>
+          <div className={styles.heading2}>
+            <b className={styles.areYouLookingContainer}>
+              <span className={styles.aboutUsTxtContainer}>
+                <p className={styles.areYouLooking}>Are You Looking</p>
+                <p className={styles.areYouLooking}>For a Service Provider ?</p>
+              </span>
+            </b>
+          </div>
+          <div className={styles.findTrustedProfessionals}>
+            Find trusted professionals across various fields—fast, reliable, and
+            tailored to your needs.
+          </div>
+          <div className={styles.link}>
+            <div className={styles.getStarted}>Get Started</div>
+            <Image
+              className={styles.svgIcon}
+              width={14}
+              height={14}
+              sizes="100vw"
+              alt=""
+              src="/SVG1.svg"
+            />
+          </div>
+        </div>
+        <div className={styles.background1}>
+          <div className={styles.heading21}>
+            <b className={styles.areYouOffering}>Are You Offering a Service?</b>
+          </div>
+
+          <div className={styles.link1}>
+            <div className={styles.getStarted}>Get Started</div>
+            <Image
+              className={styles.svgIcon}
+              width={14}
+              height={14}
+              sizes="100vw"
+              alt=""
+              src="/SVG2.svg"
+            />
+          </div>
+          <div className={styles.electricCar2svgFill} />
+        </div>
+      </div>
+      <div className={styles.findTrustedProfessionals}>
+        Connect with clients actively searching for what you offer. Grow your
+        business with ease.
+      </div>
+      <Image
+        className={styles.serveaseLogoAlbumCover1}
+        width={145}
+        height={145}
+        sizes="100vw"
+        alt=""
+        src="/Servease Logo (Album Cover) (1) 3.png"
+      />
+      <Image
+        className={styles.serveaseLogoAlbumCover32}
+        width={145}
+        height={145}
+        sizes="100vw"
+        alt=""
+        src="/Servease Logo (Album Cover) 3.png"
+      />
+      // /* -----FOOTER----- */ //
       <div className={styles.footer}>
         <div className={styles.footerChild} />
         <div className={styles.yourTrustedPlatform}>
@@ -345,83 +413,6 @@ const LandingPage = () => {
           src="/Servease Logo (Album Cover) (3) 2.png"
         />
       </div>
-      <div className={styles.builtforGrowth} />
-      <div className={styles.landingPageChild} />
-      <div className={styles.landingPageInner} />
-      <div className={styles.rectangleDiv} />
-      <div className={styles.landingPageChild1} />
-      <div className={styles.landingPageChild2} />
-      <div className={styles.landingPageChild3} />
-      <div className={styles.landingPageChild3} />
-      <div className={styles.landingPageChild5} />
-      <b className={styles.builtForGrowth}>Built for Growth</b>
-      <div className={styles.connectInstantlyFor}>
-        Connect instantly for questions, updates, and confirmations.
-      </div>
-      <div className={styles.makeConfidentDecisions}>
-        Make confident decisions with all the information at your fingertips.
-      </div>
-      <div className={styles.register}>
-        <div className={styles.background}>
-          <div className={styles.heading2}>
-            <b className={styles.areYouLookingContainer}>
-              <span className={styles.aboutUsTxtContainer}>
-                <p className={styles.areYouLooking}>Are You Looking</p>
-                <p className={styles.areYouLooking}>For a Service Provider ?</p>
-              </span>
-            </b>
-          </div>
-          <div className={styles.findTrustedProfessionals}>
-            Find trusted professionals across various fields—fast, reliable, and
-            tailored to your needs.
-          </div>
-          <div className={styles.link}>
-            <div className={styles.getStarted}>Get Started</div>
-            <Image
-              className={styles.svgIcon}
-              width={14}
-              height={14}
-              sizes="100vw"
-              alt=""
-              src="/SVG1.svg"
-            />
-          </div>
-        </div>
-        <div className={styles.background1}>
-          <div className={styles.heading21}>
-            <b className={styles.areYouOffering}>Are You Offering a Service?</b>
-          </div>
-
-          <div className={styles.link1}>
-            <div className={styles.getStarted}>Get Started</div>
-            <Image
-              className={styles.svgIcon}
-              width={14}
-              height={14}
-              sizes="100vw"
-              alt=""
-              src="/SVG2.svg"
-            />
-          </div>
-          <div className={styles.electricCar2svgFill} />
-        </div>
-      </div>
-      <Image
-        className={styles.serveaseLogoAlbumCover1}
-        width={145}
-        height={145}
-        sizes="100vw"
-        alt=""
-        src="/Servease Logo (Album Cover) (1) 3.png"
-      />
-      <Image
-        className={styles.serveaseLogoAlbumCover32}
-        width={145}
-        height={145}
-        sizes="100vw"
-        alt=""
-        src="/Servease Logo (Album Cover) 3.png"
-      />
     </div>
   );
 };

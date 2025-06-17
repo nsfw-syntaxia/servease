@@ -451,42 +451,187 @@
   font-weight: 900;
 }
 .whyChooseGrid {
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   grid-template-rows: repeat(5, 1fr);
-  gap: 8px;
-  background-color: aqua;
+  gap: 15px;
+  background-color: rgb(88, 91, 91);
+  margin: 0 8%;
+  margin-bottom: 10%;
+  height: auto;
 }
 .allInOneBox {
-  position: absolute;
-  top: 2736px;
-  left: 143px;
   border-radius: var(--br-20);
-  width: 779px;
-  height: 250px;
+  position: relative;
+  /*width: 779px;
+  height: 250px;*/
   object-fit: cover;
   background-color: aquamarine;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+}
+.allInOnePlatform {
+  font-size: var(--font-size-20);
+  line-height: 150%;
+  color: var(--color-gray-200);
+  text-align: center;
+  margin: 0 auto;
+  margin: 0 auto;
+}
+.browseBookAnd {
+  line-height: 150%;
+  font-family: var(--font-benne);
+  color: var(--color-gray-200);
+  text-align: center;
+  margin: 0 auto;
+  max-width: 209px;
+}
+.intersectIcon8 {
+  position: relative;
+  width: 117px;
+  height: 91px;
 }
 
 .smartschedulingBox {
+  border-radius: var(--br-20);
   background-color: aquamarine;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
 }
-
+.wrapperIntersect {
+  position: relative;
+  width: 107px;
+  height: 84px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.intersectIcon6 {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  transform: scale(1.374);
+}
+.smartScheduling {
+  font-size: var(--font-size-20);
+  line-height: 150%;
+  color: var(--color-gray-200);
+  text-align: center;
+  margin: 0 auto;
+}
+.avoidConflictsWith {
+  line-height: 150%;
+  font-family: var(--font-benne);
+  color: var(--color-gray-200);
+  text-align: center;
+  margin: 0 auto;
+  max-width: 252px;
+}
 .transparentTrustworthyBox {
   grid-column: span 2 / span 2;
   grid-column-start: 1;
   grid-row-start: 2;
+  border-radius: var(--br-20);
   background-color: aquamarine;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+}
+.transparentTrustworthy {
+  font-size: var(--font-size-20);
+  line-height: 150%;
+  margin: 0 auto;
+  text-align: center;
+}
+.makeConfidentDecisions {
+  line-height: 150%;
+  font-family: var(--font-benne);
+  text-align: center;
+  max-width: 304px;
+  margin: 0 auto;
 }
 
 .builtForGrowthBox {
   grid-row: span 2 / span 2;
   grid-column-start: 3;
   grid-row-start: 1;
+  border-radius: var(--br-20);
   background-color: aquamarine;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+}
+.wrapperIntersect1 {
+  position: relative;
+  width: 343.8px;
+  height: 283px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.intersectIcon7 {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  transform: scale(1.116);
+  z-index: -1px;
+}
+.builtForGrowth {
+  font-size: var(--font-size-20);
+  line-height: 150%;
+  margin: 0 auto;
+  text-align: center;
+}
+.boostYourPresence {
+  line-height: 150%;
+  font-family: var(--font-benne);
+  margin: 0 auto;
+  text-align: center;
+  max-width: 276px;
+}
+.instantMessaging {
+  font-size: var(--font-size-20);
+  line-height: 150%;
+  margin: 0 auto;
+  text-align: center;
+}
+.connectInstantlyFor {
+  line-height: 150%;
+  font-family: var(--font-benne);
+  text-align: left;
+  margin: 0 auto;
+  text-align: left;
+  max-width: 277px;
 }
 
-.smartscheduling {
+/*.smartscheduling {
   position: absolute;
   top: 2500px;
   left: 537px;
@@ -494,7 +639,7 @@
   background-color: var(--color-antiquewhite);
   width: 384px;
   height: 210px;
-}
+}*/
 .footerChild {
   position: absolute;
   top: 0px;
@@ -739,7 +884,7 @@
   background-color: var(--color-gray-100);
   width: 351px;
   height: 486px;
-}*/
+}
 .landingPageChild {
   position: absolute;
   top: 2500px;
@@ -748,26 +893,8 @@
   background-color: var(--color-antiquewhite);
   width: 373px;
   height: 210px;
-}
+}*/
 
-.intersectIcon6 {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  transform: scale(1.374);
-}
-.wrapperIntersect {
-  position: relative;
-  width: 107px;
-  height: 84px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 .landingPageInner {
   position: absolute;
   top: 2527px;
@@ -786,7 +913,7 @@
   width: 384px;
   height: 14px;
 }
-.landingPageChild1 {
+/*.landingPageChild1 {
   position: absolute;
   top: 2472px;
   left: 532px;
@@ -803,26 +930,9 @@
   background-color: var(--color-whitesmoke);
   width: 384px;
   height: 14px;
-}
-.intersectIcon7 {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  transform: scale(1.116);
-}
-.wrapperIntersect1 {
-  position: relative;
-  width: 343.8px;
-  height: 283px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.landingPageChild3 {
+}*/
+
+/*.landingPageChild3 {
   position: absolute;
   top: 2454px;
   left: 918px;
@@ -830,8 +940,8 @@
   background-color: var(--color-whitesmoke);
   width: 384px;
   height: 46px;
-}
-.landingPageChild5 {
+}*/
+/*.landingPageChild5 {
   position: absolute;
   top: 2853px;
   left: 922px;
@@ -841,133 +951,7 @@
   height: 23px;
   transform: rotate(-90deg);
   transform-origin: 0 0;
-}
-.intersectIcon8 {
-  position: relative;
-  width: 117px;
-  height: 91px;
-}
-.allInOnePlatform {
-  position: absolute;
-  top: 2519px;
-  left: 225px;
-  font-size: var(--font-size-20);
-  line-height: 150%;
-  display: flex;
-  color: var(--color-gray-200);
-  align-items: center;
-  justify-content: center;
-  width: 200px;
-}
-.smartScheduling {
-  position: absolute;
-  top: 2596px;
-  left: 627px;
-  font-size: var(--font-size-20);
-  line-height: 150%;
-  display: flex;
-  color: var(--color-gray-200);
-  align-items: center;
-  justify-content: center;
-  width: 200px;
-}
-.builtForGrowth {
-  position: absolute;
-  top: 2554px;
-  left: 1018px;
-  font-size: var(--font-size-20);
-  line-height: 150%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 200px;
-}
-.transparentTrustworthy {
-  position: absolute;
-  top: 2861px;
-  left: 392px;
-  font-size: var(--font-size-20);
-  line-height: 150%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 281px;
-  height: 30px;
-}
-.instantMessaging {
-  position: absolute;
-  top: 2861px;
-  left: 983px;
-  font-size: var(--font-size-20);
-  line-height: 150%;
-  display: flex;
-  text-align: left;
-  align-items: center;
-  width: 202px;
-  height: 30px;
-}
-.browseBookAnd {
-  position: absolute;
-  top: 2561px;
-  left: 224px;
-  line-height: 150%;
-  font-family: var(--font-benne);
-  color: var(--color-gray-200);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 209px;
-  height: 46px;
-}
-.avoidConflictsWith {
-  position: absolute;
-  top: 2638px;
-  left: 601px;
-  line-height: 150%;
-  font-family: var(--font-benne);
-  color: var(--color-gray-200);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 252px;
-  height: 44px;
-}
-.boostYourPresence {
-  position: absolute;
-  top: 2596px;
-  left: 983px;
-  line-height: 150%;
-  font-family: var(--font-benne);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 276px;
-  height: 69px;
-}
-.connectInstantlyFor {
-  position: absolute;
-  top: 2903px;
-  left: 984px;
-  line-height: 150%;
-  font-family: var(--font-benne);
-  text-align: left;
-  display: flex;
-  align-items: center;
-  width: 277px;
-  height: 43px;
-}
-.makeConfidentDecisions {
-  position: absolute;
-  top: 2903px;
-  left: 380px;
-  line-height: 150%;
-  font-family: var(--font-benne);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 304px;
-  height: 36px;
-}
+}*/
 
 .areYouLooking {
   margin: 0;
