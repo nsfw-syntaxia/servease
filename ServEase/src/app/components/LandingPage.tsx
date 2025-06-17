@@ -198,7 +198,6 @@ const LandingPage = () => {
         </div>
       </div>
       // /* -----WHY CHOOSE SERVEASE----- */ //
-      <div className={styles.smartscheduling} />
       <div className={styles.whyChooseServeaseContainer}>
         <span className={styles.whyChooseServ}>
           <span className={styles.why}>Why</span>
@@ -211,6 +210,74 @@ const LandingPage = () => {
           <span className={styles.ease}>ease</span>
         </span>
       </div>
+      <div className={styles.whyChooseGrid}>
+        <div className={styles.allInOneBox}>
+          <b className={styles.allInOnePlatform}>All-in-One Platform</b>
+          <div className={styles.browseBookAnd}>
+            Browse, book, and manage services—everything in one place.
+          </div>
+          <Image
+            className={styles.intersectIcon8}
+            width={117}
+            height={91}
+            sizes="100vw"
+            alt=""
+            src="/Intersect8.svg"
+          />
+        </div>
+
+        <div className={styles.smartschedulingBox}>
+          <div className={styles.wrapperIntersect}>
+            <Image
+              className={styles.intersectIcon6}
+              width={107}
+              height={84}
+              sizes="100vw"
+              alt=""
+              src="/Intersect6.svg"
+            />
+          </div>
+          <div className={styles.smartscheduling} />
+          <b className={styles.smartScheduling}>Smart Scheduling</b>
+          <div className={styles.avoidConflictsWith}>
+            Avoid conflicts with real-time booking and calendar sync.
+          </div>
+        </div>
+
+        <div className={styles.transparentTrustworthyBox}>
+          <b
+            className={styles.transparentTrustworthy}
+          >{`Transparent & Trustworthy`}</b>
+        </div>
+
+        <div className={styles.builtForGrowthBox}>
+          <div className={styles.wrapperIntersect1}>
+            <Image
+              className={styles.intersectIcon7}
+              width={343.8}
+              height={283}
+              sizes="100vw"
+              alt=""
+              src="/Intersect7.svg"
+            />
+          </div>
+          <div>
+            <b className={styles.builtForGrowth}>Built for Growth</b>
+            <div className={styles.boostYourPresence}>
+              Boost your presence with customizable service listings, analytics
+              insights, and a professional digital storefront.
+            </div>
+          </div>
+          <div>
+            <b className={styles.instantMessaging}>Instant Messaging</b>
+            <div className={styles.findTrustedProfessionals}>
+              Connect with clients actively searching for what you offer. Grow
+              your business with ease.
+            </div>
+          </div>
+        </div>
+      </div>
+      // /* -----SIGN IN SECTION----- */ //
       <div className={styles.footer}>
         <div className={styles.footerChild} />
         <div className={styles.yourTrustedPlatform}>
@@ -280,66 +347,14 @@ const LandingPage = () => {
       </div>
       <div className={styles.builtforGrowth} />
       <div className={styles.landingPageChild} />
-      <Image
-        className={styles.landingPageItem}
-        width={779}
-        height={250}
-        sizes="100vw"
-        alt=""
-        src="/Rectangle 1.png"
-      />
-      <div className={styles.wrapperIntersect}>
-        <Image
-          className={styles.intersectIcon6}
-          width={107}
-          height={84}
-          sizes="100vw"
-          alt=""
-          src="/Intersect6.svg"
-        />
-      </div>
       <div className={styles.landingPageInner} />
       <div className={styles.rectangleDiv} />
       <div className={styles.landingPageChild1} />
       <div className={styles.landingPageChild2} />
-      <div className={styles.wrapperIntersect1}>
-        <Image
-          className={styles.intersectIcon7}
-          width={343.8}
-          height={283}
-          sizes="100vw"
-          alt=""
-          src="/Intersect7.svg"
-        />
-      </div>
       <div className={styles.landingPageChild3} />
       <div className={styles.landingPageChild3} />
       <div className={styles.landingPageChild5} />
-      <Image
-        className={styles.intersectIcon8}
-        width={117}
-        height={91}
-        sizes="100vw"
-        alt=""
-        src="/Intersect8.svg"
-      />
-      <b className={styles.allInOnePlatform}>All-in-One Platform</b>
-      <b className={styles.smartScheduling}>Smart Scheduling</b>
       <b className={styles.builtForGrowth}>Built for Growth</b>
-      <b
-        className={styles.transparentTrustworthy}
-      >{`Transparent & Trustworthy`}</b>
-      <b className={styles.instantMessaging}>Instant Messaging</b>
-      <div className={styles.browseBookAnd}>
-        Browse, book, and manage services—everything in one place.
-      </div>
-      <div className={styles.avoidConflictsWith}>
-        Avoid conflicts with real-time booking and calendar sync.
-      </div>
-      <div className={styles.boostYourPresence}>
-        Boost your presence with customizable service listings, analytics
-        insights, and a professional digital storefront.
-      </div>
       <div className={styles.connectInstantlyFor}>
         Connect instantly for questions, updates, and confirmations.
       </div>
@@ -376,10 +391,7 @@ const LandingPage = () => {
           <div className={styles.heading21}>
             <b className={styles.areYouOffering}>Are You Offering a Service?</b>
           </div>
-          <div className={styles.findTrustedProfessionals}>
-            Connect with clients actively searching for what you offer. Grow
-            your business with ease.
-          </div>
+
           <div className={styles.link1}>
             <div className={styles.getStarted}>Get Started</div>
             <Image
