@@ -92,6 +92,112 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
+      // /* -----WHAT WE OFFER----- */ //
+      <div className={styles.whatweoffer}>
+        <div className={styles.whatWeOfferContainer}>
+          <b>{`What We `}</b>
+          <span className={styles.offer}>Offer</span>
+        </div>
+        <div className={styles.whatWeOfferContainerChild}>
+          <div className={styles.onlineBooking}>
+            <Image
+              className={styles.intersectIcon}
+              width={239.4}
+              height={50.8}
+              sizes="100vw"
+              alt=""
+              src="/Intersect.svg"
+            />
+            <Image
+              className={styles.intersectIcon1}
+              width={81}
+              height={189}
+              sizes="100vw"
+              alt=""
+              src="/Intersect1.svg"
+            />
+            <Image
+              className={styles.icon}
+              width={100}
+              height={100}
+              sizes="100vw"
+              alt=""
+              src="/3.svg"
+            />
+            <b className={styles.onlineBookingSystem}>Online Booking System</b>
+            <div className={styles.easilyBookAppointments}>
+              Easily book appointments with your chosen service provider, check
+              availability in real time, and receive instant confirmation - all
+              from your device.
+            </div>
+          </div>
+          <div className={styles.serviceDirectory}>
+            <Image
+              className={styles.intersectIcon4}
+              width={61}
+              height={173.7}
+              sizes="100vw"
+              alt=""
+              src="/Intersect4.svg"
+            />
+            <Image
+              className={styles.intersectIcon5}
+              width={163.5}
+              height={168.3}
+              sizes="100vw"
+              alt=""
+              src="/Intersect5.svg"
+            />
+            <Image
+              className={styles.icon}
+              width={100}
+              height={100}
+              sizes="100vw"
+              alt=""
+              src="/4.svg"
+            />
+            <b className={styles.serviceDirectory1}>Service Directory</b>
+            <div className={styles.searchForService}>
+              Search for service facilities by name or category, and view
+              ratings, pricing, services, offered, offered, operating hours, and
+              contact details in one place.
+            </div>
+          </div>
+          <div className={styles.dualDahsboard}>
+            <Image
+              className={styles.intersectIcon2}
+              width={184.6}
+              height={135.6}
+              sizes="100vw"
+              alt=""
+              src="/Intersect2.svg"
+            />
+            <Image
+              className={styles.intersectIcon3}
+              width={219}
+              height={165}
+              sizes="100vw"
+              alt=""
+              src="/Intersect3.svg"
+            />
+            <Image
+              className={styles.icon}
+              width={100}
+              height={100}
+              sizes="100vw"
+              alt=""
+              src="/5.svg"
+            />
+            <b className={styles.dualDashboardAccess}>Dual Dashboard Access</b>
+            <div className={styles.whetherYoureA}>
+              Whether you're a client or a service provider, access tailored
+              dashboards designed for easy booking, service management, and
+              real-time updates.
+            </div>
+          </div>
+        </div>
+      </div>
+      // /* -----WHY CHOOSE SERVEASE----- */ //
       <div className={styles.smartscheduling} />
       <div className={styles.whyChooseServeaseContainer}>
         <span className={styles.whyChooseServ}>
@@ -171,112 +277,6 @@ const LandingPage = () => {
           alt=""
           src="/Servease Logo (Album Cover) (3) 2.png"
         />
-      </div>
-      <div className={styles.whatweoffer}>
-        <div className={styles.whatweofferbox} />
-        <div className={styles.whatWeOfferContainer}>
-          <b>{`What We `}</b>
-          <span className={styles.offer}>Offer</span>
-        </div>
-        <div className={styles.onlineBooking}>
-          <b className={styles.onlineBookingSystem}>Online Booking System</b>
-          <div className={styles.easilyBookAppointments}>
-            Easily book appointments with your chosen service provider, check
-            availability in real time, and receive instant confirmation - all
-            from your device.
-          </div>
-          <div className={styles.onlineBookingChild} />
-          <Image
-            className={styles.icon}
-            width={100}
-            height={100}
-            sizes="100vw"
-            alt=""
-            src="/3.png"
-          />
-          <Image
-            className={styles.intersectIcon}
-            width={239.4}
-            height={50.8}
-            sizes="100vw"
-            alt=""
-            src="/Intersect.svg"
-          />
-          <Image
-            className={styles.intersectIcon1}
-            width={81}
-            height={189}
-            sizes="100vw"
-            alt=""
-            src="/Intersect1.svg"
-          />
-        </div>
-        <div className={styles.dualDahsboard}>
-          <b className={styles.dualDashboardAccess}>Dual Dashboard Access</b>
-          <div className={styles.whetherYoureA}>
-            Whether you're a client or a service provider, access tailored
-            dashboards designed for easy booking, service management, and
-            real-time updates.
-          </div>
-          <div className={styles.onlineBookingChild} />
-          <Image
-            className={styles.icon}
-            width={100}
-            height={100}
-            sizes="100vw"
-            alt=""
-            src="/5.png"
-          />
-          <Image
-            className={styles.intersectIcon2}
-            width={184.6}
-            height={135.6}
-            sizes="100vw"
-            alt=""
-            src="/Intersect2.svg"
-          />
-          <Image
-            className={styles.intersectIcon3}
-            width={219}
-            height={165}
-            sizes="100vw"
-            alt=""
-            src="/Intersect3.svg"
-          />
-        </div>
-        <div className={styles.serviceDirectory}>
-          <b className={styles.serviceDirectory1}>Service Directory</b>
-          <div className={styles.searchForService}>
-            Search for service facilities by name or category, and view ratings,
-            pricing, services, offered, offered, operating hours, and contact
-            details in one place.
-          </div>
-          <div className={styles.onlineBookingChild} />
-          <Image
-            className={styles.icon}
-            width={100}
-            height={100}
-            sizes="100vw"
-            alt=""
-            src="/4.png"
-          />
-          <Image
-            className={styles.intersectIcon4}
-            width={61}
-            height={173.7}
-            sizes="100vw"
-            alt=""
-            src="/Intersect4.svg"
-          />
-          <Image
-            className={styles.intersectIcon5}
-            width={163.5}
-            height={168.3}
-            sizes="100vw"
-            alt=""
-            src="/Intersect5.svg"
-          />
-        </div>
       </div>
       <div className={styles.builtforGrowth} />
       <div className={styles.landingPageChild} />

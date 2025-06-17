@@ -280,6 +280,157 @@
   background-position: center;
   z-index: 2;
 }
+.whatweoffer {
+  width: 100%;
+  height: auto;
+  min-height: 780px;
+  margin-top: 150px;
+  padding-top: 1%;
+  font-size: 25px;
+  background-color: var(--color-linen);
+}
+.whatWeOfferContainer {
+  margin: 5% 0 2% 12%;
+  font-size: 50px;
+  line-height: 150%;
+  text-align: left;
+  color: var(--color-gray-300);
+}
+.offer {
+  font-weight: 900;
+  color: var(--color-tan);
+}
+.whatWeOfferContainerChild {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  padding: 40px;
+  margin: 0 8%;
+  margin-bottom: 50%;
+  height: auto;
+}
+.icon {
+  display: block;
+  margin: 10% auto;
+  object-fit: contain;
+  background-color: #e0d9c9;
+  padding: 10px;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+}
+.onlineBooking {
+  position: relative;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: var(--br-20);
+  background: linear-gradient(#b29575, #b29575), var(--color-white);
+  width: auto;
+  max-width: 370px;
+  height: auto;
+  min-height: 430px;
+}
+.onlineBookingSystem {
+  line-height: 150%;
+  text-align: center;
+}
+.easilyBookAppointments {
+  font-size: var(--font-size-20);
+  line-height: 130%;
+  font-family: var(--font-benne);
+  text-align: left;
+  margin: 8% 10%;
+  margin-bottom: 30px;
+}
+.intersectIcon {
+  position: absolute;
+  top: 0px;
+  left: 20px;
+  width: 239.4px;
+  height: 50.8px;
+  z-index: 0;
+}
+.intersectIcon1 {
+  position: absolute;
+  width: 81px;
+  height: 189px;
+  z-index: 0;
+  bottom: 80px;
+  right: -0px;
+}
+.dualDahsboard {
+  position: relative;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: var(--br-20);
+  background: linear-gradient(#b29575, #b29575), var(--color-white);
+  width: auto;
+  max-width: 370px;
+  height: auto;
+  min-height: 430px;
+}
+.dualDashboardAccess {
+  line-height: 150%;
+  text-align: center;
+}
+.whetherYoureA {
+  font-size: var(--font-size-20);
+  line-height: 130%;
+  font-family: var(--font-benne);
+  text-align: left;
+  margin: 8% 10%;
+  margin-bottom: 30px;
+}
+.intersectIcon2 {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 184.6px;
+  height: 135.6px;
+  z-index: 0;
+}
+.intersectIcon3 {
+  position: absolute;
+  width: 219px;
+  height: 165px;
+  z-index: 0;
+  bottom: 0px;
+  left: 0px;
+}
+.serviceDirectory {
+  position: relative;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: var(--br-20);
+  background: linear-gradient(#b29575, #b29575), var(--color-white);
+  width: auto;
+  max-width: 370px;
+  height: auto;
+  min-height: 430px;
+}
+.serviceDirectory1 {
+  line-height: 150%;
+  text-align: center;
+}
+.searchForService {
+  font-size: var(--font-size-20);
+  line-height: 130%;
+  font-family: var(--font-benne);
+  text-align: left;
+  margin: 8% 10%;
+  margin-bottom: 30px;
+}
+.intersectIcon4 {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 61px;
+  height: 173.7px;
+  z-index: 0;
+}
+.intersectIcon5 {
+  position: absolute;
+  bottom: 80px;
+  left: 0px;
+  z-index: 0;
+}
 
 .smartscheduling {
   position: absolute;
@@ -546,175 +697,7 @@
   text-align: left;
   color: var(--color-black);
 }
-.whatweofferbox {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  background-color: var(--color-linen);
-  width: 1440px;
-  height: 754px;
-}
-.offer {
-  font-weight: 900;
-  color: var(--color-tan);
-}
-.whatWeOfferContainer {
-  position: absolute;
-  top: 110px;
-  left: 145px;
-  font-size: 50px;
-  line-height: 150%;
-  text-align: left;
-  color: var(--color-gray-300);
-}
-.onlineBookingSystem {
-  position: absolute;
-  top: 200px;
-  left: calc(50% - 146px);
-  line-height: 150%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 292px;
-}
-.easilyBookAppointments {
-  position: absolute;
-  top: 260px;
-  left: calc(50% - 159px);
-  font-size: var(--font-size-20);
-  line-height: 150%;
-  font-family: var(--font-benne);
-  text-align: left;
-  display: flex;
-  align-items: center;
-  width: 318px;
-}
-.onlineBookingChild {
-  position: absolute;
-  top: 40px;
-  left: 125px;
-  border-radius: 50%;
-  background-color: var(--color-antiquewhite);
-  width: 120px;
-  height: 120px;
-}
-.icon {
-  position: absolute;
-  top: 50px;
-  left: 135px;
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-}
-.intersectIcon {
-  position: relative;
-  width: 239.4px;
-  height: 50.8px;
-}
-.intersectIcon1 {
-  position: relative;
-  width: 81px;
-  height: 189px;
-}
-.onlineBooking {
-  position: absolute;
-  top: 236px;
-  left: calc(50% - 575px);
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: var(--br-20);
-  background: linear-gradient(#b29575, #b29575), var(--color-white);
-  width: 370px;
-  height: 430px;
-}
-.dualDashboardAccess {
-  position: absolute;
-  top: 200px;
-  left: calc(50% - 145px);
-  line-height: 150%;
-}
-.whetherYoureA {
-  position: absolute;
-  top: 260px;
-  left: calc(50% - 143px);
-  font-size: var(--font-size-20);
-  line-height: 150%;
-  font-family: var(--font-benne);
-  text-align: left;
-  display: flex;
-  align-items: center;
-  width: 285px;
-}
-.intersectIcon2 {
-  position: relative;
-  width: 184.6px;
-  height: 135.6px;
-}
-.intersectIcon3 {
-  position: relative;
-  width: 219px;
-  height: 165px;
-}
-.dualDahsboard {
-  position: absolute;
-  top: 235px;
-  left: calc(50% + 208px);
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: var(--br-20);
-  background: linear-gradient(#b29575, #b29575), var(--color-white);
-  width: 370px;
-  height: 430px;
-}
-.serviceDirectory1 {
-  position: absolute;
-  top: 200px;
-  left: 40px;
-  line-height: 150%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 291px;
-}
-.searchForService {
-  position: absolute;
-  top: 260px;
-  left: calc(50% - 152px);
-  font-size: var(--font-size-20);
-  line-height: 150%;
-  font-family: var(--font-benne);
-  text-align: left;
-  display: flex;
-  align-items: center;
-  width: 303px;
-}
-.intersectIcon4 {
-  position: relative;
-  width: 61px;
-  height: 173.7px;
-}
-.intersectIcon5 {
-  position: relative;
-  width: 163.5px;
-  height: 168.3px;
-}
-.serviceDirectory {
-  position: absolute;
-  top: 235px;
-  left: calc(50% - 184px);
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: var(--br-20);
-  background: linear-gradient(#b29575, #b29575), var(--color-white);
-  width: 370px;
-  height: 430px;
-}
-.whatweoffer {
-  position: absolute;
-  top: 1515px;
-  left: -1px;
-  width: 1440px;
-  height: 754px;
-  font-size: 25px;
-  color: var(--color-white);
-}
+
 .builtforGrowth {
   position: absolute;
   top: 2500px;
