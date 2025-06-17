@@ -52,6 +52,56 @@ const LandingPage = () => {
         </div>
       </div>
 
+      <div className={styles.aboutusbox}>
+        <div className={styles.aboutusboxChild} />
+        <b className={styles.aboutUs1}>
+          <span className={styles.aboutUsTxtContainer}>
+            <span>About</span>
+            <span className={styles.span}>{` `}</span>
+            <span>Us</span>
+          </span>
+        </b>
+        <div className={styles.serveaseIsYour}>
+          Servease is your go-to platform for discovering and connecting with
+          trusted local service providers. Designed for both clients and
+          professionals, our goal is to make finding, comparing, and choosing
+          services simple and stress-free.
+        </div>
+        <div className={styles.fromHomeRepairs}>
+          From home repairs to personal care, Servease brings everything you
+          need into one easy-to-use platform — saving you time and helping
+          businesses grow.
+        </div>
+        <Image
+          className={styles.intersectIcon9}
+          width={350.7}
+          height={360}
+          sizes="100vw"
+          alt=""
+          src="/Intersect9.svg"
+        />
+        <Image
+          className={styles.intersectIcon10}
+          width={332.7}
+          height={360}
+          sizes="100vw"
+          alt=""
+          src="/Intersect10.svg"
+        />
+      </div>
+      <div className={styles.servChild}>
+        <Image
+          className={styles.subtractIcon}
+          width={110}
+          height={110}
+          sizes="100vw"
+          alt=""
+          src="/Subtract.png"
+        />
+        <div className={styles.servChild1}>100+</div>
+        <div className={styles.serviceFacilities}>Service Facilities</div>
+      </div>
+
       <div className={styles.smartscheduling} />
       <div className={styles.whyChooseServeaseContainer}>
         <span className={styles.whyChooseServ}>
@@ -306,63 +356,7 @@ const LandingPage = () => {
       <div className={styles.makeConfidentDecisions}>
         Make confident decisions with all the information at your fingertips.
       </div>
-      <div className={styles.serv}>
-        <Image
-          className={styles.servChild}
-          width={345}
-          height={360}
-          sizes="100vw"
-          alt=""
-          src="/Rectangle2.svg"
-        />
-        <Image
-          className={styles.subtractIcon}
-          width={110}
-          height={110}
-          sizes="100vw"
-          alt=""
-          src="/Subtract.png"
-        />
-        <div className={styles.serviceFacilities}>Service Facilities</div>
-        <div className={styles.div}>100+</div>
-      </div>
-      <div className={styles.aboutusbox}>
-        <div className={styles.aboutusboxChild} />
-        <b className={styles.aboutUs1}>
-          <span className={styles.aboutUsTxtContainer}>
-            <span>About</span>
-            <span className={styles.span}>{` `}</span>
-            <span>Us</span>
-          </span>
-        </b>
-        <div className={styles.serveaseIsYour}>
-          Servease is your go-to platform for discovering and connecting with
-          trusted local service providers. Designed for both clients and
-          professionals, our goal is to make finding, comparing, and choosing
-          services simple and stress-free.
-        </div>
-        <div className={styles.fromHomeRepairs}>
-          From home repairs to personal care, Servease brings everything you
-          need into one easy-to-use platform — saving you time and helping
-          businesses grow.
-        </div>
-        <Image
-          className={styles.intersectIcon9}
-          width={350.7}
-          height={360}
-          sizes="100vw"
-          alt=""
-          src="/Intersect9.svg"
-        />
-        <Image
-          className={styles.intersectIcon10}
-          width={332.7}
-          height={360}
-          sizes="100vw"
-          alt=""
-          src="/Intersect10.svg"
-        />
-      </div>
+
       <div className={styles.register}>
         <div className={styles.background}>
           <div className={styles.heading2}>
