@@ -175,6 +175,91 @@
   padding-top: 88%;
   line-height: 150%;
 }
+.aboutusbox {
+  position: relative;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  max-width: 794.3px;
+  height: auto;
+  text-align: left;
+  font-family: var(--font-benne);
+  border-radius: var(--br-20);
+  background-color: var(--color-linen);
+  display: flex;
+}
+.aboutUsChild {
+  margin-left: 5%;
+  margin-bottom: 5%;
+  margin-top: 5%;
+}
+.aboutUsTxtContainer {
+  width: 100%;
+  color: #2e231d;
+}
+.aboutUs1 {
+  position: relative;
+  font-size: 50px;
+  line-height: 150%;
+  display: flex;
+  font-family: var(--font-dm-sans);
+  align-items: center;
+  width: 257px;
+  color: var(--color-gray-300);
+}
+.aboutUs {
+  background-color: bisque;
+}
+.serveaseIsYour {
+  position: relative;
+  line-height: 150%;
+  display: flex;
+  align-items: center;
+  max-width: 374.7px;
+  margin-bottom: 5%;
+  margin-top: 6%;
+  color: #38281b;
+}
+.fromHomeRepairs {
+  position: relative;
+  line-height: 150%;
+  display: flex;
+  align-items: center;
+  max-width: 374.7px;
+  color: #38281b;
+}
+.aboutUsintersect {
+  position: relative;
+  width: 355.7px;
+  height: auto;
+  margin: 0 auto;
+  margin-right: 0%;
+}
+.intersectIcon9 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 355.7px;
+  height: 100%;
+  border-radius: var(--br-20);
+  clip-path: ellipse(100% 85% at 100% 50%);
+  background: #e0d9c7;
+  z-index: 1;
+}
+.intersectIcon10 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 332.7px;
+  height: 100%;
+  margin: 0 auto;
+  margin-right: 0%;
+  border-radius: var(--br-20);
+  clip-path: ellipse(100% 85% at 100% 50%);
+  background-image: url("/AboutusPic.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 2;
+}
 
 .smartscheduling {
   position: absolute;
@@ -187,9 +272,6 @@
 }
 .why {
   color: var(--color-gray-300);
-}
-.span {
-  color: var(--color-black);
 }
 .choose {
   color: var(--color-tan);
@@ -859,74 +941,6 @@
   height: 36px;
 }
 
-.aboutusboxChild {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  border-radius: var(--br-20);
-  background-color: var(--color-linen);
-  width: 794.3px;
-  height: 360px;
-}
-.aboutUsTxtContainer {
-  width: 100%;
-}
-.aboutUs1 {
-  position: absolute;
-  top: 35px;
-  left: 37.31px;
-  font-size: 50px;
-  line-height: 150%;
-  display: flex;
-  font-family: var(--font-dm-sans);
-  align-items: center;
-  width: 257px;
-  color: var(--color-gray-300);
-}
-.aboutUs {
-  background-color: bisque;
-}
-
-.serveaseIsYour {
-  position: absolute;
-  top: 126px;
-  left: 36.97px;
-  line-height: 150%;
-  display: flex;
-  align-items: center;
-  width: 374.7px;
-}
-.fromHomeRepairs {
-  position: absolute;
-  top: 240px;
-  left: 36.97px;
-  line-height: 150%;
-  display: flex;
-  align-items: center;
-  width: 374.7px;
-}
-.intersectIcon9 {
-  position: relative;
-  width: 350.7px;
-  height: 360px;
-}
-.intersectIcon10 {
-  position: relative;
-  width: 332.7px;
-  height: 360px;
-}
-.aboutusbox {
-  position: absolute;
-  top: 964px;
-  left: 502.69px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  width: 794.3px;
-  height: 360px;
-  text-align: left;
-  color: var(--color-gray-200);
-  font-family: var(--font-benne);
-  background-color: aqua;
-}
 .areYouLooking {
   margin: 0;
 }

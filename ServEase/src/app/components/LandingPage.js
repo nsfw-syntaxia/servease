@@ -53,42 +53,31 @@ const LandingPage = () => {
       </div>
 
       <div className={styles.aboutusbox}>
-        <div className={styles.aboutusboxChild} />
-        <b className={styles.aboutUs1}>
-          <span className={styles.aboutUsTxtContainer}>
-            <span>About</span>
-            <span className={styles.span}>{` `}</span>
-            <span>Us</span>
-          </span>
-        </b>
-        <div className={styles.serveaseIsYour}>
-          Servease is your go-to platform for discovering and connecting with
-          trusted local service providers. Designed for both clients and
-          professionals, our goal is to make finding, comparing, and choosing
-          services simple and stress-free.
+        <div className={styles.aboutUsChild}>
+          <b className={styles.aboutUs1}>
+            <span className={styles.aboutUsTxtContainer}>
+              <span>About Us</span>
+            </span>
+          </b>
+          <div className={styles.serveaseIsYour}>
+            Servease is your go-to platform for discovering and connecting with
+            trusted local service providers. Designed for both clients and
+            professionals, our goal is to make finding, comparing, and choosing
+            services simple and stress-free.
+          </div>
+          <div className={styles.fromHomeRepairs}>
+            From home repairs to personal care, Servease brings everything you
+            need into one easy-to-use platform — saving you time and helping
+            businesses grow.
+          </div>
         </div>
-        <div className={styles.fromHomeRepairs}>
-          From home repairs to personal care, Servease brings everything you
-          need into one easy-to-use platform — saving you time and helping
-          businesses grow.
+
+        <div className={styles.aboutUsintersect}>
+          <div className={styles.intersectIcon9}></div>
+          <div className={styles.intersectIcon10}></div>
         </div>
-        <Image
-          className={styles.intersectIcon9}
-          width={350.7}
-          height={360}
-          sizes="100vw"
-          alt=""
-          src="/Intersect9.svg"
-        />
-        <Image
-          className={styles.intersectIcon10}
-          width={332.7}
-          height={360}
-          sizes="100vw"
-          alt=""
-          src="/Intersect10.svg"
-        />
       </div>
+
       <div className={styles.servChild}>
         <Image
           className={styles.subtractIcon}
