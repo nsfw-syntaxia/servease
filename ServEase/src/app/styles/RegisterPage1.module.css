@@ -110,7 +110,7 @@
 }
 .bg {
   	position: absolute;
-  	top: 0px;
+  	top: -10px;
   	left: 0px;
   	border-radius: 50%;
   	background-color: var(--color-tan);
@@ -119,14 +119,13 @@
 }
 .div {
   	position: absolute;
-  	top: 3.5px;
   	left: 7px;
   	font-weight: 600;
   	display: flex;
   	align-items: center;
   	justify-content: center;
   	width: 5.6px;
-  	height: 12.2px;
+  	height: 0px;
 }
 .bgParent {
   	width: 20px;
@@ -474,8 +473,8 @@
   	margin-left: auto;
   	margin-right: auto;
     padding-left: 0%;
-  	width: 100%;      /* Make it responsive for smaller screens */
-  	max-width: 700px; /* Set the maximum width on large screens */
+  	width: 100%;     
+  	max-width: 700px; 
 
   	/* Keep these properties to style the items INSIDE the form */
   	display: flex;
