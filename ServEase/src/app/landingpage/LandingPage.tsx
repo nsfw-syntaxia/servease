@@ -307,12 +307,23 @@ const LandingPage = () => {
               src="/SVG1.svg"
             />
           </div>
+          <Image
+            className={styles.serveaseLogoAlbumCover32}
+            width={145}
+            height={145}
+            sizes="100vw"
+            alt=""
+            src="/Client Logo.svg"
+          />
         </div>
         <div className={styles.background1}>
           <div className={styles.heading21}>
             <b className={styles.areYouOffering}>Are You Offering a Service?</b>
           </div>
-
+          <div className={styles.findTrustedProfessionals}>
+            Connect with clients actively searching for what you offer. Grow
+            your business with ease.
+          </div>
           <div className={styles.link1}>
             <div className={styles.getStarted}>Get Started</div>
             <Image
@@ -325,28 +336,16 @@ const LandingPage = () => {
             />
           </div>
           <div className={styles.electricCar2svgFill} />
+          <Image
+            className={styles.serveaseLogoAlbumCover1}
+            width={145}
+            height={145}
+            sizes="100vw"
+            alt=""
+            src="/Facility Logo.svg"
+          />
         </div>
       </div>
-      <div className={styles.findTrustedProfessionals}>
-        Connect with clients actively searching for what you offer. Grow your
-        business with ease.
-      </div>
-      <Image
-        className={styles.serveaseLogoAlbumCover1}
-        width={145}
-        height={145}
-        sizes="100vw"
-        alt=""
-        src="/Servease Logo (Album Cover) (1) 3.png"
-      />
-      <Image
-        className={styles.serveaseLogoAlbumCover32}
-        width={145}
-        height={145}
-        sizes="100vw"
-        alt=""
-        src="/Servease Logo (Album Cover) 3.png"
-      />
       // /* -----FOOTER----- */ //
       <div className={styles.footer}>
         <div className={styles.footerChild} />

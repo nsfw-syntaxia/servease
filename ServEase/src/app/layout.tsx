@@ -1,6 +1,5 @@
 import { DM_Sans } from "next/font/google";
 import { Benne } from "next/font/google";
-
 import "./styles/globals.css";
 
 const DmSansFont = DM_Sans({
