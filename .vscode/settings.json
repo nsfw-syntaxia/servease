@@ -1,11 +1,29 @@
 {
+  "css.validate": false,
+  "tailwindCSS.includeLanguages": {
+    "plaintext": "html",
+    "javascript": "javascript",
+    "typescript": "typescript",
+    "javascriptreact": "javascript",
+    "typescriptreact": "typescript"
+  },
+  "editor.quickSuggestions": {
+    "strings": true
+  },
   "cSpell.words": [
+    "Aboutus",
     "aboutusbox",
     "builtfor",
+    "curvededge",
     "Dahsboard",
+    "divinhero",
+    "Intersecthider",
+    "landingpage",
+    "navigationlogo",
     "servease",
     "smartscheduling",
     "supportserveasecom",
+    "Usintersect",
     "whatweoffer",
     "whatweofferbox",
     "Youre"
