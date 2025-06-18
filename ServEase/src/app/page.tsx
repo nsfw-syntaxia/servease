@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 
 export default function Home() {
-  redirect("/signin");
+  // This correctly points to the /register route.
+  redirect("/register");
 }
