@@ -93,22 +93,19 @@ const ClientSignup1:NextPage = () => {
                       											<div className={styles.radioButtonParent}>
                         												<div className={styles.radioButton}>
                           													<div className={styles.radioButton1}>
-                            														<Image className={styles.vectorIcon} width={16} height={16} sizes="100vw" alt="" src="Vector.svg" />
-                            														<Image className={styles.vectorIcon1} width={13.3} height={13.3} sizes="100vw" alt="" src="Vector.svg" />
+                            														<Image className={styles.vectorIcon} width={16} height={16} sizes="100vw" alt="" src="/Radio button.svg" />
                           													</div>
                           													<div className={styles.webDesigns}>Female</div>
                         												</div>
                         												<div className={styles.radioButton}>
                           													<div className={styles.radioButton1}>
-                            														<Image className={styles.vectorIcon} width={16} height={16} sizes="100vw" alt="" src="Vector.svg" />
-                            														<Image className={styles.vectorIcon1} width={13.3} height={13.3} sizes="100vw" alt="" src="Vector.svg" />
+                            														<Image className={styles.vectorIcon} width={16} height={16} sizes="100vw" alt="" src="/Radio button.svg" />
                           													</div>
                           													<div className={styles.webDesigns}>Male</div>
                         												</div>
                         												<div className={styles.radioButton}>
                           													<div className={styles.radioButton1}>
-                            														<Image className={styles.vectorIcon} width={16} height={16} sizes="100vw" alt="" src="Vector.svg" />
-                            														<Image className={styles.vectorIcon1} width={13.3} height={13.3} sizes="100vw" alt="" src="Vector.svg" />
+                            														<Image className={styles.vectorIcon} width={16} height={16} sizes="100vw" alt="" src="/Radio button.svg" />
                           													</div>
                           													<div className={styles.webDesigns}>Non-binary</div>
                         												</div>

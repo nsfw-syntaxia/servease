@@ -467,20 +467,22 @@
 }
 .conten {
   	position: absolute;
-  	top: 56px;
-  	left: 50%;
-  	transform: translateX(-50%);
-  	width: 100%;
-  	max-width: 800px;
-  	height: auto;
-  	min-height: calc(100vh - 73px - 56px);
+  	top: 40px; 
+  
+  	left: 0;    
+  	right: 0;   
+  	margin-left: auto;
+  	margin-right: auto;
+    padding-left: 0%;
+  	width: 100%;      /* Make it responsive for smaller screens */
+  	max-width: 700px; /* Set the maximum width on large screens */
+
+  	/* Keep these properties to style the items INSIDE the form */
   	display: flex;
   	flex-direction: column;
   	align-items: center;
   	justify-content: flex-start;
   	gap: 56px;
-  	padding: 0 20px;
-  	box-sizing: border-box;
 }
 .joinUs {
   	position: absolute;
