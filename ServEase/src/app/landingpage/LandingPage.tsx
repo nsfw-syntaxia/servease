@@ -227,6 +227,7 @@ const LandingPage = () => {
         </div>
 
         <div className={styles.smartschedulingBox}>
+          <div className={styles.wrapperIntersecthider}></div>
           <div className={styles.wrapperIntersect}>
             <Image
               className={styles.intersectIcon6}
@@ -237,6 +238,7 @@ const LandingPage = () => {
               src="/Intersect6.svg"
             />
           </div>
+          <div className={styles.landingPageInner} />
           <b className={styles.smartScheduling}>Smart Scheduling</b>
           <div className={styles.avoidConflictsWith}>
             Avoid conflicts with real-time booking and calendar sync.
@@ -264,14 +266,14 @@ const LandingPage = () => {
               src="/Intersect7.svg"
             />
           </div>
-          <div>
+          <div className={styles.builtForGrowthDiv}>
             <b className={styles.builtForGrowth}>Built for Growth</b>
             <div className={styles.boostYourPresence}>
               Boost your presence with customizable service listings, analytics
               insights, and a professional digital storefront.
             </div>
           </div>
-          <div>
+          <div className={styles.instantMessagingDiv}>
             <b className={styles.instantMessaging}>Instant Messaging</b>
             <div className={styles.connectInstantlyFor}>
               Connect instantly for questions, updates, and confirmations.
