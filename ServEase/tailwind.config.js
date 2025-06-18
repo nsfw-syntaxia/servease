@@ -6,9 +6,6 @@ module.exports = {
   ],
   theme: {
     extend: {
-      fontFamily: {
-        benne: ["Benne", "serif"],
-      },
       colors: {
         white: "#fff",
         black: "#000",
@@ -19,7 +16,6 @@ module.exports = {
           200: "#050f1a",
         },
         slategray: "#5c6c7e",
-        dimgray: "#604c3d",
         gainsboro: "#e5e5e5",
       },
       fontFamily: {
