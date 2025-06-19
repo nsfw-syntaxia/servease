@@ -171,7 +171,11 @@ const Signup: NextPage = () => {
                   />
                 </div>
               </div>
-              <div className={styles.buttoncontainer}>
+              <div
+                className={`${styles.buttoncontainer} ${
+                  selectedUserType ? styles.buttoncontainerActive : ""
+                }`}
+              >
                 <div className={styles.buttontext}>
                   <div className={styles.signUp1}>Create My Account</div>
                 </div>

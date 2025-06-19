@@ -352,7 +352,8 @@
 }
 
 .login:hover {
-  background-color: var(--color-tan-dark);
+  background-color: var(--color-tan);
+  opacity: 0.75;
 }
 
 .hoverselect {
@@ -384,4 +385,9 @@
   left: 536px;
   width: 15px;
   height: 11px;
+}
+
+.buttoncontainerActive {
+  background-color: var(--color-tan);
+  opacity: 1;
 }
