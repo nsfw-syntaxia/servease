@@ -48,6 +48,8 @@
   display: none;
 }
 
+
+
 .loginSignUp {
   position: absolute;
   top: calc(50% - 19.5px);
@@ -81,11 +83,12 @@
 
 .back {
   position: absolute;
-  top: 25px;
+  top: 28px;
   left: 83px;
   font-weight: 500;
   color: var(--color-dimgray-200);
   text-align: center;
+  line-height: 1;
 }
 
 .headerNav {
@@ -312,6 +315,7 @@
   border: 1px solid var(--color-dimgray-300);
   box-sizing: border-box;
   height: 56px;
+  width: auto;
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -324,87 +328,98 @@
   justify-content: flex-start;
 }
 
-.vectorIcon {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 0%;
-  right: 0%;
-  bottom: 0%;
-  left: 0%;
-  max-width: 100%;
-  overflow: hidden;
-  max-height: 100%;
-}
-
-.vectorIcon1 {
-  position: absolute;
-  height: 83.13%;
-  width: 83.13%;
-  top: 8.33%;
-  right: 8.54%;
-  bottom: 8.54%;
-  left: 8.33%;
-  max-width: 100%;
-  overflow: hidden;
-  max-height: 100%;
-}
-
-.radioButton1 {
-  width: 16px;
+/* Dropdown Container - Critical for positioning */
+.dropdownContainer {
   position: relative;
-  height: 16px;
-  overflow: hidden;
+  width: 100%;
+}
+
+/* Updated textField2 with proper cursor and interactive styling */
+.textField2 {
+  align-self: stretch;
+  position: relative;
+  border-radius: var(--br-12);
+  border: 1px solid var(--color-dimgray-300);
+  box-sizing: border-box;
+  height: 56px;
+  width: auto;
+  overflow: visible; /* Changed from hidden to visible for dropdown */
   flex-shrink: 0;
-}
-
-.radioButton {
+  background-color: white;
   display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  padding: 0px var(--padding-8);
-  gap: var(--gap-8);
+  justify-content: space-between;
+  padding: 0 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.radioButtonParent {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 32px;
+/* Dropdown open state styling */
+.textField2.dropdownOpen {
+  border-color: var(--color-tan);
+  box-shadow: 0 0 0 2px rgba(210, 180, 140, 0.2);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* Dropdown Menu - The actual dropdown list */
+.dropdownMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: white;
+  border: 1px solid var(--color-dimgray-300);
+  border-top: none;
+  border-bottom-left-radius: var(--br-12);
+  border-bottom-right-radius: var(--br-12);
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Individual dropdown items */
+.dropdownItem {
+  padding: 12px 16px;
+  cursor: pointer;
   font-size: var(--font-size-16);
-  color: var(--color-gray);
+  color: var(--color-dimgray-500);
+  border-bottom: 1px solid var(--color-dimgray-300);
+  transition: background-color 0.15s ease;
 }
 
-.gender {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: var(--gap-6);
+.dropdownItem:last-child {
+  border-bottom: none;
 }
 
-.vectorIcon7 {
-  position: absolute;
-  height: 30.83%;
-  width: 50%;
-  top: 33.33%;
-  right: 25%;
-  bottom: 35.83%;
-  left: 25%;
-  max-width: 100%;
-  overflow: hidden;
-  max-height: 100%;
+.dropdownItem:hover {
+  background-color: var(--color-tan);;;
+  color: white;
 }
 
-.icons {
-  position: absolute;
-  top: 40px;
-  right: 24px;
-  width: 24px;
-  height: 24px;
-  overflow: hidden;
+/* Selected text styling */
+.month,
+.day,
+.year {
+  color: var(--color-dimgray-500);
+  font-size: var(--font-size-16);
+  flex: 1;
+  text-align: left;
+}
+
+/* Placeholder styling when no option is selected */
+.month span,
+.day span,
+.year span {
+  color: var(--color-dimgray-300);
+}
+
+/* When an option is selected */
+.textField2:not(:placeholder-shown) .month,
+.textField2:not(:placeholder-shown) .day,
+.textField2:not(:placeholder-shown) .year {
+  color: var(--color-dimgray-500);
 }
 
 .textField6 {
@@ -433,6 +448,59 @@
   gap: 20px;
   font-size: var(--font-size-16);
   width: 100%;
+}
+
+/* Icons positioning and rotation */
+.icons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  position: relative;
+}
+
+.vectorIcon7 {
+  position: relative;
+  width: var(--icon-width, 32px);
+  height: var(--icon-height, 27.4px);
+  opacity: 0.6;
+  transition: transform 0.2s ease;
+}
+
+/* Rotate icon when dropdown is open */
+.vectorIcon7.rotated {
+  transform: rotate(180deg);
+}
+
+/* Gender section */
+.gender {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-6);
+  width: 100%;
+}
+
+.gender .webDesigns {
+  margin-bottom: 8px;
+  font-size: var(--font-size-14);
+  color: var(--color-dimgray-100);
+}
+
+/* Hover and focus states */
+.textField1:hover,
+.textField2:hover {
+  border-color: var(--color-tan);
+  transition: border-color 0.2s ease;
+}
+
+.textField1:focus-within,
+.textField2:focus-within {
+  border-color: var(--color-tan);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(210, 180, 140, 0.2);
 }
 
 .frameContainer {
@@ -467,6 +535,10 @@
   font-size: 22px;
   color: var(--color-white);
 }
+
+/*.button2:hover {
+	opacity: 1;
+}*/
 
 .frameGroup {
   border-radius: var(--br-24);
@@ -583,12 +655,31 @@
   font-family: var(--font-poppins);
 }
 
+/* Custom scrollbar for dropdown menus */
+.dropdownMenu::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dropdownMenu::-webkit-scrollbar-track {
+  background: #CCCCCC;
+  border-radius: 3px;
+}
+
+.dropdownMenu::-webkit-scrollbar-thumb {
+  background: var(--color-tan);
+  border-radius: 3px;
+}
+
+.dropdownMenu::-webkit-scrollbar-thumb:hover {
+  background: var(--color-tan);
+}
+
 /* Media Queries for better responsiveness */
 @media (max-width: 768px) {
   .frameParent {
     padding: 10px;
-	margin: 0 auto;
-}
+    margin: 0 auto;
+  }
   
   .frameGroup,
   .frameWrapper {
@@ -601,11 +692,6 @@
     gap: 16px;
   }
   
-  .radioButtonParent {
-    flex-direction: column;
-    gap: 16px;
-  }
-  
   .joinUs1 {
     font-size: 32px;
     line-height: 1.2;
@@ -613,5 +699,20 @@
   
   .signUpAnd {
     font-size: 16px;
+  }
+  
+  .back {
+    top: 26px;
+    left: 78px;
+  }
+  
+  .outlineArrowsArrowLeft {
+    top: 24px;
+    left: 44px;
+  }
+  
+  /* Adjust dropdown menu height on mobile */
+  .dropdownMenu {
+    max-height: 150px;
   }
 }
