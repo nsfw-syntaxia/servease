@@ -33,6 +33,7 @@ body {
   --color-whitesmoke: #f8f7f3;
   --color-black: #000;
   --color-tan: #a68465;
+  --color-tan-dark: #915f34;
   --color-white: #fff;
   --color-gray-200: #38281b;
   --color-gray-100: #402f27;
@@ -79,6 +80,7 @@ body {
   --color-gray-200: #050f1a;
   --color-white: #fff;
   --color-tan: #a68465;
+  --color-tan-dark: #915f34;
   --color-whitesmoke: #f8f7f3;
   --color-black: #000;
   --color-slategray: #5c6c7e;
@@ -117,6 +119,7 @@ body {
   	--color-dimgray-100: #666;
   	--color-whitesmoke: #f8f7f3;
   	--color-tan: #a68465;
+    --color-tan-dark: #915f34;
   	--color-darkslategray: #333;
   	
   	/* Gap */
