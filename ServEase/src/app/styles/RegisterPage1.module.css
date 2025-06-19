@@ -632,18 +632,18 @@
 
 .joinUs {
   position: absolute;
-  height: calc(100% - 73px);
+  height: calc(100vh - 73px); /* Full viewport height minus header */
   top: 73px;
-  bottom: 0px;
   left: 0px;
+  right: 0px; /* Use right instead of width for better sizing */
   background-color: var(--color-whitesmoke);
-  width: 100%;
-  overflow-y: auto;
+  overflow-y: auto; /* ONLY scrollbar - the content area scrolls */
+  overflow-x: hidden; /* Prevent horizontal scroll */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 40px 20px;
+  padding: 40px 20px 60px 20px; /* Extra bottom padding */
   text-align: center;
   font-size: 40px;
   color: var(--color-gray);
@@ -662,17 +662,114 @@
   width: 100%;
   position: relative;
   background-color: var(--color-white);
-  border: 1px solid var(--color-black);
   box-sizing: border-box;
-  min-height: 100vh;
-  overflow-x: hidden;
+  height: 100vh; /* Fixed height to prevent page scroll */
+  overflow: hidden; /* Prevent page-level scrolling */
   text-align: left;
   font-size: var(--font-size-16);
   color: var(--color-dimgray-500);
   font-family: var(--font-poppins);
 }
 
-/* Custom scrollbar for dropdown menus */
+/* Gender Selection Styles - Add these to your existing CSS */
+
+.genderOptionsContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  width: 100%;
+  margin-top: 8px;
+  align-items: center;
+}
+
+.genderOption {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 4px;
+  padding-right: 25px;
+  margin-bottom: 12px;
+}
+
+.genderOption:hover .genderCircle {
+  border-color: var(--color-tan);
+}
+
+.genderOption.genderSelected .genderCircle {
+  border-color: var(--color-tan);
+  background-color: var(--color-tan);
+  border: 9px solid var(--color-tan);
+}
+
+.genderCircle {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--color-dimgray-300);
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  margin-left: 10px;
+}
+
+.genderCircleInner {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: white;
+}
+
+.genderLabel {
+  font-size: var(--font-size-16);
+  color: var(--color-dimgray-500);
+  font-weight: 400;
+  transition: color 0.2s ease;
+  white-space: nowrap;
+}
+
+.genderOption.genderSelected .genderLabel {
+  color: var(--color-dimgray-500);
+  font-weight: 400;
+}
+
+/* Mobile responsiveness for gender options */
+@media (max-width: 768px) {
+  .genderOptionsContainer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .genderOption {
+    width: 100%;
+  }
+
+  .genderCircle {
+    width: 18px;
+    height: 18px;
+  }
+
+  .genderCircleInner {
+    width: 6px;
+    height: 6px;
+  }
+
+  .genderLabel {
+    font-size: var(--font-size-16);
+  }
+}
+
+.headerNavParent {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
 .dropdownMenu::-webkit-scrollbar {
   width: 6px;
 }

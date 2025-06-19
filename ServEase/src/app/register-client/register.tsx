@@ -9,6 +9,7 @@ const ClientSignup4: NextPage = () => {
   const [selectedMonth, setSelectedMonth] = useState("");
   const [selectedDay, setSelectedDay] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
+  const [selectedGender, setSelectedGender] = useState("");
   const [isMonthOpen, setIsMonthOpen] = useState(false);
   const [isDayOpen, setIsDayOpen] = useState(false);
   const [isYearOpen, setIsYearOpen] = useState(false);
@@ -39,6 +40,8 @@ const ClientSignup4: NextPage = () => {
     label: String(currentYear - i),
   }));
 
+
+
   const handleMonthSelect = (month: { value: string; label: string }) => {
     setSelectedMonth(month.label);
     setIsMonthOpen(false);
@@ -52,6 +55,10 @@ const ClientSignup4: NextPage = () => {
   const handleYearSelect = (year: { value: string; label: string }) => {
     setSelectedYear(year.label);
     setIsYearOpen(false);
+  };
+
+  const handleGenderSelect = (gender: string) => {
+    setSelectedGender(gender);
   };
 
   return (
@@ -145,7 +152,8 @@ const ClientSignup4: NextPage = () => {
                   <div className={styles.labelWrapper}>
                     <div className={styles.label}>*First name</div>
                   </div>
-                  <div className={styles.textField1} />
+                  <div className={styles.textField1}>
+                  </div>
                 </div>
                 <div className={styles.textField}>
                   <div className={styles.labelWrapper}>
@@ -161,6 +169,53 @@ const ClientSignup4: NextPage = () => {
                   </div>
                   <div className={styles.textField1} />
                 </div>
+                <div className={styles.gender}>
+                  <div className={styles.webDesigns}>What's your gender? (optional)</div>
+                  <div className={styles.genderOptionsContainer}>
+                    <div
+                      className={`${styles.genderOption} ${
+                        selectedGender === 'female' ? styles.genderSelected : ''
+                      }`}
+                      onClick={() => handleGenderSelect('female')}
+                    >
+                      <div className={styles.genderCircle}>
+                        {selectedGender === 'female' && (
+                          <div className={styles.genderCircleInner} />
+                        )}
+                      </div>
+                      <span className={styles.genderLabel}>Female</span>
+                    </div>
+                    
+                    <div
+                      className={`${styles.genderOption} ${
+                        selectedGender === 'male' ? styles.genderSelected : ''
+                      }`}
+                      onClick={() => handleGenderSelect('male')}
+                    >
+                      <div className={styles.genderCircle}>
+                        {selectedGender === 'male' && (
+                          <div className={styles.genderCircleInner} />
+                        )}
+                      </div>
+                      <span className={styles.genderLabel}>Male</span>
+                    </div>
+                    
+                    <div
+                      className={`${styles.genderOption} ${
+                        selectedGender === 'non-binary' ? styles.genderSelected : ''
+                      }`}
+                      onClick={() => handleGenderSelect('non-binary')}
+                    >
+                      <div className={styles.genderCircle}>
+                        {selectedGender === 'non-binary' && (
+                          <div className={styles.genderCircleInner} />
+                        )}
+                      </div>
+                      <span className={styles.genderLabel}>Non-binary</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
                 <div className={styles.gender}>
                   <div className={styles.webDesigns}>What's your date of birth?</div>
                   <div className={styles.textFieldParent}>
@@ -288,7 +343,6 @@ const ClientSignup4: NextPage = () => {
                         error
                       </p>
                 </div>
-              </div>
               <div className={styles.button2}>
                 <div className={styles.signUpWrapper}>
                   <div className={styles.webDesigns}>Next</div>
