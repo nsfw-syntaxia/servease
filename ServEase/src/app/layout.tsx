@@ -14,7 +14,10 @@ const BenneFont = Benne({
 });
 
 export const metadata = {
-  title: "servease"
+  title: "servease",
+  icons: {
+    icon: "/Servease logo.svg",
+  },
 };
 
 export default function RootLayout({ children }) {
