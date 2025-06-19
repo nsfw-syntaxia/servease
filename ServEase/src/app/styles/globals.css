@@ -146,3 +146,31 @@ body {
   --font-size-16: 16px;
   --font-size-24: 24px;
 }
+
+:root {
+  --color-gray-100: #2e231d;
+  --color-tan: #a68465;
+  --color-whitesmoke: #f8f7f3;
+  --color-black: #000;
+  --color-white: #fff;
+  --color-crimson: #ee1d52;
+  --color-dimgray: #604c3d;
+  --color-dimgray-100: #666;
+  --color-dimgray-200: rgba(102, 102, 102, 0.35);
+  --color-gray-100: #111;
+  --color-gray-200: #050f1a;
+  --color-slategray: #5c6c7e;
+  --color-gainsboro: #e5e5e5;
+
+  --gap-4: 4px;
+  --br-12: 12px;
+  --br-15: 15px;
+
+  --font-dm-sans: DM Sans;
+  --font-poppins: Poppins;
+
+  --font-size-14: 14px;
+  --font-size-16: 16px;
+  --font-size-18: 18px;
+  --font-size-20: 20px;
+}
