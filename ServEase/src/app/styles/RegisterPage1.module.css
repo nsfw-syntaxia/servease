@@ -350,7 +350,8 @@
   box-sizing: border-box;
   height: 56px;
   width: auto;
-  overflow: visible; /* Changed from hidden to visible for dropdown */
+  overflow: visible;
+  /* Changed from hidden to visible for dropdown */
   flex-shrink: 0;
   background-color: white;
   display: flex;
@@ -401,32 +402,8 @@
 }
 
 .dropdownItem:hover {
-  background-color: var(--color-tan);;;
+  background-color: var(--color-tan);
   color: white;
-}
-
-/* Selected text styling */
-.month,
-.day,
-.year {
-  color: var(--color-dimgray-500);
-  font-size: var(--font-size-16);
-  flex: 1;
-  text-align: left;
-}
-
-/* Placeholder styling when no option is selected */
-.month span,
-.day span,
-.year span {
-  color: var(--color-dimgray-300);
-}
-
-/* When an option is selected */
-.textField2:not(:placeholder-shown) .month,
-.textField2:not(:placeholder-shown) .day,
-.textField2:not(:placeholder-shown) .year {
-  color: var(--color-dimgray-500);
 }
 
 .textField6 {
@@ -519,8 +496,9 @@
   width: 100%;
 }
 
-.errorMessage{
-  opacity: 0; /*make this property 1 if error arises*/
+.errorMessage {
+  opacity: 0;
+  /*make this property 1 if error arises*/
   font-size: var(--font-size-14);
   position: relative;
   margin: 0 auto;
@@ -632,18 +610,23 @@
 
 .joinUs {
   position: absolute;
-  height: calc(100vh - 73px); /* Full viewport height minus header */
+  height: calc(100vh - 73px);
+  /* Full viewport height minus header */
   top: 73px;
   left: 0px;
-  right: 0px; /* Use right instead of width for better sizing */
+  right: 0px;
+  /* Use right instead of width for better sizing */
   background-color: var(--color-whitesmoke);
-  overflow-y: auto; /* ONLY scrollbar - the content area scrolls */
-  overflow-x: hidden; /* Prevent horizontal scroll */
+  overflow-y: auto;
+  /* ONLY scrollbar - the content area scrolls */
+  overflow-x: hidden;
+  /* Prevent horizontal scroll */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 40px 20px 60px 20px; /* Extra bottom padding */
+  padding: 40px 20px 60px 20px;
+  /* Extra bottom padding */
   text-align: center;
   font-size: 40px;
   color: var(--color-gray);
@@ -663,15 +646,95 @@
   position: relative;
   background-color: var(--color-white);
   box-sizing: border-box;
-  height: 100vh; /* Fixed height to prevent page scroll */
-  overflow: hidden; /* Prevent page-level scrolling */
+  height: 100vh;
+  /* Fixed height to prevent page scroll */
+  overflow: hidden;
+  /* Prevent page-level scrolling */
   text-align: left;
   font-size: var(--font-size-16);
   color: var(--color-dimgray-500);
   font-family: var(--font-poppins);
 }
 
-/* Gender Selection Styles - Add these to your existing CSS */
+/* Input field styling */
+.inputField {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: var(--font-size-16);
+  color: var(--color-dimgray-500);
+  padding: 16px;
+  font-family: var(--font-poppins);
+  font-weight: 400;
+}
+
+.inputField::placeholder {
+  color: var(--color-dimgray-300);
+  font-size: var(--font-size-16);
+  font-weight: 400;
+}
+
+/* Focus states for input fields */
+.inputField:focus {
+  color: var(--color-dimgray-500);
+}
+
+/* Update textField1 to support input styling */
+.textField1 {
+  align-self: stretch;
+  position: relative;
+  border-radius: var(--br-12);
+  border: 1px solid var(--color-dimgray-300);
+  box-sizing: border-box;
+  height: 56px;
+  width: auto;
+  overflow: hidden;
+  flex-shrink: 0;
+  background-color: white;
+  transition: all 0.2s ease;
+}
+
+/* Enhanced hover and focus states */
+.textField1:hover {
+  border-color: var(--color-tan);
+}
+
+.textField1:focus-within {
+  border-color: var(--color-tan);
+  box-shadow: 0 0 0 2px rgba(210, 180, 140, 0.2);
+}
+
+/* Ensure proper styling when input has content */
+.textField1:has(.inputField:not(:placeholder-shown)) {
+  border-color: var(--color-tan);
+}
+
+/* Active state styling */
+.textField1:has(.inputField:focus) {
+  border-color: var(--color-tan);
+  box-shadow: 0 0 0 2px rgba(210, 180, 140, 0.2);
+}
+
+/* Placeholder styling when input is empty */
+.inputField:placeholder-shown {
+  color: var(--color-dimgray-300);
+}
+
+/* Input field with content */
+.inputField:not(:placeholder-shown) {
+  color: var(--color-tan);
+}
+
+/* Ensure consistent font styling across all inputs */
+.inputField,
+.month span,
+.day span,
+.year span {
+  font-size: var(--font-size-16);
+  font-family: var(--font-dm-sans);
+}
 
 .genderOptionsContainer {
   display: flex;
@@ -777,7 +840,7 @@
 .dropdownMenu::-webkit-scrollbar-track {
   background: #CCCCCC;
   border-radius: 3px;
-  
+
 }
 
 .dropdownMenu::-webkit-scrollbar-thumb {
@@ -789,44 +852,56 @@
   background: var(--color-tan);
 }
 
-/* Media Queries for better responsiveness */
+/* This is the placeholder style (usually a light grey) */
+.month span,
+.day span,
+.year span {
+  color: var(--color-dimgray-300);
+  /* Placeholder color */
+}
+
+/* This is the new class for when a value IS selected */
+.selectedValue {
+  color: var(--color-tan) !important;
+}
+
 @media (max-width: 768px) {
   .frameParent {
     padding: 10px;
     margin: 0 auto;
   }
-  
+
   .frameGroup,
   .frameWrapper {
     max-width: 100%;
     padding: 16px;
   }
-  
+
   .textFieldParent {
     flex-direction: column;
     gap: 16px;
   }
-  
+
   .joinUs1 {
     font-size: 32px;
     line-height: 1.2;
   }
-  
+
   .signUpAnd {
     font-size: 16px;
   }
-  
+
   .back {
     top: 26px;
     left: 78px;
   }
-  
+
   .outlineArrowsArrowLeft {
     top: 24px;
     left: 44px;
     cursor: pointer;
   }
-  
+
   /* Adjust dropdown menu height on mobile */
   .dropdownMenu {
     max-height: 150px;

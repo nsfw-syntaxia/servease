@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import type { NextPage } from "next";
 import Image from "next/image";
@@ -13,6 +13,10 @@ const ClientSignup4: NextPage = () => {
   const [isMonthOpen, setIsMonthOpen] = useState(false);
   const [isDayOpen, setIsDayOpen] = useState(false);
   const [isYearOpen, setIsYearOpen] = useState(false);
+
+  const [firstName, setFirstName] = useState("");
+  const [middleName, setMiddleName] = useState("");
+  const [lastName, setLastName] = useState("");
 
   const months = [
     { value: "01", label: "January" },
@@ -39,8 +43,6 @@ const ClientSignup4: NextPage = () => {
     value: String(currentYear - i),
     label: String(currentYear - i),
   }));
-
-
 
   const handleMonthSelect = (month: { value: string; label: string }) => {
     setSelectedMonth(month.label);
@@ -153,6 +155,13 @@ const ClientSignup4: NextPage = () => {
                     <div className={styles.label}>*First name</div>
                   </div>
                   <div className={styles.textField1}>
+                    <input
+                      type="text"
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      placeholder="Enter your first name"
+                      className={styles.inputField}
+                    />
                   </div>
                 </div>
                 <div className={styles.textField}>
@@ -161,53 +170,73 @@ const ClientSignup4: NextPage = () => {
                       Middle name (as applicable)
                     </div>
                   </div>
-                  <div className={styles.textField1} />
+                  <div className={styles.textField1}>
+                    <input
+                      type="text"
+                      value={middleName}
+                      onChange={(e) => setMiddleName(e.target.value)}
+                      placeholder="Enter your middle name"
+                      className={styles.inputField}
+                    />
+                  </div>
                 </div>
                 <div className={styles.textField}>
                   <div className={styles.labelWrapper}>
                     <div className={styles.label}>*Last name</div>
                   </div>
-                  <div className={styles.textField1} />
+                  <div className={styles.textField1}>
+                    <input
+                      type="text"
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                      placeholder="Enter your last name"
+                      className={styles.inputField}
+                    />
+                  </div>
                 </div>
                 <div className={styles.gender}>
-                  <div className={styles.webDesigns}>What's your gender? (optional)</div>
+                  <div className={styles.webDesigns}>
+                    What's your gender? (optional)
+                  </div>
                   <div className={styles.genderOptionsContainer}>
                     <div
                       className={`${styles.genderOption} ${
-                        selectedGender === 'female' ? styles.genderSelected : ''
+                        selectedGender === "female" ? styles.genderSelected : ""
                       }`}
-                      onClick={() => handleGenderSelect('female')}
+                      onClick={() => handleGenderSelect("female")}
                     >
                       <div className={styles.genderCircle}>
-                        {selectedGender === 'female' && (
+                        {selectedGender === "female" && (
                           <div className={styles.genderCircleInner} />
                         )}
                       </div>
                       <span className={styles.genderLabel}>Female</span>
                     </div>
-                    
+
                     <div
                       className={`${styles.genderOption} ${
-                        selectedGender === 'male' ? styles.genderSelected : ''
+                        selectedGender === "male" ? styles.genderSelected : ""
                       }`}
-                      onClick={() => handleGenderSelect('male')}
+                      onClick={() => handleGenderSelect("male")}
                     >
                       <div className={styles.genderCircle}>
-                        {selectedGender === 'male' && (
+                        {selectedGender === "male" && (
                           <div className={styles.genderCircleInner} />
                         )}
                       </div>
                       <span className={styles.genderLabel}>Male</span>
                     </div>
-                    
+
                     <div
                       className={`${styles.genderOption} ${
-                        selectedGender === 'non-binary' ? styles.genderSelected : ''
+                        selectedGender === "non-binary"
+                          ? styles.genderSelected
+                          : ""
                       }`}
-                      onClick={() => handleGenderSelect('non-binary')}
+                      onClick={() => handleGenderSelect("non-binary")}
                     >
                       <div className={styles.genderCircle}>
-                        {selectedGender === 'non-binary' && (
+                        {selectedGender === "non-binary" && (
                           <div className={styles.genderCircleInner} />
                         )}
                       </div>
@@ -216,133 +245,163 @@ const ClientSignup4: NextPage = () => {
                   </div>
                 </div>
               </div>
-                <div className={styles.gender}>
-                  <div className={styles.webDesigns}>What's your date of birth?</div>
-                  <div className={styles.textFieldParent}>
-                    {/* Month Dropdown */}
-                    <div className={styles.textField6}>
-                      <div className={styles.labelWrapper}>
-                        <div className={styles.label}>Month</div>
-                      </div>
-                      <div className={styles.dropdownContainer}>
-                        <div 
-                          className={`${styles.textField2} ${isMonthOpen ? styles.dropdownOpen : ''}`}
-                          onClick={() => setIsMonthOpen(!isMonthOpen)}
-                        >
-                          <div className={styles.month}>
-                            <span>{selectedMonth || "Select month"}</span>
-                          </div>
-                          <div className={styles.icons}>
-                            <Image 
-                              className={`${styles.vectorIcon7} ${isMonthOpen ? styles.rotated : ''}`}
-                              width={12} 
-                              height={7.4} 
-                              sizes="100vw" 
-                              alt="" 
-                              src="/icons.svg" 
-                            />
-                          </div>
-                        </div>
-                        {isMonthOpen && (
-                          <div className={styles.dropdownMenu}>
-                            {months.map((month) => (
-                              <div
-                                key={month.value}
-                                className={styles.dropdownItem}
-                                onClick={() => handleMonthSelect(month)}
-                              >
-                                {month.label}
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
+              <div className={styles.gender}>
+                <div className={styles.webDesigns}>
+                  What's your date of birth?
+                </div>
+                <div className={styles.textFieldParent}>
+                
+                  <div className={styles.textField6}>
+                    <div className={styles.labelWrapper}>
+                      <div className={styles.label}>Month</div>
                     </div>
-                    
-                    {/* Day Dropdown */}
-                    <div className={styles.textField8}>
-                      <div className={styles.labelWrapper}>
-                        <div className={styles.label}>Day</div>
-                      </div>
-                      <div className={styles.dropdownContainer}>
-                        <div 
-                          className={`${styles.textField2} ${isDayOpen ? styles.dropdownOpen : ''}`}
-                          onClick={() => setIsDayOpen(!isDayOpen)}
-                        >
-                          <div className={styles.day}>
-                            <span>{selectedDay || "Select day"}</span>
-                          </div>
-                          <div className={styles.icons}>
-                            <Image 
-                              className={`${styles.vectorIcon7} ${isDayOpen ? styles.rotated : ''}`}
-                              width={12} 
-                              height={7.4} 
-                              sizes="100vw" 
-                              alt="" 
-                              src="/icons.svg" 
-                            />
-                          </div>
+                    <div className={styles.dropdownContainer}>
+                      <div
+                        className={`${styles.textField2} ${
+                          isMonthOpen ? styles.dropdownOpen : ""
+                        }`}
+                        onClick={() => setIsMonthOpen(!isMonthOpen)}
+                      >
+                        <div className={styles.month}>
+                          <span
+                            className={
+                              selectedMonth ? styles.selectedValue : ""
+                            }
+                          >
+                            {selectedMonth || "Select month"}
+                          </span>
                         </div>
-                        {isDayOpen && (
-                          <div className={styles.dropdownMenu}>
-                            {days.map((day) => (
-                              <div
-                                key={day.value}
-                                className={styles.dropdownItem}
-                                onClick={() => handleDaySelect(day)}
-                              >
-                                {day.label}
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                    
-                    {/* Year Dropdown */}
-                    <div className={styles.textField8}>
-                      <div className={styles.labelWrapper}>
-                        <div className={styles.label}>Year</div>
-                      </div>
-                      <div className={styles.dropdownContainer}>
-                        <div 
-                          className={`${styles.textField2} ${isYearOpen ? styles.dropdownOpen : ''}`}
-                          onClick={() => setIsYearOpen(!isYearOpen)}
-                        >
-                          <div className={styles.year}>
-                            <span>{selectedYear || "Select year"}</span>
-                          </div>
-                          <div className={styles.icons}>
-                            <Image 
-                              className={`${styles.vectorIcon7} ${isYearOpen ? styles.rotated : ''}`}
-                              width={12} 
-                              height={7.4} 
-                              sizes="100vw" 
-                              alt="" 
-                              src="/icons.svg" 
-                            />
-                          </div>
+                        <div className={styles.icons}>
+                          <Image
+                            className={`${styles.vectorIcon7} ${
+                              isMonthOpen ? styles.rotated : ""
+                            }`}
+                            width={12}
+                            height={7.4}
+                            sizes="100vw"
+                            alt=""
+                            src="/icons.svg"
+                          />
                         </div>
-                        {isYearOpen && (
-                          <div className={styles.dropdownMenu}>
-                            {years.map((year) => (
-                              <div
-                                key={year.value}
-                                className={styles.dropdownItem}
-                                onClick={() => handleYearSelect(year)}
-                              >
-                                {year.label}
-                              </div>
-                            ))}
-                          </div>
-                        )}
                       </div>
+                      {isMonthOpen && (
+                        <div className={styles.dropdownMenu}>
+                          {months.map((month) => (
+                            <div
+                              key={month.value}
+                              className={styles.dropdownItem}
+                              onClick={() => handleMonthSelect(month)}
+                            >
+                              {month.label}
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
-                      <p className={styles.errorMessage}>
-                        error
-                      </p>
+
+                  <div className={styles.textField8}>
+                    <div className={styles.labelWrapper}>
+                      <div className={styles.label}>Day</div>
+                    </div>
+                    <div className={styles.dropdownContainer}>
+                      <div
+                        className={`${styles.textField2} ${
+                          isDayOpen ? styles.dropdownOpen : ""
+                        }`}
+                        onClick={() => setIsDayOpen(!isDayOpen)}
+                      >
+                        <div className={styles.day}>
+                          <span
+                            className={selectedDay ? styles.selectedValue : ""}
+                          >
+                            {selectedDay || "Select day"}
+                          </span>
+                        </div>
+                        <div className={styles.icons}>
+                          <Image
+                            className={`${styles.vectorIcon7} ${
+                              isDayOpen ? styles.rotated : ""
+                            }`}
+                            width={12}
+                            height={7.4}
+                            sizes="100vw"
+                            alt=""
+                            src="/icons.svg"
+                          />
+                        </div>
+                      </div>
+                      {isDayOpen && (
+                        <div className={styles.dropdownMenu}>
+                          {days.map((day) => (
+                            <div
+                              key={day.value}
+                              className={styles.dropdownItem}
+                              onClick={() => handleDaySelect(day)}
+                            >
+                              {day.label}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className={styles.textField8}>
+                    <div className={styles.labelWrapper}>
+                      <div className={styles.label}>Year</div>
+                    </div>
+                    <div className={styles.dropdownContainer}>
+                      <div
+                        className={`${styles.textField2} ${
+                          isYearOpen ? styles.dropdownOpen : ""
+                        }`}
+                        onClick={() => setIsYearOpen(!isYearOpen)}
+                      >
+                        <div className={styles.year}>
+                          <span
+                            className={selectedYear ? styles.selectedValue : ""}
+                          >
+                            {selectedYear || "Select year"}
+                          </span>
+                        </div>
+                        <div className={styles.icons}>
+                          <Image
+                            className={`${styles.vectorIcon7} ${
+                              isYearOpen ? styles.rotated : ""
+                            }`}
+                            width={12}
+                            height={7.4}
+                            sizes="100vw"
+                            alt=""
+                            src="/icons.svg"
+                          />
+                        </div>
+                      </div>
+                      {isYearOpen && (
+                        <div className={styles.dropdownMenu}>
+                          {years.map((year) => (
+                            <div
+                              key={year.value}
+                              className={styles.dropdownItem}
+                              onClick={() => handleYearSelect(year)}
+                              style={{
+                                color:
+                                  selectedYear === year.value
+                                    ? "var(--default-color)"
+                                    : "var(--color-tan)",
+                              }}
+                            >
+                              {year.label}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
+                <p className={styles.errorMessage}>error</p>
+              </div>
               <div className={styles.button2}>
                 <div className={styles.signUpWrapper}>
                   <div className={styles.webDesigns}>Next</div>
