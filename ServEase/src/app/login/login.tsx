@@ -1,8 +1,17 @@
+"use client";
+
+import { useState } from "react";
 import type { NextPage } from "next";
 import Image from "next/image";
 import styles from "../styles/login.module.css";
 
 const Login: NextPage = () => {
+  const [rememberMeChecked, setRememberMeChecked] = useState(false);
+
+  const toggleRememberMe = () => {
+    setRememberMeChecked(!rememberMeChecked);
+  };
+
   return (
     <div className={styles.login}>
       <div className={styles.login1}>
@@ -74,9 +83,28 @@ const Login: NextPage = () => {
                     src="hide.svg"
                   />
                   <div className={styles.action}>
-                    <div className={styles.rememberMe}>
+                    <div
+                      className={styles.rememberMe}
+                      onClick={toggleRememberMe}
+                    >
                       <div className={styles.stateLayer}>
-                        <div className={styles.container} />
+                        <div
+                          className={
+                            rememberMeChecked
+                              ? styles.checkedContainer
+                              : styles.container
+                          }
+                        >
+                          {rememberMeChecked && (
+                            <Image
+                              className={styles.checkIcon}
+                              width={14}
+                              height={14}
+                              alt="check"
+                              src="check.svg"
+                            />
+                          )}
+                        </div>
                       </div>
                       <div className={styles.rememberMe1}>Remember me</div>
                     </div>
