@@ -7,9 +7,14 @@ import styles from "../styles/login.module.css";
 
 const Login: NextPage = () => {
   const [rememberMeChecked, setRememberMeChecked] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const toggleRememberMe = () => {
     setRememberMeChecked(!rememberMeChecked);
+  };
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
   };
 
   return (
@@ -74,14 +79,26 @@ const Login: NextPage = () => {
                       </div>
                     </div>
                   </div>
-                  <Image
-                    className={styles.hideIcon}
-                    width={30}
-                    height={25}
-                    sizes="100vw"
-                    alt=""
-                    src="hide.svg"
-                  />
+                  <div onClick={togglePasswordVisibility}>
+                    {passwordVisible ? (
+                      <Image
+                        className={styles.hideIcon}
+                        width={30}
+                        height={25}
+                        alt="Show password"
+                        src="show.svg"
+                      />
+                    ) : (
+                      <Image
+                        className={styles.hideIcon}
+                        width={30}
+                        height={25}
+                        alt="Hide password"
+                        src="hide.svg"
+                      />
+                    )}
+                  </div>
+
                   <div className={styles.action}>
                     <div
                       className={styles.rememberMe}

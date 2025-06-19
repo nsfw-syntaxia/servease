@@ -183,7 +183,7 @@
   width: 30px;
   position: absolute;
   margin: 0 !important;
-  top: calc(50% - 13px);
+  top: calc(50% - 20px);
   right: 25px;
   height: 25px;
   overflow: hidden;
