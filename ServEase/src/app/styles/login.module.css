@@ -1,3 +1,7 @@
+.body {
+  cursor: default;
+}
+
 .background {
   position: absolute;
   top: 0px;
@@ -80,6 +84,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 0px;
+  cursor: pointer;
 }
 
 .navigationbar {
@@ -214,6 +219,7 @@
 .rememberMe1 {
   position: relative;
   font-weight: 500;
+  cursor: pointer;
 }
 
 .rememberMe {
@@ -370,6 +376,7 @@
   font-size: var(--font-size-18);
   color: var(--color-white);
   font-family: var(--font-dm-sans);
+  cursor: default;
 }
 
 .signup {
