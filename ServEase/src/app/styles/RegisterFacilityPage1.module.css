@@ -274,25 +274,6 @@
   gap: var(--gap-8);
   color: var(--color-white);
 }
-.textField1 {
-  align-self: stretch;
-  position: relative;
-  border-radius: var(--br-12);
-  border: 1px solid var(--color-dimgray-400);
-  box-sizing: border-box;
-  height: 56px;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-.inputField {
-  padding: 10px 12px;
-  font-size: 16px;
-  border-radius: 8px;
-  outline: none;
-  background-color: #fff;
-  color: #333;
-}
-
 .inputField:focus {
   border-color: #a68465;
 }
@@ -422,6 +403,12 @@
   border: 1px solid;
   background-color: white;
 }
+.dropdownContainer:focus-within .category {
+  border-color: var(--color-tan);
+  box-shadow: 0 0 0 2px rgba(210, 180, 140, 0.2);
+  border: 1px solid;
+  background-color: white;
+}
 .dropdownContainer:focus-within .textField2 {
   box-shadow: 0 0 0 2px rgba(210, 180, 140, 0.2);
   border: 1px solid var(--color-tan);
@@ -464,6 +451,12 @@
   background-color: white;
 }
 .textField2.dropdownOpen {
+  border-color: var(--color-tan);
+  box-shadow: 0 0 0 2px rgba(210, 180, 140, 0.2);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.dropdownOpen:focus {
   border-color: var(--color-tan);
   box-shadow: 0 0 0 2px rgba(210, 180, 140, 0.2);
   border-bottom-left-radius: 0;
@@ -751,9 +744,8 @@
   font-family: var(--font-dm-sans);
 }
 .textField12 {
-  margin-left: 10%;
+  margin-left: 9%;
   min-width: 270px;
-  margin-right: 6.5%;
   width: 306px;
   flex: 1;
   display: flex;
@@ -761,7 +753,7 @@
   align-items: flex-start;
   justify-content: flex-start;
   gap: var(--gap-4);
-  margin-right: 5%;
+  margin-right: 1%;
 }
 .labelParent2 {
   align-self: stretch;
@@ -795,9 +787,10 @@
   font-size: 20px;
   color: #a68465;
   font-family: var(--font-dm-sans);
+  margin: 0 3%;
 }
 .textField16 {
-  margin-left: 5%;
+  margin-left: 1%;
   min-width: 270px;
   margin-right: 6.5%;
   width: 306px;
@@ -979,7 +972,7 @@
   font-size: var(--font-size-16);
   color: var(--color-dimgray-500);
   padding: 16px;
-  font-family: var(--font-poppins);
+  font-family: var(--font-dm-sans);
   font-weight: 400;
 }
 
@@ -1160,98 +1153,79 @@
   background-color: #ffebee;
   transition: all 0.2s ease;
 }
-
-.textField1 {
-  align-self: stretch;
-  position: relative;
-  border-radius: var(--br-12);
-  border: 1px solid var(--color-dimgray-300);
-  box-sizing: border-box;
-  height: 56px;
+.errorbox {
   width: 100%;
-  overflow: hidden;
-  flex-shrink: 0;
-  background-color: white;
-  transition: all 0.2s ease;
-}
-
-/* Enhanced hover and focus states */
-.textField1:hover {
-  border-color: var(--color-tan);
-}
-
-.textField1:focus-within {
-  /*border: 1px solid var(--color-tan);*/
-  box-shadow: 0 0 0 2px rgba(210, 180, 140, 0.2);
-  background-color: white;
-}
-
-/* Ensure proper styling when input has content */
-.textField1:has(.inputField:not(:placeholder-shown)) {
-  background-color: white;
-}
-
-/* Active state styling */
-.textField1:has(.inputField:focus) {
-  border-color: var(--color-tan);
-  box-shadow: 0 0 0 2px rgba(210, 180, 140, 0.2);
-  border: 1px solid;
-  background-color: white;
-}
-
-.textField1 {
-  align-self: stretch;
+  background-color: #ffe6e6;
+  border: 1px solid #ff4d4f;
+  border-radius: 12px;
+  padding: 8px;
+  text-align: center;
+  color: #d8000c;
+  font-size: 15px;
+  font-weight: 400;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
   position: relative;
-  border-radius: var(--br-12);
-  border: 1px solid var(--color-dimgray-300);
-  box-sizing: border-box;
+}
+.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.hidden {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+}
+.messageWrapper {
+  position: relative;
+  width: 600px;
   height: 56px;
+  margin-left: 1%;
+  display: flex;
+  align-self: center;
+}
+
+.privacyNotice,
+.errorbox {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  overflow: hidden;
-  flex-shrink: 0;
-  background-color: white;
-  transition: all 0.2s ease;
 }
 
-/* Enhanced hover and focus states */
-.textField1:hover {
-  border-color: var(--color-tan);
+.errorMessage {
+  color: #d8000c;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+.privacyNotice {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+  max-width: 611px;
+  text-align: center;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+@keyframes jump {
+  0% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(5px);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 
-.textField1:focus-within {
-  /*border: 1px solid var(--color-tan);*/
-  box-shadow: 0 0 0 2px rgba(210, 180, 140, 0.2);
-  background-color: white;
-}
-
-/* Ensure proper styling when input has content */
-.textField1:has(.inputField:not(:placeholder-shown)) {
-  background-color: white;
-}
-
-/* Active state styling */
-.textField1:has(.inputField:focus) {
-  border-color: var(--color-tan);
-  box-shadow: 0 0 0 2px rgba(210, 180, 140, 0.2);
-  border: 1px solid;
-  background-color: white;
-}
-
-/* Placeholder styling when input is empty */
-.inputField:placeholder-shown {
-  color: var(--color-dimgray-300);
-}
-
-/* Input field with content */
-.inputField:not(:placeholder-shown) {
-  color: var(--color-tan);
-}
-
-/* Ensure consistent font styling across all inputs */
-.inputField,
-.month span,
-.day span,
-.year span {
-  font-size: var(--font-size-16);
-  font-family: var(--font-dm-sans);
+.jump {
+  animation: jump 0.4s ease;
 }

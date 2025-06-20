@@ -9,6 +9,8 @@ const FacilitySignup1: NextPage = () => {
   const [isSubcategoryOpen, setIsSubcategoryOpen] = useState(false);
   const [isStartTimeOpen, setIsStartTimeOpen] = useState(false);
   const [isEndTimeOpen, setIsEndTimeOpen] = useState(false);
+  const [showErrorBox, setShowErrorBox] = useState(false);
+  const [jumpRow, setJumpRow] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedSubcategory, setSelectedSubcategory] = useState("");
   const [selectedStartTime, setSelectedStartTime] = useState("");
@@ -167,6 +169,8 @@ const FacilitySignup1: NextPage = () => {
   });
 
   const handleNextClick = () => {
+    const noDaysSelected = selectedDays.length === 0;
+
     const newErrors = {
       ownername: !ownername.trim(),
       facilityname: !facilityname.trim(),
@@ -179,14 +183,16 @@ const FacilitySignup1: NextPage = () => {
 
     setErrors(newErrors);
 
-    // If any field is invalid, stop here
-    const hasError = Object.values(newErrors).some((e) => e);
-    if (hasError) {
-      return;
+    const hasError = Object.values(newErrors).some((e) => e) || noDaysSelected;
+    setShowErrorBox(hasError);
+
+    if (noDaysSelected) {
+      setJumpRow(true);
+      setTimeout(() => setJumpRow(false), 400);
     }
 
-    // Proceed to next step
-    console.log("All fields valid. Moving to next step.");
+    if (hasError) return;
+    console.log("All fields valid. Continue to next step.");
   };
 
   return (
@@ -353,57 +359,11 @@ const FacilitySignup1: NextPage = () => {
                 </div>
                 <div className={styles.frameWrapper}>
                   <div className={styles.textFieldParent}>
-                    {/*<div className={styles.textField6}>
-                      <div className={styles.labelWrapper}>
-                        <div className={styles.label}>*Category</div>
-                      </div>
-                      <div className={styles.textField33}>
-                        <div className={styles.inputs}></div>
-                        <div className={styles.icons}>
-                          <Image
-                            className={styles.vectorIcon}
-                            width={12}
-                            height={7.4}
-                            sizes="100vw"
-                            alt=""
-                            src="/icons.svg"
-                          />
-                        </div>
-                      </div>
-                    </div>*/}
                     <div className={styles.textField6}>
                       <div className={styles.labelWrapper}>
                         <div className={styles.label}>*Category</div>
                       </div>
                       <div className={styles.dropdownContainer}>
-                        {/*<div
-                          className={`${styles.textField2} ${
-                            isCategoryOpen ? styles.dropdownOpen : ""
-                          } ${
-                            errors.selectedCategory ? styles.errorInput : ""
-                          }`}
-                          onClick={() => {
-                            setIsCategoryOpen(!isCategoryOpen);
-                            setErrors((prev) => ({
-                              ...prev,
-                              selectedCategory: false,
-                            }));
-                          }}
-                        >
-                          <span>{selectedCategory || "Select category"}</span>
-                          <div className={styles.icons}>
-                            <Image
-                              className={`${styles.vectorIcon7} ${
-                                isCategoryOpen ? styles.rotated : ""
-                              }`}
-                              width={12}
-                              height={7.4}
-                              sizes="100vw"
-                              alt=""
-                              src="/icons.svg"
-                            />
-                          </div>
-                        </div>*/}
                         <div
                           className={`${styles.textField2} ${
                             isCategoryOpen ? styles.dropdownOpen : ""
@@ -443,61 +403,12 @@ const FacilitySignup1: NextPage = () => {
                         )}
                       </div>
                     </div>
-                    {/*<div className={styles.textField8}>
-                      <div className={styles.labelWrapper}>
-                        <div className={styles.label}>*Specific Category</div>
-                      </div>
-                      <div className={styles.textField33}>
-                        <div className={styles.inputs}>
-                          <div className={styles.webDesigns1}>
-                            Enter your Specific Category name please
-                          </div>
-                          <div className={styles.inputsItem} />
-                        </div>
-                        <div className={styles.icons}>
-                          <Image
-                            className={styles.vectorIcon}
-                            width={12}
-                            height={7.4}
-                            sizes="100vw"
-                            alt=""
-                            src="/icons.svg"
-                          />
-                        </div>
-                      </div>
-                    </div>*/}
+
                     <div className={styles.textField8}>
                       <div className={styles.labelWrapper}>
                         <div className={styles.label}>*Specific Category</div>
                       </div>
                       <div className={styles.dropdownContainer}>
-                        {/*<div
-                          className={`${styles.textField2} ${
-                            isSubcategoryOpen ? styles.dropdownOpen : ""
-                          }`}
-                          onClick={() =>
-                            setIsSubcategoryOpen(!isSubcategoryOpen)
-                          }
-                        >
-                          <div className={styles.sub}>
-                            <span>
-                              {selectedSubcategory ||
-                                "Select specific category"}
-                            </span>
-                          </div>
-                          <div className={styles.icons}>
-                            <Image
-                              className={`${styles.vectorIcon7} ${
-                                isSubcategoryOpen ? styles.rotated : ""
-                              }`}
-                              width={12}
-                              height={7.4}
-                              sizes="100vw"
-                              alt=""
-                              src="/icons.svg"
-                            />
-                          </div>
-                        </div>*/}
                         <div
                           className={`${styles.textField2} ${
                             isSubcategoryOpen ? styles.dropdownOpen : ""
@@ -549,71 +460,7 @@ const FacilitySignup1: NextPage = () => {
                     </div>
                   </div>
                 </div>
-                {/*<div className={styles.textField10}>
-                  <div className={styles.labelWrapper}>
-                    <div className={styles.label}>*Working Days</div>
-                    <div className={styles.passwordHideSee}>
-                      <div className={styles.icon}>
-                        <Image
-                          className={styles.iconChild}
-                          width={18.2}
-                          height={16}
-                          sizes="100vw"
-                          alt=""
-                          src="Group 1.svg"
-                        />
-                      </div>
-                      <div className={styles.hide}>Hide</div>
-                    </div>
-                  </div>
-                  <div className={styles.labelGroup}>
-                    <div className={styles.label}>Monday - Friday</div>
-                    <div className={styles.passwordHideSee}>
-                      <div className={styles.icon}>
-                        <Image
-                          className={styles.iconChild}
-                          width={18.2}
-                          height={16}
-                          sizes="100vw"
-                          alt=""
-                          src="Group 1.svg"
-                        />
-                      </div>
-                      <div className={styles.hide}>Hide</div>
-                    </div>
-                  </div>
-                  <div className={styles.textField11}>
-                    <div className={styles.inputs}>
-                      <div className={styles.webDesigns}>123456</div>
-                      <div className={styles.inputsChild} />
-                    </div>
-                    <div className={styles.icons2} />
-                  </div>
-                  <div className={styles.row}>
-                    <div className={styles.contentLightMode}>
-                      <div className={styles.mo}>Mo</div>
-                    </div>
-                    <div className={styles.contentLightMode}>
-                      <div className={styles.mo}>Tu</div>
-                    </div>
-                    <div className={styles.contentLightMode}>
-                      <div className={styles.mo}>We</div>
-                    </div>
-                    <div className={styles.contentLightMode}>
-                      <div className={styles.mo}>Th</div>
-                    </div>
-                    <div className={styles.contentLightMode}>
-                      <div className={styles.mo}>Fr</div>
-                    </div>
-                    <div className={styles.contentLightMode5}>
-                      <div className={styles.mo}>Sa</div>
-                    </div>
-                    <div className={styles.contentLightMode5}>
-                      <div className={styles.mo}>Su</div>
-                    </div>
-                  </div>
-                  <div className={styles.errorMessage}>Error message</div>
-                </div>*/}
+
                 <div className={styles.textField10}>
                   <div className={styles.labelWrapper}>
                     <div className={styles.label}>*Working Days</div>
@@ -623,7 +470,9 @@ const FacilitySignup1: NextPage = () => {
                     <div className={styles.label}>{getLabel()}</div>
                   </div>
 
-                  <div className={styles.row}>
+                  <div
+                    className={`${styles.row} ${jumpRow ? styles.jump : ""}`}
+                  >
                     {workingDaysList.map((day) => (
                       <div
                         key={day}
@@ -642,42 +491,6 @@ const FacilitySignup1: NextPage = () => {
                   <div className={styles.errorMessage}>Error message</div>
                 </div>
                 <div className={styles.textFieldGroup}>
-                  {/*<div className={styles.textField12}>
-                    <div className={styles.webDesigns}>*Working Hours</div>
-                    <div className={styles.labelGroup}>
-                      <div className={styles.label}>*Start Time</div>
-                      <div className={styles.passwordHideSee}>
-                        <div className={styles.icon}>
-                          <Image
-                            className={styles.iconChild}
-                            width={18.2}
-                            height={16}
-                            sizes="100vw"
-                            alt=""
-                            src="Group 1.svg"
-                          />
-                        </div>
-                        <div className={styles.hide}>Hide</div>
-                      </div>
-                    </div>
-                    <div className={styles.textField13}>
-                      <div className={styles.inputs}>
-                        <div className={styles.webDesigns1}></div>
-                        <div className={styles.inputsItem} />
-                      </div>
-                      <div className={styles.icons}>
-                        <Image
-                          className={styles.vectorIcon}
-                          width={12}
-                          height={7.4}
-                          sizes="100vw"
-                          alt=""
-                          src="/icons.svg"
-                        />
-                      </div>
-                    </div>
-                    <div className={styles.errorMessage}>Error message</div>
-                  </div>*/}
                   <div className={styles.textField12}>
                     <div className={styles.webDesigns}>*Working Hours</div>
                     <div className={styles.labelGroup}>
@@ -700,6 +513,8 @@ const FacilitySignup1: NextPage = () => {
                       <div
                         className={`${styles.textField2} ${
                           isStartTimeOpen ? styles.dropdownOpen : ""
+                        } ${selectedStartTime ? styles.filled : ""} ${
+                          errors.selectedStartTime ? styles.errorInput : ""
                         }`}
                         onClick={() => setIsStartTimeOpen(!isStartTimeOpen)}
                       >
@@ -798,11 +613,13 @@ const FacilitySignup1: NextPage = () => {
                       <div
                         className={`${styles.textField2} ${
                           isEndTimeOpen ? styles.dropdownOpen : ""
+                        } ${selectedEndTime ? styles.filled : ""} ${
+                          errors.selectedEndTime ? styles.errorInput : ""
                         }`}
                         onClick={() => setIsEndTimeOpen(!isEndTimeOpen)}
                       >
                         <div className={styles.category}>
-                          <span>{selectedEndTime || "Select End time"}</span>
+                          <span>{selectedEndTime || "Select end time"}</span>
                         </div>
                         <div className={styles.icons}>
                           <Image
@@ -836,47 +653,28 @@ const FacilitySignup1: NextPage = () => {
                       )}
                     </div>
                   </div>
-                  {/*<div className={styles.textField16}>
-                    <div className={styles.webDesigns}>*Working Hours</div>
-                    <div className={styles.labelGroup}>
-                      <div className={styles.label}>*End Time</div>
-
-                      <div className={styles.passwordHideSee}>
-                        <div className={styles.icon}>
-                          <Image
-                            className={styles.iconChild}
-                            width={18.2}
-                            height={16}
-                            sizes="100vw"
-                            alt=""
-                            src="Group 1.svg"
-                          />
-                        </div>
-
-                        <div className={styles.hide}>Hide</div>
-                      </div>
-                    </div>
-                    <div className={styles.textField13}>
-                      <div className={styles.inputs}>
-                        <div className={styles.webDesigns1}></div>
-                        <div className={styles.inputsItem} />
-                      </div>
-
-                      <div className={styles.icons}>
-                        <Image
-                          className={styles.vectorIcon}
-                          width={12}
-                          height={7.4}
-                          sizes="100vw"
-                          alt=""
-                          src="/icons.svg"
-                        />
-                      </div>
-                    </div>
-                    <div className={styles.errorMessage}>Error message</div>
-                  </div>*/}
                 </div>
               </div>
+
+              <div className={styles.messageWrapper}>
+                <div
+                  className={`${styles.privacyNotice} ${
+                    showErrorBox ? styles.hidden : styles.visible
+                  }`}
+                >
+                  Your privacy is our priority. This information is used only
+                  for account verification and to personalize your experience.
+                </div>
+
+                <div
+                  className={`${styles.errorbox} ${
+                    showErrorBox ? styles.visible : styles.hidden
+                  }`}
+                >
+                  Please complete all required fields before continuing.
+                </div>
+              </div>
+
               <div className={styles.button2} onClick={handleNextClick}>
                 <div className={styles.signUpWrapper}>
                   <div className={styles.webDesigns}>Next</div>
