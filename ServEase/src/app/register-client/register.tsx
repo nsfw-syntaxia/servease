@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import type { NextPage } from "next";
 import Image from "next/image";
@@ -145,7 +145,13 @@ const ClientSignup4: NextPage = () => {
                   <div className={styles.labelWrapper}>
                     <div className={styles.label}>*First name</div>
                   </div>
-                  <div className={styles.textField1} />
+                  <div className={styles.textField1}>
+                    <input
+                      type="text"
+                      placeholder="Enter your first name"
+                      className={styles.inputField}
+                    />
+                  </div>
                 </div>
                 <div className={styles.textField}>
                   <div className={styles.labelWrapper}>
@@ -162,7 +168,9 @@ const ClientSignup4: NextPage = () => {
                   <div className={styles.textField1} />
                 </div>
                 <div className={styles.gender}>
-                  <div className={styles.webDesigns}>What's your date of birth?</div>
+                  <div className={styles.webDesigns}>
+                    What's your date of birth?
+                  </div>
                   <div className={styles.textFieldParent}>
                     {/* Month Dropdown */}
                     <div className={styles.textField6}>
@@ -170,21 +178,25 @@ const ClientSignup4: NextPage = () => {
                         <div className={styles.label}>Month</div>
                       </div>
                       <div className={styles.dropdownContainer}>
-                        <div 
-                          className={`${styles.textField2} ${isMonthOpen ? styles.dropdownOpen : ''}`}
+                        <div
+                          className={`${styles.textField2} ${
+                            isMonthOpen ? styles.dropdownOpen : ""
+                          }`}
                           onClick={() => setIsMonthOpen(!isMonthOpen)}
                         >
                           <div className={styles.month}>
                             <span>{selectedMonth || "Select month"}</span>
                           </div>
                           <div className={styles.icons}>
-                            <Image 
-                              className={`${styles.vectorIcon7} ${isMonthOpen ? styles.rotated : ''}`}
-                              width={12} 
-                              height={7.4} 
-                              sizes="100vw" 
-                              alt="" 
-                              src="/icons.svg" 
+                            <Image
+                              className={`${styles.vectorIcon7} ${
+                                isMonthOpen ? styles.rotated : ""
+                              }`}
+                              width={12}
+                              height={7.4}
+                              sizes="100vw"
+                              alt=""
+                              src="/icons.svg"
                             />
                           </div>
                         </div>
@@ -203,28 +215,32 @@ const ClientSignup4: NextPage = () => {
                         )}
                       </div>
                     </div>
-                    
+
                     {/* Day Dropdown */}
                     <div className={styles.textField8}>
                       <div className={styles.labelWrapper}>
                         <div className={styles.label}>Day</div>
                       </div>
                       <div className={styles.dropdownContainer}>
-                        <div 
-                          className={`${styles.textField2} ${isDayOpen ? styles.dropdownOpen : ''}`}
+                        <div
+                          className={`${styles.textField2} ${
+                            isDayOpen ? styles.dropdownOpen : ""
+                          }`}
                           onClick={() => setIsDayOpen(!isDayOpen)}
                         >
                           <div className={styles.day}>
                             <span>{selectedDay || "Select day"}</span>
                           </div>
                           <div className={styles.icons}>
-                            <Image 
-                              className={`${styles.vectorIcon7} ${isDayOpen ? styles.rotated : ''}`}
-                              width={12} 
-                              height={7.4} 
-                              sizes="100vw" 
-                              alt="" 
-                              src="/icons.svg" 
+                            <Image
+                              className={`${styles.vectorIcon7} ${
+                                isDayOpen ? styles.rotated : ""
+                              }`}
+                              width={12}
+                              height={7.4}
+                              sizes="100vw"
+                              alt=""
+                              src="/icons.svg"
                             />
                           </div>
                         </div>
@@ -243,28 +259,32 @@ const ClientSignup4: NextPage = () => {
                         )}
                       </div>
                     </div>
-                    
+
                     {/* Year Dropdown */}
                     <div className={styles.textField8}>
                       <div className={styles.labelWrapper}>
                         <div className={styles.label}>Year</div>
                       </div>
                       <div className={styles.dropdownContainer}>
-                        <div 
-                          className={`${styles.textField2} ${isYearOpen ? styles.dropdownOpen : ''}`}
+                        <div
+                          className={`${styles.textField2} ${
+                            isYearOpen ? styles.dropdownOpen : ""
+                          }`}
                           onClick={() => setIsYearOpen(!isYearOpen)}
                         >
                           <div className={styles.year}>
                             <span>{selectedYear || "Select year"}</span>
                           </div>
                           <div className={styles.icons}>
-                            <Image 
-                              className={`${styles.vectorIcon7} ${isYearOpen ? styles.rotated : ''}`}
-                              width={12} 
-                              height={7.4} 
-                              sizes="100vw" 
-                              alt="" 
-                              src="/icons.svg" 
+                            <Image
+                              className={`${styles.vectorIcon7} ${
+                                isYearOpen ? styles.rotated : ""
+                              }`}
+                              width={12}
+                              height={7.4}
+                              sizes="100vw"
+                              alt=""
+                              src="/icons.svg"
                             />
                           </div>
                         </div>

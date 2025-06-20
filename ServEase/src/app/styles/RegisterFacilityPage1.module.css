@@ -284,6 +284,21 @@
   overflow: hidden;
   flex-shrink: 0;
 }
+.inputField {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  background-color: #fff;
+  color: #333;
+}
+
+.inputField:focus {
+  border-color: #a68465;
+}
+
 .textField3 {
   display: flex;
   align-self: stretch;
