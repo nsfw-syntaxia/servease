@@ -59,7 +59,7 @@
   	bottom: 0px;
   	left: 0px;
   	background-color: rgba(102, 102, 102, 0.25);
-  	width: 1440px;
+  	width: 2400px;
   	height: 1px;
 }
 .headerNav {
@@ -76,6 +76,7 @@
   	line-height: 68px;
   	font-weight: 500;
 }
+
 .signUpAnd {
   	width: 497px;
   	position: relative;
@@ -527,14 +528,14 @@ flex-shrink: 0;
 }
 .conten {
   	position: absolute;
-  	top: 56px;
-  	left: 390px;
-  	height: 1492px;
-  	display: flex;
-  	flex-direction: column;
-  	align-items: center;
-  	justify-content: flex-start;
-  	gap: 56px;
+  top: 56px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 56px;
 }
 .joinUs {
   	position: absolute;
