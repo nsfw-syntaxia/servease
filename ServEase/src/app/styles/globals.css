@@ -99,51 +99,50 @@ body {
   --font-size-20: 20px;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap");
 
 body {
-  	margin: 0; line-height: normal;
+  margin: 0;
+  line-height: normal;
 }
 :root {
-  	
-  	/* Color */
-  	--color-dimgray-200: #604c3d;
-  	--color-dimgray-300: rgba(102, 102, 102, 0.35);
-  	--color-dimgray-400: rgba(102, 102, 102, 0.25);
-  	--color-dimgray-500: rgba(102, 102, 102, 0.8);
-  	--color-gray: #111;
-  	--color-black: #000;
-  	--color-white: #fff;
-  	--color-dimgray-100: #666;
-  	--color-whitesmoke: #f8f7f3;
-  	--color-tan: #a68465;
-  	--color-darkslategray: #333;
-  	
-  	/* Gap */
-  	--gap-4: 4px;
-  	--gap-6: 6px;
-  	--gap-8: 8px;
-  	--gap-12: 12px;
-  	--gap-24: 24px;
-  	
-  	/* Padding */
-  	--padding-8: 8px;
-  	--padding-24: 24px;
-  	
-  	/* BorderRadius */
-  	--br-8: 8px;
-  	--br-12: 12px;
-  	--br-24: 24px;
-  	
-  	/* Font */
-  	--font-poppins: Poppins;
-  	--font-dm-sans: DM Sans;
-  	
-  	/* FontSize */
-  	--font-size-12: 12px;
-  	--font-size-14: 14px;
-  	--font-size-16: 16px;
-  	--font-size-24: 24px;
-  	
+  /* Color */
+  --color-dimgray-200: #604c3d;
+  --color-dimgray-300: rgba(102, 102, 102, 0.35);
+  --color-dimgray-400: rgba(102, 102, 102, 0.25);
+  --color-dimgray-500: rgba(102, 102, 102, 0.8);
+  --color-gray: #111;
+  --color-black: #000;
+  --color-white: #fff;
+  --color-dimgray-100: #666;
+  --color-whitesmoke: #f8f7f3;
+  --color-tan: #a68465;
+  --color-darkslategray: #333;
+
+  /* Gap */
+  --gap-4: 4px;
+  --gap-6: 6px;
+  --gap-8: 8px;
+  --gap-12: 12px;
+  --gap-24: 24px;
+
+  /* Padding */
+  --padding-8: 8px;
+  --padding-24: 24px;
+
+  /* BorderRadius */
+  --br-8: 8px;
+  --br-12: 12px;
+  --br-24: 24px;
+
+  /* Font */
+  --font-poppins: Poppins;
+  --font-dm-sans: DM Sans;
+
+  /* FontSize */
+  --font-size-12: 12px;
+  --font-size-14: 14px;
+  --font-size-16: 16px;
+  --font-size-24: 24px;
 }
