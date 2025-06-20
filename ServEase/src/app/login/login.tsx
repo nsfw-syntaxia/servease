@@ -135,7 +135,12 @@ const Login: NextPage = () => {
                   </div>
                 </div>
               </div>
-              <div className={styles.buttoncontainer} onClick={handleLogin}>
+              <div
+                className={`${styles.buttoncontainer} ${
+                  email && password ? styles.buttonActive : ""
+                }`}
+                onClick={handleLogin}
+              >
                 <div className={styles.buttontext}>
                   <div className={styles.rememberMe1}>Log In</div>
                 </div>
