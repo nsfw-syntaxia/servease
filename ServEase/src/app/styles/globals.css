@@ -20,6 +20,7 @@ body {
 
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Benne:wght@400&display=swap");
 
 body {
@@ -30,7 +31,7 @@ body {
   /* Color */
   --color-gray-400: #241f1b;
   --color-gray-500: #050b20;
-  --color-gray-600: #CCCCCC;
+  --color-gray-600: #cccccc;
   --color-whitesmoke: #f8f7f3;
   --color-black: #000;
   --color-tan: #a68465;
@@ -173,4 +174,12 @@ body {
   --font-size-16: 16px;
   --font-size-18: 18px;
   --font-size-20: 20px;
+}
+
+input[type="password"]::-ms-reveal,
+input[type="password"]::-webkit-credentials-auto-fill-button,
+input[type="password"]::-webkit-inner-spin-button,
+input[type="password"]::-webkit-clear-button {
+  display: none !important;
+  appearance: none !important;
 }

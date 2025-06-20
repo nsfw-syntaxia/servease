@@ -134,18 +134,29 @@
   height: 24px;
 }
 
-.inputemail {
+.inputBox {
   position: absolute;
-  top: 15px;
-  left: 24px;
-  display: none;
   flex-direction: row;
-  align-items: center;
   justify-content: flex-start;
+  display: flex;
+  align-items: center;
+  padding-left: 16px;
+  gap: 8px;
+}
+
+.inputBox input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-family: var(--font-poppins);
+  font-size: 16px;
+  background: transparent;
+  color: var(--color-gray-100);
 }
 
 .tbx {
   align-self: stretch;
+  padding-left: 16px;
   position: relative;
   border-radius: var(--br-12);
   border: 1px solid var(--color-dimgray-200);
@@ -188,7 +199,7 @@
   width: 30px;
   position: absolute;
   margin: 0 !important;
-  top: calc(50% - 20px);
+  top: calc(50% - 12px);
   right: 25px;
   height: 25px;
   overflow: hidden;
@@ -267,6 +278,7 @@
   text-align: left;
   font-size: var(--font-size-16);
   color: var(--color-dimgray-100);
+  font-family: var(--font-poppins);
 }
 
 .buttontext {
@@ -402,4 +414,10 @@
 .checkIcon {
   width: 14px;
   height: 14px;
+}
+
+.tbx:hover,
+.tbx:focus-within {
+  border-color: var(--color-tan);
+  outline: none;
 }

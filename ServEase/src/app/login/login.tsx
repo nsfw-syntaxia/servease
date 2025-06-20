@@ -8,6 +8,9 @@ import styles from "../styles/login.module.css";
 const Login: NextPage = () => {
   const [rememberMeChecked, setRememberMeChecked] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const toggleRememberMe = () => {
     setRememberMeChecked(!rememberMeChecked);
@@ -17,15 +20,30 @@ const Login: NextPage = () => {
     setPasswordVisible(!passwordVisible);
   };
 
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleLogin = () => {
+    if (!email || !password) {
+      setError("Please fill in all fields.");
+    } else if (!validateEmail(email)) {
+      setError("Invalid email address.");
+    } else {
+      setError("");
+      // proceed with login logic (api call, etc.)
+      console.log("Logging in with:", { email, password, rememberMeChecked });
+    }
+  };
+
   return (
     <div className={styles.login}>
       <div className={styles.login1}>
         <div className={styles.background} />
         <div className={styles.authwindow}>
           <div className={styles.authwindow1}>
-            <div
-              className={styles.errorMessage}
-            >{`ERROR: <error message>`}</div>
+            {error && <div className={styles.errorMessage}>ERROR: {error}</div>}
           </div>
           <div className={styles.authcontent}>
             <div className={styles.logincontent}>
@@ -55,14 +73,12 @@ const Login: NextPage = () => {
                     <div className={styles.emailAddress}>
                       <div className={styles.label}>Email address</div>
                     </div>
-                    <div className={styles.tbx}>
-                      <div className={styles.inputemail}>
-                        <div className={styles.welcomeToServeaseContainer}>
-                          123456
-                        </div>
-                        <div className={styles.typing} />
-                      </div>
-                    </div>
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className={`${styles.tbx} ${styles.inputBox}`}
+                    />
                   </div>
                 </div>
                 <div className={styles.password}>
@@ -70,35 +86,25 @@ const Login: NextPage = () => {
                     <div className={styles.emailAddress}>
                       <div className={styles.label}>Password</div>
                     </div>
-                    <div className={styles.tbx}>
-                      <div className={styles.inputemail}>
-                        <div className={styles.welcomeToServeaseContainer}>
-                          123456
-                        </div>
-                        <div className={styles.typing} />
-                      </div>
+                    <div className={`${styles.tbx} ${styles.inputBox}`}>
+                      <input
+                        type={passwordVisible ? "text" : "password"}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className={styles.passwordInput}
+                      />
+                      <Image
+                        className={styles.hideIcon}
+                        width={30}
+                        height={25}
+                        alt={
+                          passwordVisible ? "Hide password" : "Show password"
+                        }
+                        src={passwordVisible ? "show.svg" : "hide.svg"}
+                        onClick={togglePasswordVisibility}
+                      />
                     </div>
                   </div>
-                  <div onClick={togglePasswordVisibility}>
-                    {passwordVisible ? (
-                      <Image
-                        className={styles.hideIcon}
-                        width={30}
-                        height={25}
-                        alt="Show password"
-                        src="show.svg"
-                      />
-                    ) : (
-                      <Image
-                        className={styles.hideIcon}
-                        width={30}
-                        height={25}
-                        alt="Hide password"
-                        src="hide.svg"
-                      />
-                    )}
-                  </div>
-
                   <div className={styles.action}>
                     <div
                       className={styles.rememberMe}
@@ -129,7 +135,7 @@ const Login: NextPage = () => {
                   </div>
                 </div>
               </div>
-              <div className={styles.buttoncontainer}>
+              <div className={styles.buttoncontainer} onClick={handleLogin}>
                 <div className={styles.buttontext}>
                   <div className={styles.rememberMe1}>Log In</div>
                 </div>
