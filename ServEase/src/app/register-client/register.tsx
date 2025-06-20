@@ -304,6 +304,9 @@ const ClientSignup4: NextPage = () => {
                       </div>
                     </div>
                   </div>
+                      <p className={styles.errorMessage}>
+                        error
+                      </p>
                 </div>
               </div>
               <div className={styles.button2}>
