@@ -304,20 +304,14 @@
   	height: 27px;
 }
 .phPhilippinesIcon {
-  	width: 33px;
-  	position: relative;
-  	border-radius: 2px;
-  	height: 24px;
-  	overflow: hidden;
-  	flex-shrink: 0;
+  	width: 100%;
+position: relative;
+border-radius: 2px;
+height: 24px;
+overflow: hidden;
+flex-shrink: 0;
 }
-.chevronDownIcon {
-  	width: 24px;
-  	position: relative;
-  	height: 24px;
-  	overflow: hidden;
-  	flex-shrink: 0;
-}
+
 .select {
   	display: flex;
   	flex-direction: row;
@@ -364,7 +358,7 @@
   	flex-direction: row;
   	align-items: center;
   	justify-content: center;
-  	padding: 13px 24px;
+  	padding: 29px 24px;
   	box-sizing: border-box;
   	opacity: 0.5;
   	z-index: 1;

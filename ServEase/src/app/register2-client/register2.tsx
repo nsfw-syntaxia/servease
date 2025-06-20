@@ -94,7 +94,6 @@ const ClientSignup2:NextPage = () => {
                     										<div className={styles.input}>
                       											<div className={styles.select}>
                         												<Image className={styles.phPhilippinesIcon} width={33} height={24} sizes="100vw" alt="" src="ph Philippines.svg" />
-                        												<Image className={styles.chevronDownIcon} width={24} height={24} sizes="100vw" alt="" src="chevron-down.svg" />
                       											</div>
                       											<div className={styles.webDesigns}>(+63)</div>
                       											<div className={styles.div6}>963 469 4776</div>
