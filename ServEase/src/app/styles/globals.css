@@ -183,3 +183,71 @@ input[type="password"]::-webkit-clear-button {
   display: none !important;
   appearance: none !important;
 }
+
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap");
+
+body {
+  margin: 0;
+  line-height: normal;
+}
+
+:root {
+  --color-gray-100: #2e231d;
+  --color-tan: #a68465;
+  --color-snow: #fbf7f4;
+  --color-whitesmoke: #f8f7f3;
+  --color-whitesmoke-100: #f8f7f3;
+  --color-whitesmoke-200: #f0ebeb;
+  --color-black: #000;
+  --color-white: #fff;
+  --color-crimson: #ee1d52;
+  --color-dimgray: #604c3d;
+  --color-dimgray-100: #666;
+  --color-dimgray-200: rgba(102, 102, 102, 0.35);
+  --color-dimgray-300: rgba(102, 102, 102, 0.25);
+  --color-dimgray-400: rgba(102, 102, 102, 0.8);
+  --color-dimgray-500: #604c3d;
+  --color-gray-100: #111;
+  --color-gray-200: #050f1a;
+  --color-gray-300: rgba(34, 34, 34, 0.1);
+  --color-gray-400: #222;
+  --color-slategray: #5c6c7e;
+  --color-darkslategray: #333;
+  --color-gainsboro: #e5e5e5;
+
+  --gap-4: 4px;
+  --gap-8: 8px;
+  --gap-10: 10px;
+  --gap-12: 12px;
+  --gap-16: 16px;
+
+  --padding-4: 4px;
+  --padding-8: 8px;
+  --padding-16: 16px;
+  --padding-24: 24px;
+
+  --br-6: 6px;
+  --br-8: 8px;
+  --br-12: 12px;
+  --br-15: 15px;
+  --br-24: 24px;
+
+  --font-dm-sans: DM Sans;
+  --font-poppins: Poppins;
+
+  --font-size-12: 12px;
+  --font-size-14: 14px;
+  --font-size-16: 16px;
+  --font-size-18: 18px;
+  --font-size-20: 20px;
+  --font-size-24: 24px;
+}
+
+input[type="password"]::-ms-reveal,
+input[type="password"]::-webkit-credentials-auto-fill-button,
+input[type="password"]::-webkit-inner-spin-button,
+input[type="password"]::-webkit-clear-button {
+  display: none !important;
+  appearance: none !important;
+}
