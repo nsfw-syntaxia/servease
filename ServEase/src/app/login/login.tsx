@@ -73,12 +73,18 @@ const Login: NextPage = () => {
                     <div className={styles.emailAddress}>
                       <div className={styles.label}>Email address</div>
                     </div>
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className={`${styles.tbx} ${styles.inputBox}`}
-                    />
+                    <div
+                      className={`${styles.tbx} ${styles.inputBox} ${
+                        email ? styles.tbxFilled : ""
+                      }`}
+                    >
+                      <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className={styles.passwordInput}
+                      />
+                    </div>
                   </div>
                 </div>
                 <div className={styles.password}>
@@ -86,7 +92,11 @@ const Login: NextPage = () => {
                     <div className={styles.emailAddress}>
                       <div className={styles.label}>Password</div>
                     </div>
-                    <div className={`${styles.tbx} ${styles.inputBox}`}>
+                    <div
+                      className={`${styles.tbx} ${styles.inputBox} ${
+                        password ? styles.tbxFilled : ""
+                      }`}
+                    >
                       <input
                         type={passwordVisible ? "text" : "password"}
                         value={password}

@@ -426,3 +426,18 @@
   opacity: 1 !important;
   transition: opacity 0.2s ease-in-out;
 }
+
+.tbxFilled {
+  border-color: var(--color-tan) !important;
+}
+
+.tbxFilled input {
+  color: var(--color-tan) !important;
+}
+
+.rememberMe:hover .container,
+.rememberMe:hover .checkedContainer {
+  transform: scale(1.08);
+  transition: transform 0.2s ease-in-out;
+  box-shadow: 0 0 0 3px rgba(210, 180, 140, 0.2);
+}
