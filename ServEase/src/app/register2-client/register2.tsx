@@ -144,7 +144,7 @@ const ClientSignup2:NextPage = () => {
           					</div>
         				</div>
       			</div>
-      			<Image className={styles.outlineArrowsArrowLeft} width={24} height={24} sizes="100vw" alt="" src="Outline / Arrows / Arrow Left.svg" />
+      			<Image className={styles.outlineArrowsArrowLeft} width={24} height={24} sizes="100vw" alt="" src="Arrow Left.svg" />
       			<div className={styles.back}>Back</div>
     		</div>);
 };
