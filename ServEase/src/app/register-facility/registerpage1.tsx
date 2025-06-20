@@ -14,6 +14,10 @@ const FacilitySignup1: NextPage = () => {
   const [selectedStartTime, setSelectedStartTime] = useState("");
   const [selectedEndTime, setSelectedEndTime] = useState("");
 
+  const [ownername, setOwnerName] = useState("");
+  const [facilityname, setFacilityName] = useState("");
+  const [facilitylocation, setFacilityLocation] = useState("");
+
   const Categories = [
     {
       value: "01",
@@ -151,6 +155,40 @@ const FacilitySignup1: NextPage = () => {
     }
   };
 
+  //ERRORING
+  const [errors, setErrors] = useState({
+    ownername: false,
+    facilityname: false,
+    facilitylocation: false,
+    selectedCategory: false,
+    selectedSubcategory: false,
+    selectedStartTime: false,
+    selectedEndTime: false,
+  });
+
+  const handleNextClick = () => {
+    const newErrors = {
+      ownername: !ownername.trim(),
+      facilityname: !facilityname.trim(),
+      facilitylocation: !facilitylocation.trim(),
+      selectedCategory: !selectedCategory,
+      selectedSubcategory: !selectedSubcategory,
+      selectedStartTime: !selectedStartTime,
+      selectedEndTime: !selectedEndTime,
+    };
+
+    setErrors(newErrors);
+
+    // If any field is invalid, stop here
+    const hasError = Object.values(newErrors).some((e) => e);
+    if (hasError) {
+      return;
+    }
+
+    // Proceed to next step
+    console.log("All fields valid. Moving to next step.");
+  };
+
   return (
     <div className={styles.facilitySignup1}>
       <div className={styles.headerNav}>
@@ -237,19 +275,81 @@ const FacilitySignup1: NextPage = () => {
                   <div className={styles.labelWrapper}>
                     <div className={styles.label}>*Owner name</div>
                   </div>
-                  <div className={styles.textField1} />
+
+                  <div
+                    className={`${styles.textField1} ${
+                      errors.ownername ? styles.errortextField1 : ""
+                    }`}
+                  >
+                    <input
+                      type="text"
+                      value={ownername}
+                      onChange={(e) => setOwnerName(e.target.value)}
+                      onFocus={() =>
+                        setErrors((prev) => ({ ...prev, ownername: false }))
+                      }
+                      placeholder={errors.ownername ? " " : "Enter owner name"}
+                      className={`${styles.inputField} ${
+                        errors.ownername ? styles.errorInput : ""
+                      }`}
+                    />
+                  </div>
                 </div>
+
                 <div className={styles.textField}>
                   <div className={styles.labelWrapper}>
                     <div className={styles.label}>*Facility Name</div>
                   </div>
-                  <div className={styles.textField1} />
+                  <div
+                    className={`${styles.textField1} ${
+                      errors.facilityname ? styles.errortextField1 : ""
+                    }`}
+                  >
+                    <input
+                      type="text"
+                      value={facilityname}
+                      onChange={(e) => setFacilityName(e.target.value)}
+                      onFocus={() =>
+                        setErrors((prev) => ({ ...prev, facilityname: false }))
+                      }
+                      placeholder={
+                        errors.facilityname ? " " : "Enter facility name"
+                      }
+                      className={`${styles.inputField} ${
+                        errors.facilityname ? styles.errorInput : ""
+                      }`}
+                    />
+                  </div>
                 </div>
                 <div className={styles.textField}>
                   <div className={styles.labelWrapper}>
                     <div className={styles.label}>*Location</div>
                   </div>
-                  <div className={styles.textField1} />
+                  <div
+                    className={`${styles.textField1} ${
+                      errors.facilitylocation ? styles.errortextField1 : ""
+                    }`}
+                  >
+                    <input
+                      type="text"
+                      value={facilitylocation}
+                      onChange={(e) => setFacilityLocation(e.target.value)}
+                      onFocus={() =>
+                        setErrors((prev) => ({
+                          ...prev,
+                          facilitylocation: false,
+                        }))
+                      }
+                      placeholder={
+                        errors.facilitylocation
+                          ? " "
+                          : "Enter facility location"
+                      }
+                      className={`${styles.inputField} ${
+                        errors.facilitylocation ? styles.errorInput : ""
+                      }`}
+                    />
+                  </div>
                 </div>
                 <div className={styles.frameWrapper}>
                   <div className={styles.textFieldParent}>
@@ -276,9 +376,39 @@ const FacilitySignup1: NextPage = () => {
                         <div className={styles.label}>*Category</div>
                       </div>
                       <div className={styles.dropdownContainer}>
+                        {/*<div
+                          className={`${styles.textField2} ${
+                            isCategoryOpen ? styles.dropdownOpen : ""
+                          } ${
+                            errors.selectedCategory ? styles.errorInput : ""
+                          }`}
+                          onClick={() => {
+                            setIsCategoryOpen(!isCategoryOpen);
+                            setErrors((prev) => ({
+                              ...prev,
+                              selectedCategory: false,
+                            }));
+                          }}
+                        >
+                          <span>{selectedCategory || "Select category"}</span>
+                          <div className={styles.icons}>
+                            <Image
+                              className={`${styles.vectorIcon7} ${
+                                isCategoryOpen ? styles.rotated : ""
+                              }`}
+                              width={12}
+                              height={7.4}
+                              sizes="100vw"
+                              alt=""
+                              src="/icons.svg"
+                            />
+                          </div>
+                        </div>*/}
                         <div
                           className={`${styles.textField2} ${
                             isCategoryOpen ? styles.dropdownOpen : ""
+                          } ${selectedCategory ? styles.filled : ""} ${
+                            errors.selectedCategory ? styles.errorInput : ""
                           }`}
                           onClick={() => setIsCategoryOpen(!isCategoryOpen)}
                         >
@@ -341,7 +471,7 @@ const FacilitySignup1: NextPage = () => {
                         <div className={styles.label}>*Specific Category</div>
                       </div>
                       <div className={styles.dropdownContainer}>
-                        <div
+                        {/*<div
                           className={`${styles.textField2} ${
                             isSubcategoryOpen ? styles.dropdownOpen : ""
                           }`}
@@ -350,6 +480,35 @@ const FacilitySignup1: NextPage = () => {
                           }
                         >
                           <div className={styles.sub}>
+                            <span>
+                              {selectedSubcategory ||
+                                "Select specific category"}
+                            </span>
+                          </div>
+                          <div className={styles.icons}>
+                            <Image
+                              className={`${styles.vectorIcon7} ${
+                                isSubcategoryOpen ? styles.rotated : ""
+                              }`}
+                              width={12}
+                              height={7.4}
+                              sizes="100vw"
+                              alt=""
+                              src="/icons.svg"
+                            />
+                          </div>
+                        </div>*/}
+                        <div
+                          className={`${styles.textField2} ${
+                            isSubcategoryOpen ? styles.dropdownOpen : ""
+                          } ${selectedSubcategory ? styles.filled : ""} ${
+                            errors.selectedSubcategory ? styles.errorInput : ""
+                          }`}
+                          onClick={() =>
+                            setIsSubcategoryOpen(!isSubcategoryOpen)
+                          }
+                        >
+                          <div className={styles.category}>
                             <span>
                               {selectedSubcategory ||
                                 "Select specific category"}
@@ -718,7 +877,7 @@ const FacilitySignup1: NextPage = () => {
                   </div>*/}
                 </div>
               </div>
-              <div className={styles.button2}>
+              <div className={styles.button2} onClick={handleNextClick}>
                 <div className={styles.signUpWrapper}>
                   <div className={styles.webDesigns}>Next</div>
                 </div>
