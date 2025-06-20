@@ -505,17 +505,34 @@
 }
 
 .errorMessage {
-  opacity: 0;
-  /*make this property 1 if error arises*/
-  font-size: var(--font-size-14);
-  position: relative;
   margin: 0 auto;
-  margin-top: 15px;
-  color: red;
+  margin-top: 8px;
+  width: 570px;
+  background-color: #ffe6e6;
+  border: 1px solid #ff4d4f;
+  border-radius: 12px;
+  padding: 8px;
+  text-align: center;
+  color: #d8000c;
+  font-size: 15px;
+  font-weight: 400;
+  height: 42px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  position: relative;
+  bottom: 8px;
 }
 
 .errorMessage.errorDetected {
   opacity: 1;
+  height: 42px; 
+  padding: 8px;
+  margin-top: 8px;
+  background-color: #ffe6e6;
+  border: 1px solid #ff4d4f;
+  border-radius: 12px;
+  color: #d8000c;
 }
 
 .signUpWrapper {
@@ -540,11 +557,29 @@
   text-align: center;
   font-size: 22px;
   color: var(--color-white);
+  cursor: pointer;
 }
 
 .filled {
 	opacity: 1; 
   cursor: pointer;
+  transition: opacity 0.2s ease-in-out
+}
+
+.clicked {
+  animation: pressDown 0.2s ease-in-out;
+}
+
+@keyframes pressDown {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.96);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .frameGroup {

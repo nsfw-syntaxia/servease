@@ -1,8 +1,9 @@
 "use client";
 
 import type { NextPage } from "next";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import styles from "../styles/RegisterPage1.module.css";
 import {profile} from "../register-client/actions"
 
@@ -18,6 +19,9 @@ const ClientSignup4: NextPage = () => {
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
+
+  const [isClicked, setIsClicked] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const areRequiredFieldsFilled =
     firstName.trim() !== "" &&
@@ -70,6 +74,41 @@ const ClientSignup4: NextPage = () => {
   const handleGenderSelect = (gender: string) => {
     setSelectedGender(gender);
   };
+
+   const validateForm = useCallback(() => {
+    if (firstName.trim() === "") {
+      return "First name is required.";
+    }
+    if (lastName.trim() === "") {
+      return "Last name is required.";
+    }
+    if (!selectedMonth || !selectedDay || !selectedYear) {
+      return "Please provide your full date of birth.";
+    }
+    return "";
+  }, [firstName, lastName, selectedMonth, selectedDay, selectedYear]);
+
+  const [showError, setShowError] = useState(false);
+  const router = useRouter();
+  
+  const handleClick = () => {
+    setIsClicked(true);
+    setTimeout(() => {
+      setIsClicked(false);
+      const validationError = validateForm(); 
+    if (validationError) {
+      setErrorMessage(validationError);
+    } else {
+      router.push("/");
+    }
+    }, 200);
+  };
+
+   useEffect(() => {
+    if (errorMessage) {
+      setErrorMessage(validateForm());
+    }
+  }, [firstName, lastName, selectedMonth, selectedDay, selectedYear, errorMessage, validateForm]);
 
   return (
     <form action={profile} className={styles.clientSignup4}>
@@ -414,12 +453,20 @@ const ClientSignup4: NextPage = () => {
                       </div>
                     </div>
                   </div>
-                  <p className={styles.errorMessage}>error</p>
+                   <div 
+                   className={`${styles.errorMessage} ${
+                    errorMessage ? styles.errorDetected : ""
+                  }`}
+                >
+                  {errorMessage}
+                  </div>
                 </div>
                 <div
                   className={`${styles.button2} ${
-                    areRequiredFieldsFilled ? styles.filled : ""
+                    validateForm() === "" ? styles.filled : ""}
+                    ${isClicked ? styles.clicked : ""
                   }`}
+                   onClick={handleClick}
                 >
                   <div className={styles.signUpWrapper}>
                     <div className={styles.webDesigns}>Next</div>
