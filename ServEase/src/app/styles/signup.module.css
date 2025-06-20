@@ -397,3 +397,59 @@
   opacity: 1 !important;
   transition: opacity 0.2s ease-in-out;
 }
+
+.buttonSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  height: 80px;
+  justify-content: flex-end;
+  position: relative;
+}
+
+.errorbox {
+  width: 570px;
+  background-color: #ffe6e6;
+  border: 1px solid #ff4d4f;
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  color: #d8000c;
+  font-size: 16px;
+  font-weight: 500;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  position: absolute;
+  bottom: 72px;
+}
+
+.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.hidden {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+}
+
+.clicked {
+  animation: pressDown 0.2s ease-in-out;
+}
+
+@keyframes pressDown {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.96);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

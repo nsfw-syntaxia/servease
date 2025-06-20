@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import type { NextPage } from "next";
 import Image from "next/image";
 import styles from "../styles/login.module.css";
@@ -11,6 +12,7 @@ const Login: NextPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const router = useRouter();
 
   const toggleRememberMe = () => {
     setRememberMeChecked(!rememberMeChecked);
@@ -52,7 +54,10 @@ const Login: NextPage = () => {
                   <div className={styles.login2}>
                     <div className={styles.logIn}>Log In</div>
                   </div>
-                  <div className={styles.signup}>
+                  <div
+                    className={styles.signup}
+                    onClick={() => router.push("/signup")}
+                  >
                     <div className={styles.signUp}>Sign Up</div>
                   </div>
                 </div>

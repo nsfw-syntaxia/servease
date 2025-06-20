@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import type { NextPage } from "next";
 import Image from "next/image";
 import styles from "../styles/signup.module.css";
@@ -12,9 +13,25 @@ const Signup: NextPage = () => {
   const [hoveredUserType, setHoveredUserType] = useState<
     "client" | "service" | null
   >(null);
+  const [showError, setShowError] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
+  const router = useRouter();
 
   const handleSelect = (type: "client" | "service") => {
     setSelectedUserType(type);
+    setShowError(false);
+  };
+
+  const handleClick = () => {
+    setIsClicked(true); // Trigger animation
+    setTimeout(() => {
+      setIsClicked(false);
+      if (!selectedUserType) {
+        setShowError(true);
+      } else {
+        router.push("/login");
+      }
+    }, 200); // Match animation duration
   };
 
   const showHover = (type: "client" | "service") => {
@@ -34,7 +51,10 @@ const Signup: NextPage = () => {
             <div className={styles.signupcontent}>
               <div className={styles.navigationbar}>
                 <div className={styles.navbar}>
-                  <div className={styles.login}>
+                  <div
+                    className={styles.login}
+                    onClick={() => router.push("/login")}
+                  >
                     <div className={styles.logIn}>Log In</div>
                   </div>
                   <div className={styles.signup2}>
@@ -171,13 +191,23 @@ const Signup: NextPage = () => {
                   />
                 </div>
               </div>
-              <div
-                className={`${styles.buttoncontainer} ${
-                  selectedUserType ? styles.buttoncontainerActive : ""
-                }`}
-              >
-                <div className={styles.buttontext}>
-                  <div className={styles.signUp1}>Create My Account</div>
+              <div className={styles.buttonSection}>
+                <div
+                  className={`${styles.errorbox} ${
+                    showError ? styles.visible : styles.hidden
+                  }`}
+                >
+                  Please select a user type before continuing.
+                </div>
+                <div
+                  className={`${styles.buttoncontainer} 
+                    ${selectedUserType ? styles.buttoncontainerActive : ""} 
+                    ${isClicked ? styles.clicked : ""}`}
+                  onClick={handleClick}
+                >
+                  <div className={styles.buttontext}>
+                    <div className={styles.signUp1}>Create My Account</div>
+                  </div>
                 </div>
               </div>
             </div>
