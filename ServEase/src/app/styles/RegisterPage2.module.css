@@ -579,3 +579,18 @@ flex-shrink: 0;
   	font-family: Poppins;
 }
 
+/* In your RegisterPage2.module.css */
+.errorMessage {
+  color: #e74c3c; /* A common red for errors */
+  font-size: 0.875rem; /* Slightly smaller text */
+  margin-top: 0.5rem; /* Space above the error message */
+  text-align: center; /* Or left, depending on your design */
+}
+
+/* Also add styles for disabled buttons if needed */
+.button2:disabled,
+.button3:disabled,
+.resendCode1:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
