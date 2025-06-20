@@ -10,7 +10,7 @@ const FacilitySignup1: NextPage = () => {
   const [isStartTimeOpen, setIsStartTimeOpen] = useState(false);
   const [isEndTimeOpen, setIsEndTimeOpen] = useState(false);
   const [showErrorBox, setShowErrorBox] = useState(false);
-  const [jumpRow, setJumpRow] = useState(false);
+  const [showRowError, setShowRowError] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedSubcategory, setSelectedSubcategory] = useState("");
   const [selectedStartTime, setSelectedStartTime] = useState("");
@@ -105,18 +105,23 @@ const FacilitySignup1: NextPage = () => {
 
   //WORKING DAYS
   const workingDaysList = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-  const [selectedDays, setSelectedDays] = useState<string[]>([
-    "Mon",
-    "Tue",
-    "Wed",
-    "Thu",
-    "Fri",
-  ]);
+  const [selectedDays, setSelectedDays] = useState<string[]>([]);
 
   const toggleDay = (day: string) => {
-    setSelectedDays((prev) =>
-      prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
-    );
+    setSelectedDays((prevDays) => {
+      let updatedDays;
+      if (prevDays.includes(day)) {
+        updatedDays = prevDays.filter((d) => d !== day);
+      } else {
+        updatedDays = [...prevDays, day];
+      }
+
+      if (updatedDays.length > 0) {
+        setShowRowError(false);
+      }
+
+      return updatedDays;
+    });
   };
 
   const getLabel = () => {
@@ -185,13 +190,10 @@ const FacilitySignup1: NextPage = () => {
 
     const hasError = Object.values(newErrors).some((e) => e) || noDaysSelected;
     setShowErrorBox(hasError);
-
-    if (noDaysSelected) {
-      setJumpRow(true);
-      setTimeout(() => setJumpRow(false), 400);
-    }
+    setShowRowError(noDaysSelected); // this triggers the red border on days
 
     if (hasError) return;
+
     console.log("All fields valid. Continue to next step.");
   };
 
@@ -470,26 +472,27 @@ const FacilitySignup1: NextPage = () => {
                     <div className={styles.label}>{getLabel()}</div>
                   </div>
 
-                  <div
-                    className={`${styles.row} ${jumpRow ? styles.jump : ""}`}
-                  >
+                  <div className={styles.row}>
                     {workingDaysList.map((day) => (
                       <div
                         key={day}
-                        className={
-                          isDaySelected(day)
+                        className={`${
+                          selectedDays.includes(day)
                             ? styles.contentLightModeSelected
                             : styles.contentLightMode
-                        }
+                        } ${
+                          showRowError && !selectedDays.includes(day)
+                            ? styles.errorCircle
+                            : ""
+                        }`}
                         onClick={() => toggleDay(day)}
                       >
                         <div className={styles.mo}>{day}</div>
                       </div>
                     ))}
                   </div>
-
-                  <div className={styles.errorMessage}>Error message</div>
                 </div>
+
                 <div className={styles.textFieldGroup}>
                   <div className={styles.textField12}>
                     <div className={styles.webDesigns}>*Working Hours</div>

@@ -564,6 +564,42 @@
   margin-top: 1px;
   transition: all 0.2s ease;
 }
+.errorCircle {
+  border: 1px solid #ff4d4f;
+  background-color: #ffe6e6;
+  color: #c4c4c4;
+  border-radius: 50%;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  width: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--padding-8);
+  box-sizing: border-box;
+  margin-top: 1px;
+  transition: all 0.2s ease;
+  animation: shake 0.3s ease;
+}
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
 .contentLightMode:hover {
   border: 1px solid #a68465;
   transition: border 0.2s ease;
@@ -692,6 +728,7 @@
   text-align: center;
   color: var(--color-white);
 }
+
 .errorMessage {
   position: relative;
   font-size: var(--font-size-14);
