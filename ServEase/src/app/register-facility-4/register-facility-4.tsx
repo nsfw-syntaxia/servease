@@ -6,23 +6,68 @@ import { useState } from "react";
 import styles from "../styles/register-facility-4.module.css";
 
 const FacilitySignup4: NextPage = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  const [error, setError] = useState("");
   const [showError, setShowError] = useState(false);
   const [buttonClicked, setButtonClicked] = useState(false);
+
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setConfirmPasswordVisible(!confirmPasswordVisible);
+  };
 
   const handleSignUpClick = () => {
     setButtonClicked(true);
     setTimeout(() => setButtonClicked(false), 200);
 
-    // Add your validation logic here
-    const isFormValid = false; // Replace with actual form validation
-
-    if (!isFormValid) {
+    if (!email || !password || !confirmPassword) {
+      setError("Please fill in all required fields.");
       setShowError(true);
-    } else {
-      setShowError(false);
-      console.log("Form is valid, proceeding to next step");
+      return;
     }
+
+    if (!validateEmail(email)) {
+      setError("Please enter a valid email address.");
+      setShowError(true);
+      return;
+    }
+
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters long.");
+      setShowError(true);
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      setShowError(true);
+      return;
+    }
+
+    setError("");
+    setShowError(false);
+    console.log("Form is valid, proceeding to next step");
   };
+
+  const isFormValid =
+    email &&
+    password &&
+    confirmPassword &&
+    validateEmail(email) &&
+    password === confirmPassword &&
+    password.length >= 8;
 
   return (
     <div className={styles.facilitySignup4}>
@@ -153,50 +198,74 @@ const FacilitySignup4: NextPage = () => {
                   <div className={styles.emailLabel}>
                     <div className={styles.label}>*Email address</div>
                   </div>
-                  <div className={styles.tbxemail}>
-                    <div className={styles.inputemail}>
-                      <div className={styles.texts}>123456</div>
-                      <div className={styles.typing} />
-                    </div>
+                  <div
+                    className={`${styles.tbxemail} ${styles.inputBox} ${
+                      email ? styles.tbxFilled : ""
+                    }`}
+                  >
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className={styles.passwordInput}
+                    />
                   </div>
                 </div>
                 <div className={styles.password}>
                   <div className={styles.emailLabel}>
                     <div className={styles.label}>*Password</div>
                   </div>
-                  <div className={styles.tbxemail}>
-                    <div className={styles.inputemail}>
-                      <div className={styles.texts}>123456</div>
-                      <div className={styles.typing} />
-                    </div>
+                  <div
+                    className={`${styles.tbxemail} ${styles.inputBox} ${
+                      password ? styles.tbxFilled : ""
+                    }`}
+                  >
+                    <input
+                      type={passwordVisible ? "text" : "password"}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className={styles.passwordInput}
+                    />
+                    <Image
+                      className={styles.hideIcon}
+                      width={30}
+                      height={25}
+                      sizes="100vw"
+                      alt={passwordVisible ? "Hide password" : "Show password"}
+                      src={passwordVisible ? "/show.svg" : "/hide.svg"}
+                      onClick={togglePasswordVisibility}
+                    />
                   </div>
-                  <Image
-                    className={styles.hideIcon}
-                    width={30}
-                    height={25}
-                    sizes="100vw"
-                    alt=""
-                    src="/hide.svg"
-                  />
                 </div>
                 <div className={styles.confirmPassword}>
                   <div className={styles.emailLabel}>
                     <div className={styles.label}>*Confirm Password</div>
                   </div>
-                  <div className={styles.tbxemail}>
-                    <div className={styles.inputemail}>
-                      <div className={styles.texts}>123456</div>
-                      <div className={styles.typing} />
-                    </div>
+                  <div
+                    className={`${styles.tbxemail} ${styles.inputBox} ${
+                      confirmPassword ? styles.tbxFilled : ""
+                    }`}
+                  >
+                    <input
+                      type={confirmPasswordVisible ? "text" : "password"}
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      className={styles.passwordInput}
+                    />
+                    <Image
+                      className={styles.hideIcon1}
+                      width={30}
+                      height={25}
+                      sizes="100vw"
+                      alt={
+                        confirmPasswordVisible
+                          ? "Hide password"
+                          : "Show password"
+                      }
+                      src={confirmPasswordVisible ? "/show.svg" : "/hide.svg"}
+                      onClick={toggleConfirmPasswordVisibility}
+                    />
                   </div>
-                  <Image
-                    className={styles.hideIcon1}
-                    width={30}
-                    height={25}
-                    sizes="100vw"
-                    alt=""
-                    src="/hide.svg"
-                  />
                 </div>
               </div>
               <div className={styles.buttonSection}>
@@ -205,14 +274,12 @@ const FacilitySignup4: NextPage = () => {
                     showError ? styles.visible : styles.hidden
                   }`}
                 >
-                  <div className={styles.errorMessage}>
-                    Please fill in all required fields before continuing.
-                  </div>
+                  <div className={styles.errorMessage}>{error}</div>
                 </div>
                 <div
                   className={`${styles.buttoncontainer} ${
                     buttonClicked ? styles.clicked : ""
-                  }`}
+                  } ${isFormValid ? "" : styles.disabled}`}
                   onClick={handleSignUpClick}
                 >
                   <div className={styles.signup}>
