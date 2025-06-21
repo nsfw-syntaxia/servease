@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useState, useEffect, useCallback } from "react";
 import styles from "../styles/RegisterPage1.module.css";
 import {profile} from "../register-client/actions"
+import next from "./actions";
 
 const ClientSignup4: NextPage = () => {
   const [selectedMonth, setSelectedMonth] = useState("");
@@ -91,15 +92,20 @@ const ClientSignup4: NextPage = () => {
   const [showError, setShowError] = useState(false);
   const router = useRouter();
   
+  const backClick = () => {
+    router.push("/signup");
+  }
+
   const handleClick = () => {
+    event.preventDefault();
     setIsClicked(true);
     setTimeout(() => {
-      setIsClicked(false);
-      const validationError = validateForm(); 
+    setIsClicked(false);
+    const validationError = validateForm(); 
     if (validationError) {
       setErrorMessage(validationError);
     } else {
-      router.push("/");
+      router.push("/register2-client");
     }
     }, 200);
   };
@@ -138,13 +144,16 @@ const ClientSignup4: NextPage = () => {
             <div className={styles.divider} />
             <Image
               className={styles.outlineArrowsArrowLeft}
+              onClick={backClick}
               width={24}
               height={24}
               sizes="100vw"
               alt=""
               src="/Arrow Left.svg"
-            />
-            <div className={styles.back}>Back</div>
+            / >
+            <div className={styles.back}
+            onClick={backClick}>
+              Back</div>
           </div>
           <div className={styles.joinUs}>
             <div className={styles.joinUsChild} />
@@ -180,7 +189,7 @@ const ClientSignup4: NextPage = () => {
               </div>
             </div>
             <div className={styles.frameParent}>
-              <div className={styles.frameGroup}>
+              <button className={styles.frameGroup}>
                 <div className={styles.frameContainer}>
                   <div className={styles.numberParent}>
                     <div className={styles.number}>
@@ -461,18 +470,19 @@ const ClientSignup4: NextPage = () => {
                   {errorMessage}
                   </div>
                 </div>
-                <div
+                <button
+                  type="submit"
                   className={`${styles.button2} ${
                     validateForm() === "" ? styles.filled : ""}
                     ${isClicked ? styles.clicked : ""
                   }`}
-                   onClick={handleClick}
+                  onClick={handleClick}
                 >
                   <div className={styles.signUpWrapper}>
                     <div className={styles.webDesigns}>Next</div>
                   </div>
-                </div>
-              </div>
+                </button>
+              </button>
               <div className={styles.frameWrapper}>
                 <div className={styles.frameWrapper1}>
                   <div className={styles.numberWrapper}>
