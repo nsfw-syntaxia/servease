@@ -2,122 +2,89 @@
 
 import { createClient } from '../lib/supabase/server';
 import { redirect } from 'next/navigation';
+import { type SignUpWithPasswordCredentials } from '@supabase/supabase-js';
 
-export async function profile(formData: FormData) {
+
+interface ProfileData {
+  user_id: string;
+  first_name: string;
+  last_name: string;
+  birth_date: string;
+  middle_name?: string;
+  gender?: string;
+}
+
+export async function signUp(formData: FormData): Promise<void> {
+}
+
+
+export async function profile(formData: FormData): Promise<void> {
   console.log("--- PROFILE SERVER ACTION RUNNING ---");
 
   const supabase = createClient();
 
-  // Extract all data from the form
-  const firstName = formData.get('first_name') as string;
-  const lastName = formData.get('last_name') as string;
-  const middleName = formData.get('middle_name') as string | null;
-  const gender = formData.get('gender') as string | null;
-  const birthMonth = formData.get('birth_month') as string;
-  const birthDay = formData.get('birth_day') as string;
-  const birthYear = formData.get('birth_year') as string;
+  const { data: { user } } = await supabase.auth.getUser();
 
-  const rawFormData = Object.fromEntries(formData.entries());
-  console.log("Received form data:", rawFormData);
+  if (!user) {
+    console.error("User is not authenticated. Cannot create profile.");
+    return redirect('/login?error=You must be logged in to create a profile.');
+  }
+  console.log("Authenticated user found:", user.id);
 
-  // --- Server-side validation (always do this, never trust the client) ---
-  if (!firstName || !lastName || !birthDay || !birthMonth || !birthYear) {
-      console.log("VALIDATION FAILED: A required field is missing.");
-      // Redirect back to the form with a specific error message
-      return redirect('/register-client?message=All required fields must be filled.');
+  const formObject = Object.fromEntries(formData.entries());
+  
+  // 2. Extract form data
+  const firstName = formObject.first_name as string;
+  const lastName = formObject.last_name as string;
+  const middleName = formObject.middle_name as string;
+  const gender = formObject.gender as string;
+  const birthMonth = formObject.birth_month as string;
+  const birthDay = formObject.birth_day as string;
+  const birthYear = formObject.birth_year as string;
+
+  // 3. Validate form data
+  if (!firstName?.trim() || !lastName?.trim() || !birthDay || !birthMonth || !birthYear) {
+    console.log("VALIDATION FAILED: Required profile fields missing.");
+    return redirect('/register-client?error=missing_fields');
   }
 
-  console.log("Validation passed. Preparing to save to database...");
-  
-  // --- Prepare the data for insertion ---
   const monthMap: { [key: string]: string } = {
-    'January': '01', 'February': '02', 'March': '03', 'April': '04', 'May': '05', 'June': '06',
-    'July': '07', 'August': '08', 'September': '09', 'October': '10', 'November': '11', 'December': '12'
+    'January': '01', 'February': '02', 'March': '03', 'April': '04', 
+    'May': '05', 'June': '06', 'July': '07', 'August': '08', 
+    'September': '09', 'October': '10', 'November': '11', 'December': '12'
   };
-
-  // Check if month is valid before creating the date
   const monthNumber = monthMap[birthMonth];
+
   if (!monthNumber) {
     console.error("Invalid month value received:", birthMonth);
-    return redirect('/register-client?message=Invalid month selected. Please try again.');
+    return redirect('/register-client?error=invalid_month');
   }
 
-  // Format date to 'YYYY-MM-DD' which is standard for SQL
-  const birthDate = `${birthYear}-${monthNumber}-${String(birthDay).padStart(2, '0')}`;
-  
-  const profileDataToInsert: {
-      first_name: string;
-      last_name: string;
-      birth_date: string;
-      middle_name?: string;
-      gender?: string;
-  } = {
-      first_name: firstName,
-      last_name: lastName,
-      birth_date: birthDate,
+  const formattedDay = String(birthDay).padStart(2, '0');
+  const birthDate = `${birthYear}-${monthNumber}-${formattedDay}`;
+
+  const profileData: ProfileData = {
+    user_id: user.id,
+    first_name: firstName.trim(),
+    last_name: lastName.trim(),
+    birth_date: birthDate,
   };
 
-  // Only add optional fields if they exist
-  if (middleName) {
-      profileDataToInsert.middle_name = middleName;
-  }
-  if (gender) {
-      profileDataToInsert.gender = gender;
-  }
+  if (middleName?.trim()) profileData.middle_name = middleName.trim();
+  if (gender?.trim()) profileData.gender = gender.trim();
   
-  console.log("Attempting to insert into 'profiles' table:", profileDataToInsert);
+  console.log("Data to insert:", profileData);
+  
 
-  const { data: newProfile, error } = await supabase
+  const { error } = await supabase
     .from('client_initial_profile')
-    .insert(profileDataToInsert)
-    .select('id') // Important to get the ID for the next step
-    .single();
-
-  // --- Handle potential database errors ---
-  if (error) {
-    console.error('DATABASE ERROR:', error.message);
-    return redirect(`/register-client?message=Database error. Could not save profile.`);
-  }
-
-  if (!newProfile) {
-    console.error('DATABASE LOGIC ERROR: Profile was not created, but no error was thrown.');
-    return redirect(`/register-client?message=An unknown error occurred. Please try again.`);
-  }
-
-  // --- On success, redirect to the next step ---
-  console.log("SUCCESS! Profile created with ID:", newProfile.id);
-  //redirect(`/register2-client?profileId=${newProfile.id}`); // Redirect to the next page
-  redirect(`/register2-client`); 
-}
-
-export async function signup(formData: FormData) {
-  const email = formData.get('email') as string;
-  const password = formData.get('password') as string;
-  const firstName = formData.get('first_name') as string;
-  const lastName = formData.get('last_name') as string;
-
-  const supabase = createClient();
-
-  if (password.length < 6) {
-    return redirect('/register?message=Password must be at least 6 characters long.');
-  }
-
-  const { error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: {
-      data: {
-        first_name: firstName,
-        last_name: lastName,
-      },
-    },
-  });
+    .insert(profileData);
 
   if (error) {
-    console.error('Sign Up Error:', error);
-    
-    return redirect('/register?message=Could not create account. User may already exist.');
+    console.error('--- SUPABASE PROFILE INSERT ERROR ---', error);
+    return redirect(`/register-client?error=database_error&code=${error.code}`);
   }
 
-  return redirect('/confirm-email');
+  console.log("SUCCESS! Profile created for user:", user.id);
+  redirect('/register2-client'); 
 }
