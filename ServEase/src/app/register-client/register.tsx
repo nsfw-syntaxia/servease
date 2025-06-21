@@ -77,6 +77,10 @@ const ClientSignup4: NextPage = () => {
   };
 
    const validateForm = useCallback(() => {
+    if(firstName.trim() === "" && lastName.trim() === "" && !selectedMonth || !selectedDay || !selectedYear)
+    {
+      return "Fill in all required fields.";
+    }
     if (firstName.trim() === "") {
       return "First name is required.";
     }
