@@ -1,5 +1,5 @@
 .serveaseLogoAlbumCover3 {
-  position: absolute;
+  	position: absolute;
   top: 17px;
   left: 50%;
   transform: translateX(-50%);
@@ -59,7 +59,7 @@
   	bottom: 0px;
   	left: 0px;
   	background-color: var(--color-dimgray-400);
-  	width: 3200px;
+  	width: 3100px;
   	height: 1px;
 }
 .outlineArrowsArrowLeft {
@@ -388,7 +388,7 @@
   	gap: var(--gap-24);
 }
 .conten {
-  	position: absolute;
+  position: absolute;
   top: 56px;
   left: 50%;
   transform: translateX(-50%);
@@ -404,13 +404,19 @@
   	top: 73px;
   	bottom: 0px;
   	left: 0px;
-  	background-color: var(--color-whitesmoke);
-  	width: 3200px;
+  	background-color: #f8f7f3;
+  	width: 100%;
   	overflow: hidden;
-  	text-align: center;
-  	font-size: var(--font-size-12);
-  	color: var(--color-white);
-  	font-family: var(--font-dm-sans);
+  	font-size: 12px;
+  	color: #fff;
+  	font-family: 'DM Sans';
+}
+.headerNavParent {
+  	position: absolute;
+  	top: 0px;
+  	left: 0px;
+  	width: 1440px;
+  	height: 1724px;
 }
 .clientSignup3 {
   	width: 100%;
