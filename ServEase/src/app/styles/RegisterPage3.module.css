@@ -1,10 +1,11 @@
 .serveaseLogoAlbumCover3 {
-  	position: absolute;
-  	top: 17px;
-  	left: 700px;
-  	width: 40px;
-  	height: 40px;
-  	object-fit: cover;
+  position: absolute;
+  top: 17px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
 }
 .home {
   	position: relative;
@@ -58,7 +59,7 @@
   	bottom: 0px;
   	left: 0px;
   	background-color: var(--color-dimgray-400);
-  	width: 1440px;
+  	width: 3200px;
   	height: 1px;
 }
 .outlineArrowsArrowLeft {
@@ -81,8 +82,8 @@
   	position: absolute;
   	top: 0px;
   	left: 0px;
-  	background-color: var(--color-white);
-  	width: 1440px;
+  	background-color: #fff;
+  	width: 100%;
   	height: 73px;
   	overflow: hidden;
 }
@@ -388,14 +389,14 @@
 }
 .conten {
   	position: absolute;
-  	top: 56px;
-  	left: 390px;
-  	height: 1492px;
-  	display: flex;
-  	flex-direction: column;
-  	align-items: center;
-  	justify-content: flex-start;
-  	gap: 56px;
+  top: 56px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 56px;
 }
 .joinUs {
   	position: absolute;
@@ -404,7 +405,7 @@
   	bottom: 0px;
   	left: 0px;
   	background-color: var(--color-whitesmoke);
-  	width: 1440px;
+  	width: 3200px;
   	overflow: hidden;
   	text-align: center;
   	font-size: var(--font-size-12);
