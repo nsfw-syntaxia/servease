@@ -353,6 +353,31 @@
   border-color: var(--color-tan);
 }
 
+/* Error input styling */
+.errorInput {
+  border: 1px solid #ef5350 !important;
+  background-color: #ffebee !important;
+  transition: all 0.2s ease;
+}
+
+.errorInput:hover {
+  border-color: #ef5350 !important;
+}
+
+.errorInput:focus-within {
+  border-color: #ef5350 !important;
+  box-shadow: 0 0 0 2px rgba(239, 83, 80, 0.2);
+}
+
+.errorInput .passwordInput {
+  background-color: #ffebee;
+  color: #d32f2f;
+}
+
+.errorInput .passwordInput::placeholder {
+  color: #ef5350;
+}
+
 .email {
   width: 611px;
   display: flex;

@@ -15,6 +15,13 @@ const FacilitySignup4: NextPage = () => {
   const [showError, setShowError] = useState(false);
   const [buttonClicked, setButtonClicked] = useState(false);
 
+  // New state to track which fields have errors
+  const [fieldErrors, setFieldErrors] = useState({
+    email: false,
+    password: false,
+    confirmPassword: false,
+  });
+
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -32,33 +39,77 @@ const FacilitySignup4: NextPage = () => {
     setButtonClicked(true);
     setTimeout(() => setButtonClicked(false), 200);
 
+    // Reset field errors
+    let newFieldErrors = {
+      email: false,
+      password: false,
+      confirmPassword: false,
+    };
+
     if (!email || !password || !confirmPassword) {
+      if (!email) newFieldErrors.email = true;
+      if (!password) newFieldErrors.password = true;
+      if (!confirmPassword) newFieldErrors.confirmPassword = true;
+
+      setFieldErrors(newFieldErrors);
       setError("Please fill in all required fields.");
       setShowError(true);
       return;
     }
 
     if (!validateEmail(email)) {
+      newFieldErrors.email = true;
+      setFieldErrors(newFieldErrors);
       setError("Please enter a valid email address.");
       setShowError(true);
       return;
     }
 
     if (password.length < 8) {
+      newFieldErrors.password = true;
+      setFieldErrors(newFieldErrors);
       setError("Password must be at least 8 characters long.");
       setShowError(true);
       return;
     }
 
     if (password !== confirmPassword) {
+      newFieldErrors.password = true;
+      newFieldErrors.confirmPassword = true;
+      setFieldErrors(newFieldErrors);
       setError("Passwords do not match.");
       setShowError(true);
       return;
     }
 
+    setFieldErrors(newFieldErrors);
     setError("");
     setShowError(false);
     console.log("Form is valid, proceeding to next step");
+  };
+
+  // Clear field errors when user starts typing
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+    if (fieldErrors.email) {
+      setFieldErrors((prev) => ({ ...prev, email: false }));
+    }
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+    if (fieldErrors.password) {
+      setFieldErrors((prev) => ({ ...prev, password: false }));
+    }
+  };
+
+  const handleConfirmPasswordChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setConfirmPassword(e.target.value);
+    if (fieldErrors.confirmPassword) {
+      setFieldErrors((prev) => ({ ...prev, confirmPassword: false }));
+    }
   };
 
   const isFormValid =
@@ -201,13 +252,14 @@ const FacilitySignup4: NextPage = () => {
                   <div
                     className={`${styles.tbxemail} ${styles.inputBox} ${
                       email ? styles.tbxFilled : ""
-                    }`}
+                    } ${fieldErrors.email ? styles.errorInput : ""}`}
                   >
                     <input
                       type="email"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={handleEmailChange}
                       className={styles.passwordInput}
+                      placeholder="Enter email address"
                     />
                   </div>
                 </div>
@@ -218,13 +270,14 @@ const FacilitySignup4: NextPage = () => {
                   <div
                     className={`${styles.tbxemail} ${styles.inputBox} ${
                       password ? styles.tbxFilled : ""
-                    }`}
+                    } ${fieldErrors.password ? styles.errorInput : ""}`}
                   >
                     <input
                       type={passwordVisible ? "text" : "password"}
                       value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      onChange={handlePasswordChange}
                       className={styles.passwordInput}
+                      placeholder="Enter password"
                     />
                     <Image
                       className={styles.hideIcon}
@@ -244,13 +297,14 @@ const FacilitySignup4: NextPage = () => {
                   <div
                     className={`${styles.tbxemail} ${styles.inputBox} ${
                       confirmPassword ? styles.tbxFilled : ""
-                    }`}
+                    } ${fieldErrors.confirmPassword ? styles.errorInput : ""}`}
                   >
                     <input
                       type={confirmPasswordVisible ? "text" : "password"}
                       value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      onChange={handleConfirmPasswordChange}
                       className={styles.passwordInput}
+                      placeholder="Confirm your password"
                     />
                     <Image
                       className={styles.hideIcon1}
