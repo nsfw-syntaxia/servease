@@ -2,90 +2,97 @@
 
 import type { NextPage } from "next";
 import Image from "next/image";
+import { useState } from "react";
 import styles from "../styles/register-facility-4.module.css";
 
 const FacilitySignup4: NextPage = () => {
+  const [showError, setShowError] = useState(false);
+  const [buttonClicked, setButtonClicked] = useState(false);
+
+  const handleSignUpClick = () => {
+    setButtonClicked(true);
+    setTimeout(() => setButtonClicked(false), 200);
+
+    // Add your validation logic here
+    const isFormValid = false; // Replace with actual form validation
+
+    if (!isFormValid) {
+      setShowError(true);
+    } else {
+      setShowError(false);
+      console.log("Form is valid, proceeding to next step");
+    }
+  };
+
   return (
     <div className={styles.facilitySignup4}>
-      <div className={styles.headerNav}>
+      <div className={styles.header}>
         <Image
-          className={styles.serveaseLogoAlbumCover3}
+          className={styles.regislogoIcon}
           width={40}
           height={40}
           sizes="100vw"
           alt=""
-          src="Servease Logo (Album Cover) (3) 1.png"
+          src="/regisLogo.svg"
         />
-        <div className={styles.links}>
-          <div className={styles.home}>Home</div>
-          <div className={styles.webDesigns}>Web designs</div>
-          <div className={styles.webDesigns}>Mobile designs</div>
-          <div className={styles.webDesigns}>Design principles</div>
-          <div className={styles.webDesigns}>Illustrations</div>
-        </div>
-        <div className={styles.loginSignUp}>
-          <div className={styles.dropdown} />
-          <div className={styles.button} />
-          <div className={styles.button} />
-        </div>
         <div className={styles.divider} />
         <Image
-          className={styles.outlineArrowsArrowLeft}
+          className={styles.arrowIcon}
           width={24}
           height={24}
           sizes="100vw"
           alt=""
-          src="Outline / Arrows / Arrow Left.svg"
+          src="/arrow.svg"
         />
         <div className={styles.back}>Back</div>
       </div>
-      <div className={styles.joinUs}>
-        <div className={styles.conten}>
-          <div className={styles.joinUsParent}>
-            <div className={styles.joinUs1}>Join us</div>
+      <div className={styles.register}>
+        <div className={styles.content}>
+          <div className={styles.title}>
+            <div className={styles.joinUs}>Join us</div>
             <div className={styles.signUpAnd}>
               Sign up and get connected with trusted professionals.
             </div>
           </div>
-          <div className={styles.stepper}>
-            <div className={styles.groupParent}>
-              <div className={styles.bgParent}>
+          <div className={styles.nav}>
+            <div className={styles.profile}>
+              <div className={styles.number}>
                 <div className={styles.bg} />
                 <div className={styles.div}>1</div>
               </div>
-              <div className={styles.profile}>Profile</div>
+              <div className={styles.profile1}>Profile</div>
             </div>
-            <div className={styles.stepperChild} />
-            <div className={styles.groupContainer}>
-              <div className={styles.bgParent}>
+            <div className={styles.line} />
+            <div className={styles.documents}>
+              <div className={styles.number}>
                 <div className={styles.bg} />
                 <div className={styles.div}>2</div>
               </div>
-              <div className={styles.profile}>Documents</div>
+              <div className={styles.profile1}>Documents</div>
             </div>
-            <div className={styles.stepperChild} />
-            <div className={styles.groupContainer}>
-              <div className={styles.bgParent}>
+            <div className={styles.line} />
+            <div className={styles.contacts}>
+              <div className={styles.number}>
                 <div className={styles.bg} />
                 <div className={styles.div}>3</div>
               </div>
-              <div className={styles.profile}>Contacts</div>
+              <div className={styles.profile1}>Contacts</div>
             </div>
-            <div className={styles.stepperChild} />
-            <div className={styles.groupParent1}>
-              <div className={styles.bgParent}>
+            <div className={styles.line} />
+            <div className={styles.login}>
+              <div className={styles.number}>
                 <div className={styles.bg} />
                 <div className={styles.div}>4</div>
               </div>
-              <div className={styles.profile}>Login</div>
+              <div className={styles.profile1}>Login</div>
             </div>
           </div>
-          <div className={styles.frameParent}>
-            <div className={styles.frameWrapper}>
-              <div className={styles.frameContainer}>
-                <div className={styles.numberWrapper}>
-                  <div className={styles.number}>
-                    <div className={styles.bgParent1}>
+          <div className={styles.navcontents}>
+            <div className={styles.contactInfo}>
+              <div className={styles.profileDescrip}>
+                <div className={styles.profileContent}>
+                  <div className={styles.profileTitle}>
+                    <div className={styles.docuncheckedIcon}>
                       <div className={styles.bg4} />
                       <div className={styles.div4}>1</div>
                     </div>
@@ -94,11 +101,11 @@ const FacilitySignup4: NextPage = () => {
                 </div>
               </div>
             </div>
-            <div className={styles.frameWrapper}>
-              <div className={styles.frameContainer}>
-                <div className={styles.numberWrapper}>
-                  <div className={styles.number}>
-                    <div className={styles.bgParent1}>
+            <div className={styles.contactInfo}>
+              <div className={styles.profileDescrip}>
+                <div className={styles.profileContent}>
+                  <div className={styles.profileTitle}>
+                    <div className={styles.docuncheckedIcon}>
                       <div className={styles.bg4} />
                       <div className={styles.div4}>2</div>
                     </div>
@@ -107,11 +114,11 @@ const FacilitySignup4: NextPage = () => {
                 </div>
               </div>
             </div>
-            <div className={styles.frameWrapper}>
-              <div className={styles.frameContainer}>
-                <div className={styles.numberWrapper}>
-                  <div className={styles.number}>
-                    <div className={styles.bgParent1}>
+            <div className={styles.contactInfo}>
+              <div className={styles.profileDescrip}>
+                <div className={styles.profileContent}>
+                  <div className={styles.profileTitle}>
+                    <div className={styles.docuncheckedIcon}>
                       <div className={styles.bg4} />
                       <div className={styles.div4}>3</div>
                     </div>
@@ -122,62 +129,95 @@ const FacilitySignup4: NextPage = () => {
                 </div>
               </div>
             </div>
-            <div className={styles.frameGroup}>
-              <div className={styles.frameParent1}>
-                <div className={styles.numberParent}>
-                  <div className={styles.number3}>
-                    <div className={styles.bgParent1}>
+            <div className={styles.login2}>
+              <div className={styles.loginDescrip}>
+                <div className={styles.loginDescrip1}>
+                  <div className={styles.loginTitle}>
+                    <div className={styles.docuncheckedIcon}>
                       <div className={styles.bg4} />
-                      <div className={styles.div4}>3</div>
+                      <div className={styles.div4}>4</div>
                     </div>
                     <div className={styles.contactInformation}>Login</div>
                   </div>
                   <div className={styles.setUpYour}>
                     Set up your login credential to keep your account secure.
-                    We&aposll send a one-time link to confirm it&aposs really you.
+                    We’ll send a one-time link to confirm it’s really you.
                   </div>
                   <div className={styles.allFieldsRequired}>
                     *All fields required unless noted.
                   </div>
                 </div>
-                <div className={styles.textField}>
-                  <div className={styles.labelWrapper}>
+              </div>
+              <div className={styles.loginForm}>
+                <div className={styles.email}>
+                  <div className={styles.emailLabel}>
                     <div className={styles.label}>*Email address</div>
                   </div>
-                  <div className={styles.textField1} />
+                  <div className={styles.tbxemail}>
+                    <div className={styles.inputemail}>
+                      <div className={styles.texts}>123456</div>
+                      <div className={styles.typing} />
+                    </div>
+                  </div>
                 </div>
-                <div className={styles.textField2}>
-                  <div className={styles.labelWrapper}>
+                <div className={styles.password}>
+                  <div className={styles.emailLabel}>
                     <div className={styles.label}>*Password</div>
                   </div>
-                  <div className={styles.textField1} />
+                  <div className={styles.tbxemail}>
+                    <div className={styles.inputemail}>
+                      <div className={styles.texts}>123456</div>
+                      <div className={styles.typing} />
+                    </div>
+                  </div>
+                  <Image
+                    className={styles.hideIcon}
+                    width={30}
+                    height={25}
+                    sizes="100vw"
+                    alt=""
+                    src="/hide.svg"
+                  />
                 </div>
-                <Image
-                  className={styles.icon}
-                  width={30}
-                  height={25}
-                  sizes="100vw"
-                  alt=""
-                  src="Icon.svg"
-                />
-                <Image
-                  className={styles.icon1}
-                  width={30}
-                  height={25}
-                  sizes="100vw"
-                  alt=""
-                  src="Icon.svg"
-                />
-                <div className={styles.textField4}>
-                  <div className={styles.labelWrapper}>
+                <div className={styles.confirmPassword}>
+                  <div className={styles.emailLabel}>
                     <div className={styles.label}>*Confirm Password</div>
                   </div>
-                  <div className={styles.textField1} />
+                  <div className={styles.tbxemail}>
+                    <div className={styles.inputemail}>
+                      <div className={styles.texts}>123456</div>
+                      <div className={styles.typing} />
+                    </div>
+                  </div>
+                  <Image
+                    className={styles.hideIcon1}
+                    width={30}
+                    height={25}
+                    sizes="100vw"
+                    alt=""
+                    src="/hide.svg"
+                  />
                 </div>
               </div>
-              <div className={styles.button2}>
-                <div className={styles.signUpWrapper}>
-                  <div className={styles.webDesigns}>Sign Up</div>
+              <div className={styles.buttonSection}>
+                <div
+                  className={`${styles.errorbox} ${
+                    showError ? styles.visible : styles.hidden
+                  }`}
+                >
+                  <div className={styles.errorMessage}>
+                    Please fill in all required fields before continuing.
+                  </div>
+                </div>
+                <div
+                  className={`${styles.buttoncontainer} ${
+                    buttonClicked ? styles.clicked : ""
+                  }`}
+                  onClick={handleSignUpClick}
+                >
+                  <div className={styles.signup}>
+                    <div className={styles.signupText}>Sign Up</div>
+                  </div>
                 </div>
               </div>
             </div>
