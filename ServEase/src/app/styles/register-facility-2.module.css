@@ -381,10 +381,10 @@
   color: var(--color-tan);
 }
 
-.uploadIncomplete {
+.uploadIncompleteError {
   position: relative;
   font-weight: 500;
-  color: var(--color-dimgray-100);
+  color: #d8000c;
 }
 
 .uploadFiles {
@@ -464,6 +464,11 @@
   justify-content: flex-end;
   position: relative;
   width: 611px;
+}
+
+.uploadErrorBox {
+  background-color: #ffebee !important;
+  border: 1px solid #ef5350 !important;
 }
 
 .errorbox {

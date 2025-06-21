@@ -20,6 +20,7 @@ const FacilitySignup2: NextPage = () => {
     taxDocuments: false,
     insuranceCompliance: false,
   });
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [showError, setShowError] = useState(false);
   const [buttonClicked, setButtonClicked] = useState(false);
@@ -42,10 +43,16 @@ const FacilitySignup2: NextPage = () => {
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file && selectedDocumentType) {
-      setUploadedFiles((prev) => ({
-        ...prev,
-        [selectedDocumentType]: true,
-      }));
+      setUploadedFiles((prev) => {
+        const updated = {
+          ...prev,
+          [selectedDocumentType]: true,
+        };
+        if (Object.values(updated).every((uploaded) => uploaded)) {
+          setShowError(false);
+        }
+        return updated;
+      });
       setSelectedDocumentType(null);
     }
   };
@@ -60,8 +67,8 @@ const FacilitySignup2: NextPage = () => {
 
     if (!allFilesUploaded) {
       setShowError(true);
-      setTimeout(() => setShowError(false), 5000);
     } else {
+      setShowError(false);
       console.log("All files uploaded, proceeding to next step");
     }
   };
@@ -188,21 +195,23 @@ const FacilitySignup2: NextPage = () => {
                         ref={fileInputRef}
                         id="fileInput"
                         type="file"
-                        accept=".pdf,.docx,.txt"
+                        accept=".pdf,.png,.jpg,.jpeg"
                         onChange={handleFileUpload}
                         style={{ display: "none" }}
                       />
                     </div>
-
                     <div className={styles.documentsType}>
                       <div className={styles.pdf}>
                         <div className={styles.pdf1}>PDF</div>
                       </div>
                       <div className={styles.pdf}>
-                        <div className={styles.pdf1}>DOCX</div>
+                        <div className={styles.pdf1}>PNG</div>
                       </div>
                       <div className={styles.pdf}>
-                        <div className={styles.pdf1}>TXT</div>
+                        <div className={styles.pdf1}>JPG</div>
+                      </div>
+                      <div className={styles.pdf}>
+                        <div className={styles.pdf1}>JPEG</div>
                       </div>
                       <div className={styles.pdf6}>
                         <div className={styles.pdf1}>{`> 10 MB`}</div>
@@ -217,6 +226,10 @@ const FacilitySignup2: NextPage = () => {
                       key={docType.key}
                       className={`${styles.businessRegis} ${
                         isSelected ? styles.selected : ""
+                      } ${
+                        showError && !uploadedFiles[docType.key]
+                          ? styles.uploadErrorBox
+                          : ""
                       }`}
                       onClick={() => handleDocumentClick(docType.key)}
                     >
@@ -228,11 +241,15 @@ const FacilitySignup2: NextPage = () => {
                           className={
                             uploadedFiles[docType.key]
                               ? styles.uploadComplete
-                              : styles.uploadIncomplete
+                              : showError
+                              ? styles.uploadIncompleteError
+                              : styles.uploadComplete
                           }
                         >
                           {uploadedFiles[docType.key]
                             ? "Upload complete"
+                            : showError
+                            ? "Upload incomplete"
                             : "Upload"}
                         </div>
                       </div>
@@ -259,7 +276,7 @@ const FacilitySignup2: NextPage = () => {
                   }`}
                 >
                   <div className={styles.errorMessage}>
-                    Please upload all required documents to continue.
+                    Please upload all required documents before continuing.
                   </div>
                 </div>
                 <div
