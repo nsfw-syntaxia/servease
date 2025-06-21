@@ -1,22 +1,12 @@
 .serviceFacility {
   	margin: 0;
 }
-.serviceFacilityAppointmentContainer {
-  	position: absolute;
-  	top: -47px;
-  	left: 4384px;
-  	font-size: 64px;
-  	line-height: 150%;
-  	font-family: var(--font-benne);
-  	color: var(--color-black);
-  	text-align: left;
-}
 .footerChild {
   	position: absolute;
   	top: 0px;
   	left: 0px;
   	background-color: var(--color-white);
-  	width: 1440px;
+  	width: 100%;
   	height: 534px;
 }
 .yourTrustedPlatform {
@@ -240,7 +230,7 @@
   	top: 2222px;
   	left: 0px;
   	background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), var(--color-white);
-  	width: 1440px;
+  	width: 100%;
   	height: 490px;
   	text-align: left;
   	font-size: var(--font-size-16);
@@ -251,7 +241,7 @@
   	top: 601px;
   	left: 0px;
   	background-color: var(--color-linen);
-  	width: 1440px;
+  	width: 100%;
   	height: 1621px;
 }
 .miscellaneous {
@@ -679,7 +669,8 @@
   	background-color: var(--color-whitesmoke-200);
   	border: 1px solid var(--color-black);
   	box-sizing: border-box;
-  	width: 1440px;
+  	width: 100%;
+	min-width: 1440px;
   	height: 2697px;
   	overflow: hidden;
 }
@@ -691,5 +682,5 @@
   	font-size: var(--font-size-20);
   	color: var(--color-white);
   	font-family: var(--font-dm-sans);
+	min-width: 1440px;
 }
-
