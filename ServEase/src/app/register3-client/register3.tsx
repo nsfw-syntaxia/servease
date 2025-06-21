@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from 'react'; // Added useEffect
+import React, { useState, useEffect, useTransition } from 'react'; // Added useEffect
 import type { NextPage } from 'next';
 import Image from "next/image";
 import styles from "../styles/RegisterPage3.module.css";
@@ -24,17 +24,18 @@ interface FormErrors {
 }
 
 const ClientSignup3: NextPage = () => {
+  const [isPending, startTransition] = useTransition();
   const [formData, setFormData] = useState<FormDataState>({
     email: '',
     password: '',
     confirmPassword: ''
   });
-  
+
   const [errors, setErrors] = useState<FormErrors>({});
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  
+
   // Hook to read error messages from the URL
   const searchParams = useSearchParams();
 
@@ -52,10 +53,10 @@ const ClientSignup3: NextPage = () => {
     return emailRegex.test(email);
   };
   const validatePassword = (password: string): boolean => {
-    return password.length >= 8 && 
-           /[A-Z]/.test(password) && 
-           /[a-z]/.test(password) && 
-           /\d/.test(password);
+    return password.length >= 8 &&
+      /[A-Z]/.test(password) &&
+      /[a-z]/.test(password) &&
+      /\d/.test(password);
   };
   const handleInputChange = (field: keyof FormDataState, value: string): void => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -94,7 +95,6 @@ const ClientSignup3: NextPage = () => {
   };
   // --- End of unchanged functions ---
 
-
   // =====================================================================
   // === UPDATED SUBMISSION LOGIC ===
   // =====================================================================
@@ -103,7 +103,7 @@ const ClientSignup3: NextPage = () => {
     if (!validateForm()) {
       return; // Stop if validation fails
     }
-    
+
     setIsLoading(true);
     setErrors({}); // Clear any previous errors
 
@@ -116,7 +116,10 @@ const ClientSignup3: NextPage = () => {
       // 3. Call the server action.
       // The server action will handle all logic, including redirection on success or failure.
       // You don't need to handle success here because the page will be redirected away.
-      await signup(actionFormData);
+
+      startTransition(async () => {
+        await signup(actionFormData);
+      })
 
     } catch (error) {
       // This 'catch' block will only run if there's a network failure or an
@@ -151,12 +154,12 @@ const ClientSignup3: NextPage = () => {
           <div className={styles.button} />
         </div>
         <div className={styles.divider} />
-        <Image 
-          className={styles.outlineArrowsArrowLeft} 
-          width={24} 
-          height={24} 
-          sizes="100vw" 
-          alt="" 
+        <Image
+          className={styles.outlineArrowsArrowLeft}
+          width={24}
+          height={24}
+          sizes="100vw"
+          alt=""
           src="/Arrow Left.svg"
           onClick={handleBackClick}
           style={{ cursor: 'pointer' }}
@@ -234,7 +237,7 @@ const ClientSignup3: NextPage = () => {
                   <div className={styles.setUpYour}>Set up your login credential to keep your account secure. We'll send a one-time link to confirm it's really you.</div>
                   <div className={styles.allFieldsRequired}>*All fields required unless noted.</div>
                 </div>
-                
+
                 {/* Error Display */}
                 {errors.general && (
                   <div style={{
@@ -249,7 +252,7 @@ const ClientSignup3: NextPage = () => {
                     {errors.general}
                   </div>
                 )}
-                
+
                 <div className={styles.textField}>
                   <div className={styles.labelWrapper}>
                     <div className={styles.label}>*Email address</div>
@@ -379,7 +382,7 @@ const ClientSignup3: NextPage = () => {
               </div>
               <div className={styles.button2}>
                 <div className={styles.signUpWrapper}>
-                  <div 
+                  <div
                     className={styles.webDesigns}
                     onClick={handleSubmit}
                     style={{
