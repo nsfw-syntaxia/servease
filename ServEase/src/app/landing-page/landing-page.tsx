@@ -1,10 +1,10 @@
 import Image from "next/image";
-import styles from "../styles/LandingPage.module.css";
+import styles from "../styles/landing-page.module.css";
 
 const LandingPage = () => {
   return (
     <div className={styles.landingPage}>
-      // /* -----NAVIGATION BAR----- */ //
+      {/* -----NAVIGATION BAR----- */}
       <div className={styles.navigation}>
         <div className={styles.navigationlogo}>
           <Image
@@ -33,7 +33,8 @@ const LandingPage = () => {
           <div className={styles.star} />
         </div>
       </div>
-      // /* -----HERO IMAGE----- */ //
+
+      {/* -----HERO IMAGE----- */}
       <div className={styles.heroImage}>
         <div className={styles.divinheroImage}>
           <b className={styles.bridgingClientsAndContainer}>
@@ -52,7 +53,8 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
-      // /* -----ABOUT US SECTION----- */ //
+
+      {/* -----ABOUT US SECTION----- */}
       <div className={styles.aboutUsSection}>
         <div className={styles.servChild}>
           <Image
@@ -92,13 +94,15 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
-      // /* -----WHAT WE OFFER----- */ //
+
+      {/* -----WHAT WE OFFER----- */}
       <div className={styles.whatweoffer}>
         <div className={styles.whatWeOfferContainer}>
           <b>{`What We `}</b>
           <span className={styles.offer}>Offer</span>
         </div>
         <div className={styles.whatWeOfferContainerChild}>
+          {/* First Offer */}
           <div className={styles.onlineBooking}>
             <Image
               className={styles.intersectIcon}
@@ -131,6 +135,8 @@ const LandingPage = () => {
               from your device.
             </div>
           </div>
+
+          {/* Second Offer */}
           <div className={styles.serviceDirectory}>
             <Image
               className={styles.intersectIcon4}
@@ -159,10 +165,12 @@ const LandingPage = () => {
             <b className={styles.serviceDirectory1}>Service Directory</b>
             <div className={styles.searchForService}>
               Search for service facilities by name or category, and view
-              ratings, pricing, services, offered, offered, operating hours, and
-              contact details in one place.
+              ratings, pricing, services offered, operating hours, and contact
+              details in one place.
             </div>
           </div>
+
+          {/* Third Offer */}
           <div className={styles.dualDahsboard}>
             <Image
               className={styles.intersectIcon2}
@@ -190,14 +198,15 @@ const LandingPage = () => {
             />
             <b className={styles.dualDashboardAccess}>Dual Dashboard Access</b>
             <div className={styles.whetherYoureA}>
-              Whether you're a client or a service provider, access tailored
+              Whether you’re a client or a service provider, access tailored
               dashboards designed for easy booking, service management, and
               real-time updates.
             </div>
           </div>
         </div>
       </div>
-      // /* -----WHY CHOOSE SERVEASE----- */ //
+
+      {/* -----WHY CHOOSE SERVEASE----- */}
       <div className={styles.whyChooseServeaseContainer}>
         <span className={styles.whyChooseServ}>
           <span className={styles.why}>Why</span>
@@ -210,6 +219,8 @@ const LandingPage = () => {
           <span className={styles.ease}>ease</span>
         </span>
       </div>
+
+      {/* Grid Section */}
       <div className={styles.whyChooseGrid}>
         <div className={styles.allInOneBox}>
           <b className={styles.allInOnePlatform}>All-in-One Platform</b>
@@ -246,9 +257,9 @@ const LandingPage = () => {
         </div>
 
         <div className={styles.transparentTrustworthyBox}>
-          <b
-            className={styles.transparentTrustworthy}
-          >{`Transparent & Trustworthy`}</b>
+          <b className={styles.transparentTrustworthy}>
+            Transparent & Trustworthy
+          </b>
           <div className={styles.makeConfidentDecisions}>
             Make confident decisions with all the information at your
             fingertips.
@@ -281,7 +292,8 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
-      // /* -----SIGN IN SECTION----- */ //
+
+      {/* -----SIGN IN SECTION----- */}
       <div className={styles.register}>
         <div className={styles.background}>
           <div className={styles.heading2}>
@@ -316,6 +328,7 @@ const LandingPage = () => {
             src="/Client Logo.svg"
           />
         </div>
+
         <div className={styles.background1}>
           <div className={styles.heading21}>
             <b className={styles.areYouOffering}>Are You Offering a Service?</b>
@@ -346,7 +359,8 @@ const LandingPage = () => {
           />
         </div>
       </div>
-      // /* -----FOOTER----- */ //
+
+      {/* -----FOOTER----- */}
       <div className={styles.footer}>
         <div className={styles.footerChild} />
         <div className={styles.yourTrustedPlatform}>
@@ -355,7 +369,7 @@ const LandingPage = () => {
         </div>
         <b className={styles.contactUs}>Contact Us</b>
         <div className={styles.supportserveasecom}>support@servease.com</div>
-        <div className={styles.contactNumber}>// contact number</div>
+        <div className={styles.contactNumber}>+63 9XX-XXX-XXXX</div>
         <b className={styles.support}>Support</b>
         <div className={styles.faqs}>FAQs</div>
         <div className={styles.privacyPolicy}>Privacy Policy</div>
@@ -366,39 +380,6 @@ const LandingPage = () => {
         <div className={styles.home}>Home</div>
         <div className={styles.discover}>Discover</div>
         <div className={styles.createAnAccount}>Create an Account</div>
-        <div className={styles.facebookParent}>
-          <div className={styles.facebook}>Facebook</div>
-          <Image
-            className={styles.groupChild}
-            width={22}
-            height={22}
-            sizes="100vw"
-            alt=""
-            src="/Frame 1.svg"
-          />
-        </div>
-        <div className={styles.twitterParent}>
-          <div className={styles.twitter}>Twitter</div>
-          <Image
-            className={styles.groupItem}
-            width={26}
-            height={22}
-            sizes="100vw"
-            alt=""
-            src="/Frame 2.svg"
-          />
-        </div>
-        <div className={styles.instagramParent}>
-          <div className={styles.instagram}>Instagram</div>
-          <Image
-            className={styles.groupInner}
-            width={24}
-            height={24}
-            sizes="100vw"
-            alt=""
-            src="/Frame 3.svg"
-          />
-        </div>
         <div className={styles.lineParent}>
           <div className={styles.lineDiv} />
           <div className={styles.servease2025}>

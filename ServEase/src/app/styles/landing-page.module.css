@@ -10,7 +10,32 @@
   font-size: var(--font-size-16);
   color: var(--color-snow);
   font-family: var(--font-dm-sans);
+  cursor: default;
 }
+
+.serveaseLogoAlbumCover31,
+.servease1,
+.home1,
+.contactUs1,
+.button1,
+.button,
+.link,
+.link1,
+.supportserveasecom,
+.facebookParent,
+.twitterParent,
+.instagramParent,
+.home,
+.discover,
+.createAnAccount,
+.faqs,
+.privacyPolicy,
+.termsConditions,
+.aboutUs,
+.contactNumber {
+  cursor: pointer;
+}
+
 .navigation {
   position: absolute;
   top: 1.5rem;
@@ -286,17 +311,46 @@
   font-size: 25px;
   background-color: var(--color-linen);
 }
+
+.box {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: var(--color-linen);
+  width: 1440px;
+  height: 754px;
+}
+
+.whatWeOffer {
+  position: absolute;
+  top: 111px;
+  left: 145px;
+  width: 1154px;
+  height: 555px;
+}
+
+.content {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 1154px;
+  height: 555px;
+}
+
 .whatWeOfferContainer {
   margin: 5% 0 2% 12%;
   font-size: 50px;
   line-height: 150%;
   text-align: left;
-  color: var(--color-gray-300);
+  color: var(--color-gray);
+  font-family: var(--font-dm-sans);
 }
+
 .offer {
   font-weight: 900;
   color: var(--color-tan);
 }
+
 .whatWeOfferContainerChild {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -306,6 +360,7 @@
   margin-bottom: 50%;
   height: auto;
 }
+
 .icon {
   display: block;
   margin: 10% auto;
@@ -316,6 +371,7 @@
   width: 120px;
   height: 120px;
 }
+
 .onlineBooking {
   position: relative;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -326,10 +382,12 @@
   height: auto;
   min-height: 430px;
 }
+
 .onlineBookingSystem {
   line-height: 150%;
   text-align: center;
 }
+
 .easilyBookAppointments {
   font-size: var(--font-size-20);
   line-height: 130%;
@@ -338,6 +396,7 @@
   margin: 8% 10%;
   margin-bottom: 30px;
 }
+
 .intersectIcon {
   position: absolute;
   top: 0px;
@@ -346,6 +405,7 @@
   height: 50.8px;
   z-index: 0;
 }
+
 .intersectIcon1 {
   position: absolute;
   width: 81px;
@@ -354,6 +414,7 @@
   bottom: 80px;
   right: -0px;
 }
+
 .dualDahsboard {
   position: relative;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -364,10 +425,12 @@
   height: auto;
   min-height: 430px;
 }
+
 .dualDashboardAccess {
   line-height: 150%;
   text-align: center;
 }
+
 .whetherYoureA {
   font-size: var(--font-size-20);
   line-height: 130%;
@@ -376,6 +439,7 @@
   margin: 8% 10%;
   margin-bottom: 30px;
 }
+
 .intersectIcon2 {
   position: absolute;
   top: 0px;
@@ -384,6 +448,7 @@
   height: 135.6px;
   z-index: 0;
 }
+
 .intersectIcon3 {
   position: absolute;
   width: 219px;
@@ -392,6 +457,7 @@
   bottom: 0px;
   left: 0px;
 }
+
 .serviceDirectory {
   position: relative;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -402,10 +468,12 @@
   height: auto;
   min-height: 430px;
 }
+
 .serviceDirectory1 {
   line-height: 150%;
   text-align: center;
 }
+
 .searchForService {
   font-size: var(--font-size-20);
   line-height: 130%;
@@ -414,6 +482,7 @@
   margin: 8% 10%;
   margin-bottom: 30px;
 }
+
 .intersectIcon4 {
   position: absolute;
   top: 0px;
@@ -422,12 +491,14 @@
   height: 173.7px;
   z-index: 0;
 }
+
 .intersectIcon5 {
   position: absolute;
   bottom: 80px;
   left: 0px;
   z-index: 0;
 }
+
 .whyChooseServeaseContainer {
   margin: 5% 0 2% 12%;
   font-size: 48px;
@@ -436,15 +507,17 @@
   color: var(--color-gray-300);
 }
 .whyChooseServ {
+  color: var(--color-gray);
   font-weight: 600;
 }
 .why {
-  color: var(--color-gray-300);
+  color: var(--color-gray);
 }
 .choose {
   color: var(--color-tan);
 }
 .ease {
+  color: var(--color-gray);
   font-weight: 900;
 }
 .whyChooseGrid {
@@ -593,7 +666,7 @@
   position: relative;
   overflow: hidden;
   object-fit: cover;
-  background-color: var(--color-gray-100);
+  background-color: #402f27;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -731,10 +804,7 @@
   height: 15px;
   justify-content: center;
 }
-.svgIcon {
-  width: 14px;
-  height: 14px;
-}
+
 .serveaseLogoAlbumCover32 {
   position: absolute;
   width: 145px;
