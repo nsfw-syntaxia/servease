@@ -10,15 +10,15 @@ const FacilitySignup2: NextPage = () => {
     string | null
   >(null);
   const [uploadedFiles, setUploadedFiles] = useState<{
-    [key: string]: boolean;
+    [key: string]: string | null;
   }>({
-    businessRegistration: false,
-    governmentId: false,
-    facilityPhotos: false,
-    serviceLicenses: false,
-    proofOfAddress: false,
-    taxDocuments: false,
-    insuranceCompliance: false,
+    businessRegistration: null,
+    governmentId: null,
+    facilityPhotos: null,
+    serviceLicenses: null,
+    proofOfAddress: null,
+    taxDocuments: null,
+    insuranceCompliance: null,
   });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -46,9 +46,9 @@ const FacilitySignup2: NextPage = () => {
       setUploadedFiles((prev) => {
         const updated = {
           ...prev,
-          [selectedDocumentType]: true,
+          [selectedDocumentType]: file.name,
         };
-        if (Object.values(updated).every((uploaded) => uploaded)) {
+        if (Object.values(updated).every((name) => name)) {
           setShowError(false);
         }
         return updated;
@@ -58,7 +58,7 @@ const FacilitySignup2: NextPage = () => {
   };
 
   const allFilesUploaded = Object.values(uploadedFiles).every(
-    (uploaded) => uploaded
+    (fileName) => fileName !== null
   );
 
   const handleNextClick = () => {
@@ -188,7 +188,8 @@ const FacilitySignup2: NextPage = () => {
                           src="/file-add.svg"
                         />
                         <div className={styles.clickToUpload}>
-                          Click to upload
+                          {uploadedFiles[selectedDocumentType] ??
+                            "Click to upload"}
                         </div>
                       </div>
                       <input
