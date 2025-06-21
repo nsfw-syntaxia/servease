@@ -85,7 +85,7 @@
   top: 28px;
   left: 83px;
   font-weight: 500;
-  color: var(--color-dimgray-200);
+  color: var(--color-dimgray-500);
   text-align: center;
   line-height: 1;
   cursor: pointer;
@@ -166,8 +166,8 @@
 .profile {
   position: relative;
   font-size: var(--font-size-16);
-  font-weight: 300;
-  color: var(--color-dimgray-200);
+  font-weight: 400;
+  color: var(--color-dimgray-500);
 }
 
 .groupParent {
