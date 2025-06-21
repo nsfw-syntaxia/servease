@@ -13,7 +13,7 @@ const ClientSignup2: NextPage = () => {
   const [loading, setLoading] = useState(false);
   const [otp, setOtp] = useState(["", "", "", ""]);
   const [timer, setTimer] = useState(0);
-  const otpRefs = useRef<HTMLInputElement[]>([]);
+  const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   const isPhoneValid = phone.match(/^\d{10}$/);
   const isOtpValid = otp.every((digit) => digit.match(/^\d$/));
@@ -41,11 +41,13 @@ const ClientSignup2: NextPage = () => {
   };
 
   useEffect(() => {
-    let interval: any;
+    let interval: NodeJS.Timeout;
     if (codeSent && timer > 0) {
       interval = setInterval(() => setTimer((prev) => prev - 1), 1000);
     }
-    return () => clearInterval(interval);
+    return () => {
+      if (interval) clearInterval(interval);
+    };
   }, [codeSent, timer]);
 
   const handleOtpChange = (value: string, index: number) => {
@@ -74,14 +76,7 @@ const ClientSignup2: NextPage = () => {
   return (
     <div className={styles.clientSignup2}>
       <div className={styles.headerNav}>
-        <Image 
-          className={styles.serveaseLogoAlbumCover3} 
-          width={40} 
-          height={40} 
-          sizes="100vw" 
-          alt="" 
-          src="/servease logo.svg" 
-        />
+        <Image className={styles.serveaseLogoAlbumCover3} width={40} height={40} sizes="100vw" alt="" src="/servease logo.svg" />
         <div className={styles.links}>
           <div className={styles.home}>Home</div>
           <div className={styles.webDesigns}>Web designs</div>
@@ -96,49 +91,37 @@ const ClientSignup2: NextPage = () => {
         </div>
         <div className={styles.divider} />
       </div>
-
       <div className={styles.joinUs}>
         <div className={styles.conten}>
           <div className={styles.joinUsParent}>
             <div className={styles.joinUs1}>Join us</div>
             <div className={styles.signUpAnd}>Sign up and get connected with trusted professionals.</div>
           </div>
-
-          {/* Back Button */}
-          <div 
-            className={styles.backContainer} 
-            onClick={handleBack}
-            style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              cursor: 'pointer',
-              margin: '20px 0'
-            }}
-          >
-            <Image 
-              className={styles.outlineArrowsArrowLeft} 
-              width={24} 
-              height={24} 
-              sizes="100vw" 
-              alt="Back" 
-              src="Arrow Left.svg" 
-            />
-            <div className={styles.back} style={{ marginLeft: '8px' }}>Back</div>
-          </div>
-
           <div className={styles.stepper}>
-            {["Profile", "Contacts", "Login"].map((label, i) => (
-              <div key={i} className={styles.groupParent}>
-                <div className={styles.bgParent}>
-                  <div className={styles.bg} />
-                  <div className={styles.div}>{i + 1}</div>
-                </div>
-                <div className={styles.profile}>{label}</div>
-                {i < 2 && <div className={styles.stepperChild} />}
+            <div className={styles.groupParent}>
+              <div className={styles.bgParent}>
+                <div className={styles.bg} />
+                <div className={styles.div}>1</div>
               </div>
-            ))}
+              <div className={styles.profile}>Profile</div>
+            </div>
+            <div className={styles.stepperChild} />
+            <div className={styles.groupContainer}>
+              <div className={styles.bgParent}>
+                <div className={styles.bg} />
+                <div className={styles.div}>2</div>
+              </div>
+              <div className={styles.profile}>Contacts</div>
+            </div>
+            <div className={styles.stepperChild} />
+            <div className={styles.frameDiv}>
+              <div className={styles.bgParent}>
+                <div className={styles.bg} />
+                <div className={styles.div}>3</div>
+              </div>
+              <div className={styles.profile}>Login</div>
+            </div>
           </div>
-
           <div className={styles.frameParent}>
             <div className={styles.frameWrapper}>
               <div className={styles.frameContainer}>
@@ -153,7 +136,6 @@ const ClientSignup2: NextPage = () => {
                 </div>
               </div>
             </div>
-
             <div className={styles.frameGroup}>
               <div className={styles.frameParent1}>
                 <div className={styles.numberParent}>
@@ -164,27 +146,23 @@ const ClientSignup2: NextPage = () => {
                     </div>
                     <div className={styles.contactInformation}>Contact Information</div>
                   </div>
-                  <div className={styles.provideYourPhone}>
-                    Provide your phone number so we can confirm your bookings and verify your account.
-                  </div>
+                  <div className={styles.provideYourPhone}>Provide your phone number so we can confirm your bookings and verify your account.</div>
                   <div className={styles.allFieldsRequired}>*All fields required unless noted.</div>
                 </div>
-
                 <div className={styles.cardInput}>
                   <div className={styles.labelParent}>
                     <div className={styles.label}>*Phone number</div>
+                    <div className={styles.passwordHideSee}>
+                      <div className={styles.icon}>
+                        <Image className={styles.iconChild} width={18.2} height={16} sizes="100vw" alt="" src="/Group 1.svg" />
+                      </div>
+                      <div className={styles.hide}>Hide</div>
+                    </div>
                   </div>
                   <div className={styles.inputButton}>
                     <div className={styles.input}>
                       <div className={styles.select}>
-                        <Image 
-                          className={styles.phPhilippinesIcon} 
-                          width={33} 
-                          height={24} 
-                          sizes="100vw" 
-                          alt="" 
-                          src="ph Philippines.svg" 
-                        />
+                        <Image className={styles.phPhilippinesIcon} width={33} height={24} sizes="100vw" alt="" src="/ph Philippines.svg" />
                       </div>
                       <div className={styles.webDesigns}>({countryCode})</div>
                       <input
@@ -193,118 +171,174 @@ const ClientSignup2: NextPage = () => {
                         value={phone}
                         maxLength={10}
                         onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
+                        className={styles.div6}
                         style={{ 
-                          flex: 1, 
                           border: "none", 
                           outline: "none", 
-                          background: "transparent", 
-                          fontSize: "16px" 
+                          background: "transparent"
                         }}
                       />
                     </div>
-                    <button
+                    <div 
                       className={styles.button2}
                       onClick={handleSendCode}
-                      disabled={!isPhoneValid || loading || timer > 0}
                       style={{ 
                         backgroundColor: isPhoneValid ? "#a68465" : "#ccc", 
-                        cursor: isPhoneValid ? "pointer" : "not-allowed" 
+                        cursor: isPhoneValid && !loading ? "pointer" : "not-allowed"
                       }}
                     >
-                      {loading ? "Sending..." : "Send Code"}
-                    </button>
+                      <div className={styles.sendCode}>
+                        {loading ? "Sending..." : "Send Code"}
+                      </div>
+                    </div>
                   </div>
                 </div>
 
                 {errorMessage && (
-                  <div className={styles.errorMessage}>
+                  <div style={{ color: "red", marginTop: "10px", fontSize: "14px" }}>
                     {errorMessage}
                   </div>
                 )}
 
-                {codeSent && (
-                  <>
-                    <Image 
-                      className={styles.frameChild} 
-                      width={611} 
-                      height={1.5} 
-                      sizes="100vw" 
-                      alt="" 
-                      src="Line 15.svg" 
-                    />
-
-                    <div className={styles.form}>
-                      <div className={styles.resendCode}>
-                        <div className={styles.time}>
-                          <Image 
-                            className={styles.outlineTimeClockCircle} 
-                            width={20} 
-                            height={20} 
-                            sizes="100vw" 
-                            alt="" 
-                            src="Outline / Time / Clock Circle.svg" 
-                          />
-                          <div className={styles.div7}>00 : {timer.toString().padStart(2, "0")}</div>
-                        </div>
-                        <div
-                          className={styles.resendCode1}
-                          style={{ 
-                            opacity: timer === 0 ? 1 : 0.4, 
-                            cursor: timer === 0 ? "pointer" : "not-allowed" 
+                <Image className={styles.frameChild} width={611} height={1.5} sizes="100vw" alt="" src="/Line 15.svg" />
+                <div className={styles.form}>
+                  <div className={styles.resendCode}>
+                    <div className={styles.time}>
+                      <Image className={styles.outlineTimeClockCircle} width={20} height={20} sizes="100vw" alt="" src="/Outline / Time / Clock Circle.svg" />
+                      <div className={styles.div7}>00 : {timer.toString().padStart(2, "0")}</div>
+                    </div>
+                    <div 
+                      className={styles.resendCode1}
+                      style={{ 
+                        opacity: timer === 0 ? 1 : 0.4, 
+                        cursor: timer === 0 ? "pointer" : "not-allowed" 
+                      }}
+                      onClick={() => timer === 0 && handleSendCode()}
+                    >
+                      Resend Code
+                    </div>
+                  </div>
+                  <div className={styles.inputs}>
+                    <div className={styles.list}>
+                      <div className={styles.input1} style={{ position: "relative" }}>
+                        <input
+                          ref={(el) => {
+                            if (el) {
+                              otpRefs.current[0] = el;
+                            }
                           }}
-                          onClick={() => timer === 0 && handleSendCode()}
-                        >
-                          Resend Code
-                        </div>
+                          type="text"
+                          value={otp[0]}
+                          onChange={(e) => handleOtpChange(e.target.value, 0)}
+                          maxLength={1}
+                          style={{
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            width: "100%",
+                            height: "100%",
+                            textAlign: "center",
+                            fontSize: "24px",
+                            background: "transparent",
+                            border: "none",
+                            outline: "none"
+                          }}
+                        />
                       </div>
-
-                      <div className={styles.inputs}>
-                        <div className={styles.list}>
-                          {otp.map((digit, i) => (
-                            <input
-                              key={i}
-                              ref={(el) => (otpRefs.current[i] = el!)}
-                              type="text"
-                              value={digit}
-                              onChange={(e) => handleOtpChange(e.target.value, i)}
-                              maxLength={1}
-                              style={{
-                                width: "40px",
-                                height: "60px",
-                                fontSize: "24px",
-                                textAlign: "center",
-                                borderBottom: "3px solid #a68465",
-                                background: "transparent",
-                                outline: "none"
-                              }}
-                            />
-                          ))}
-                        </div>
+                      <div className={styles.input2} style={{ position: "relative" }}>
+                        <input
+                          ref={(el) => {
+                            if (el) {
+                              otpRefs.current[1] = el;
+                            }
+                          }}
+                          type="text"
+                          value={otp[1]}
+                          onChange={(e) => handleOtpChange(e.target.value, 1)}
+                          maxLength={1}
+                          style={{
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            width: "100%",
+                            height: "100%",
+                            textAlign: "center",
+                            fontSize: "24px",
+                            background: "transparent",
+                            border: "none",
+                            outline: "none"
+                          }}
+                        />
+                      </div>
+                      <div className={styles.input2} style={{ position: "relative" }}>
+                        <input
+                          ref={(el) => {
+                            if (el) {
+                              otpRefs.current[2] = el;
+                            }
+                          }}
+                          type="text"
+                          value={otp[2]}
+                          onChange={(e) => handleOtpChange(e.target.value, 2)}
+                          maxLength={1}
+                          style={{
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            width: "100%",
+                            height: "100%",
+                            textAlign: "center",
+                            fontSize: "24px",
+                            background: "transparent",
+                            border: "none",
+                            outline: "none"
+                          }}
+                        />
+                      </div>
+                      <div className={styles.input2} style={{ position: "relative" }}>
+                        <input
+                          ref={(el) => {
+                            if (el) {
+                              otpRefs.current[3] = el;
+                            }
+                          }}
+                          type="text"
+                          value={otp[3]}
+                          onChange={(e) => handleOtpChange(e.target.value, 3)}
+                          maxLength={1}
+                          style={{
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            width: "100%",
+                            height: "100%",
+                            textAlign: "center",
+                            fontSize: "24px",
+                            background: "transparent",
+                            border: "none",
+                            outline: "none"
+                          }}
+                        />
                       </div>
                     </div>
-                  </>
-                )}
+                  </div>
+                </div>
               </div>
-
               <div className={styles.button3}>
-                <button
+                <div 
                   className={styles.signUpWrapper}
                   onClick={isNextEnabled ? handleSubmit : undefined}
-                  disabled={!isNextEnabled}
                   style={{
                     backgroundColor: isNextEnabled ? "#a68465" : "#ccc",
-                    color: "#fff",
-                    border: "none",
-                    
-                    fontSize: "22px",
                     cursor: isNextEnabled ? "pointer" : "not-allowed"
                   }}
                 >
-                  {loading ? "Verifying..." : "Next"}
-                </button>
+                  <div className={styles.webDesigns} style={{ color: isNextEnabled ? "#fff" : "#666" }}>
+                    {loading ? "Verifying..." : "Next"}
+                  </div>
+                </div>
               </div>
             </div>
-
             <div className={styles.frameWrapper}>
               <div className={styles.frameContainer}>
                 <div className={styles.numberWrapper}>
@@ -321,6 +355,17 @@ const ClientSignup2: NextPage = () => {
           </div>
         </div>
       </div>
+      <Image 
+        className={styles.outlineArrowsArrowLeft} 
+        width={24} 
+        height={24} 
+        sizes="100vw" 
+        alt="" 
+        src="/Arrow Left.svg"
+        onClick={handleBack}
+        style={{ cursor: "pointer" }}
+      />
+      <div className={styles.back} onClick={handleBack} style={{ cursor: "pointer" }}>Back</div>
     </div>
   );
 };
