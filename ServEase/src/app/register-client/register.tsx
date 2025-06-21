@@ -77,10 +77,6 @@ const ClientSignup4: NextPage = () => {
   };
 
    const validateForm = useCallback(() => {
-    if(firstName.trim() === "" && lastName.trim() === "" && !selectedMonth || !selectedDay || !selectedYear)
-    {
-      return "Fill in all required fields.";
-    }
     if (firstName.trim() === "") {
       return "First name is required.";
     }
@@ -218,6 +214,7 @@ const ClientSignup4: NextPage = () => {
                     <div className={styles.textField1}>
                       <input
                         type="text"
+                        name="first_name" 
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
                         placeholder="Enter your first name"
@@ -234,6 +231,7 @@ const ClientSignup4: NextPage = () => {
                     <div className={styles.textField1}>
                       <input
                         type="text"
+                        name="middle_name" 
                         value={middleName}
                         onChange={(e) => setMiddleName(e.target.value)}
                         placeholder="Enter your middle name"
@@ -248,6 +246,7 @@ const ClientSignup4: NextPage = () => {
                     <div className={styles.textField1}>
                       <input
                         type="text"
+                        name="last_name"
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
                         placeholder="Enter your last name"
@@ -466,6 +465,15 @@ const ClientSignup4: NextPage = () => {
                       </div>
                     </div>
                   </div>
+                  <input type="hidden" name="gender" value={selectedGender} />
+                  <input
+                    type="hidden"
+                    name="birth_month"
+                    value={selectedMonth}
+                  />
+                  <input type="hidden" name="birth_day" value={selectedDay} />
+                  <input type="hidden" name="birth_year" value={selectedYear} />
+
                    <div 
                    className={`${styles.errorMessage} ${
                     errorMessage ? styles.errorDetected : ""
