@@ -385,17 +385,10 @@ const FacilitySignup3: NextPage = () => {
                   transition: "opacity 0.2s ease",
                   cursor: isNextEnabled ? "pointer" : "not-allowed",
                 }}
+                onClick={isNextEnabled ? handleSubmit : undefined}
               >
-                <div
-                  className={styles.signUpWrapper}
-                  onClick={isNextEnabled ? handleSubmit : undefined}
-                >
-                  <div
-                    className={styles.webDesigns}
-                    style={{
-                      cursor: isNextEnabled ? "pointer" : "not-allowed",
-                    }}
-                  >
+                <div className={styles.signUpWrapper}>
+                  <div className={styles.webDesigns}>
                     {loading ? "Verifying..." : "Next"}
                   </div>
                 </div>

@@ -14,7 +14,9 @@
 }
 .webDesigns {
   position: relative;
+  text-align: center;
 }
+
 .links {
   position: absolute;
   top: calc(50% - 7.5px);
@@ -520,12 +522,6 @@
   transition: opacity 0.3s ease, transform 0.3s ease;
   position: relative;
 }
-.errorMessage {
-  color: #d8000c;
-  font-size: 16px;
-  font-weight: 500;
-  margin-bottom: 8px;
-}
 .privacyNotice {
   font-size: 14px;
   color: #666;
@@ -566,12 +562,11 @@
   gap: 24px;
 }
 .signUpWrapper {
-  position: absolute;
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: center;
 }
+
 .buttoncontainer {
   position: absolute;
   height: calc(100% - 457px);
@@ -618,20 +613,25 @@
   height: calc(100% - 457px);
   width: calc(100% - 48px);
   top: 431px;
-  right: 24px;
   bottom: 26px;
+  left: 24px;
+  right: 24px;
+
   border-radius: 32px;
   background-color: #a68465;
   overflow: hidden;
   opacity: 0.5;
-  text-align: center;
+
+  display: flex;
   align-items: center;
   justify-content: center;
+
   font-size: 22px;
   color: white;
   cursor: pointer;
   transition: all 0.2s ease;
 }
+
 .button4 {
   position: absolute;
   height: calc(100% - 457px);
