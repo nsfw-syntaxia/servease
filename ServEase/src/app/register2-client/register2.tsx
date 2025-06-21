@@ -32,7 +32,7 @@ const ClientSignup2: NextPage = () => {
       setLoading(true);
       await new Promise((resolve) => setTimeout(resolve, 1000));
       setCodeSent(true);
-      setTimer(60);
+      setTimer(30);
     } catch (error: any) {
       setErrorMessage(error.message || "Failed to send code.");
     } finally {
