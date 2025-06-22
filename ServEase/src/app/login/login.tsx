@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import type { NextPage } from "next";
 import Image from "next/image";
 import styles from "../styles/login.module.css";
+import {login} from "./actions";
 
 const Login: NextPage = () => {
   const [rememberMeChecked, setRememberMeChecked] = useState(false);
@@ -29,25 +30,41 @@ const Login: NextPage = () => {
     return emailRegex.test(email);
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     setIsClicked(true);
+    setError("");
+    setShowError(false);
 
-    setTimeout(() => {
+
+    if (!email || !password) {
+      setError("Please fill in all required fields.");
+      setShowError(true);
+      setIsClicked(false); 
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setError("Please enter a valid email address.");
+      setShowError(true);
+      setIsClicked(false); 
+      return; 
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append('email', email);
+      formData.append('password', password);
+      
+      await login(formData);
+    } 
+    catch (error) {
+      console.error("Login failed:", error);
+      setError("Login failed. Please check your credentials and try again.");
+      setShowError(true);
+    } 
+    finally {
       setIsClicked(false);
-
-      if (!email || !password) {
-        setError("Please fill in all required fields.");
-        setShowError(true);
-      } else if (!validateEmail(email)) {
-        setError("Please enter a valid email address.");
-        setShowError(true);
-      } else {
-        setError("");
-        setShowError(false);
-        console.log("Logging in with:", { email, password, rememberMeChecked });
-        router.push("/signup");
-      }
-    }, 200);
+    }
   };
 
   return (

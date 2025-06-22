@@ -19,5 +19,5 @@ export async function login(formData: FormData) {
     return redirect('/login?message=Invalid credentials');
   }
 
-  return redirect('/discover'); // Adjust to your actual landing page
+  return redirect('/discover'); 
 }
