@@ -1,9 +1,9 @@
-import FacilitySignup1 from "./registerpage1";
+import FacilitySignup from "./registerfacilitycollapsedform";
 
 export default function Home() {
   return (
     <>
-      <FacilitySignup1 />
+      <FacilitySignup />
     </>
   );
 }

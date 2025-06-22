@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-comment-textnodes */
 import Image from "next/image";
 import styles from "../styles/LandingPage.module.css";
 
@@ -190,7 +191,7 @@ const LandingPage = () => {
             />
             <b className={styles.dualDashboardAccess}>Dual Dashboard Access</b>
             <div className={styles.whetherYoureA}>
-              Whether you're a client or a service provider, access tailored
+              Whether you&apos;re a client or a service provider, access tailored
               dashboards designed for easy booking, service management, and
               real-time updates.
             </div>
