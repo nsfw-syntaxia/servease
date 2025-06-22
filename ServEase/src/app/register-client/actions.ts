@@ -1,56 +1,94 @@
 'use server';
 
-import { createClient } from '../lib/supabase/server';
+// import { createClient } from '../lib/supabase/server'; // inyohang server
 import { redirect } from 'next/navigation';
-
-export async function profile(formData: FormData) {
-  const firstName = formData.get('first_name') as string;
-    const lastName = formData.get('last_name') as string;
+import { type SignUpWithPasswordCredentials } from '@supabase/supabase-js';
+import { createClient } from '../utils/supabase/server'; // akoang giadd bag-o
 
 
-    if (!firstName || firstName.trim() === '') {
-      return redirect('/register?message=First name is required.');
-    }
-    if (!lastName || lastName.trim() === '') {
-      return redirect('/register?message=Last name is required.');
-    }
-
-    if (/^\d+$/.test(firstName)) {
-      return redirect('/register?message=First name cannot contain only numbers.');
-    }
-    if (/^\d+$/.test(lastName)) {
-      return redirect('/register?message=Last name cannot contain only numbers.');
-    }
+interface ProfileData {
+  user_id: string;
+  first_name: string;
+  last_name: string;
+  birth_date: string;
+  middle_name?: string;
+  gender?: string;
 }
 
-export async function signup(formData: FormData) {
-  const email = formData.get('email') as string;
-  const password = formData.get('password') as string;
-  const firstName = formData.get('first_name') as string;
-  const lastName = formData.get('last_name') as string;
+export async function signUp(formData: FormData): Promise<void> {
+}
 
-  const supabase = createClient();
 
-  if (password.length < 6) {
-    return redirect('/register?message=Password must be at least 6 characters long.');
+export async function profile(formData: FormData): Promise<void> {
+  console.log("--- PROFILE SERVER ACTION RUNNING ---");
+
+  const supabase = await createClient();
+
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    console.error("User is not authenticated. Cannot create profile.");
+    const { data: { user: sessionUser } } = await supabase.auth.getUser();
+    console.error("Session user: ", sessionUser?.id);
+    // vv gicomment ko ni kay weird ang flow, bag-o pa ga register pero kung di auth molog-in? 
+    //return redirect('/login?error=You must be logged in to create a profile.');
+  }
+  console.log("Authenticated user found:", user.id);
+
+  const formObject = Object.fromEntries(formData.entries());
+  
+  // 2. Extract form data
+  const firstName = formObject.first_name as string;
+  const lastName = formObject.last_name as string;
+  const middleName = formObject.middle_name as string;
+  const gender = formObject.gender as string;
+  const birthMonth = formObject.birth_month as string;
+  const birthDay = formObject.birth_day as string;
+  const birthYear = formObject.birth_year as string;
+
+  // 3. Validate form data
+  if (!firstName?.trim() || !lastName?.trim() || !birthDay || !birthMonth || !birthYear) {
+    console.log("VALIDATION FAILED: Required profile fields missing.");
+    return redirect('/register-client?error=missing_fields');
   }
 
-  const { error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: {
-      data: {
-        first_name: firstName,
-        last_name: lastName,
-      },
-    },
-  });
+  const monthMap: { [key: string]: string } = {
+    'January': '01', 'February': '02', 'March': '03', 'April': '04', 
+    'May': '05', 'June': '06', 'July': '07', 'August': '08', 
+    'September': '09', 'October': '10', 'November': '11', 'December': '12'
+  };
+  const monthNumber = monthMap[birthMonth];
+
+  if (!monthNumber) {
+    console.error("Invalid month value received:", birthMonth);
+    return redirect('/register-client?error=invalid_month');
+  }
+
+  const formattedDay = String(birthDay).padStart(2, '0');
+  const birthDate = `${birthYear}-${monthNumber}-${formattedDay}`;
+
+  const profileData: ProfileData = {
+    user_id: user.id,
+    first_name: firstName.trim(),
+    last_name: lastName.trim(),
+    birth_date: birthDate,
+  };
+
+  if (middleName?.trim()) profileData.middle_name = middleName.trim();
+  if (gender?.trim()) profileData.gender = gender.trim();
+  
+  console.log("Data to insert:", profileData);
+  
+
+  const { error } = await supabase
+    .from('client_initial_profile')
+    .insert(profileData);
 
   if (error) {
-    console.error('Sign Up Error:', error);
-    
-    return redirect('/register?message=Could not create account. User may already exist.');
+    console.error('--- SUPABASE PROFILE INSERT ERROR ---', error);
+    return redirect(`/register-client?error=database_error&code=${error.code}`);
   }
 
-  return redirect('/confirm-email');
+  console.log("SUCCESS! Profile created for user:", user.id);
+  redirect('/register2-client'); 
 }

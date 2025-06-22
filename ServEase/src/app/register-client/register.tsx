@@ -1,13 +1,17 @@
-"use client";
+"use client"; // <--- THIS IS THE FIX
 
 import type { NextPage } from "next";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback, useTransition, useRef, useEffect } from "react";
 import styles from "../styles/RegisterPage1.module.css";
-import {profile} from "../register-client/actions"
+import { profile } from "./actions";
 
 const ClientSignup4: NextPage = () => {
+  // ... (all your existing state variables like selectedMonth, firstName, etc. remain the same)
+  const [firstName, setFirstName] = useState("");
+  const [middleName, setMiddleName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
   const [selectedDay, setSelectedDay] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
@@ -16,108 +20,81 @@ const ClientSignup4: NextPage = () => {
   const [isDayOpen, setIsDayOpen] = useState(false);
   const [isYearOpen, setIsYearOpen] = useState(false);
 
-  const [firstName, setFirstName] = useState("");
-  const [middleName, setMiddleName] = useState("");
-  const [lastName, setLastName] = useState("");
-
   const [isClicked, setIsClicked] = useState(false);
+  
   const [errorMessage, setErrorMessage] = useState("");
+  const [isPending, startTransition] = useTransition();
+  
+  const formRef = useRef<HTMLFormElement>(null);
 
-  const areRequiredFieldsFilled =
-    firstName.trim() !== "" &&
-    lastName.trim() !== "" &&
-    selectedMonth !== "" &&
-    selectedDay !== "" &&
-    selectedYear !== "";
+  const router = useRouter();
 
-  const months = [
-    { value: "01", label: "January" },
-    { value: "02", label: "February" },
-    { value: "03", label: "March" },
-    { value: "04", label: "April" },
-    { value: "05", label: "May" },
-    { value: "06", label: "June" },
-    { value: "07", label: "July" },
-    { value: "08", label: "August" },
-    { value: "09", label: "September" },
-    { value: "10", label: "October" },
-    { value: "11", label: "November" },
-    { value: "12", label: "December" },
-  ];
-
-  const days = Array.from({ length: 31 }, (_, i) => ({
-    value: String(i + 1).padStart(2, "0"),
-    label: String(i + 1),
-  }));
-
-  const currentYear = new Date().getFullYear();
-  const years = Array.from({ length: 100 }, (_, i) => ({
-    value: String(currentYear - i),
-    label: String(currentYear - i),
-  }));
-
-  const handleMonthSelect = (month: { value: string; label: string }) => {
-    setSelectedMonth(month.label);
-    setIsMonthOpen(false);
-  };
-
-  const handleDaySelect = (day: { value: string; label: string }) => {
-    setSelectedDay(day.label);
-    setIsDayOpen(false);
-  };
-
-  const handleYearSelect = (year: { value: string; label: string }) => {
-    setSelectedYear(year.label);
-    setIsYearOpen(false);
-  };
-
-  const handleGenderSelect = (gender: string) => {
-    setSelectedGender(gender);
-  };
-
-   const validateForm = useCallback(() => {
-    if(firstName.trim() === "" && lastName.trim() === "" && !selectedMonth || !selectedDay || !selectedYear)
-    {
-      return "Fill in all required fields.";
+  const validateForm = useCallback(() => {
+    if (!firstName.trim() || !lastName.trim() || !selectedMonth || !selectedDay || !selectedYear) {
+      return "Please fill in all required fields.";
     }
-    if (firstName.trim() === "") {
-      return "First name is required.";
-    }
-    if (lastName.trim() === "") {
-      return "Last name is required.";
-    }
-    if (!selectedMonth || !selectedDay || !selectedYear) {
-      return "Please provide your full date of birth.";
-    }
-    return "";
+    return ""; 
   }, [firstName, lastName, selectedMonth, selectedDay, selectedYear]);
 
-  const [showError, setShowError] = useState(false);
-  const router = useRouter();
-  
-  const handleClick = () => {
+  const handleNextClick = () => {
+    console.log("1. 'Next' button clicked.");
     setIsClicked(true);
+
     setTimeout(() => {
       setIsClicked(false);
-      const validationError = validateForm(); 
-    if (validationError) {
-      setErrorMessage(validationError);
-    } else {
-      router.push("/");
-    }
-    }, 200);
-  };
 
+      const validationError = validateForm();
+      if (validationError) {
+        console.error("2. Validation FAILED:", validationError);
+        setErrorMessage(validationError);
+        return; 
+      }
+
+      console.log("2. Validation PASSED.");
+      setErrorMessage("");
+      
+      if (formRef.current) {
+        const formData = new FormData(formRef.current);
+         console.log("3. Data prepared for server action. Here are the contents:");
+         for (const [key, value] of formData.entries()) {
+  console.log(`   - ${key}: "${value}"`);
+}
+        startTransition(async () => {
+        console.log("4. Calling the server action `profile`...");
+         try {
+            await profile(formData);
+          } catch (e) {
+            console.error("5. The server action threw an error:", e);
+            setErrorMessage("Submission failed on the server. Please check logs.");
+          }
+          
+        });
+      }
+    }, 200); 
+  };
+  
    useEffect(() => {
     if (errorMessage) {
       setErrorMessage(validateForm());
     }
   }, [firstName, lastName, selectedMonth, selectedDay, selectedYear, errorMessage, validateForm]);
 
+  const isFormValid = validateForm() === "";
+  
+    const handleMonthSelect = (month: { label: string }) => { setSelectedMonth(month.label); setIsMonthOpen(false); };
+    const handleDaySelect = (day: { label:string }) => { setSelectedDay(day.label); setIsDayOpen(false); };
+    const handleYearSelect = (year: { label: string }) => { setSelectedYear(year.label); setIsYearOpen(false); };
+    const handleGenderSelect = (gender: string) => setSelectedGender(gender);
+    const backClick = () => router.push("/signup");
+    const months = Array.from({ length: 12 }, (_, i) => ({ value: String(i + 1).padStart(2, '0'), label: new Date(0, i).toLocaleString('en-US', { month: 'long' }) }));
+    const days = Array.from({ length: 31 }, (_, i) => ({ value: String(i + 1), label: String(i + 1) }));
+    const currentYear = new Date().getFullYear();
+    const years = Array.from({ length: 100 }, (_, i) => ({ value: String(currentYear - i), label: String(currentYear - i) }));
+
   return (
-    <form action={profile} className={styles.clientSignup4}>
-      <div className={styles.clientSignup4}>
-        <div className={styles.headerNavParent}>
+    <div className={styles.clientSignup4}>
+      {/* ... Your header and other JSX ... */}
+      <div className={styles.headerNavParent}>
           <div className={styles.headerNav}>
             <Image
               className={styles.serveaseLogoAlbumCover3}
@@ -142,13 +119,16 @@ const ClientSignup4: NextPage = () => {
             <div className={styles.divider} />
             <Image
               className={styles.outlineArrowsArrowLeft}
+              onClick={backClick}
               width={24}
               height={24}
               sizes="100vw"
               alt=""
               src="/Arrow Left.svg"
-            />
-            <div className={styles.back}>Back</div>
+            / >
+            <div className={styles.back}
+            onClick={backClick}>
+              Back</div>
           </div>
           <div className={styles.joinUs}>
             <div className={styles.joinUsChild} />
@@ -184,8 +164,10 @@ const ClientSignup4: NextPage = () => {
               </div>
             </div>
             <div className={styles.frameParent}>
-              <div className={styles.frameGroup}>
-                <div className={styles.frameContainer}>
+      
+      <form ref={formRef} className={styles.frameGroup}>
+        {/* ... (all your input fields and other form elements go here as before) ... */}
+        <div className={styles.frameContainer}>
                   <div className={styles.numberParent}>
                     <div className={styles.number}>
                       <div className={styles.groupDiv}>
@@ -209,6 +191,7 @@ const ClientSignup4: NextPage = () => {
                     <div className={styles.textField1}>
                       <input
                         type="text"
+                        name="first_name" 
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
                         placeholder="Enter your first name"
@@ -225,6 +208,7 @@ const ClientSignup4: NextPage = () => {
                     <div className={styles.textField1}>
                       <input
                         type="text"
+                        name="middle_name" 
                         value={middleName}
                         onChange={(e) => setMiddleName(e.target.value)}
                         placeholder="Enter your middle name"
@@ -239,6 +223,7 @@ const ClientSignup4: NextPage = () => {
                     <div className={styles.textField1}>
                       <input
                         type="text"
+                        name="last_name"
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
                         placeholder="Enter your last name"
@@ -457,27 +442,43 @@ const ClientSignup4: NextPage = () => {
                       </div>
                     </div>
                   </div>
+                  <input type="hidden" name="gender" value={selectedGender} />
+                  <input
+                    type="hidden"
+                    name="birth_month"
+                    value={selectedMonth}
+                  />
+                  <input type="hidden" name="birth_day" value={selectedDay} />
+                  <input type="hidden" name="birth_year" value={selectedYear} />
+
                    <div 
                    className={`${styles.errorMessage} ${
-                    errorMessage ? styles.errorDetected : ""
+                    errorMessage ? styles.errorDetected : ""}
                   }`}
                 >
                   {errorMessage}
                   </div>
                 </div>
-                <div
-                  className={`${styles.button2} ${
-                    validateForm() === "" ? styles.filled : ""}
-                    ${isClicked ? styles.clicked : ""
-                  }`}
-                   onClick={handleClick}
-                >
-                  <div className={styles.signUpWrapper}>
-                    <div className={styles.webDesigns}>Next</div>
-                  </div>
-                </div>
-              </div>
-              <div className={styles.frameWrapper}>
+        
+        {/* --- MODIFIED BUTTON --- */}
+        <button
+          // CRITICAL: Change type to "button" to prevent auto-submission
+          type="button" 
+          disabled={isPending} // Only disable while submitting
+          // Use isClicked for your animation and isFormValid for styling
+          className={`${styles.button2} ${isFormValid ? styles.filled : ""} ${
+            isClicked ? styles.clicked : "" // Assuming you have a .clicked class for animation
+          } ${isPending ? styles.submitting : ""}`}
+          onClick={handleNextClick} // This is our new master handler
+        >
+          <div className={styles.signUpWrapper}>
+            <div className={styles.webDesigns}>
+              Next
+            </div>
+          </div>
+        </button>
+      </form>
+       <div className={styles.frameWrapper}>
                 <div className={styles.frameWrapper1}>
                   <div className={styles.numberWrapper}>
                     <div className={styles.number1}>
@@ -508,8 +509,7 @@ const ClientSignup4: NextPage = () => {
             </div>
           </div>
         </div>
-      </div>
-    </form>
+    </div>
   );
 };
 

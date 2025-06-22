@@ -1,9 +1,10 @@
-"use client"
+"use client";
 
-import type { NextPage } from 'next';
+import type { NextPage } from "next";
 import Image from "next/image";
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from "react";
 import styles from "../styles/RegisterPage2.module.css";
+import {addContactAndCompleteProfile} from "./actions";
 
 const ClientSignup2: NextPage = () => {
   const [phone, setPhone] = useState("");
@@ -20,7 +21,7 @@ const ClientSignup2: NextPage = () => {
   const isNextEnabled = codeSent && isOtpValid;
 
   const handleBack = () => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       window.history.back();
     }
   };
@@ -28,7 +29,8 @@ const ClientSignup2: NextPage = () => {
   const handleSendCode = async () => {
     setErrorMessage("");
     try {
-      if (!isPhoneValid) throw new Error("Enter a valid 10-digit phone number.");
+      if (!isPhoneValid)
+        throw new Error("Enter a valid 10-digit phone number.");
       setLoading(true);
       await new Promise((resolve) => setTimeout(resolve, 1000));
       setCodeSent(true);
@@ -61,11 +63,13 @@ const ClientSignup2: NextPage = () => {
 
   const handleSubmit = async () => {
     setErrorMessage("");
-    try {
       if (!isOtpValid) throw new Error("Please enter a valid 4-digit code");
       setLoading(true);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      alert("Verification successful!");
+    try{
+     const formData = new FormData();
+      formData.append('contact_number', countryCode + phone);
+      await addContactAndCompleteProfile(formData);
+
     } catch (error: any) {
       setErrorMessage(error.message || "Verification failed");
     } finally {
@@ -76,7 +80,14 @@ const ClientSignup2: NextPage = () => {
   return (
     <div className={styles.clientSignup2}>
       <div className={styles.headerNav}>
-        <Image className={styles.serveaseLogoAlbumCover3} width={40} height={40} sizes="100vw" alt="" src="/servease logo.svg" />
+        <Image
+          className={styles.serveaseLogoAlbumCover3}
+          width={40}
+          height={40}
+          sizes="100vw"
+          alt=""
+          src="/servease logo.svg"
+        />
         <div className={styles.links}>
           <div className={styles.home}>Home</div>
           <div className={styles.webDesigns}>Web designs</div>
@@ -95,7 +106,9 @@ const ClientSignup2: NextPage = () => {
         <div className={styles.conten}>
           <div className={styles.joinUsParent}>
             <div className={styles.joinUs1}>Join us</div>
-            <div className={styles.signUpAnd}>Sign up and get connected with trusted professionals.</div>
+            <div className={styles.signUpAnd}>
+              Sign up and get connected with trusted professionals.
+            </div>
           </div>
           <div className={styles.stepper}>
             <div className={styles.groupParent}>
@@ -144,17 +157,31 @@ const ClientSignup2: NextPage = () => {
                       <div className={styles.bg3} />
                       <div className={styles.div3}>2</div>
                     </div>
-                    <div className={styles.contactInformation}>Contact Information</div>
+                    <div className={styles.contactInformation}>
+                      Contact Information
+                    </div>
                   </div>
-                  <div className={styles.provideYourPhone}>Provide your phone number so we can confirm your bookings and verify your account.</div>
-                  <div className={styles.allFieldsRequired}>*All fields required unless noted.</div>
+                  <div className={styles.provideYourPhone}>
+                    Provide your phone number so we can confirm your bookings
+                    and verify your account.
+                  </div>
+                  <div className={styles.allFieldsRequired}>
+                    *All fields required unless noted.
+                  </div>
                 </div>
                 <div className={styles.cardInput}>
                   <div className={styles.labelParent}>
                     <div className={styles.label}>*Phone number</div>
                     <div className={styles.passwordHideSee}>
                       <div className={styles.icon}>
-                        <Image className={styles.iconChild} width={18.2} height={16} sizes="100vw" alt="" src="/Group 1.svg" />
+                        <Image
+                          className={styles.iconChild}
+                          width={18.2}
+                          height={16}
+                          sizes="100vw"
+                          alt=""
+                          src="/Group 1.svg"
+                        />
                       </div>
                       <div className={styles.hide}>Hide</div>
                     </div>
@@ -162,7 +189,14 @@ const ClientSignup2: NextPage = () => {
                   <div className={styles.inputButton}>
                     <div className={styles.input}>
                       <div className={styles.select}>
-                        <Image className={styles.phPhilippinesIcon} width={33} height={24} sizes="100vw" alt="" src="/ph Philippines.svg" />
+                        <Image
+                          className={styles.phPhilippinesIcon}
+                          width={33}
+                          height={24}
+                          sizes="100vw"
+                          alt=""
+                          src="/ph Philippines.svg"
+                        />
                       </div>
                       <div className={styles.webDesigns}>({countryCode})</div>
                       <input
@@ -170,21 +204,24 @@ const ClientSignup2: NextPage = () => {
                         placeholder="Enter 10-digit number"
                         value={phone}
                         maxLength={10}
-                        onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
+                        onChange={(e) =>
+                          setPhone(e.target.value.replace(/\D/g, ""))
+                        }
                         className={styles.div6}
-                        style={{ 
-                          border: "none", 
-                          outline: "none", 
-                          background: "transparent"
+                        style={{
+                          border: "none",
+                          outline: "none",
+                          background: "transparent",
                         }}
                       />
                     </div>
-                    <div 
+                    <div
                       className={styles.button2}
                       onClick={handleSendCode}
-                      style={{ 
-                        backgroundColor: isPhoneValid ? "#a68465" : "#ccc", 
-                        cursor: isPhoneValid && !loading ? "pointer" : "not-allowed"
+                      style={{
+                        backgroundColor: isPhoneValid ? "#a68465" : "#ccc",
+                        cursor:
+                          isPhoneValid && !loading ? "pointer" : "not-allowed",
                       }}
                     >
                       <div className={styles.sendCode}>
@@ -195,23 +232,45 @@ const ClientSignup2: NextPage = () => {
                 </div>
 
                 {errorMessage && (
-                  <div style={{ color: "red", marginTop: "10px", fontSize: "14px" }}>
+                  <div
+                    style={{
+                      color: "red",
+                      marginTop: "10px",
+                      fontSize: "14px",
+                    }}
+                  >
                     {errorMessage}
                   </div>
                 )}
 
-                <Image className={styles.frameChild} width={611} height={1.5} sizes="100vw" alt="" src="/Line 15.svg" />
+                <Image
+                  className={styles.frameChild}
+                  width={611}
+                  height={1.5}
+                  sizes="100vw"
+                  alt=""
+                  src="/Line 15.svg"
+                />
                 <div className={styles.form}>
                   <div className={styles.resendCode}>
                     <div className={styles.time}>
-                      <Image className={styles.outlineTimeClockCircle} width={20} height={20} sizes="100vw" alt="" src="/Outline / Time / Clock Circle.svg" />
-                      <div className={styles.div7}>00 : {timer.toString().padStart(2, "0")}</div>
+                      <Image
+                        className={styles.outlineTimeClockCircle}
+                        width={20}
+                        height={20}
+                        sizes="100vw"
+                        alt=""
+                        src="/Outline / Time / Clock Circle.svg"
+                      />
+                      <div className={styles.div7}>
+                        00 : {timer.toString().padStart(2, "0")}
+                      </div>
                     </div>
-                    <div 
+                    <div
                       className={styles.resendCode1}
-                      style={{ 
-                        opacity: timer === 0 ? 1 : 0.4, 
-                        cursor: timer === 0 ? "pointer" : "not-allowed" 
+                      style={{
+                        opacity: timer === 0 ? 1 : 0.4,
+                        cursor: timer === 0 ? "pointer" : "not-allowed",
                       }}
                       onClick={() => timer === 0 && handleSendCode()}
                     >
@@ -220,7 +279,10 @@ const ClientSignup2: NextPage = () => {
                   </div>
                   <div className={styles.inputs}>
                     <div className={styles.list}>
-                      <div className={styles.input1} style={{ position: "relative" }}>
+                      <div
+                        className={styles.input1}
+                        style={{ position: "relative" }}
+                      >
                         <input
                           ref={(el) => {
                             if (el) {
@@ -241,11 +303,14 @@ const ClientSignup2: NextPage = () => {
                             fontSize: "24px",
                             background: "transparent",
                             border: "none",
-                            outline: "none"
+                            outline: "none",
                           }}
                         />
                       </div>
-                      <div className={styles.input2} style={{ position: "relative" }}>
+                      <div
+                        className={styles.input2}
+                        style={{ position: "relative" }}
+                      >
                         <input
                           ref={(el) => {
                             if (el) {
@@ -266,11 +331,14 @@ const ClientSignup2: NextPage = () => {
                             fontSize: "24px",
                             background: "transparent",
                             border: "none",
-                            outline: "none"
+                            outline: "none",
                           }}
                         />
                       </div>
-                      <div className={styles.input2} style={{ position: "relative" }}>
+                      <div
+                        className={styles.input2}
+                        style={{ position: "relative" }}
+                      >
                         <input
                           ref={(el) => {
                             if (el) {
@@ -291,11 +359,14 @@ const ClientSignup2: NextPage = () => {
                             fontSize: "24px",
                             background: "transparent",
                             border: "none",
-                            outline: "none"
+                            outline: "none",
                           }}
                         />
                       </div>
-                      <div className={styles.input2} style={{ position: "relative" }}>
+                      <div
+                        className={styles.input2}
+                        style={{ position: "relative" }}
+                      >
                         <input
                           ref={(el) => {
                             if (el) {
@@ -316,7 +387,7 @@ const ClientSignup2: NextPage = () => {
                             fontSize: "24px",
                             background: "transparent",
                             border: "none",
-                            outline: "none"
+                            outline: "none",
                           }}
                         />
                       </div>
@@ -325,15 +396,18 @@ const ClientSignup2: NextPage = () => {
                 </div>
               </div>
               <div className={styles.button3}>
-                <div 
+                <div
                   className={styles.signUpWrapper}
                   onClick={isNextEnabled ? handleSubmit : undefined}
                   style={{
                     backgroundColor: isNextEnabled ? "#a68465" : "#ccc",
-                    cursor: isNextEnabled ? "pointer" : "not-allowed"
+                    cursor: isNextEnabled ? "pointer" : "not-allowed",
                   }}
                 >
-                  <div className={styles.webDesigns} style={{ color: isNextEnabled ? "#fff" : "#666" }}>
+                  <div
+                    className={styles.webDesigns}
+                    style={{ color: isNextEnabled ? "#fff" : "#666" }}
+                  >
                     {loading ? "Verifying..." : "Next"}
                   </div>
                 </div>
@@ -355,17 +429,23 @@ const ClientSignup2: NextPage = () => {
           </div>
         </div>
       </div>
-      <Image 
-        className={styles.outlineArrowsArrowLeft} 
-        width={24} 
-        height={24} 
-        sizes="100vw" 
-        alt="" 
+      <Image
+        className={styles.outlineArrowsArrowLeft}
+        width={24}
+        height={24}
+        sizes="100vw"
+        alt=""
         src="/Arrow Left.svg"
         onClick={handleBack}
         style={{ cursor: "pointer" }}
       />
-      <div className={styles.back} onClick={handleBack} style={{ cursor: "pointer" }}>Back</div>
+      <div
+        className={styles.back}
+        onClick={handleBack}
+        style={{ cursor: "pointer" }}
+      >
+        Back
+      </div>
     </div>
   );
 };
