@@ -2,7 +2,6 @@
 
 import { createClient } from '../lib/supabase/server';
 import { redirect } from 'next/navigation';
-import { type SignUpWithPasswordCredentials } from '@supabase/supabase-js';
 
 
 interface ProfileData {
