@@ -181,26 +181,27 @@ export default function FacilitySignup2({ onNext }: Props) {
     selectedEndTime: false,
   });
 
+  const noDaysSelected = selectedDays.length === 0;
+
+  const fieldErrors = {
+    ownername: !ownername.trim(),
+    facilityname: !facilityname.trim(),
+    facilitylocation: !facilitylocation.trim(),
+    selectedCategory: !selectedCategory,
+    selectedSubcategory: !selectedSubcategory,
+    selectedStartTime: !selectedStartTime,
+    selectedEndTime: !selectedEndTime,
+  };
+
+  const allFieldsValid =
+    Object.values(fieldErrors).every((v) => !v) && !noDaysSelected;
+
   const handleNextClick = () => {
-    const noDaysSelected = selectedDays.length === 0;
-
-    const newErrors = {
-      ownername: !ownername.trim(),
-      facilityname: !facilityname.trim(),
-      facilitylocation: !facilitylocation.trim(),
-      selectedCategory: !selectedCategory,
-      selectedSubcategory: !selectedSubcategory,
-      selectedStartTime: !selectedStartTime,
-      selectedEndTime: !selectedEndTime,
-    };
-
-    setErrors(newErrors);
-
-    const hasError = Object.values(newErrors).some((e) => e) || noDaysSelected;
-    setShowErrorBox(hasError);
+    setErrors(fieldErrors);
+    setShowErrorBox(!allFieldsValid);
     setShowRowError(noDaysSelected);
 
-    if (hasError) return;
+    if (!allFieldsValid) return;
 
     console.log("All fields valid. Continue to next step.");
     onNext();
@@ -612,9 +613,17 @@ export default function FacilitySignup2({ onNext }: Props) {
         </div>
       </div>
 
-      <div className={styles.button2} onClick={handleNextClick}>
+      <div
+        className={styles.button2}
+        style={{
+          backgroundColor: "#a68465",
+          opacity: allFieldsValid ? "1" : "0.5",
+          transition: "opacity 0.2s ease",
+        }}
+        onClick={handleNextClick}
+      >
         <div className={styles.signUpWrapper}>
-          <div className={styles.webDesigns}>Next</div>
+          <div className={styles.webDesigns12}>Next</div>
         </div>
       </div>
     </div>
