@@ -2,11 +2,8 @@
 
 // import { createClient } from '../lib/supabase/server'; // inyohang server
 import { redirect } from 'next/navigation';
-<<<<<<< HEAD
-=======
 import { type SignUpWithPasswordCredentials } from '@supabase/supabase-js';
 import { createClient } from '../utils/supabase/server'; // akoang giadd bag-o
->>>>>>> 3a2f0229fe5c1a6f0216faaae7f7b3ca26cba32e
 
 
 interface ProfileData {
@@ -33,8 +30,6 @@ export async function profile(formData: FormData): Promise<void> {
     console.error("User is not authenticated. Cannot create profile.");
     const { data: { user: sessionUser } } = await supabase.auth.getUser();
     console.error("Session user: ", sessionUser?.id);
-    // vv gicomment ko ni kay weird ang flow, bag-o pa ga register pero kung di auth molog-in? 
-    //return redirect('/login?error=You must be logged in to create a profile.');
   }
   console.log("Authenticated user found:", user.id);
 
