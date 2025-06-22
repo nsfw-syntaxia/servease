@@ -802,6 +802,65 @@
   z-index: 0;
 }
 
+.onlineBooking,
+.serviceDirectory,
+.dualDahsboard {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.onlineBooking:hover,
+.serviceDirectory:hover,
+.dualDahsboard:hover {
+  transform: translateY(-10px);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.icon,
+.intersectIcon,
+.intersectIcon1,
+.intersectIcon2,
+.intersectIcon3,
+.intersectIcon4,
+.intersectIcon5 {
+  transition: transform 0.3s ease;
+}
+
+.onlineBooking:hover .intersectIcon {
+  transform: scale(1.1);
+}
+
+.onlineBooking:hover .intersectIcon1 {
+  transform: scale(1.1);
+}
+
+.onlineBooking:hover .icon {
+  transform: scale(1.15);
+}
+
+.serviceDirectory:hover .intersectIcon4 {
+  transform: scale(1.15);
+}
+
+.serviceDirectory:hover .intersectIcon5 {
+  transform: scale(1.1);
+}
+
+.serviceDirectory:hover .icon {
+  transform: scale(1.15);
+}
+
+.dualDahsboard:hover .intersectIcon2 {
+  transform: scale(1.1);
+}
+
+.dualDahsboard:hover .intersectIcon3 {
+  transform: scale(1.15);
+}
+
+.dualDahsboard:hover .icon {
+  transform: scale(1.15);
+}
+
 /* why choose */
 
 .whyChooseSection {
