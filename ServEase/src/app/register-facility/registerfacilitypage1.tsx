@@ -40,6 +40,7 @@ export default function FacilitySignup1({ onNext }: Props) {
   };
 
   const handleSignUpClick = () => {
+    if (!isFormValid) return;
     setButtonClicked(true);
     setTimeout(() => setButtonClicked(false), 200);
 
@@ -220,9 +221,12 @@ export default function FacilitySignup1({ onNext }: Props) {
           <div className={styles.errorMessage}>{error}</div>
         </div>
         <div
-          className={`${styles.buttoncontainer} ${
-            buttonClicked ? styles.clicked : ""
-          } ${isFormValid ? "" : styles.disabled}`}
+          className={styles.buttoncontainer}
+          style={{
+            backgroundColor: "#a68465",
+            opacity: isFormValid ? "1" : "0.5",
+            transition: "opacity 0.2s ease",
+          }}
           onClick={handleSignUpClick}
         >
           <div className={styles.signup}>

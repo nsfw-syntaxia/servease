@@ -12,7 +12,7 @@ import FacilitySignup4 from "./registerfacilitypage4";
 
 function Stepper({ activeStep }: { activeStep: number }) {
   const getStepClass = (step: number) => {
-    if (step === 4) return styles.groupParent1;
+    if (step === 5) return styles.groupParent1;
     return activeStep === step ? styles.groupParent : styles.groupContainer;
   };
 
