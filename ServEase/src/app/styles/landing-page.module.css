@@ -1158,6 +1158,37 @@
   align-items: center;
 }
 
+.register.hiddenRegister {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.register.showRegister {
+  opacity: 1;
+  transition: opacity 0.8s ease;
+}
+
+.register .slideInLeft,
+.register .slideInRight {
+  opacity: 0;
+  transform: translateX(-80px);
+}
+
+.register .slideInRight {
+  transform: translateX(80px);
+}
+
+.showRegister .slideInLeft {
+  animation: slideFromLeft 1s ease-out forwards;
+  animation-fill-mode: forwards;
+}
+
+.showRegister .slideInRight {
+  animation: slideFromRight 1s ease-out forwards;
+  animation-delay: 0.2s;
+  animation-fill-mode: forwards;
+}
+
 .background {
   position: relative;
   min-height: 336px;
@@ -1196,29 +1227,93 @@
   width: 355.4px;
   height: 55.5px;
 }
+
 .link {
   position: absolute;
   border-radius: var(--br-12);
-  background-color: var(--color-gray-100);
-  border: 1px solid var(--color-tan);
+  background-color: transparent;
+  border: 1px solid #402f27;
   box-sizing: border-box;
-  width: 159px;
+  width: 160px;
   height: 56px;
   text-align: center;
-  color: var(--color-white);
+  color: #402f27;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
-  padding: 20px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
   bottom: 10%;
   left: 13%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  overflow: hidden;
 }
+
+.link:hover {
+  background-color: var(--color-antiquewhite);
+  border: 1px solid #402f27;
+  transform: scale(1.05);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.link:hover .getStarted {
+  color: #402f27;
+  font-weight: 600;
+}
+
+.link1 {
+  position: absolute;
+  border-radius: var(--br-12);
+  background-color: transparent;
+  border: 1px solid var(--color-antiquewhite);
+  box-sizing: border-box;
+  width: 160px;
+  height: 56px;
+  text-align: center;
+  color: var(--color-antiquewhite);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  bottom: 10%;
+  left: 13%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.link1:hover {
+  background-color: var(--color-antiquewhite);
+  border: 1px solid var(--color-antiquewhite);
+  transform: scale(1.05);
+  box-shadow: 0px 8px 16px rgba(255, 255, 255, 0.1);
+}
+
+.link1:hover .getStarted1 {
+  color: #402f27;
+  font-weight: 600;
+}
+
 .getStarted {
   line-height: 15px;
+  font-weight: 400;
+  font-size: 14px;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+  color: #402f27;
+}
+
+.getStarted1 {
+  line-height: 15px;
   font-weight: 500;
-  width: 83.3px;
-  height: 15px;
-  justify-content: center;
+  font-size: 14px;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+  color: var(--color-antiquewhite);
 }
 
 .serveaseLogoAlbumCover32 {
@@ -1230,19 +1325,22 @@
   object-fit: cover;
   z-index: 0;
 }
+
 .background1 {
   position: relative;
   min-height: 336px;
   min-width: 558px;
   border-radius: var(--br-20);
-  background-color: var(--color-gray-100);
+  background-color: #402f27;
   color: var(--color-antiquewhite);
 }
+
 .heading21 {
   width: calc(100% - 160px);
   height: 90px;
   font-size: var(--font-size-30);
 }
+
 .areYouOffering {
   line-height: 45px;
   display: flex;
@@ -1252,23 +1350,9 @@
   margin-top: 13%;
   margin-left: 20%;
 }
-.link1 {
-  position: absolute;
-  border-radius: var(--br-12);
-  background-color: var(--color-antiquewhite);
-  border: 1px solid var(--color-antiquewhite);
-  box-sizing: border-box;
-  width: 159px;
-  height: 56px;
-  text-align: center;
-  color: var(--color-white);
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  padding: 20px;
-  bottom: 10%;
-  left: 13%;
-}
+
+/* footer */
+
 .serveaseLogoAlbumCover1 {
   position: absolute;
   width: 145px;
@@ -1305,16 +1389,6 @@
   display: inline-block;
   width: 359px;
 }
-
-/*.smartscheduling {
-  position: absolute;
-  top: 2500px;
-  left: 537px;
-  border-radius: var(--br-20);
-  background-color: var(--color-antiquewhite);
-  width: 384px;
-  height: 210px;
-}*/
 
 .contactUs {
   position: absolute;

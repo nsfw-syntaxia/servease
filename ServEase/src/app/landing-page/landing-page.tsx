@@ -23,9 +23,12 @@ const LandingPage = () => {
   const [showWhatWeOffer, setShowWhatWeOffer] = useState(false);
   const whyChooseRef = useRef<HTMLDivElement>(null);
   const [showWhyChoose, setShowWhyChoose] = useState(false);
+  const registerRef = useRef<HTMLDivElement>(null);
+  const [showRegister, setShowRegister] = useState(false);
   const animationTriggered = useRef(false); // prevent multiple triggers
   const offerAnimationTriggered = useRef(false); // prevent multiple triggers for offer section
   const whyChooseAnimationTriggered = useRef(false); // prevent multiple triggers for why choose section
+  const registerAnimationTriggered = useRef(false);
 
   useEffect(() => {
     setNavDropped(true);
@@ -107,6 +110,26 @@ const LandingPage = () => {
       }
     );
 
+    const registerObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (
+            entry.isIntersecting &&
+            window.scrollY > 200 &&
+            !registerAnimationTriggered.current
+          ) {
+            registerAnimationTriggered.current = true;
+            setShowRegister(true);
+            registerObserver.disconnect();
+          }
+        });
+      },
+      {
+        threshold: 0.2,
+        rootMargin: "0px 0px -25% 0px",
+      }
+    );
+
     if (aboutRef.current) {
       observer.observe(aboutRef.current);
     }
@@ -119,11 +142,16 @@ const LandingPage = () => {
       whyChooseObserver.observe(whyChooseRef.current);
     }
 
+    if (registerRef.current) {
+      registerObserver.observe(registerRef.current);
+    }
+
     return () => {
       clearInterval(interval);
       clearTimeout(heroTimeout);
       observer.disconnect();
       offerObserver.disconnect();
+      registerObserver.disconnect();
     };
   }, []);
 
@@ -459,20 +487,25 @@ const LandingPage = () => {
         </div>
       </div>
 
-      {/* -----SIGN IN SECTION----- */}
-      <div className={styles.register}>
-        <div className={styles.background}>
+      {/* signup */}
+      <div
+        ref={registerRef}
+        className={`${styles.register} ${
+          showRegister ? styles.showRegister : styles.hiddenRegister
+        }`}
+      >
+        <div className={`${styles.background} ${styles.slideInLeft}`}>
           <div className={styles.heading2}>
             <b className={styles.areYouLookingContainer}>
               <span className={styles.aboutUsTxtContainer}>
                 <p className={styles.areYouLooking}>Are You Looking</p>
-                <p className={styles.areYouLooking}>For a Service Provider ?</p>
+                <p className={styles.areYouLooking}>for a Service Provider?</p>
               </span>
             </b>
           </div>
           <div className={styles.findTrustedProfessionals}>
-            Find trusted professionals across various fields—fast, reliable, and
-            tailored to your needs.
+            Find trusted professionals across various fields — fast, reliable,
+            and tailored to your needs.
           </div>
           <div className={styles.link}>
             <div className={styles.getStarted}>Get Started</div>
@@ -495,7 +528,7 @@ const LandingPage = () => {
           />
         </div>
 
-        <div className={styles.background1}>
+        <div className={`${styles.background1} ${styles.slideInRight}`}>
           <div className={styles.heading21}>
             <b className={styles.areYouOffering}>Are You Offering a Service?</b>
           </div>
@@ -504,14 +537,14 @@ const LandingPage = () => {
             your business with ease.
           </div>
           <div className={styles.link1}>
-            <div className={styles.getStarted}>Get Started</div>
+            <div className={styles.getStarted1}>Get Started</div>
             <Image
               className={styles.svgIcon}
               width={14}
               height={14}
               sizes="100vw"
               alt=""
-              src="/SVG2.svg"
+              src="/SVG1.svg"
             />
           </div>
           <div className={styles.electricCar2svgFill} />
