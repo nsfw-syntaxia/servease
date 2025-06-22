@@ -805,27 +805,74 @@
 
 /* why choose */
 
-.whyChooseServeaseContainer {
-  margin: 5% 0 2% 12%;
-  font-size: 48px;
-  line-height: 150%;
-  text-align: left;
-  color: var(--color-gray-300);
+.whyChooseSection {
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
 }
-.whyChooseServ {
-  color: var(--color-gray);
-  font-weight: 600;
+
+.whyChooseSection.showWhyChoose {
+  opacity: 1;
 }
-.why {
-  color: var(--color-gray);
+
+.whyChooseSection.hiddenWhyChoose {
+  opacity: 0;
 }
-.choose {
-  color: var(--color-tan);
+
+.slideFromTopTitle {
+  transform: translateY(-50px);
+  opacity: 0;
+  transition: all 0.8s ease-out;
 }
-.ease {
-  color: var(--color-gray);
-  font-weight: 900;
+
+.showWhyChoose .slideFromTopTitle {
+  transform: translateY(0);
+  opacity: 1;
 }
+
+.slideFromLeft {
+  transform: translateX(-80px);
+  opacity: 0;
+  transition: all 0.8s ease-out;
+}
+
+.showWhyChoose .slideFromLeft {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.slideFromRight {
+  transform: translateX(80px);
+  opacity: 0;
+  transition: all 0.8s ease-out;
+}
+
+.showWhyChoose .slideFromRight {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* staggered animation delays for smooth sequence */
+.showWhyChoose .slideFromTopTitle {
+  transition-delay: 0.1s;
+}
+
+.showWhyChoose .allInOneBox {
+  transition-delay: 0.3s;
+}
+
+.showWhyChoose .smartschedulingBox {
+  transition-delay: 0.3s;
+}
+
+.showWhyChoose .transparentTrustworthyBox {
+  transition-delay: 0.5s;
+}
+
+.showWhyChoose .builtForGrowthBox {
+  transition-delay: 0.5s;
+}
+
+/* ensure the grid maintains its layout during animations */
 .whyChooseGrid {
   margin: 0 auto;
   justify-content: center;
@@ -840,6 +887,34 @@
   margin-bottom: 10%;
   height: auto;
 }
+
+/* existing styles for the why choose section */
+.whyChooseServeaseContainer {
+  margin: 5% 0 2% 12%;
+  font-size: 48px;
+  line-height: 150%;
+  text-align: left;
+  color: var(--color-gray-300);
+}
+
+.whyChooseServ {
+  color: var(--color-gray);
+  font-weight: 600;
+}
+
+.why {
+  color: var(--color-gray);
+}
+
+.choose {
+  color: var(--color-tan);
+}
+
+.ease {
+  color: var(--color-gray);
+  font-weight: 900;
+}
+
 .allInOneBox {
   border-radius: var(--br-20);
   position: relative;
@@ -853,6 +928,7 @@
   padding: 20px;
   min-height: 210px;
 }
+
 .allInOnePlatform {
   font-size: var(--font-size-20);
   line-height: 150%;
@@ -860,6 +936,7 @@
   text-align: center;
   margin: 0 auto;
 }
+
 .browseBookAnd {
   line-height: 150%;
   font-family: var(--font-benne);
@@ -869,6 +946,7 @@
   margin-top: 3%;
   max-width: 209px;
 }
+
 .intersectIcon8 {
   position: absolute;
   bottom: 0px;
@@ -877,6 +955,7 @@
   height: 91px;
   z-index: 0;
 }
+
 .smartschedulingBox {
   border-radius: var(--br-20);
   background-color: var(--color-antiquewhite);
@@ -891,6 +970,7 @@
   padding: 20px;
   min-height: 210px;
 }
+
 .wrapperIntersect {
   position: absolute;
   width: 107px;
@@ -899,6 +979,7 @@
   top: -30px;
   z-index: 0;
 }
+
 .intersectIcon6 {
   width: 100%;
   height: 100%;
@@ -908,6 +989,7 @@
   right: center;
   transform: scale(1.374);
 }
+
 .landingPageInner {
   position: absolute;
   top: 25px;
@@ -918,6 +1000,7 @@
   height: 47px;
   z-index: 100;
 }
+
 .smartScheduling {
   font-size: var(--font-size-20);
   line-height: 150%;
@@ -926,6 +1009,7 @@
   margin: 0 auto;
   margin-bottom: 3%;
 }
+
 .avoidConflictsWith {
   line-height: 150%;
   font-family: var(--font-benne);
@@ -935,12 +1019,17 @@
   margin-bottom: 5%;
   max-width: 252px;
 }
+
 .transparentTrustworthyBox {
   grid-column: span 2 / span 2;
   grid-column-start: 1;
   grid-row-start: 2;
   border-radius: var(--br-20);
-  background-color: var(--color-antiquewhite);
+  background-image: url("/WhyChoose.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: var(--color-antiquewhite); /* fallback color */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -948,7 +1037,10 @@
   text-align: center;
   padding: 20px;
   min-height: 250px;
+  position: relative;
+  overflow: hidden; /* ensures image doesn't overflow the border radius */
 }
+
 .transparentTrustworthy {
   font-size: var(--font-size-20);
   line-height: 150%;
@@ -956,6 +1048,7 @@
   text-align: center;
   margin-bottom: 2%;
 }
+
 .makeConfidentDecisions {
   line-height: 150%;
   font-family: var(--font-benne);
@@ -964,6 +1057,7 @@
   margin: 0 auto;
   margin-bottom: 4%;
 }
+
 .builtForGrowthBox {
   grid-row: span 2 / span 2;
   grid-column-start: 3;
@@ -981,6 +1075,7 @@
   padding: 20px;
   min-height: 486px;
 }
+
 .wrapperIntersect1 {
   position: absolute;
   width: 343.8px;
@@ -989,6 +1084,7 @@
   left: -15px;
   z-index: 0;
 }
+
 .intersectIcon7 {
   width: 100%;
   height: 100%;
@@ -997,11 +1093,13 @@
   transform: scale(1.116);
   z-index: -2;
 }
+
 .builtForGrowthDiv {
   z-index: 2;
   margin-top: 10%;
   height: auto;
 }
+
 .builtForGrowth {
   font-size: var(--font-size-20);
   line-height: 150%;
@@ -1009,6 +1107,7 @@
   margin-bottom: 10%;
   text-align: center;
 }
+
 .boostYourPresence {
   line-height: 150%;
   font-family: var(--font-benne);
@@ -1017,6 +1116,7 @@
   text-align: center;
   max-width: 276px;
 }
+
 .instantMessagingDiv {
   z-index: 2;
   margin-bottom: 10%;
@@ -1024,6 +1124,7 @@
   height: auto;
   text-align: left;
 }
+
 .instantMessaging {
   font-size: var(--font-size-20);
   line-height: 150%;
@@ -1031,6 +1132,7 @@
   text-align: left;
   margin-bottom: 10%;
 }
+
 .connectInstantlyFor {
   line-height: 150%;
   font-family: var(--font-benne);
@@ -1039,6 +1141,9 @@
   margin-top: 5%;
   max-width: 277px;
 }
+
+/* regis */
+
 .register {
   position: relative;
   min-height: 336px;
@@ -1052,6 +1157,7 @@
   justify-content: center;
   align-items: center;
 }
+
 .background {
   position: relative;
   min-height: 336px;
@@ -1059,11 +1165,13 @@
   border-radius: var(--br-20);
   background-color: var(--color-antiquewhite);
 }
+
 .heading2 {
   width: calc(100% - 160px);
   height: 90px;
   font-size: var(--font-size-30);
 }
+
 .areYouLookingContainer {
   line-height: 45px;
   display: flex;
@@ -1073,9 +1181,11 @@
   margin-top: 13%;
   margin-left: 20%;
 }
+
 .areYouLooking {
   margin: 0;
 }
+
 .findTrustedProfessionals {
   position: absolute;
   top: 149px;

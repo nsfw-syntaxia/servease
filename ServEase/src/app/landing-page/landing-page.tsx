@@ -21,8 +21,11 @@ const LandingPage = () => {
   const [showAboutUs, setShowAboutUs] = useState(false);
   const whatWeOfferRef = useRef<HTMLDivElement>(null);
   const [showWhatWeOffer, setShowWhatWeOffer] = useState(false);
+  const whyChooseRef = useRef<HTMLDivElement>(null);
+  const [showWhyChoose, setShowWhyChoose] = useState(false);
   const animationTriggered = useRef(false); // prevent multiple triggers
   const offerAnimationTriggered = useRef(false); // prevent multiple triggers for offer section
+  const whyChooseAnimationTriggered = useRef(false); // prevent multiple triggers for why choose section
 
   useEffect(() => {
     setNavDropped(true);
@@ -83,12 +86,37 @@ const LandingPage = () => {
       }
     );
 
+    // intersection observer for why choose section
+    const whyChooseObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (
+            entry.isIntersecting &&
+            window.scrollY > 150 &&
+            !whyChooseAnimationTriggered.current
+          ) {
+            whyChooseAnimationTriggered.current = true;
+            setShowWhyChoose(true);
+            whyChooseObserver.disconnect();
+          }
+        });
+      },
+      {
+        threshold: 0.2,
+        rootMargin: "0px 0px -20% 0px",
+      }
+    );
+
     if (aboutRef.current) {
       observer.observe(aboutRef.current);
     }
 
     if (whatWeOfferRef.current) {
       offerObserver.observe(whatWeOfferRef.current);
+    }
+
+    if (whyChooseRef.current) {
+      whyChooseObserver.observe(whyChooseRef.current);
     }
 
     return () => {
@@ -329,88 +357,103 @@ const LandingPage = () => {
         </div>
       </div>
 
-      {/* -----WHY CHOOSE SERVEASE----- */}
-      <div className={styles.whyChooseServeaseContainer}>
-        <span className={styles.whyChooseServ}>
-          <span className={styles.why}>Why</span>
-          <span className={styles.span}>{` `}</span>
-          <span className={styles.choose}>Choose</span>
-          <span className={styles.span}>{` `}</span>
-          <span>serv</span>
-        </span>
-        <span>
-          <span className={styles.ease}>ease</span>
-        </span>
-      </div>
-
-      {/* Grid Section */}
-      <div className={styles.whyChooseGrid}>
-        <div className={styles.allInOneBox}>
-          <b className={styles.allInOnePlatform}>All-in-One Platform</b>
-          <div className={styles.browseBookAnd}>
-            Browse, book, and manage services—everything in one place.
-          </div>
-          <Image
-            className={styles.intersectIcon8}
-            width={117}
-            height={91}
-            sizes="100vw"
-            alt=""
-            src="/Intersect8.svg"
-          />
+      {/* why choose - now with scroll animations */}
+      <div
+        ref={whyChooseRef}
+        className={`${styles.whyChooseSection} ${
+          showWhyChoose ? styles.showWhyChoose : styles.hiddenWhyChoose
+        }`}
+      >
+        <div
+          className={`${styles.whyChooseServeaseContainer} ${styles.slideFromTopTitle}`}
+        >
+          <span className={styles.whyChooseServ}>
+            <span className={styles.why}>Why</span>
+            <span className={styles.span}>{` `}</span>
+            <span className={styles.choose}>Choose</span>
+            <span className={styles.span}>{` `}</span>
+            <span>serv</span>
+          </span>
+          <span>
+            <span className={styles.ease}>ease</span>
+          </span>
         </div>
 
-        <div className={styles.smartschedulingBox}>
-          <div className={styles.wrapperIntersecthider}></div>
-          <div className={styles.wrapperIntersect}>
+        {/* grid Section */}
+        <div className={styles.whyChooseGrid}>
+          <div className={`${styles.allInOneBox} ${styles.slideFromLeft}`}>
+            <b className={styles.allInOnePlatform}>All-in-One Platform</b>
+            <div className={styles.browseBookAnd}>
+              Browse, book, and manage services—everything in one place.
+            </div>
             <Image
-              className={styles.intersectIcon6}
-              width={107}
-              height={84}
+              className={styles.intersectIcon8}
+              width={117}
+              height={91}
               sizes="100vw"
               alt=""
-              src="/Intersect6.svg"
+              src="/Intersect8.svg"
             />
           </div>
-          <div className={styles.landingPageInner} />
-          <b className={styles.smartScheduling}>Smart Scheduling</b>
-          <div className={styles.avoidConflictsWith}>
-            Avoid conflicts with real-time booking and calendar sync.
-          </div>
-        </div>
 
-        <div className={styles.transparentTrustworthyBox}>
-          <b className={styles.transparentTrustworthy}>
-            Transparent & Trustworthy
-          </b>
-          <div className={styles.makeConfidentDecisions}>
-            Make confident decisions with all the information at your
-            fingertips.
-          </div>
-        </div>
-
-        <div className={styles.builtForGrowthBox}>
-          <div className={styles.wrapperIntersect1}>
-            <Image
-              className={styles.intersectIcon7}
-              width={343.8}
-              height={283}
-              sizes="100vw"
-              alt=""
-              src="/Intersect7.svg"
-            />
-          </div>
-          <div className={styles.builtForGrowthDiv}>
-            <b className={styles.builtForGrowth}>Built for Growth</b>
-            <div className={styles.boostYourPresence}>
-              Boost your presence with customizable service listings, analytics
-              insights, and a professional digital storefront.
+          <div
+            className={`${styles.smartschedulingBox} ${styles.slideFromRight}`}
+          >
+            <div className={styles.wrapperIntersecthider}></div>
+            <div className={styles.wrapperIntersect}>
+              <Image
+                className={styles.intersectIcon6}
+                width={107}
+                height={84}
+                sizes="100vw"
+                alt=""
+                src="/Intersect6.svg"
+              />
+            </div>
+            <div className={styles.landingPageInner} />
+            <b className={styles.smartScheduling}>Smart Scheduling</b>
+            <div className={styles.avoidConflictsWith}>
+              Avoid conflicts with real-time booking and calendar sync.
             </div>
           </div>
-          <div className={styles.instantMessagingDiv}>
-            <b className={styles.instantMessaging}>Instant Messaging</b>
-            <div className={styles.connectInstantlyFor}>
-              Connect instantly for questions, updates, and confirmations.
+
+          <div
+            className={`${styles.transparentTrustworthyBox} ${styles.slideFromLeft}`}
+          >
+            <b className={styles.transparentTrustworthy}>
+              Transparent & Trustworthy
+            </b>
+            <div className={styles.makeConfidentDecisions}>
+              Make confident decisions with all the information at your
+              fingertips.
+            </div>
+          </div>
+
+          <div
+            className={`${styles.builtForGrowthBox} ${styles.slideFromRight}`}
+          >
+            <div className={styles.wrapperIntersect1}>
+              <Image
+                className={styles.intersectIcon7}
+                width={343.8}
+                height={283}
+                sizes="100vw"
+                alt=""
+                src="/Intersect7.svg"
+              />
+            </div>
+            <div className={styles.builtForGrowthDiv}>
+              <b className={styles.builtForGrowth}>Built for Growth</b>
+              <div className={styles.boostYourPresence}>
+                Boost your presence with customizable service listings,
+                analytics insights, and a professional digital storefront.
+              </div>
+            </div>
+            <div className={styles.instantMessagingDiv}>
+              <b className={styles.instantMessaging}>Instant Messaging</b>
+              <div className={styles.connectInstantlyFor}>
+                Connect instantly for questions, updates, and confirmations.
+              </div>
             </div>
           </div>
         </div>
