@@ -558,7 +558,7 @@ const LandingPage = () => {
         </div>
       </div>
 
-      {/* -----FOOTER----- */}
+      {/* footer */}
       <div className={styles.footer}>
         <div className={styles.footerChild} />
         <div className={styles.yourTrustedPlatform}>
@@ -574,7 +574,10 @@ const LandingPage = () => {
         <div className={styles.termsConditions}>{`Terms & Conditions`}</div>
         <div className={styles.aboutUs}>About Us</div>
         <b className={styles.quickLinks}>Quick Links</b>
-        <b className={styles.servease}>servease</b>
+        <div className={styles.servease}>
+          <span className={styles.serv}>serv</span>
+          <b>ease</b>
+        </div>
         <div className={styles.home}>Home</div>
         <div className={styles.discover}>Discover</div>
         <div className={styles.createAnAccount}>Create an Account</div>
@@ -590,7 +593,7 @@ const LandingPage = () => {
           height={40}
           sizes="100vw"
           alt=""
-          src="/Servease Logo (Album Cover) (3) 2.png"
+          src="/landingLogo.svg"
         />
       </div>
     </div>
