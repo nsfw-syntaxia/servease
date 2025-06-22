@@ -37,21 +37,18 @@
 }
 
 .navigation {
-  position: absolute;
+  position: fixed;
   top: 1.5rem;
-  margin: 0 auto;
   left: 50%;
   transform: translateX(-50%);
   width: 80%;
   max-width: 1113px;
-  height: auto;
   padding: 1rem 2rem;
-  box-sizing: border-box;
   z-index: 100;
 
   display: flex;
   flex-direction: row;
-  flex-flow: row wrap;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-evenly;
   gap: 1rem;
@@ -62,7 +59,9 @@
 
   font-size: var(--font-size-18);
   color: var(--color-black);
+  animation: bounceInTop 0.8s ease forwards;
 }
+
 .navigationlogo {
   display: flex;
   flex-direction: row;
@@ -71,31 +70,183 @@
   justify-content: space-around;
   gap: 1rem;
 }
+
+.serveaseLogoAlbumCover31 {
+  width: 40px;
+  position: relative;
+  max-height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.serveaseLogoAlbumCover31:hover {
+  transform: scale(1.1);
+}
+
+.servease1 {
+  position: relative;
+  font-size: 28px;
+  line-height: 150%;
+  text-align: left;
+  color: var(--color-tan);
+}
+
+.serv1 {
+  font-weight: 500;
+}
+
 .navigationChild {
   width: 124px;
   height: 45px;
 }
-.heroImage {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
 
+.homeParent {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  color: var(--color-gray-400);
+}
+
+.home1 {
+  width: 119px;
+  position: relative;
+  line-height: 150%;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.contactUs1 {
+  width: 147px;
+  position: relative;
+  line-height: 150%;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 27px;
+  flex-shrink: 0;
+}
+
+.home1:hover,
+.contactUs1:hover {
+  color: var(--color-tan);
+  font-weight: 700;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.button1 {
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+
+  width: 100px;
+  height: 40px;
+  border-radius: var(--br-8);
+  border: 1px solid transparent;
+  background: linear-gradient(120deg, #a68465, #c3a68c, #a68465);
+  background-size: 200% 100%;
+  background-position: 0% 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--padding-12);
+  gap: var(--gap-8);
+
+  color: var(--color-snow);
+  cursor: pointer;
+  transition: transform 0.3s ease, background-position 0.5s ease;
+}
+
+.button1:hover {
+  background-position: 100% 50%;
+  transform: scale(1.05);
+}
+
+.signIn {
+  position: relative;
+  font-weight: 600;
+  line-height: 100%;
+  color: var(--color-snow);
+  z-index: 1;
+  transition: all 0.3s ease;
+}
+
+@keyframes bounceInTop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -80px);
+  }
+  60% {
+    opacity: 1;
+    transform: translate(-50%, 15px);
+  }
+  80% {
+    transform: translate(-50%, -5px);
+  }
+  100% {
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes fadeInSoft {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.navAnimate {
+  animation: dropIn 0.8s ease-out forwards;
+}
+
+.heroFade {
+  animation: fadeInSoft 1.2s ease-in forwards;
+  animation-delay: 0.9s;
+  opacity: 0;
+}
+
+.heroImageWrapper {
+  position: relative;
   width: 90%;
   max-width: 1300px;
   height: 700px;
   margin: 60px auto;
-
   border-radius: 40px;
-  background-image: url("/LandingPageImage1.png");
+  overflow: hidden;
+}
+
+.heroImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 
-  font-size: 25px;
-  padding: 2rem;
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+  z-index: 0;
 }
+
+.heroImage.active {
+  opacity: 1;
+  z-index: 1;
+}
+
 .divinheroImage {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -103,9 +254,22 @@
   gap: 1rem;
   height: auto;
   width: 100%;
-  margin: 0 1px;
+  margin-top: 500px;
   margin-bottom: 30px;
+  padding: 2rem;
+  color: white;
 }
+
+.bridgingClientsAndContainer {
+  flex: 1;
+  width: auto;
+  font-size: 45px;
+  line-height: 150%;
+  text-align: left;
+  margin-top: -70px;
+  margin-left: 20px;
+}
+
 .discoverASmarter {
   flex: 1;
   min-width: 250px;
@@ -113,37 +277,25 @@
   line-height: 130%;
   font-family: var(--font-benne);
   width: auto;
+  margin-top: -70px;
   margin-right: 20px;
+  font-size: 25px;
 }
-.bridgingClientsAndContainer {
-  flex: 1;
-  width: auto;
-  font-size: 45px;
-  line-height: 150%;
-  text-align: left;
-  margin-left: 20px;
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
-.star {
-  width: 16px;
-  position: relative;
-  height: 16px;
-  overflow: hidden;
-  flex-shrink: 0;
-  display: none;
-}
-.joinServeaseNow {
-  width: 226px;
-  position: relative;
-  line-height: 100%;
-  font-weight: 600;
-  display: inline-block;
-  flex-shrink: 0;
-}
+
 .button {
   position: relative;
   border-radius: var(--br-8);
   background-color: var(--color-linen);
-  border: 1px solid var(--color-tan);
+  border: 2px solid transparent;
   box-sizing: border-box;
   width: 254px;
   overflow: hidden;
@@ -158,7 +310,38 @@
   color: var(--color-tan);
   font-family: var(--font-dm-sans);
   margin-top: 5%;
+
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease,
+    border 0.3s ease;
 }
+
+.button:hover {
+  background-color: var(--color-tan);
+  color: var(--color-linen);
+  transform: scale(1.04);
+  border: 2px solid var(--color-linen);
+
+  background-image: linear-gradient(
+    110deg,
+    var(--color-tan) 0%,
+    #c9a281 40%,
+    var(--color-tan) 80%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.2s linear infinite;
+}
+
+.joinServeaseNow {
+  width: 226px;
+  position: relative;
+  line-height: 100%;
+  font-weight: 600;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* abt us */
+
 .aboutUsSection {
   display: flex;
   flex-flow: row wrap;
@@ -1193,76 +1376,3 @@
   width: 1299.6px;
   height: 975px;
 }*/
-
-.serveaseLogoAlbumCover31 {
-  width: 40px;
-  position: relative;
-  max-height: 100%;
-  object-fit: cover;
-}
-
-.serv1 {
-  font-weight: 500;
-}
-.servease1 {
-  position: relative;
-  font-size: 28px;
-  line-height: 150%;
-  text-align: left;
-  color: var(--color-tan);
-}
-
-.home1 {
-  width: 119px;
-  position: relative;
-  line-height: 150%;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.contactUs1 {
-  width: 147px;
-  position: relative;
-  line-height: 150%;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 27px;
-  flex-shrink: 0;
-}
-.homeParent {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 25px;
-  color: var(--color-gray-400);
-}
-.signIn {
-  width: 75px;
-  position: relative;
-  line-height: 100%;
-  font-weight: 600;
-  display: inline-block;
-  flex-shrink: 0;
-}
-.button1 {
-  width: 100px;
-  border-radius: var(--br-8);
-  background-color: var(--color-tan);
-  border: 1px solid var(--color-tan);
-  box-sizing: border-box;
-  height: 40px;
-  overflow: hidden;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-12);
-  gap: var(--gap-8);
-  color: var(--color-snow);
-}

@@ -1,11 +1,53 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "../styles/landing-page.module.css";
 
+const heroImages = [
+  "/LandingPageImage1.png",
+  "/LandingPageImage2.png",
+  "/LandingPageImage3.png",
+  "/LandingPageImage4.png",
+  "/LandingPageImage5.png",
+  "/LandingPageImage6.png",
+];
+
 const LandingPage = () => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [navDropped, setNavDropped] = useState(false);
+  const [showHero, setShowHero] = useState(false);
+
+  useEffect(() => {
+    setNavDropped(true);
+
+    const heroTimeout = setTimeout(() => {
+      setShowHero(true);
+    }, 900); // matches nav animation duration
+
+    heroImages.forEach((src) => {
+      const img = new window.Image();
+      img.src = src;
+    });
+
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
+    }, 4000);
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(heroTimeout);
+    };
+  }, []);
+
   return (
     <div className={styles.landingPage}>
-      {/* -----NAVIGATION BAR----- */}
-      <div className={styles.navigation}>
+      {/* nav bar */}
+      <div
+        className={`${styles.navigation} ${
+          navDropped ? styles.navAnimate : ""
+        }`}
+      >
         <div className={styles.navigationlogo}>
           <Image
             className={styles.serveaseLogoAlbumCover31}
@@ -13,7 +55,7 @@ const LandingPage = () => {
             height={40}
             sizes="100vw"
             alt=""
-            src="/Servease Logo.svg"
+            src="/landingLogo.svg"
           />
           <div className={styles.servease1}>
             <span className={styles.serv1}>serv</span>
@@ -28,31 +70,39 @@ const LandingPage = () => {
         </div>
         <div className={styles.navigationChild} />
         <div className={styles.button1}>
-          <div className={styles.star} />
           <div className={styles.signIn}>Sign in</div>
-          <div className={styles.star} />
         </div>
       </div>
 
-      {/* -----HERO IMAGE----- */}
-      <div className={styles.heroImage}>
-        <div className={styles.divinheroImage}>
-          <b className={styles.bridgingClientsAndContainer}>
-            <p className={styles.areYouLooking}>{`Bridging Clients `}</p>
-            <p className={styles.areYouLooking}>and Services with Ease</p>
-          </b>
-          <div className={styles.discoverASmarter}>
-            Discover a smarter way to connect with local services. Servease
-            brings together clients and providers in a seamless digital hub
-            built for speed, trust, and ease.
-            <div className={styles.button}>
-              <div className={styles.star} />
-              <div className={styles.joinServeaseNow}>Join servease now</div>
-              <div className={styles.star} />
+      {/* hero img */}
+      {showHero && (
+        <div className={`${styles.heroImageWrapper} ${styles.heroFade}`}>
+          {heroImages.map((img, index) => (
+            <div
+              key={index}
+              className={`${styles.heroImage} ${
+                index === currentImageIndex ? styles.active : ""
+              }`}
+              style={{ backgroundImage: `url(${img})` }}
+            />
+          ))}
+
+          <div className={styles.divinheroImage}>
+            <b className={styles.bridgingClientsAndContainer}>
+              <p className={styles.areYouLooking}>Bridging Clients</p>
+              <p className={styles.areYouLooking}>and Services with Ease</p>
+            </b>
+            <div className={styles.discoverASmarter}>
+              Discover a smarter way to connect with local services. Servease
+              brings together clients and providers in a seamless digital hub
+              built for speed, trust, and ease.
+              <div className={styles.button}>
+                <div className={styles.joinServeaseNow}>Join servease now</div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* -----ABOUT US SECTION----- */}
       <div className={styles.aboutUsSection}>
