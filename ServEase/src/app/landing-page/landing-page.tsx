@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import styles from "../styles/landing-page.module.css";
+import Typewriter from "./typewriter";
 
 const heroImages = [
   "/LandingPageImage1.png",
@@ -497,10 +498,13 @@ const LandingPage = () => {
         <div className={`${styles.background} ${styles.slideInLeft}`}>
           <div className={styles.heading2}>
             <b className={styles.areYouLookingContainer}>
-              <span className={styles.aboutUsTxtContainer}>
-                <p className={styles.areYouLooking}>Are You Looking</p>
-                <p className={styles.areYouLooking}>for a Service Provider?</p>
-              </span>
+              <Typewriter
+                lines={["Are You Looking", "for a Service Provider?"]}
+                typingSpeed={120}
+                pauseBetweenLines={300}
+                pauseAtEnd={2500}
+                className={styles.aboutUsTxtContainer}
+              />
             </b>
           </div>
           <div className={styles.findTrustedProfessionals}>
@@ -529,7 +533,14 @@ const LandingPage = () => {
         </div>
         <div className={`${styles.background1} ${styles.slideInRight}`}>
           <div className={styles.heading21}>
-            <b className={styles.areYouOffering}>Are You Offering a Service?</b>
+            <Typewriter
+              lines={["Are You Offering a Service?"]}
+              typingSpeed={110}
+              pauseBetweenLines={300}
+              pauseAtEnd={3000}
+              className={styles.areYouOffering}
+              style={{ fontWeight: "bold" }}
+            />
           </div>
           <div className={styles.findTrustedProfessionals}>
             Connect with clients actively searching for what you offer. Grow
