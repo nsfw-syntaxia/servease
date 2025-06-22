@@ -485,12 +485,12 @@
   top: 100%;
   left: 0;
   right: 0;
-  background-color: white;
+  background-color: #fff;
   border: 1px solid var(--color-dimgray-300);
   border-top: none;
   border-bottom-left-radius: var(--br-12);
   border-bottom-right-radius: var(--br-12);
-  max-height: 200px;
+  max-height: 190px;
   overflow-y: auto;
   z-index: 1000;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -855,6 +855,7 @@
   align-items: flex-start;
   justify-content: flex-start;
   gap: var(--gap-24);
+  margin-bottom: -5%;
 }
 .signUpWrapper {
   position: absolute;
@@ -892,7 +893,6 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  padding: var(--padding-24);
   gap: 19px;
   text-align: left;
   font-size: var(--font-size-16);
@@ -1201,7 +1201,7 @@
   transition: all 0.2s ease;
 }
 .errorbox {
-  width: 100%;
+  width: 600px;
   background-color: #ffe6e6;
   border: 1px solid #ff4d4f;
   border-radius: 12px;
@@ -1228,11 +1228,9 @@
 }
 .messageWrapper {
   position: relative;
-  width: 600px;
+  width: 612px;
   height: 56px;
-  margin-left: 1%;
   display: flex;
-  align-self: center;
 }
 
 .privacyNotice,

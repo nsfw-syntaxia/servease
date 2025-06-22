@@ -1,5 +1,9 @@
-import { redirect } from "next/navigation";
+import FacilitySignup from "./registerfacilitycollapsedform";
 
-export default function Page() {
-  redirect("/register-facility-try/page2");
+export default function Home() {
+  return (
+    <>
+      <FacilitySignup />
+    </>
+  );
 }
