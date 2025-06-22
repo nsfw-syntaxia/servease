@@ -30,8 +30,6 @@ export async function profile(formData: FormData): Promise<void> {
     console.error("User is not authenticated. Cannot create profile.");
     const { data: { user: sessionUser } } = await supabase.auth.getUser();
     console.error("Session user: ", sessionUser?.id);
-    // vv gicomment ko ni kay weird ang flow, bag-o pa ga register pero kung di auth molog-in? 
-    //return redirect('/login?error=You must be logged in to create a profile.');
   }
   console.log("Authenticated user found:", user.id);
 
