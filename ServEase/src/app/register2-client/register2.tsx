@@ -4,6 +4,7 @@ import type { NextPage } from 'next';
 import Image from "next/image";
 import { useState, useEffect, useRef } from 'react';
 import styles from "../styles/RegisterPage2.module.css";
+import signUo from "./actions";
 
 const ClientSignup2: NextPage = () => {
   const [phone, setPhone] = useState("");
