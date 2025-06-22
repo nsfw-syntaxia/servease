@@ -184,6 +184,7 @@ input[type="password"]::-webkit-clear-button {
   appearance: none !important;
 }
 
+/* rexi's overall global css */
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap");
 
@@ -250,4 +251,42 @@ input[type="password"]::-webkit-inner-spin-button,
 input[type="password"]::-webkit-clear-button {
   display: none !important;
   appearance: none !important;
+}
+
+/* rexi unchecked duplicate global css */
+:root {
+  /* Color */
+  --color-dimgray-300: rgba(102, 102, 102, 0.35);
+  --color-dimgray-400: rgba(102, 102, 102, 0.25);
+  --color-dimgray-500: rgba(102, 102, 102, 0.8);
+  --color-gray: #111;
+  --color-white: #fff;
+  --color-dimgray-200: #604c3d;
+  --color-dimgray-100: #666;
+  --color-whitesmoke: #f8f7f3;
+  --color-tan: #a68465;
+  --color-darkslategray: #333;
+
+  /* Gap */
+  --gap-8: 8px;
+  --gap-12: 12px;
+  --gap-24: 24px;
+
+  /* Padding */
+  --padding-24: 24px;
+
+  /* BorderRadius */
+  --br-8: 8px;
+  --br-12: 12px;
+  --br-24: 24px;
+
+  /* Font */
+  --font-poppins: Poppins;
+  --font-dm-sans: DM Sans;
+
+  /* FontSize */
+  --font-size-12: 12px;
+  --font-size-14: 14px;
+  --font-size-16: 16px;
+  --font-size-24: 24px;
 }
