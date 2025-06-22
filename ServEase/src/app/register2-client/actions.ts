@@ -1,18 +1,21 @@
-"use server"
+'use server'
 
-import { createClient } from '../lib/supabase/server';
+import { createClient } from '../utils/supabase/server'; 
 import { redirect } from 'next/navigation';
 
 export async function addContactAndCompleteProfile(formData: FormData): Promise<void> {
-  console.log("--- ADD CONTACT & COMPLETE PROFILE ACTION ---");
+ console.log("--- ADD CONTACT & COMPLETE PROFILE ACTION ---");
 
-  const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const supabase = await createClient();
 
-  if (!user) {
-    console.error("User is not authenticated. Cannot proceed.");
+  const { data, error: authError } = await supabase.auth.getUser();
+
+  if (authError || !data?.user) {
+    console.error("User is not authenticated or there was an auth error:", authError);
     return redirect('/login?error=You must be logged in to complete your profile.');
   }
+
+  const user = data.user;
   console.log("Authenticated user found:", user.id);
 
   const contactNumber = formData.get('contact_number') as string;
@@ -38,15 +41,12 @@ export async function addContactAndCompleteProfile(formData: FormData): Promise<
 
   const completeProfileData = {
     ...initialProfile, 
-    contact_number: contactNumber.trim(), 
+    contact: contactNumber.trim(), 
     user_id: user.id 
   };
   
-  // IMPORTANT: The 'id' from the `client_initial_profile` table is probably not needed
-  // in the `client_complete_profiles` table, as the new table will have its own primary key.
-  // We should remove it before inserting.
   delete completeProfileData.id; 
-  delete completeProfileData.created_at; // Also good to remove the old timestamp
+  delete completeProfileData.created_at; 
 
   console.log("Data to insert into final table:", completeProfileData);
 
@@ -59,10 +59,8 @@ export async function addContactAndCompleteProfile(formData: FormData): Promise<
     return redirect(`/register-contact?error=database_insert_error&code=${insertError.code}`);
   }
 
-  // Step 6 (Optional but Recommended): Clean up the initial profile record
-  // Now that the data is successfully migrated, you can delete the temporary record.
-  // await supabase.from('client_initial_profile').delete().eq('user_id', user.id);
+  //create delete after na sa sign in koni iwork
 
   console.log("SUCCESS! User registration fully completed for:", user.id);
-  redirect('/signin'); 
+  redirect('/login'); 
 }
