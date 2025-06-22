@@ -35,7 +35,7 @@ const LandingPage = () => {
 
     const heroTimeout = setTimeout(() => {
       setShowHero(true);
-    }, 900);
+    }, 500);
 
     heroImages.forEach((src) => {
       const img = new window.Image();
@@ -515,7 +515,7 @@ const LandingPage = () => {
               height={14}
               sizes="100vw"
               alt=""
-              src="/SVG1.svg"
+              src="/SVG2.svg"
             />
           </div>
           <Image
@@ -527,7 +527,6 @@ const LandingPage = () => {
             src="/Client Logo.svg"
           />
         </div>
-
         <div className={`${styles.background1} ${styles.slideInRight}`}>
           <div className={styles.heading21}>
             <b className={styles.areYouOffering}>Are You Offering a Service?</b>

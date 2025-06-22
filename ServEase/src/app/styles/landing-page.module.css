@@ -31,8 +31,7 @@
 .faqs,
 .privacyPolicy,
 .termsConditions,
-.aboutUs,
-.contactNumber {
+.aboutUs {
   cursor: pointer;
 }
 
@@ -209,7 +208,7 @@
 
 .heroFade {
   animation: fadeInSoft 1.2s ease-in forwards;
-  animation-delay: 0.9s;
+  animation-delay: 0.5s;
   opacity: 0;
 }
 
@@ -1252,15 +1251,19 @@
 }
 
 .link:hover {
-  background-color: var(--color-antiquewhite);
+  background-color: #402f27;
   border: 1px solid #402f27;
   transform: scale(1.05);
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .link:hover .getStarted {
-  color: #402f27;
+  color: var(--color-antiquewhite);
   font-weight: 600;
+}
+
+.link:hover .svgIcon {
+  content: url("/SVG1.svg");
 }
 
 .link1 {
@@ -1298,9 +1301,13 @@
   font-weight: 600;
 }
 
+.link1:hover .svgIcon {
+  content: url("/SVG2.svg");
+}
+
 .getStarted {
   line-height: 15px;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 14px;
   white-space: nowrap;
   transition: all 0.3s ease;
