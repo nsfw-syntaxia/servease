@@ -19,7 +19,10 @@ const LandingPage = () => {
   const [showHero, setShowHero] = useState(false);
   const aboutRef = useRef<HTMLDivElement>(null);
   const [showAboutUs, setShowAboutUs] = useState(false);
-  const animationTriggered = useRef(false); // Prevent multiple triggers
+  const whatWeOfferRef = useRef<HTMLDivElement>(null);
+  const [showWhatWeOffer, setShowWhatWeOffer] = useState(false);
+  const animationTriggered = useRef(false); // prevent multiple triggers
+  const offerAnimationTriggered = useRef(false); // prevent multiple triggers for offer section
 
   useEffect(() => {
     setNavDropped(true);
@@ -59,14 +62,40 @@ const LandingPage = () => {
       }
     );
 
+    // intersection observer for what we offer section
+    const offerObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (
+            entry.isIntersecting &&
+            window.scrollY > 100 &&
+            !offerAnimationTriggered.current
+          ) {
+            offerAnimationTriggered.current = true;
+            setShowWhatWeOffer(true);
+            offerObserver.disconnect();
+          }
+        });
+      },
+      {
+        threshold: 0.2,
+        rootMargin: "0px 0px -15% 0px",
+      }
+    );
+
     if (aboutRef.current) {
       observer.observe(aboutRef.current);
+    }
+
+    if (whatWeOfferRef.current) {
+      offerObserver.observe(whatWeOfferRef.current);
     }
 
     return () => {
       clearInterval(interval);
       clearTimeout(heroTimeout);
       observer.disconnect();
+      offerObserver.disconnect();
     };
   }, []);
 
@@ -180,14 +209,23 @@ const LandingPage = () => {
         </div>
       </div>
 
-      {/* -----WHAT WE OFFER----- */}
-      <div className={styles.whatweoffer}>
-        <div className={styles.whatWeOfferContainer}>
+      {/* what we offer */}
+      <div
+        ref={whatWeOfferRef}
+        className={`${styles.whatweoffer} ${
+          showWhatWeOffer ? styles.showOffer : styles.hiddenOffer
+        }`}
+      >
+        <div
+          className={`${styles.whatWeOfferContainer} ${styles.slideFromTop}`}
+        >
           <b>{`What We `}</b>
           <span className={styles.offer}>Offer</span>
         </div>
-        <div className={styles.whatWeOfferContainerChild}>
-          {/* First Offer */}
+        <div
+          className={`${styles.whatWeOfferContainerChild} ${styles.slideFromBottom}`}
+        >
+          {/* first */}
           <div className={styles.onlineBooking}>
             <Image
               className={styles.intersectIcon}
@@ -221,7 +259,7 @@ const LandingPage = () => {
             </div>
           </div>
 
-          {/* Second Offer */}
+          {/* second */}
           <div className={styles.serviceDirectory}>
             <Image
               className={styles.intersectIcon4}
@@ -255,7 +293,7 @@ const LandingPage = () => {
             </div>
           </div>
 
-          {/* Third Offer */}
+          {/* third */}
           <div className={styles.dualDahsboard}>
             <Image
               className={styles.intersectIcon2}

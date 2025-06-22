@@ -555,41 +555,39 @@
 /* what we offer */
 
 .whatweoffer {
+  position: relative;
   width: 100%;
   height: auto;
   min-height: 780px;
   margin-top: 150px;
   padding-top: 1%;
   font-size: 25px;
+  overflow: hidden;
+
+  /* initially hide background */
+  background-color: transparent;
+  transition: background-color 0.8s ease;
+}
+
+.whatweoffer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
   background-color: var(--color-linen);
+  transition: left 1s ease;
+  z-index: 0;
 }
 
-.box {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  background-color: var(--color-linen);
-  width: 1440px;
-  height: 754px;
-}
-
-.whatWeOffer {
-  position: absolute;
-  top: 111px;
-  left: 145px;
-  width: 1154px;
-  height: 555px;
-}
-
-.content {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 1154px;
-  height: 555px;
+.whatweoffer.showOffer::before {
+  left: 0;
 }
 
 .whatWeOfferContainer {
+  position: relative;
+  z-index: 1;
   margin: 5% 0 2% 12%;
   font-size: 50px;
   line-height: 150%;
@@ -598,21 +596,75 @@
   font-family: var(--font-dm-sans);
 }
 
-.offer {
-  font-weight: 900;
-  color: var(--color-tan);
-}
-
 .whatWeOfferContainerChild {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 10px;
   padding: 40px;
   margin: 0 8%;
-  margin-bottom: 50%;
+  margin-bottom: 80px;
   height: auto;
 }
 
+.offer {
+  font-weight: 900;
+  color: var(--color-tan);
+}
+
+/* hide and show animations */
+.hiddenOffer {
+  opacity: 1;
+}
+
+.showOffer {
+  opacity: 1;
+}
+
+.slideFromTop {
+  opacity: 0;
+  transform: translateY(-60px);
+}
+
+.slideFromBottom {
+  opacity: 0;
+  transform: translateY(60px);
+}
+
+.showOffer .slideFromTop {
+  animation: slideFromTopToPosition 1s ease-out forwards;
+  animation-delay: 0.3s;
+}
+
+.showOffer .slideFromBottom {
+  animation: slideFromBottomToPosition 1s ease-out forwards;
+  animation-delay: 0.5s;
+}
+
+@keyframes slideFromTopToPosition {
+  0% {
+    opacity: 0;
+    transform: translateY(-60px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideFromBottomToPosition {
+  0% {
+    opacity: 0;
+    transform: translateY(60px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* service cards styling */
 .icon {
   display: block;
   margin: 10% auto;
@@ -750,6 +802,8 @@
   left: 0px;
   z-index: 0;
 }
+
+/* why choose */
 
 .whyChooseServeaseContainer {
   margin: 5% 0 2% 12%;
