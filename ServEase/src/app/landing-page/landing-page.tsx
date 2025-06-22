@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import styles from "../styles/landing-page.module.css";
 
@@ -17,13 +17,16 @@ const LandingPage = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [navDropped, setNavDropped] = useState(false);
   const [showHero, setShowHero] = useState(false);
+  const aboutRef = useRef<HTMLDivElement>(null);
+  const [showAboutUs, setShowAboutUs] = useState(false);
+  const animationTriggered = useRef(false); // Prevent multiple triggers
 
   useEffect(() => {
     setNavDropped(true);
 
     const heroTimeout = setTimeout(() => {
       setShowHero(true);
-    }, 900); // matches nav animation duration
+    }, 900);
 
     heroImages.forEach((src) => {
       const img = new window.Image();
@@ -32,11 +35,38 @@ const LandingPage = () => {
 
     const interval = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
-    }, 4000);
+    }, 7000);
+
+    // single intersection observer to handle the about us animation
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          // only trigger once and when user has scrolled down
+          if (
+            entry.isIntersecting &&
+            window.scrollY > 50 &&
+            !animationTriggered.current
+          ) {
+            animationTriggered.current = true;
+            setShowAboutUs(true);
+            observer.disconnect(); // disconnect immediately after triggering
+          }
+        });
+      },
+      {
+        threshold: 0.3,
+        rootMargin: "0px 0px -10% 0px", // only trigger when element is well within viewport
+      }
+    );
+
+    if (aboutRef.current) {
+      observer.observe(aboutRef.current);
+    }
 
     return () => {
       clearInterval(interval);
       clearTimeout(heroTimeout);
+      observer.disconnect();
     };
   }, []);
 
@@ -104,26 +134,31 @@ const LandingPage = () => {
         </div>
       )}
 
-      {/* -----ABOUT US SECTION----- */}
-      <div className={styles.aboutUsSection}>
-        <div className={styles.servChild}>
+      <div className={styles.spacer}></div>
+
+      {/* abt us - now initially hidden and only shows on scroll */}
+      <div
+        ref={aboutRef}
+        className={`${styles.aboutUsSection} ${
+          showAboutUs ? styles.showAbout : styles.hiddenAbout
+        }`}
+      >
+        <div className={`${styles.servChild} ${styles.slideInLeft}`}>
           <Image
             className={styles.subtractIcon}
             width={110}
             height={110}
-            sizes="100vw"
-            alt=""
+            alt="Subtract"
             src="/Subtract.png"
           />
           <div className={styles.servChild1}>100+</div>
           <div className={styles.serviceFacilities}>Service Facilities</div>
         </div>
-        <div className={styles.aboutusbox}>
+
+        <div className={`${styles.aboutusbox} ${styles.slideInRight}`}>
           <div className={styles.aboutUsChild}>
             <b className={styles.aboutUs1}>
-              <span className={styles.aboutUsTxtContainer}>
-                <span>About Us</span>
-              </span>
+              <span className={styles.aboutUsTxtContainer}>About Us</span>
             </b>
             <div className={styles.serveaseIsYour}>
               Servease is your go-to platform for discovering and connecting

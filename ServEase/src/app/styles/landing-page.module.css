@@ -354,12 +354,14 @@
   gap: 20px;
   padding: 0 1%;
 }
+
 .servChild,
 .aboutusbox {
   flex: 1 1 400px;
   min-width: 300px;
   margin: 10px 0;
 }
+
 .servChild {
   position: relative;
   border-radius: var(--br-20);
@@ -378,6 +380,7 @@
   font-size: 25px;
   font-family: var(--font-benne);
 }
+
 .subtractIcon {
   position: absolute;
   margin-top: 8%;
@@ -386,6 +389,7 @@
   height: 110px;
   object-fit: cover;
 }
+
 .servChild1 {
   position: absolute;
   margin-top: 63%;
@@ -399,6 +403,7 @@
   padding-top: 88%;
   line-height: 150%;
 }
+
 .aboutusbox {
   position: relative;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -413,6 +418,7 @@
   flex-direction: row;
   gap: 20px;
 }
+
 .aboutUsChild {
   margin-left: 5%;
   margin-bottom: 5%;
@@ -420,10 +426,12 @@
   min-width: 100px;
   flex: 1;
 }
+
 .aboutUsTxtContainer {
   width: 100%;
   color: #2e231d;
 }
+
 .aboutUs1 {
   position: relative;
   font-size: 50px;
@@ -434,6 +442,7 @@
   width: 257px;
   color: var(--color-gray-300);
 }
+
 .serveaseIsYour {
   position: relative;
   line-height: 150%;
@@ -444,6 +453,7 @@
   margin-top: 6%;
   color: #38281b;
 }
+
 .fromHomeRepairs {
   position: relative;
   line-height: 150%;
@@ -452,6 +462,7 @@
   max-width: 374.7px;
   color: #38281b;
 }
+
 .aboutUsintersect {
   position: relative;
   width: 355.7px;
@@ -460,6 +471,7 @@
   margin-right: 0%;
   flex-shrink: 0;
 }
+
 .intersectIcon9 {
   position: absolute;
   top: 0;
@@ -471,6 +483,7 @@
   background: #e0d9c7;
   z-index: 1;
 }
+
 .intersectIcon10 {
   position: absolute;
   top: 0;
@@ -485,6 +498,62 @@
   background-position: center;
   z-index: 2;
 }
+
+.slideInLeft,
+.slideInRight {
+  opacity: 0;
+  transform: translateX(-80px);
+}
+
+.slideInRight {
+  transform: translateX(80px);
+}
+
+.hiddenAbout {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.showAbout {
+  opacity: 1;
+  transition: opacity 0.8s ease;
+}
+
+.showAbout .slideInLeft {
+  animation: slideFromLeft 1s ease-out forwards;
+  animation-fill-mode: forwards;
+}
+
+.showAbout .slideInRight {
+  animation: slideFromRight 1s ease-out forwards;
+  animation-delay: 0.2s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes slideFromLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-80px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideFromRight {
+  0% {
+    opacity: 0;
+    transform: translateX(80px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* what we offer */
+
 .whatweoffer {
   width: 100%;
   height: auto;
