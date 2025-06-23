@@ -210,6 +210,7 @@ export default function FacilitySignup2({ onNext }: Props) {
       formData.append('facility_location', facilitylocation);
       formData.append('category', selectedCategory);
       formData.append('specific_category', selectedSubcategory);
+      formData.append('working_days', JSON.stringify(selectedDays));      
       formData.append('start_time', selectedStartTime);
       formData.append('end_time', selectedEndTime);
       await facilityProfile(formData);

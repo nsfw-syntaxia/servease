@@ -8,11 +8,12 @@ interface facilityProfileData {
   user_id: string;
   owner_name: string;
   facility_name: string;
-  facility_location: string;
-  category?: string;
-  specific_category?: string;
-  start_time?: string;
-  end_time?: string;
+  location: string;
+  category: string;
+  specific_category: string;
+  working_days: string[]; 
+  start_time: string;    
+  end_time: string;      
 }
 
 export async function loginCredentials(formData: FormData): Promise<void> {
@@ -47,15 +48,33 @@ export async function loginCredentials(formData: FormData): Promise<void> {
     const { data: { user: sessionUser }} = await supabase.auth.getUser();
     console.log("Session user id: ", sessionUser?.id);
   }
-  
+
   console.log("SUCCESS! User account created. Redirecting to profile setup.");
+}
+
+
+function convertTo24HourFormat(time12h: string): string {
+  if (!time12h) return '';
+
+  const [time, modifier] = time12h.split(' ');
+  let [hours, minutes] = time.split(':');
+
+  if (hours === '12') {
+    hours = modifier === 'AM' ? '00' : '12';
+  } else if (modifier === 'PM') {
+    hours = String(parseInt(hours, 10) + 12);
+  }
+
+  // Ensure hours are two digits (e.g., '09')
+  const formattedHours = hours.padStart(2, '0');
+
+  return `${formattedHours}:${minutes}:00`;
 }
 
 export async function facilityProfile(formData: FormData): Promise<void> {
   console.log("--- PROFILE SERVER ACTION RUNNING ---");
 
   const supabase = await createClient();
-
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
@@ -63,37 +82,43 @@ export async function facilityProfile(formData: FormData): Promise<void> {
     const { data: { user: sessionUser } } = await supabase.auth.getUser();
     console.error("Session user: ", sessionUser?.id);
   }
+  
   console.log("Authenticated user found:", user.id);
 
-  const formObject = Object.fromEntries(formData.entries());
-  
-  const ownerName = formObject.owner_name as string;
-  const facilityName = formObject.facility_name as string;
-  const location = formObject.facility_location as string;
-  const selectedCategory = formObject.category as string;
-  const specificCategory = formObject.specific_category as string;
-  const startTime = formObject.start_time as string;
-  const endTime = formObject.end_time as string;
+  const ownerName = formData.get('owner_name') as string;
+  const facilityName = formData.get('facility_name') as string;
+  const fac_location = formData.get('facility_location') as string;
+  const selectedCategory = formData.get('category') as string;
+  const specificCategory = formData.get('specific_category') as string;
+  const workingDaysJSON = formData.get('working_days') as string; 
+  const startTime12h = formData.get('start_time') as string;     
+  const endTime12h = formData.get('end_time') as string;        
 
-  if (!ownerName?.trim() || !facilityName?.trim() || !location.trim() || !selectedCategory.trim() || !specificCategory.trim() ||
-      !startTime || !endTime) {
+  if (!ownerName?.trim() || !facilityName?.trim() || !fac_location.trim() || 
+      !selectedCategory.trim() || !specificCategory.trim() || !workingDaysJSON ||
+      !startTime12h || !endTime12h) {
     console.log("VALIDATION FAILED: Required profile fields missing.");
     return redirect('/register-client?error=missing_fields');
   }
+
+  const parsedWorkingDays = JSON.parse(workingDaysJSON);
+
+  const formattedStartTime = convertTo24HourFormat(startTime12h);
+  const formattedEndTime = convertTo24HourFormat(endTime12h);
 
   const profileData: facilityProfileData = {
     user_id: user.id,
     owner_name: ownerName.trim(),
     facility_name: facilityName.trim(),
-    facility_location: location,
+    location: fac_location,
     category: selectedCategory,
     specific_category: specificCategory,
-    start_time: startTime,
-    end_time: endTime
+    working_days: parsedWorkingDays, 
+    start_time: formattedStartTime, 
+    end_time: formattedEndTime      
   };
   
   console.log("Data to insert:", profileData);
-  
 
   const { error } = await supabase
     .from('facility_initial_profile')
@@ -101,7 +126,7 @@ export async function facilityProfile(formData: FormData): Promise<void> {
 
   if (error) {
     console.error('--- SUPABASE PROFILE INSERT ERROR ---', error);
-    return redirect(`/register-client?error=database_error&code=${error.code}`);
+    return redirect(`/register-facility?error=database_error&message=${encodeURIComponent(error.message)}`);
   }
 
   console.log("SUCCESS! Profile created for user:", user.id);
