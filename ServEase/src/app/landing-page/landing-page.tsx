@@ -14,7 +14,6 @@ const heroImages = [
   "/LandingPageImage6.png",
 ];
 
-// typewriter context and components
 const TypewriterContext = createContext({
   globalPhase: "typing",
   registerTypewriter: (id: string) => {},
@@ -90,87 +89,75 @@ const TypewriterText = ({
   pauseBetweenLines = 500,
   className = "",
   style = {},
+  shouldStart = true,
 }) => {
   const [displayText, setDisplayText] = useState("");
   const [currentLineIndex, setCurrentLineIndex] = useState(0);
   const [currentCharIndex, setCurrentCharIndex] = useState(0);
-  const [isErasing, setIsErasing] = useState(false);
   const [showCursor, setShowCursor] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
 
-  // debug: log what we're trying to type
   console.log("TypewriterText lines:", lines);
 
   useEffect(() => {
-    if (isPaused) return;
+    if (shouldStart && !hasStarted) {
+      setHasStarted(true);
+    }
+  }, [shouldStart, hasStarted]);
 
-    const timer = setTimeout(
-      () => {
-        if (!isErasing) {
-          // typing
-          if (currentLineIndex < lines.length) {
-            const currentLine = lines[currentLineIndex];
+  useEffect(() => {
+    if (isPaused || isComplete || !hasStarted) return;
 
-            if (currentCharIndex < currentLine.length) {
-              // type next character
-              const completedLines = lines.slice(0, currentLineIndex);
-              const currentPartial = currentLine.slice(0, currentCharIndex + 1);
+    const timer = setTimeout(() => {
+      // only typing phase - no erasing
+      if (currentLineIndex < lines.length) {
+        const currentLine = lines[currentLineIndex];
 
-              let newText;
-              if (currentLineIndex === 0) {
-                newText = currentPartial;
-              } else {
-                newText = completedLines.join("\n") + "\n" + currentPartial;
-              }
+        if (currentCharIndex < currentLine.length) {
+          const completedLines = lines.slice(0, currentLineIndex);
+          const currentPartial = currentLine.slice(0, currentCharIndex + 1);
 
-              setDisplayText(newText);
-              setCurrentCharIndex((prev) => prev + 1);
-            } else {
-              // finished current line
-              if (currentLineIndex < lines.length - 1) {
-                // more lines to type - pause then move to next line
-                setIsPaused(true);
-                setTimeout(() => {
-                  setCurrentLineIndex((prev) => prev + 1);
-                  setCurrentCharIndex(0);
-                  setIsPaused(false);
-                }, pauseBetweenLines);
-              } else {
-                // all lines completed - wait then start erasing
-                setTimeout(() => {
-                  setIsErasing(true);
-                }, 2000);
-              }
-            }
-          }
-        } else {
-          // erasing
-          if (displayText.length > 0) {
-            setDisplayText((prev) => prev.slice(0, -1));
+          let newText;
+          if (currentLineIndex === 0) {
+            newText = currentPartial;
           } else {
-            // finished erasing - reset and start over
-            setIsErasing(false);
-            setCurrentLineIndex(0);
-            setCurrentCharIndex(0);
+            newText = completedLines.join("\n") + "\n" + currentPartial;
+          }
+
+          setDisplayText(newText);
+          setCurrentCharIndex((prev) => prev + 1);
+        } else {
+          // finished current line
+          if (currentLineIndex < lines.length - 1) {
+            setIsPaused(true);
+            setTimeout(() => {
+              setCurrentLineIndex((prev) => prev + 1);
+              setCurrentCharIndex(0);
+              setIsPaused(false);
+            }, pauseBetweenLines);
+          } else {
+            setIsComplete(true);
           }
         }
-      },
-      isErasing ? typingSpeed * 0.3 : typingSpeed
-    );
+      }
+    }, typingSpeed);
 
     return () => clearTimeout(timer);
   }, [
     currentLineIndex,
     currentCharIndex,
-    isErasing,
     displayText,
     lines,
     typingSpeed,
     pauseBetweenLines,
     isPaused,
+    isComplete,
+    hasStarted,
   ]);
 
-  // cursor blinking
+  // cursor blinking - continues forever
   useEffect(() => {
     const cursorTimer = setInterval(() => {
       setShowCursor((prev) => !prev);
@@ -213,6 +200,7 @@ const LandingPage = () => {
   const [showWhyChoose, setShowWhyChoose] = useState(false);
   const registerRef = useRef(null);
   const [showRegister, setShowRegister] = useState(false);
+  const [startTypewriter, setStartTypewriter] = useState(false);
   const animationTriggered = useRef(false);
   const offerAnimationTriggered = useRef(false);
   const whyChooseAnimationTriggered = useRef(false);
@@ -297,20 +285,19 @@ const LandingPage = () => {
     const registerObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (
-            entry.isIntersecting &&
-            window.scrollY > 200 &&
-            !registerAnimationTriggered.current
-          ) {
+          if (entry.isIntersecting && !registerAnimationTriggered.current) {
             registerAnimationTriggered.current = true;
             setShowRegister(true);
+            setTimeout(() => {
+              setStartTypewriter(true);
+            }, 800);
             registerObserver.disconnect();
           }
         });
       },
       {
-        threshold: 0.2,
-        rootMargin: "0px 0px -25% 0px",
+        threshold: 0.3,
+        rootMargin: "0px 0px -10% 0px",
       }
     );
 
@@ -694,6 +681,7 @@ const LandingPage = () => {
                   typingSpeed={120}
                   pauseBetweenLines={300}
                   className={styles.aboutUsTxtContainer}
+                  shouldStart={startTypewriter}
                 />
               </b>
             </div>
@@ -729,6 +717,7 @@ const LandingPage = () => {
                 pauseBetweenLines={300}
                 className={styles.areYouOffering}
                 style={{ fontWeight: "bold" }}
+                shouldStart={startTypewriter}
               />
             </div>
             <div className={styles.findTrustedProfessionals}>
