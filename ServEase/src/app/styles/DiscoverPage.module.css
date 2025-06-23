@@ -1,12 +1,22 @@
 .serviceFacility {
   	margin: 0;
 }
+.serviceFacilityAppointmentContainer {
+  	position: absolute;
+  	top: -47px;
+  	left: 4384px;
+  	font-size: 64px;
+  	line-height: 150%;
+  	font-family: var(--font-benne);
+  	color: var(--color-black);
+  	text-align: left;
+}
 .footerChild {
   	position: absolute;
   	top: 0px;
   	left: 0px;
   	background-color: var(--color-white);
-  	width: 100%;
+  	width: 2400px;
   	height: 534px;
 }
 .yourTrustedPlatform {
@@ -123,12 +133,7 @@
   	display: inline-block;
   	width: 233px;
 }
-.facebook {
-  	position: absolute;
-  	top: 0px;
-  	left: 32px;
-  	font-weight: 500;
-}
+
 .groupChild {
   	position: absolute;
   	top: 0px;
@@ -137,22 +142,7 @@
   	height: 22px;
   	overflow: hidden;
 }
-.facebookParent {
-  	position: absolute;
-  	top: 347px;
-  	left: 153px;
-  	width: 117px;
-  	height: 22px;
-  	font-size: var(--font-size-18);
-  	color: var(--color-white);
-  	font-family: var(--font-inter);
-}
-.twitter {
-  	position: absolute;
-  	top: 0px;
-  	left: 34px;
-  	font-weight: 500;
-}
+
 .groupItem {
   	position: absolute;
   	top: 1px;
@@ -161,22 +151,7 @@
   	height: 22px;
   	overflow: hidden;
 }
-.twitterParent {
-  	position: absolute;
-  	top: 347px;
-  	left: 305px;
-  	width: 95px;
-  	height: 23px;
-  	font-size: var(--font-size-18);
-  	color: var(--color-white);
-  	font-family: var(--font-inter);
-}
-.instagram {
-  	position: absolute;
-  	top: 1px;
-  	left: 32px;
-  	font-weight: 500;
-}
+
 .groupInner {
   	position: absolute;
   	top: 0px;
@@ -185,23 +160,14 @@
   	height: 24px;
   	overflow: hidden;
 }
-.instagramParent {
-  	position: absolute;
-  	top: 346px;
-  	left: 435px;
-  	width: 119px;
-  	height: 24px;
-  	font-size: var(--font-size-18);
-  	color: var(--color-white);
-  	font-family: var(--font-inter);
-}
+
 .lineDiv {
   	position: absolute;
   	top: -1px;
   	left: -1px;
   	border-top: 2px solid var(--color-black);
   	box-sizing: border-box;
-  	width: 1185px;
+  	width: 1235px;
   	height: 2px;
 }
 .servease2025 {
@@ -230,7 +196,7 @@
   	top: 2222px;
   	left: 0px;
   	background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), var(--color-white);
-  	width: 100%;
+  	width: 1440px;
   	height: 490px;
   	text-align: left;
   	font-size: var(--font-size-16);
@@ -279,7 +245,6 @@
   	background-color: var(--color-gray-100);
   	width: 560px;
   	height: 56px;
-  	cursor: pointer;
 }
 .background {
   	position: absolute;
@@ -597,7 +562,6 @@
   	box-sizing: border-box;
   	width: 185.6px;
   	height: 35.8px;
-	color: var(--color-gray);
 }
 .icon8 {
   	position: absolute;
@@ -640,48 +604,41 @@
 }
 .form1 {
   	position: absolute;
-  	width: calc(100% - 430px);
+  	width: 725px;
   	top: 13px;
   	right: 406px;
   	left: 24px;
-  	border-radius: var(--br-80);
-  	background-color: var(--color-whitesmoke-100);
+	border-radius: 50px;
+  	background-color:#f9f9f9;
   	height: 47px;
   	font-size: var(--font-size-16);
-  	color: var(--color-darkgray);
+  	color: #a9a9a9;
 }
+
 .form {
   	position: absolute;
-  	width: calc(100% - 285px);
+  	width: 1155px;
   	top: 469px;
   	right: 141px;
   	left: 144px;
-  	border-radius: var(--br-80);
+	border-radius: 50px;
   	background-color: var(--color-white);
   	height: 76px;
   	text-align: left;
   	font-size: var(--font-size-15);
-  	color: var(--color-gray-400);
+  	color: var(--color-gray);
 }
 .discover1 {
-  	position: absolute;
-  	top: 0px;
-  	left: 0px;
-  	background-color: var(--color-whitesmoke-200);
-  	border: 1px solid var(--color-black);
-  	box-sizing: border-box;
-  	width: 100%;
-	min-width: 1440px;
-  	height: 2697px;
-  	overflow: hidden;
-}
-.discover1Parent {
   	width: 100%;
   	position: relative;
+  	background-color:#f8f7f3;
+  	border: 1px solid var(--color-black);
+  	box-sizing: border-box;
   	height: 2697px;
+  	overflow: hidden;
   	text-align: center;
   	font-size: var(--font-size-20);
   	color: var(--color-white);
   	font-family: var(--font-dm-sans);
-	min-width: 1440px;
 }
+
