@@ -1482,6 +1482,11 @@
   }
 }
 
+.background:hover .serveaseLogoAlbumCover32,
+.background1:hover .serveaseLogoAlbumCover1 {
+  animation: floatIcon 3s ease-in-out infinite;
+}
+
 /* footer */
 
 .footer {
