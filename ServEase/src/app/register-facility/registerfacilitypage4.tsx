@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import styles from "../styles/RegisterFacilityPage4copy.module.css";
+import { facilityContact } from "./actionspage";
 
 type Props = {
   onNext: () => void;
@@ -107,12 +108,13 @@ const FacilitySignup4: NextPage<Props> = ({ onNext }) => {
 
   const handleSubmit = async () => {
     setErrorMessage("");
-    try {
       if (!isOtpValid) throw new Error("Please enter a valid 4-digit code");
-
       setLoading(true);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      router.push("/landingpage");
+    try{
+      const formData = new FormData();
+      formData.append('contact_number', countryCode + phone);
+      await facilityContact(formData);
+
     } catch (error: any) {
       setErrorMessage(error.message || "Verification failed");
     } finally {

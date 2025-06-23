@@ -93,29 +93,20 @@ const ClientSignup3: NextPage = () => {
     if (field === 'password') setShowPassword(!showPassword);
     else if (field === 'confirmPassword') setShowConfirmPassword(!showConfirmPassword);
   };
-  // --- End of unchanged functions ---
 
-  // =====================================================================
-  // === UPDATED SUBMISSION LOGIC ===
-  // =====================================================================
   const handleSubmit = async (): Promise<void> => {
-    // 1. Run your existing client-side validation.
     if (!validateForm()) {
-      return; // Stop if validation fails
+      return; 
     }
 
     setIsLoading(true);
-    setErrors({}); // Clear any previous errors
+    setErrors({}); 
 
-    // 2. Prepare the data for the server action.
     const actionFormData = new FormData();
     actionFormData.append('email', formData.email);
     actionFormData.append('password', formData.password);
 
     try {
-      // 3. Call the server action.
-      // The server action will handle all logic, including redirection on success or failure.
-      // You don't need to handle success here because the page will be redirected away.
 
       startTransition(async () => {
         await signup(actionFormData);

@@ -66,7 +66,7 @@ const ClientSignup2: NextPage = () => {
       if (!isOtpValid) throw new Error("Please enter a valid 4-digit code");
       setLoading(true);
     try{
-     const formData = new FormData();
+      const formData = new FormData();
       formData.append('contact_number', countryCode + phone);
       await addContactAndCompleteProfile(formData);
 
