@@ -211,7 +211,7 @@ export async function facilityContact(formData: FormData): Promise<void> {
 
   console.log(`Fetching initial profile for user_id: ${user.id}`);
   const { data: initialProfile, error: fetchError } = await supabase
-    .from('client_initial_profile') 
+    .from('facility_initial_profile') 
     .select('*')
     .eq('user_id', user.id) 
     .single(); 
@@ -235,7 +235,7 @@ export async function facilityContact(formData: FormData): Promise<void> {
   console.log("Data to insert into final table:", completeProfileData);
 
   const { error: insertError } = await supabase
-    .from('client_users') 
+    .from('service_providers') 
     .insert(completeProfileData);
 
   if (insertError) {
@@ -244,7 +244,7 @@ export async function facilityContact(formData: FormData): Promise<void> {
   }
 
   const { error: deleteError } = await supabase
-    .from('client_initial_profile')
+    .from('facility_initial_profile')
     .delete()
     .eq('user_id', user.id);
 
