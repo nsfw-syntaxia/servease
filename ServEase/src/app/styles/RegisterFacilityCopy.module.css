@@ -13,7 +13,6 @@
   position: absolute;
   border-radius: var(--br-12);
   background-color: white;
-  box-sizing: border-box;
   width: 150px;
   height: 56px;
   text-align: center;
@@ -26,14 +25,12 @@
   bottom: 10%;
   left: 3%;
   cursor: pointer;
-
-  transform-style: preserve-3d;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .link1:hover {
-  transform: scale(1.08);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  transform: translateX(-10px);
+  background-color: white;
 }
 
 .getStarted {

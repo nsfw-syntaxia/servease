@@ -10,27 +10,40 @@ type Props = {
   onNext: () => void;
 };
 
-export default function FacilitySignup4({ onNext }: Props) {
+const FacilitySignup4: NextPage<Props> = ({ onNext }) => {
   const [phone, setPhone] = useState("");
   const [countryCode] = useState("+63");
   const [codeSent, setCodeSent] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [phoneError, setPhoneError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [isCodeSent, setIsCodeSent] = useState(false);
   const [timer, setTimer] = useState(0);
+  const [otpErrors, setOtpErrors] = useState([false, false, false, false]);
   const [otp, setOtp] = useState(["", "", "", ""]);
+  const [otpErrorMessage, setOtpErrorMessage] = useState("");
   const otpRefs = useRef<HTMLInputElement[]>([]);
-
-  const isPhoneValid = phone.replace(/\D/g, "").length === 10;
-  const isOtpValid = otp.every((digit) => digit.match(/^\d$/));
-  const isNextEnabled = codeSent && isOtpValid;
 
   const router = useRouter();
 
-  const handleBack = () => {
-    if (typeof window !== "undefined") {
-      window.history.back();
+  const isPhoneValid = phone.replace(/\D/g, "").trim().length === 10;
+  const isOtpValid = otp.every((digit) => /^\d$/.test(digit));
+  const isNextEnabled = codeSent && isOtpValid;
+
+  const handlePhoneChange = (input: string) => {
+    const raw = input.replace(/\D/g, "").slice(0, 10);
+    const hasLetters = /[a-zA-Z]/.test(input);
+
+    setPhoneError(hasLetters);
+
+    let formatted = raw;
+    if (raw.length > 3 && raw.length <= 7) {
+      formatted = `${raw.slice(0, 3)} ${raw.slice(3)}`;
+    } else if (raw.length > 7) {
+      formatted = `${raw.slice(0, 3)} ${raw.slice(3, 7)} ${raw.slice(7, 10)}`;
     }
+
+    setPhone(formatted);
+    setErrorMessage("");
   };
 
   const handleSendCode = async () => {
@@ -43,7 +56,6 @@ export default function FacilitySignup4({ onNext }: Props) {
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       setOtp(["", "", "", ""]);
-
       setCodeSent(true);
       setTimer(60);
     } catch (error: any) {
@@ -64,14 +76,24 @@ export default function FacilitySignup4({ onNext }: Props) {
   }, [codeSent, timer]);
 
   const handleOtpChange = (value: string, index: number) => {
-    if (!/^\d*$/.test(value)) return;
     const newOtp = [...otp];
-    newOtp[index] = value;
-    setOtp(newOtp);
+    const newErrors = [...otpErrors];
 
-    if (value && index < otpRefs.current.length - 1) {
-      otpRefs.current[index + 1]?.focus();
+    if (/^\d?$/.test(value)) {
+      newOtp[index] = value;
+      newErrors[index] = false;
+      setOtpErrorMessage(""); // Clear error
+
+      if (value && index < otpRefs.current.length - 1) {
+        otpRefs.current[index + 1]?.focus();
+      }
+    } else {
+      newErrors[index] = true;
+      setOtpErrorMessage("Only digits (0-9) are allowed in the code.");
     }
+
+    setOtp(newOtp);
+    setOtpErrors(newErrors);
   };
 
   const handleKeyDown = (
@@ -81,10 +103,6 @@ export default function FacilitySignup4({ onNext }: Props) {
     if (e.key === "Backspace" && !otp[index] && index > 0) {
       otpRefs.current[index - 1]?.focus();
     }
-  };
-
-  const handleSendCodeClick = () => {
-    setIsCodeSent(true);
   };
 
   const handleSubmit = async () => {
@@ -114,33 +132,20 @@ export default function FacilitySignup4({ onNext }: Props) {
             *All fields required unless noted.
           </div>
         </div>
+
         <div className={styles.cardInput}>
           <div className={styles.labelParent}>
             <div className={styles.label}>*Phone number</div>
-            <div className={styles.passwordHideSee}>
-              <div className={styles.icon}>
-                <Image
-                  className={styles.iconChild}
-                  width={18.2}
-                  height={16}
-                  sizes="100vw"
-                  alt=""
-                  src="/Group 1.svg"
-                />
-              </div>
-              <div className={styles.hide}>Hide</div>
-            </div>
           </div>
+
           <div className={styles.inputButton}>
             <div className={styles.input}>
               <div className={styles.select}>
                 <Image
-                  className={styles.phPhilippinesIcon}
+                  src="/ph Philippines.svg"
+                  alt=""
                   width={33}
                   height={24}
-                  sizes="100vw"
-                  alt=""
-                  src="/ph Philippines.svg"
                 />
               </div>
               <div className={styles.webDesigns}>({countryCode})</div>
@@ -149,21 +154,7 @@ export default function FacilitySignup4({ onNext }: Props) {
                 placeholder="Enter 10-digit number"
                 value={phone}
                 maxLength={13}
-                onChange={(e) => {
-                  const raw = e.target.value.replace(/\D/g, "").slice(0, 10);
-
-                  let formatted = raw;
-                  if (raw.length > 3 && raw.length <= 7) {
-                    formatted = `${raw.slice(0, 3)} ${raw.slice(3)}`;
-                  } else if (raw.length > 7) {
-                    formatted = `${raw.slice(0, 3)} ${raw.slice(
-                      3,
-                      7
-                    )} ${raw.slice(7, 10)}`;
-                  }
-
-                  setPhone(formatted);
-                }}
+                onChange={(e) => handlePhoneChange(e.target.value)}
                 className={styles.div6}
                 style={{
                   border: "none",
@@ -178,7 +169,6 @@ export default function FacilitySignup4({ onNext }: Props) {
               onClick={handleSendCode}
               style={{
                 opacity: isPhoneValid ? "1" : "0.5",
-                transition: "opacity 0.2s ease",
                 cursor: isPhoneValid && !loading ? "pointer" : "not-allowed",
               }}
             >
@@ -188,40 +178,36 @@ export default function FacilitySignup4({ onNext }: Props) {
             </div>
           </div>
         </div>
+
         <Image
-          className={styles.frameChild}
+          src="/Line 15.svg"
+          alt=""
           width={611}
           height={1.5}
-          sizes="100vw"
-          alt=""
-          src="/Line 15.svg"
+          className={styles.frameChild}
         />
+
         <div className={styles.form}>
           <div className={styles.resendCode}>
             <div className={styles.time}>
-              <Image
-                className={styles.outlineTimeClockCircle}
-                width={20}
-                height={20}
-                sizes="100vw"
-                alt=""
-                src="/Clock.svg"
-              />
+              <Image src="/Clock.svg" alt="" width={20} height={20} />
               <div className={styles.div7}>
                 00 : {timer.toString().padStart(2, "0")}
               </div>
             </div>
+
             <div
               className={styles.resendCode1}
+              onClick={() => timer === 0 && handleSendCode()}
               style={{
                 opacity: timer === 0 ? 1 : 0.4,
                 cursor: timer === 0 ? "pointer" : "not-allowed",
               }}
-              onClick={() => timer === 0 && handleSendCode()}
             >
               Resend Code
             </div>
           </div>
+
           <div className={styles.inputs}>
             <div className={styles.list}>
               {[0, 1, 2, 3].map((i) => (
@@ -241,19 +227,9 @@ export default function FacilitySignup4({ onNext }: Props) {
                     disabled={!codeSent}
                     maxLength={1}
                     autoComplete="one-time-code"
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      width: "100%",
-                      height: "100%",
-                      textAlign: "center",
-                      fontSize: "24px",
-                      background: "transparent",
-                      border: "none",
-                      outline: "none",
-                      color: "#a68465",
-                    }}
+                    className={`${styles.otpInput} ${
+                      otpErrors[i] ? styles.otpError : ""
+                    }`}
                   />
                 </div>
               ))}
@@ -261,26 +237,31 @@ export default function FacilitySignup4({ onNext }: Props) {
           </div>
         </div>
       </div>
+
       <div className={styles.messageWrapper}>
         <div
           className={`${styles.privacyNotice} ${
-            errorMessage ? styles.hidden : styles.visible
+            errorMessage || phoneError || otpErrorMessage
+              ? styles.hidden
+              : styles.visible
           }`}
         >
           Your privacy is our priority. This information is used only for
-          account verification and to personalize your experience.
+          account verification and to personalize your experience. We will sell
+          your data.
         </div>
 
         <div
           className={`${styles.errorbox} ${
-            errorMessage ? styles.visible : styles.hidden
+            errorMessage || phoneError || otpErrorMessage
+              ? styles.visible
+              : styles.hidden
           }`}
         >
-          {errorMessage?.trim()
-            ? errorMessage
-            : "Please complete all required fields before continuing."}
+          Phone number must only contain digits.
         </div>
       </div>
+
       <div
         className={styles.button3}
         style={{
@@ -299,4 +280,6 @@ export default function FacilitySignup4({ onNext }: Props) {
       </div>
     </div>
   );
-}
+};
+
+export default FacilitySignup4;
