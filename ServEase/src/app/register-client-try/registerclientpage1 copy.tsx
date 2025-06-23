@@ -9,7 +9,7 @@ type Props = {
   onNext: () => void;
 };
 
-export default function FacilitySignup1({ onNext }: Props) {
+export default function ClientSignup1({ onNext }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -39,7 +39,7 @@ export default function FacilitySignup1({ onNext }: Props) {
     setConfirmPasswordVisible(!confirmPasswordVisible);
   };
 
-  const handleSignUpClick = () => {
+  const handleSignUpClick = async () => {
     setButtonClicked(true);
     setTimeout(() => setButtonClicked(false), 200);
 
@@ -92,7 +92,6 @@ export default function FacilitySignup1({ onNext }: Props) {
     onNext();
   };
 
-  // Clear field errors when user starts typing
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
     if (fieldErrors.email) {

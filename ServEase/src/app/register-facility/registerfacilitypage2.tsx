@@ -17,10 +17,12 @@ export default function FacilitySignup2({ onNext }: Props) {
   const [isEndTimeOpen, setIsEndTimeOpen] = useState(false);
   const [showErrorBox, setShowErrorBox] = useState(false);
   const [showRowError, setShowRowError] = useState(false);
+  const [error, setError] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedSubcategory, setSelectedSubcategory] = useState("");
   const [selectedStartTime, setSelectedStartTime] = useState("");
   const [selectedEndTime, setSelectedEndTime] = useState("");
+  const [buttonClicked, setButtonClicked] = useState(false);
 
   const [ownername, setOwnerName] = useState("");
   const [facilityname, setFacilityName] = useState("");
@@ -197,11 +199,70 @@ export default function FacilitySignup2({ onNext }: Props) {
     Object.values(fieldErrors).every((v) => !v) && !noDaysSelected;
 
   const handleNextClick = () => {
-    setErrors(fieldErrors);
-    setShowErrorBox(!allFieldsValid);
-    setShowRowError(noDaysSelected);
+    setButtonClicked(true);
+    setTimeout(() => setButtonClicked(false), 200);
 
-    if (!allFieldsValid) return;
+    let newFieldErrors = {
+      ownername: false,
+      facilityname: false,
+      facilitylocation: false,
+      selectedCategory: false,
+      selectedSubcategory: false,
+      selectedStartTime: false,
+      selectedEndTime: false,
+    };
+
+    let errorMessage = "";
+
+    if (!ownername.trim()) {
+      newFieldErrors.ownername = true;
+      errorMessage = "Owner name is required.";
+    }
+
+    if (!facilityname.trim()) {
+      newFieldErrors.facilityname = true;
+      errorMessage = "Facility name is required.";
+    }
+
+    if (!facilitylocation.trim()) {
+      newFieldErrors.facilitylocation = true;
+      errorMessage = "Facility location is required.";
+    }
+
+    if (!selectedCategory) {
+      newFieldErrors.selectedCategory = true;
+      errorMessage = "Please select a category.";
+    }
+
+    if (!selectedSubcategory) {
+      newFieldErrors.selectedSubcategory = true;
+      errorMessage = "Please select a subcategory.";
+    }
+
+    if (!selectedStartTime) {
+      newFieldErrors.selectedStartTime = true;
+      errorMessage = "Please select a start time.";
+    }
+
+    if (!selectedEndTime) {
+      newFieldErrors.selectedEndTime = true;
+      errorMessage = "Please select an end time.";
+    }
+
+    const noDaysSelected = selectedDays.length === 0;
+    if (noDaysSelected && !errorMessage) {
+      errorMessage = "Please select at least one working day.";
+    }
+
+    const hasError =
+      Object.values(newFieldErrors).some((e) => e) || noDaysSelected;
+
+    setErrors(newFieldErrors);
+    setShowRowError(noDaysSelected);
+    setShowErrorBox(hasError);
+    setError(errorMessage); // <-- this assumes you have a `const [error, setError] = useState("")` defined
+
+    if (hasError) return;
 
     console.log("All fields valid. Continue to next step.");
     onNext();
@@ -614,7 +675,9 @@ export default function FacilitySignup2({ onNext }: Props) {
       </div>
 
       <div
-        className={styles.button2}
+        className={`${styles.buttoncontainer} ${
+          buttonClicked ? styles.clicked : ""
+        }`}
         style={{
           backgroundColor: "#a68465",
           opacity: allFieldsValid ? "1" : "0.5",
