@@ -131,3 +131,129 @@ export async function facilityProfile(formData: FormData): Promise<void> {
 
   console.log("SUCCESS! Profile created for user:", user.id);
 }
+
+type FormResult = {
+  success?: string;
+  error?: string;
+};
+
+export async function uploadDocument(formData: FormData): Promise<FormResult> {
+  const supabase = await createClient();
+
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    return { error: 'You must be logged in to upload documents.' };
+  }
+
+  const file = formData.get('document') as File;
+  const documentType = formData.get('documentType') as string;
+
+  if (!file || file.size === 0) {
+    return { error: 'No file was provided.' };
+  }
+  if (!documentType) {
+    return { error: 'Document type is missing.' };
+  }
+  
+
+  const fileExtension = file.name.split('.').pop();
+  const fileName = `${crypto.randomUUID()}.${fileExtension}`;
+  const filePath = `${user.id}/${fileName}`;
+
+  const { error: storageError } = await supabase.storage
+    .from('documents') 
+    .upload(filePath, file);
+
+  if (storageError) {
+    console.error('Storage Error:', storageError);
+    return { error: `Failed to upload file: ${storageError.message}` };
+  }
+
+  const { error: dbError } = await supabase
+    .from('facility_documents')
+    .insert({
+      user_id: user.id,
+      document_type: documentType,
+      file_path: filePath,
+      file_name: file.name, 
+    });
+
+  if (dbError) {
+    console.error('Database Error:', dbError);
+    await supabase.storage.from('documents').remove([filePath]);
+    return { error: `Failed to save document record: ${dbError.message}` };
+  }
+  
+  return { success: `Successfully uploaded ${file.name}!` };
+}
+
+export async function facilityContact(formData: FormData): Promise<void> {
+  console.log("--- ADD CONTACT & COMPLETE PROFILE ACTION ---");
+
+  const supabase = await createClient();
+
+  const { data, error: authError } = await supabase.auth.getUser();
+
+  if (authError || !data?.user) {
+    console.error("User is not authenticated or there was an auth error:", authError);
+    return redirect('/login?error=You must be logged in to complete your profile.');
+  }
+
+  const user = data.user;
+  console.log("Authenticated user found:", user.id);
+
+  const contactNumber = formData.get('contact_number') as string;
+
+  if (!contactNumber?.trim()) {
+    console.error("Validation FAILED: Contact number is missing.");
+    return redirect('/register-contact?error=missing_contact_number');
+  }
+
+  console.log(`Fetching initial profile for user_id: ${user.id}`);
+  const { data: initialProfile, error: fetchError } = await supabase
+    .from('client_initial_profile') 
+    .select('*')
+    .eq('user_id', user.id) 
+    .single(); 
+
+  if (fetchError || !initialProfile) {
+    console.error('Could not find initial profile for user or fetch error:', fetchError);
+    return redirect('/register-client?error=initial_profile_not_found'); 
+  }
+
+  console.log("Found initial profile data:", initialProfile);
+
+  const completeProfileData = {
+    ...initialProfile, 
+    contact: contactNumber.trim(), 
+    user_id: user.id 
+  };
+  
+  delete completeProfileData.id; 
+  delete completeProfileData.created_at; 
+
+  console.log("Data to insert into final table:", completeProfileData);
+
+  const { error: insertError } = await supabase
+    .from('client_users') 
+    .insert(completeProfileData);
+
+  if (insertError) {
+    console.error('--- SUPABASE FINAL INSERT ERROR ---', insertError);
+    return redirect(`/register-contact?error=database_insert_error&code=${insertError.code}`);
+  }
+
+  const { error: deleteError } = await supabase
+    .from('client_initial_profile')
+    .delete()
+    .eq('user_id', user.id);
+
+  if (deleteError) {
+    console.error('--- SUPABASE DELETE ERROR ---', deleteError);
+  } else {
+    console.log(`Successfully deleted initial profile for user_id: ${user.id}`);
+  }
+
+  console.log("SUCCESS! User registration fully completed for:", user.id);
+  redirect('/login'); 
+}

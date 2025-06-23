@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useState, useRef } from "react";
 import styles from "../styles/RegisterFacilityPage3copy.module.css";
+import { uploadDocument } from "./actionspage";
 
 type Props = {
   onNext: () => void;
@@ -14,8 +15,8 @@ export default function FacilitySignup3({ onNext }: Props) {
   const [selectedDocumentType, setSelectedDocumentType] = useState<
     string | null
   >(null);
-  const [uploadedFiles, setUploadedFiles] = useState<{
-    [key: string]: string | null;
+   const [uploadedFiles, setUploadedFiles] = useState<{
+    [key: string]: File | null; 
   }>({
     businessRegistration: null,
     governmentId: null,
@@ -27,6 +28,8 @@ export default function FacilitySignup3({ onNext }: Props) {
   });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionError, setSubmissionError] = useState<string | null>(null);
   const [showError, setShowError] = useState(false);
   const [buttonClicked, setButtonClicked] = useState(false);
 
@@ -50,34 +53,64 @@ export default function FacilitySignup3({ onNext }: Props) {
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file && selectedDocumentType) {
-      setUploadedFiles((prev) => {
-        const updated = {
-          ...prev,
-          [selectedDocumentType]: file.name,
-        };
-        if (Object.values(updated).every((name) => name)) {
-          setShowError(false);
-        }
-        return updated;
-      });
-      setSelectedDocumentType(null);
+      setUploadedFiles((prev) => ({
+        ...prev,
+        [selectedDocumentType]: file, 
+      }));
+      setSelectedDocumentType(null); 
     }
   };
 
-  const allFilesUploaded = Object.values(uploadedFiles).every(
+  const allFilesSelected = Object.values(uploadedFiles).every(
+    (file) => file !== null
+  );
+
+const allFilesUploaded = Object.values(uploadedFiles).every(
     (fileName) => fileName !== null
   );
 
-  const handleNextClick = () => {
+  const handleNextClick = async () => {
     setButtonClicked(true);
     setTimeout(() => setButtonClicked(false), 200);
+    setSubmissionError(null);
 
-    if (!allFilesUploaded) {
-      setShowError(true);
-    } else {
-      setShowError(false);
-      console.log("All files uploaded, proceeding to next step");
-      onNext();
+    if (!allFilesSelected) {
+      setSubmissionError("Please select a file for all required documents before continuing.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const uploadPromises = Object.entries(uploadedFiles).map(([docType, file]) => {
+        if (!file) {
+          throw new Error(`File for ${docType} is missing.`);
+        }
+                const formData = new FormData();
+        formData.append('document', file);
+
+        const documentLabel = documentTypes.find(d => d.key === docType)?.label || docType;
+        console.log("server upload");
+        formData.append('documentType', documentLabel);
+        
+        return uploadDocument(formData);
+      });
+      const results = await Promise.all(uploadPromises);
+      
+      const firstError = results.find(res => res.error);
+
+      if (firstError) {
+        setSubmissionError(firstError.error as string);
+      } else {
+        console.log("All files uploaded successfully, proceeding to next step");
+        
+        onNext();
+      }
+    } catch (error) {
+      console.error("An unexpected error occurred during upload:", error);
+      setSubmissionError("An unexpected error occurred. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -112,7 +145,7 @@ export default function FacilitySignup3({ onNext }: Props) {
                   src="/file-add.svg"
                 />
                 <div className={styles.clickToUpload}>
-                  {uploadedFiles[selectedDocumentType] ?? "Click to upload"}
+                  {uploadedFiles[selectedDocumentType]?.name ?? "Click to upload"}
                 </div>
               </div>
               <input
