@@ -211,7 +211,7 @@ const discoverPage: NextPage = () => {
             height={40}
             sizes="100vw"
             alt=""
-            src="/Servease Logo (Album Cover) (3) 1.png"
+            src="/Servease Logo (Album Cover) (3) 2.png"
           />
           <div className={styles.servease1}>
             <span className={styles.serv}>serv</span>
@@ -239,7 +239,7 @@ const discoverPage: NextPage = () => {
                 height={20}
                 sizes="100vw"
                 alt=""
-                src="Icon.svg"
+                src="filter.svg"
               />
               <div className={styles.moreFilters}>More Filters</div>
             </div>
@@ -251,7 +251,7 @@ const discoverPage: NextPage = () => {
               height={15}
               sizes="100vw"
               alt=""
-              src="Icon.svg"
+              src="find.svg"
             />
             <div className={styles.findListing}>Find Listing</div>
           </div>
