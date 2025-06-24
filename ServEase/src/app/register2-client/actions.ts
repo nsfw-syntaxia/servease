@@ -59,7 +59,16 @@ export async function addContactAndCompleteProfile(formData: FormData): Promise<
     return redirect(`/register-contact?error=database_insert_error&code=${insertError.code}`);
   }
 
-  //create delete after na sa sign in koni iwork
+  const { error: deleteError } = await supabase
+    .from('client_initial_profile')
+    .delete()
+    .eq('user_id', user.id);
+
+  if (deleteError) {
+    console.error('--- SUPABASE DELETE ERROR ---', deleteError);
+  } else {
+    console.log(`Successfully deleted initial profile for user_id: ${user.id}`);
+  }
 
   console.log("SUCCESS! User registration fully completed for:", user.id);
   redirect('/login'); 

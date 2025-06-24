@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Image from "next/image";
 import styles from "../styles/RegisterFacilityPage2copy.module.css";
+import { facilityProfile } from "./actionspage";
 import Link from "next/link";
 
 type Props = {
@@ -258,14 +259,30 @@ export default function FacilitySignup2({ onNext }: Props) {
       Object.values(newFieldErrors).some((e) => e) || noDaysSelected;
 
     setErrors(newFieldErrors);
+
     setShowRowError(noDaysSelected);
     setShowErrorBox(hasError);
     setError(errorMessage);
 
-    if (hasError) return;
 
-    console.log("All fields valid. Continue to next step.");
-    onNext();
+    if (!allFieldsValid) return;
+    try{
+      const formData = new FormData();
+      formData.append('owner_name', ownername);
+      formData.append('facility_name', facilityname);
+      formData.append('facility_location', facilitylocation);
+      formData.append('category', selectedCategory);
+      formData.append('specific_category', selectedSubcategory);
+      formData.append('working_days', JSON.stringify(selectedDays));      
+      formData.append('start_time', selectedStartTime);
+      formData.append('end_time', selectedEndTime);
+      await facilityProfile(formData);
+      console.log("All fields valid. Continue to next step.");
+      onNext();
+    }
+    catch{
+
+    }
   };
 
   return (
