@@ -2,7 +2,6 @@
 
 // import { createClient } from '../lib/supabase/server'; // inyohang server
 import { redirect } from 'next/navigation';
-import { type SignUpWithPasswordCredentials } from '@supabase/supabase-js';
 import { createClient } from '../utils/supabase/server'; // akoang giadd bag-o
 
 
