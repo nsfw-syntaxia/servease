@@ -283,13 +283,14 @@
 .background1 {
   	position: absolute;
   	height: calc(100% - 2433px);
-  	width: calc(100% - 880px);
+  	width: 560px;
   	top: 813px;
   	right: 736px;
   	bottom: 1620px;
   	left: 144px;
   	border-radius: var(--br-12);
   	background-color: var(--color-antiquewhite);
+
 }
 .healthAndMedical {
   	position: absolute;
@@ -306,7 +307,7 @@
 .background2 {
   	position: absolute;
   	height: calc(100% - 2433px);
-  	width: calc(100% - 880px);
+  	width: 560px;
   	top: 813px;
   	right: 141px;
   	bottom: 1620px;
@@ -573,8 +574,8 @@
 }
 .findListing {
   	position: absolute;
-  	top: calc(50% - 14.77px);
-  	left: calc(50% - 27.75px);
+  	top: calc(50% - 13.99px);
+  	left: calc(50% - 40.4px);
   	line-height: 27.75px;
   	font-weight: 500;
   	display: flex;
@@ -584,49 +585,50 @@
   	height: 27.8px;
 }
 .button1 {
-  	position: absolute;
-  	top: calc(50% - 28px);
-  	right: 10.04px;
-  	border-radius: 60px;
-  	background-color: var(--color-tan);
-  	border: 1px solid var(--color-tan);
-  	box-sizing: border-box;
-  	width: 191.1px;
-  	height: 55.8px;
-  	text-align: center;
-  	color: var(--color-white);
+  	 position: absolute;
+  top: calc(50% - 27.9px); /* Fixed centering: 55.8px / 2 = 27.9px */
+  right: 10.04px;
+  border-radius: 60px;
+  background-color: var(--color-tan);
+  border: 1px solid var(--color-tan);
+  box-sizing: border-box;
+  width: 191.1px;
+  height: 55.8px;
+  text-align: center;
+  color: var(--color-white);
 }
 .enterAService {
   	position: absolute;
   	top: 9px;
   	left: 29px;
   	line-height: 27.75px;
+	width: calc(100%-58px);
+	font-size: inherit;
 }
 .form1 {
   	position: absolute;
-  	width: 725px;
-  	top: 13px;
-  	right: 406px;
-  	left: 24px;
-	border-radius: 50px;
-  	background-color:#f9f9f9;
-  	height: 47px;
-  	font-size: var(--font-size-16);
-  	color: #a9a9a9;
+  width: 725px;
+  top: 13px;
+  right: 406px;
+  border-radius: 50px;
+  background-color: #f9f9f9;
+  height: 47px;
+  font-size: var(--font-size-16);
+  color: #a9a9a9;
 }
 
 .form {
-  	position: absolute;
-  	width: 1155px;
-  	top: 469px;
-  	right: 141px;
-  	left: 144px;
-	border-radius: 50px;
-  	background-color: var(--color-white);
-  	height: 76px;
-  	text-align: left;
-  	font-size: var(--font-size-15);
-  	color: var(--color-gray);
+  	 position: absolute;
+  width: 1155px;
+  top: 469px;
+  right: 141px;
+  left: calc(50% - 577.5px); /* Fixed centering: 1155px / 2 = 577.5px, removed conflicting right property */
+  border-radius: 50px;
+  background-color: var(--color-white);
+  height: 76px;
+  text-align: left;
+  font-size: var(--font-size-15);
+  color: var(--color-gray);
 }
 .discover1 {
   	width: 100%;
