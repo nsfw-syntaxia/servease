@@ -4,13 +4,12 @@ import type { NextPage } from "next";
 import Image from "next/image";
 import { useState } from "react";
 import styles from "../styles/RegisterFacilityPage1copy.module.css";
-import { loginCredentials } from "./actionspage";
 
 type Props = {
   onNext: () => void;
 };
 
-export default function FacilitySignup1({ onNext }: Props) {
+export default function ClientSignup1({ onNext }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -40,9 +39,7 @@ export default function FacilitySignup1({ onNext }: Props) {
     setConfirmPasswordVisible(!confirmPasswordVisible);
   };
 
-
-  const handleSignUpClick = () => {
-
+  const handleSignUpClick = async () => {
     setButtonClicked(true);
     setTimeout(() => setButtonClicked(false), 200);
 
@@ -88,24 +85,13 @@ export default function FacilitySignup1({ onNext }: Props) {
       return;
     }
 
-    try {
-      const formData = new FormData();
-      formData.append('email', email);
-      formData.append('password', password);
-      await loginCredentials(formData);
-      setFieldErrors(newFieldErrors);
-      setError("");
-      setShowError(false);
-      console.log("Form is valid, proceeding to next step");
-      onNext();
-    }
-    catch
-    {
-      console.error('Form submission failed:', error);
-    }
+    setFieldErrors(newFieldErrors);
+    setError("");
+    setShowError(false);
+    console.log("Form is valid, proceeding to next step");
+    onNext();
   };
 
-  // Clear field errors when user starts typing
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
     if (fieldErrors.email) {
