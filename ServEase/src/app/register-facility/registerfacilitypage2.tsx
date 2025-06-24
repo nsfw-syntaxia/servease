@@ -171,7 +171,6 @@ export default function FacilitySignup2({ onNext }: Props) {
     }
   };
 
-  //ERRORING
   const [errors, setErrors] = useState({
     ownername: false,
     facilityname: false,
@@ -217,8 +216,8 @@ export default function FacilitySignup2({ onNext }: Props) {
       console.log("All fields valid. Continue to next step.");
       onNext();
     }
-    catch{
-
+    catch (error) {
+      console.error('Failed to submit facility profile:', error);
     }
   };
 
