@@ -1,6 +1,5 @@
 'use server';
 
-// import { createClient } from '../lib/supabase/server'; // inyohang server
 import { redirect } from 'next/navigation';
 import { createClient } from '../utils/supabase/server'; // akoang giadd bag-o
 
@@ -13,10 +12,6 @@ interface ProfileData {
   middle_name?: string;
   gender?: string;
 }
-
-export async function signUp(formData: FormData): Promise<void> {
-}
-
 
 export async function profile(formData: FormData): Promise<void> {
   console.log("--- PROFILE SERVER ACTION RUNNING ---");
@@ -87,5 +82,4 @@ export async function profile(formData: FormData): Promise<void> {
   }
 
   console.log("SUCCESS! Profile created for user:", user.id);
-  redirect('/register2-client'); 
 }
