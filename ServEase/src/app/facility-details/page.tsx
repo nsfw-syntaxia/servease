@@ -1,5 +1,5 @@
-import Map from "./mapcomponent";
+import FacilityDetails from "./facilitydetails";
 
 export default function Home() {
-  return <Map />;
+  return <FacilityDetails />;
 }
