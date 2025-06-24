@@ -90,7 +90,7 @@ export default function FacilitySignup1({ onNext }: Props) {
       const formData = new FormData();
       formData.append("email", email);
       formData.append("password", password);
-      //await loginCredentials(formData);
+      await loginCredentials(formData);
       setFieldErrors(newFieldErrors);
       setError("");
       setShowError(false);
