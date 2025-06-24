@@ -14,6 +14,7 @@ type Props = {
 export default function ClientSignup2({ onNext }: Props) {
   // ... (all your existing state variables like selectedMonth, firstName, etc. remain the same)
   const [firstName, setFirstName] = useState("");
+  const [firstNameError, setFirstNameError] = useState(false);
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
@@ -23,17 +24,21 @@ export default function ClientSignup2({ onNext }: Props) {
   const [isMonthOpen, setIsMonthOpen] = useState(false);
   const [isDayOpen, setIsDayOpen] = useState(false);
   const [isYearOpen, setIsYearOpen] = useState(false);
+  const [monthError, setMonthError] = useState(false);
 
   const [isClicked, setIsClicked] = useState(false);
 
   const [errorMessage, setErrorMessage] = useState("");
+  const [fieldErrors, setFieldErrors] = useState({
+    firstName: false,
+    lastName: false,
+    birthdate: false,
+  });
   const [isPending, startTransition] = useTransition();
 
   const formRef = useRef<HTMLFormElement>(null);
 
-  const router = useRouter();
-
-  const validateForm = useCallback(() => {
+  /*const validateForm = useCallback(() => {
     if (
       !firstName.trim() ||
       !lastName.trim() ||
@@ -43,6 +48,29 @@ export default function ClientSignup2({ onNext }: Props) {
     ) {
       return "Please fill in all required fields.";
     }
+    return "";
+  }, [firstName, lastName, selectedMonth, selectedDay, selectedYear]);*/
+  const validateForm = useCallback(() => {
+    const errors = {
+      firstName: !firstName.trim(),
+      lastName: !lastName.trim(),
+      birthdate: !(selectedMonth && selectedDay && selectedYear),
+    };
+
+    setFieldErrors(errors);
+
+    if (errors.firstName || errors.lastName || errors.birthdate) {
+      return "Please fill in all required fields.";
+    }
+    if (!firstName.trim()) {
+      setFirstNameError(true);
+      return "Please enter your first name.";
+    }
+    if (!selectedMonth) {
+      setMonthError(true);
+      return "Please select a month.";
+    }
+    setFirstNameError(false);
     return "";
   }, [firstName, lastName, selectedMonth, selectedDay, selectedYear]);
 
@@ -81,8 +109,8 @@ export default function ClientSignup2({ onNext }: Props) {
               "Submission failed on the server. Please check logs."
             );
           }
-          onNext();
         });
+        onNext();
       }
     }, 200);
   };
@@ -101,7 +129,8 @@ export default function ClientSignup2({ onNext }: Props) {
     validateForm,
   ]);
 
-  const isFormValid = validateForm() === "";
+  const formIsFilled =
+    firstName && lastName && selectedMonth && selectedDay && selectedYear;
 
   const handleMonthSelect = (month: { label: string }) => {
     setSelectedMonth(month.label);
@@ -116,7 +145,7 @@ export default function ClientSignup2({ onNext }: Props) {
     setIsYearOpen(false);
   };
   const handleGenderSelect = (gender: string) => setSelectedGender(gender);
-  const backClick = () => router.push("/signup");
+
   const months = Array.from({ length: 12 }, (_, i) => ({
     value: String(i + 1).padStart(2, "0"),
     label: new Date(0, i).toLocaleString("en-US", { month: "long" }),
@@ -149,14 +178,21 @@ export default function ClientSignup2({ onNext }: Props) {
           </div>
           <div
             className={`${styles.tbxemail} ${styles.inputBox} ${
-              middleName ? styles.tbxFilled : ""
+              firstName ? styles.tbxFilled : ""
             } ${errorMessage ? styles.errorInput : ""}`}
           >
             <input
               type="text"
               name="first_name"
               value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
+              onChange={(e) => {
+                setFirstName(e.target.value);
+
+                // Clear field-level error if user starts typing
+                if (firstNameError && e.target.value.trim() !== "") {
+                  setFirstNameError(false);
+                }
+              }}
               placeholder="Enter your first name"
               className={styles.inputField}
             />
@@ -277,8 +313,13 @@ export default function ClientSignup2({ onNext }: Props) {
               <div
                 className={`${styles.textField2} ${
                   isMonthOpen ? styles.dropdownOpen : ""
-                } ${selectedMonth ? styles.fieldSelected : ""}`}
-                onClick={() => setIsMonthOpen(!isMonthOpen)}
+                } ${selectedMonth ? styles.fieldSelected : ""} ${
+                  errorMessage ? styles.errorInput : ""
+                }`}
+                onClick={() => {
+                  setIsMonthOpen(!isMonthOpen);
+                  if (monthError) setMonthError(false);
+                }}
               >
                 <div className={styles.month}>
                   <span className={selectedMonth ? styles.selectedValue : ""}>
@@ -298,13 +339,17 @@ export default function ClientSignup2({ onNext }: Props) {
                   />
                 </div>
               </div>
+
               {isMonthOpen && (
                 <div className={styles.dropdownMenu}>
                   {months.map((month) => (
                     <div
                       key={month.value}
                       className={styles.dropdownItem}
-                      onClick={() => handleMonthSelect(month)}
+                      onClick={() => {
+                        handleMonthSelect(month);
+                        if (monthError) setMonthError(false);
+                      }}
                     >
                       {month.label}
                     </div>
@@ -322,7 +367,9 @@ export default function ClientSignup2({ onNext }: Props) {
               <div
                 className={`${styles.textField2} ${
                   isDayOpen ? styles.dropdownOpen : ""
-                } ${selectedDay ? styles.fieldSelected : ""}`}
+                } ${selectedMonth ? styles.fieldSelected : ""} ${
+                  errorMessage ? styles.errorInput : ""
+                }`}
                 onClick={() => setIsDayOpen(!isDayOpen)}
               >
                 <div className={styles.day}>
@@ -367,7 +414,9 @@ export default function ClientSignup2({ onNext }: Props) {
               <div
                 className={`${styles.textField2} ${
                   isYearOpen ? styles.dropdownOpen : ""
-                } ${selectedYear ? styles.fieldSelected : ""}`}
+                } ${selectedYear ? styles.fieldSelected : ""}${
+                  errorMessage ? styles.errorInput : ""
+                }`}
                 onClick={() => setIsYearOpen(!isYearOpen)}
               >
                 <div className={styles.year}>
@@ -425,7 +474,7 @@ export default function ClientSignup2({ onNext }: Props) {
         type="button"
         disabled={isPending} // Only disable while submitting
         // Use isClicked for your animation and isFormValid for styling
-        className={`${styles.button2} ${isFormValid ? styles.filled : ""} ${
+        className={`${styles.button2} ${formIsFilled ? styles.filled : ""} ${
           isClicked ? styles.clicked : "" // Assuming you have a .clicked class for animation
         } ${isPending ? styles.submitting : ""}`}
         onClick={handleNextClick} // This is our new master handler

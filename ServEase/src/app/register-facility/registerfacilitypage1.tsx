@@ -40,9 +40,7 @@ export default function FacilitySignup1({ onNext }: Props) {
     setConfirmPasswordVisible(!confirmPasswordVisible);
   };
 
-
   const handleSignUpClick = () => {
-
     setButtonClicked(true);
     setTimeout(() => setButtonClicked(false), 200);
 
@@ -90,18 +88,16 @@ export default function FacilitySignup1({ onNext }: Props) {
 
     try {
       const formData = new FormData();
-      formData.append('email', email);
-      formData.append('password', password);
-      await loginCredentials(formData);
+      formData.append("email", email);
+      formData.append("password", password);
+      //await loginCredentials(formData);
       setFieldErrors(newFieldErrors);
       setError("");
       setShowError(false);
       console.log("Form is valid, proceeding to next step");
       onNext();
-    }
-    catch
-    {
-      console.error('Form submission failed:', error);
+    } catch {
+      console.error("Form submission failed:", error);
     }
   };
 

@@ -103,10 +103,14 @@ export default function FacilitySignup2({ onNext }: Props) {
     },
   ];
 
-  const handleCategorySelect = (category: { value: string; label: string }) => {
+  const handleCategorySelect = (category: { label: string; value: string }) => {
     setSelectedCategory(category.label);
-    setSelectedSubcategory("");
     setIsCategoryOpen(false);
+
+    setErrors((prev) => ({
+      ...prev,
+      selectedCategory: false,
+    }));
   };
 
   const selectedCategoryObject = Categories.find(
@@ -264,25 +268,21 @@ export default function FacilitySignup2({ onNext }: Props) {
     setShowErrorBox(hasError);
     setError(errorMessage);
 
-
     if (!allFieldsValid) return;
-    try{
+    try {
       const formData = new FormData();
-      formData.append('owner_name', ownername);
-      formData.append('facility_name', facilityname);
-      formData.append('facility_location', facilitylocation);
-      formData.append('category', selectedCategory);
-      formData.append('specific_category', selectedSubcategory);
-      formData.append('working_days', JSON.stringify(selectedDays));      
-      formData.append('start_time', selectedStartTime);
-      formData.append('end_time', selectedEndTime);
-      await facilityProfile(formData);
+      formData.append("owner_name", ownername);
+      formData.append("facility_name", facilityname);
+      formData.append("facility_location", facilitylocation);
+      formData.append("category", selectedCategory);
+      formData.append("specific_category", selectedSubcategory);
+      formData.append("working_days", JSON.stringify(selectedDays));
+      formData.append("start_time", selectedStartTime);
+      formData.append("end_time", selectedEndTime);
+      //await facilityProfile(formData);
       console.log("All fields valid. Continue to next step.");
       onNext();
-    }
-    catch{
-
-    }
+    } catch {}
   };
 
   return (
