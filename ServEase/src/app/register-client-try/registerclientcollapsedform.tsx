@@ -7,8 +7,7 @@ import Image from "next/image";
 import styles from "../styles/register-client.module.css";
 import ClientSignup1 from "./registerclientpage1 copy";
 import ClientSignup2 from "./registerclientpage2";
-//import FacilitySignup3 from "./registerfacilitypage3";
-//import FacilitySignup4 from "./registerfacilitypage4";
+import ClientSignup3 from "./registerclientpage3";
 
 function Stepper({ activeStep }: { activeStep: number }) {
   const getStepClass = (step: number) => {
@@ -218,28 +217,11 @@ const ClientSignup: NextPage = () => {
               currentStep={currentStep}
               completedSteps={completedSteps}
             >
-              {/*<FacilitySignup3
+              <ClientSignup3
                 onNext={() => {
                   handleNextStep();
                 }}
-              />*/}
-              <div>
-                <button
-                  onClick={() => {
-                    handleNextStep();
-                  }}
-                  style={{
-                    padding: "10px 20px",
-                    backgroundColor: "#a68465",
-                    color: "white",
-                    border: "none",
-                    borderRadius: "8px",
-                    cursor: "pointer",
-                  }}
-                >
-                  Simulate Next
-                </button>
-              </div>
+              />
             </ExpandableSection>
           </div>
         </div>

@@ -75,13 +75,13 @@ export default function ClientSignup2({ onNext }: Props) {
           console.log("4. Calling the server action `profile`...");
           try {
             await profile(formData);
-            onNext();
           } catch (e) {
             console.error("5. The server action threw an error:", e);
             setErrorMessage(
               "Submission failed on the server. Please check logs."
             );
           }
+          onNext();
         });
       }
     }, 200);
@@ -148,9 +148,9 @@ export default function ClientSignup2({ onNext }: Props) {
             <div className={styles.label}>*First name</div>
           </div>
           <div
-            className={`${styles.textField1} ${
-              errorMessage ? styles.errortextField1 : ""
-            }`}
+            className={`${styles.tbxemail} ${styles.inputBox} ${
+              middleName ? styles.tbxFilled : ""
+            } ${errorMessage ? styles.errorInput : ""}`}
           >
             <input
               type="text"
@@ -194,7 +194,9 @@ export default function ClientSignup2({ onNext }: Props) {
               type="text"
               name="last_name"
               value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+              onChange={(e) => {
+                setLastName(e.target.value);
+              }}
               placeholder="Enter your last name"
               className={styles.inputField}
             />
@@ -231,7 +233,10 @@ export default function ClientSignup2({ onNext }: Props) {
               onClick={() => handleGenderSelect("male")}
             >
               <div className={styles.radioButton}>
-                <div className={styles.radioOuter}>
+                <div
+                  className={`${styles.radioOuter} 
+            } ${errorMessage ? styles.errorCircle : ""}`}
+                >
                   {selectedGender === "male" && (
                     <div className={styles.radioInner} />
                   )}
@@ -247,7 +252,10 @@ export default function ClientSignup2({ onNext }: Props) {
               onClick={() => handleGenderSelect("non-binary")}
             >
               <div className={styles.radioButton}>
-                <div className={styles.radioOuter}>
+                <div
+                  className={`${styles.radioOuter} 
+            } ${errorMessage ? styles.errorCircle : ""}`}
+                >
                   {selectedGender === "non-binary" && (
                     <div className={styles.radioInner} />
                   )}

@@ -260,7 +260,7 @@ export default function FacilitySignup2({ onNext }: Props) {
     setErrors(newFieldErrors);
     setShowRowError(noDaysSelected);
     setShowErrorBox(hasError);
-    setError(errorMessage); // <-- this assumes you have a `const [error, setError] = useState("")` defined
+    setError(errorMessage);
 
     if (hasError) return;
 

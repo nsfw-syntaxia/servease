@@ -1,496 +1,280 @@
 "use client";
 
-import React, { useState, useEffect, useTransition } from "react"; // Added useEffect
 import type { NextPage } from "next";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
-import styles from "../styles/RegisterPage3.module.css";
-import { useSearchParams } from "next/navigation"; // Import for reading URL errors
+import { useState, useEffect, useRef } from "react";
+import styles from "../styles/register-client-3.module.css";
 
-// 1. Import your server action
-import { signup } from "./actions1"; // Make sure this path is correct
+type Props = {
+  onNext: () => void;
+};
 
-// Renamed to avoid conflict with the browser's built-in FormData
-interface FormDataState {
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
+const ClientSignup3: NextPage<Props> = ({ onNext }) => {
+  const [phone, setPhone] = useState("");
+  const [countryCode] = useState("+63");
+  const [codeSent, setCodeSent] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [phoneError, setPhoneError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [timer, setTimer] = useState(0);
+  const [otpErrors, setOtpErrors] = useState([false, false, false, false]);
+  const [otp, setOtp] = useState(["", "", "", ""]);
+  const [otpErrorMessage, setOtpErrorMessage] = useState("");
+  const otpRefs = useRef<HTMLInputElement[]>([]);
 
-interface FormErrors {
-  email?: string;
-  password?: string;
-  confirmPassword?: string;
-  general?: string;
-}
+  const router = useRouter();
 
-const ClientSignup3: NextPage = () => {
-  const [isPending, startTransition] = useTransition();
-  const [formData, setFormData] = useState<FormDataState>({
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const isPhoneValid = phone.replace(/\D/g, "").trim().length === 10;
+  const isOtpValid = otp.every((digit) => /^\d$/.test(digit));
+  const isNextEnabled = codeSent && isOtpValid;
 
-  const [errors, setErrors] = useState<FormErrors>({});
-  const [isLoading, setIsLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const handlePhoneChange = (input: string) => {
+    const raw = input.replace(/\D/g, "").slice(0, 10);
+    const hasLetters = /[a-zA-Z]/.test(input);
 
-  // Hook to read error messages from the URL
-  const searchParams = useSearchParams();
+    setPhoneError(hasLetters);
 
-  // useEffect to display server errors passed in the URL
-  useEffect(() => {
-    const errorMessage = searchParams.get("message");
-    if (errorMessage) {
-      setErrors((prev) => ({
-        ...prev,
-        general: decodeURIComponent(errorMessage),
-      }));
+    let formatted = raw;
+    if (raw.length > 3 && raw.length <= 7) {
+      formatted = `${raw.slice(0, 3)} ${raw.slice(3)}`;
+    } else if (raw.length > 7) {
+      formatted = `${raw.slice(0, 3)} ${raw.slice(3, 7)} ${raw.slice(7, 10)}`;
     }
-  }, [searchParams]);
 
-  // --- All your existing validation and handler functions are perfect and remain unchanged ---
-  const validateEmail = (email: string): boolean => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+    setPhone(formatted);
+    setErrorMessage("");
   };
-  const validatePassword = (password: string): boolean => {
-    return (
-      password.length >= 8 &&
-      /[A-Z]/.test(password) &&
-      /[a-z]/.test(password) &&
-      /\d/.test(password)
-    );
-  };
-  const handleInputChange = (
-    field: keyof FormDataState,
-    value: string
-  ): void => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-    if (errors[field] || errors.general) {
-      setErrors((prev) => ({
-        ...prev,
-        [field]: undefined,
-        general: undefined,
-      }));
-    }
-  };
-  const validateForm = (): boolean => {
-    const newErrors: FormErrors = {};
-    if (!formData.email.trim()) {
-      newErrors.email = "Email address is required";
-    } else if (!validateEmail(formData.email)) {
-      newErrors.email = "Please enter a valid email address";
-    }
-    if (!formData.password) {
-      newErrors.password = "Password is required";
-    } else if (!validatePassword(formData.password)) {
-      newErrors.password =
-        "Password must be at least 8 characters with uppercase, lowercase, and number";
-    }
-    if (!formData.confirmPassword) {
-      newErrors.confirmPassword = "Please confirm your password";
-    } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match";
-    }
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-  const handleBackClick = (): void => {
-    if (typeof window !== "undefined" && window.history.length > 1) {
-      window.history.back();
-    }
-  };
-  const togglePasswordVisibility = (
-    field: "password" | "confirmPassword"
-  ): void => {
-    if (field === "password") setShowPassword(!showPassword);
-    else if (field === "confirmPassword")
-      setShowConfirmPassword(!showConfirmPassword);
-  };
-  // --- End of unchanged functions ---
 
-  // =====================================================================
-  // === UPDATED SUBMISSION LOGIC ===
-  // =====================================================================
-  const handleSubmit = async (): Promise<void> => {
-    // 1. Run your existing client-side validation.
-    if (!validateForm()) {
-      return; // Stop if validation fails
-    }
-
-    setIsLoading(true);
-    setErrors({}); // Clear any previous errors
-
-    // 2. Prepare the data for the server action.
-    const actionFormData = new FormData();
-    actionFormData.append("email", formData.email);
-    actionFormData.append("password", formData.password);
-
+  const handleSendCode = async () => {
+    setErrorMessage("");
     try {
-      // 3. Call the server action.
-      // The server action will handle all logic, including redirection on success or failure.
-      // You don't need to handle success here because the page will be redirected away.
+      if (!isPhoneValid)
+        throw new Error("Enter a valid 10-digit phone number.");
 
-      startTransition(async () => {
-        await signup(actionFormData);
-      });
-    } catch (error) {
-      // This 'catch' block will only run if there's a network failure or an
-      // unexpected error that prevents the server action from even running.
-      console.error("Form submission failed:", error);
-      setErrors({
-        general:
-          "Could not connect to the server. Please check your internet connection and try again.",
-      });
-      setIsLoading(false);
+      setLoading(true);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      setOtp(["", "", "", ""]);
+      setCodeSent(true);
+      setTimer(60);
+    } catch (error: any) {
+      setErrorMessage(error.message || "Failed to send code.");
+    } finally {
+      setLoading(false);
     }
-    // We don't need a `finally` block to set isLoading to false, because on success,
-    // the page will navigate away. It only needs to be set in the catch block.
   };
 
-  // =====================================================================
-  // === YOUR UI REMAINS 100% UNCHANGED ===
-  // =====================================================================
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (codeSent && timer > 0) {
+      interval = setInterval(() => setTimer((prev) => prev - 1), 1000);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [codeSent, timer]);
+
+  const handleOtpChange = (value: string, index: number) => {
+    const newOtp = [...otp];
+    const newErrors = [...otpErrors];
+
+    if (/^\d?$/.test(value)) {
+      newOtp[index] = value;
+      newErrors[index] = false;
+      setOtpErrorMessage(""); // Clear error
+
+      if (value && index < otpRefs.current.length - 1) {
+        otpRefs.current[index + 1]?.focus();
+      }
+    } else {
+      newErrors[index] = true;
+      setOtpErrorMessage("Only digits (0-9) are allowed in the code.");
+    }
+
+    setOtp(newOtp);
+    setOtpErrors(newErrors);
+  };
+
+  const handleKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    if (e.key === "Backspace" && !otp[index] && index > 0) {
+      otpRefs.current[index - 1]?.focus();
+    }
+  };
+
+  const handleSubmit = async () => {
+    setErrorMessage("");
+    try {
+      if (!isOtpValid) throw new Error("Please enter a valid 4-digit code");
+
+      setLoading(true);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      router.push("/landingpage");
+    } catch (error: any) {
+      setErrorMessage(error.message || "Verification failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className={styles.clientSignup3}>
-      {/* ... your entire JSX structure is here, unchanged ... */}
-      <div className={styles.headerNav}>
-        <Image
-          className={styles.serveaseLogoAlbumCover3}
-          width={40}
-          height={40}
-          sizes="100vw"
-          alt=""
-          src="/servease logo.svg"
-        />
-        <div className={styles.links}>
-          <div className={styles.home}>Home</div>
-          <div className={styles.webDesigns}>Web designs</div>
-          <div className={styles.webDesigns}>Mobile designs</div>
-          <div className={styles.webDesigns}>Design principles</div>
-          <div className={styles.webDesigns}>Illustrations</div>
+    <div className={styles.frameGroup}>
+      <div className={styles.frameParent1}>
+        <div className={styles.numberParent}>
+          <div className={styles.provideYourPhone}>
+            Provide your phone number so we can confirm your bookings and verify
+            your account.
+          </div>
+          <div className={styles.allFieldsRequired}>
+            *All fields required unless noted.
+          </div>
         </div>
-        <div className={styles.loginSignUp}>
-          <div className={styles.dropdown} />
-          <div className={styles.button} />
-          <div className={styles.button} />
+
+        <div className={styles.cardInput}>
+          <div className={styles.labelParent}>
+            <div className={styles.label}>*Phone number</div>
+          </div>
+
+          <div className={styles.inputButton}>
+            <div className={styles.input}>
+              <div className={styles.select}>
+                <Image
+                  src="/ph Philippines.svg"
+                  alt=""
+                  width={33}
+                  height={24}
+                />
+              </div>
+              <div className={styles.webDesigns}>({countryCode})</div>
+              <input
+                type="text"
+                placeholder="Enter 10-digit number"
+                value={phone}
+                maxLength={13}
+                onChange={(e) => handlePhoneChange(e.target.value)}
+                className={styles.div6}
+                style={{
+                  border: "none",
+                  outline: "none",
+                  background: "transparent",
+                }}
+              />
+            </div>
+
+            <div
+              className={styles.button2}
+              onClick={handleSendCode}
+              style={{
+                opacity: isPhoneValid ? "1" : "0.5",
+                cursor: isPhoneValid && !loading ? "pointer" : "not-allowed",
+              }}
+            >
+              <div className={styles.sendCode}>
+                {loading ? "Sending..." : "Send Code"}
+              </div>
+            </div>
+          </div>
         </div>
-        <div className={styles.divider} />
+
         <Image
-          className={styles.outlineArrowsArrowLeft}
-          width={24}
-          height={24}
-          sizes="100vw"
+          src="/Line 15.svg"
           alt=""
-          src="/Arrow Left.svg"
-          onClick={handleBackClick}
-          style={{ cursor: "pointer" }}
+          width={611}
+          height={1.5}
+          className={styles.frameChild}
         />
-        <div
-          className={styles.back}
-          onClick={handleBackClick}
-          style={{ cursor: "pointer" }}
-        >
-          Back
+
+        <div className={styles.form}>
+          <div className={styles.resendCode}>
+            <div className={styles.time}>
+              <Image src="/Clock.svg" alt="" width={20} height={20} />
+              <div className={styles.div7}>
+                00 : {timer.toString().padStart(2, "0")}
+              </div>
+            </div>
+
+            <div
+              className={styles.resendCode1}
+              onClick={() => timer === 0 && handleSendCode()}
+              style={{
+                opacity: timer === 0 ? 1 : 0.4,
+                cursor: timer === 0 ? "pointer" : "not-allowed",
+              }}
+            >
+              Resend Code
+            </div>
+          </div>
+
+          <div className={styles.inputs}>
+            <div className={styles.list}>
+              {[0, 1, 2, 3].map((i) => (
+                <div
+                  key={i}
+                  className={i === 0 ? styles.input1 : styles.input2}
+                  style={{ position: "relative" }}
+                >
+                  <input
+                    ref={(el) => {
+                      if (el) otpRefs.current[i] = el;
+                    }}
+                    type="text"
+                    value={otp[i]}
+                    onChange={(e) => handleOtpChange(e.target.value, i)}
+                    onKeyDown={(e) => handleKeyDown(e, i)}
+                    disabled={!codeSent}
+                    maxLength={1}
+                    autoComplete="one-time-code"
+                    className={`${styles.otpInput} ${
+                      otpErrors[i] ? styles.otpError : ""
+                    }`}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
-      <div className={styles.joinUs}>
-        <div className={styles.conten}>
-          <div className={styles.joinUsParent}>
-            <div className={styles.joinUs1}>Join us</div>
-            <div className={styles.signUpAnd}>
-              Sign up and get connected with trusted professionals.
-            </div>
-          </div>
-          <div className={styles.stepper}>
-            <div className={styles.groupParent}>
-              <div className={styles.bgParent}>
-                <div className={styles.bg} />
-                <div className={styles.div}>1</div>
-              </div>
-              <div className={styles.profile}>Profile</div>
-            </div>
-            <div className={styles.stepperChild} />
-            <div className={styles.groupContainer}>
-              <div className={styles.bgParent}>
-                <div className={styles.bg} />
-                <div className={styles.div}>2</div>
-              </div>
-              <div className={styles.profile}>Contacts</div>
-            </div>
-            <div className={styles.stepperChild} />
-            <div className={styles.frameDiv}>
-              <div className={styles.bgParent}>
-                <div className={styles.bg} />
-                <div className={styles.div}>3</div>
-              </div>
-              <div className={styles.profile}>Login</div>
-            </div>
-          </div>
-          <div className={styles.frameParent}>
-            <div className={styles.frameWrapper}>
-              <div className={styles.frameContainer}>
-                <div className={styles.numberWrapper}>
-                  <div className={styles.number}>
-                    <div className={styles.groupDiv}>
-                      <div className={styles.bg3} />
-                      <div className={styles.div3}>1</div>
-                    </div>
-                    <div className={styles.contactInformation}>Profile</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className={styles.frameWrapper}>
-              <div className={styles.frameContainer}>
-                <div className={styles.numberWrapper}>
-                  <div className={styles.number}>
-                    <div className={styles.groupDiv}>
-                      <div className={styles.bg3} />
-                      <div className={styles.div3}>2</div>
-                    </div>
-                    <div className={styles.contactInformation}>
-                      Contact Information
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className={styles.frameGroup}>
-              <div className={styles.frameParent1}>
-                <div className={styles.numberParent}>
-                  <div className={styles.number2}>
-                    <div className={styles.groupDiv}>
-                      <div className={styles.bg3} />
-                      <div className={styles.div3}>3</div>
-                    </div>
-                    <div className={styles.contactInformation}>Login</div>
-                  </div>
-                  <div className={styles.setUpYour}>
-                    Set up your login credential to keep your account secure.
-                    We'll send a one-time link to confirm it's really you.
-                  </div>
-                  <div className={styles.allFieldsRequired}>
-                    *All fields required unless noted.
-                  </div>
-                </div>
 
-                {/* Error Display */}
-                {errors.general && (
-                  <div
-                    style={{
-                      color: "#dc2626",
-                      backgroundColor: "#fef2f2",
-                      padding: "12px",
-                      borderRadius: "8px",
-                      marginBottom: "16px",
-                      border: "1px solid #fecaca",
-                      fontSize: "14px",
-                    }}
-                  >
-                    {errors.general}
-                  </div>
-                )}
+      <div className={styles.messageWrapper}>
+        <div
+          className={`${styles.privacyNotice} ${
+            errorMessage || phoneError || otpErrorMessage
+              ? styles.hidden
+              : styles.visible
+          }`}
+        >
+          Your privacy is our priority. This information is used only for
+          account verification and to personalize your experience. We will sell
+          your data.
+        </div>
 
-                <div className={styles.textField}>
-                  <div className={styles.labelWrapper}>
-                    <div className={styles.label}>*Email address</div>
-                  </div>
-                  <div
-                    className={styles.textField1}
-                    style={{ position: "relative" }}
-                  >
-                    <input
-                      name="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) =>
-                        handleInputChange("email", e.target.value)
-                      }
-                      placeholder="Enter your email address"
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        border: "none",
-                        outline: "none",
-                        padding: "12px",
-                        fontSize: "14px",
-                        borderRadius: "4px",
-                        backgroundColor: errors.email
-                          ? "#fef2f2"
-                          : "transparent",
-                      }}
-                    />
-                  </div>
-                  {errors.email && (
-                    <div
-                      style={{
-                        color: "#dc2626",
-                        fontSize: "12px",
-                        marginTop: "4px",
-                      }}
-                    >
-                      {errors.email}
-                    </div>
-                  )}
-                </div>
-                <div className={styles.textField2}>
-                  <div className={styles.labelWrapper}>
-                    <div className={styles.label}>*Password</div>
-                  </div>
-                  <div
-                    className={styles.textField1}
-                    style={{ position: "relative" }}
-                  >
-                    <input
-                      name="password"
-                      type={showPassword ? "text" : "password"}
-                      value={formData.password}
-                      onChange={(e) =>
-                        handleInputChange("password", e.target.value)
-                      }
-                      placeholder="Create a strong password"
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        border: "none",
-                        outline: "none",
-                        padding: "12px",
-                        paddingRight: "40px",
-                        fontSize: "14px",
-                        borderRadius: "4px",
-                        backgroundColor: errors.password
-                          ? "#fef2f2"
-                          : "transparent",
-                      }}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => togglePasswordVisibility("password")}
-                      style={{
-                        position: "absolute",
-                        right: "10px",
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                        background: "none",
-                        border: "none",
-                        cursor: "pointer",
-                        fontSize: "12px",
-                        zIndex: 1,
-                        color: "#666",
-                      }}
-                    >
-                      {showPassword ? "Hide" : "Show"}
-                    </button>
-                  </div>
-                  {errors.password && (
-                    <div
-                      style={{
-                        color: "#dc2626",
-                        fontSize: "12px",
-                        marginTop: "4px",
-                      }}
-                    >
-                      {errors.password}
-                    </div>
-                  )}
-                </div>
-                <Image
-                  className={styles.icon}
-                  width={30}
-                  height={25}
-                  sizes="100vw"
-                  alt=""
-                  src="Icon.svg"
-                />
-                <Image
-                  className={styles.icon1}
-                  width={30}
-                  height={25}
-                  sizes="100vw"
-                  alt=""
-                  src="Icon.svg"
-                />
-                <div className={styles.textField4}>
-                  <div className={styles.labelWrapper}>
-                    <div className={styles.label}>*Confirm Password</div>
-                  </div>
-                  <div
-                    className={styles.textField1}
-                    style={{ position: "relative" }}
-                  >
-                    <input
-                      type={showConfirmPassword ? "text" : "password"}
-                      value={formData.confirmPassword}
-                      onChange={(e) =>
-                        handleInputChange("confirmPassword", e.target.value)
-                      }
-                      placeholder="Confirm your password"
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        border: "none",
-                        outline: "none",
-                        padding: "12px",
-                        paddingRight: "40px",
-                        fontSize: "14px",
-                        borderRadius: "4px",
-                        backgroundColor: errors.confirmPassword
-                          ? "#fef2f2"
-                          : "transparent",
-                      }}
-                    />
-                    <button
-                      type="button"
-                      onClick={() =>
-                        togglePasswordVisibility("confirmPassword")
-                      }
-                      style={{
-                        position: "absolute",
-                        right: "10px",
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                        background: "none",
-                        border: "none",
-                        cursor: "pointer",
-                        fontSize: "12px",
-                        zIndex: 1,
-                        color: "#666",
-                      }}
-                    >
-                      {showConfirmPassword ? "Hide" : "Show"}
-                    </button>
-                  </div>
-                  {errors.confirmPassword && (
-                    <div
-                      style={{
-                        color: "#dc2626",
-                        fontSize: "12px",
-                        marginTop: "4px",
-                      }}
-                    >
-                      {errors.confirmPassword}
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div className={styles.button2}>
-                <div className={styles.signUpWrapper}>
-                  <div
-                    className={styles.webDesigns}
-                    onClick={handleSubmit}
-                    style={{
-                      cursor: isLoading ? "not-allowed" : "pointer",
-                      opacity: isLoading ? 0.7 : 1,
-                    }}
-                  >
-                    {isLoading ? "Creating Account..." : "Sign Up"}
-                  </div>
-                </div>
-              </div>
-            </div>
+        <div
+          className={`${styles.errorbox} ${
+            errorMessage || phoneError || otpErrorMessage
+              ? styles.visible
+              : styles.hidden
+          }`}
+        >
+          Phone number must only contain digits.
+        </div>
+      </div>
+
+      <div
+        className={styles.button3}
+        style={{
+          backgroundColor: "#a68465",
+          opacity: isNextEnabled ? "1" : "0.5",
+          transition: "opacity 0.2s ease",
+          cursor: isNextEnabled ? "pointer" : "not-allowed",
+        }}
+        onClick={isNextEnabled ? handleSubmit : undefined}
+      >
+        <div className={styles.signUpWrapper}>
+          <div className={styles.webDesigns}>
+            {loading ? "Verifying..." : "Sign Up"}
           </div>
         </div>
       </div>
