@@ -177,7 +177,6 @@ export default function FacilitySignup2({ onNext }: Props) {
     }
   };
 
-  //ERRORING
   const [errors, setErrors] = useState({
     ownername: false,
     facilityname: false,
@@ -203,7 +202,7 @@ export default function FacilitySignup2({ onNext }: Props) {
   const allFieldsValid =
     Object.values(fieldErrors).every((v) => !v) && !noDaysSelected;
 
-  const handleNextClick = () => {
+  const handleNextClick = async () => {
     setButtonClicked(true);
     setTimeout(() => setButtonClicked(false), 200);
 

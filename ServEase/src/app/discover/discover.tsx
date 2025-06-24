@@ -8,7 +8,6 @@ import styles from "../styles/DiscoverPage.module.css";
 
 const DiscoverPage: NextPage = () => {
   const onLinkContainerClick = useCallback(() => {
-    // Add your code here
     console.log("Link clicked!");
   }, []);
 
@@ -23,7 +22,7 @@ const DiscoverPage: NextPage = () => {
           </div>
           <b className={styles.contactUs}>Contact Us</b>
           <div className={styles.supportserveasecom}>support@servease.com</div>
-          <div className={styles.contactNumber}> contact number</div>
+          <div className={styles.contactNumber}>contact number</div>
           <b className={styles.support}>Support</b>
           <div className={styles.faqs}>FAQs</div>
           <div className={styles.privacyPolicy}>Privacy Policy</div>
@@ -34,39 +33,7 @@ const DiscoverPage: NextPage = () => {
           <div className={styles.home}>Home</div>
           <div className={styles.discover}>Discover</div>
           <div className={styles.createAnAccount}>Create an Account</div>
-          <div className={styles.facebookParent}>
-            <div className={styles.facebook}>Facebook</div>
-            <Image
-              className={styles.groupChild}
-              width={22}
-              height={22}
-              sizes="100vw"
-              alt=""
-              src="Frame 1.svg"
-            />
-          </div>
-          <div className={styles.twitterParent}>
-            <div className={styles.twitter}>Twitter</div>
-            <Image
-              className={styles.groupItem}
-              width={26}
-              height={22}
-              sizes="100vw"
-              alt=""
-              src="Frame 2.svg"
-            />
-          </div>
-          <div className={styles.instagramParent}>
-            <div className={styles.instagram}>Instagram</div>
-            <Image
-              className={styles.groupInner}
-              width={24}
-              height={24}
-              sizes="100vw"
-              alt=""
-              src="Frame 3.svg"
-            />
-          </div>
+          
           <div className={styles.lineParent}>
             <div className={styles.lineDiv} />
             <div className={styles.servease2025}>
@@ -93,7 +60,7 @@ const DiscoverPage: NextPage = () => {
                 height={13.5}
                 sizes="100vw"
                 alt=""
-                src="Icon.svg"
+                src="Chevron right.svg"
               />
             </div>
           </div>
@@ -114,7 +81,7 @@ const DiscoverPage: NextPage = () => {
                 height={13.5}
                 sizes="100vw"
                 alt=""
-                src="Icon.svg"
+                src="Chevron right.svg"
               />
             </div>
           </div>
@@ -131,7 +98,7 @@ const DiscoverPage: NextPage = () => {
                 height={13.5}
                 sizes="100vw"
                 alt=""
-                src="Icon.svg"
+                src="Chevron right.svg"
               />
             </div>
           </div>
@@ -146,7 +113,7 @@ const DiscoverPage: NextPage = () => {
                 height={13.5}
                 sizes="100vw"
                 alt=""
-                src="Icon.svg"
+                src="Chevron right.svg"
               />
             </div>
           </div>
@@ -164,7 +131,7 @@ const DiscoverPage: NextPage = () => {
                 height={13.5}
                 sizes="100vw"
                 alt=""
-                src="Icon.svg"
+                src="Chevron right.svg"
               />
             </div>
           </div>
@@ -181,7 +148,7 @@ const DiscoverPage: NextPage = () => {
                 height={13.5}
                 sizes="100vw"
                 alt=""
-                src="Icon.svg"
+                src="Chevron right.svg"
               />
             </div>
           </div>
@@ -196,7 +163,7 @@ const DiscoverPage: NextPage = () => {
                 height={13.5}
                 sizes="100vw"
                 alt=""
-                src="Icon.svg"
+                src="Chevron right.svg"
               />
             </div>
           </div>
@@ -211,7 +178,7 @@ const DiscoverPage: NextPage = () => {
             height={40}
             sizes="100vw"
             alt=""
-            src="/Servease Logo (Album Cover) (3) 1.png"
+            src="/Servease Logo (Album Cover) (3) 2.png"
           />
           <div className={styles.servease1}>
             <span className={styles.serv}>serv</span>
@@ -239,7 +206,7 @@ const DiscoverPage: NextPage = () => {
                 height={20}
                 sizes="100vw"
                 alt=""
-                src="Icon.svg"
+                src="filter.svg"
               />
               <div className={styles.moreFilters}>More Filters</div>
             </div>
@@ -251,7 +218,7 @@ const DiscoverPage: NextPage = () => {
               height={15}
               sizes="100vw"
               alt=""
-              src="Icon.svg"
+              src="find.svg"
             />
             <div className={styles.findListing}>Find Listing</div>
           </div>

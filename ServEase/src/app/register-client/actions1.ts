@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import { type SignUpWithPasswordCredentials } from '@supabase/supabase-js';
 import { createClient } from '../utils/supabase/server';
 
-export async function signup(formData: FormData): Promise<void> {
+export async function clientLoginCredentials(formData: FormData): Promise<void> {
   console.log("--- SIGNUP SERVER ACTION RUNNING ---");
   
   const supabase = await createClient();
@@ -39,5 +39,4 @@ export async function signup(formData: FormData): Promise<void> {
 
 
   console.log("SUCCESS! User account created. Redirecting to profile setup.");
-  return redirect('/register-client'); 
 }

@@ -18,7 +18,7 @@ export async function addContactAndCompleteProfile(formData: FormData): Promise<
   const user = data.user;
   console.log("Authenticated user found:", user.id);
 
-  const contactNumber = formData.get('contact_number') as string;
+  const contactNumber = formData.get('contact') as string;
 
   if (!contactNumber?.trim()) {
     console.error("Validation FAILED: Contact number is missing.");

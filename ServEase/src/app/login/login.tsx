@@ -56,6 +56,7 @@ const Login: NextPage = () => {
       formData.append('password', password);
       
       await login(formData);
+      router.push("/discover");
     } 
     catch (error) {
       console.error("Login failed:", error);

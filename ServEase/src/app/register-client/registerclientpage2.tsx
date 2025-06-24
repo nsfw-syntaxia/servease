@@ -240,7 +240,7 @@ export default function ClientSignup2({ onNext }: Props) {
         </div>
         <div className={styles.gender}>
           <div className={styles.webDesigns}>
-            What's your gender? (optional)
+            What is your gender? (optional)
           </div>
           <div className={styles.genderOptionsContainer}>
             <div
@@ -303,7 +303,7 @@ export default function ClientSignup2({ onNext }: Props) {
         </div>
       </div>
       <div className={styles.gender}>
-        <div className={styles.webDesigns}>What's your date of birth?</div>
+        <div className={styles.webDesigns}>What is your date of birth?</div>
         <div className={styles.textFieldParent}>
           <div className={styles.textField6}>
             <div className={styles.labelWrapper}>

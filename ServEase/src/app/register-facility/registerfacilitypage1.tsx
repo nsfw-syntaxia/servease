@@ -40,7 +40,15 @@ export default function FacilitySignup1({ onNext }: Props) {
     setConfirmPasswordVisible(!confirmPasswordVisible);
   };
 
-  const handleSignUpClick = () => {
+  const isFormValid =
+    email &&
+    password &&
+    confirmPassword &&
+    validateEmail(email) &&
+    password === confirmPassword &&
+    password.length >= 8;
+
+  const handleSignUpClick = async () => {
     setButtonClicked(true);
     setTimeout(() => setButtonClicked(false), 200);
 
@@ -96,7 +104,7 @@ export default function FacilitySignup1({ onNext }: Props) {
       setShowError(false);
       console.log("Form is valid, proceeding to next step");
       onNext();
-    } catch {
+    } catch (error) {
       console.error("Form submission failed:", error);
     }
   };
@@ -124,14 +132,6 @@ export default function FacilitySignup1({ onNext }: Props) {
       setFieldErrors((prev) => ({ ...prev, confirmPassword: false }));
     }
   };
-
-  const isFormValid =
-    email &&
-    password &&
-    confirmPassword &&
-    validateEmail(email) &&
-    password === confirmPassword &&
-    password.length >= 8;
 
   return (
     <div className={styles.login2}>
@@ -229,9 +229,7 @@ export default function FacilitySignup1({ onNext }: Props) {
           <div className={styles.errorMessage}>{error}</div>
         </div>
         <div
-          className={`${styles.buttoncontainer} ${
-            buttonClicked ? styles.clicked : ""
-          } ${isFormValid ? "" : styles.disabled}`}
+          className={styles.buttoncontainer}
           style={{
             backgroundColor: "#a68465",
             opacity: isFormValid ? "1" : "0.5",
