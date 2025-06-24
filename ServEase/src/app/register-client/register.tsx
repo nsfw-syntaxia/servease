@@ -233,7 +233,7 @@ const ClientSignup4: NextPage = () => {
                   </div>
                   <div className={styles.gender}>
                     <div className={styles.webDesigns}>
-                      What's your gender? (optional)
+                      What is your gender? (optional)
                     </div>
                     <div className={styles.genderOptionsContainer}>
                       <div
@@ -292,7 +292,7 @@ const ClientSignup4: NextPage = () => {
                 </div>
                 <div className={styles.gender}>
                   <div className={styles.webDesigns}>
-                    What's your date of birth?
+                    What is your date of birth?
                   </div>
                   <div className={styles.textFieldParent}>
                     <div className={styles.textField6}>
