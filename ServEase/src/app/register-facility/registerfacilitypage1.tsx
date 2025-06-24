@@ -99,7 +99,7 @@ export default function FacilitySignup1({ onNext }: Props) {
       console.log("Form is valid, proceeding to next step");
       onNext();
     }
-    catch
+    catch (error) 
     {
       console.error('Form submission failed:', error);
     }
