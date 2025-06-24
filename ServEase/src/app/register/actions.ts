@@ -9,7 +9,7 @@ export async function signup(formData: FormData) {
   const firstName = formData.get('first_name') as string;
   const lastName = formData.get('last_name') as string;
 
-  const supabase = createClient();
+  const supabase = await createClient();
 
   if (password.length < 6) {
     return redirect('/register?message=Password must be at least 6 characters long.');
