@@ -290,7 +290,6 @@
   	left: 144px;
   	border-radius: var(--br-12);
   	background-color: var(--color-antiquewhite);
-
 }
 .healthAndMedical {
   	position: absolute;
@@ -330,7 +329,7 @@
 .background3 {
   	position: absolute;
   	height: calc(100% - 2433px);
-  	width: calc(100% - 880px);
+  	width: 560px;
   	top: 1161px;
   	right: 736px;
   	bottom: 1272px;
@@ -360,7 +359,7 @@
 .background4 {
   	position: absolute;
   	height: calc(100% - 2433px);
-  	width: calc(100% - 880px);
+  	width: 560px;
   	top: 1161px;
   	right: 141px;
   	bottom: 1272px;
@@ -382,7 +381,7 @@
 .background5 {
   	position: absolute;
   	height: calc(100% - 2433px);
-  	width: calc(100% - 880px);
+  	width: 560px;
   	top: 1509px;
   	right: 736px;
   	bottom: 924px;
@@ -400,7 +399,7 @@
 .background6 {
   	position: absolute;
   	height: calc(100% - 2433px);
-  	width: calc(100% - 880px);
+  	width: 560px;
   	top: 1509px;
   	right: 141px;
   	bottom: 924px;
