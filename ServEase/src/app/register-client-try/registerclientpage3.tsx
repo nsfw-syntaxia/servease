@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import styles from "../styles/register-client-3.module.css";
+import {addContactAndCompleteProfile} from "./actions3";
 
 type Props = {
   onNext: () => void;
@@ -112,6 +113,9 @@ const ClientSignup3: NextPage<Props> = ({ onNext }) => {
 
       setLoading(true);
       await new Promise((resolve) => setTimeout(resolve, 1000));
+      const formData = new FormData();
+      formData.append('contact', countryCode + phone);
+      await addContactAndCompleteProfile(formData);
       router.push("/landingpage");
     } catch (error: any) {
       setErrorMessage(error.message || "Verification failed");

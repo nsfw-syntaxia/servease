@@ -4,6 +4,7 @@ import type { NextPage } from "next";
 import Image from "next/image";
 import { useState } from "react";
 import styles from "../styles/RegisterFacilityPage1copy.module.css";
+import { clientLoginCredentials } from "./actions1";
 
 type Props = {
   onNext: () => void;
@@ -19,7 +20,6 @@ export default function ClientSignup1({ onNext }: Props) {
   const [showError, setShowError] = useState(false);
   const [buttonClicked, setButtonClicked] = useState(false);
 
-  // New state to track which fields have errors
   const [fieldErrors, setFieldErrors] = useState({
     email: false,
     password: false,
@@ -85,11 +85,20 @@ export default function ClientSignup1({ onNext }: Props) {
       return;
     }
 
-    setFieldErrors(newFieldErrors);
-    setError("");
-    setShowError(false);
-    console.log("Form is valid, proceeding to next step");
-    onNext();
+    try {
+      const formData = new FormData();
+      formData.append('email', email);
+      formData.append('password', password);
+      await clientLoginCredentials(formData);
+      setFieldErrors(newFieldErrors);
+      setError("");
+      setShowError(false);
+      console.log("Form is valid, proceeding to next step");
+      onNext();
+    }
+    catch (error) {
+      console.log("Error registration");
+    }
   };
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
