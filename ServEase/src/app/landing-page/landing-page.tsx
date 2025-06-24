@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import styles from "../styles/landing-page.module.css";
 import React, { createContext, useContext } from "react";
 
@@ -205,6 +206,7 @@ const LandingPage = () => {
   const offerAnimationTriggered = useRef(false);
   const whyChooseAnimationTriggered = useRef(false);
   const registerAnimationTriggered = useRef(false);
+  const router = useRouter();
 
   useEffect(() => {
     setNavDropped(true);
@@ -344,21 +346,41 @@ const LandingPage = () => {
               sizes="100vw"
               alt=""
               src="/landingLogo.svg"
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
             />
-            <div className={styles.servease1}>
+            <div
+              className={styles.servease1}
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+            >
               <span className={styles.serv1}>serv</span>
               <b>ease</b>
             </div>
           </div>
           <div className={styles.navigationChild} />
           <div className={styles.homeParent}>
-            <div className={styles.home1}>Home</div>
+            <div
+              className={styles.home1}
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+            >
+              Home
+            </div>
             <div className={styles.home1}>Discover</div>
             <div className={styles.contactUs1}>Contact Us</div>
           </div>
           <div className={styles.navigationChild} />
           <div className={styles.button1}>
-            <div className={styles.signIn}>Sign in</div>
+            <div
+              className={styles.signIn}
+              onClick={() => router.push("/login")}
+            >
+              Sign in
+            </div>
           </div>
         </div>
 
@@ -385,7 +407,10 @@ const LandingPage = () => {
                 brings together clients and providers in a seamless digital hub
                 built for speed, trust, and ease.
                 <div className={styles.button}>
-                  <div className={styles.joinServeaseNow}>
+                  <div
+                    className={styles.joinServeaseNow}
+                    onClick={() => router.push("/signup")}
+                  >
                     Join servease now
                   </div>
                 </div>
@@ -690,7 +715,12 @@ const LandingPage = () => {
               and tailored to your needs.
             </div>
             <div className={styles.link}>
-              <div className={styles.getStarted}>Get Started</div>
+              <div
+                className={styles.getStarted}
+                onClick={() => router.push("/signup")}
+              >
+                Get Started
+              </div>
               <Image
                 className={styles.svgIcon}
                 width={14}
@@ -725,7 +755,12 @@ const LandingPage = () => {
               your business with ease.
             </div>
             <div className={styles.link1}>
-              <div className={styles.getStarted1}>Get Started</div>
+              <div
+                className={styles.getStarted1}
+                onClick={() => router.push("/signup")}
+              >
+                Get Started
+              </div>
               <Image
                 className={styles.svgIcon}
                 width={14}
@@ -767,9 +802,21 @@ const LandingPage = () => {
             <span className={styles.serv}>serv</span>
             <b>ease</b>
           </div>
-          <div className={styles.home}>Home</div>
+          <div
+            className={styles.home}
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+          >
+            Home
+          </div>
           <div className={styles.discover}>Discover</div>
-          <div className={styles.createAnAccount}>Create an Account</div>
+          <div
+            className={styles.createAnAccount}
+            onClick={() => router.push("/signup")}
+          >
+            Create an Account
+          </div>
           <div className={styles.lineParent}>
             <div className={styles.lineDiv} />
             <div className={styles.servease2025}>
