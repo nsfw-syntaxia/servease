@@ -40,6 +40,14 @@ export default function FacilitySignup1({ onNext }: Props) {
     setConfirmPasswordVisible(!confirmPasswordVisible);
   };
 
+  const isFormValid =
+    email &&
+    password &&
+    confirmPassword &&
+    validateEmail(email) &&
+    password === confirmPassword &&
+    password.length >= 8;
+  
   const handleSignUpClick = async() => {
     if (!isFormValid) return;
     setButtonClicked(true);
@@ -128,13 +136,6 @@ export default function FacilitySignup1({ onNext }: Props) {
     }
   };
 
-  const isFormValid =
-    email &&
-    password &&
-    confirmPassword &&
-    validateEmail(email) &&
-    password === confirmPassword &&
-    password.length >= 8;
 
   return (
     <div className={styles.login2}>
