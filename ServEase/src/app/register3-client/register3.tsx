@@ -225,7 +225,7 @@ const ClientSignup3: NextPage = () => {
                     </div>
                     <div className={styles.contactInformation}>Login</div>
                   </div>
-                  <div className={styles.setUpYour}>Set up your login credential to keep your account secure. We'll send a one-time link to confirm it's really you.</div>
+                  <div className={styles.setUpYour}>Set up your login credential to keep your account secure. We will send a one-time link to confirm it is really you.</div>
                   <div className={styles.allFieldsRequired}>*All fields required unless noted.</div>
                 </div>
 
