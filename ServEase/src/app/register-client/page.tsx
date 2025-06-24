@@ -1,6 +1,9 @@
-import ClientSignup1 from './register'; 
+import ClientSignup from "./registerclientcollapsedform";
 
-export default function RegisterRoute() {
-  
-  return <ClientSignup1 />;
+export default function Home() {
+  return (
+    <>
+      <ClientSignup />
+    </>
+  );
 }
