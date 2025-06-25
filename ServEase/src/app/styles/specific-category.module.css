@@ -24,6 +24,7 @@
   	width: 35px;
   	height: 35px;
   	overflow: hidden;
+    cursor: pointer;
 }
 .moreFilters {
     color: var(--color-gray-500);
@@ -35,6 +36,7 @@
   	align-items: center;
   	width: 81.9px;
   	height: 27.8px;
+    cursor: pointer;
 }
 .link {
   	position: absolute;
@@ -60,6 +62,7 @@
   	width: 20px;
   	height: 20px;
   	overflow: hidden;
+    cursor: pointer;
 }
 .findListing {
   	position: absolute;
@@ -85,6 +88,7 @@
   	height: 55.8px;
   	text-align: center;
   	color: var(--color-white);
+    cursor: pointer;
 }
 .enterAService {
     color: var(--color-gray-700);
@@ -194,6 +198,13 @@
   	height: 27px;
   	flex-shrink: 0;
     cursor: pointer;
+}
+.home:hover,
+.contactUs:hover {
+  color: var(--color-tan);
+  font-weight: 700;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 .homeParent {
   	display: flex;
@@ -350,11 +361,13 @@
   	align-items: center;
   	height: 27.8px;
   	flex-shrink: 0;
+    cursor: pointer;
 }
 .svgIcon {
   	width: 14px;
   	position: relative;
   	height: 14px;
+    cursor: pointer;
 }
 .link1 {
   	display: flex;
