@@ -371,7 +371,17 @@ const LandingPage = () => {
               Home
             </div>
             <div className={styles.home1}>Discover</div>
-            <div className={styles.contactUs1}>Contact Us</div>
+            <div
+              className={styles.contactUs1}
+              onClick={() => {
+                window.scrollTo({
+                  top: document.body.scrollHeight,
+                  behavior: "smooth",
+                });
+              }}
+            >
+              Contact Us
+            </div>
           </div>
           <div className={styles.navigationChild} />
           <div className={styles.button1}>

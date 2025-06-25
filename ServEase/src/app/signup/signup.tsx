@@ -6,6 +6,9 @@ import type { NextPage } from "next";
 import Image from "next/image";
 import styles from "../styles/signup.module.css";
 
+import ClientSignup from "../register-client/registerclientcollapsedform";
+import FacilitySignup from "../register-facility/registerfacilitycollapsedform";
+
 const Signup: NextPage = () => {
   const [selectedUserType, setSelectedUserType] = useState<
     "client" | "service" | null
@@ -29,7 +32,11 @@ const Signup: NextPage = () => {
       if (!selectedUserType) {
         setShowError(true);
       } else {
-        router.push("/login");
+        const destination =
+          selectedUserType === "client"
+            ? "/register-client"
+            : "/register-facility";
+        router.push(destination);
       }
     }, 200);
   };
@@ -40,6 +47,13 @@ const Signup: NextPage = () => {
       (selectedUserType === null && hoveredUserType === type)
     );
   };
+
+  {
+    selectedUserType === "client" && <ClientSignup />;
+  }
+  {
+    selectedUserType === "service" && <FacilitySignup />;
+  }
 
   return (
     <div className={styles.signup}>
@@ -220,6 +234,7 @@ const Signup: NextPage = () => {
           sizes="100vw"
           alt=""
           src="/close.svg"
+          onClick={() => router.push("/home")}
         />
         <Image
           className={styles.authlogoIcon}
