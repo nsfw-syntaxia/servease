@@ -796,9 +796,21 @@ const LandingPage = () => {
           <div className={styles.faqs}>FAQs</div>
           <div className={styles.privacyPolicy}>Privacy Policy</div>
           <div className={styles.termsConditions}>{`Terms & Conditions`}</div>
-          <div className={styles.aboutUs}>About Us</div>
+          <div
+            className={styles.aboutUs}
+            onClick={() => {
+              window.scrollTo({ top: 500, behavior: "smooth" });
+            }}
+          >
+            About Us
+          </div>
           <b className={styles.quickLinks}>Quick Links</b>
-          <div className={styles.servease}>
+          <div
+            className={styles.servease}
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+          >
             <span className={styles.serv}>serv</span>
             <b>ease</b>
           </div>
@@ -830,6 +842,9 @@ const LandingPage = () => {
             sizes="100vw"
             alt=""
             src="/landingLogo.svg"
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
           />
         </div>
       </div>
