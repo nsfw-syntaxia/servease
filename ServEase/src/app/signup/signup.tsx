@@ -220,6 +220,7 @@ const Signup: NextPage = () => {
           sizes="100vw"
           alt=""
           src="/close.svg"
+          onClick={() => router.push("/home")}
         />
         <Image
           className={styles.authlogoIcon}
