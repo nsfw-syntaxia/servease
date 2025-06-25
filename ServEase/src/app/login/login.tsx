@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import type { NextPage } from "next";
 import Image from "next/image";
 import styles from "../styles/login.module.css";
-import {login} from "./actions";
+import { login } from "./actions";
 
 const Login: NextPage = () => {
   const [rememberMeChecked, setRememberMeChecked] = useState(false);
@@ -35,34 +35,32 @@ const Login: NextPage = () => {
     setError("");
     setShowError(false);
 
-
     if (!email || !password) {
       setError("Please fill in all required fields.");
       setShowError(true);
-      setIsClicked(false); 
+      setIsClicked(false);
       return;
     }
 
     if (!validateEmail(email)) {
       setError("Please enter a valid email address.");
       setShowError(true);
-      setIsClicked(false); 
-      return; 
+      setIsClicked(false);
+      return;
     }
 
     try {
       const formData = new FormData();
-      formData.append('email', email);
-      formData.append('password', password);
-      
+      formData.append("email", email);
+      formData.append("password", password);
+
       await login(formData);
-    } 
-    catch (error) {
+      router.push("/discover");
+    } catch (error) {
       console.error("Login failed:", error);
       setError("Login failed. Please check your credentials and try again.");
       setShowError(true);
-    } 
-    finally {
+    } finally {
       setIsClicked(false);
     }
   };
@@ -107,14 +105,15 @@ const Login: NextPage = () => {
                       <div className={styles.label}>Email address</div>
                     </div>
                     <div
-                      className={`${styles.tbx} ${styles.inputBox} ${
-                        email ? styles.tbxFilled : ""
-                      }`}
+                      className={`${styles.tbx} ${styles.inputBox} 
+    ${email ? styles.tbxFilled : ""} 
+    ${showError && (!email || !validateEmail(email)) ? styles.tbxError : ""}`}
                     >
                       <input
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        placeholder="Enter your email address"
                         className={styles.passwordInput}
                       />
                     </div>
@@ -127,14 +126,15 @@ const Login: NextPage = () => {
                       <div className={styles.label}>Password</div>
                     </div>
                     <div
-                      className={`${styles.tbx} ${styles.inputBox} ${
-                        password ? styles.tbxFilled : ""
-                      }`}
+                      className={`${styles.tbx} ${styles.inputBox} 
+    ${password ? styles.tbxFilled : ""} 
+    ${showError && !password ? styles.tbxError : ""}`}
                     >
                       <input
                         type={passwordVisible ? "text" : "password"}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Enter your password"
                         className={styles.passwordInput}
                       />
                       <Image
@@ -209,6 +209,7 @@ const Login: NextPage = () => {
           sizes="100vw"
           alt=""
           src="/close.svg"
+          onClick={() => router.push("/home")}
         />
         <Image
           className={styles.authlogoIcon}

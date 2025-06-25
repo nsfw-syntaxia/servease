@@ -708,9 +708,9 @@
   outline: none;
   background: transparent;
   font-size: var(--font-size-16);
-  color: var(--color-dimgray-500);
+  color: var(--color-tan);
   padding: 16px;
-  font-family: var(--font-poppins);
+  font-family: var(--font-dm-sans);
   font-weight: 400;
   z-index: 2;
   cursor: text;
@@ -981,17 +981,17 @@
 }
 
 .errorInput {
-  border: 1px solid #ef5350 !important;
-  background-color: #ffebee !important;
+  border: 1px solid #ef5350;
+  background-color: #ffebee;
   transition: all 0.2s ease;
 }
 
 .errorInput:hover {
-  border-color: #ef5350 !important;
+  border-color: #ef5350;
 }
 
 .errorInput:focus-within {
-  border-color: #ef5350 !important;
+  border-color: #ef5350;
   box-shadow: 0 0 0 2px rgba(239, 83, 80, 0.2);
 }
 

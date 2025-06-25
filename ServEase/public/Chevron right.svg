@@ -1,3 +1,8 @@
+feature/Raboy-discover
 <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M10.125 20.25L16.875 13.5L10.125 6.75" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M7.5 15L12.5 10L7.5 5" stroke="#F8F7F3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+main
 </svg>

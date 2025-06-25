@@ -47,9 +47,8 @@ export default function FacilitySignup1({ onNext }: Props) {
     validateEmail(email) &&
     password === confirmPassword &&
     password.length >= 8;
-  
-  const handleSignUpClick = async() => {
-    if (!isFormValid) return;
+
+  const handleSignUpClick = async () => {
     setButtonClicked(true);
     setTimeout(() => setButtonClicked(false), 200);
 
@@ -97,18 +96,16 @@ export default function FacilitySignup1({ onNext }: Props) {
 
     try {
       const formData = new FormData();
-      formData.append('email', email);
-      formData.append('password', password);
-      await loginCredentials(formData);
+      formData.append("email", email);
+      formData.append("password", password);
+      //await loginCredentials(formData);
       setFieldErrors(newFieldErrors);
       setError("");
       setShowError(false);
       console.log("Form is valid, proceeding to next step");
       onNext();
-    }
-    catch (error) 
-    {
-      console.error('Form submission failed:', error);
+    } catch (error) {
+      console.error("Form submission failed:", error);
     }
   };
 
@@ -135,7 +132,6 @@ export default function FacilitySignup1({ onNext }: Props) {
       setFieldErrors((prev) => ({ ...prev, confirmPassword: false }));
     }
   };
-
 
   return (
     <div className={styles.login2}>
