@@ -6,7 +6,7 @@ import Image from "next/image";
 import styles from "../styles/DiscoverPage.module.css";
 
 
-const DiscoverPage: NextPage = () => {
+const discoverPage: NextPage = () => {
   const onLinkContainerClick = useCallback(() => {
     console.log("Link clicked!");
   }, []);
@@ -22,7 +22,7 @@ const DiscoverPage: NextPage = () => {
           </div>
           <b className={styles.contactUs}>Contact Us</b>
           <div className={styles.supportserveasecom}>support@servease.com</div>
-          <div className={styles.contactNumber}>contact number</div>
+          <div className={styles.contactNumber}>// contact number</div>
           <b className={styles.support}>Support</b>
           <div className={styles.faqs}>FAQs</div>
           <div className={styles.privacyPolicy}>Privacy Policy</div>
@@ -46,7 +46,7 @@ const DiscoverPage: NextPage = () => {
             height={40}
             sizes="100vw"
             alt=""
-            src="/Servease Logo (Album Cover) (3) 2.png"
+            src="/Servease Logo.svg"
           />
         </div>
         <div className={styles.whatweofferbox} />
@@ -163,7 +163,7 @@ const DiscoverPage: NextPage = () => {
                 height={13.5}
                 sizes="100vw"
                 alt=""
-                src="Chevron right.svg"
+                src="/Chevron right.svg"
               />
             </div>
           </div>
@@ -178,7 +178,7 @@ const DiscoverPage: NextPage = () => {
             height={40}
             sizes="100vw"
             alt=""
-            src="/Servease Logo (Album Cover) (3) 2.png"
+            src="/Servease Logo.svg"
           />
           <div className={styles.servease1}>
             <span className={styles.serv}>serv</span>
@@ -233,4 +233,4 @@ const DiscoverPage: NextPage = () => {
   );
 };
 
-export default DiscoverPage;
+export default discoverPage;
