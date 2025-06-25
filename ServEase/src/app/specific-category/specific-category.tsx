@@ -1,8 +1,14 @@
+'use client';
+
 import type { NextPage } from "next";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import styles from "../styles/specific-category.module.css";
 
+
 const SpecificCategory: NextPage = () => {
+    const router = useRouter();
+
   return (
     <div className={styles.discover3}>
       <div className={styles.whatweofferbox} />
@@ -42,7 +48,6 @@ const SpecificCategory: NextPage = () => {
         <span className={styles.services}> Services</span>
       </b>
       <div className={styles.heroImage}>
-        <div className={styles.barbershops}>Barbershops</div>
       </div>
       <div className={styles.navigation}>
         <Image
@@ -523,74 +528,71 @@ const SpecificCategory: NextPage = () => {
           </div>
         </div>
       </div>
-      <div className={styles.footer}>
-        <div className={styles.footerChild} />
-        <div className={styles.yourTrustedPlatform}>
-          Your trusted platform to discover, book, and manage local
-          services—anytime, anywhere.
-        </div>
-        <b className={styles.contactUs1}>Contact Us</b>
-        <div className={styles.supportserveasecom}>support@servease.com</div>
-        <div className={styles.div9}>+69 996 7425 845</div>
-        <b className={styles.support}>Support</b>
-        <div className={styles.faqs}>FAQs</div>
-        <div className={styles.privacyPolicy}>Privacy Policy</div>
-        <div className={styles.termsConditions}>{`Terms & Conditions`}</div>
-        <div className={styles.aboutUs}>About Us</div>
-        <b className={styles.quickLinks}>Quick Links</b>
-        <b className={styles.servease1}>servease</b>
-        <div className={styles.home1}>Home</div>
-        <div className={styles.discover1}>Discover</div>
-        <div className={styles.createAnAccount}>Create an Account</div>
-        <div className={styles.facebookParent}>
-          <div className={styles.facebook}>Facebook</div>
-          <Image
-            className={styles.frameIcon}
-            width={22}
-            height={22}
-            sizes="100vw"
-            alt=""
-            src="/Frame 1.svg"
-          />
-        </div>
-        <div className={styles.twitterParent}>
-          <div className={styles.twitter}>Twitter</div>
-          <Image
-            className={styles.groupChild27}
-            width={26}
-            height={22}
-            sizes="100vw"
-            alt=""
-            src="/Frame 2.svg"
-          />
-        </div>
-        <div className={styles.instagramParent}>
-          <div className={styles.instagram}>Instagram</div>
-          <Image
-            className={styles.groupChild28}
-            width={24}
-            height={24}
-            sizes="100vw"
-            alt=""
-            src="/Frame 3.svg"
-          />
-        </div>
-        <div className={styles.lineParent}>
-          <div className={styles.lineDiv} />
-          <div className={styles.servease2025}>
-            servease 2025 © All rights reserved
+        <div className={styles.footer}>
+          <div className={styles.footerChild} />
+          <div className={styles.yourTrustedPlatform}>
+            Your trusted platform to discover, book, and manage local
+            services—anytime, anywhere.
           </div>
+          <b className={styles.contactUs1}>Contact Us</b>
+          <div className={styles.supportserveasecom}>support@servease.com</div>
+          <div className={styles.contactNumber}>+63 996-751-3542</div>
+          <b className={styles.support}>Support</b>
+          <div className={styles.faqs}>FAQs</div>
+          <div className={styles.privacyPolicy}>Privacy Policy</div>
+          <div className={styles.termsConditions}>{`Terms & Conditions`}</div>
+          <div
+            className={styles.aboutUs}
+            onClick={() => {
+              window.scrollTo({ top: 500, behavior: "smooth" });
+            }}
+          >
+            About Us
+          </div>
+          <b className={styles.quickLinks}>Quick Links</b>
+          <div
+            className={styles.servease1}
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+          >
+            <span className={styles.serv}>serv</span>
+            <b>ease</b>
+          </div>
+          <div
+            className={styles.home1}
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+          >
+            Home
+          </div>
+          <div className={styles.discover1}>Discover</div>
+          <div
+            className={styles.createAnAccount}
+            onClick={() => router.push("/signup")}
+          >
+            Create an Account
+          </div>
+          <div className={styles.lineParent}>
+            <div className={styles.lineDiv} />
+            <div className={styles.servease2025}>
+              servease 2025 © All rights reserved
+            </div>
+          </div>
+          <Image
+            className={styles.serveaseLogoAlbum}
+            width={40}
+            height={40}
+            sizes="100vw"
+            alt=""
+            src="/landingLogo.svg"
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+          />
         </div>
-        <Image
-          className={styles.serveaseLogoAlbumCover31}
-          width={40}
-          height={40}
-          sizes="100vw"
-          alt=""
-          src="/Servease Logo (Album Cover) (3) 2.png"
-        />
       </div>
-    </div>
   );
 };
 
