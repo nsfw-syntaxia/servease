@@ -80,6 +80,13 @@ const SpecificCategory: NextPage = () => {
           <div className={styles.customerQuoteChild} />
           <div className={styles.avatarParent}>
             <div className={styles.avatar}>
+              <Image
+                className={styles.servicePhoto}
+                width={45}
+                height={45}
+                alt="barbershop"
+                src="/iconBarbershop.png"
+              />
               <div className={styles.avatar1} />
               <div className={styles.serviceFacilityNameParent}>
                 <div className={styles.serviceFacilityName}>
@@ -156,6 +163,13 @@ const SpecificCategory: NextPage = () => {
           <div className={styles.customerQuoteChild} />
           <div className={styles.avatarWrapper}>
             <div className={styles.avatar}>
+              <Image
+                className={styles.servicePhoto}
+                width={45}
+                height={45}
+                alt="barbershop"
+                src="/iconBarbershop.png"
+              />
               <div className={styles.avatar1} />
               <div className={styles.serviceFacilityNameParent}>
                 <div className={styles.serviceFacilityName}>
@@ -231,6 +245,13 @@ const SpecificCategory: NextPage = () => {
           <div className={styles.customerQuoteChild} />
           <div className={styles.avatarParent}>
             <div className={styles.avatar}>
+              <Image
+                className={styles.servicePhoto}
+                width={45}
+                height={45}
+                alt="barbershop"
+                src="/iconBarbershop.png"
+              />
               <div className={styles.avatar1} />
               <div className={styles.serviceFacilityNameParent}>
                 <div className={styles.serviceFacilityName}>
@@ -307,6 +328,13 @@ const SpecificCategory: NextPage = () => {
           <div className={styles.customerQuoteChild} />
           <div className={styles.avatarWrapper}>
             <div className={styles.avatar}>
+              <Image
+                className={styles.servicePhoto}
+                width={45}
+                height={45}
+                alt="barbershop"
+                src="/iconBarbershop.png"
+              />
               <div className={styles.avatar1} />
               <div className={styles.serviceFacilityNameParent}>
                 <div className={styles.serviceFacilityName}>
@@ -382,6 +410,13 @@ const SpecificCategory: NextPage = () => {
           <div className={styles.customerQuoteChild} />
           <div className={styles.avatarParent}>
             <div className={styles.avatar}>
+              <Image
+                className={styles.servicePhoto}
+                width={45}
+                height={45}
+                alt="barbershop"
+                src="/iconBarbershop.png"
+              />
               <div className={styles.avatar1} />
               <div className={styles.serviceFacilityNameParent}>
                 <div className={styles.serviceFacilityName}>
@@ -458,6 +493,13 @@ const SpecificCategory: NextPage = () => {
           <div className={styles.customerQuoteChild} />
           <div className={styles.avatarWrapper}>
             <div className={styles.avatar}>
+              <Image
+                className={styles.servicePhoto}
+                width={45}
+                height={45}
+                alt="barbershop"
+                src="/iconBarbershop.png"
+              />
               <div className={styles.avatar1} />
               <div className={styles.serviceFacilityNameParent}>
                 <div className={styles.serviceFacilityName}>
