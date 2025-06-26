@@ -731,3 +731,30 @@
   transform: translateX(8px);
   color: var(--color-tan);
 }
+
+/* ADD THIS TO YOUR CSS FILE (e.g., styles/specific-category.module.css) */
+
+/* This is the main container for all your service provider cards */
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Creates a 2-column grid */
+  gap: 2rem; /* The space between cards, adjust as needed */
+  padding: 0 2rem; /* Adds some space on the sides */
+  max-width: 1200px; /* Optional: Constrains the max width */
+  margin: 2rem auto; /* Centers the grid and adds space on top/bottom */
+}
+
+/* This makes the grid stack into a single column on smaller screens */
+@media (max-width: 900px) {
+  .cardGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* A simple utility class for loading/error messages */
+.statusMessage {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #666;
+  padding: 4rem 0;
+}

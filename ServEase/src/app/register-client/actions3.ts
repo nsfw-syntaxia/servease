@@ -12,7 +12,6 @@ export async function addContactAndCompleteProfile(formData: FormData): Promise<
 
   if (authError || !data?.user) {
     console.error("User is not authenticated or there was an auth error:", authError);
-    return redirect('/login?error=You must be logged in to complete your profile.');
   }
 
   const user = data.user;
@@ -22,7 +21,6 @@ export async function addContactAndCompleteProfile(formData: FormData): Promise<
 
   if (!contactNumber?.trim()) {
     console.error("Validation FAILED: Contact number is missing.");
-    return redirect('/register-contact?error=missing_contact_number');
   }
 
   console.log(`Fetching initial profile for user_id: ${user.id}`);
@@ -34,7 +32,6 @@ export async function addContactAndCompleteProfile(formData: FormData): Promise<
 
   if (fetchError || !initialProfile) {
     console.error('Could not find initial profile for user or fetch error:', fetchError);
-    return redirect('/register-client?error=initial_profile_not_found'); 
   }
 
   console.log("Found initial profile data:", initialProfile);
@@ -56,7 +53,6 @@ export async function addContactAndCompleteProfile(formData: FormData): Promise<
 
   if (insertError) {
     console.error('--- SUPABASE FINAL INSERT ERROR ---', insertError);
-    return redirect(`/register-contact?error=database_insert_error&code=${insertError.code}`);
   }
 
   const { error: deleteError } = await supabase
@@ -71,5 +67,4 @@ export async function addContactAndCompleteProfile(formData: FormData): Promise<
   }
 
   console.log("SUCCESS! User registration fully completed for:", user.id);
-  redirect('/login'); 
 }
