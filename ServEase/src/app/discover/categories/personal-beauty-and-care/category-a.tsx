@@ -10,7 +10,6 @@ const PBACS: NextPage = () => {
 
   return (
     <div className={styles.pbacs}>
-      {/* footer */}
       <div className={styles.footer}>
         <div className={styles.footerChild} />
         <div className={styles.yourTrustedPlatform}>
