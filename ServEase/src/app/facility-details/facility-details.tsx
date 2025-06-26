@@ -269,7 +269,7 @@ const FacilityDetails: NextPage = () => {
                 height={1}
                 sizes="100vw"
                 alt=""
-                src="Divider.svg"
+                src="Divider1.svg"
               />
               <div className={styles.paraContent5} />
               <div className={styles.paraContentContainer}>
@@ -304,7 +304,7 @@ const FacilityDetails: NextPage = () => {
                 height={1}
                 sizes="100vw"
                 alt=""
-                src="Divider.svg"
+                src="Divider1.svg"
               />
               <div className={styles.paraContent10} />
               <div className={styles.paraContentFrame}>
@@ -339,7 +339,7 @@ const FacilityDetails: NextPage = () => {
               height={1}
               sizes="100vw"
               alt=""
-              src="Divider.svg"
+              src="Divider1.svg"
             />
             <div className={styles.buttonParent2}>
               <div className={styles.button9} onClick={handleClick}>
