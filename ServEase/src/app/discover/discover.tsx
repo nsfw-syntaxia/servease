@@ -6,7 +6,7 @@ import Image from "next/image";
 import styles from "../styles/DiscoverPage.module.css";
 
 
-const discoverPage: NextPage = () => {
+const DiscoverPage: NextPage = () => {
   const onLinkContainerClick = useCallback(() => {
     console.log("Link clicked!");
   }, []);
@@ -233,4 +233,4 @@ const discoverPage: NextPage = () => {
   );
 };
 
-export default discoverPage;
+export default DiscoverPage;
