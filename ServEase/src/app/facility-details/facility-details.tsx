@@ -180,7 +180,7 @@ const FacilityDetails: NextPage = () => {
                     height={25}
                     sizes="100vw"
                     alt=""
-                    src="Star 3.svg"
+                    src="Star 31.svg"
                   />
                   <Image
                     className={styles.groupItem}
@@ -188,7 +188,7 @@ const FacilityDetails: NextPage = () => {
                     height={25}
                     sizes="100vw"
                     alt=""
-                    src="Star 3.svg"
+                    src="Star 31.svg"
                   />
                   <Image
                     className={styles.groupInner}
@@ -196,7 +196,7 @@ const FacilityDetails: NextPage = () => {
                     height={25}
                     sizes="100vw"
                     alt=""
-                    src="Star 3.svg"
+                    src="Star 31.svg"
                   />
                   <Image
                     className={styles.starIcon}
@@ -212,7 +212,7 @@ const FacilityDetails: NextPage = () => {
                     height={25}
                     sizes="100vw"
                     alt=""
-                    src="Star 3.svg"
+                    src="Star 31.svg"
                   />
                 </div>
                 <div className={styles.kReviewsWrapper}>
@@ -412,7 +412,7 @@ const FacilityDetails: NextPage = () => {
                   height={90}
                   sizes="100vw"
                   alt=""
-                  src="location_on.svg"
+                  src="location_on1.svg"
                 />
                 <Image
                   className={styles.bgIcon}
@@ -478,7 +478,7 @@ const FacilityDetails: NextPage = () => {
                   >
                     {filter.hasStar && (
                       <Image
-                        src="/Star 3.svg"
+                        src="/Star 31.svg"
                         alt="star"
                         width={18}
                         height={18}
@@ -510,7 +510,7 @@ const FacilityDetails: NextPage = () => {
                       height={20}
                       sizes="100vw"
                       alt=""
-                      src="Star 3.svg"
+                      src="Star 31.svg"
                     />
                     <Image
                       className={styles.groupChild3}
@@ -518,7 +518,7 @@ const FacilityDetails: NextPage = () => {
                       height={20}
                       sizes="100vw"
                       alt=""
-                      src="Star 3.svg"
+                      src="Star 31.svg"
                     />
                     <Image
                       className={styles.groupChild4}
@@ -526,7 +526,7 @@ const FacilityDetails: NextPage = () => {
                       height={20}
                       sizes="100vw"
                       alt=""
-                      src="Star 3.svg"
+                      src="Star 31.svg"
                     />
                     <Image
                       className={styles.groupChild5}
@@ -542,7 +542,7 @@ const FacilityDetails: NextPage = () => {
                       height={20}
                       sizes="100vw"
                       alt=""
-                      src="Star 3.svg"
+                      src="Star 31.svg"
                     />
                   </div>
                   <div className={styles.name}>name</div>
@@ -574,7 +574,7 @@ const FacilityDetails: NextPage = () => {
                       height={20}
                       sizes="100vw"
                       alt=""
-                      src="Star 3.svg"
+                      src="Star 31.svg"
                     />
                     <Image
                       className={styles.groupChild3}
@@ -582,7 +582,7 @@ const FacilityDetails: NextPage = () => {
                       height={20}
                       sizes="100vw"
                       alt=""
-                      src="Star 3.svg"
+                      src="Star 31.svg"
                     />
                     <Image
                       className={styles.groupChild4}
@@ -590,7 +590,7 @@ const FacilityDetails: NextPage = () => {
                       height={20}
                       sizes="100vw"
                       alt=""
-                      src="Star 3.svg"
+                      src="Star 31.svg"
                     />
                     <Image
                       className={styles.groupChild5}
@@ -606,7 +606,7 @@ const FacilityDetails: NextPage = () => {
                       height={20}
                       sizes="100vw"
                       alt=""
-                      src="Star 3.svg"
+                      src="Star 31.svg"
                     />
                   </div>
                   <div className={styles.name}>name</div>
@@ -645,7 +645,7 @@ const FacilityDetails: NextPage = () => {
                       height={20}
                       sizes="100vw"
                       alt=""
-                      src="Star 3.svg"
+                      src="Star 31.svg"
                     />
                     <Image
                       className={styles.groupChild3}
@@ -653,7 +653,7 @@ const FacilityDetails: NextPage = () => {
                       height={20}
                       sizes="100vw"
                       alt=""
-                      src="Star 3.svg"
+                      src="Star 31.svg"
                     />
                     <Image
                       className={styles.groupChild4}
@@ -661,7 +661,7 @@ const FacilityDetails: NextPage = () => {
                       height={20}
                       sizes="100vw"
                       alt=""
-                      src="Star 3.svg"
+                      src="Star 31.svg"
                     />
                     <Image
                       className={styles.groupChild5}
@@ -677,7 +677,7 @@ const FacilityDetails: NextPage = () => {
                       height={20}
                       sizes="100vw"
                       alt=""
-                      src="Star 3.svg"
+                      src="Star 31.svg"
                     />
                   </div>
                   <div className={styles.name}>name</div>
@@ -763,7 +763,7 @@ const FacilityDetails: NextPage = () => {
                         height={20}
                         sizes="100vw"
                         alt=""
-                        src="Star 3.svg"
+                        src="Star 31.svg"
                       />
                       <Image
                         className={styles.groupChild18}
@@ -771,7 +771,7 @@ const FacilityDetails: NextPage = () => {
                         height={20}
                         sizes="100vw"
                         alt=""
-                        src="Star 3.svg"
+                        src="Star 31.svg"
                       />
                       <Image
                         className={styles.groupChild19}
@@ -779,7 +779,7 @@ const FacilityDetails: NextPage = () => {
                         height={20}
                         sizes="100vw"
                         alt=""
-                        src="Star 3.svg"
+                        src="Star 31.svg"
                       />
                       <Image
                         className={styles.groupChild20}
@@ -795,7 +795,7 @@ const FacilityDetails: NextPage = () => {
                         height={20}
                         sizes="100vw"
                         alt=""
-                        src="Star 3.svg"
+                        src="Star 31.svg"
                       />
                     </div>
                   </div>
@@ -819,7 +819,7 @@ const FacilityDetails: NextPage = () => {
                         height={20}
                         sizes="100vw"
                         alt=""
-                        src="Star 3.svg"
+                        src="Star 31.svg"
                       />
                       <Image
                         className={styles.groupChild18}
@@ -827,7 +827,7 @@ const FacilityDetails: NextPage = () => {
                         height={20}
                         sizes="100vw"
                         alt=""
-                        src="Star 3.svg"
+                        src="Star 31.svg"
                       />
                       <Image
                         className={styles.groupChild19}
@@ -835,7 +835,7 @@ const FacilityDetails: NextPage = () => {
                         height={20}
                         sizes="100vw"
                         alt=""
-                        src="Star 3.svg"
+                        src="Star 31.svg"
                       />
                       <Image
                         className={styles.groupChild20}
@@ -851,7 +851,7 @@ const FacilityDetails: NextPage = () => {
                         height={20}
                         sizes="100vw"
                         alt=""
-                        src="Star 3.svg"
+                        src="Star 31.svg"
                       />
                     </div>
                   </div>
@@ -875,7 +875,7 @@ const FacilityDetails: NextPage = () => {
                         height={20}
                         sizes="100vw"
                         alt=""
-                        src="Star 3.svg"
+                        src="Star 31.svg"
                       />
                       <Image
                         className={styles.groupChild18}
@@ -883,7 +883,7 @@ const FacilityDetails: NextPage = () => {
                         height={20}
                         sizes="100vw"
                         alt=""
-                        src="Star 3.svg"
+                        src="Star 31.svg"
                       />
                       <Image
                         className={styles.groupChild19}
@@ -891,7 +891,7 @@ const FacilityDetails: NextPage = () => {
                         height={20}
                         sizes="100vw"
                         alt=""
-                        src="Star 3.svg"
+                        src="Star 31.svg"
                       />
                       <Image
                         className={styles.groupChild20}
@@ -907,7 +907,7 @@ const FacilityDetails: NextPage = () => {
                         height={20}
                         sizes="100vw"
                         alt=""
-                        src="Star 3.svg"
+                        src="Star 31.svg"
                       />
                     </div>
                   </div>
