@@ -940,7 +940,7 @@ const FacilityDetails: NextPage = () => {
           </div>
           <b className={styles.contactUs1}>Contact Us</b>
           <div className={styles.supportserveasecom}>support@servease.com</div>
-          <div className={styles.contactNumber}>// contact number</div>
+          <div className={styles.contactNumber}>contact number</div>
           <b className={styles.support}>Support</b>
           <div className={styles.faqs}>FAQs</div>
           <div className={styles.privacyPolicy}>Privacy Policy</div>
