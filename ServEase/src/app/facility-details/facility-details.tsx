@@ -58,7 +58,9 @@ const FacilityDetails: NextPage = () => {
           </div>
           <div className={styles.navigationChild} />
           <div className={styles.homeParent}>
-            <div className={styles.home}>Home</div>
+            <div className={styles.home} onClick={() => router.push("/home")}>
+              Home
+            </div>
             <div className={styles.home}>Discover</div>
             <div className={styles.contactUs}>Contact Us</div>
           </div>
