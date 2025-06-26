@@ -1,7 +1,6 @@
 .serviceFacility {
   	margin: 0;
 }
-
 .serviceFacilityAppointmentContainer {
   	position: absolute;
   	top: -47px;
@@ -293,7 +292,7 @@
   	line-height: 15px;
   	font-weight: 500;
 	background-image: url('/personal.png');
-
+	margin: 40px auto;
 }
 .healthAndMedical {
   	position: absolute;
@@ -318,6 +317,7 @@
   	border-radius: var(--br-12);
   	background-color: var(--color-antiquewhite);
 	background-image: url('/health.png');
+	margin: 40px auto;
 
 }
 .fitnessAndSports {
@@ -343,7 +343,7 @@
   	border-radius: var(--br-12);
   	background-color: var(--color-antiquewhite);
 	background-image: url('/fitness.png');
-
+	margin: 40px auto;
 }
 .educationAndTutoring {
   	position: absolute;
@@ -375,7 +375,7 @@
   	border-radius: var(--br-12);
   	background-color: var(--color-antiquewhite);
 	background-image: url('/education.png');
-
+	margin: 40px auto;
 }
 .repairAndTechnical {
   	position: absolute;
@@ -399,7 +399,7 @@
   	border-radius: var(--br-12);
   	background-color: var(--color-antiquewhite);
 	background-image: url('/repair.png');
-
+	margin: 40px auto;
 }
 .foodAndBeverages {
   	position: absolute;
@@ -419,7 +419,7 @@
   	border-radius: var(--br-12);
   	background-color: var(--color-antiquewhite);
 	background-image: url('/food.png');
-
+	margin: 40px auto;
 }
 .image10 {
   	position: absolute;
