@@ -890,7 +890,7 @@ const PBACS: NextPage = () => {
           height={110}
           sizes="100vw"
           alt=""
-          src="piercing.svg"
+          src="/piercing.svg"
         />
         <Image
           className={styles.spaIcon}
@@ -898,7 +898,7 @@ const PBACS: NextPage = () => {
           height={110}
           sizes="100vw"
           alt=""
-          src="spa.svg"
+          src="/spa.svg"
         />
         <Image
           className={styles.nailSalonIcon}
@@ -906,7 +906,7 @@ const PBACS: NextPage = () => {
           height={110}
           sizes="100vw"
           alt=""
-          src="nail salon.svg"
+          src="/nail salon.svg"
         />
         <Image
           className={styles.hairSalonIcon}
@@ -914,7 +914,7 @@ const PBACS: NextPage = () => {
           height={109}
           sizes="100vw"
           alt=""
-          src="hair salon.svg"
+          src="/hair salon.svg"
         />
         <Image
           className={styles.barbershopIcon}
@@ -922,7 +922,7 @@ const PBACS: NextPage = () => {
           height={110}
           sizes="100vw"
           alt=""
-          src="barbershop.svg"
+          src="/barbershop.svg"
         />
       </div>
       <div className={styles.searchBox}>
@@ -934,7 +934,7 @@ const PBACS: NextPage = () => {
               height={20}
               sizes="100vw"
               alt=""
-              src="filtering.svg"
+              src="/filtering.svg"
             />
             <div className={styles.moreFilters}>More Filters</div>
           </div>
@@ -946,7 +946,7 @@ const PBACS: NextPage = () => {
             height={15}
             sizes="100vw"
             alt=""
-            src="search.svg"
+            src="/search.svg"
           />
           <div className={styles.findListing}>Find Listing</div>
         </div>
@@ -969,7 +969,7 @@ const PBACS: NextPage = () => {
           height={40}
           sizes="100vw"
           alt=""
-          src="logo.svg"
+          src="/logo.svg"
         />
         <div className={styles.servease1}>
           <span className={styles.serv}>serv</span>
