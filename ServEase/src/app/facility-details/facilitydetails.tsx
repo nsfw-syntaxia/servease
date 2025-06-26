@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import { useState } from "react";
 import Image from "next/image";
-import styles from "../styles/facility-details.module.css";
+import styles from "../styles/facilitydetails.module.css";
 
 const FacilityDetails: NextPage = () => {
   const router = useRouter();
