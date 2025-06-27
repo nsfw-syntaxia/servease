@@ -104,39 +104,6 @@
   gap: 25px;
   color: var(--color-gray-200);
 }
-.star {
-  width: 16px;
-  position: relative;
-  height: 16px;
-  overflow: hidden;
-  flex-shrink: 0;
-  display: none;
-}
-.signIn {
-  width: 75px;
-  position: relative;
-  line-height: 100%;
-  font-weight: 600;
-  display: inline-block;
-  flex-shrink: 0;
-}
-.button {
-  width: 100px;
-  border-radius: 8px;
-  background-color: var(--color-tan-200);
-  border: 1px solid var(--color-tan);
-  box-sizing: border-box;
-  height: 40px;
-  overflow: hidden;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-12);
-  gap: var(--gap-8);
-  color: var(--color-snow);
-}
 .navigation {
   position: relative;
   margin: 0 auto;
@@ -177,6 +144,148 @@
     transform: translate(0%, 0);
   }
 }
+.footer {
+  position: relative;
+  margin-top: 7rem;
+  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+    var(--color-white);
+  width: 100%;
+  height: 475px;
+  color: var(--color-black);
+}
+.footerChild {
+  position: relative;
+  background-color: var(--color-white);
+  width: 100%;
+  height: 534px;
+  margin: 0 auto;
+}
+.yourTrustedPlatform {
+  position: absolute;
+  top: 157px;
+  left: 143px;
+  line-height: 40px;
+  display: inline-block;
+  width: 359px;
+}
+.contactUs1 {
+  position: absolute;
+  top: 87px;
+  left: calc(50% + 343px);
+  font-size: var(--font-size-26);
+  line-height: 128.02%;
+  display: inline-block;
+  width: 217px;
+}
+.supportserveasecom {
+  position: absolute;
+  top: 157px;
+  left: calc(50% + 343px);
+  line-height: 40px;
+}
+.contactNumber {
+  position: absolute;
+  top: 197px;
+  left: calc(50% + 343px);
+  line-height: 40px;
+  display: inline-block;
+  width: 233px;
+}
+.support {
+  position: absolute;
+  top: 87px;
+  left: calc(50% + 144px);
+  font-size: var(--font-size-26);
+  line-height: 128.02%;
+  display: inline-block;
+  width: 196px;
+}
+.faqs {
+  position: absolute;
+  top: 158px;
+  left: calc(50% + 144px);
+  line-height: 40px;
+  display: inline-block;
+  width: 233px;
+}
+.privacyPolicy {
+  position: absolute;
+  top: 197px;
+  left: calc(50% + 144px);
+  line-height: 40px;
+  display: inline-block;
+  width: 233px;
+}
+.termsConditions {
+  position: absolute;
+  top: 237px;
+  left: calc(50% + 144px);
+  line-height: 40px;
+  display: inline-block;
+  width: 233px;
+}
+.aboutUs {
+  position: absolute;
+  top: 277px;
+  left: calc(50% + 144px);
+  line-height: 40px;
+  display: inline-block;
+  width: 233px;
+}
+.quickLinks {
+  position: absolute;
+  top: 87px;
+  left: calc(50% - 126px);
+  font-size: var(--font-size-26);
+  line-height: 128.02%;
+  display: inline-block;
+  width: 196px;
+}
+.servease1 {
+  position: absolute;
+  top: 87px;
+  left: calc(50% - 529px);
+  font-size: var(--font-size-26);
+  line-height: 128.02%;
+  display: inline-block;
+  width: 148px;
+  color: #a68465;
+}
+
+.star {
+  width: 16px;
+  position: relative;
+  height: 16px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: none;
+}
+.signIn {
+  width: 75px;
+  position: relative;
+  line-height: 100%;
+  font-weight: 600;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.button {
+  width: 100px;
+  border-radius: 8px;
+  background-color: var(--color-tan-200);
+  border: 1px solid var(--color-tan);
+  box-sizing: border-box;
+  height: 40px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: var(--padding-12);
+  gap: var(--gap-8);
+  color: var(--color-snow);
+}
+
 .image7 {
   align-self: stretch;
   position: relative;
@@ -1633,106 +1742,7 @@
   gap: 30px;
   color: var(--color-gray-100);
 }
-.footerChild {
-  position: relative;
-  top: 0px;
-  left: 0px;
-  background-color: var(--color-white);
-  width: 100%;
-  height: 534px;
-  margin: 0 auto;
-}
-.yourTrustedPlatform {
-  position: absolute;
-  top: 157px;
-  left: 143px;
-  line-height: 40px;
-  display: inline-block;
-  width: 359px;
-}
-.contactUs1 {
-  position: absolute;
-  top: 87px;
-  left: calc(50% + 343px);
-  font-size: var(--font-size-26);
-  line-height: 128.02%;
-  display: inline-block;
-  width: 217px;
-}
-.supportserveasecom {
-  position: absolute;
-  top: 157px;
-  left: calc(50% + 343px);
-  line-height: 40px;
-}
-.contactNumber {
-  position: absolute;
-  top: 197px;
-  left: calc(50% + 343px);
-  line-height: 40px;
-  display: inline-block;
-  width: 233px;
-}
-.support {
-  position: absolute;
-  top: 87px;
-  left: calc(50% + 144px);
-  font-size: var(--font-size-26);
-  line-height: 128.02%;
-  display: inline-block;
-  width: 196px;
-}
-.faqs {
-  position: absolute;
-  top: 158px;
-  left: calc(50% + 144px);
-  line-height: 40px;
-  display: inline-block;
-  width: 233px;
-}
-.privacyPolicy {
-  position: absolute;
-  top: 197px;
-  left: calc(50% + 144px);
-  line-height: 40px;
-  display: inline-block;
-  width: 233px;
-}
-.termsConditions {
-  position: absolute;
-  top: 237px;
-  left: calc(50% + 144px);
-  line-height: 40px;
-  display: inline-block;
-  width: 233px;
-}
-.aboutUs {
-  position: absolute;
-  top: 277px;
-  left: calc(50% + 144px);
-  line-height: 40px;
-  display: inline-block;
-  width: 233px;
-}
-.quickLinks {
-  position: absolute;
-  top: 87px;
-  left: calc(50% - 126px);
-  font-size: var(--font-size-26);
-  line-height: 128.02%;
-  display: inline-block;
-  width: 196px;
-}
-.servease1 {
-  position: absolute;
-  top: 87px;
-  left: calc(50% - 529px);
-  font-size: var(--font-size-26);
-  line-height: 128.02%;
-  display: inline-block;
-  width: 148px;
-  color: #a68465;
-}
+
 .home1 {
   position: absolute;
   top: 158px;
@@ -1860,15 +1870,7 @@
   object-fit: cover;
   transition: transform 0.3s ease;
 }
-.footer {
-  position: relative;
-  margin-top: 7rem;
-  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
-    var(--color-white);
-  width: 100%;
-  height: 475px;
-  color: var(--color-black);
-}
+
 .facilityDetails {
   position: relative;
   background-color: var(--color-whitesmoke);

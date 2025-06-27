@@ -38,7 +38,7 @@ body {
   --color-gray-500: #050b20;
   --color-gray-600: #cccccc;
   --color-gray-700: #a9a9a9;
-  --color-gray-800: #D9D9D9;
+  --color-gray-800: #d9d9d9;
   --color-whitesmoke: #f8f7f3;
   --color-black: #000;
   --color-tan: #a68465;
@@ -358,4 +358,54 @@ body {
   --font-size-26: 26px;
   --font-size-32: 32px;
   --font-size-48: 48px;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
+
+body {
+  margin: 0;
+  line-height: normal;
+}
+:root {
+  /* Color */
+  --color-tan: #a68465;
+  --color-darkslategray: #333;
+  --color-gray-100: #241f1b;
+  --color-black: #000;
+  --color-whitesmoke: #f8f7f3;
+  --color-gray-200: #111;
+  --color-gray-300: rgba(0, 0, 0, 0.5);
+  --color-dimgray-300: rgba(102, 102, 102, 0.35);
+  --color-dimgray-200: #604c3d;
+  --color-dimgray-100: #666;
+  --color-white: #fff;
+  --color-crimson-100: #c82c4a;
+  --color-crimson-200: rgba(200, 44, 74, 0.5);
+  --color-lavenderblush: #ffebee;
+
+  /* Gap */
+  --gap-8: 8px;
+  --gap-12: 12px;
+
+  /* Padding */
+  --padding-24: 24px;
+
+  /* BorderRadius */
+  --br-4: 4px;
+  --br-12: 12px;
+  --br-24: 24px;
+
+  /* Font */
+  --font-dm-sans: DM Sans;
+  --font-inter: Inter;
+
+  /* FontSize */
+  --font-size-12: 12px;
+  --font-size-16: 16px;
+  --font-size-18: 18px;
+  --font-size-20: 20px;
+  --font-size-24: 24px;
+  --font-size-26: 26px;
 }
