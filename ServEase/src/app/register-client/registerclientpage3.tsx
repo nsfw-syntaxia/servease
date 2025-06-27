@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import styles from "../styles/register-client-3.module.css";
-import {addContactAndCompleteProfile} from "./actions3";
+import { addContactAndCompleteProfile } from "./actions3";
 
 type Props = {
   onNext: () => void;
@@ -83,7 +83,7 @@ const ClientSignup3: NextPage<Props> = ({ onNext }) => {
     if (/^\d?$/.test(value)) {
       newOtp[index] = value;
       newErrors[index] = false;
-      setOtpErrorMessage(""); // Clear error
+      setOtpErrorMessage("");
 
       if (value && index < otpRefs.current.length - 1) {
         otpRefs.current[index + 1]?.focus();
@@ -114,7 +114,7 @@ const ClientSignup3: NextPage<Props> = ({ onNext }) => {
       setLoading(true);
       await new Promise((resolve) => setTimeout(resolve, 1000));
       const formData = new FormData();
-      formData.append('contact', countryCode + phone);
+      formData.append("contact", countryCode + phone);
       await addContactAndCompleteProfile(formData);
       router.push("/landingpage");
     } catch (error: any) {
