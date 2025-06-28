@@ -240,7 +240,7 @@
   	top: 208px;
   	left: 0px;
   	border-radius: 0px 0px var(--br-12) var(--br-12);
-  	background-color: var(--color-gray-100);
+  	background-color: #402F27;
   	width: 560px;
   	height: 56px;
 }
@@ -436,7 +436,7 @@
   	width: 1300px;
   	height: 331px;
   	overflow: hidden;
-  	background-image: url('/Hero Image.png');
+  	background-image: url('/Hero Image.jpg');
   	background-size: cover;
   	background-repeat: no-repeat;
   	background-position: top;
