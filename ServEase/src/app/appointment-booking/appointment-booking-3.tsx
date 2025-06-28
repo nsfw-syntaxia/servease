@@ -54,7 +54,7 @@ export default function Booking3({ onNext }: Props) {
       <div className={styles.numberParent}>
         <div className={styles.doubleCheckTheDetails}>
           Double-check the details of your booking — selected services, date,
-          time, and provider. Once you're ready, confirm your appointment to
+          time, and provider. Once you are ready, confirm your appointment to
           finalize the process.
         </div>
       </div>
