@@ -4,9 +4,9 @@ import { useState } from "react";
 import type { NextPage } from "next";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import styles from "../../../styles/discover-2-c.module.css";
+import styles from "../../../styles/discover-2-d.module.css";
 
-const FASS: NextPage = () => {
+const EATS: NextPage = () => {
   const [showPrev, setShowPrev] = useState(false);
   const [showPrevNew, setShowPrevNew] = useState(false);
 
@@ -623,40 +623,27 @@ const FASS: NextPage = () => {
         <div className={styles.iconContainer}>
           <div className={styles.iconWrapper}>
             <Image
-              className={styles.danceIcon}
-              src="/dance.svg"
+              className={styles.schoolIcon}
+              src="/univ.svg"
               alt=""
               width={75}
               height={75}
             />
           </div>
-          <div className={styles.label}>Dance Studios</div>
+          <div className={styles.label}>Schools & Universities</div>
         </div>
 
         <div className={styles.iconContainer}>
           <div className={styles.iconWrapper}>
             <Image
-              className={styles.gymsIcon}
-              src="/gyms.svg"
+              className={styles.tutorIcon}
+              src="/books.svg"
               alt=""
               width={75}
               height={75}
             />
           </div>
-          <div className={styles.label}>Gyms</div>
-        </div>
-
-        <div className={styles.iconContainer}>
-          <div className={styles.iconWrapper}>
-            <Image
-              className={styles.sportsIcon}
-              src="/ball.svg"
-              alt=""
-              width={75}
-              height={75}
-            />
-          </div>
-          <div className={styles.label}>Sports Centers</div>
+          <div className={styles.label}>Tutoring Centers</div>
         </div>
       </div>
 
@@ -699,7 +686,7 @@ const FASS: NextPage = () => {
       <div className={styles.heroImg}>
         <div className={styles.image12} />
         <div className={styles.personalBeautyAnd}>
-          Fitness and Sports Services
+          Education and Tutoring Services
         </div>
       </div>
 
@@ -746,4 +733,4 @@ const FASS: NextPage = () => {
   );
 };
 
-export default FASS;
+export default EATS;
