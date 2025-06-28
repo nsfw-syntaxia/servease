@@ -109,38 +109,6 @@ const PBACS: NextPage = () => {
                             alt=""
                             src="/starFilled.svg"
                           />
-                          <Image
-                            className={styles.groupItem}
-                            width={23.7}
-                            height={20}
-                            sizes="100vw"
-                            alt=""
-                            src="/starFilled.svg"
-                          />
-                          <Image
-                            className={styles.groupInner}
-                            width={23.7}
-                            height={20}
-                            sizes="100vw"
-                            alt=""
-                            src="/starFilled.svg"
-                          />
-                          <Image
-                            className={styles.starIcon}
-                            width={20}
-                            height={20}
-                            sizes="100vw"
-                            alt=""
-                            src="/starUnfilled.svg"
-                          />
-                          <Image
-                            className={styles.groupChild1}
-                            width={23.7}
-                            height={20}
-                            sizes="100vw"
-                            alt=""
-                            src="/starFilled.svg"
-                          />
                         </div>
                         <div className={styles.link}>
                           <div className={styles.viewDetails}>View Details</div>
@@ -176,38 +144,6 @@ const PBACS: NextPage = () => {
                           <div className={styles.div}>4.0</div>
                           <Image
                             className={styles.groupChild}
-                            width={23.7}
-                            height={20}
-                            sizes="100vw"
-                            alt=""
-                            src="/starFilled.svg"
-                          />
-                          <Image
-                            className={styles.groupItem}
-                            width={23.7}
-                            height={20}
-                            sizes="100vw"
-                            alt=""
-                            src="/starFilled.svg"
-                          />
-                          <Image
-                            className={styles.groupInner}
-                            width={23.7}
-                            height={20}
-                            sizes="100vw"
-                            alt=""
-                            src="/starFilled.svg"
-                          />
-                          <Image
-                            className={styles.starIcon}
-                            width={20}
-                            height={20}
-                            sizes="100vw"
-                            alt=""
-                            src="/starUnfilled.svg"
-                          />
-                          <Image
-                            className={styles.groupChild1}
                             width={23.7}
                             height={20}
                             sizes="100vw"
@@ -257,38 +193,6 @@ const PBACS: NextPage = () => {
                             alt=""
                             src="/starFilled.svg"
                           />
-                          <Image
-                            className={styles.groupItem}
-                            width={23.7}
-                            height={20}
-                            sizes="100vw"
-                            alt=""
-                            src="/starFilled.svg"
-                          />
-                          <Image
-                            className={styles.groupInner}
-                            width={23.7}
-                            height={20}
-                            sizes="100vw"
-                            alt=""
-                            src="/starFilled.svg"
-                          />
-                          <Image
-                            className={styles.starIcon}
-                            width={20}
-                            height={20}
-                            sizes="100vw"
-                            alt=""
-                            src="/starUnfilled.svg"
-                          />
-                          <Image
-                            className={styles.groupChild1}
-                            width={23.7}
-                            height={20}
-                            sizes="100vw"
-                            alt=""
-                            src="/starFilled.svg"
-                          />
                         </div>
                         <div className={styles.link}>
                           <div className={styles.viewDetails}>View Details</div>
@@ -324,38 +228,6 @@ const PBACS: NextPage = () => {
                           <div className={styles.div}>4.0</div>
                           <Image
                             className={styles.groupChild}
-                            width={23.7}
-                            height={20}
-                            sizes="100vw"
-                            alt=""
-                            src="/starFilled.svg"
-                          />
-                          <Image
-                            className={styles.groupItem}
-                            width={23.7}
-                            height={20}
-                            sizes="100vw"
-                            alt=""
-                            src="/starFilled.svg"
-                          />
-                          <Image
-                            className={styles.groupInner}
-                            width={23.7}
-                            height={20}
-                            sizes="100vw"
-                            alt=""
-                            src="/starFilled.svg"
-                          />
-                          <Image
-                            className={styles.starIcon}
-                            width={20}
-                            height={20}
-                            sizes="100vw"
-                            alt=""
-                            src="/starUnfilled.svg"
-                          />
-                          <Image
-                            className={styles.groupChild1}
                             width={23.7}
                             height={20}
                             sizes="100vw"
@@ -405,38 +277,6 @@ const PBACS: NextPage = () => {
                             alt=""
                             src="/starFilled.svg"
                           />
-                          <Image
-                            className={styles.groupItem}
-                            width={23.7}
-                            height={20}
-                            sizes="100vw"
-                            alt=""
-                            src="/starFilled.svg"
-                          />
-                          <Image
-                            className={styles.groupInner}
-                            width={23.7}
-                            height={20}
-                            sizes="100vw"
-                            alt=""
-                            src="/starFilled.svg"
-                          />
-                          <Image
-                            className={styles.starIcon}
-                            width={20}
-                            height={20}
-                            sizes="100vw"
-                            alt=""
-                            src="/starUnfilled.svg"
-                          />
-                          <Image
-                            className={styles.groupChild1}
-                            width={23.7}
-                            height={20}
-                            sizes="100vw"
-                            alt=""
-                            src="/starFilled.svg"
-                          />
                         </div>
                         <div className={styles.link}>
                           <div className={styles.viewDetails}>View Details</div>
@@ -472,38 +312,6 @@ const PBACS: NextPage = () => {
                           <div className={styles.div}>4.0</div>
                           <Image
                             className={styles.groupChild}
-                            width={23.7}
-                            height={20}
-                            sizes="100vw"
-                            alt=""
-                            src="/starFilled.svg"
-                          />
-                          <Image
-                            className={styles.groupItem}
-                            width={23.7}
-                            height={20}
-                            sizes="100vw"
-                            alt=""
-                            src="/starFilled.svg"
-                          />
-                          <Image
-                            className={styles.groupInner}
-                            width={23.7}
-                            height={20}
-                            sizes="100vw"
-                            alt=""
-                            src="/starFilled.svg"
-                          />
-                          <Image
-                            className={styles.starIcon}
-                            width={20}
-                            height={20}
-                            sizes="100vw"
-                            alt=""
-                            src="/starUnfilled.svg"
-                          />
-                          <Image
-                            className={styles.groupChild1}
                             width={23.7}
                             height={20}
                             sizes="100vw"
