@@ -623,66 +623,53 @@ const MS: NextPage = () => {
         <div className={styles.iconContainer}>
           <div className={styles.iconWrapper}>
             <Image
-              className={styles.barbershopIcon}
-              src="/barbershop.svg"
+              className={styles.funeralIcon}
+              src="/funeral.svg"
               alt=""
               width={75}
               height={75}
             />
           </div>
-          <div className={styles.label}>Barbershops</div>
+          <div className={styles.label}>Funeral Homes</div>
         </div>
 
         <div className={styles.iconContainer}>
           <div className={styles.iconWrapper}>
             <Image
-              className={styles.hairSalonIcon}
-              src="/hair salon.svg"
+              className={styles.hotelIcon}
+              src="/hotel.svg"
               alt=""
               width={75}
               height={75}
             />
           </div>
-          <div className={styles.label}>Hair Salons</div>
+          <div className={styles.label}>Hotels</div>
         </div>
 
         <div className={styles.iconContainer}>
           <div className={styles.iconWrapper}>
             <Image
-              className={styles.nailSalonIcon}
-              src="/nail salon.svg"
+              className={styles.laundryIcon}
+              src="/laundry.svg"
               alt=""
               width={75}
               height={75}
             />
           </div>
-          <div className={styles.label}>Nail Salons</div>
+          <div className={styles.label}>Laundry Shops</div>
         </div>
 
         <div className={styles.iconContainer}>
           <div className={styles.iconWrapper}>
             <Image
-              className={styles.spaIcon}
-              src="/spa.svg"
+              className={styles.maniqIcon}
+              src="/maniq.svg"
               alt=""
               width={75}
               height={75}
             />
           </div>
-          <div className={styles.label}>Spa & Massage Centers</div>
-        </div>
-
-        <div className={styles.iconContainer}>
-          <div className={styles.iconWrapper}>
-            <Image
-              className={styles.piercingIcon}
-              src="/piercing.svg"
-              alt=""
-              width={75}
-              height={75}
-            />
-          </div>
-          <div className={styles.label}>Tattoo & Piercing Parlors</div>
+          <div className={styles.label}>Tailor & Dress Shops</div>
         </div>
       </div>
 
@@ -725,7 +712,7 @@ const MS: NextPage = () => {
       <div className={styles.heroImg}>
         <div className={styles.image12} />
         <div className={styles.personalBeautyAnd}>
-          Personal Beauty and Care Services
+          Miscellaneous Services
         </div>
       </div>
 
