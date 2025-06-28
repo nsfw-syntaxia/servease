@@ -345,7 +345,7 @@ const LandingPage = () => {
               height={40}
               sizes="100vw"
               alt=""
-              src="/landingLogo.svg"
+              src="/logo.svg"
               onClick={() => {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
@@ -851,7 +851,7 @@ const LandingPage = () => {
             height={40}
             sizes="100vw"
             alt=""
-            src="/landingLogo.svg"
+            src="/logo.svg"
             onClick={() => {
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}

@@ -975,6 +975,7 @@ const PBACS: NextPage = () => {
           Personal Beauty and Care Services
         </div>
       </div>
+
       <div className={styles.nav}>
         <Image
           className={styles.serveaseLogoAlbumCover3}
@@ -995,10 +996,8 @@ const PBACS: NextPage = () => {
           <div className={styles.contactUs1}>Contact Us</div>
         </div>
         <div className={styles.navChild} />
-        <div className={styles.button3}>
-          <div className={styles.star} />
+        <div className={styles.button1}>
           <div className={styles.signIn}>Sign in</div>
-          <div className={styles.star} />
         </div>
       </div>
     </div>
