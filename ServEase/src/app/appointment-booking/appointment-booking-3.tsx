@@ -1,10 +1,22 @@
+"use client";
 import type { NextPage } from "next";
+import React, { useState } from "react";
 import Image from "next/image";
-import styles from "./index.module.css";
+import styles from "../styles/booking-appointment-3.module.css";
 
-const Booking2: NextPage = () => {
+const Booking3: NextPage = () => {
+  const [errorMessage, setErrorMessage] = useState("");
+  const [buttonClicked, setButtonClicked] = useState(false);
+
+  const handleNextClick = () => {
+    setButtonClicked(true);
+    setTimeout(() => setButtonClicked(false), 300);
+
+    setErrorMessage("");
+  };
+
   return (
-    <div className={styles.booking2}>
+    <div className={styles.booking3}>
       <div className={styles.joinUsWrapper}>
         <div className={styles.joinUs}>
           <div className={styles.joinUsChild} />
@@ -55,465 +67,91 @@ const Booking2: NextPage = () => {
                 </div>
               </div>
             </div>
-            <div className={styles.frameGroup}>
-              <div className={styles.numberParent}>
-                <div className={styles.number1}>
-                  <div className={styles.groupDiv}>
-                    <div className={styles.bg3} />
-                    <div className={styles.div3}>2</div>
-                  </div>
-                  <div
-                    className={styles.chooseServices}
-                  >{`Select Date & Time`}</div>
-                </div>
-                <div className={styles.pickAConvenient}>
-                  Pick a convenient date and time for your appointment.
-                  Available slots are based on real-time provider availability
-                  to help you schedule with ease.
-                </div>
-                <div
-                  className={styles.atLeastChoose}
-                >{`*At least choose one date tayo :> `}</div>
-              </div>
-              <div className={styles.button}>
-                <div className={styles.signUpWrapper}>
-                  <div className={styles.signUp}>Next</div>
-                </div>
-              </div>
-              <div className={styles.frameChild} />
-              <div className={styles.calendarSelectChangeSize}>
-                <div className={styles.calendar}>
-                  <div className={styles.header}>
-                    <div className={styles.month}>
-                      <div className={styles.arrowButton}>
-                        <Image
-                          className={styles.icon}
-                          width={24}
-                          height={24}
-                          sizes="100vw"
-                          alt=""
-                          src="Icon.svg"
-                        />
-                      </div>
-                      <div className={styles.month1}>
-                        <b className={styles.month2}>January</b>
-                        <div className={styles.year}>2024</div>
-                      </div>
-                      <div className={styles.arrowButton}>
-                        <Image
-                          className={styles.icon1}
-                          width={24}
-                          height={24}
-                          sizes="100vw"
-                          alt=""
-                          src="Icon.png"
-                        />
-                      </div>
-                    </div>
-                    <div className={styles.separator} />
-                    <div className={styles.week}>
-                      <div className={styles.mon}>MO</div>
-                      <div className={styles.mon}>TU</div>
-                      <div className={styles.mon}>WE</div>
-                      <div className={styles.mon}>TH</div>
-                      <div className={styles.mon}>FR</div>
-                      <div className={styles.mon}>SA</div>
-                      <div className={styles.mon}>SU</div>
-                    </div>
-                  </div>
-                  <div className={styles.body}>
-                    <div className={styles.row}>
-                      <div className={styles.dayStates}>
-                        <div className={styles.day}>
-                          <div className={styles.background} />
-                        </div>
-                      </div>
-                      <div className={styles.dayStates}>
-                        <div className={styles.day}>
-                          <div className={styles.background} />
-                        </div>
-                      </div>
-                      <div className={styles.dayStates}>
-                        <div className={styles.day}>
-                          <div className={styles.background} />
-                        </div>
-                      </div>
-                      <div className={styles.dayStates}>
-                        <div className={styles.day}>
-                          <div className={styles.background} />
-                        </div>
-                      </div>
-                      <div className={styles.dayStates}>
-                        <div className={styles.day}>
-                          <div className={styles.background} />
-                        </div>
-                      </div>
-                      <div className={styles.dayStates}>
-                        <div className={styles.day5}>
-                          <div className={styles.background} />
-                          <div className={styles.date}>1</div>
-                          <div className={styles.price}>
-                            <span>123</span>
-                            <span className={styles.span}>€</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.dayStates}>
-                        <div className={styles.day5}>
-                          <div className={styles.background} />
-                          <div className={styles.date}>2</div>
-                          <div className={styles.price}>
-                            <span>123</span>
-                            <span className={styles.span}>€</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className={styles.row}>
-                      <div className={styles.dayStates}>
-                        <div className={styles.day5}>
-                          <div className={styles.background} />
-                          <div className={styles.date}>3</div>
-                          <div className={styles.price}>
-                            <span>123</span>
-                            <span className={styles.span}>€</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.dayStates}>
-                        <div className={styles.day5}>
-                          <div className={styles.background} />
-                          <div className={styles.date}>4</div>
-                          <div className={styles.price}>
-                            <span>123</span>
-                            <span className={styles.span}>€</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.dayStates}>
-                        <div className={styles.day5}>
-                          <div className={styles.background} />
-                          <div className={styles.date}>5</div>
-                          <div className={styles.price}>
-                            <span>123</span>
-                            <span className={styles.span}>€</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.dayStates10}>
-                        <div className={styles.day5}>
-                          <div className={styles.background} />
-                          <div className={styles.date5}>6</div>
-                          <div className={styles.price5}>
-                            <span>123</span>
-                            <span className={styles.span}>€</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.dayStates11}>
-                        <div className={styles.day5}>
-                          <div className={styles.background} />
-                          <div className={styles.date5}>7</div>
-                          <div className={styles.price5}>
-                            <span>123</span>
-                            <span className={styles.span}>€</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.dayStates12}>
-                        <div className={styles.day5}>
-                          <div className={styles.background} />
-                          <div className={styles.date5}>8</div>
-                          <div className={styles.price5}>
-                            <span>123</span>
-                            <span className={styles.span}>€</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.dayStates12}>
-                        <div className={styles.day5}>
-                          <div className={styles.background} />
-                          <div className={styles.date5}>9</div>
-                          <div className={styles.price5}>
-                            <span>123</span>
-                            <span className={styles.span}>€</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className={styles.row2}>
-                      <div className={styles.dayStates11}>
-                        <div className={styles.day5}>
-                          <div className={styles.background} />
-                          <div className={styles.date5}>10</div>
-                          <div className={styles.price5}>
-                            <span>123</span>
-                            <span className={styles.span}>€</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.dayStates11}>
-                        <div className={styles.day5}>
-                          <div className={styles.background} />
-                          <div className={styles.date5}>11</div>
-                          <div className={styles.price5}>
-                            <span>123</span>
-                            <span className={styles.span}>€</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.dayStates11}>
-                        <div className={styles.day5}>
-                          <div className={styles.background} />
-                          <div className={styles.date5}>12</div>
-                          <div className={styles.price5}>
-                            <span>123</span>
-                            <span className={styles.span}>€</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.dayStates11}>
-                        <div className={styles.day5}>
-                          <div className={styles.background} />
-                          <div className={styles.date5}>13</div>
-                          <div className={styles.price5}>
-                            <span>123</span>
-                            <span className={styles.span}>€</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.dayStates11}>
-                        <div className={styles.day5}>
-                          <div className={styles.background} />
-                          <div className={styles.date5}>14</div>
-                          <div className={styles.price5}>
-                            <span>123</span>
-                            <span className={styles.span}>€</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.dayStates12}>
-                        <div className={styles.day5}>
-                          <div className={styles.background} />
-                          <div className={styles.date5}>15</div>
-                          <div className={styles.price5}>
-                            <span>123</span>
-                            <span className={styles.span}>€</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.dayStates12}>
-                        <div className={styles.day5}>
-                          <div className={styles.background} />
-                          <div className={styles.date5}>16</div>
-                          <div className={styles.price5}>
-                            <span>123</span>
-                            <span className={styles.span}>€</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className={styles.row2}>
-                      <div className={styles.dayStates21}>
-                        <div className={styles.day5}>
-                          <div className={styles.background} />
-                          <div className={styles.date5}>17</div>
-                          <div className={styles.price5}>
-                            <span>123</span>
-                            <span className={styles.span}>€</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.dayStates11}>
-                        <div className={styles.day5}>
-                          <div className={styles.background} />
-                          <div className={styles.date5}>18</div>
-                          <div className={styles.price5}>
-                            <span>123</span>
-                            <span className={styles.span}>€</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.dayStates23}>
-                        <div className={styles.day5}>
-                          <div className={styles.background23} />
-                          <b className={styles.date18}>19</b>
-                          <div className={styles.price18}>
-                            <span>123</span>
-                            <span className={styles.span}>€</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.dayStates}>
-                        <div className={styles.day5}>
-                          <div className={styles.background24} />
-                          <div className={styles.date5}>20</div>
-                          <div className={styles.price5}>
-                            <span>123</span>
-                            <span className={styles.span}>€</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.dayStates}>
-                        <div className={styles.day5}>
-                          <div className={styles.background24} />
-                          <div className={styles.date5}>21</div>
-                          <div className={styles.price5}>
-                            <span>123</span>
-                            <span className={styles.span}>€</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.dayStates}>
-                        <div className={styles.day5}>
-                          <div className={styles.background24} />
-                          <div className={styles.date5}>22</div>
-                          <div className={styles.price5}>
-                            <span>123</span>
-                            <span className={styles.span}>€</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.dayStates23}>
-                        <div className={styles.day5}>
-                          <div className={styles.background23} />
-                          <b className={styles.date18}>23</b>
-                          <div className={styles.price18}>
-                            <span>123</span>
-                            <span className={styles.span}>€</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className={styles.row2}>
-                      <div className={styles.dayStates11}>
-                        <div className={styles.day5}>
-                          <div className={styles.background} />
-                          <div className={styles.date5}>24</div>
-                          <div className={styles.price5}>
-                            <span>123</span>
-                            <span className={styles.span}>€</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.dayStates11}>
-                        <div className={styles.day5}>
-                          <div className={styles.background} />
-                          <div className={styles.date5}>25</div>
-                          <div className={styles.price5}>
-                            <span>123</span>
-                            <span className={styles.span}>€</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.dayStates11}>
-                        <div className={styles.day5}>
-                          <div className={styles.background} />
-                          <div className={styles.date5}>26</div>
-                          <div className={styles.price5}>
-                            <span>123</span>
-                            <span className={styles.span}>€</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.dayStates11}>
-                        <div className={styles.day5}>
-                          <div className={styles.background} />
-                          <div className={styles.date5}>27</div>
-                          <div className={styles.price5}>
-                            <span>123</span>
-                            <span className={styles.span}>€</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.dayStates11}>
-                        <div className={styles.day5}>
-                          <div className={styles.background} />
-                          <div className={styles.date5}>28</div>
-                          <div className={styles.price5}>
-                            <span>123</span>
-                            <span className={styles.span}>€</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.dayStates12}>
-                        <div className={styles.day5}>
-                          <div className={styles.background} />
-                          <div className={styles.date5}>29</div>
-                          <div className={styles.price5}>
-                            <span>123</span>
-                            <span className={styles.span}>€</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.dayStates12}>
-                        <div className={styles.day5}>
-                          <div className={styles.background} />
-                          <div className={styles.date5}>30</div>
-                          <div className={styles.price5}>
-                            <span>123</span>
-                            <span className={styles.span}>€</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className={styles.buttonParent}>
-                <div className={styles.button1}>
-                  <div className={styles.star} />
-                  <div className={styles.service1}>Service 1</div>
-                  <div className={styles.star} />
-                </div>
-                <div className={styles.button2}>
-                  <div className={styles.star} />
-                  <div className={styles.service1}>Service 2</div>
-                  <div className={styles.star} />
-                </div>
-                <div className={styles.button3}>
-                  <div className={styles.star} />
-                  <div className={styles.service1}>Service 3</div>
-                  <div className={styles.star} />
-                </div>
-              </div>
-              <div className={styles.buttonGroup}>
-                <div className={styles.button1}>
-                  <div className={styles.star} />
-                  <div className={styles.service1}>Service 1</div>
-                  <div className={styles.star} />
-                </div>
-                <div className={styles.button2}>
-                  <div className={styles.star} />
-                  <div className={styles.service1}>Service 2</div>
-                  <div className={styles.star} />
-                </div>
-                <div className={styles.button3}>
-                  <div className={styles.star} />
-                  <div className={styles.service1}>Service 3</div>
-                  <div className={styles.star} />
-                </div>
-              </div>
-              <div className={styles.timeslots}>Timeslots</div>
-              <div className={styles.date30}>Date</div>
-              <div className={styles.textField}>
-                <div className={styles.inputs}>
-                  <div className={styles.inputsChild} />
-                </div>
-                <div className={styles.errorMessage}>Error Message</div>
-                <div className={styles.icons} />
-              </div>
-            </div>
             <div className={styles.frameWrapper}>
-              <div className={styles.frameWrapper2}>
+              <div className={styles.frameContainer}>
                 <div className={styles.numberWrapper}>
                   <div className={styles.number}>
                     <div className={styles.groupDiv}>
                       <div className={styles.bg3} />
-                      <div className={styles.div3}>3</div>
+                      <div className={styles.div3}>2</div>
                     </div>
-                    <div className={styles.chooseServices}>Booking Review</div>
+                    <div
+                      className={styles.chooseServices}
+                    >{`Select Date & Time`}</div>
                   </div>
+                </div>
+              </div>
+            </div>
+            <div className={styles.frameGroup}>
+              <div className={styles.numberParent}>
+                <div className={styles.number}>
+                  <div className={styles.groupDiv}>
+                    <div className={styles.bg3} />
+                    <div className={styles.div3}>3</div>
+                  </div>
+                  <div className={styles.chooseServices}>Booking Review</div>
+                </div>
+                <div className={styles.doubleCheckTheDetails}>
+                  Double-check the details of your booking — selected services,
+                  date, time, and provider. Once you're ready, confirm your
+                  appointment to finalize the process.
+                </div>
+              </div>
+              <div className={styles.calendarSelectChangeSize}>
+                <div className={styles.facilityNameParent}>
+                  <div className={styles.facilityName}>Facility Name</div>
+                  <b className={styles.barbershopCut}>Barbershop Cut</b>
+                  <div className={styles.address}>Address</div>
+                  <b className={styles.smCebuCity}>SM Cebu City</b>
+                  <div className={styles.name}>Name</div>
+                  <b className={styles.janeDoe}>Jane Doe</b>
+                  <div className={styles.phone}>Phone</div>
+                  <b className={styles.b}>+63 123 4567 789</b>
+                  <div className={styles.bookingDate}>Booking Date</div>
+                  <b className={styles.june272025}>June 27, 2025</b>
+                  <div className={styles.bookingHours}>Booking Hours</div>
+                  <b className={styles.am}>10:00 AM</b>
+                </div>
+                <div className={styles.serviceNameParent}>
+                  <div className={styles.facilityName}>Service Name</div>
+                  <b className={styles.php100000}>PHP 1000.00</b>
+                  <div className={styles.address}>Service Name</div>
+                  <b className={styles.php1000001}>PHP 1000.00</b>
+                  <div className={styles.name}>Service Name</div>
+                  <b className={styles.php1000002}>PHP 1000.00</b>
+                  <div className={styles.bookingDate}>Total</div>
+                  <b className={styles.php1000003}>PHP 1000.00</b>
+                </div>
+                <Image
+                  className={styles.dividerIcon}
+                  width={390}
+                  height={1}
+                  sizes="100vw"
+                  alt=""
+                  src="Divider1.svg"
+                />
+                <Image
+                  className={styles.dividerIcon1}
+                  width={390}
+                  height={1}
+                  sizes="100vw"
+                  alt=""
+                  src="Divider1.svg"
+                />
+              </div>
+              <div
+                className={`${styles.buttoncontainer} ${
+                  buttonClicked ? styles.clicked : ""
+                }`}
+                style={{
+                  backgroundColor: "#a68465",
+                  opacity: errorMessage ? "1" : "0.5",
+                  transition: "opacity 0.2s ease",
+                }}
+                onClick={handleNextClick}
+              >
+                <div className={styles.signup}>
+                  <div className={styles.signupText}>Next</div>
                 </div>
               </div>
             </div>
@@ -526,7 +164,7 @@ const Booking2: NextPage = () => {
               height={40}
               sizes="100vw"
               alt=""
-              src="Servease Logo (Album Cover) (3) 1.png"
+              src="landingLogo.svg"
             />
             <div className={styles.servease}>
               <span className={styles.serv}>serv</span>
@@ -541,12 +179,12 @@ const Booking2: NextPage = () => {
             <div className={styles.navigationItem} />
             <div className={styles.genericAvatar}>
               <Image
-                className={styles.avatarPlaceholderIcon}
-                width={28.2}
-                height={25.6}
+                className={styles.avatar}
+                width={40}
+                height={40}
                 sizes="100vw"
                 alt=""
-                src="Avatar Placeholder.svg"
+                src="/avatar.svg"
               />
             </div>
           </div>
@@ -571,39 +209,6 @@ const Booking2: NextPage = () => {
             <div className={styles.home1}>Home</div>
             <div className={styles.discover1}>Discover</div>
             <div className={styles.createAnAccount}>Create an Account</div>
-            <div className={styles.facebookParent}>
-              <div className={styles.facebook}>Facebook</div>
-              <Image
-                className={styles.groupChild}
-                width={22}
-                height={22}
-                sizes="100vw"
-                alt=""
-                src="Frame 1.svg"
-              />
-            </div>
-            <div className={styles.twitterParent}>
-              <div className={styles.twitter}>Twitter</div>
-              <Image
-                className={styles.groupItem}
-                width={26}
-                height={22}
-                sizes="100vw"
-                alt=""
-                src="Frame 2.svg"
-              />
-            </div>
-            <div className={styles.instagramParent}>
-              <div className={styles.instagram}>Instagram</div>
-              <Image
-                className={styles.groupInner}
-                width={24}
-                height={24}
-                sizes="100vw"
-                alt=""
-                src="Frame 3.svg"
-              />
-            </div>
             <div className={styles.lineParent}>
               <div className={styles.lineDiv} />
               <div className={styles.servease2025}>
@@ -616,13 +221,14 @@ const Booking2: NextPage = () => {
               height={40}
               sizes="100vw"
               alt=""
-              src="Servease Logo (Album Cover) (3) 2.png"
+              src="landingLogo.svg"
             />
           </div>
+          <div className={styles.lightDetailsBookingReviewS} />
         </div>
       </div>
     </div>
   );
 };
 
-export default Booking2;
+export default Booking3;

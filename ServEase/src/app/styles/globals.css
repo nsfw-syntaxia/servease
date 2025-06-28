@@ -507,3 +507,44 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap");
+
+body {
+  margin: 0;
+  line-height: normal;
+}
+:root {
+  /* Color */
+  --color-dimgray-200: #604c3d;
+  --color-tan: #a68465;
+  --color-white: #fff;
+  --color-dimgray-100: #666;
+  --color-whitesmoke: #f8f7f3;
+  --color-black: #000;
+  --color-darkslategray: #333;
+  --color-gray-100: #241f1b;
+  --color-gray-200: rgba(0, 0, 0, 0.1);
+
+  /* Gap */
+  --gap-8: 8px;
+  --gap-12: 12px;
+
+  /* Padding */
+  --padding-24: 24px;
+
+  /* BorderRadius */
+  --br-24: 24px;
+
+  /* Font */
+  --font-dm-sans: DM Sans;
+  --font-inter: Inter;
+
+  /* FontSize */
+  --font-size-12: 12px;
+  --font-size-16: 16px;
+  --font-size-18: 18px;
+  --font-size-24: 24px;
+  --font-size-26: 26px;
+}
