@@ -25,11 +25,13 @@ const PBACS: NextPage = () => {
         <div className={styles.termsConditions}>{`Terms & Conditions`}</div>
         <div className={styles.aboutUs}>About Us</div>
         <b className={styles.quickLinks}>Quick Links</b>
-        <div className={styles.servease}>
+        <div className={styles.servease} onClick={() => router.push("/home")}>
           <span className={styles.serv}>serv</span>
           <b>ease</b>
         </div>
-        <div className={styles.home}>Home</div>
+        <div className={styles.home} onClick={() => router.push("/home")}>
+          Home
+        </div>
         <div className={styles.discover}>Discover</div>
         <div
           className={styles.createAnAccount}
@@ -44,12 +46,13 @@ const PBACS: NextPage = () => {
           </div>
         </div>
         <Image
-          className={styles.serveaseLogoAlbumCover3}
+          className={styles.serveaseLogoAlbumCover31}
           width={40}
           height={40}
           sizes="100vw"
           alt="Servease Logo"
-          src="/landingLogo.svg"
+          src="/logo.svg"
+          onClick={() => router.push("/home")}
         />
       </div>
       <div className={styles.allServices}>
@@ -991,13 +994,27 @@ const PBACS: NextPage = () => {
         </div>
         <div className={styles.navChild} />
         <div className={styles.homeParent}>
-          <div className={styles.home1}>Home</div>
+          <div className={styles.home1} onClick={() => router.push("/home")}>
+            Home
+          </div>
           <div className={styles.home1}>Discover</div>
-          <div className={styles.contactUs1}>Contact Us</div>
+          <div
+            className={styles.contactUs1}
+            onClick={() => {
+              window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: "smooth",
+              });
+            }}
+          >
+            Contact Us
+          </div>
         </div>
         <div className={styles.navChild} />
         <div className={styles.button1}>
-          <div className={styles.signIn}>Sign in</div>
+          <div className={styles.signIn} onClick={() => router.push("/login")}>
+            Sign in
+          </div>
         </div>
       </div>
     </div>
