@@ -899,47 +899,73 @@ const PBACS: NextPage = () => {
         <div className={styles.line1} />
       </div>
       <div className={styles.bg} />
+
+      {/* icons */}
       <div className={styles.icons}>
-        <Image
-          className={styles.piercingIcon}
-          width={110}
-          height={110}
-          sizes="100vw"
-          alt=""
-          src="/piercing.svg"
-        />
-        <Image
-          className={styles.spaIcon}
-          width={110}
-          height={110}
-          sizes="100vw"
-          alt=""
-          src="/spa.svg"
-        />
-        <Image
-          className={styles.nailSalonIcon}
-          width={110}
-          height={110}
-          sizes="100vw"
-          alt=""
-          src="/nail salon.svg"
-        />
-        <Image
-          className={styles.hairSalonIcon}
-          width={109}
-          height={109}
-          sizes="100vw"
-          alt=""
-          src="/hair salon.svg"
-        />
-        <Image
-          className={styles.barbershopIcon}
-          width={110}
-          height={110}
-          sizes="100vw"
-          alt=""
-          src="/barbershop.svg"
-        />
+        <div className={styles.iconContainer}>
+          <div className={styles.iconWrapper}>
+            <Image
+              className={styles.barbershopIcon}
+              src="/barbershop.svg"
+              alt=""
+              width={75}
+              height={75}
+            />
+          </div>
+          <div className={styles.label}>Barbershops</div>
+        </div>
+
+        <div className={styles.iconContainer}>
+          <div className={styles.iconWrapper}>
+            <Image
+              className={styles.hairSalonIcon}
+              src="/hair salon.svg"
+              alt=""
+              width={75}
+              height={75}
+            />
+          </div>
+          <div className={styles.label}>Hair Salons</div>
+        </div>
+
+        <div className={styles.iconContainer}>
+          <div className={styles.iconWrapper}>
+            <Image
+              className={styles.nailSalonIcon}
+              src="/nail salon.svg"
+              alt=""
+              width={75}
+              height={75}
+            />
+          </div>
+          <div className={styles.label}>Nail Salons</div>
+        </div>
+
+        <div className={styles.iconContainer}>
+          <div className={styles.iconWrapper}>
+            <Image
+              className={styles.spaIcon}
+              src="/spa.svg"
+              alt=""
+              width={75}
+              height={75}
+            />
+          </div>
+          <div className={styles.label}>Spa & Massage Centers</div>
+        </div>
+
+        <div className={styles.iconContainer}>
+          <div className={styles.iconWrapper}>
+            <Image
+              className={styles.piercingIcon}
+              src="/piercing.svg"
+              alt=""
+              width={75}
+              height={75}
+            />
+          </div>
+          <div className={styles.label}>Tattoo & Piercing Parlors</div>
+        </div>
       </div>
 
       {/* search */}
