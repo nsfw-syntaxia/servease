@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import type { NextPage } from "next";
 import { useCallback } from "react";

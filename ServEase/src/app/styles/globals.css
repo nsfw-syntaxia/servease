@@ -259,7 +259,7 @@ input[type="password"]::-webkit-clear-button {
   appearance: none !important;
 }
 
-/* rexi unchecked duplicate global css */
+/* rexi unchecked & might be duplicate global css */
 :root {
   /* Color */
   --color-dimgray-300: rgba(102, 102, 102, 0.35);
@@ -297,14 +297,6 @@ input[type="password"]::-webkit-clear-button {
   --font-size-24: 24px;
 }
 
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Benne:wght@400&display=swap");
-
-body {
-  margin: 0;
-  line-height: normal;
-}
 :root {
   /* Color */
   --color-gray-400: #241f1b;
