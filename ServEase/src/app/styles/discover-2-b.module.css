@@ -2,7 +2,7 @@
 
 .footer {
   position: absolute;
-  top: 3718px;
+  top: 3878px;
   left: 0px;
   background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
     var(--color-white);
@@ -242,7 +242,7 @@
 
 .popularServices {
   position: absolute;
-  top: 954px;
+  top: 1114px;
   left: 121px;
   width: 1195px;
   display: flex;
@@ -254,7 +254,7 @@
 
 .newServices {
   position: absolute;
-  top: 1561px;
+  top: 1721px;
   left: 121px;
   width: 1195px;
   display: flex;
@@ -495,7 +495,7 @@
   height: 20px;
   font-weight: 500;
   font-size: 15px;
-  color: #BBA68A;
+  color: #bba68a;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -635,7 +635,7 @@
 
 .allServices {
   position: absolute;
-  top: 2168px;
+  top: 2328px;
   left: 121px;
   width: 1201px;
   display: flex;
@@ -734,7 +734,7 @@
   left: 1px;
   background-color: var(--color-linen);
   width: 100%;
-  height: 830px;
+  height: 990px;
 }
 
 /* icons */
@@ -745,10 +745,19 @@
   left: 50%;
   transform: translateX(-50%);
   display: flex;
+  flex-wrap: wrap;
   gap: 70px;
   justify-content: center;
   align-items: flex-start;
   cursor: pointer;
+  width: 100%;
+}
+
+.icons::after {
+  content: "";
+  flex: 1 0 100%;
+  height: 0;
+  order: 1;
 }
 
 .iconContainer {
@@ -757,6 +766,19 @@
   align-items: center;
   position: relative;
   min-width: 110px;
+}
+
+.iconContainer:nth-child(-n + 5) {
+  flex: 0 0 auto;
+}
+
+.iconContainer:nth-child(n + 6) {
+  flex: 0 0 auto;
+  margin-top: -75px;
+}
+
+.iconContainer:nth-child(n + 6) {
+  order: 2;
 }
 
 .iconWrapper {
@@ -976,20 +998,23 @@
 .personalBeautyAnd {
   position: absolute;
   top: 151px;
-  left: 102px;
+  left: 50%;
+  transform: translateX(-50%);
   line-height: 15px;
   font-weight: 800;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .heroImg {
   position: absolute;
-  top: calc(50% - 2040px);
+  top: calc(50% - 2120px);
   left: calc(50% - 649px);
   border-radius: 40px;
   width: 1300px;
   height: 331px;
   overflow: hidden;
-  background-image: url("/pbacs.png");
+  background-image: url("/hams.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: top;
@@ -1143,12 +1168,12 @@
   transition: all 0.3s ease;
 }
 
-.pbacs {
+.hams {
   width: 100%;
   position: relative;
   background-color: #f8f7f3;
   box-sizing: border-box;
-  height: 4200px;
+  height: 4360px;
   overflow: hidden;
   text-align: left;
   font-size: 50px;

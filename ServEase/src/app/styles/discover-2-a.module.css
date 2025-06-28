@@ -495,7 +495,7 @@
   height: 20px;
   font-weight: 500;
   font-size: 15px;
-  color: #BBA68A;
+  color: #bba68a;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -976,9 +976,12 @@
 .personalBeautyAnd {
   position: absolute;
   top: 151px;
-  left: 102px;
+  left: 50%;
+  transform: translateX(-50%);
   line-height: 15px;
   font-weight: 800;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .heroImg {

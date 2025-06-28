@@ -29,7 +29,7 @@ const HAMS: NextPage = () => {
   const router = useRouter();
 
   return (
-    <div className={styles.pbacs}>
+    <div className={styles.hams}>
       <div className={styles.footer}>
         <div className={styles.footerChild} />
         <div className={styles.yourTrustedPlatform}>
@@ -623,66 +623,92 @@ const HAMS: NextPage = () => {
         <div className={styles.iconContainer}>
           <div className={styles.iconWrapper}>
             <Image
-              className={styles.barbershopIcon}
-              src="/barbershop.svg"
+              className={styles.animalIcon}
+              src="/animal.svg"
               alt=""
               width={75}
               height={75}
             />
           </div>
-          <div className={styles.label}>Barbershops</div>
+          <div className={styles.label}>Animal Clinics</div>
         </div>
 
         <div className={styles.iconContainer}>
           <div className={styles.iconWrapper}>
             <Image
-              className={styles.hairSalonIcon}
-              src="/hair salon.svg"
+              className={styles.dentistIcon}
+              src="/dentist.svg"
               alt=""
               width={75}
               height={75}
             />
           </div>
-          <div className={styles.label}>Hair Salons</div>
+          <div className={styles.label}>Dental Clinics</div>
         </div>
 
         <div className={styles.iconContainer}>
           <div className={styles.iconWrapper}>
             <Image
-              className={styles.nailSalonIcon}
-              src="/nail salon.svg"
+              className={styles.dermaIcon}
+              src="/derma.svg"
               alt=""
               width={75}
               height={75}
             />
           </div>
-          <div className={styles.label}>Nail Salons</div>
+          <div className={styles.label}>Dermatology Clinics</div>
         </div>
 
         <div className={styles.iconContainer}>
           <div className={styles.iconWrapper}>
             <Image
-              className={styles.spaIcon}
-              src="/spa.svg"
+              className={styles.hospitalIcon}
+              src="/hospital.svg"
               alt=""
               width={75}
               height={75}
             />
           </div>
-          <div className={styles.label}>Spa & Massage Centers</div>
+          <div className={styles.label}>Hospitals</div>
         </div>
 
         <div className={styles.iconContainer}>
           <div className={styles.iconWrapper}>
             <Image
-              className={styles.piercingIcon}
-              src="/piercing.svg"
+              className={styles.labIcon}
+              src="/lab.svg"
               alt=""
               width={75}
               height={75}
             />
           </div>
-          <div className={styles.label}>Tattoo & Piercing Parlors</div>
+          <div className={styles.label}>Laboratories</div>
+        </div>
+
+        <div className={styles.iconContainer}>
+          <div className={styles.iconWrapper}>
+            <Image
+              className={styles.pillIcon}
+              src="/pill.svg"
+              alt=""
+              width={75}
+              height={75}
+            />
+          </div>
+          <div className={styles.label}>Pharmacies</div>
+        </div>
+
+        <div className={styles.iconContainer}>
+          <div className={styles.iconWrapper}>
+            <Image
+              className={styles.psychIcon}
+              src="/psych.svg"
+              alt=""
+              width={75}
+              height={75}
+            />
+          </div>
+          <div className={styles.label}>Therapy Centers</div>
         </div>
       </div>
 
@@ -725,7 +751,7 @@ const HAMS: NextPage = () => {
       <div className={styles.heroImg}>
         <div className={styles.image12} />
         <div className={styles.personalBeautyAnd}>
-          Personal Beauty and Care Services
+          Health and Medical Services
         </div>
       </div>
 
