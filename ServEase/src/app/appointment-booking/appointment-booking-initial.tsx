@@ -4,10 +4,10 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import styles from "../styles/register-client.module.css";
+import styles from "../styles/appointment-booking.module.css";
 import Booking1 from "./appointment-booking-1";
-//import ClientSignup2 from "./registerclientpage2";
-//import ClientSignup3 from "./registerclientpage3";
+import Booking2 from "./appointment-booking-2";
+import Booking3 from "./appointment-booking-3";
 
 function Stepper({ activeStep }: { activeStep: number }) {
   const getStepClass = (step: number) => {
@@ -22,7 +22,7 @@ function Stepper({ activeStep }: { activeStep: number }) {
           <div className={styles.bg} />
           <div className={styles.div}>1</div>
         </div>
-        <div className={styles.profile}>Login</div>
+        <div className={styles.profile}>Service</div>
       </div>
 
       <div className={styles.stepperChild} />
@@ -32,7 +32,7 @@ function Stepper({ activeStep }: { activeStep: number }) {
           <div className={styles.bg} />
           <div className={styles.div}>2</div>
         </div>
-        <div className={styles.profile}>Profile</div>
+        <div className={styles.profile}>Date & Time</div>
       </div>
 
       <div className={styles.stepperChild} />
@@ -42,7 +42,7 @@ function Stepper({ activeStep }: { activeStep: number }) {
           <div className={styles.bg} />
           <div className={styles.div}>3</div>
         </div>
-        <div className={styles.profile}>Contacts</div>
+        <div className={styles.profile}>Review</div>
       </div>
     </div>
   );
@@ -139,39 +139,16 @@ const AppointmentBooking: NextPage = () => {
   };
 
   return (
-    <div className={styles.facilitySignup1}>
-      <div className={styles.headerNav}>
-        <Image
-          className={styles.serveaseLogoAlbumCover3}
-          width={40}
-          height={40}
-          sizes="100vw"
-          alt=""
-          src="Servease Logo.svg"
-        />
-
-        <div className={styles.link1} onClick={handleBackClick}>
-          <Image
-            className={styles.outlineArrowsArrowLeft}
-            width={24}
-            height={24}
-            sizes="100vw"
-            alt=""
-            src="Arrow Left.svg"
-          />
-          <div className={styles.getStarted}>Back</div>
-        </div>
-      </div>
-
-      <div className={styles.joinUs}>
-        <div className={styles.conten}>
-          <div className={styles.joinUsParent}>
-            <div className={styles.joinUs1}>Join us</div>
-            <div className={styles.signUpAnd}>
-              Sign up and get connected with trusted professionals.
+    <div className={styles.booking1}>
+      <div className={styles.joinUsWrapper}>
+        <div className={styles.joinUs}>
+          <div className={styles.joinUsChild} />
+          <div className={styles.appointmentBookingParent}>
+            <b className={styles.appointmentBooking}>Appointment Booking</b>
+            <div className={styles.chooseAService}>
+              Choose a service, pick a time, and book in just a few clicks.
             </div>
           </div>
-
           <div
             style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
           >
@@ -179,50 +156,129 @@ const AppointmentBooking: NextPage = () => {
 
             <ExpandableSection
               id={1}
-              title="Login"
+              title="Choose Service(s)"
               activeSection={activeSection}
               onSectionChange={setActiveSection}
               currentStep={currentStep}
               completedSteps={completedSteps}
             >
               <Booking1
-              //onNext={() => {
-              //  setCurrentStep((prev) => Math.max(prev, 2));
-              //  handleNextStep();
-              //}}
+                onNext={() => {
+                  setCurrentStep((prev) => Math.max(prev, 2));
+                  handleNextStep();
+                }}
               />
             </ExpandableSection>
 
             <ExpandableSection
               id={2}
-              title="Profile"
+              title="Select Date & Time"
               activeSection={activeSection}
               onSectionChange={setActiveSection}
               currentStep={currentStep}
               completedSteps={completedSteps}
             >
-              <Booking1
-              //onNext={() => {
-              //  setCurrentStep((prev) => Math.max(prev, 3));
-              //  handleNextStep();
-              //}}
+              <Booking2
+                onNext={() => {
+                  setCurrentStep((prev) => Math.max(prev, 3));
+                  handleNextStep();
+                }}
               />
             </ExpandableSection>
 
             <ExpandableSection
               id={3}
-              title="Contact Information"
+              title="Review Appointment"
               activeSection={activeSection}
               onSectionChange={setActiveSection}
               currentStep={currentStep}
               completedSteps={completedSteps}
             >
-              <Booking1
-              //onNext={() => {
-              //  handleNextStep();
-              //}}
+              <Booking3
+                onNext={() => {
+                  handleNextStep();
+                }}
               />
             </ExpandableSection>
+          </div>
+          <div className={styles.navigation}>
+            <Image
+              className={styles.serveaseLogoAlbumCover3}
+              width={40}
+              height={40}
+              sizes="100vw"
+              alt=""
+              src="/landingLogo.svg"
+            />
+            <div className={styles.servease}>
+              <span className={styles.serv}>serv</span>
+              <b>ease</b>
+            </div>
+            <div className={styles.navigationChild} />
+            <div className={styles.homeParent}>
+              <div className={styles.home} onClick={() => router.push("/home")}>
+                Home
+              </div>
+              <div className={styles.home}>Discover</div>
+              <div className={styles.contactUs}>Contact Us</div>
+            </div>
+            <div className={styles.navigationChild} />
+            <Image
+              className={styles.avatar}
+              width={40}
+              height={40}
+              sizes="100vw"
+              alt=""
+              src="/avatar.svg"
+            />
+          </div>
+          <div className={styles.footer}>
+            <div className={styles.footerChild} />
+            <div className={styles.yourTrustedPlatform}>
+              Your trusted platform to discover, book, and manage local
+              services—anytime, anywhere.
+            </div>
+            <b className={styles.contactUs1}>Contact Us</b>
+            <div className={styles.supportserveasecom}>
+              support@servease.com
+            </div>
+            <div className={styles.contactNumber}>contact number</div>
+            <b className={styles.support}>Support</b>
+            <div className={styles.faqs}>FAQs</div>
+            <div className={styles.privacyPolicy}>Privacy Policy</div>
+            <div className={styles.termsConditions}>{`Terms & Conditions`}</div>
+            <div className={styles.aboutUs}>About Us</div>
+            <b className={styles.quickLinks}>Quick Links</b>
+            <div
+              className={styles.servease1}
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+            >
+              <span className={styles.serv}>serv</span>
+              <b>ease</b>
+            </div>
+            <div className={styles.home1} onClick={() => router.push("/home")}>
+              Home
+            </div>
+            <div className={styles.discover1}>Discover</div>
+            <div className={styles.lineParent}>
+              <div className={styles.lineDiv} />
+              <div className={styles.servease2025}>
+                servease 2025 © All rights reserved
+              </div>
+            </div>
+            <Image
+              className={styles.serveaseLogoAlbumCover31}
+              width={40}
+              height={40}
+              sizes="100vw"
+              alt=""
+              src="/landingLogo.svg"
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+            />
           </div>
         </div>
       </div>
