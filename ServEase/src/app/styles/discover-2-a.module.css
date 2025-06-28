@@ -238,11 +238,23 @@
   color: var(--color-tan);
 }
 
-/* popular */
+/* popular & new */
 
 .popularServices {
   position: absolute;
   top: 954px;
+  left: 121px;
+  width: 1195px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 64px;
+}
+
+.newServices {
+  position: absolute;
+  top: 1561px;
   left: 121px;
   width: 1195px;
   display: flex;
@@ -263,6 +275,11 @@
   gap: 30px;
   font-size: var(--font-size-16);
   color: var(--color-gray-100);
+}
+
+.centeredCards {
+  margin-left: calc(50% - 440px);
+  justify-content: center;
 }
 
 .avatar28 {
@@ -392,11 +409,6 @@
 }
 
 /* cards */
-
-.centeredCards {
-  margin-left: calc(50% - 440px);
-  justify-content: center;
-}
 
 .image {
   align-self: stretch;
@@ -632,9 +644,18 @@
   position: absolute;
   top: 0px;
   left: 120px;
-  color: #BBA68A;
+  color: #bba68a;
+  line-height: 150%;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.div7 {
+  position: relative;
   line-height: 150%;
   font-weight: 500;
+  color: #bba68a;
+  font-size: 16px;
 }
 
 .groupChild27 {
@@ -711,18 +732,6 @@
   align-items: flex-start;
   justify-content: flex-start;
   padding: var(--padding-20);
-}
-
-.newServices {
-  position: absolute;
-  top: 1561px;
-  left: 121px;
-  width: 1195px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: var(--gap-64);
 }
 
 .bg {
