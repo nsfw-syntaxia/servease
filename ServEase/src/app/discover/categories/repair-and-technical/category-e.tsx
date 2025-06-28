@@ -623,27 +623,53 @@ const RATS: NextPage = () => {
         <div className={styles.iconContainer}>
           <div className={styles.iconWrapper}>
             <Image
-              className={styles.schoolIcon}
-              src="/univ.svg"
+              className={styles.appliIcon}
+              src="/appli repair.svg"
               alt=""
               width={75}
               height={75}
             />
           </div>
-          <div className={styles.label}>Schools & Universities</div>
+          <div className={styles.label}>Home Appliance Repair Centers</div>
         </div>
 
         <div className={styles.iconContainer}>
           <div className={styles.iconWrapper}>
             <Image
-              className={styles.tutorIcon}
-              src="/books.svg"
+              className={styles.carwashIcon}
+              src="/car wash.svg"
               alt=""
               width={75}
               height={75}
             />
           </div>
-          <div className={styles.label}>Tutoring Centers</div>
+          <div className={styles.label}>Car Wash Stations</div>
+        </div>
+
+        <div className={styles.iconContainer}>
+          <div className={styles.iconWrapper}>
+            <Image
+              className={styles.carrepairIcon}
+              src="/car repair.svg"
+              alt=""
+              width={75}
+              height={75}
+            />
+          </div>
+          <div className={styles.label}>Vehicle Repair Shops</div>
+        </div>
+
+        <div className={styles.iconContainer}>
+          <div className={styles.iconWrapper}>
+            <Image
+              className={styles.elecrepairIcon}
+              src="/elec repair.svg"
+              alt=""
+              width={75}
+              height={75}
+            />
+          </div>
+          <div className={styles.label}>Electronics Repair Shops</div>
         </div>
       </div>
 
