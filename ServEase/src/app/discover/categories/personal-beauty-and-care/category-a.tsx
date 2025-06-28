@@ -941,6 +941,8 @@ const PBACS: NextPage = () => {
           src="/barbershop.svg"
         />
       </div>
+
+      {/* search */}
       <div className={styles.searchBox}>
         <div className={styles.filtering}>
           <div className={styles.link6}>
@@ -967,11 +969,15 @@ const PBACS: NextPage = () => {
           <div className={styles.findListing}>Find Listing</div>
         </div>
         <div className={styles.inputBox}>
-          <div className={styles.enterAService}>
-            Enter a Service Name, Category, or Location
-          </div>
+          <input
+            type="text"
+            className={styles.enterAService}
+            placeholder="Enter a Service Name, Category, or Location"
+          />
         </div>
       </div>
+
+      {/* hero img */}
       <div className={styles.heroImg}>
         <div className={styles.image12} />
         <div className={styles.personalBeautyAnd}>
@@ -979,6 +985,7 @@ const PBACS: NextPage = () => {
         </div>
       </div>
 
+      {/* nav */}
       <div className={styles.nav}>
         <Image
           className={styles.serveaseLogoAlbumCover3}

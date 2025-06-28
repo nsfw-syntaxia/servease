@@ -661,6 +661,7 @@
   width: 100%;
   height: 830px;
 }
+
 .piercingIcon {
   position: absolute;
   top: 0px;
@@ -670,6 +671,7 @@
   height: 110px;
   object-fit: cover;
 }
+
 .spaIcon {
   position: absolute;
   top: 0px;
@@ -679,6 +681,7 @@
   height: 110px;
   object-fit: cover;
 }
+
 .nailSalonIcon {
   position: absolute;
   top: 0px;
@@ -688,6 +691,7 @@
   height: 110px;
   object-fit: cover;
 }
+
 .hairSalonIcon {
   position: absolute;
   top: 0px;
@@ -697,6 +701,7 @@
   height: 109px;
   object-fit: cover;
 }
+
 .barbershopIcon {
   position: absolute;
   top: 0px;
@@ -706,6 +711,7 @@
   height: 110px;
   object-fit: cover;
 }
+
 .icons {
   position: absolute;
   top: 618px;
@@ -713,24 +719,32 @@
   width: 830px;
   height: 110px;
 }
+
+/* search */
+
 .icon2 {
   position: absolute;
-  top: 22.38px;
-  left: 0px;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
   width: 20px;
   height: 20px;
   overflow: hidden;
 }
+
 .moreFilters {
   position: absolute;
-  top: -0.87px;
-  left: 28px;
-  line-height: 27.75px;
+  top: 50%;
+  left: 30px;
+  transform: translateY(-50%);
+  color: #402F27;
+  line-height: 1;
   display: flex;
   align-items: center;
-  width: 81.9px;
-  height: 27.8px;
+  width: max-content;
+  height: auto;
 }
+
 .link6 {
   position: absolute;
   width: calc(100% - 76px);
@@ -738,79 +752,100 @@
   right: 50px;
   left: 26px;
   height: 27.8px;
+  cursor: pointer;
 }
+
 .filtering {
   position: absolute;
   top: calc(50% - 18px);
+  left: 775px;
   right: 201.09px;
-  border-left: 1px solid var(--color-whitesmoke-300);
+  color: #402F27;
+  border-left: 1px solid #E9E9E9;
   box-sizing: border-box;
   width: 185.6px;
   height: 35.8px;
 }
+
 .icon3 {
   position: absolute;
-  top: 32px;
+  top: 50%;
   left: 42.8px;
+  transform: translateY(-50%);
   width: 15px;
   height: 15px;
   overflow: hidden;
 }
+
 .findListing {
   position: absolute;
-  top: calc(50% - 14.77px);
-  left: calc(50% - 27.75px);
-  line-height: 27.75px;
-  font-weight: 500;
+  top: 50%;
+  left: 110px;
+  transform: translate(-50%, -50%);
+  line-height: 1;
+  font-weight: 300;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 80.8px;
-  height: 27.8px;
+  width: max-content;
+  height: auto;
 }
+
 .btnfind {
   position: absolute;
   top: calc(50% - 28px);
   right: 10.04px;
   border-radius: 60px;
-  background-color: var(--color-tan-200);
-  border: 1px solid var(--color-tan-200);
+  background-color: var(--color-tan);
+  border: 1px solid var(--color-tan);
   box-sizing: border-box;
   width: 191.1px;
   height: 55.8px;
   text-align: center;
   color: var(--color-white);
+  cursor: pointer;
 }
+
 .enterAService {
   position: absolute;
   top: 9px;
   left: 29px;
+  width: calc(100% - 58px);
+  height: 29px;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: var(--font-size-16);
   line-height: 27.75px;
+  color: #a9a9a9;
 }
+
 .inputBox {
   position: absolute;
   width: calc(100% - 430px);
   top: 13px;
   right: 406px;
   left: 24px;
-  border-radius: var(--br-80);
-  background-color: var(--color-whitesmoke-100);
+  border-radius: 80px;
+  background-color: #f9f9f9;
   height: 47px;
-  font-size: var(--font-size-16);
-  color: var(--color-darkgray);
 }
+
 .searchBox {
   position: absolute;
-  width: calc(100% - 285px);
+  width: 1155px;
   top: 466px;
-  right: 142px;
-  left: 143px;
-  border-radius: var(--br-80);
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 80px;
   background-color: var(--color-white);
   height: 76px;
   font-size: var(--font-size-15);
   color: var(--color-gray-300);
 }
+
+/* hero img */
+
 .image12 {
   position: absolute;
   top: -82px;
@@ -818,6 +853,7 @@
   width: 1300px;
   height: 578px;
 }
+
 .personalBeautyAnd {
   position: absolute;
   top: 151px;
@@ -825,6 +861,7 @@
   line-height: 15px;
   font-weight: 800;
 }
+
 .heroImg {
   position: absolute;
   top: calc(50% - 2040px);
@@ -840,6 +877,8 @@
   font-size: 64px;
   color: var(--color-white);
 }
+
+/* navigation */
 
 .nav {
   position: fixed;
