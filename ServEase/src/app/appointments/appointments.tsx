@@ -32,39 +32,6 @@ const Appointments: NextPage = () => {
             <div className={styles.home}>Home</div>
             <div className={styles.discover}>Discover</div>
             <div className={styles.createAnAccount}>Create an Account</div>
-            <div className={styles.facebookParent}>
-              <div className={styles.facebook}>Facebook</div>
-              <Image
-                className={styles.groupChild}
-                width={22}
-                height={22}
-                sizes="100vw"
-                alt=""
-                src="/Frame 1.svg"
-              />
-            </div>
-            <div className={styles.twitterParent}>
-              <div className={styles.twitter}>Twitter</div>
-              <Image
-                className={styles.groupItem}
-                width={26}
-                height={22}
-                sizes="100vw"
-                alt=""
-                src="/Frame 2.svg"
-              />
-            </div>
-            <div className={styles.instagramParent}>
-              <div className={styles.instagram}>Instagram</div>
-              <Image
-                className={styles.groupInner}
-                width={24}
-                height={24}
-                sizes="100vw"
-                alt=""
-                src="/Frame 3.svg"
-              />
-            </div>
             <div className={styles.lineParent}>
               <div className={styles.lineDiv} />
               <div className={styles.servease2025}>
@@ -169,14 +136,6 @@ const Appointments: NextPage = () => {
                   </div>
                   <div className={styles.pm}>1:00 PM</div>
                   <div className={styles.calendarMonthParent}>
-                    <Image
-                      className={styles.calendarMonthIcon1}
-                      width={19.5}
-                      height={21.7}
-                      sizes="100vw"
-                      alt=""
-                      src="/calendar_month.svg"
-                    />
                     <div className={styles.wedJune30}>Wed, June 30</div>
                   </div>
                   <div className={styles.confirmed}>Confirmed</div>
@@ -243,14 +202,6 @@ const Appointments: NextPage = () => {
                   </div>
                   <div className={styles.pm}>1:00 PM</div>
                   <div className={styles.calendarMonthParent}>
-                    <Image
-                      className={styles.calendarMonthIcon1}
-                      width={19.5}
-                      height={21.7}
-                      sizes="100vw"
-                      alt=""
-                      src="/calendar_month.svg"
-                    />
                     <div className={styles.wedJune30}>Wed, June 30</div>
                   </div>
                   <div className={styles.confirmed}>Confirmed</div>
@@ -318,14 +269,6 @@ const Appointments: NextPage = () => {
                 </div>
                 <div className={styles.pm}>1:00 PM</div>
                 <div className={styles.calendarMonthParent}>
-                  <Image
-                    className={styles.calendarMonthIcon1}
-                    width={19.5}
-                    height={21.7}
-                    sizes="100vw"
-                    alt=""
-                    src="/calendar_month.svg"
-                  />
                   <div className={styles.wedJune30}>Wed, June 30</div>
                 </div>
                 <div className={styles.confirmed}>Confirmed</div>

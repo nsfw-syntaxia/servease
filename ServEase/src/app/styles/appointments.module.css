@@ -1,3 +1,30 @@
+.serveaseLogoAlbumCover31,
+.servease1,
+.home1,
+.contactUs1,
+.button1,
+.button,
+.link,
+.link1,
+.supportserveasecom,
+.facebookParent,
+.twitterParent,
+.instagramParent,
+.home,
+.discover,
+.createAnAccount,
+.faqs,
+.privacyPolicy,
+.termsConditions,
+.aboutUs,
+.servease,
+.serveaseLogoAlbumCover3,
+.viewDetails,
+.svgIcon
+{
+  cursor: pointer;
+}
+
 .joinUsChild {
   	position: absolute;
   	top: 56px;
@@ -17,7 +44,7 @@
   	top: 0px;
   	left: 0px;
   	background-color: var(--color-white);
-  	width: 1440px;
+  	width: 100%;
   	height: 534px;
 }
 .yourTrustedPlatform {
@@ -241,7 +268,7 @@
   	top: 1713px;
   	left: 1px;
   	background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), var(--color-white);
-  	width: 1440px;
+  	width: 100%;
   	height: 475px;
 }
 .serveaseLogoAlbumCover31 {
@@ -252,10 +279,12 @@
 }
 .serv {
   	font-weight: 500;
+    color: var(--color-tan);
 }
 .servease1 {
   	position: relative;
   	line-height: 150%;
+    color: var(--color-tan);
 }
 .navigationChild {
   	width: 124px;
@@ -281,6 +310,13 @@
   	justify-content: center;
   	height: 27px;
   	flex-shrink: 0;
+}
+.home1:hover,
+.contactUs1:hover {
+  color: var(--color-tan);
+  font-weight: 700;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 .homeParent {
   	display: flex;
@@ -318,7 +354,7 @@
   	flex-shrink: 0;
 }
 .navigation {
-  	position: absolute;
+  	position: fixed;
   	top: 47px;
   	left: calc(50% - 557px);
   	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -335,6 +371,24 @@
   	box-sizing: border-box;
   	gap: 10px;
   	font-size: var(--font-size-28);
+    z-index: 1;
+    animation: bounceInTop 0.8s ease forwards;
+}
+@keyframes bounceInTop {
+  0% {
+    opacity: 0;
+    transform: translate(0%, -80px);
+  }
+  60% {
+    opacity: 1;
+    transform: translate(0%, 15px);
+  }
+  80% {
+    transform: translate(0%, -5px);
+  }
+  100% {
+    transform: translate(0%, 0);
+  }
 }
 .appointments1 {
   	position: absolute;
@@ -414,14 +468,14 @@
   	top: 186px;
   	left: 1016px;
   	border-radius: var(--br-12);
-  	background-color: var(--color-silver);
-  	border: 1px solid var(--color-silver);
+  	background-color: var(--color-tan);
   	box-sizing: border-box;
   	width: 150px;
   	height: 50px;
   	text-align: center;
   	color: var(--color-white);
 }
+
 .avatarIcon {
   	position: absolute;
   	top: 44px;
@@ -449,7 +503,7 @@
   	position: absolute;
   	top: calc(50% - 140.5px);
   	left: calc(50% - 515px);
-  	border-radius: var(--br-30);
+  	border-radius: 30px;
   	background-color: var(--color-antiquewhite);
   	width: 1030px;
   	height: 281px;
@@ -474,7 +528,7 @@
   	top: 27.21%;
   	right: 56.36%;
   	bottom: 29.46%;
-  	left: 40.75%;
+  	left: 39%;
   	max-width: 100%;
   	overflow: hidden;
   	max-height: 100%;
@@ -490,7 +544,7 @@
   	position: absolute;
   	top: calc(50% + 46.54px);
   	left: calc(50% - 448.63px);
-  	border-radius: var(--br-30);
+  	border-radius: 30px;
   	background-color: var(--color-white);
   	width: 900px;
   	height: 60px;
@@ -618,7 +672,7 @@
   	bottom: 0px;
   	left: 0px;
   	background-color: var(--color-whitesmoke);
-  	width: 1440px;
+  	width: 100%;
   	overflow: hidden;
 }
 .groupWrapper1 {
@@ -636,7 +690,7 @@
   	top: 0px;
   	bottom: 0px;
   	left: 10px;
-  	width: 1440px;
+  	width: 100%;
 }
 .appointments {
   	width: 100%;
@@ -652,3 +706,29 @@
   	font-family: var(--font-dm-sans);
 }
 
+.supportserveasecom,
+.faqs,
+.privacyPolicy,
+.termsConditions,
+.aboutUs,
+.home,
+.discover,
+.createAnAccount,
+.contactNumber,
+.contactUs {
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.supportserveasecom:hover,
+.faqs:hover,
+.privacyPolicy:hover,
+.termsConditions:hover,
+.aboutUs:hover,
+.home:hover,
+.discover:hover,
+.createAnAccount:hover,
+.contactNumber:hover,
+.contactUs:hover {
+  transform: translateX(8px);
+  color: var(--color-tan);
+}
