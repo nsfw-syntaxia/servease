@@ -798,41 +798,6 @@
   transform: translateY(0);
 }
 
-.barbershopIcon {
-  width: 75px;
-  height: 75px;
-  object-fit: contain;
-  border-radius: 50%;
-}
-
-.hairSalonIcon {
-  width: 75px;
-  height: 75px;
-  object-fit: contain;
-  border-radius: 50%;
-}
-
-.nailSalonIcon {
-  width: 75px;
-  height: 75px;
-  object-fit: contain;
-  border-radius: 50%;
-}
-
-.spaIcon {
-  width: 75px;
-  height: 75px;
-  object-fit: contain;
-  border-radius: 50%;
-}
-
-.piercingIcon {
-  width: 75px;
-  height: 75px;
-  object-fit: contain;
-  border-radius: 50%;
-}
-
 /* search */
 
 .icon2 {
