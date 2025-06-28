@@ -623,92 +623,79 @@ const FABS: NextPage = () => {
         <div className={styles.iconContainer}>
           <div className={styles.iconWrapper}>
             <Image
-              className={styles.animalIcon}
-              src="/animal.svg"
+              className={styles.breadIcon}
+              src="/bread.svg"
               alt=""
               width={75}
               height={75}
             />
           </div>
-          <div className={styles.label}>Animal Clinics</div>
+          <div className={styles.label}>Bakeries</div>
         </div>
 
         <div className={styles.iconContainer}>
           <div className={styles.iconWrapper}>
             <Image
-              className={styles.dentistIcon}
-              src="/dentist.svg"
+              className={styles.beerIcon}
+              src="/beer.svg"
               alt=""
               width={75}
               height={75}
             />
           </div>
-          <div className={styles.label}>Dental Clinics</div>
+          <div className={styles.label}>Bars</div>
         </div>
 
         <div className={styles.iconContainer}>
           <div className={styles.iconWrapper}>
             <Image
-              className={styles.dermaIcon}
-              src="/derma.svg"
+              className={styles.coffeeIcon}
+              src="/coffee.svg"
               alt=""
               width={75}
               height={75}
             />
           </div>
-          <div className={styles.label}>Dermatology Clinics</div>
+          <div className={styles.label}>Cafes & Coffee Shops</div>
         </div>
 
         <div className={styles.iconContainer}>
           <div className={styles.iconWrapper}>
             <Image
-              className={styles.hospitalIcon}
-              src="/hospital.svg"
+              className={styles.shopIcon}
+              src="/shop.svg"
               alt=""
               width={75}
               height={75}
             />
           </div>
-          <div className={styles.label}>Hospitals</div>
+          <div className={styles.label}>Mini Marts</div>
         </div>
 
         <div className={styles.iconContainer}>
           <div className={styles.iconWrapper}>
             <Image
-              className={styles.labIcon}
-              src="/lab.svg"
+              className={styles.restoIcon}
+              src="/resto.svg"
               alt=""
               width={75}
               height={75}
             />
           </div>
-          <div className={styles.label}>Laboratories</div>
+          <div className={styles.label}>Restaurants & Diners</div>
         </div>
 
         <div className={styles.iconContainer}>
           <div className={styles.iconWrapper}>
             <Image
-              className={styles.pillIcon}
-              src="/pill.svg"
+              className={styles.groceryIcon}
+              src="/grocery.svg"
               alt=""
               width={75}
               height={75}
             />
           </div>
-          <div className={styles.label}>Pharmacies</div>
-        </div>
-
-        <div className={styles.iconContainer}>
-          <div className={styles.iconWrapper}>
-            <Image
-              className={styles.psychIcon}
-              src="/psych.svg"
-              alt=""
-              width={75}
-              height={75}
-            />
-          </div>
-          <div className={styles.label}>Therapy Centers</div>
+          <div className={styles.label}>Supermarkets / Grocery Stores</div>
         </div>
       </div>
 
@@ -751,7 +738,7 @@ const FABS: NextPage = () => {
       <div className={styles.heroImg}>
         <div className={styles.image12} />
         <div className={styles.personalBeautyAnd}>
-          Health and Medical Services
+          Food and Beverages Services
         </div>
       </div>
 

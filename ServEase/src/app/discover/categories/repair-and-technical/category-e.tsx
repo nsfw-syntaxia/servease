@@ -712,7 +712,7 @@ const RATS: NextPage = () => {
       <div className={styles.heroImg}>
         <div className={styles.image12} />
         <div className={styles.personalBeautyAnd}>
-          Education and Tutoring Services
+          Repair and Technical Services
         </div>
       </div>
 

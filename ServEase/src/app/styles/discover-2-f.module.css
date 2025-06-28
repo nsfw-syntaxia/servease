@@ -768,16 +768,16 @@
   min-width: 110px;
 }
 
-.iconContainer:nth-child(-n + 4) {
+.iconContainer:nth-child(-n + 3) {
   flex: 0 0 auto;
 }
 
-.iconContainer:nth-child(n + 5) {
+.iconContainer:nth-child(n + 4) {
   flex: 0 0 auto;
   margin-top: -75px;
 }
 
-.iconContainer:nth-child(n + 5) {
+.iconContainer:nth-child(n + 4) {
   order: 2;
 }
 
@@ -1014,7 +1014,7 @@
   width: 1300px;
   height: 331px;
   overflow: hidden;
-  background-image: url("/hams.png");
+  background-image: url("/fabs.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: top;
