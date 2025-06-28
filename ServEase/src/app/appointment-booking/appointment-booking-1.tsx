@@ -149,10 +149,10 @@ const Booking1: NextPage = () => {
                         >
                           {isActive && (
                             <Image
-                              src="/Check Square.svg"
+                              src="/check.svg"
                               alt="check"
-                              width={24}
-                              height={24}
+                              width={13}
+                              height={13}
                             />
                           )}
                         </div>

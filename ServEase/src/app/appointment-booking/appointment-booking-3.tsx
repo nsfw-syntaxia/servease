@@ -198,10 +198,10 @@ const Booking3: NextPage = () => {
                   >
                     {isAgreed && (
                       <Image
-                        src="/Check Square.svg"
+                        src="/check.svg"
                         alt="check"
-                        width={22}
-                        height={22}
+                        width={13}
+                        height={13}
                       />
                     )}
                   </div>

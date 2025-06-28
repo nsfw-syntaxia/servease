@@ -1277,6 +1277,9 @@
   transform: scale(1);
   animation: popIn 0.3s ease forwards;
 }
+.checkboxActive {
+  background-color: #a67c52;
+}
 @keyframes popIn {
   0% {
     opacity: 0;

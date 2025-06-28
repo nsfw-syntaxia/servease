@@ -1000,6 +1000,9 @@
   opacity: 1;
   transform: scale(1);
 }
+.checkboxActive {
+  background-color: #a67c52;
+}
 @keyframes popIn {
   0% {
     opacity: 0;

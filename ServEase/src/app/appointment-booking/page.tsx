@@ -1,9 +1,9 @@
-import Booking3 from "./appointment-booking-3";
+import Booking1 from "./appointment-booking-1";
 
 export default function Home() {
   return (
     <>
-      <Booking3 />
+      <Booking1 />
     </>
   );
 }
