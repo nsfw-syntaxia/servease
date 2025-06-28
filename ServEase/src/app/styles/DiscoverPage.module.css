@@ -1,3 +1,31 @@
+.serveaseLogoAlbumCover31,
+.servease1,
+.home1,
+.contactUs1,
+.button1,
+.button,
+.link,
+.link1,
+.supportserveasecom,
+.facebookParent,
+.twitterParent,
+.instagramParent,
+.home,
+.discover,
+.createAnAccount,
+.faqs,
+.privacyPolicy,
+.termsConditions,
+.aboutUs,
+.servease,
+.serveaseLogoAlbumCover3,
+.icon,
+.moreFilters,
+.icon7,
+.icon8 {
+  cursor: pointer;
+}
+
 .serviceFacility {
   	margin: 0;
 }
@@ -240,7 +268,7 @@
   	top: 208px;
   	left: 0px;
   	border-radius: 0px 0px var(--br-12) var(--br-12);
-  	background-color: var(--color-gray-100);
+  	background-color: #402F27;
   	width: 560px;
   	height: 56px;
 }
@@ -436,7 +464,7 @@
   	width: 1300px;
   	height: 331px;
   	overflow: hidden;
-  	background-image: url('/Hero Image.png');
+  	background-image: url('/Hero Image.jpg');
   	background-size: cover;
   	background-repeat: no-repeat;
   	background-position: top;
@@ -472,6 +500,7 @@
   	justify-content: center;
   	flex-shrink: 0;
 	color: #241F1B;
+	transition: all 0.3s ease;
 }
 .contactUs1 {
   	width: 147px;
@@ -484,7 +513,14 @@
   	height: 27px;
   	flex-shrink: 0;
 	color: #241F1B;
-
+	transition: all 0.3s ease;
+}
+.home1:hover,
+.contactUs1:hover {
+  color: var(--color-tan);
+  font-weight: 700;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 .homeParent {
   	display: flex;
@@ -528,7 +564,7 @@
   	color: var(--color-snow);
 }
 .navigation {
-  	position: absolute;
+  	position: fixed;
   	top: 47px;
   	left: calc(50% - 555px);
   	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -546,6 +582,23 @@
   	gap: 10px;
   	font-size: var(--font-size-18);
   	color: var(--color-black);
+	animation: bounceInTop 0.8s ease forwards;
+}
+@keyframes bounceInTop {
+  0% {
+    opacity: 0;
+    transform: translate(0%, -80px);
+  }
+  60% {
+    opacity: 1;
+    transform: translate(0%, 15px);
+  }
+  80% {
+    transform: translate(0%, -5px);
+  }
+  100% {
+    transform: translate(0%, 0);
+  }
 }
 .icon7 {
   	position: absolute;
@@ -653,7 +706,6 @@
   	width: 100%;
   	position: relative;
   	background-color:#f8f7f3;
-  	border: 1px solid var(--color-black);
   	box-sizing: border-box;
   	height: 2697px;
   	overflow: hidden;
@@ -661,4 +713,31 @@
   	font-size: var(--font-size-20);
   	color: var(--color-white);
   	font-family: var(--font-dm-sans);
+}
+
+.supportserveasecom,
+.faqs,
+.privacyPolicy,
+.termsConditions,
+.aboutUs,
+.home,
+.discover,
+.createAnAccount,
+.contactNumber,
+.contactUs {
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.supportserveasecom:hover,
+.faqs:hover,
+.privacyPolicy:hover,
+.termsConditions:hover,
+.aboutUs:hover,
+.home:hover,
+.discover:hover,
+.createAnAccount:hover,
+.contactNumber:hover,
+.contactUs:hover {
+  transform: translateX(8px);
+  color: var(--color-tan);
 }
