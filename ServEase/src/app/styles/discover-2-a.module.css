@@ -384,9 +384,9 @@
 }
 
 .service6 {
-  border-radius: var(--br-12);
+  border-radius: 13px;
   background-color: var(--color-white);
-  border: 1px solid var(--color-gainsboro-100);
+  border: 1px solid #d9d9d9;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -398,13 +398,39 @@
   transition: transform 0.12s ease-out, box-shadow 0.12s ease-out,
     border 0.12s ease-out;
   cursor: pointer;
-  border: 1px solid transparent;
 }
 
 .service6:hover {
   transform: translateY(-6px) scale(1.01);
   box-shadow: 0 6px 16px rgba(166, 132, 101, 0.3);
-  border-radius: 12px;
+  border-radius: 13px;
+  border: 1px solid var(--color-tan);
+}
+
+.service {
+  width: 586px;
+  border-radius: 13px;
+  background-color: var(--color-white);
+  border: 1px solid #d9d9d9;
+  box-sizing: border-box;
+  height: 345px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.service {
+  position: relative;
+  transition: transform 0.12s ease-out, box-shadow 0.12s ease-out,
+    border 0.12s ease-out;
+  cursor: pointer;
+}
+
+.service:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 6px 16px rgba(166, 132, 101, 0.3);
+  border-radius: 13px;
   border: 1px solid var(--color-tan);
 }
 
@@ -423,12 +449,25 @@
   font-weight: 600;
 }
 
+.rate {
+  position: absolute;
+  top: 0px;
+  left: 120px;
+  color: #bba68a;
+  line-height: 150%;
+  font-size: 16px;
+  font-weight: 500;
+}
+
 .location {
   position: relative;
   line-height: 150%;
   font-weight: 500;
-  color: var(--color-tan-100);
+  color: #bba68a;
+  font-size: 16px;
 }
+
+/* all services */
 
 .serviceFacilityNameParent {
   display: flex;
@@ -542,28 +581,17 @@
   align-items: center;
   justify-content: flex-start;
   gap: var(--gap-16);
+  width: 100%;
 }
 
 .info {
   align-self: stretch;
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-start;
   padding: var(--padding-20);
-}
-
-.service {
-  width: 586px;
-  border-radius: var(--br-12);
-  background-color: var(--color-white);
-  border: 1px solid var(--color-gainsboro-100);
-  box-sizing: border-box;
-  height: 345px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
+  min-height: 90px;
 }
 
 .cards {
@@ -572,42 +600,48 @@
   flex-direction: row;
   align-items: flex-start;
   justify-content: flex-start;
-  gap: var(--gap-30);
+  gap: 30px;
 }
 
 .allCards {
-  align-self: stretch;
+  position: relative;
+  margin-left: calc(50% - 200px);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  gap: var(--gap-60);
-}
-
-.viewAll {
-  position: absolute;
-  top: calc(50% - 14.88px);
-  left: calc(50% - 40.5px);
-  line-height: 27.75px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 80.8px;
-  height: 27.8px;
+  gap: 60px;
 }
 
 .button {
   width: 191px;
   position: relative;
   border-radius: var(--br-12);
-  background-color: var(--color-tan-200);
-  border: 1px solid var(--color-tan-200);
+  background-color: var(--color-tan);
+  border: 1px solid var(--color-tan);
   box-sizing: border-box;
   height: 56px;
-  text-align: center;
-  font-size: var(--font-size-15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-16);
   color: var(--color-white);
+  margin-left: 33%;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.button:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.viewAll {
+  line-height: 27.75px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .allView {
@@ -616,7 +650,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  gap: var(--gap-60);
+  gap: 100px;
   font-size: var(--font-size-16);
   color: var(--color-gray-100);
 }
@@ -630,7 +664,7 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  gap: var(--gap-64);
+  gap: 64px;
 }
 
 .serviceChild1 {
@@ -638,24 +672,6 @@
   border-radius: var(--br-12) var(--br-12) 0px 0px;
   background-color: var(--color-antiquewhite);
   height: 254px;
-}
-
-.div6 {
-  position: absolute;
-  top: 0px;
-  left: 120px;
-  color: #bba68a;
-  line-height: 150%;
-  font-size: 16px;
-  font-weight: 500;
-}
-
-.div7 {
-  position: relative;
-  line-height: 150%;
-  font-weight: 500;
-  color: #bba68a;
-  font-size: 16px;
 }
 
 .groupChild27 {

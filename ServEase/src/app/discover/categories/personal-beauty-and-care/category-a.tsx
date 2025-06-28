@@ -75,6 +75,8 @@ const PBACS: NextPage = () => {
           onClick={() => router.push("/home")}
         />
       </div>
+
+      {/* all services */}
       <div className={styles.allServices}>
         <b className={styles.allServices1}>
           <span>All</span>
@@ -570,7 +572,7 @@ const PBACS: NextPage = () => {
                       Service Facility Name
                     </div>
                     <div className={styles.parent3}>
-                      <div className={styles.div7}>Location</div>
+                      <div className={styles.location}>Location</div>
                     </div>
                   </div>
                 </div>
@@ -631,7 +633,7 @@ const PBACS: NextPage = () => {
                     Service Facility Name
                   </div>
                   <div className={styles.parent3}>
-                    <div className={styles.div6}>4.0</div>
+                    <div className={styles.rate}>4.0</div>
                     <Image
                       className={styles.groupChild27}
                       width={20}
@@ -687,7 +689,7 @@ const PBACS: NextPage = () => {
                     Service Facility Name
                   </div>
                   <div className={styles.parent3}>
-                    <div className={styles.div6}>4.0</div>
+                    <div className={styles.rate}>4.0</div>
                     <Image
                       className={styles.groupChild27}
                       width={20}
@@ -743,7 +745,7 @@ const PBACS: NextPage = () => {
                     Service Facility Name
                   </div>
                   <div className={styles.parent3}>
-                    <div className={styles.div6}>4.0</div>
+                    <div className={styles.rate}>4.0</div>
                     <Image
                       className={styles.groupChild27}
                       width={20}
