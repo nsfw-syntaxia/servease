@@ -370,7 +370,11 @@ const LandingPage = () => {
             >
               Home
             </div>
-            <div className={styles.home1}>Discover</div>
+            <div 
+              className={styles.home1}
+              onClick={() => router.push("/home")}
+              >Discover
+            </div>
             <div
               className={styles.contactUs1}
               onClick={() => {
@@ -801,7 +805,7 @@ const LandingPage = () => {
           </div>
           <b className={styles.contactUs}>Contact Us</b>
           <div className={styles.supportserveasecom}>support@servease.com</div>
-          <div className={styles.contactNumber}>+63 9XX-XXX-XXXX</div>
+          <div className={styles.contactNumber}>+63 996 3175 214</div>
           <b className={styles.support}>Support</b>
           <div className={styles.faqs}>FAQs</div>
           <div className={styles.privacyPolicy}>Privacy Policy</div>
@@ -832,7 +836,11 @@ const LandingPage = () => {
           >
             Home
           </div>
-          <div className={styles.discover}>Discover</div>
+          <div 
+            className={styles.discover}
+            onClick={() => router.push("/home")}
+            >Discover
+          </div>
           <div
             className={styles.createAnAccount}
             onClick={() => router.push("/signup")}

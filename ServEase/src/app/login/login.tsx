@@ -54,8 +54,18 @@ const Login: NextPage = () => {
       formData.append("email", email);
       formData.append("password", password);
 
-      await login(formData);
+       setError(undefined); // Clear previous errors
+
+    // Call the server action
+    const result = await login(formData);
+
+    // Handle the result
+    if (result.success) {
       router.push("/discover");
+    } else {
+      setError(result.error || "Login failed. Please check your credentials.");
+      setShowError(true);
+    }
     } catch (error) {
       console.error("Login failed:", error);
       setError("Login failed. Please check your credentials and try again.");

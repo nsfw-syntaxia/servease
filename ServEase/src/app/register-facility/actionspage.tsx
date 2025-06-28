@@ -24,13 +24,6 @@ export async function loginCredentials(formData: FormData): Promise<void> {
   const email = formData.get('email') as string;
   const password = formData.get('password') as string;
 
-  if (!email || !password) {
-    return redirect('/your-signup-page-url?message=Email and password are required.');
-  }
-  if (password.length < 8) {
-    return redirect('/your-signup-page-url?message=Password must be at least 8 characters.');
-  }
-
   const credentials: SignUpWithPasswordCredentials = {
     email,
     password,
@@ -40,7 +33,6 @@ export async function loginCredentials(formData: FormData): Promise<void> {
 
   if (error) {
     console.error('--- SUPABASE SIGNUP ERROR ---', error.message);
-    return redirect(`/your-signup-page-url?message=Could not create account. ${encodeURIComponent(error.message)}`);
   }
 
   if (data.user) {
@@ -65,7 +57,6 @@ function convertTo24HourFormat(time12h: string): string {
     hours = String(parseInt(hours, 10) + 12);
   }
 
-  // Ensure hours are two digits (e.g., '09')
   const formattedHours = hours.padStart(2, '0');
 
   return `${formattedHours}:${minutes}:00`;
@@ -98,7 +89,6 @@ export async function facilityProfile(formData: FormData): Promise<void> {
       !selectedCategory.trim() || !specificCategory.trim() || !workingDaysJSON ||
       !startTime12h || !endTime12h) {
     console.log("VALIDATION FAILED: Required profile fields missing.");
-    return redirect('/register-client?error=missing_fields');
   }
 
   const parsedWorkingDays = JSON.parse(workingDaysJSON);
@@ -126,7 +116,6 @@ export async function facilityProfile(formData: FormData): Promise<void> {
 
   if (error) {
     console.error('--- SUPABASE PROFILE INSERT ERROR ---', error);
-    return redirect(`/register-facility?error=database_error&message=${encodeURIComponent(error.message)}`);
   }
 
   console.log("SUCCESS! Profile created for user:", user.id);
@@ -196,7 +185,6 @@ export async function facilityContact(formData: FormData): Promise<void> {
 
   if (authError || !data?.user) {
     console.error("User is not authenticated or there was an auth error:", authError);
-    return redirect('/login?error=You must be logged in to complete your profile.');
   }
 
   const user = data.user;
@@ -206,7 +194,6 @@ export async function facilityContact(formData: FormData): Promise<void> {
 
   if (!contactNumber?.trim()) {
     console.error("Validation FAILED: Contact number is missing.");
-    return redirect('/register-contact?error=missing_contact_number');
   }
 
   console.log(`Fetching initial profile for user_id: ${user.id}`);
@@ -218,7 +205,6 @@ export async function facilityContact(formData: FormData): Promise<void> {
 
   if (fetchError || !initialProfile) {
     console.error('Could not find initial profile for user or fetch error:', fetchError);
-    return redirect('/register-client?error=initial_profile_not_found'); 
   }
 
   console.log("Found initial profile data:", initialProfile);
@@ -240,7 +226,6 @@ export async function facilityContact(formData: FormData): Promise<void> {
 
   if (insertError) {
     console.error('--- SUPABASE FINAL INSERT ERROR ---', insertError);
-    return redirect(`/register-contact?error=database_insert_error&code=${insertError.code}`);
   }
 
   const { error: deleteError } = await supabase
@@ -255,5 +240,4 @@ export async function facilityContact(formData: FormData): Promise<void> {
   }
 
   console.log("SUCCESS! User registration fully completed for:", user.id);
-  redirect('/login'); 
 }

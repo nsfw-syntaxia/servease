@@ -5,24 +5,6 @@
 
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap");
@@ -33,11 +15,11 @@ body {
   line-height: normal;
 }
 :root {
-  /* Color */
   --color-gray-400: #241f1b;
   --color-gray-500: #050b20;
   --color-gray-600: #cccccc;
   --color-gray-700: #a9a9a9;
+  --color-gray-800: #d9d9d9;
   --color-whitesmoke: #f8f7f3;
   --color-black: #000;
   --color-tan: #a68465;
@@ -50,28 +32,55 @@ body {
   --color-snow: #fbf7f4;
   --color-dimgray: #604c3d;
 
-  /* Gap */
   --gap-8: 8px;
 
-  /* Padding */
   --padding-12: 12px;
 
-  /* BorderRadius */
   --br-8: 8px;
   --br-12: 12px;
   --br-20: 20px;
 
-  /* Font */
   --font-dm-sans: DM Sans;
   --font-benne: Benne;
 
-  /* FontSize */
   --font-size-15: 15px;
   --font-size-16: 16px;
   --font-size-18: 18px;
   --font-size-20: 20px;
   --font-size-26: 26px;
   --font-size-30: 30px;
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
 }
 
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap");
@@ -82,7 +91,6 @@ body {
   line-height: normal;
 }
 :root {
-  /* Color */
   --color-gray-100: #2e231d;
   --color-gray-200: #050f1a;
   --color-white: #fff;
@@ -93,14 +101,11 @@ body {
   --color-dimgray: #604c3d;
   --color-gainsboro: #e5e5e5;
 
-  /* BorderRadius */
   --br-15: 15px;
 
-  /* Font */
   --font-dm-sans: DM Sans;
   --font-poppins: Poppins;
 
-  /* FontSize */
   --font-size-16: 16px;
   --font-size-18: 18px;
   --font-size-20: 20px;
@@ -114,7 +119,6 @@ body {
   line-height: normal;
 }
 :root {
-  /* Color */
   --color-dimgray-200: #604c3d;
   --color-dimgray-300: rgba(102, 102, 102, 0.35);
   --color-dimgray-400: rgba(102, 102, 102, 0.25);
@@ -127,27 +131,22 @@ body {
   --color-tan: #a68465;
   --color-darkslategray: #333;
 
-  /* Gap */
   --gap-4: 4px;
   --gap-6: 6px;
   --gap-8: 8px;
   --gap-12: 12px;
   --gap-24: 24px;
 
-  /* Padding */
   --padding-8: 8px;
   --padding-24: 24px;
 
-  /* BorderRadius */
   --br-8: 8px;
   --br-12: 12px;
   --br-24: 24px;
 
-  /* Font */
   --font-poppins: Poppins;
   --font-dm-sans: DM Sans;
 
-  /* FontSize */
   --font-size-12: 12px;
   --font-size-14: 14px;
   --font-size-16: 16px;
@@ -261,7 +260,6 @@ input[type="password"]::-webkit-clear-button {
 
 /* rexi unchecked & might be duplicate global css */
 :root {
-  /* Color */
   --color-dimgray-300: rgba(102, 102, 102, 0.35);
   --color-dimgray-400: rgba(102, 102, 102, 0.25);
   --color-dimgray-500: rgba(102, 102, 102, 0.8);
@@ -273,24 +271,19 @@ input[type="password"]::-webkit-clear-button {
   --color-tan: #a68465;
   --color-darkslategray: #333;
 
-  /* Gap */
   --gap-8: 8px;
   --gap-12: 12px;
   --gap-24: 24px;
 
-  /* Padding */
   --padding-24: 24px;
 
-  /* BorderRadius */
   --br-8: 8px;
   --br-12: 12px;
   --br-24: 24px;
 
-  /* Font */
   --font-poppins: Poppins;
   --font-dm-sans: DM Sans;
 
-  /* FontSize */
   --font-size-12: 12px;
   --font-size-14: 14px;
   --font-size-16: 16px;
@@ -298,7 +291,6 @@ input[type="password"]::-webkit-clear-button {
 }
 
 :root {
-  /* Color */
   --color-gray-400: #241f1b;
   --color-gray-500: #050b20;
   --color-whitesmoke: #f8f7f3;
@@ -313,24 +305,19 @@ input[type="password"]::-webkit-clear-button {
   --color-snow: #fbf7f4;
   --color-dimgray: #604c3d;
 
-  /* Gap */
   --gap-8: 8px;
 
-  /* Padding */
   --padding-12: 12px;
 
-  /* BorderRadius */
   --br-8: 8px;
   --br-10: 10px;
   --br-12: 12px;
   --br-20: 20px;
 
-  /* Font */
   --font-dm-sans: DM Sans;
   --font-inter: Inter;
   --font-benne: Benne;
 
-  /* FontSize */
   --font-size-15: 15px;
   --font-size-16: 16px;
   --font-size-18: 18px;

@@ -1,6 +1,24 @@
 .serviceFacility {
   	margin: 0;
 }
+
+@keyframes bounceInTop {
+  0% {
+    opacity: 0;
+    transform: translate(0%, -80px);
+  }
+  60% {
+    opacity: 1;
+    transform: translate(0%, 15px);
+  }
+  80% {
+    transform: translate(0%, -5px);
+  }
+  100% {
+    transform: translate(0%, 0);
+  }
+}
+
 .serviceFacilityAppointmentContainer {
   	position: absolute;
   	top: -47px;
@@ -248,7 +266,7 @@
   	color: var(--color-snow);
 }
 .navigation {
-  	position: absolute;
+  	position: fixed;
   	top: 47px;
   	left: calc(50% - 556px);
   	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -266,6 +284,8 @@
   	gap: var(--gap-10);
   	text-align: center;
   	font-size: var(--font-size-18);
+	z-index: 100;
+	animation: bounceInTop 0.8s ease forwards;
 }
 .customerQuoteChild {
   	align-self: stretch;
@@ -284,6 +304,7 @@
   	position: relative;
   	line-height: 150%;
   	font-weight: 600;
+	width: 320px;
 }
 .location1 {
   	position: relative;
@@ -293,6 +314,7 @@
 }
 .serviceFacilityNameParent {
   	display: flex;
+	margin-left: 12px;
   	flex-direction: column;
   	align-items: flex-start;
   	justify-content: flex-start;
@@ -315,21 +337,21 @@
 .groupChild {
   	position: absolute;
   	top: 0px;
-  	left: 0px;
+  	left: 30px;
   	width: 23.7px;
   	height: 20px;
 }
 .groupItem {
   	position: absolute;
   	top: 0px;
-  	left: 23.71px;
+  	left: 50.71px;
   	width: 23.7px;
   	height: 20px;
 }
 .groupInner {
   	position: absolute;
   	top: 0px;
-  	left: 71.14px;
+  	left: 72.14px;
   	width: 23.7px;
   	height: 20px;
 }
@@ -343,7 +365,7 @@
 .groupChild1 {
   	position: absolute;
   	top: 0px;
-  	left: 47.43px;
+  	left: 93.43px;
   	width: 23.7px;
   	height: 20px;
 }
@@ -397,11 +419,14 @@
   	color: var(--color-tan-100);
 }
 .avatar {
-  	display: flex;
-  	flex-direction: row;
-  	align-items: center;
-  	justify-content: flex-start;
-  	gap: var(--gap-16);
+	top: 20px;
+	left: 20px;
+	position: relative;
+	border-radius: 50%;
+	background-color: var(--color-gray-100);
+	height: 45px;
+	width: 45px;
+	display: flex;
 }
 .div1 {
   	position: absolute;
@@ -447,14 +472,14 @@
   	padding: var(--padding-20);
 }
 .cards {
-  	position: absolute;
+  	position: relative;
   	top: 853px;
-  	left: calc(50% - 601px);
+	left: calc(50% - 601px);
   	display: flex;
   	flex-direction: row;
   	align-items: flex-start;
   	justify-content: flex-start;
-  	gap: var(--gap-30);
+  	gap: 50px;
   	color: var(--color-gray-100);
 }
 .cards1 {
@@ -465,7 +490,7 @@
   	flex-direction: row;
   	align-items: flex-start;
   	justify-content: flex-start;
-  	gap: var(--gap-30);
+  	gap: 50px;
   	color: var(--color-gray-100);
 }
 .cards2 {
@@ -476,7 +501,7 @@
   	flex-direction: row;
   	align-items: flex-start;
   	justify-content: flex-start;
-  	gap: var(--gap-30);
+  	gap: 50px;
   	color: var(--color-gray-100);
 }
 .footerChild {
@@ -490,7 +515,7 @@
 .yourTrustedPlatform {
   position: absolute;
   top: 157px;
-  left: 360px;
+  left: 19%;
   line-height: 40px;
   display: inline-block;
   width: 359px;
@@ -587,7 +612,7 @@
 .servease1 {
   position: absolute;
   top: 87px;
-  left: 400px;
+  left: 21%;
   color: var(--color-tan);
   font-size: var(--font-size-26);
   line-height: 128.02%;
@@ -639,9 +664,9 @@
 }
 
 .servease2025 {
-  position: absolute;
+  position: relative;
   top: 27px;
-  left: 14px;
+  left: 19%;
 }
 
 .lineParent {
@@ -654,9 +679,9 @@
 }
 
 .serveaseLogoAlbum {
-  position: absolute;
+  position: relative;
   top: 84px;
-  left: 350px;
+  left: 18.5%;
   width: 40px;
   height: 40px;
   object-fit: cover;
@@ -665,7 +690,6 @@
 .footer {
   	position: absolute;
   	top: 2217px;
-  	left: 10px;
   	background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), var(--color-white);
   	width: 100%;
   	height: 475px;
@@ -706,4 +730,31 @@
 .contactNumber:hover {
   transform: translateX(8px);
   color: var(--color-tan);
+}
+
+/* ADD THIS TO YOUR CSS FILE (e.g., styles/specific-category.module.css) */
+
+/* This is the main container for all your service provider cards */
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Creates a 2-column grid */
+  gap: 2rem; /* The space between cards, adjust as needed */
+  padding: 0 2rem; /* Adds some space on the sides */
+  max-width: 1200px; /* Optional: Constrains the max width */
+  margin: 2rem auto; /* Centers the grid and adds space on top/bottom */
+}
+
+/* This makes the grid stack into a single column on smaller screens */
+@media (max-width: 900px) {
+  .cardGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* A simple utility class for loading/error messages */
+.statusMessage {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #666;
+  padding: 4rem 0;
 }
