@@ -303,7 +303,7 @@
   font-size: var(--font-size-16);
   color: var(--color-dimgray-100);
   display: inline-block;
-  width: 497px;
+  width: 100%;
   height: 25px;
 }
 .bg {
@@ -960,52 +960,6 @@
   box-shadow: 0 4px 10px rgba(166, 124, 82, 0.2);
 }
 
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.checkbox {
-  width: 22px;
-  height: 22px;
-  border: 2px solid #a67c52;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 0.75rem;
-  flex-shrink: 0;
-}
-
-.checkbox img {
-  opacity: 0;
-  transform: scale(0.8);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.checkboxActive img {
-  opacity: 1;
-  transform: scale(1);
-}
-@keyframes popIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.5);
-  }
-  80% {
-    transform: scale(1.1);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.checkboxActive img {
-  animation: popIn 0.3s ease forwards;
-}
-
 .name {
   flex: 1;
   font-size: 1rem;
@@ -1038,7 +992,7 @@
   height: 56px;
   display: flex;
   align-self: center;
-  margin: 5% auto;
+  margin: 2% auto;
 }
 .privacyNotice,
 .errorbox {
@@ -1090,6 +1044,7 @@
   text-align: center;
   transform: translateY(10px);
   transition: opacity 0.3s ease, transform 0.3s ease;
+  background-color: white;
 }
 .visible {
   opacity: 1;
@@ -1131,7 +1086,6 @@
 .buttoncontainer {
   width: 611px;
   position: relative;
-  margin-top: 1.5rem;
   border-radius: 32px;
   background-color: var(--color-tan);
   height: 64px;
@@ -1164,134 +1118,72 @@
     transform: scale(1);
   }
 }
+.rowContainerTotal {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 390px;
+  margin: 0 auto;
+  margin-top: 15%;
+  margin-bottom: 8%;
+}
+
 .facilityName {
-  position: absolute;
-  top: 0px;
-  left: 0px;
+  text-align: left;
+  flex: 1;
 }
-.barbershopCut {
-  position: absolute;
-  top: 0px;
-  left: 266px;
+
+.facilityNameCap {
   color: var(--color-tan);
   text-align: right;
+  flex: 1;
 }
-.address {
-  position: absolute;
-  top: 34px;
-  left: 0px;
+.rowContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 3%;
 }
-.smCebuCity {
-  position: absolute;
-  top: 34px;
-  left: 284px;
+
+.facilityName {
+  text-align: left;
+  flex: 1;
+}
+
+.facilityNameCap {
   color: var(--color-tan);
   text-align: right;
-}
-.name {
-  position: absolute;
-  top: 68px;
-  left: 0px;
-}
-.janeDoe {
-  position: absolute;
-  top: 68px;
-  left: 316px;
-  color: var(--color-tan);
-  text-align: right;
-}
-.phone {
-  position: absolute;
-  top: 102px;
-  left: 0px;
-}
-.b {
-  position: absolute;
-  top: 102px;
-  left: 257px;
-  color: var(--color-tan);
-  text-align: right;
-}
-.bookingDate {
-  position: absolute;
-  top: 136px;
-  left: 0px;
-}
-.june272025 {
-  position: absolute;
-  top: 136px;
-  left: 284px;
-  color: var(--color-tan);
-  text-align: right;
-}
-.bookingHours {
-  position: absolute;
-  top: 170px;
-  left: 0px;
-}
-.am {
-  position: absolute;
-  top: 170px;
-  left: 317px;
-  color: var(--color-tan);
-  text-align: right;
+  flex: 1;
 }
 .facilityNameParent {
-  position: absolute;
-  top: 32px;
-  left: 47px;
+  position: relative;
+  margin: 0 10%;
+  margin-top: 8%;
   width: 390px;
   height: 191px;
 }
-.php100000 {
-  position: absolute;
-  top: 0px;
-  left: 290px;
-  color: var(--color-tan);
-  text-align: right;
-}
-.php1000001 {
-  position: absolute;
-  top: 34px;
-  left: 290px;
-  color: var(--color-tan);
-  text-align: right;
-}
-.php1000002 {
-  position: absolute;
-  top: 68px;
-  left: 290px;
-  color: var(--color-tan);
-  text-align: right;
-}
-.php1000003 {
-  position: absolute;
-  top: 136px;
-  left: 290px;
-  color: var(--color-tan);
-  text-align: right;
-}
 .serviceNameParent {
-  position: absolute;
-  top: 270px;
-  left: 47px;
+  position: relative;
+  margin: 0 auto;
   width: 390px;
   height: 157px;
 }
 .dividerIcon {
-  position: absolute;
-  top: 382px;
-  left: 47px;
+  position: relative;
+  margin: 3% auto;
   width: 390px;
   height: 1px;
 }
 .dividerIcon1 {
-  position: absolute;
-  top: 246px;
-  left: 47px;
+  position: relative;
+  margin: -10% auto;
   width: 390px;
   height: 1px;
 }
+
 .calendarSelectChangeSize {
   margin: 0 auto;
   margin-top: 10%;
@@ -1303,10 +1195,98 @@
   background-color: var(--color-white);
   border: 1px solid rgba(0, 0, 0, 0.06);
   box-sizing: border-box;
-  height: 459px;
   overflow: hidden;
   text-align: left;
   font-size: var(--font-size-16);
   color: var(--color-dimgray);
   font-family: var(--font-dm-sans);
+}
+.confirmSection {
+  margin-top: 1rem;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.confirmLabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 14px;
+  color: #444;
+  user-select: none;
+}
+
+.error {
+  color: #ff4d4f;
+  font-size: 13px;
+  margin-top: 0.5rem;
+}
+
+.confirmButton {
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  background-color: #a68465;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.checkbox {
+  width: 22px;
+  height: 22px;
+  border: 2px solid #a67c52;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+.checkbox:hover {
+  transform: scale(1.08);
+  transition: transform 0.2s ease-in-out;
+  box-shadow: 0 0 0 3px rgba(210, 180, 140, 0.2);
+}
+
+.checkbox img {
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.checkboxActive img {
+  opacity: 1;
+  transform: scale(1);
+  animation: popIn 0.3s ease forwards;
+}
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  80% {
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
