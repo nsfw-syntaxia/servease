@@ -1566,10 +1566,11 @@ position: relative;
 .yourTrustedPlatform {
   position: absolute;
   top: 157px;
-  left: 143px;
+  left: 95px;
   line-height: 40px;
   display: inline-block;
-  width: 359px;
+  width: calc(100% - 258px);
+  
 }
 
 .contactUs {
@@ -1657,7 +1658,7 @@ position: relative;
 .servease {
   position: absolute;
   top: 87px;
-  left: 200px;
+  left: 140px;
   color: var(--color-tan);
   font-size: var(--font-size-26);
   line-height: 128.02%;
@@ -1698,12 +1699,12 @@ position: relative;
 
 .lineDiv {
   position: absolute;
-  top: -1px;
-  left: -1px;
-  border-top: 2px solid var(--color-black);
-  box-sizing: border-box;
-  width: 100%;
-  height: 2px;
+    top: -1px;
+    left: -1px;
+    border-top: 2px solid var(--color-black);
+    box-sizing: border-box;
+    width: 100%;
+    height: 2px;
 }
 
 .servease2025 {
@@ -1714,17 +1715,17 @@ position: relative;
 
 .lineParent {
   position: absolute;
-  top: 389px;
-  left: 129px;
-  width: 1183px;
-  height: 53px;
-  font-size: var(--font-size-20);
+    top: 389px;
+    left: 50px;
+    width: calc(100% - 95px);
+    height: 53px;
+    font-size: var(--font-size-20);
 }
 
 .serveaseLogoAlbumCover3 {
   position: absolute;
   top: 84px;
-  left: 143px;
+  left: 80px;
   width: 40px;
   height: 40px;
   object-fit: cover;
