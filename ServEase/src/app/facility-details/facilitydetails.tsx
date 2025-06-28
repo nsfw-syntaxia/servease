@@ -371,7 +371,12 @@ const FacilityDetails: NextPage = () => {
               </div>
               <div className={styles.button4}>
                 <div className={styles.star} />
-                <div className={styles.mondayFriday}>Book Now</div>
+                <div
+                  className={styles.mondayFriday}
+                  onClick={() => router.push("/appointment-booking")}
+                >
+                  Book Now
+                </div>
                 <div className={styles.star} />
               </div>
             </div>
@@ -428,7 +433,12 @@ const FacilityDetails: NextPage = () => {
               <div className={styles.button13}>
                 <div className={styles.star} />
                 <div className={styles.link}>
-                  <div className={styles.bookNow1}>Book Now</div>
+                  <div
+                    className={styles.bookNow1}
+                    onClick={() => router.push("/appointment-booking")}
+                  >
+                    Book Now
+                  </div>
                   <Image
                     className={styles.svgIcon}
                     width={14}

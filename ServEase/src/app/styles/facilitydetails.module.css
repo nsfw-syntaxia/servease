@@ -77,6 +77,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  color: #604c3d;
 }
 .contactUs {
   width: 147px;
@@ -88,6 +89,7 @@
   justify-content: center;
   height: 27px;
   flex-shrink: 0;
+  color: #604c3d;
 }
 .home:hover,
 .contactUs:hover {
