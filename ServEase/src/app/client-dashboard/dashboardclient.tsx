@@ -7,417 +7,390 @@ import styles from "../styles/dashboard-client.module.css";
 const DashboardClient: NextPage = () => {
   return (
     <div className={styles.dashboardClient}>
-      <div className={styles.joinUsWrapper}>
-        <div className={styles.joinUs}>
-          <div className={styles.joinUsChild} />
-          <div className={styles.paraContent} />
-          <div className={styles.footer}>
-            <div className={styles.footerChild} />
-            <div className={styles.yourTrustedPlatform}>
-              Your trusted platform to discover, book, and manage local
-              services—anytime, anywhere.
-            </div>
-            <b className={styles.contactUs}>Contact Us</b>
-            <div className={styles.supportserveasecom}>
-              support@servease.com
-            </div>
-            <div className={styles.div}>+63 996 3175 214</div>
-            <b className={styles.support}>Support</b>
-            <div className={styles.faqs}>FAQs</div>
-            <div className={styles.privacyPolicy}>Privacy Policy</div>
-            <div className={styles.termsConditions}>{`Terms & Conditions`}</div>
-            <div className={styles.aboutUs}>About Us</div>
-            <b className={styles.quickLinks}>Quick Links</b>
-            <b className={styles.servease}>servease</b>
-            <div className={styles.home}>Home</div>
-            <div className={styles.discover}>Discover</div>
-            <div className={styles.createAnAccount}>Create an Account</div>
-            <div className={styles.facebookParent}>
-              <div className={styles.facebook}>Facebook</div>
-              <Image
-                className={styles.groupChild}
-                width={22}
-                height={22}
-                sizes="100vw"
-                alt=""
-                src="Frame 1.svg"
-              />
-            </div>
-            <div className={styles.twitterParent}>
-              <div className={styles.twitter}>Twitter</div>
-              <Image
-                className={styles.groupItem}
-                width={26}
-                height={22}
-                sizes="100vw"
-                alt=""
-                src="/Frame 2.svg"
-              />
-            </div>
-            <div className={styles.instagramParent}>
-              <div className={styles.instagram}>Instagram</div>
-              <Image
-                className={styles.groupInner}
-                width={24}
-                height={24}
-                sizes="100vw"
-                alt=""
-                src="/Frame 3.svg"
-              />
-            </div>
-            <div className={styles.lineParent}>
-              <div className={styles.lineDiv} />
-              <div className={styles.servease2025}>
-                servease 2025 © All rights reserved
-              </div>
-            </div>
+      {/* Navigation */}
+      <nav className={styles.navigation}>
+        <div className={styles.navContent}>
+          <div className={styles.logo}>
             <Image
-              className={styles.serveaseLogoAlbumCover3}
+              className={styles.logoImage}
               width={40}
               height={40}
               sizes="100vw"
-              alt=""
-              src="/Servease Logo (Album Cover) (3) 2.png"
-            />
-          </div>
-          <div className={styles.heroImageWrapper}>
-            <div className={styles.heroImage}>
-              <div className={styles.bookAn}>Book an</div>
-              <div className={styles.appointment}>Appointment</div>
-              <Image
-                className={styles.heroImageChild}
-                width={95}
-                height={15}
-                sizes="100vw"
-                alt=""
-                src="/Group 126.svg"
-              />
-            </div>
-          </div>
-          <div className={styles.navigation}>
-            <Image
-              className={styles.serveaseLogoAlbumCover31}
-              width={40}
-              height={40}
-              sizes="100vw"
-              alt=""
+              alt="Servease Logo"
               src="/Servease Logo (Album Cover) (3) 1.png"
             />
-            <div className={styles.servease1}>
+            <div className={styles.brandName}>
               <span className={styles.serv}>serv</span>
-              <b>ease</b>
-            </div>
-            <div className={styles.navigationChild} />
-            <div className={styles.homeParent}>
-              <div className={styles.home1}>Home</div>
-              <div className={styles.home1}>Discover</div>
-              <div className={styles.contactUs1}>Contact Us</div>
-            </div>
-            <div className={styles.navigationItem} />
-            <div className={styles.genericAvatar}>
-              <Image
-                className={styles.avatarPlaceholderIcon}
-                width={28.2}
-                height={25.6}
-                sizes="100vw"
-                alt=""
-                src="/Avatar Placeholder.svg"
-              />
+              <span className={styles.ease}>ease</span>
             </div>
           </div>
-        </div>
-      </div>
-      <b className={styles.featuredServices}>
-        <span className={styles.featuredServicesTxtContainer}>
-          <span>Featured</span>
-          <span className={styles.services}> Services</span>
-        </span>
-      </b>
-      <b className={styles.upcomingAppointments}>
-        <span className={styles.featuredServicesTxtContainer}>
-          <span>Upcoming</span>
-          <span className={styles.services}> Appointments</span>
-        </span>
-      </b>
-      <div className={styles.cards}>
-        <div className={styles.customerQuote}>
-          <div className={styles.customerQuoteChild} />
-          <div className={styles.avatarWrapper}>
-            <div className={styles.avatar}>
-              <div className={styles.avatar1} />
-              <div className={styles.serviceFacilityNameParent}>
-                <div className={styles.serviceFacilityName}>
-                  Service Facility Name
-                </div>
-                <div className={styles.parent}>
-                  <div className={styles.div1}>4.0</div>
-                  <Image
-                    className={styles.starIcon}
-                    width={20}
-                    height={20}
-                    sizes="100vw"
-                    alt=""
-                    src="/Star 3.svg"
-                  />
-                  <Image
-                    className={styles.groupChild1}
-                    width={20}
-                    height={20}
-                    sizes="100vw"
-                    alt=""
-                    src="/Star 3.svg"
-                  />
-                  <Image
-                    className={styles.groupChild2}
-                    width={20}
-                    height={20}
-                    sizes="100vw"
-                    alt=""
-                    src="/Star 3.svg"
-                  />
-                  <Image
-                    className={styles.groupChild3}
-                    width={20}
-                    height={20}
-                    sizes="100vw"
-                    alt=""
-                    src="/Star 4.svg"
-                  />
-                  <Image
-                    className={styles.groupChild4}
-                    width={20}
-                    height={20}
-                    sizes="100vw"
-                    alt=""
-                    src="/Star 3.svg"
-                  />
-                </div>
-              </div>
-            </div>
+
+          <div className={styles.navLinks}>
+            <a href="#" className={styles.navLink}>
+              Home
+            </a>
+            <a href="#" className={styles.navLink}>
+              Discover
+            </a>
+            <a href="#" className={styles.navLink}>
+              Contact Us
+            </a>
           </div>
-        </div>
-        <div className={styles.customerQuote1}>
-          <div className={styles.customerQuoteItem} />
-          <div className={styles.avatarContainer}>
-            <div className={styles.avatar}>
-              <div className={styles.avatar1} />
-              <div className={styles.serviceFacilityNameParent}>
-                <div className={styles.serviceFacilityName}>
-                  Service Facility Name
-                </div>
-                <div className={styles.parent}>
-                  <div className={styles.div1}>4.0</div>
-                  <Image
-                    className={styles.starIcon}
-                    width={20}
-                    height={20}
-                    sizes="100vw"
-                    alt=""
-                    src="/Star 3.svg"
-                  />
-                  <Image
-                    className={styles.groupChild1}
-                    width={20}
-                    height={20}
-                    sizes="100vw"
-                    alt=""
-                    src="/Star 3.svg"
-                  />
-                  <Image
-                    className={styles.groupChild2}
-                    width={20}
-                    height={20}
-                    sizes="100vw"
-                    alt=""
-                    src="/Star 3.svg"
-                  />
-                  <Image
-                    className={styles.groupChild3}
-                    width={20}
-                    height={20}
-                    sizes="100vw"
-                    alt=""
-                    src="/Star 4.svg"
-                  />
-                  <Image
-                    className={styles.groupChild4}
-                    width={20}
-                    height={20}
-                    sizes="100vw"
-                    alt=""
-                    src="/Star 3.svg"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className={styles.customerQuote1}>
-          <div className={styles.customerQuoteItem} />
-          <div className={styles.avatarContainer}>
-            <div className={styles.avatar4}>
-              <div className={styles.avatar1} />
-              <div className={styles.serviceFacilityNameParent}>
-                <div className={styles.serviceFacilityName}>
-                  Service Facility Name
-                </div>
-                <div className={styles.parent}>
-                  <div className={styles.div1}>4.0</div>
-                  <Image
-                    className={styles.starIcon}
-                    width={20}
-                    height={20}
-                    sizes="100vw"
-                    alt=""
-                    src="/Star 3.svg"
-                  />
-                  <Image
-                    className={styles.groupChild1}
-                    width={20}
-                    height={20}
-                    sizes="100vw"
-                    alt=""
-                    src="/Star 3.svg"
-                  />
-                  <Image
-                    className={styles.groupChild2}
-                    width={20}
-                    height={20}
-                    sizes="100vw"
-                    alt=""
-                    src="/Star 3.svg"
-                  />
-                  <Image
-                    className={styles.groupChild3}
-                    width={20}
-                    height={20}
-                    sizes="100vw"
-                    alt=""
-                    src="/Star 4.svg"
-                  />
-                  <Image
-                    className={styles.groupChild4}
-                    width={20}
-                    height={20}
-                    sizes="100vw"
-                    alt=""
-                    src="/Star 3.svg"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className={styles.cardsInner}>
-          <div className={styles.buttonWrapper}>
-            <div className={styles.button}>
-              <div className={styles.chevronRight}>
-                <Image
-                  className={styles.icon}
-                  width={7.5}
-                  height={15}
-                  sizes="100vw"
-                  alt=""
-                  src="/Icon.svg"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className={styles.groupParent}>
-        <div className={styles.groupContainer}>
-          <div className={styles.heroImageParent}>
-            <div className={styles.heroImage1}>
-              <Image
-                className={styles.avatarIcon}
-                width={90}
-                height={90}
-                sizes="100vw"
-                alt=""
-                src="/Avatar.svg"
-              />
-              <div className={styles.serviceFacilityName3}>
-                Service Facility Name
-              </div>
-              <div className={styles.location}>Location</div>
-            </div>
-            <div className={styles.heroImage2}>
-              <Image
-                className={styles.calendarMonthIcon}
-                width={24}
-                height={24}
-                sizes="100vw"
-                alt=""
-                src="/calendar_month.svg"
-              />
-            </div>
-          </div>
-          <div className={styles.vectorParent}>
+
+          <div className={styles.userAvatar}>
             <Image
-              className={styles.vectorIcon}
-              width={20}
-              height={20}
+              className={styles.avatarIcon}
+              width={40}
+              height={40}
               sizes="100vw"
-              alt=""
-              src="/Vector.svg"
+              alt="User Avatar"
+              src="/Avatar.svg"
             />
-            <div className={styles.pm}>1:00 PM</div>
           </div>
-          <div className={styles.wedJune30}>Wed, June 30</div>
         </div>
-        <div className={styles.groupWrapper}>
-          <div className={styles.groupFrame}>
-            <div className={styles.groupFrame}>
-              <div className={styles.groupFrame}>
-                <div className={styles.groupFrame}>
-                  <div className={styles.heroImageParent}>
-                    <div className={styles.heroImage1}>
-                      <Image
-                        className={styles.avatarIcon}
-                        width={90}
-                        height={90}
-                        sizes="100vw"
-                        alt=""
-                        src="/Avatar.svg"
-                      />
-                      <div className={styles.serviceFacilityName3}>
-                        Service Facility Name
-                      </div>
-                      <div className={styles.location}>Location</div>
-                    </div>
-                    <div className={styles.heroImage2}>
-                      <Image
-                        className={styles.calendarMonthIcon}
-                        width={24}
-                        height={24}
-                        sizes="100vw"
-                        alt=""
-                        src="/calendar_month.svg"
-                      />
-                    </div>
-                  </div>
-                  <div className={styles.vectorGroup}>
+      </nav>
+
+      <section className={styles.heroSection}>
+        <div className={styles.heroContent}>
+          <div className={styles.heroText}>
+            <h1 className={styles.heroTitle}>
+              <span className={styles.bookAn}>Book an</span>
+              <span className={styles.appointment}>Appointment</span>
+            </h1>
+          </div>
+        </div>
+      </section>
+
+      <main className={styles.mainContent}>
+        <section className={styles.upcomingSection}>
+          <div className={styles.sectionHeader}>
+            <h2 className={styles.sectionTitle}>
+              <span>Upcoming</span>
+              <span className={styles.titleAccent}> Appointments</span>
+            </h2>
+            <button className={styles.viewAllBtn}>View All</button>
+          </div>
+
+          <div className={styles.appointmentsGrid}>
+            <div className={styles.appointmentCard}>
+              <div className={styles.cardContent}>
+                <div className={styles.serviceInfo}>
+                  <div className={styles.serviceAvatar}>
                     <Image
-                      className={styles.vectorIcon1}
-                      width={16.7}
-                      height={16.7}
-                      sizes="100vw"
-                      alt=""
-                      src="/Vector.svg"
+                      width={60}
+                      height={60}
+                      src="/Avatar.svg"
+                      alt="Service Provider"
                     />
-                    <div className={styles.pm1}>1:00 PM</div>
                   </div>
-                  <div className={styles.wedJune30}>Wed, June 30</div>
+                  <div className={styles.serviceDetails}>
+                    <h3 className={styles.serviceName}>
+                      Service Facility Name
+                    </h3>
+                    <p className={styles.serviceLocation}>Location</p>
+                  </div>
+                </div>
+                <div className={styles.appointmentInfo}>
+                  <div className={styles.timeInfo}>
+                    <Image
+                      width={16}
+                      height={16}
+                      src="/Vector.svg"
+                      alt="Time"
+                    />
+                    <span>1:00 PM</span>
+                  </div>
+                  <div className={styles.dateInfo}>
+                    <Image
+                      width={20}
+                      height={20}
+                      src="/calendar_month.svg"
+                      alt="Date"
+                    />
+                    <span>Wed, June 30</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.appointmentCard}>
+              <div className={styles.cardContent}>
+                <div className={styles.serviceInfo}>
+                  <div className={styles.serviceAvatar}>
+                    <Image
+                      width={60}
+                      height={60}
+                      src="/Avatar.svg"
+                      alt="Service Provider"
+                    />
+                  </div>
+                  <div className={styles.serviceDetails}>
+                    <h3 className={styles.serviceName}>
+                      Service Facility Name
+                    </h3>
+                    <p className={styles.serviceLocation}>Location</p>
+                  </div>
+                </div>
+                <div className={styles.appointmentInfo}>
+                  <div className={styles.timeInfo}>
+                    <Image
+                      width={16}
+                      height={16}
+                      src="/Vector.svg"
+                      alt="Time"
+                    />
+                    <span>1:00 PM</span>
+                  </div>
+                  <div className={styles.dateInfo}>
+                    <Image
+                      width={20}
+                      height={20}
+                      src="/calendar_month.svg"
+                      alt="Date"
+                    />
+                    <span>Wed, June 30</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+        </section>
+
+        {/* Featured Services Section */}
+        <section className={styles.featuredSection}>
+          <div className={styles.sectionHeader}>
+            <h2 className={styles.sectionTitle}>
+              <span>Featured</span>
+              <span className={styles.titleAccent}> Services</span>
+            </h2>
+          </div>
+
+          <div className={styles.servicesGrid}>
+            <div className={styles.serviceCard}>
+              <div className={styles.serviceImage}></div>
+              <div className={styles.serviceCardContent}>
+                <div className={styles.serviceProvider}>
+                  <div className={styles.providerAvatar}></div>
+                  <div className={styles.providerInfo}>
+                    <h3 className={styles.providerName}>
+                      Service Facility Name
+                    </h3>
+                    <div className={styles.rating}>
+                      <span className={styles.ratingScore}>4.0</span>
+                      <div className={styles.stars}>
+                        <Image
+                          width={16}
+                          height={16}
+                          src="/Star 3.svg"
+                          alt="Star"
+                        />
+                        <Image
+                          width={16}
+                          height={16}
+                          src="/Star 3.svg"
+                          alt="Star"
+                        />
+                        <Image
+                          width={16}
+                          height={16}
+                          src="/Star 3.svg"
+                          alt="Star"
+                        />
+                        <Image
+                          width={16}
+                          height={16}
+                          src="/Star 3.svg"
+                          alt="Star"
+                        />
+                        <Image
+                          width={16}
+                          height={16}
+                          src="/Star 4.svg"
+                          alt="Star"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.serviceCard}>
+              <div className={styles.serviceImage}></div>
+              <div className={styles.serviceCardContent}>
+                <div className={styles.serviceProvider}>
+                  <div className={styles.providerAvatar}></div>
+                  <div className={styles.providerInfo}>
+                    <h3 className={styles.providerName}>
+                      Service Facility Name
+                    </h3>
+                    <div className={styles.rating}>
+                      <span className={styles.ratingScore}>4.0</span>
+                      <div className={styles.stars}>
+                        <Image
+                          width={16}
+                          height={16}
+                          src="/Star 3.svg"
+                          alt="Star"
+                        />
+                        <Image
+                          width={16}
+                          height={16}
+                          src="/Star 3.svg"
+                          alt="Star"
+                        />
+                        <Image
+                          width={16}
+                          height={16}
+                          src="/Star 3.svg"
+                          alt="Star"
+                        />
+                        <Image
+                          width={16}
+                          height={16}
+                          src="/Star 3.svg"
+                          alt="Star"
+                        />
+                        <Image
+                          width={16}
+                          height={16}
+                          src="/Star 4.svg"
+                          alt="Star"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.serviceCard}>
+              <div className={styles.serviceImage}></div>
+              <div className={styles.serviceCardContent}>
+                <div className={styles.serviceProvider}>
+                  <div className={styles.providerAvatar}></div>
+                  <div className={styles.providerInfo}>
+                    <h3 className={styles.providerName}>
+                      Service Facility Name
+                    </h3>
+                    <div className={styles.rating}>
+                      <span className={styles.ratingScore}>4.0</span>
+                      <div className={styles.stars}>
+                        <Image
+                          width={16}
+                          height={16}
+                          src="/Star 3.svg"
+                          alt="Star"
+                        />
+                        <Image
+                          width={16}
+                          height={16}
+                          src="/Star 3.svg"
+                          alt="Star"
+                        />
+                        <Image
+                          width={16}
+                          height={16}
+                          src="/Star 3.svg"
+                          alt="Star"
+                        />
+                        <Image
+                          width={16}
+                          height={16}
+                          src="/Star 3.svg"
+                          alt="Star"
+                        />
+                        <Image
+                          width={16}
+                          height={16}
+                          src="/Star 4.svg"
+                          alt="Star"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button className={styles.nextButton}>
+              <Image width={28} height={28} src="/Chevron right.svg" alt="Next" />
+            </button>
+          </div>
+        </section>
+      </main>
+
+      {/* Footer */}
+      <footer className={styles.footer}>
+        <div className={styles.footerContent}>
+          <div className={styles.footerSection}>
+            <div className={styles.footerLogo}>
+              <Image
+                width={40}
+                height={40}
+                src="/Servease Logo (Album Cover) (3) 2.png"
+                alt="Servease Logo"
+              />
+              <h3 className={styles.footerBrand}>servease</h3>
+            </div>
+            <p className={styles.footerDescription}>
+              Your trusted platform to discover, book, and manage local
+              services—anytime, anywhere.
+            </p>
+          </div>
+
+          <div className={styles.footerSection}>
+            <h4 className={styles.footerTitle}>Quick Links</h4>
+            <ul className={styles.footerLinks}>
+              <li>
+                <a href="#">Home</a>
+              </li>
+              <li>
+                <a href="#">Discover</a>
+              </li>
+              <li>
+                <a href="#">Create an Account</a>
+              </li>
+            </ul>
+          </div>
+
+          <div className={styles.footerSection}>
+            <h4 className={styles.footerTitle}>Support</h4>
+            <ul className={styles.footerLinks}>
+              <li>
+                <a href="#">FAQs</a>
+              </li>
+              <li>
+                <a href="#">Privacy Policy</a>
+              </li>
+              <li>
+                <a href="#">Terms & Conditions</a>
+              </li>
+              <li>
+                <a href="#">About Us</a>
+              </li>
+            </ul>
+          </div>
+
+          <div className={styles.footerSection}>
+            <h4 className={styles.footerTitle}>Contact Us</h4>
+            <ul className={styles.footerLinks}>
+              <li>
+                <a href="mailto:support@servease.com">support@servease.com</a>
+              </li>
+              <li>
+                <a href="tel:+639963175214">+63 996 3175 214</a>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
-      <div className={styles.button1}>
-        <div className={styles.viewAll}>View All</div>
-      </div>
+
+        <div className={styles.footerBottom}>
+          <div className={styles.footerBottomContent}>
+            <p>servease 2025 © All rights reserved</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
