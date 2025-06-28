@@ -1,11 +1,21 @@
 "use client";
 
+import { useState } from "react";
 import type { NextPage } from "next";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import styles from "../../../styles/discover-2-a.module.css";
 
 const PBACS: NextPage = () => {
+  const [showPrev, setShowPrev] = useState(false);
+
+  const handleNextClick = () => {
+    setShowPrev(true);
+  };
+
+  const handlePrevClick = () => {
+    setShowPrev(false);
+  };
   const router = useRouter();
 
   return (
@@ -705,127 +715,37 @@ const PBACS: NextPage = () => {
         </div>
         <div className={styles.line1} />
       </div>
+
+      {/* popular services */}
       <div className={styles.popularServices}>
         <b className={styles.allServices1}>
           <span>Popular</span>
           <span className={styles.services}> Services</span>
         </b>
-        <div className={styles.popularCards}>
+        <div
+          className={`${styles.popularCards} ${
+            showPrev ? styles.centeredCards : ""
+          }`}
+        >
+          {showPrev && (
+            <div className={styles.btnprev} onClick={handlePrevClick}>
+              <div className={styles.btn}>
+                <div className={styles.chevronLeft}>
+                  <Image
+                    className={styles.icon}
+                    width={7.5}
+                    height={15}
+                    alt=""
+                    src="/swipeLeft.svg"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className={styles.service6}>
             <div className={styles.serviceChild1} />
             <div className={styles.avatarWrapper1}>
-              <div className={styles.avatar24}>
-                <div className={styles.avatar1} />
-                <div className={styles.serviceFacilityNameParent}>
-                  <div className={styles.serviceFacilityName}>
-                    Service Facility Name
-                  </div>
-                  <div className={styles.parent3}>
-                    <div className={styles.div6}>4.0</div>
-                    <Image
-                      className={styles.groupChild27}
-                      width={20}
-                      height={20}
-                      sizes="100vw"
-                      alt=""
-                      src="/starFilled.svg"
-                    />
-                    <Image
-                      className={styles.groupChild28}
-                      width={20}
-                      height={20}
-                      sizes="100vw"
-                      alt=""
-                      src="/starFilled.svg"
-                    />
-                    <Image
-                      className={styles.groupChild29}
-                      width={20}
-                      height={20}
-                      sizes="100vw"
-                      alt=""
-                      src="/starFilled.svg"
-                    />
-                    <Image
-                      className={styles.groupChild30}
-                      width={20}
-                      height={20}
-                      sizes="100vw"
-                      alt=""
-                      src="/starUnfilled.svg"
-                    />
-                    <Image
-                      className={styles.groupChild31}
-                      width={20}
-                      height={20}
-                      sizes="100vw"
-                      alt=""
-                      src="/starFilled.svg"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className={styles.service7}>
-            <div className={styles.image} />
-            <div className={styles.avatarWrapper2}>
-              <div className={styles.avatar24}>
-                <div className={styles.avatar1} />
-                <div className={styles.serviceFacilityNameParent}>
-                  <div className={styles.serviceFacilityName}>
-                    Service Facility Name
-                  </div>
-                  <div className={styles.parent3}>
-                    <div className={styles.div6}>4.0</div>
-                    <Image
-                      className={styles.groupChild27}
-                      width={20}
-                      height={20}
-                      sizes="100vw"
-                      alt=""
-                      src="/starFilled.svg"
-                    />
-                    <Image
-                      className={styles.groupChild28}
-                      width={20}
-                      height={20}
-                      sizes="100vw"
-                      alt=""
-                      src="/starFilled.svg"
-                    />
-                    <Image
-                      className={styles.groupChild29}
-                      width={20}
-                      height={20}
-                      sizes="100vw"
-                      alt=""
-                      src="/starFilled.svg"
-                    />
-                    <Image
-                      className={styles.groupChild30}
-                      width={20}
-                      height={20}
-                      sizes="100vw"
-                      alt=""
-                      src="/starUnfilled.svg"
-                    />
-                    <Image
-                      className={styles.groupChild31}
-                      width={20}
-                      height={20}
-                      sizes="100vw"
-                      alt=""
-                      src="/starFilled.svg"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className={styles.service7}>
-            <div className={styles.image} />
-            <div className={styles.avatarWrapper2}>
               <div className={styles.avatar28}>
                 <div className={styles.avatar1} />
                 <div className={styles.serviceFacilityNameParent}>
@@ -879,27 +799,137 @@ const PBACS: NextPage = () => {
               </div>
             </div>
           </div>
-          <div className={styles.btnnext}>
-            <div className={styles.btn}>
-              <div className={styles.button1}>
-                <div className={styles.chevronRight}>
-                  <Image
-                    className={styles.icon}
-                    width={7.5}
-                    height={15}
-                    sizes="100vw"
-                    alt=""
-                    src="/swipeRight.svg"
-                  />
+          <div className={styles.service6}>
+            <div className={styles.image} />
+            <div className={styles.avatarWrapper1}>
+              <div className={styles.avatar28}>
+                <div className={styles.avatar1} />
+                <div className={styles.serviceFacilityNameParent}>
+                  <div className={styles.serviceFacilityName}>
+                    Service Facility Name
+                  </div>
+                  <div className={styles.parent3}>
+                    <div className={styles.div6}>4.0</div>
+                    <Image
+                      className={styles.groupChild27}
+                      width={20}
+                      height={20}
+                      sizes="100vw"
+                      alt=""
+                      src="/starFilled.svg"
+                    />
+                    <Image
+                      className={styles.groupChild28}
+                      width={20}
+                      height={20}
+                      sizes="100vw"
+                      alt=""
+                      src="/starFilled.svg"
+                    />
+                    <Image
+                      className={styles.groupChild29}
+                      width={20}
+                      height={20}
+                      sizes="100vw"
+                      alt=""
+                      src="/starFilled.svg"
+                    />
+                    <Image
+                      className={styles.groupChild30}
+                      width={20}
+                      height={20}
+                      sizes="100vw"
+                      alt=""
+                      src="/starUnfilled.svg"
+                    />
+                    <Image
+                      className={styles.groupChild31}
+                      width={20}
+                      height={20}
+                      sizes="100vw"
+                      alt=""
+                      src="/starFilled.svg"
+                    />
+                  </div>
                 </div>
+              </div>
+            </div>
+          </div>
+          <div className={styles.service6}>
+            <div className={styles.image} />
+            <div className={styles.avatarWrapper1}>
+              <div className={styles.avatar28}>
+                <div className={styles.avatar1} />
+                <div className={styles.serviceFacilityNameParent}>
+                  <div className={styles.serviceFacilityName}>
+                    Service Facility Name
+                  </div>
+                  <div className={styles.parent3}>
+                    <div className={styles.div6}>4.0</div>
+                    <Image
+                      className={styles.groupChild27}
+                      width={20}
+                      height={20}
+                      sizes="100vw"
+                      alt=""
+                      src="/starFilled.svg"
+                    />
+                    <Image
+                      className={styles.groupChild28}
+                      width={20}
+                      height={20}
+                      sizes="100vw"
+                      alt=""
+                      src="/starFilled.svg"
+                    />
+                    <Image
+                      className={styles.groupChild29}
+                      width={20}
+                      height={20}
+                      sizes="100vw"
+                      alt=""
+                      src="/starFilled.svg"
+                    />
+                    <Image
+                      className={styles.groupChild30}
+                      width={20}
+                      height={20}
+                      sizes="100vw"
+                      alt=""
+                      src="/starUnfilled.svg"
+                    />
+                    <Image
+                      className={styles.groupChild31}
+                      width={20}
+                      height={20}
+                      sizes="100vw"
+                      alt=""
+                      src="/starFilled.svg"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.btnnext} onClick={handleNextClick}>
+            <div className={styles.btn}>
+              <div className={styles.chevronRight}>
+                <Image
+                  className={styles.icon}
+                  width={7.5}
+                  height={15}
+                  alt=""
+                  src="/swipeRight.svg"
+                />
               </div>
             </div>
           </div>
         </div>
         <div className={styles.line1} />
       </div>
-      <div className={styles.bg} />
 
+      <div className={styles.bg} />
       {/* icons */}
       <div className={styles.icons}>
         <div className={styles.iconContainer}>

@@ -1,3 +1,5 @@
+/* footer */
+
 .footer {
   position: absolute;
   top: 3718px;
@@ -236,38 +238,186 @@
   color: var(--color-tan);
 }
 
+/* popular */
+
+.popularServices {
+  position: absolute;
+  top: 954px;
+  left: 121px;
+  width: 1195px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 64px;
+}
+
+.popularCards {
+  position: relative;
+  margin-left: calc(50% - 400px);
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 30px;
+  font-size: var(--font-size-16);
+  color: var(--color-gray-100);
+}
+
+.avatar28 {
+  width: 310px;
+  height: 86px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--gap-16);
+}
+
+.avatar1 {
+  width: 45px;
+  margin-left: 20px;
+  position: relative;
+  border-radius: 50%;
+  background-color: #402f27;
+  height: 45px;
+}
+
+/* button & divider */
+
+.chevronRight {
+  display: flex;
+  margin-left: 3px;
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+}
+
+.btn {
+  width: 55px;
+  height: 55px;
+  position: relative;
+  border-radius: 100px;
+  background-color: var(--color-tan);
+  border: 1px solid var(--color-tan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.btnnext {
+  border-radius: var(--br-12) var(--br-12) 0px 0px;
+  height: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 140px 0px;
+  box-sizing: border-box;
+}
+
+.btnprev {
+  border-radius: var(--br-12) var(--br-12) 0px 0px;
+  height: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 140px 0px;
+  box-sizing: border-box;
+}
+
+.chevronLeft {
+  display: flex;
+  margin-right: 3px;
+}
+
+.line1 {
+  width: 1195px;
+  position: relative;
+  left: calc(50% - 395px);
+  border-top: 1px solid var(--color-antiquewhite);
+  box-sizing: border-box;
+  height: 1px;
+}
+
+/* header & cards */
+
 .services {
   color: var(--color-gray-100);
 }
+
 .allServices1 {
   align-self: stretch;
   position: relative;
+  color: #a68465;
+  left: calc(50% - 400px);
   line-height: 150%;
+  width: 409px;
 }
+
+.service6 {
+  border-radius: var(--br-12);
+  background-color: var(--color-white);
+  border: 1px solid var(--color-gainsboro-100);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.service6 {
+  position: relative;
+  transition: transform 0.12s ease-out, box-shadow 0.12s ease-out,
+    border 0.12s ease-out;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.service6:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 6px 16px rgba(166, 132, 101, 0.3);
+  border-radius: 12px;
+  border: 1px solid var(--color-tan);
+}
+
+/* cards */
+
+.centeredCards {
+  margin-left: calc(50% - 440px);
+  justify-content: center;
+}
+
 .image {
   align-self: stretch;
   border-radius: var(--br-12) var(--br-12) 0px 0px;
   background-color: var(--color-antiquewhite);
   height: 254px;
 }
-.avatar1 {
-  width: 45px;
-  position: relative;
-  border-radius: 50%;
-  background-color: var(--color-gainsboro-200);
-  height: 45px;
-}
+
 .serviceFacilityName {
   position: relative;
   line-height: 150%;
   font-weight: 600;
 }
+
 .location {
   position: relative;
   line-height: 150%;
   font-weight: 500;
   color: var(--color-tan-100);
 }
+
 .serviceFacilityNameParent {
   display: flex;
   flex-direction: column;
@@ -275,20 +425,12 @@
   justify-content: flex-start;
   gap: var(--gap-2);
 }
+
 .avatar2 {
   width: 117px;
   height: 46px;
 }
-.div {
-  position: absolute;
-  top: 0px;
-  left: 142.29px;
-  line-height: 150%;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  width: 23.7px;
-}
+
 .groupChild {
   position: absolute;
   top: 0px;
@@ -296,6 +438,7 @@
   width: 23.7px;
   height: 20px;
 }
+
 .groupItem {
   position: absolute;
   top: 0px;
@@ -303,6 +446,7 @@
   width: 23.7px;
   height: 20px;
 }
+
 .groupInner {
   position: absolute;
   top: 0px;
@@ -310,6 +454,7 @@
   width: 23.7px;
   height: 20px;
 }
+
 .starIcon {
   position: absolute;
   top: 0px;
@@ -317,6 +462,7 @@
   width: 20px;
   height: 20px;
 }
+
 .groupChild1 {
   position: absolute;
   top: 0px;
@@ -324,11 +470,13 @@
   width: 23.7px;
   height: 20px;
 }
+
 .parent {
   align-self: stretch;
   position: relative;
   height: 20px;
 }
+
 .viewDetails {
   width: 86.7px;
   position: relative;
@@ -339,11 +487,13 @@
   height: 27.8px;
   flex-shrink: 0;
 }
+
 .svgIcon {
   width: 14px;
   position: relative;
   height: 14px;
 }
+
 .link {
   display: flex;
   flex-direction: row;
@@ -353,6 +503,7 @@
   font-size: var(--font-size-15);
   color: var(--color-dimgray);
 }
+
 .groupParent {
   width: 166px;
   display: flex;
@@ -361,6 +512,7 @@
   justify-content: center;
   gap: var(--gap-2);
 }
+
 .avatar3 {
   width: 166px;
   height: 46px;
@@ -371,6 +523,7 @@
   font-size: 13px;
   color: var(--color-tan-100);
 }
+
 .avatar {
   display: flex;
   flex-direction: row;
@@ -378,6 +531,7 @@
   justify-content: flex-start;
   gap: var(--gap-16);
 }
+
 .info {
   align-self: stretch;
   display: flex;
@@ -386,6 +540,7 @@
   justify-content: flex-start;
   padding: var(--padding-20);
 }
+
 .service {
   width: 586px;
   border-radius: var(--br-12);
@@ -398,6 +553,7 @@
   align-items: flex-start;
   justify-content: flex-start;
 }
+
 .cards {
   align-self: stretch;
   display: flex;
@@ -406,6 +562,7 @@
   justify-content: flex-start;
   gap: var(--gap-30);
 }
+
 .allCards {
   align-self: stretch;
   display: flex;
@@ -414,6 +571,7 @@
   justify-content: flex-start;
   gap: var(--gap-60);
 }
+
 .viewAll {
   position: absolute;
   top: calc(50% - 14.88px);
@@ -426,6 +584,7 @@
   width: 80.8px;
   height: 27.8px;
 }
+
 .button {
   width: 191px;
   position: relative;
@@ -438,6 +597,7 @@
   font-size: var(--font-size-15);
   color: var(--color-white);
 }
+
 .allView {
   align-self: stretch;
   display: flex;
@@ -448,6 +608,7 @@
   font-size: var(--font-size-16);
   color: var(--color-gray-100);
 }
+
 .allServices {
   position: absolute;
   top: 2168px;
@@ -459,19 +620,23 @@
   justify-content: flex-start;
   gap: var(--gap-64);
 }
+
 .serviceChild1 {
   width: 350px;
   border-radius: var(--br-12) var(--br-12) 0px 0px;
   background-color: var(--color-antiquewhite);
   height: 254px;
 }
+
 .div6 {
   position: absolute;
   top: 0px;
   left: 120px;
+  color: #BBA68A;
   line-height: 150%;
   font-weight: 500;
 }
+
 .groupChild27 {
   position: absolute;
   top: 0px;
@@ -479,6 +644,7 @@
   width: 20px;
   height: 20px;
 }
+
 .groupChild28 {
   position: absolute;
   top: 0px;
@@ -486,6 +652,7 @@
   width: 20px;
   height: 20px;
 }
+
 .groupChild29 {
   position: absolute;
   top: 0px;
@@ -493,6 +660,7 @@
   width: 20px;
   height: 20px;
 }
+
 .groupChild30 {
   position: absolute;
   top: 0px;
@@ -500,6 +668,7 @@
   width: 20px;
   height: 20px;
 }
+
 .groupChild31 {
   position: absolute;
   top: 0px;
@@ -507,6 +676,7 @@
   width: 20px;
   height: 20px;
 }
+
 .parent3 {
   width: 140px;
   position: relative;
@@ -514,6 +684,7 @@
   font-size: 13px;
   color: var(--color-tan-100);
 }
+
 .avatar24 {
   align-self: stretch;
   display: flex;
@@ -522,6 +693,7 @@
   justify-content: flex-start;
   gap: var(--gap-16);
 }
+
 .avatarWrapper1 {
   width: 350px;
   display: flex;
@@ -531,15 +703,7 @@
   padding: var(--padding-20);
   box-sizing: border-box;
 }
-.service6 {
-  border-radius: var(--br-12);
-  background-color: var(--color-white);
-  border: 1px solid var(--color-gainsboro-100);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-}
+
 .avatarWrapper2 {
   align-self: stretch;
   display: flex;
@@ -548,103 +712,10 @@
   justify-content: flex-start;
   padding: var(--padding-20);
 }
-.service7 {
-  width: 351px;
-  border-radius: var(--br-12);
-  background-color: var(--color-white);
-  border: 1px solid var(--color-gainsboro-100);
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-}
-.avatar28 {
-  width: 310px;
-  height: 46px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  gap: var(--gap-16);
-}
-.icon {
-  position: absolute;
-  height: 50%;
-  width: 100%;
-  top: 25%;
-  right: 37.5%;
-  bottom: 25%;
-  left: 37.5%;
-  max-width: 100%;
-  overflow: hidden;
-  max-height: 100%;
-}
-.chevronRight {
-  position: absolute;
-  top: 13px;
-  left: 13px;
-  width: 30px;
-  height: 30px;
-  overflow: hidden;
-}
-.button1 {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  border-radius: var(--br-100);
-  background-color: var(--color-tan-200);
-  border: 1px solid var(--color-tan-200);
-  box-sizing: border-box;
-  width: 55px;
-  height: 55px;
-}
-.btn {
-  width: 55px;
-  position: relative;
-  height: 55px;
-}
-.btnnext {
-  border-radius: var(--br-12) var(--br-12) 0px 0px;
-  height: 340px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding: 140px 0px;
-  box-sizing: border-box;
-}
-.popularCards {
-  align-self: stretch;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: var(--gap-30);
-  font-size: var(--font-size-16);
-  color: var(--color-gray-100);
-}
-.line1 {
-  width: 1184px;
-  position: relative;
-  border-top: 1px solid var(--color-antiquewhite);
-  box-sizing: border-box;
-  height: 1px;
-}
+
 .newServices {
   position: absolute;
   top: 1561px;
-  left: 121px;
-  width: 1195px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: var(--gap-64);
-}
-.popularServices {
-  position: absolute;
-  top: 954px;
   left: 121px;
   width: 1195px;
   display: flex;
@@ -862,7 +933,7 @@
   background-color: transparent;
   font-size: var(--font-size-16);
   line-height: 27.75px;
-  color: #402F27;
+  color: #402f27;
 }
 
 .inputBox {
