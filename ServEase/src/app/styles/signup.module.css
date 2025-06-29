@@ -332,16 +332,16 @@
 
 .authwindow {
   position: absolute;
-  top: 145px;
-  left: 717px;
+  top: 100px;
+  left: 597px;
   width: 732px;
   height: 750px;
 }
 
 .closeIcon {
   position: absolute;
-  top: 129px;
-  right: 50px;
+  top: 84px;
+  right: 175px;
   width: 32px;
   height: 32px;
   overflow: hidden;
@@ -374,11 +374,11 @@
 
 .authlogoIcon {
   position: absolute;
-  left: -160px;
-  top: 525px;
+  left: -290px;
+  top: 500px;
   transform: translateY(-50%);
-  height: 1050px;
-  width: 1050px;
+  height: 1035px;
+  width: 1035px;
   object-fit: contain;
   z-index: 1;
 }
