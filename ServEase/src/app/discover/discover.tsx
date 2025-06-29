@@ -188,6 +188,8 @@ const DiscoverPage: NextPage = () => {
             </div>
           </div>
         </div>
+
+        {/* hero img */}
         <div className={styles.heroImage}>
           <div className={styles.image10} />
         </div>
@@ -247,35 +249,37 @@ const DiscoverPage: NextPage = () => {
         </div>
 
         {/* search */}
-        <div className={styles.form}>
-          <div className={styles.verticalborder}>
-            <div className={styles.link7}>
+        <div className={styles.searchBox}>
+          <div className={styles.filtering}>
+            <div className={styles.link6}>
               <Image
-                className={styles.icon7}
+                className={styles.icon2}
                 width={20}
                 height={20}
                 sizes="100vw"
                 alt=""
-                src="filter.svg"
+                src="/filtering.svg"
               />
               <div className={styles.moreFilters}>More Filters</div>
             </div>
           </div>
-          <div className={styles.button1}>
+          <div className={styles.btnfind}>
             <Image
-              className={styles.icon8}
+              className={styles.icon3}
               width={15}
               height={15}
               sizes="100vw"
               alt=""
-              src="find.svg"
+              src="/search.svg"
             />
             <div className={styles.findListing}>Find Listing</div>
           </div>
-          <div className={styles.form1}>
-            <div className={styles.enterAService}>
-              Enter a Service Name, Category, or Location
-            </div>
+          <div className={styles.inputBox}>
+            <input
+              type="text"
+              className={styles.enterAService}
+              placeholder="Enter a Service Name, Category, or Location"
+            />
           </div>
         </div>
       </div>
