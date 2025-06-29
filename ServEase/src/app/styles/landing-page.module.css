@@ -1,15 +1,15 @@
 .landingPage {
   width: 100%;
-  position: relative;
-  background-color: var(--color-whitesmoke);
-  box-sizing: border-box;
-  min-height: 100vh;
-  overflow: hidden;
-  text-align: center;
-  font-size: var(--font-size-16);
-  color: var(--color-snow);
-  font-family: var(--font-dm-sans);
-  cursor: default;
+position: relative;
+background-color: #f8f7f3;
+border: 1px solid #000;
+box-sizing: border-box;
+height: 4189px;
+overflow: hidden;
+text-align: center;
+font-size: 16px;
+color: #fbf7f4;
+font-family: 'DM Sans';
 }
 
 .serveaseLogoAlbumCover31,
@@ -46,23 +46,25 @@
   	top: 1.5rem;
   	left: 50%;
     transform: translateX(-50%);
-  	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  	border-radius: 50px;
-  	background-color: var(--color-white);
-    width: min(1113px, calc(100vw - 3rem));	
-    height: 69px;
-  	overflow: hidden;
-  	display: flex;
-    flex-wrap: nowrap;
-  	flex-direction: row;
-  	align-items: center;
-  	justify-content: space-between;
-  	padding: 0px 90px 0px 60px;
-  	box-sizing: border-box;
   	gap: 1rem;
-  	font-size: var(--font-size-18);
-  	color: var(--color-black);
-    z-index: 100;
+width: 70%;
+box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+border-radius: 50px;
+background-color: #fff;
+height: 69px;
+overflow: hidden;
+display: flex;
+flex-direction: row;
+align-items: center;
+justify-content: flex-start;
+padding: 0px 90px 0px 60px;
+box-sizing: border-box;
+gap: 10px;
+text-align: center;
+font-size: 18px;
+color: #000;
+font-family: 'DM Sans';
+z-index: 100;
   animation: bounceInTop 0.8s ease forwards;
 }
 
@@ -77,8 +79,9 @@
 
 .serveaseLogoAlbumCover31 {
  width: 40px;
-  position: relative;
-  object-fit: cover;
+position: relative;
+max-height: 100%;
+object-fit: cover;
   transition: transform 0.3s ease;
 }
 
@@ -105,19 +108,16 @@
 
 .homeParent {
  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(15px, 3vw, 25px);
-  color: var(--color-gray-400);
-  flex-wrap: nowrap;
-  flex-shrink: 1;
-  min-width: 0; 
+flex-direction: row;
+align-items: center;
+justify-content: center;
+gap: 25px;
+color: #241f1b;
 }
 
 .home1 {
    position: relative;
-  line-height: 150%;
+  line-height: 120%;
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -126,7 +126,7 @@
   min-width: fit-content;
   flex-shrink: 0;
   font-size: clamp(14px, 1.8vw, 18px);
-  padding: 0.2rem 0.5rem;
+  padding: 0.2rem 1rem;
   transition: all 0.3s ease;
 }
 .contactUs1 {
@@ -154,27 +154,22 @@
 }
 
 .button1 {
-  position: relative;
-  overflow: hidden;
-  z-index: 0;
-  min-width: 80px;
-  flex-shrink: 0;
-
-  width: clamp(90px, 12vw, 120px);
-  height: 40px;
-  border-radius: var(--br-8);
-  border: 1px solid transparent;
-  background: linear-gradient(120deg, #a68465, #c3a68c, #a68465);
-  background-size: 200% 100%;
-  background-position: 0% 50%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem 1rem;
-
-  color: var(--color-snow);
-  cursor: pointer;
+  width: 100px;
+border-radius: 8px;
+background-color: #a68465;
+border: 1px solid #a68465;
+box-sizing: border-box;
+height: 40px;
+overflow: hidden;
+flex-shrink: 0;
+display: flex;
+flex-direction: row;
+align-items: center;
+justify-content: center;
+padding: 12px;
+gap: 8px;
+cursor: pointer;
+color: #fbf7f4;
   transition: transform 0.3s ease, background-position 0.5s ease;
 }
 
@@ -184,10 +179,12 @@
 }
 
 .signIn {
-  position: relative;
-  font-weight: 550;
-  line-height: 100%;
-  color: var(--color-snow);
+  width: 75px;
+position: relative;
+line-height: 100%;
+font-weight: 600;
+display: inline-block;
+flex-shrink: 0;
   z-index: 1;
   transition: all 0.3s ease;
 }
@@ -1295,26 +1292,24 @@
 }
 
 .heading2 {
-position: relative;
-  width: 100%;
-  top: auto;
-  right: auto;
-  left: auto;
-  height: auto;
-  font-size: clamp(24px, 4vw, 30px);
-  margin-bottom: 1rem;
+position: absolute;
+width: calc(100% - 160px);
+top: 87px;
+right: 80px;
+left: 80px;
+height: 90px;
+font-size: 30px;
 }
 
 .areYouLookingContainer {
-  top: auto;
-  left: auto;
-  line-height:45px;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: auto;
-  margin-top: 8%;
-  padding: 0;
+  position: absolute;
+top: -31px;
+left: 0px;
+line-height: 45px;
+display: flex;
+align-items: center;
+width: 346px;
+height: 90px;
 }
 
 .areYouLooking {
@@ -1322,18 +1317,18 @@ position: relative;
 }
 
 .findTrustedProfessionals {
-  position: relative;
-    top: auto;
-    left: auto;
-    margin: 5% 5%;
-    width: auto;
-    height: auto;
-    font-size: 12px;
-    line-height: 18px;
+  position: absolute;
+top: 149px;
+left: 80px;
+line-height: 27.75px;
+display: flex;
+align-items: center;
+width: 355.4px;
+height: 55.5px;
 }
 
 .link {
-  position: relative;
+  position: absolute;
   border-radius: var(--br-12);
   background-color: transparent;
   border: 1px solid #402f27;
@@ -1348,8 +1343,8 @@ position: relative;
   align-items: center;
   gap: 8px;
   padding: 12px 16px;
-  bottom: auto;
-  left: auto;
+  bottom: 19.11px;
+  left: 80px;
   cursor: pointer;
   transition: all 0.3s ease;
   overflow: hidden;
@@ -1374,7 +1369,7 @@ position: relative;
 }
 
 .link1 {
-  position: relative;
+  position: absolute;
   border-radius: var(--br-12);
   background-color: transparent;
   border: 1px solid var(--color-antiquewhite);
@@ -1389,8 +1384,8 @@ position: relative;
   align-items: center;
   gap: 8px;
   padding: 12px 16px;
-  bottom: auto;
-  left: auto;
+  bottom: 19.11px;
+  left: 80px;
   cursor: pointer;
   transition: all 0.3s ease;
   overflow: hidden;
@@ -1418,7 +1413,6 @@ position: relative;
   line-height: 15px;
   font-weight: 500;
   font-size: 14px;
-  white-space: nowrap;
   transition: all 0.3s ease;
   color: #402f27;
 }
@@ -1427,7 +1421,6 @@ position: relative;
   line-height: 15px;
   font-weight: 500;
   font-size: 14px;
-  white-space: nowrap;
   transition: all 0.3s ease;
   color: var(--color-antiquewhite);
 }
@@ -1474,26 +1467,24 @@ position: relative;
 }
 
 .heading21 {
-  position: relative;
-  width: 100%;
-  top: auto;
-  right: auto;
-  left: auto;
-  height: auto;
-  font-size: clamp(24px, 4vw, 30px);
-  margin-bottom: 1rem;
+position: absolute;
+width: calc(100% - 160px);
+top: 87px;
+right: 80px;
+left: 80px;
+height: 90px;
+font-size: 30px;
 }
 
 .areYouOffering {
-  top: auto;
-  left: auto;
-  line-height:45px;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: auto;
-  margin-top: 8%;
-  padding: 0;
+  position: absolute;
+top: -31px;
+left: 0px;
+line-height: 45px;
+display: flex;
+align-items: center;
+width: 346px;
+height: 90px;
 }
 
 .serveaseLogoAlbumCover1 {
@@ -1538,15 +1529,14 @@ position: relative;
 /* footer */
 
 .footer {
-  position: relative;
-  background: white;
-  width: 100%;
-  min-height: 475px;
-  height: auto;
-  text-align: left;
-  color: var(--color-black);
-  padding: 80px 0 40px;
-  margin-top: auto;
+  position: absolute;
+top: 3708px;
+left: 0px;
+background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), #fff;
+width: 1440px;
+height: 475px;
+text-align: left;
+color: #000;
 
 }
 
@@ -1555,8 +1545,8 @@ position: relative;
   top: 0px;
   left: 0px;
   background-color: var(--color-white);
-  width: 100%;
-  height: 534px;
+  width: 1550px;
+  height: 475px;
   
 }
 
@@ -1764,7 +1754,7 @@ position: relative;
 /* Tablet Styles */
 @media screen and (max-width: 1024px) {
   .navigation {
-    display: flex;
+  display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
@@ -1818,7 +1808,7 @@ position: relative;
   justify-content: flex-start;
   gap: 0.5rem;
   flex-shrink: 0;
-  margin-top: 30px;
+  margin-top: 28px;
   }
 
   .navigationlogo {
@@ -1839,7 +1829,7 @@ position: relative;
 
   .home1,
   .contactUs1 {
-    width: auto;
+    width: 30px;
     font-size: 14px;
   }
 
@@ -2047,8 +2037,8 @@ position: relative;
 
   .areYouLookingContainer,
   .areYouOffering {
-    width: auto;
-    height: auto;
+    width: 346px;
+    height: 90px;
     margin: 10% 5%;
     font-size: 20px;
     line-height: 30px;
@@ -2068,11 +2058,11 @@ position: relative;
   .link,
   .link1 {
     position: relative;
-    bottom: auto;
-    left: auto;
+    top: 245px;
+    left: 80px;
     margin: 10px auto;
-    width: 140px;
-    height: 45px;
+    width: 159px;
+    height: 56px;
   }
 
   .serveaseLogoAlbumCover32,
@@ -2095,7 +2085,7 @@ position: relative;
 
   .footerChild {
     position: relative;
-    height: auto;
+    height: 475px;
   }
 
   .servease {
