@@ -126,7 +126,14 @@ const DashboardClient: NextPage = () => {
             <a href="#" className={styles.navLink}>
               Discover
             </a>
-            <a href="#" className={styles.navLink}>
+            <a href="#" 
+            className={styles.navLink}
+            onClick={() => {
+                window.scrollTo({
+                  top: document.body.scrollHeight,
+                  behavior: "smooth",
+                });
+              }}>
               Contact Us
             </a>
           </div>

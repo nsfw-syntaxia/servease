@@ -26,7 +26,7 @@
   align-items: center;
   width: 100%;
   max-width: 1030px; /* Aligns with the appointment card width */
-  margin-top: 2rem;;
+  margin-top: 2rem;
   margin-bottom: 4rem;
   flex-wrap: wrap; /* Allows wrapping on smaller screens */
   gap: 1.5rem; /* Space between title and buttons when they wrap */
@@ -40,6 +40,8 @@
   font-weight: bold; 
 }
 
+/* === START: UPDATED NAVIGATION BAR STYLES === */
+
 .navigation {
   position: fixed;
   top: 1.5rem;
@@ -48,14 +50,14 @@
   width: 80%;
   max-width: 1113px;
   padding: 1rem 2rem;
-  z-index: 1000;
+  z-index: 100;
 
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-evenly; 
-  gap: 1rem;
+  justify-content: space-evenly;
+  gap: 11rem;
 
   background-color: var(--color-white);
   border-radius: 50px;
@@ -66,19 +68,36 @@
   animation: bounceInTop 0.8s ease forwards;
 }
 
-@keyframes slideDown {
+/* This animation was in your prompt, so it's defined here */
+@keyframes bounceInTop {
   0% {
     opacity: 0;
-    transform: translate(-50%, -30px);
+    transform: translate(-50%, -80px);
+  }
+  60% {
+    opacity: 1;
+    transform: translate(-50%, 15px);
+  }
+  80% {
+    transform: translate(-50%, -5px);
   }
   100% {
-    opacity: 1;
     transform: translate(-50%, 0);
   }
 }
 
+/* The .navBrand wrapper keeps the logo and text together as a single unit */
 .navBrand {
-  display: contents;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px; 
+}
+
+/* Cleaned up logoText rule */
+.logoText {
+  font-size: 28px;
+  color: var(--color-tan);
 }
 
 .logoIcon {
@@ -87,12 +106,6 @@
   object-fit: cover;
 }
 
-.logoText {
-  font-size: 24px;
-  line-height: 1;
-  color: var(--color-tan);
-}
-
 .logoText .serv {
   font-weight: 500;
 }
@@ -101,46 +114,21 @@
   font-weight: 700;
 }
 
+/* Cleaned up navLinks rule */
 .navLinks {
   display: flex;
-  gap: 5rem; 
+  align-items: center;
+  gap: 90px;
 }
 
+/* Cleaned up navLink rule */
 .navLink {
-  font-size: 18px;
-  font-weight: 500;
-  color: #2E231D; 
-  cursor: pointer;
+  color: var(--color-gray-200);
   text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.logoIcon {
-  flex-shrink: 0;
-}
-
-.logoText {
-  font-size: 24px;
-  line-height: 1;
-  color: var(--color-tan);
-  margin-right: auto;
-}
-
-.logoText .serv {
-  font-weight: 500;
-}
-
-.logoText .ease {
-  font-weight: 700;
-}
-
-
-.navLink {
   font-size: 18px;
-  font-weight: 500; /* Adjusted to match image */
-  color: var(--color-black); /* Adjusted to match image */
-  cursor: pointer;
+  font-weight: 600;
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .navLink:hover {
@@ -164,6 +152,9 @@
   width: 70%;
   height: 70%;
 }
+
+/* === END: UPDATED NAVIGATION BAR STYLES === */
+
 
 /* ===== Filter Buttons (STYLED TO MATCH IMAGE) ===== */
 .filterButtons {
@@ -366,8 +357,11 @@
 
 /* ===== Media Queries for Responsiveness ===== */
 @media (max-width: 992px) {
+  .navigation {
+    width: 90%;
+  }
   .navLinks {
-    display: none;
+    display: none; /* Hides nav links on tablets and mobile */
   }
   .pageTitle {
     font-size: 40px;
@@ -383,6 +377,10 @@
 @media (max-width: 768px) {
   .mainContent {
     padding-top: 100px;
+  }
+  .navigation {
+    width: 95%;
+    padding: 0.75rem 1.5rem;
   }
   .contentHeader {
     justify-content: center; /* Center items when they wrap */
@@ -407,5 +405,11 @@
   }
   .footerColumn {
     align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .logoText {
+    display: none; /* Hides brand name text on very small screens to save space */
   }
 }
