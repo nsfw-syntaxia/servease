@@ -327,7 +327,7 @@
 
 .authwindow {
   position: absolute;
-  top: 70px;
+  top: 65px;
   left: 520px;
   width: 732px;
   height: 750px;
@@ -344,7 +344,7 @@
 .closeIcon {
   position: absolute;
   top: 59px;
-  right: 233px;
+  right: 228px;
   width: 29px;
   height: 29px;
   overflow: hidden;
