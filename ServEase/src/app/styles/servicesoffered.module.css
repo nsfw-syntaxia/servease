@@ -1,14 +1,12 @@
-/* ===== Base Page Layout ===== */
 .pageContainer {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: #F8F6F4; /* Background from image */
+  background-color: #F8F6F4; 
   font-family: var(--font-dm-sans);
-  color: #2E231D; /* Primary text color from image */
+  color: #2E231D; 
 }
 
-/* ===== Header / Navigation (Format Preserved) ===== */
 .navigation {
   position: fixed;
   top: 1.5rem;
@@ -91,13 +89,12 @@
   cursor: pointer;
 }
 
-/* ===== Main Content ===== */
 .mainContent {
   flex-grow: 1;
   width: 100%;
-  max-width: 1154px; /* Matches width from image */
+  max-width: 1154px; 
   margin: 0 auto;
-  padding: 140px 20px 60px 20px; /* Top padding for nav overlap */
+  padding: 140px 20px 60px 20px; 
 }
 
 .profileTitle {
@@ -124,7 +121,6 @@
   color: var(--color-tan);
 }
 
-/* ===== Services Table ===== */
 .servicesTable {
   width: 100%;
   display: flex;
@@ -134,15 +130,10 @@
 
 .tableHeader, .serviceRow {
   display: grid;
-  grid-template-columns: 2.5fr 3.5fr 1fr 1fr; 
+  grid-template-columns: 2.5fr 3.5fr 1fr 1.5fr; 
   gap: 1.5rem;
   align-items: center;
   padding: 0 2rem;
-  transition: grid-template-columns 0.3s ease;
-}
-
-.editModeHeader, .editModeRow {
-  grid-template-columns: 2.5fr 3.5fr 1fr 1fr 0.5fr;
 }
 
 .tableHeader {
@@ -151,16 +142,14 @@
   font-size: 20px;
 }
 
-
-
 .serviceRow {
-  background-color: #E9E1D9; /* Row background from image */
+  background-color: #E9E1D9; 
   border-radius: 50px;
   padding-top: 1.25rem;
   padding-bottom: 1.25rem;
   font-size: 18px;
   font-weight: 500;
-  color: #5C544F; /* Row text color */
+  color: #5C544F;
   transition: all 0.3s ease;
   margin-bottom: 25px;
 }
@@ -170,7 +159,38 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
-/* ===== Action Buttons ===== */
+.durationCellContent {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  width: 100%;
+}
+
+.rowActions {
+  display: flex; 
+  align-items: center;
+  gap: 0.75rem;
+  opacity: 0; 
+  pointer-events: none; 
+  transition: opacity 0.3s ease;
+}
+
+.editModeRow .rowActions {
+  opacity: 1;
+  pointer-events: auto; 
+}
+
+.actionIcon {
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.actionIcon:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
 .actionButtons {
   display: flex;
   justify-content: flex-end;
@@ -211,13 +231,14 @@
 .doneButton {
   background-color: var(--color-dimgray);
   color: white;
+  padding: 12px 20px;
 }
 
 .footer {
   width: 100%;
   background-color: var(--color-white);
   padding: 4rem 2rem 2rem;
-  margin-top: auto; /* Pushes footer to the bottom */
+  margin-top: auto; 
 }
 
 .footerContent {
@@ -310,7 +331,7 @@
   .tableCell:nth-child(1)::before { content: 'Service: '; }
   .tableCell:nth-child(2)::before { content: 'Details: '; }
   .tableCell:nth-child(3)::before { content: 'Price: '; }
-  .tableCell:nth-child(4) { display: block; } /* Show duration again on mobile */
+  .tableCell:nth-child(4) { display: block; } 
   .tableCell:nth-child(4)::before { content: 'Duration: '; }
 
   .footerContent {
