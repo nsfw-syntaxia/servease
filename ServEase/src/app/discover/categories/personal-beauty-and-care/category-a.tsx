@@ -122,14 +122,14 @@ const PBACS: NextPage = () => {
   const handleNext = () => {
     // Stop at the last possible slide to not show empty space
     if (currentIndex < featuredServices.length - visibleServices) {
-      setCurrentIndex((prevIndex) => prevIndex + 1);
+      setCurrentIndex((prevIndex) => prevIndex + 3);
     }
   };
 
   const handlePrev = () => {
     // Stop at the beginning
     if (currentIndex > 0) {
-      setCurrentIndex((prevIndex) => prevIndex - 1);
+      setCurrentIndex((prevIndex) => prevIndex - 3);
     }
   };
 
