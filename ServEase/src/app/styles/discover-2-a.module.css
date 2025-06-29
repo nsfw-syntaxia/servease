@@ -1,9 +1,8 @@
 /* footer */
 
 .footer {
-  position: absolute;
-  top: 3718px;
-  left: 0px;
+  position: relative;
+  top: 900px;
   background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
     var(--color-white);
   width: 100%;
@@ -567,8 +566,9 @@
 }
 
 .avatar2 {
-  width: 117px;
+  width: auto;
   height: 46px;
+  background-color: blueviolet;
 }
 
 .groupChild {
@@ -636,19 +636,27 @@
   height: 46px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: flex-end;
   justify-content: center;
   font-size: 13px;
   color: var(--color-tan-100);
+  margin-right: 3%;
 }
 
 .avatar {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   gap: var(--gap-16);
   width: 100%;
+}
+.avatar5 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
 }
 
 .info {
@@ -672,7 +680,7 @@
 
 .allCards {
   position: relative;
-  margin-left: calc(50% - 200px);
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -693,7 +701,7 @@
   justify-content: center;
   font-size: var(--font-size-16);
   color: var(--color-white);
-  margin-left: 33%;
+  margin: 0 auto;
   cursor: pointer;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
@@ -723,15 +731,16 @@
 }
 
 .allServices {
-  position: absolute;
-  top: 2168px;
-  left: 121px;
+  position: relative;
+  top: 1100px;
+  margin: 0 auto;
   width: 1201px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
   gap: 64px;
+  margin-bottom: 20%;
 }
 
 .serviceChild1 {
@@ -1222,7 +1231,7 @@
   position: relative;
   background-color: #f8f7f3;
   box-sizing: border-box;
-  height: 4200px;
+  height: 4300px;
   overflow: hidden;
   text-align: left;
   font-size: 50px;
