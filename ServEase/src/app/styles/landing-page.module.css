@@ -1563,11 +1563,11 @@ position: relative;
 
 .yourTrustedPlatform {
   position: absolute;
-  top: 157px;
-  left: 95px;
-  line-height: 40px;
-  display: inline-block;
-  width: calc(100% - 258px);
+    top: 157px;
+    left: 143px;
+    line-height: 40px;
+    display: inline-block;
+    width: 359px;
   
 }
 
@@ -1655,13 +1655,13 @@ position: relative;
 
 .servease {
   position: absolute;
-  top: 87px;
-  left: 140px;
-  color: var(--color-tan);
-  font-size: var(--font-size-26);
-  line-height: 128.02%;
-  display: inline-block;
-  width: 148px;
+    top: 87px;
+    left: 200px;
+    font-size: var(--font-size-26);
+    line-height: 128.02%;
+    display: inline-block;
+    width: 148px;
+	color: #A68465;
 }
 
 .serv {
@@ -1696,7 +1696,7 @@ position: relative;
 }
 
 .lineDiv {
-  position: absolute;
+   position: absolute;
     top: -1px;
     left: -1px;
     border-top: 2px solid var(--color-black);
@@ -1707,27 +1707,28 @@ position: relative;
 
 .servease2025 {
   position: absolute;
-  top: 27px;
-  left: 14px;
+    top: 27px;
+    left: 14px;
 }
 
 .lineParent {
   position: absolute;
     top: 389px;
-    left: 50px;
-    width: calc(100% - 95px);
+    left: 129px;
+    width: calc(100% - 258px);
     height: 53px;
     font-size: var(--font-size-20);
 }
 
 .serveaseLogoAlbumCover3 {
-  position: absolute;
-  top: 84px;
-  left: 80px;
-  width: 40px;
-  height: 40px;
-  object-fit: cover;
+   position: absolute;
+    top: 84px;
+    left: 143px;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
 }
+
 
 .supportserveasecom,
 .faqs,
