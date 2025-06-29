@@ -1751,15 +1751,16 @@ color: #000;
 
 /* Mobile Responsive Styles - Add these media queries to your existing CSS */
 
-/* Tablet Styles */
+/* ─────────────── Tablet Styles ─────────────── */
 @media screen and (max-width: 1024px) {
   .navigation {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 0.5rem;
-  flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0rem;
+    flex-shrink: 0;
+    padding: 0 30px;
   }
 
   .heroImageWrapper {
@@ -1779,71 +1780,76 @@ color: #000;
   }
 
   .aboutUsSection {
-    margin-right: 10%;
-    margin-left: 10%;
+    margin: 0 10%;
   }
 
-  .whatWeOfferContainerChild {
+  .whatWeOfferContainerChild,
+  .whyChooseGrid {
     margin: 0 5%;
     padding: 30px;
   }
 
-  .whyChooseGrid {
-    margin: 0 5%;
+  .footerChild {
+    height: auto;
+  }
+
+  .servease {
+    text-align: center;
+  }
+
+  .yourTrustedPlatform {
+    text-align: center;
   }
 }
 
-/* Mobile Styles */
+/* ─────────────── Mobile Styles ─────────────── */
 @media screen and (max-width: 768px) {
   .landingPage {
     height: auto;
     min-height: 100vh;
   }
 
-  /* Navigation Mobile */
   .navigation {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 0.5rem;
-  flex-shrink: 0;
-  margin-top: 28px;
+    width: 80%;
+    flex-direction: row;
+    padding: 2 2px;
+    margin-top: 28px;
+    gap: 0px;
   }
 
   .navigationlogo {
-    gap: 0.5rem;
+    gap: 1px;
   }
 
   .serveaseLogoAlbumCover31 {
-    width: 35px;
+    width: 38px;
   }
 
   .servease1 {
-    font-size: 24px;
+    font-size: 20px;
   }
 
   .homeParent {
-    gap: 15px;
+    gap: 1px;
   }
 
-  .home1,
-  .contactUs1 {
-    width: 30px;
-    font-size: 14px;
+  .home1, .discover, .contactUs1 {
+    width: 15px;
+    font-size: 15px;
+    gap: 1px;
+    justify-content: center;
   }
 
   .button1 {
-    width: 80px;
-    height: 35px;
+    width: 60px;
+    height: 30px;
     padding: 8px;
   }
 
   .signIn {
-    font-size: 12px;
+    font-size: 13px;
   }
 
-  /* Hero Section Mobile */
   .heroImageWrapper {
     width: 95%;
     height: 400px;
@@ -1861,15 +1867,13 @@ color: #000;
 
   .bridgingClientsAndContainer {
     font-size: 28px;
-    margin-top: 0;
-    margin-left: 0;
+    margin: 0;
     text-align: center;
   }
 
   .discoverASmarter {
     font-size: 18px;
     margin-top: 10px;
-    margin-right: 0;
     text-align: center;
   }
 
@@ -1880,7 +1884,6 @@ color: #000;
     left: 250px;
   }
 
-  /* About Us Section Mobile */
   .aboutUsSection {
     flex-direction: column;
     margin: 0 5%;
@@ -1921,7 +1924,7 @@ color: #000;
   }
 
   .aboutUs1 {
-    font-size: 35px;
+    font-size: 37px;
     width: auto;
     text-align: center;
   }
@@ -1938,7 +1941,6 @@ color: #000;
     height: 200px;
   }
 
-  /* What We Offer Section Mobile */
   .whatweoffer {
     margin-top: 80px;
     font-size: 20px;
@@ -1946,7 +1948,7 @@ color: #000;
 
   .whatWeOfferContainer {
     margin: 5% 0 2% 5%;
-    font-size: 35px;
+    font-size: 40px;
   }
 
   .whatWeOfferContainerChild {
@@ -1954,6 +1956,7 @@ color: #000;
     gap: 20px;
     padding: 20px;
     margin: 0 5%;
+    font-size: 30px;
   }
 
   .onlineBooking,
@@ -1975,7 +1978,6 @@ color: #000;
     font-size: 16px;
   }
 
-  /* Why Choose Section Mobile */
   .whyChooseServeaseContainer {
     margin: 5% 0 2% 5%;
     font-size: 35px;
@@ -1993,15 +1995,11 @@ color: #000;
     min-height: 180px;
   }
 
-  .transparentTrustworthyBox {
-    grid-column: span 1;
-    min-height: 220px;
-  }
-
+  .transparentTrustworthyBox,
   .builtForGrowthBox {
+    min-height: 220px;
     grid-column: span 1;
     grid-row: span 1;
-    min-height: 300px;
   }
 
   .allInOnePlatform,
@@ -2009,7 +2007,7 @@ color: #000;
   .transparentTrustworthy,
   .builtForGrowth,
   .instantMessaging {
-    font-size: 16px;
+    font-size: 19px;
   }
 
   .browseBookAnd,
@@ -2017,11 +2015,10 @@ color: #000;
   .makeConfidentDecisions,
   .boostYourPresence,
   .connectInstantlyFor {
-    font-size: 12px;
+    font-size: 14px;
     max-width: none;
   }
 
-  /* Register Section Mobile */
   .register {
     grid-template-columns: 1fr;
     gap: 20px;
@@ -2037,29 +2034,27 @@ color: #000;
 
   .areYouLookingContainer,
   .areYouOffering {
-    width: 346px;
-    height: 90px;
-    margin: 10% 5%;
-    font-size: 20px;
+    width: 200px;
+    height: 5px;
+    margin: 5% 5%;
+    font-size: 25px;
     line-height: 30px;
   }
 
   .findTrustedProfessionals {
-    position: relative;
-    top: auto;
-    left: auto;
     margin: 5% 5%;
-    width: auto;
-    height: auto;
     font-size: 12px;
     line-height: 18px;
+    width: auto;
+    height: auto;
+    left: 5px;
+    top: 120px;
   }
 
   .link,
   .link1 {
-    position: relative;
     top: 245px;
-    left: 80px;
+    left: 20px;
     margin: 10px auto;
     width: 159px;
     height: 56px;
@@ -2073,27 +2068,26 @@ color: #000;
     right: 10px;
   }
 
-  /* Footer Mobile */
+  /* ──────── Footer Section ──────── */
   .footer {
    position: relative;
   top: auto;
   height: auto;
   padding: 40px 0;
-  background-color: white;
+  background: white;
   border-top: 1px solid #e9ecef;
   }
 
   .footerChild {
     position: relative;
-    height: 475px;
+    height: auto;
   }
 
   .servease {
     position: flex;
     text-align: center;
-    top: 30px;
-    width: 50%;
-    left: 190px;
+    top: 35px;
+    width: 26%;
     align-items: center;
   }
 
@@ -2102,16 +2096,16 @@ color: #000;
     align-items: center;
     gap: 12px;
     top: 30px;
-    left: 255px;
+    left: 280px;
     margin-bottom: 50px;
   }
 
   .yourTrustedPlatform {
     position: relative;
-    left: 50px;
+    left: 80px;
     top: 30px;
     text-align: center;
-    width: 90%;
+    width: 40%;
     margin: 20px auto;
     font-size: 14px;
     line-height: 24px;
@@ -2124,7 +2118,7 @@ color: #000;
     top: 50px;
     left: auto;
     text-align: center;
-    width: 100%;
+    width: 50%;
     margin: 30px 0 10px 0;
     font-size: 20px;
   }
@@ -2142,7 +2136,7 @@ color: #000;
     top: 50px;
     left: auto;
     text-align: center;
-    width: 100%;
+    width: 50%;
     margin: 10px 0;
     font-size: 14px;
     line-height: 30px;
@@ -2158,7 +2152,7 @@ color: #000;
   }
 
   .lineDiv {
-    width: 100%;
+    width: 48%;
   }
 
   .servease2025 {
@@ -2167,18 +2161,15 @@ color: #000;
     left: auto;
     text-align: center;
     margin-top: 20px;
+    width: 48%;
   }
 }
 
-/* Small Mobile Styles */
+/* ─────────────── Small Mobile Styles ─────────────── */
 @media screen and (max-width: 480px) {
   .navigation {
-    display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 0.5rem;
-  flex-shrink: 0;
+    flex-direction: row;
+    gap: 0.5rem;
   }
 
   .heroImageWrapper {
@@ -2203,23 +2194,20 @@ color: #000;
     font-size: 16px;
   }
 
-  .servChild {
+  .servChild,
+  .aboutusbox,
+  .background,
+  .background1 {
     min-width: 260px;
-    height: 280px;
   }
 
-  .aboutusbox {
-    min-width: 260px;
+  .servChild {
+    height: 280px;
   }
 
   .whatWeOfferContainer,
   .whyChooseServeaseContainer {
     font-size: 28px;
-  }
-
-  .background,
-  .background1 {
-    min-width: 260px;
   }
 
   .areYouLookingContainer,
@@ -2228,7 +2216,7 @@ color: #000;
   }
 }
 
-/* Landscape Mobile Styles */
+/* ─────────────── Landscape Mobile Styles ─────────────── */
 @media screen and (max-height: 500px) and (orientation: landscape) {
   .heroImageWrapper {
     height: 250px;
@@ -2248,7 +2236,6 @@ color: #000;
 
   .discoverASmarter {
     font-size: 14px;
-    margin-top: 0;
   }
 
   .navigation {
