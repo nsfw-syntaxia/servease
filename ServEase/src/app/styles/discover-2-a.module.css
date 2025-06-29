@@ -21,6 +21,7 @@
 .discover,
 .createAnAccount,
 .faqs,
+.avataricon,
 .privacyPolicy,
 .termsConditions,
 .aboutUs,
@@ -241,15 +242,16 @@
 /* popular & new */
 
 .popularServices {
-  position: absolute;
-  top: 954px;
-  left: 121px;
-  width: 1195px;
+  position: relative;
+  top: 945px;
+  margin: 0 auto;
+  width: 1200px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
   gap: 64px;
+  z-index: 100;
 }
 
 .newServices {
@@ -266,20 +268,42 @@
 
 .popularCards {
   position: relative;
-  margin-left: calc(50% - 400px);
+  margin: 0 auto;
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
   align-items: flex-start;
   justify-content: flex-start;
   gap: 30px;
   font-size: var(--font-size-16);
   color: var(--color-gray-100);
+  transition: transform 0.4s ease, justify-content 0.4s ease;
+}
+.servicesCarousel {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.carouselViewport {
+  width: 100%;
+  overflow: hidden;
+  height: 380px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding-left: 5px;
+}
+.carouselTrack {
+  display: flex;
+  gap: 20px;
+  transition: transform 0.5s ease-in-out;
 }
 
 .centeredCards {
-  margin-left: calc(50% - 440px);
+  margin: 0 auto;
   justify-content: center;
+  transform: translateX(0);
 }
 
 .avatar28 {
@@ -360,9 +384,9 @@
 }
 
 .line1 {
+  margin: 0 auto;
   width: 1195px;
   position: relative;
-  left: calc(50% - 395px);
   border-top: 1px solid var(--color-antiquewhite);
   box-sizing: border-box;
   height: 1px;
@@ -378,33 +402,8 @@
   align-self: stretch;
   position: relative;
   color: #a68465;
-  left: calc(50% - 400px);
   line-height: 150%;
   width: 409px;
-}
-
-.service6 {
-  border-radius: 13px;
-  background-color: var(--color-white);
-  border: 1px solid #d9d9d9;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-}
-
-.service6 {
-  position: relative;
-  transition: transform 0.12s ease-out, box-shadow 0.12s ease-out,
-    border 0.12s ease-out;
-  cursor: pointer;
-}
-
-.service6:hover {
-  transform: translateY(-6px) scale(1.01);
-  box-shadow: 0 6px 16px rgba(166, 132, 101, 0.3);
-  border-radius: 13px;
-  border: 1px solid var(--color-tan);
 }
 
 .service {
@@ -436,6 +435,96 @@
 
 /* cards */
 
+.serviceCard {
+  flex: 0 0 calc(95% / 3);
+  box-sizing: border-box;
+  background-color: var(--color-white);
+  border: 2px solid var(--color-antiquewhite);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  position: relative;
+  transition: transform 0.12s ease-out, box-shadow 0.12s ease-out,
+    border 0.12s ease-out;
+  cursor: pointer;
+}
+
+.serviceCard:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 6px 16px rgba(166, 132, 101, 0.3);
+  border-radius: 12px;
+  border: 1px solid var(--color-tan);
+}
+.serviceImage {
+  width: 100%;
+  background-color: var(--color-antiquewhite);
+  height: 254px;
+}
+.serviceCardContent {
+  padding: 20px;
+}
+.serviceProvider {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.providerAvatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background-color: var(--color-dimgray);
+}
+.providerName {
+  margin: 0 0 8px 0;
+  font-size: var(--font-size-16);
+  font-weight: 600;
+  color: var(--color-gray-100);
+}
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ratingScore {
+  color: #bba68a;
+  line-height: 150%;
+  font-size: 16px;
+  font-weight: 500;
+}
+.stars {
+  display: flex;
+  gap: -0.5px;
+  color: var(--color-tan-100);
+}
+.carouselButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-60%);
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  background-color: #c3a68c;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+.carouselButton:hover {
+  background-color: var(--color-tan);
+  transform: translateY(-60%) scale(1.05);
+}
+.nextButton {
+  right: -45px;
+}
+.prevButton {
+  left: -25px;
+}
+.prevButton img {
+  transform: scaleX(-1);
+}
 .image {
   align-self: stretch;
   border-radius: var(--br-12) var(--br-12) 0px 0px;
@@ -987,6 +1076,23 @@
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   font-size: var(--font-size-18);
   color: var(--color-black);
+  animation: bounceInTop 0.8s ease forwards;
+}
+@keyframes bounceInTop {
+  0% {
+    opacity: 0;
+    transform: translate(0%, -80px);
+  }
+  60% {
+    opacity: 1;
+    transform: translate(0%, 15px);
+  }
+  80% {
+    transform: translate(0%, -5px);
+  }
+  100% {
+    transform: translate(0%, 0);
+  }
 }
 
 .navigationlogo {
@@ -1123,4 +1229,57 @@
   color: var(--color-tan-200);
   font-family: var(--font-dm-sans);
   cursor: default;
+}
+.avataricon {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--gap-16);
+  position: relative;
+  margin-left: 5%;
+  transition: transform 0.3s ease;
+}
+.avataricon:hover {
+  transform: scale(1.1);
+}
+.dropdownWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdownMenu {
+  position: absolute;
+  right: 0;
+  margin-top: 10px;
+  width: 186px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+.dropdownItem {
+  padding: 15px 16px;
+  color: #241f1b;
+  text-decoration: none;
+  display: block;
+  transition: background 0.2s ease;
+  font-size: 18px;
+}
+
+.active {
+  background-color: #a68465;
+  color: white;
+}
+
+.activeTop {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.activeBottom {
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
 }

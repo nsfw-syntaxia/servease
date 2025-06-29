@@ -1,14 +1,96 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { NextPage } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import styles from "../../../styles/discover-2-a.module.css";
+
+const FeaturedServiceCard = ({ service }: { service: any }) => (
+  <div className={styles.serviceCard}>
+    <div className={styles.serviceImage}></div>
+    <div className={styles.serviceCardContent}>
+      <div className={styles.serviceProvider}>
+        <div className={styles.providerAvatar}></div>
+        <div className={styles.providerInfo}>
+          <h3 className={styles.providerName}>{service.providerName}</h3>
+          <div className={styles.rating}>
+            <div className={styles.stars}>
+              <Image
+                width={20}
+                height={20}
+                sizes="100vw"
+                src="/Star 3.svg"
+                alt="Star"
+              />
+              <Image
+                width={20}
+                height={20}
+                sizes="100vw"
+                src="/Star 3.svg"
+                alt="Star"
+              />
+              <Image
+                width={20}
+                height={20}
+                sizes="100vw"
+                src="/Star 3.svg"
+                alt="Star"
+              />
+              <Image
+                width={20}
+                height={20}
+                sizes="100vw"
+                src="/Star 3.svg"
+                alt="Star"
+              />
+              <Image
+                width={20}
+                height={20}
+                sizes="100vw"
+                src="/Star 4.svg"
+                alt="Star"
+              />
+            </div>
+            <span className={styles.ratingScore}>
+              {service.rating.toFixed(1)}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
 
 const PBACS: NextPage = () => {
   const [showPrev, setShowPrev] = useState(false);
   const [showPrevNew, setShowPrevNew] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [hovered, setHovered] = useState("");
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const items = [
+    { label: "My Account", href: "/account" },
+    { label: "Appointments", href: "/appointments" },
+    { label: "Messages", href: "/messages" },
+    { label: "Notifications", href: "/notifications" },
+    { label: "Log out", href: "/logout" },
+  ];
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const handleNextClick = () => {
     setShowPrev(true);
@@ -24,6 +106,31 @@ const PBACS: NextPage = () => {
 
   const handlePrevClickNew = () => {
     setShowPrevNew(false);
+  };
+  const [featuredServices, setFeaturedServices] = useState([
+    { id: 1, providerName: "Glamour Salon", rating: 4.5 },
+    { id: 2, providerName: "AutoCare Experts", rating: 4.8 },
+    { id: 3, providerName: "HomeClean Pro", rating: 4.2 },
+    { id: 4, providerName: "PetPamper Palace", rating: 4.9 },
+    { id: 5, providerName: "Tech-Fix It", rating: 4.6 },
+    { id: 6, providerName: "GardenScapes", rating: 4.7 },
+  ]);
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const visibleServices = 3; // How many services are visible at once
+
+  const handleNext = () => {
+    // Stop at the last possible slide to not show empty space
+    if (currentIndex < featuredServices.length - visibleServices) {
+      setCurrentIndex((prevIndex) => prevIndex + 1);
+    }
+  };
+
+  const handlePrev = () => {
+    // Stop at the beginning
+    if (currentIndex > 0) {
+      setCurrentIndex((prevIndex) => prevIndex - 1);
+    }
   };
 
   const router = useRouter();
@@ -410,209 +517,50 @@ const PBACS: NextPage = () => {
           <span>Popular</span>
           <span className={styles.services}> Services</span>
         </b>
-        <div
-          className={`${styles.popularCards} ${
-            showPrev ? styles.centeredCards : ""
-          }`}
-        >
-          {showPrev && (
-            <div className={styles.btnprev} onClick={handlePrevClick}>
-              <div className={styles.btn}>
-                <div className={styles.chevronLeft}>
-                  <Image
-                    className={styles.icon}
-                    width={7.5}
-                    height={15}
-                    alt=""
-                    src="/swipeLeft.svg"
-                  />
-                </div>
-              </div>
-            </div>
+        <div className={styles.servicesCarousel}>
+          {/* Show Prev button only if not at the beginning */}
+          {currentIndex > 0 && (
+            <button
+              className={`${styles.carouselButton} ${styles.prevButton}`}
+              onClick={handlePrev}
+            >
+              <Image
+                width={28}
+                height={28}
+                src="/Chevron right.svg"
+                alt="Previous"
+              />
+            </button>
           )}
 
-          <div className={styles.service6}>
-            <div className={styles.serviceChild1} />
-            <div className={styles.avatarWrapper1}>
-              <div className={styles.avatar28}>
-                <div className={styles.avatar1} />
-                <div className={styles.serviceFacilityNameParent}>
-                  <div className={styles.serviceFacilityName}>
-                    Service Facility Name
-                  </div>
-                  <div className={styles.parent3}>
-                    <div className={styles.rate}>4.0</div>
-                    <Image
-                      className={styles.groupChild27}
-                      width={20}
-                      height={20}
-                      sizes="100vw"
-                      alt=""
-                      src="/starFilled.svg"
-                    />
-                    <Image
-                      className={styles.groupChild28}
-                      width={20}
-                      height={20}
-                      sizes="100vw"
-                      alt=""
-                      src="/starFilled.svg"
-                    />
-                    <Image
-                      className={styles.groupChild29}
-                      width={20}
-                      height={20}
-                      sizes="100vw"
-                      alt=""
-                      src="/starFilled.svg"
-                    />
-                    <Image
-                      className={styles.groupChild30}
-                      width={20}
-                      height={20}
-                      sizes="100vw"
-                      alt=""
-                      src="/starUnfilled.svg"
-                    />
-                    <Image
-                      className={styles.groupChild31}
-                      width={20}
-                      height={20}
-                      sizes="100vw"
-                      alt=""
-                      src="/starFilled.svg"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className={styles.service6}>
-            <div className={styles.image} />
-            <div className={styles.avatarWrapper1}>
-              <div className={styles.avatar28}>
-                <div className={styles.avatar1} />
-                <div className={styles.serviceFacilityNameParent}>
-                  <div className={styles.serviceFacilityName}>
-                    Service Facility Name
-                  </div>
-                  <div className={styles.parent3}>
-                    <div className={styles.rate}>4.0</div>
-                    <Image
-                      className={styles.groupChild27}
-                      width={20}
-                      height={20}
-                      sizes="100vw"
-                      alt=""
-                      src="/starFilled.svg"
-                    />
-                    <Image
-                      className={styles.groupChild28}
-                      width={20}
-                      height={20}
-                      sizes="100vw"
-                      alt=""
-                      src="/starFilled.svg"
-                    />
-                    <Image
-                      className={styles.groupChild29}
-                      width={20}
-                      height={20}
-                      sizes="100vw"
-                      alt=""
-                      src="/starFilled.svg"
-                    />
-                    <Image
-                      className={styles.groupChild30}
-                      width={20}
-                      height={20}
-                      sizes="100vw"
-                      alt=""
-                      src="/starUnfilled.svg"
-                    />
-                    <Image
-                      className={styles.groupChild31}
-                      width={20}
-                      height={20}
-                      sizes="100vw"
-                      alt=""
-                      src="/starFilled.svg"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className={styles.service6}>
-            <div className={styles.image} />
-            <div className={styles.avatarWrapper1}>
-              <div className={styles.avatar28}>
-                <div className={styles.avatar1} />
-                <div className={styles.serviceFacilityNameParent}>
-                  <div className={styles.serviceFacilityName}>
-                    Service Facility Name
-                  </div>
-                  <div className={styles.parent3}>
-                    <div className={styles.rate}>4.0</div>
-                    <Image
-                      className={styles.groupChild27}
-                      width={20}
-                      height={20}
-                      sizes="100vw"
-                      alt=""
-                      src="/starFilled.svg"
-                    />
-                    <Image
-                      className={styles.groupChild28}
-                      width={20}
-                      height={20}
-                      sizes="100vw"
-                      alt=""
-                      src="/starFilled.svg"
-                    />
-                    <Image
-                      className={styles.groupChild29}
-                      width={20}
-                      height={20}
-                      sizes="100vw"
-                      alt=""
-                      src="/starFilled.svg"
-                    />
-                    <Image
-                      className={styles.groupChild30}
-                      width={20}
-                      height={20}
-                      sizes="100vw"
-                      alt=""
-                      src="/starUnfilled.svg"
-                    />
-                    <Image
-                      className={styles.groupChild31}
-                      width={20}
-                      height={20}
-                      sizes="100vw"
-                      alt=""
-                      src="/starFilled.svg"
-                    />
-                  </div>
-                </div>
-              </div>
+          <div className={styles.carouselViewport}>
+            <div
+              className={styles.carouselTrack}
+              style={{
+                // This inline style moves the track one card-width at a time
+                transform: `translateX(calc(-${currentIndex} * (100% / ${visibleServices})))`,
+              }}
+            >
+              {featuredServices.map((service) => (
+                <FeaturedServiceCard key={service.id} service={service} />
+              ))}
             </div>
           </div>
 
-          <div className={styles.btnnext} onClick={handleNextClick}>
-            <div className={styles.btn}>
-              <div className={styles.chevronRight}>
-                <Image
-                  className={styles.icon}
-                  width={7.5}
-                  height={15}
-                  alt=""
-                  src="/swipeRight.svg"
-                />
-              </div>
-            </div>
-          </div>
+          {/* Show Next button only if not at the end */}
+          {currentIndex < featuredServices.length - visibleServices && (
+            <button
+              className={`${styles.carouselButton} ${styles.nextButton}`}
+              onClick={handleNext}
+            >
+              <Image
+                width={28}
+                height={28}
+                src="/Chevron right.svg"
+                alt="Next"
+              />
+            </button>
+          )}
         </div>
         <div className={styles.line1} />
       </div>
@@ -762,10 +710,47 @@ const PBACS: NextPage = () => {
           </div>
         </div>
         <div className={styles.navChild} />
-        <div className={styles.button1}>
-          <div className={styles.signIn} onClick={() => router.push("/login")}>
-            Sign in
+        <div className={styles.dropdownWrapper} ref={dropdownRef}>
+          <div className={styles.avataricon} onClick={() => setOpen(!open)}>
+            <Image
+              src="/avatar.svg"
+              alt="Profile"
+              width={40}
+              height={40}
+              sizes="100vw"
+            />
           </div>
+
+          {open && (
+            <div className={styles.dropdownMenu}>
+              {items.map((item, index) => {
+                const isActive = hovered === item.label;
+                const isFirst = index === 0;
+                const isLast = index === items.length - 1;
+
+                let borderClass = "";
+                if (isActive && isFirst) {
+                  borderClass = styles.activeTop;
+                } else if (isActive && isLast) {
+                  borderClass = styles.activeBottom;
+                }
+
+                return (
+                  <Link
+                    href={item.href}
+                    key={item.label}
+                    className={`${styles.dropdownItem} ${
+                      isActive ? styles.active : ""
+                    } ${borderClass}`}
+                    onMouseEnter={() => setHovered(item.label)}
+                    onMouseLeave={() => setHovered("")}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </div>
