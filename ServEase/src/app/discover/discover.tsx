@@ -3,13 +3,16 @@
 import type { NextPage } from "next";
 import { useCallback } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import styles from "../styles/DiscoverPage.module.css";
 
 
 const DiscoverPage: NextPage = () => {
+  const router = useRouter();
   const onLinkContainerClick = useCallback(() => {
     console.log("Link clicked!");
   }, []);
+
 
   return (
     <div className={styles.discover1Parent}>
@@ -22,16 +25,34 @@ const DiscoverPage: NextPage = () => {
           </div>
           <b className={styles.contactUs}>Contact Us</b>
           <div className={styles.supportserveasecom}>support@servease.com</div>
+          <div className={styles.contactNumber}>+63 9XX-XXX-XXXX</div>
           <b className={styles.support}>Support</b>
           <div className={styles.faqs}>FAQs</div>
           <div className={styles.privacyPolicy}>Privacy Policy</div>
           <div className={styles.termsConditions}>{`Terms & Conditions`}</div>
           <div className={styles.aboutUs}>About Us</div>
           <b className={styles.quickLinks}>Quick Links</b>
-          <b className={styles.servease}>servease</b>
-          <div className={styles.home}>Home</div>
-          <div className={styles.discover}>Discover</div>
-          <div className={styles.createAnAccount}>Create an Account</div>
+          <div className={styles.servease} onClick={() => router.push("/home")}>
+            <span className={styles.serv}>serv</span>
+            <b>ease</b>
+          </div>
+          <div className={styles.home} onClick={() => router.push("/home")}>
+            Home
+          </div>
+          <div 
+            className={styles.discover}
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+          >
+            Discover
+          </div>
+          <div 
+            className={styles.createAnAccount}
+            onClick={() => router.push("/signup")}
+          >
+            Create an Account
+          </div>
           
           <div className={styles.lineParent}>
             <div className={styles.lineDiv} />
@@ -40,14 +61,16 @@ const DiscoverPage: NextPage = () => {
             </div>
           </div>
           <Image
-            className={styles.serveaseLogoAlbumCover3}
+            className={styles.serveaseLogoAlbumCover31}
             width={40}
             height={40}
             sizes="100vw"
-            alt=""
-            src="/Servease Logo.svg"
+            alt="Servease Logo"
+            src="/logo.svg"
+            onClick={() => router.push("/home")}
           />
         </div>
+        
         <div className={styles.whatweofferbox} />
         <div className={styles.background}>
           <div className={styles.link} onClick={onLinkContainerClick}>
@@ -185,9 +208,28 @@ const DiscoverPage: NextPage = () => {
           </div>
           <div className={styles.navigationChild} />
           <div className={styles.homeParent}>
-            <div className={styles.home1}>Home</div>
-            <div className={styles.home1}>Discover</div>
-            <div className={styles.contactUs1}>Contact Us</div>
+            <div 
+              className={styles.home1}
+              onClick={() => router.push("/home")}
+              >Home
+            </div>
+            <div 
+              className={styles.home1}
+              onClick={() => {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              >Discover
+            </div>
+            <div 
+              className={styles.contactUs1}
+              onClick={() => {
+                window.scrollTo({
+                  top: document.body.scrollHeight,
+                  behavior: "smooth",
+                });
+                }}
+                >Contact Us
+              </div>
           </div>
           <div className={styles.navigationChild} />
           <div className={styles.button}>

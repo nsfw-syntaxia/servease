@@ -331,19 +331,19 @@
 }
 
 .authwindow {
-  position: absolute;
-  top: 145px;
-  left: 717px;
+  position: relative;
+  margin-top: 6.5%;
+  margin-left: 34%;
   width: 732px;
   height: 750px;
 }
 
 .closeIcon {
-  position: absolute;
-  top: 129px;
-  right: 50px;
-  width: 32px;
-  height: 32px;
+  position: relative;
+  margin-top: 5%;
+  margin-left: 2%;
+  width: 29px;
+  height: 29px;
   overflow: hidden;
   cursor: pointer;
 }
@@ -373,12 +373,11 @@
 }
 
 .authlogoIcon {
-  position: absolute;
-  left: -160px;
-  top: 525px;
-  transform: translateY(-50%);
-  height: 1050px;
-  width: 1050px;
+  position: fixed;
+  margin-top: 2%;
+  margin-left: -16%;
+  height: 900px;
+  width: 900px;
   object-fit: contain;
   z-index: 1;
 }
