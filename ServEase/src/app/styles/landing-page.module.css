@@ -1306,15 +1306,14 @@ position: relative;
 }
 
 .areYouLookingContainer {
-position: relative;
   top: auto;
   left: auto;
-  line-height: 1.4;
+  line-height:45px;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   width: 100%;
   height: auto;
-  margin: 0;
+  margin-top: 8%;
   padding: 0;
 }
 
@@ -1439,7 +1438,7 @@ position: relative;
   width: 120px;
   height: 120px;
   bottom: 1rem;
-  right: 0.5rem;
+  right: 2rem;
   object-fit: cover;
   z-index: 0;
 }
@@ -1487,15 +1486,14 @@ position: relative;
 }
 
 .areYouOffering {
-  position: relative;
   top: auto;
   left: auto;
-  line-height: 1.4;
+  line-height:45px;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   width: 100%;
   height: auto;
-  margin: 0;
+  margin-top: 8%;
   padding: 0;
 }
 
@@ -1503,8 +1501,8 @@ position: relative;
  position: absolute;
   width: 120px;
   height: 120px;
-  bottom: 1rem;
-  right: 0.5rem;
+  bottom: 2rem;
+  right: 2rem;
   object-fit: cover;
   z-index: 0;
 }
