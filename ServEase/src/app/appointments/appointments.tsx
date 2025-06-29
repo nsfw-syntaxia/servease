@@ -58,7 +58,7 @@ const Appointments: NextPage = () => {
             />
             <div className={styles.servease1}>
               <span className={styles.serv}>serv</span>
-              <b>ease</b>
+              <span className={styles.ease}>ease</span>
             </div>
             <div className={styles.navigationChild} />
             <div className={styles.homeParent}>

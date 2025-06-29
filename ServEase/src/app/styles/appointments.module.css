@@ -278,8 +278,15 @@
   	object-fit: cover;
 }
 .serv {
-  	font-weight: 500;
-    color: var(--color-tan);
+  color: var(--color-tan);
+  font-weight: 500;
+  font-size: 24px;
+}
+
+.ease {
+  color: var(--color-tan);
+  font-weight: 700;
+  font-size: 24px;
 }
 .servease1 {
   	position: relative;
@@ -355,7 +362,7 @@
 }
 .navigation {
   	position: fixed;
-  	top: 47px;
+  	top: 20px;
   	left: calc(50% - 557px);
   	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   	border-radius: 50px;
@@ -696,7 +703,6 @@
   	width: 100%;
   	position: relative;
   	background-color: var(--color-white);
-  	border: 1px solid var(--color-black);
   	box-sizing: border-box;
   	height: 2252px;
   	overflow: hidden;
