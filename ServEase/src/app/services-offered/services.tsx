@@ -1,187 +1,144 @@
+'use client'
+
 import type { NextPage } from "next";
 import Image from "next/image";
+import { useState } from "react";
 import styles from "../styles/servicesoffered.module.css";
 
-const SevicesOffered: NextPage = () => {
-  return (
-    <div className={styles.sevicesOffered}>
-      <div className={styles.joinUsWrapper}>
-        <div className={styles.joinUs}>
-          <div className={styles.joinUsChild} />
-          <div className={styles.paraContent} />
-          <div className={styles.footer}>
-            <div className={styles.footerChild} />
-            <div className={styles.yourTrustedPlatform}>
-              Your trusted platform to discover, book, and manage local
-              services—anytime, anywhere.
-            </div>
-            <b className={styles.contactUs}>Contact Us</b>
-            <div className={styles.supportserveasecom}>
-              support@servease.com
-            </div>
-            <div className={styles.div}>+63 996 3175 214</div>
-            <b className={styles.support}>Support</b>
-            <div className={styles.faqs}>FAQs</div>
-            <div className={styles.privacyPolicy}>Privacy Policy</div>
-            <div className={styles.termsConditions}>{`Terms & Conditions`}</div>
-            <div className={styles.aboutUs}>About Us</div>
-            <b className={styles.quickLinks}>Quick Links</b>
-            <b className={styles.servease}>servease</b>
-            <div className={styles.home}>Home</div>
-            <div className={styles.discover}>Discover</div>
-            <div className={styles.createAnAccount}>Create an Account</div>
-            <div className={styles.lineParent}>
-              <div className={styles.lineDiv} />
-              <div className={styles.servease2025}>
-                servease 2025 © All rights reserved
-              </div>
-            </div>
-            <Image
-              className={styles.serveaseLogoAlbumCover3}
-              width={40}
-              height={40}
-              sizes="100vw"
-              alt=""
-              src="/Servease Logo (Album Cover) (3) 2.png"
-            />
-          </div>
-          <div className={styles.navigation}>
-            <Image
-              className={styles.serveaseLogoAlbumCover31}
-              width={40}
-              height={40}
-              sizes="100vw"
-              alt=""
-              src="/Servease Logo (Album Cover) (3) 1.png"
-            />
-            <div className={styles.servease1}>
-              <span className={styles.serv}>serv</span>
-              <b>ease</b>
-            </div>
-            <div className={styles.navigationChild} />
-            <div className={styles.homeParent}>
-              <div className={styles.home1}>Home</div>
-              <div className={styles.home1}>Discover</div>
-              <div className={styles.contactUs1}>Contact Us</div>
-            </div>
-            <div className={styles.navigationItem} />
-            <div className={styles.genericAvatar}>
-              <Image
-                className={styles.avatarPlaceholderIcon}
-                width={28.2}
-                height={25.6}
-                sizes="100vw"
-                alt=""
-                src="/Avatar.svg"
-              />
-            </div>
-          </div>
-          <div className={styles.joinUsItem} />
-          <div className={styles.joinUsInner}>
-            <div className={styles.serviceNameDescriptionPriceParent}>
-              <div className={styles.serviceNameDescription}>
-                {" "}
-                Service Name Description Price Duration
-              </div>
-              <div className={styles.groupParent}>
-                <div className={styles.groupWrapper}>
-                  <div className={styles.groupContainer}>
-                    <div className={styles.groupContainer}>
-                      <div className={styles.heroImage}>
-                        <div className={styles.serviceName1}>
-                          service name 1
-                        </div>
-                        <div className={styles.description}>description</div>
-                        <div className={styles.p50000}>P500.00</div>
-                        <div className={styles.min}>30 min.</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.groupFrame}>
-                  <div className={styles.groupContainer}>
-                    <div className={styles.groupContainer}>
-                      <div className={styles.heroImage}>
-                        <div className={styles.serviceName1}>
-                          service name 1
-                        </div>
-                        <div className={styles.description}>description</div>
-                        <div className={styles.p50000}>P500.00</div>
-                        <div className={styles.min}>30 min.</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.groupWrapper1}>
-                  <div className={styles.groupContainer}>
-                    <div className={styles.groupContainer}>
-                      <div className={styles.heroImage}>
-                        <div className={styles.serviceName1}>
-                          service name 1
-                        </div>
-                        <div className={styles.description}>description</div>
-                        <div className={styles.p50000}>P500.00</div>
-                        <div className={styles.min}>30 min.</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <b className={styles.servicesOffered}>
-        <span className={styles.servicesOfferedTxtContainer}>
-          <span>Services</span>
-          <span className={styles.offered}> Offered</span>
-        </span>
-      </b>
-      <b className={styles.profile}>Profile</b>
-      <div className={styles.buttonParent}>
-        <div className={styles.button}>
-          <div className={styles.buttonInner}>
-            <div className={styles.addServiceWrapper}>
-              <div className={styles.addService}>Add Service</div>
-            </div>
-          </div>
-          <Image
-            className={styles.buttonChild}
-            width={18}
-            height={18}
-            sizes="100vw"
-            alt=""
-            src="/plus.svg"
-          />
-        </div>
-        <div className={styles.buttonWrapper}>
-          <div className={styles.button1}>
-            <div className={styles.buttonInner1}>
-              <div className={styles.addServiceWrapper}>
-                <div className={styles.addService}>Edit</div>
-              </div>
-            </div>
-            <Image
-              className={styles.edit03Icon}
-              width={20}
-              height={20}
-              sizes="100vw"
-              alt=""
-              src="/edit.svg"
-            />
-          </div>
-        </div>
-      </div>
-      <Image
-        className={styles.outlineArrowsArrowLeft}
-        width={26}
-        height={26}
-        sizes="100vw"
-        alt=""
-        src="/Arrow Left.svg"
-      />
+// Mock data to simulate fetching services from an API
+const mockServices = [
+  { id: 1, name: "service name 1", description: "description", price: "P500.00", duration: "30 min." },
+  { id: 2, name: "service name 1", description: "description", price: "P500.00", duration: "30 min." },
+  { id: 3, name: "service name 1", description: "description", price: "P500.00", duration: "30 min." },
+  // You can add more services here to see the list grow
+];
+
+// Reusable component for a single row in the services table
+const ServiceRow = ({ service }: { service: any }) => (
+    <div className={styles.serviceRow}>
+        <div className={styles.tableCell}>{service.name}</div>
+        <div className={styles.tableCell}>{service.description}</div>
+        <div className={styles.tableCell}>{service.price}</div>
+        <div className={styles.tableCell}>{service.duration}</div>
     </div>
-  );
+);
+
+const ServicesOfferedPage: NextPage = () => {
+    const [services, setServices] = useState(mockServices);
+
+    return (
+        <div className={styles.pageContainer}>
+            {/* ===== HEADER / NAVIGATION ===== */}
+            <header className={styles.navigation}>
+                <div className={styles.navBrand}>
+                    <Image
+                        width={40}
+                        height={40}
+                        alt="Servease Logo"
+                        src="/Servease Logo.svg"
+                    />
+                    <div className={styles.logoText}>
+                        <span className={styles.serv}>serv</span>
+                        <span className={styles.ease}>ease</span>
+                    </div>
+                </div>
+                <nav className={styles.navLinks}>
+                    <a className={styles.navLink}>Home</a>
+                    <a className={styles.navLink}>Discover</a>
+                    <a className={styles.navLink}>Contact Us</a>
+                </nav>
+                <div className={styles.userAvatar}>
+                    <Image
+                        width={28}
+                        height={26}
+                        alt="User Avatar"
+                        src="/Avatar.svg"
+                    />
+                </div>
+            </header>
+
+            <main className={styles.mainContent}>
+                <h1 className={styles.profileTitle}>Profile</h1>
+                
+                <div className={styles.servicesHeader}>
+                  <div className={styles.backArrow}>
+                      <Image
+                        width={26}
+                        height={26}
+                        alt="Back"
+                        src="/Arrow Left.svg"
+                      />
+                  </div>
+                  <h2 className={styles.servicesTitle}>Services Offered</h2>
+                </div>
+
+                <div className={styles.servicesTable}>
+                    <div className={styles.tableHeader}>
+                        <div className={styles.headerCell}>Service Name</div>
+                        <div className={styles.headerCell}>Description</div>
+                        <div className={styles.headerCell}>Price</div>
+                        <div className={styles.headerCell}>Duration</div>
+                    </div>
+
+                    <div className={styles.tableBody}>
+                        {services.map((service) => (
+                            <ServiceRow key={service.id} service={service} />
+                        ))}
+                    </div>
+                </div>
+
+                <div className={styles.actionButtons}>
+                    <button className={`${styles.btn} ${styles.editButton}`}>
+                        <Image width={20} height={20} alt="Edit" src="/edit.svg" />
+                        <span>Edit</span>
+                    </button>
+                    <button className={`${styles.btn} ${styles.addButton}`}>
+                        <Image width={18} height={18} alt="Add" src="/plus.svg" />
+                        <span>Add Service</span>
+                    </button>
+                </div>
+            </main>
+
+            <footer className={styles.footer}>
+                <div className={styles.footerContent}>
+                    <div className={styles.footerColumn}>
+                        <div className={styles.footerLogo}>
+                            <Image
+                                width={40}
+                                height={40}
+                                alt="Servease Logo"
+                                src="/Servease Logo (Album Cover) (3) 2.png"
+                            />
+                            <b>servease</b>
+                        </div>
+                        <p>Your trusted platform to discover, book, and manage local services—anytime, anywhere.</p>
+                    </div>
+                    <div className={styles.footerColumn}>
+                        <b>Quick Links</b>
+                        <a className={styles.footerLink}>Home</a>
+                        <a className={styles.footerLink}>Discover</a>
+                        <a className={styles.footerLink}>Create an Account</a>
+                    </div>
+                    <div className={styles.footerColumn}>
+                        <b>Support</b>
+                        <a className={styles.footerLink}>FAQs</a>
+                        <a className={styles.footerLink}>Privacy Policy</a>
+                        <a className={styles.footerLink}>Terms & Conditions</a>
+                        <a className={styles.footerLink}>About Us</a>
+                    </div>
+                    <div className={styles.footerColumn}>
+                        <b>Contact Us</b>
+                        <a className={styles.footerLink}>support@servease.com</a>
+                        <a className={styles.footerLink}>+63 996 3175 214</a>
+                    </div>
+                </div>
+                <div className={styles.footerBottom}>
+                    <div className={styles.footerLine} />
+                      <p>servease 2025 © All rights reserved</p>
+                </div>
+            </footer>
+        </div>
+    );
 };
 
-export default SevicesOffered;
+export default ServicesOfferedPage;
