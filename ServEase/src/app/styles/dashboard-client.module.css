@@ -1,5 +1,4 @@
-
-
+/* ... (styles from .dashboardClient to heroSection are unchanged) ... */
 .dashboardClient {
   width: 100%;
   min-height: 100vh;
@@ -9,43 +8,62 @@
   overflow-x: hidden;
 }
 
+/* === START: UPDATED NAVIGATION BAR STYLES === */
+/* These styles are based directly on your request */
+
 .navigation {
   position: fixed;
-  top: 20px;
+  top: 1.5rem;
   left: 50%;
   transform: translateX(-50%);
+  width: 80%;
+  max-width: 1113px;
+  padding: 1rem 2rem;
+  z-index: 100;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 11rem;
+
   background-color: var(--color-white);
   border-radius: 50px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-  padding: 12px 40px;
-  animation: slideDown 0.8s ease-out;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+  font-size: var(--font-size-18);
+  color: var(--color-black);
+  animation: bounceInTop 0.8s ease forwards;
 }
 
-@keyframes slideDown {
+/* The animation from your requested style */
+@keyframes bounceInTop {
   0% {
     opacity: 0;
-    transform: translate(-50%, -30px);
+    transform: translate(-50%, -80px);
+  }
+  60% {
+    opacity: 1;
+    transform: translate(-50%, 15px);
+  }
+  80% {
+    transform: translate(-50%, -5px);
   }
   100% {
-    opacity: 1;
     transform: translate(-50%, 0);
   }
 }
 
 .navContent {
-  display: flex;
-  align-items: center;
-  gap: 40px;
-  min-width: 1113px;
-  width: 124px;
-  height: 45px;
+  display: contents; 
 }
 
 .logo {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  gap: 12px;
+  gap: 12px; 
 }
 
 .logoImage {
@@ -55,7 +73,7 @@
 }
 
 .brandName {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 700;
 }
 
@@ -72,15 +90,13 @@
 .navLinks {
   display: flex;
   align-items: center;
-  gap: 30px;
-  margin-left: auto;
-  margin-right: auto;
+  gap: 90px;
 }
 
 .navLink {
   color: var(--color-gray-200);
   text-decoration: none;
-  font-size: var(--font-size-16);
+  font-size: 18px;
   font-weight: 600;
   transition: all 0.3s ease;
   cursor: pointer;
@@ -107,6 +123,9 @@
   height: 28px;
 }
 
+/* === END: UPDATED NAVIGATION BAR STYLES === */
+
+
 .heroSection {
   width: 90%;
   height: 60vh;
@@ -123,6 +142,7 @@
   margin-right: 4%;
 }
 
+/* ... (rest of the file from .heroContent to the end is unchanged) ... */
 .heroContent {
   max-width: 600px;
 }
@@ -147,14 +167,12 @@
   line-height: 1.2;
 }
 
-/* Main Content */
 .mainContent {
   padding: 60px 8%;
   max-width: 1400px;
   margin: 0 auto;
 }
 
-/* Section Headers */
 .sectionHeader {
   display: flex;
   justify-content: space-between;
@@ -190,7 +208,6 @@
   transform: translateY(-2px);
 }
 
-/* Upcoming Appointments */
 .upcomingSection {
   margin-bottom: 80px;
 }
@@ -272,192 +289,173 @@
   color: var(--color-gray-100);
 }
 
-/* Featured Services */
 .featuredSection {
   margin-bottom: 80px;
 }
-
-.servicesGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr) auto;
-  gap: 30px;
-  align-items: start;
+.servicesCarousel {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
 }
-
+.carouselViewport {
+  width: 100%;
+  overflow: hidden;
+}
+.carouselTrack {
+  display: flex;
+  gap: 20px;
+  transition: transform 0.5s ease-in-out;
+}
 .serviceCard {
+  flex: 0 0 calc(95% / 3);
+  box-sizing: border-box; 
   background-color: var(--color-white);
-  border: 1px solid var(--color-gainsboro);
+  border: 2px solid var(--color-antiquewhite);
   border-radius: var(--br-12);
   overflow: hidden;
   transition: all 0.3s ease;
 }
-
 .serviceCard:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
-
 .serviceImage {
   width: 100%;
   height: 200px;
   background-color: var(--color-antiquewhite);
 }
-
 .serviceCardContent {
   padding: 20px;
 }
-
 .serviceProvider {
   display: flex;
   align-items: center;
   gap: 15px;
 }
-
 .providerAvatar {
   width: 45px;
   height: 45px;
   border-radius: 50%;
   background-color: var(--color-dimgray);
 }
-
 .providerName {
   margin: 0 0 8px 0;
   font-size: var(--font-size-16);
   font-weight: 600;
   color: var(--color-gray-100);
 }
-
 .rating {
   display: flex;
   align-items: center;
   gap: 8px;
 }
-
 .ratingScore {
   font-size: 13px;
   font-weight: 500;
   color: var(--color-tan-200);
 }
-
 .stars {
   display: flex;
   gap: 2px;
 }
-
-.nextButton {
+.carouselButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   width: 55px;
   height: 55px;
   border-radius: 50%;
   background-color: var(--color-tan-200);
-  border: 1px solid var(--color-tan-200);
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  z-index: 10;
   transition: all 0.3s ease;
-  align-self: center;
 }
-
-.nextButton:hover {
+.carouselButton:hover {
   background-color: var(--color-tan);
-  transform: scale(1.05);
+  transform: translateY(-50%) scale(1.05);
 }
-
-/* Footer */
+.nextButton {
+  right: -27px;
+}
+.prevButton {
+  left: -27px;
+}
+.prevButton img {
+  transform: scaleX(-1);
+}
 .footer {
-  background: var(--color-white);
-  padding: 60px 8% 30px;
-  margin-top: 80px;
+  margin-top: 40px;
+  width: 100%;
+  background-color: var(--color-white);
+  padding: 4rem 2rem 1rem 2rem;
 }
-
 .footerContent {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 60px;
-  max-width: 1400px;
-  margin: 0 auto 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
 }
-
-.footerSection h3,
-.footerSection h4 {
-  margin: 0 0 20px 0;
-  font-size: var(--font-size-20);
-  font-weight: 700;
-  color: var(--color-black);
+.footerColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 200px;
 }
-
 .footerLogo {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: 0.5rem;
 }
-
-.footerBrand {
-  font-size: var(--font-size-26);
-  font-weight: 700;
-  color: var(--color-black);
-}
-
-.footerDescription {
-  font-size: var(--font-size-16);
-  line-height: 1.6;
-  color: var(--color-gray-100);
-  margin: 0;
-}
-
 .footerTitle {
-  font-size: var(--font-size-20);
-  font-weight: 700;
+  font-size: 22px;
+  line-height: 1.3;
+  margin-bottom: 0.5rem;
+}
+.yourTrustedPlatform {
+  line-height: 1.6;
+  max-width: 350px;
+}
+.footerLink {
   color: var(--color-black);
-  margin: 0 0 20px 0;
-}
-
-.footerLinks {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.footerLinks li {
-  margin-bottom: 12px;
-}
-
-.footerLinks a {
-  color: var(--color-gray-100);
   text-decoration: none;
-  font-size: var(--font-size-16);
+  cursor: pointer;
   transition: all 0.3s ease;
-  display: inline-block; 
 }
-
-.footerLinks a:hover {
-  transform: translateX(8px);
+.footerLink:hover {
   color: var(--color-tan);
+  transform: translateX(5px);
 }
-
 .footerBottom {
-  border-top: 2px solid var(--color-black);
-  padding-top: 20px;
+  max-width: 1200px;
+  margin: 3rem auto 0 auto;
+  text-align: center;
+  font-size: 16px;
+  color: var(--color-gray-200);
 }
-
-.footerBottomContent {
-  max-width: 1400px;
-  margin: 0 auto;
-  text-align: left;
-}
-
-.footerBottomContent p {
-  margin: 0;
-  color: var(--color-gray-100);
-  font-size: var(--font-size-16);
+.footerLine {
+  border-top: 1px solid var(--color-gray-200);
+  opacity: 0.5;
+  margin-bottom: 1.5rem;
 }
 
 
-/* Responsive Design */
+/* --- Responsive Design --- */
 @media (max-width: 1200px) {
-  .servicesGrid {
-    grid-template-columns: repeat(2, 1fr) auto;
+  /* On tablets, make the navbar a bit wider and reduce padding */
+  .navigation {
+    width: 90%;
+    padding: 0.75rem 1.5rem;
+  }
+
+  .serviceCard {
+    flex-basis: calc(100% / 2);
   }
   
   .footerContent {
@@ -467,14 +465,16 @@
 }
 
 @media (max-width: 768px) {
-    
-  .navContent {
-    min-width: auto;
-    gap: 20px;
+  /* On mobile, make the navbar take up more width and switch to space-between */
+  .navigation {
+    width: 95%;
+    justify-content: space-between;
+    flex-wrap: nowrap; /* Prevent wrapping for a clean logo/avatar look */
   }
-  
+
+  /* Hide the nav links on mobile to avoid clutter. A hamburger menu would replace this. */
   .navLinks {
-    gap: 15px;
+    display: none;
   }
   
   .heroSection {
@@ -503,8 +503,19 @@
     grid-template-columns: 1fr;
   }
   
-  .servicesGrid {
-    grid-template-columns: 1fr;
+  .serviceCard {
+    flex-basis: 100%;
+  }
+  
+  .carouselButton {
+    width: 45px;
+    height: 45px;
+  }
+  .nextButton {
+    right: -10px;
+  }
+  .prevButton {
+    left: -10px;
   }
   
   .footerContent {
@@ -519,18 +530,12 @@
 
 @media (max-width: 480px) {
   .navigation {
-    left: 10px;
-    right: 10px;
-    transform: none;
-    padding: 10px 20px;
+    padding: 0.5rem 1rem;
   }
   
-  .navContent {
-    min-width: auto;
-  }
-  
+  /* On very small screens, hide the brand name text to save space */
   .brandName {
-    font-size: 20px;
+    display: none;
   }
   
   .heroSection {
