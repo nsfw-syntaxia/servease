@@ -38,7 +38,7 @@ const MS: NextPage = () => {
         </div>
         <b className={styles.contactUs}>Contact Us</b>
         <div className={styles.supportserveasecom}>support@servease.com</div>
-        <div className={styles.contactNumber}>+63 9XX-XXX-XXXX</div>
+        <div className={styles.contactNumber}>+63 996 3175 214</div>
         <b className={styles.support}>Support</b>
         <div className={styles.faqs}>FAQs</div>
         <div className={styles.privacyPolicy}>Privacy Policy</div>
@@ -52,7 +52,12 @@ const MS: NextPage = () => {
         <div className={styles.home} onClick={() => router.push("/home")}>
           Home
         </div>
-        <div className={styles.discover}>Discover</div>
+        <div
+          className={styles.discover}
+          onClick={() => router.push("/discover")}
+        >
+          Discover
+        </div>
         <div
           className={styles.createAnAccount}
           onClick={() => router.push("/signup")}
@@ -711,9 +716,7 @@ const MS: NextPage = () => {
       {/* hero img */}
       <div className={styles.heroImg}>
         <div className={styles.image12} />
-        <div className={styles.personalBeautyAnd}>
-          Miscellaneous Services
-        </div>
+        <div className={styles.personalBeautyAnd}>Miscellaneous Services</div>
       </div>
 
       {/* nav */}
@@ -725,8 +728,9 @@ const MS: NextPage = () => {
           sizes="100vw"
           alt=""
           src="/logo.svg"
+          onClick={() => router.push("/home")}
         />
-        <div className={styles.servease1}>
+        <div className={styles.servease1} onClick={() => router.push("/home")}>
           <span className={styles.serv}>serv</span>
           <b>ease</b>
         </div>
@@ -735,7 +739,12 @@ const MS: NextPage = () => {
           <div className={styles.home1} onClick={() => router.push("/home")}>
             Home
           </div>
-          <div className={styles.home1}>Discover</div>
+          <div
+            className={styles.home1}
+            onClick={() => router.push("/discover")}
+          >
+            Discover
+          </div>
           <div
             className={styles.contactUs1}
             onClick={() => {

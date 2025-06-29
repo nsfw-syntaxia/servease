@@ -50,7 +50,6 @@ const FeaturedServiceCard = ({ service }: { service: any }) => (
         <div className={styles.providerInfo}>
           <h3 className={styles.providerName}>{service.providerName}</h3>
           <div className={styles.rating}>
-            <span className={styles.ratingScore}>{service.rating.toFixed(1)}</span>
             <div className={styles.stars}>
               <Image width={16} height={16} src="/Star 3.svg" alt="Star" />
               <Image width={16} height={16} src="/Star 3.svg" alt="Star" />
@@ -58,6 +57,7 @@ const FeaturedServiceCard = ({ service }: { service: any }) => (
               <Image width={16} height={16} src="/Star 3.svg" alt="Star" />
               <Image width={16} height={16} src="/Star 4.svg" alt="Star" />
             </div>
+            <span className={styles.ratingScore}>{service.rating.toFixed(1)}</span>
           </div>
         </div>
       </div>

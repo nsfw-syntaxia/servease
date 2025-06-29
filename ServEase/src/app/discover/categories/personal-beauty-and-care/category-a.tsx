@@ -243,6 +243,7 @@ const PBACS: NextPage = () => {
     <div className={styles.pbacs}>
       {/* popular services */}
       <div className={styles.popularServices}>
+
         <b className={styles.allServices1}>
           <span>Popular</span>
           <span className={styles.services}> Services</span>
@@ -500,8 +501,9 @@ const PBACS: NextPage = () => {
           sizes="100vw"
           alt=""
           src="/logo.svg"
+          onClick={() => router.push("/home")}
         />
-        <div className={styles.servease1}>
+        <div className={styles.servease1} onClick={() => router.push("/home")}>
           <span className={styles.serv}>serv</span>
           <b>ease</b>
         </div>

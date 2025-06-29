@@ -75,9 +75,7 @@ const Appointments: NextPage = () => {
 
   return (
     <div className={styles.appointmentsPage}>
-      {/* ===== NAVIGATION BAR ===== */}
        <header className={styles.navigation}>
-        {/* New wrapper for logo and brand name */}
         <div className={styles.navBrand}>
             <Image
               className={styles.logoIcon}
@@ -156,7 +154,6 @@ const Appointments: NextPage = () => {
         </div>
       </main>
 
-      {/* ===== FOOTER ===== */}
       <footer className={styles.footer}>
         <div className={styles.footerContent}>
             <div className={styles.footerColumn}>
