@@ -255,9 +255,9 @@
 }
 
 .newServices {
-  position: absolute;
-  top: 1561px;
-  left: 121px;
+  position: relative;
+  top: 1020px;
+  margin: 0 auto;
   width: 1195px;
   display: flex;
   flex-direction: column;

@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import styles from "../../../styles/discover-2-a.module.css";
 
-const FeaturedServiceCard = ({ service }: { service: any }) => (
+const PopularServiceCard = ({ service }: { service: any }) => (
   <div className={styles.serviceCard}>
     <div className={styles.serviceImage}></div>
     <div className={styles.serviceCardContent}>
@@ -62,6 +62,22 @@ const FeaturedServiceCard = ({ service }: { service: any }) => (
     </div>
   </div>
 );
+const FeaturedServiceCard = ({ service }: { service: any }) => (
+  <div className={styles.serviceCard}>
+    <div className={styles.serviceImage}></div>
+    <div className={styles.serviceCardContent}>
+      <div className={styles.serviceProvider}>
+        <div className={styles.providerAvatar}></div>
+        <div className={styles.providerInfo}>
+          <h3 className={styles.providerName}>{service.providerName}</h3>
+          <div className={styles.rating}>
+            <span className={styles.ratingScore}>{service.location}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
 
 const PBACS: NextPage = () => {
   const [showPrev, setShowPrev] = useState(false);
@@ -107,7 +123,7 @@ const PBACS: NextPage = () => {
   const handlePrevClickNew = () => {
     setShowPrevNew(false);
   };
-  const [featuredServices, setFeaturedServices] = useState([
+  const [popularServices, setPopularServices] = useState([
     { id: 1, providerName: "Glamour Salon", rating: 4.5 },
     { id: 2, providerName: "AutoCare Experts", rating: 4.8 },
     { id: 3, providerName: "HomeClean Pro", rating: 4.2 },
@@ -115,13 +131,23 @@ const PBACS: NextPage = () => {
     { id: 5, providerName: "Tech-Fix It", rating: 4.6 },
     { id: 6, providerName: "GardenScapes", rating: 4.7 },
   ]);
+  const [featuredServices, setFeaturedServices] = useState([
+    { id: 1, providerName: "Glamour Salon", location: "Cebu City" },
+    { id: 2, providerName: "AutoCare Experts", location: "Cebu City" },
+    { id: 3, providerName: "HomeClean Pro", location: "Cebu City" },
+    { id: 4, providerName: "PetPamper Palace", location: "Cebu City" },
+    { id: 5, providerName: "Tech-Fix It", location: "Cebu City" },
+    { id: 6, providerName: "GardenScapes", location: "Cebu City" },
+  ]);
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex1, setCurrentIndex1] = useState(0);
   const visibleServices = 3; // How many services are visible at once
+  const visibleServices1 = 3;
 
   const handleNext = () => {
     // Stop at the last possible slide to not show empty space
-    if (currentIndex < featuredServices.length - visibleServices) {
+    if (currentIndex < popularServices.length - visibleServices) {
       setCurrentIndex((prevIndex) => prevIndex + 3);
     }
   };
@@ -130,6 +156,19 @@ const PBACS: NextPage = () => {
     // Stop at the beginning
     if (currentIndex > 0) {
       setCurrentIndex((prevIndex) => prevIndex - 3);
+    }
+  };
+  const handleNext1 = () => {
+    // Stop at the last possible slide to not show empty space
+    if (currentIndex1 < featuredServices.length - visibleServices1) {
+      setCurrentIndex1((prevIndex1) => prevIndex1 + 3);
+    }
+  };
+
+  const handlePrev1 = () => {
+    // Stop at the beginning
+    if (currentIndex1 > 0) {
+      setCurrentIndex1((prevIndex1) => prevIndex1 - 3);
     }
   };
 
@@ -450,67 +489,6 @@ const PBACS: NextPage = () => {
         </div>
       </div>
 
-      {/* new services */}
-      <div className={styles.newServices}>
-        <b className={styles.allServices1}>
-          <span>New</span>
-          <span className={styles.services}> Services</span>
-        </b>
-        <div
-          className={`${styles.popularCards} ${
-            showPrevNew ? styles.centeredCards : ""
-          }`}
-        >
-          {showPrevNew && (
-            <div className={styles.btnprev} onClick={handlePrevClickNew}>
-              <div className={styles.btn}>
-                <div className={styles.chevronLeft}>
-                  <Image
-                    className={styles.icon}
-                    width={7.5}
-                    height={15}
-                    alt=""
-                    src="/swipeLeft.svg"
-                  />
-                </div>
-              </div>
-            </div>
-          )}
-          {[1, 2, 3].map((item) => (
-            <div className={styles.service6} key={item}>
-              <div className={styles.serviceChild1} />
-              <div className={styles.avatarWrapper1}>
-                <div className={styles.avatar28}>
-                  <div className={styles.avatar1} />
-                  <div className={styles.serviceFacilityNameParent}>
-                    <div className={styles.serviceFacilityName}>
-                      Service Facility Name
-                    </div>
-                    <div className={styles.parent3}>
-                      <div className={styles.location}>Location</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-          <div className={styles.btnnext} onClick={handleNextClickNew}>
-            <div className={styles.btn}>
-              <div className={styles.chevronRight}>
-                <Image
-                  className={styles.icon}
-                  width={7.5}
-                  height={15}
-                  alt=""
-                  src="/swipeRight.svg"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className={styles.line1} />
-      </div>
-
       {/* popular services */}
       <div className={styles.popularServices}>
         <b className={styles.allServices1}>
@@ -541,6 +519,60 @@ const PBACS: NextPage = () => {
                 transform: `translateX(calc(-${currentIndex} * (100% / ${visibleServices})))`,
               }}
             >
+              {popularServices.map((service) => (
+                <PopularServiceCard key={service.id} service={service} />
+              ))}
+            </div>
+          </div>
+
+          {/* Show Next button only if not at the end */}
+          {currentIndex < popularServices.length - visibleServices && (
+            <button
+              className={`${styles.carouselButton} ${styles.nextButton}`}
+              onClick={handleNext}
+            >
+              <Image
+                width={28}
+                height={28}
+                src="/Chevron right.svg"
+                alt="Next"
+              />
+            </button>
+          )}
+        </div>
+        <div className={styles.line1} />
+      </div>
+
+      {/* new services */}
+      <div className={styles.newServices}>
+        <b className={styles.allServices1}>
+          <span>New</span>
+          <span className={styles.services}> Services</span>
+        </b>
+        <div className={styles.servicesCarousel}>
+          {/* Show Prev button only if not at the beginning */}
+          {currentIndex1 > 0 && (
+            <button
+              className={`${styles.carouselButton} ${styles.prevButton}`}
+              onClick={handlePrev1}
+            >
+              <Image
+                width={28}
+                height={28}
+                src="/Chevron right.svg"
+                alt="Previous"
+              />
+            </button>
+          )}
+
+          <div className={styles.carouselViewport}>
+            <div
+              className={styles.carouselTrack}
+              style={{
+                // This inline style moves the track one card-width at a time
+                transform: `translateX(calc(-${currentIndex1} * (100% / ${visibleServices1})))`,
+              }}
+            >
               {featuredServices.map((service) => (
                 <FeaturedServiceCard key={service.id} service={service} />
               ))}
@@ -548,10 +580,10 @@ const PBACS: NextPage = () => {
           </div>
 
           {/* Show Next button only if not at the end */}
-          {currentIndex < featuredServices.length - visibleServices && (
+          {currentIndex1 < featuredServices.length - visibleServices1 && (
             <button
               className={`${styles.carouselButton} ${styles.nextButton}`}
-              onClick={handleNext}
+              onClick={handleNext1}
             >
               <Image
                 width={28}
