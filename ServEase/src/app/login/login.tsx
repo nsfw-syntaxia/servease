@@ -82,7 +82,16 @@ const Login: NextPage = () => {
   return (
     <div className={styles.login}>
       <div className={styles.login1}>
+        <Image
+          className={styles.authlogoIcon}
+          width={832}
+          height={978}
+          sizes="100vw"
+          alt=""
+          src="/authLogo.svg"
+        />
         <div className={styles.background} />
+
         <div className={styles.authwindow}>
           <div className={styles.authwindow1} />
           <div className={styles.authcontent}>
@@ -224,14 +233,6 @@ const Login: NextPage = () => {
           alt=""
           src="/close.svg"
           onClick={() => router.push("/home")}
-        />
-        <Image
-          className={styles.authlogoIcon}
-          width={832}
-          height={978}
-          sizes="100vw"
-          alt=""
-          src="/authLogo.svg"
         />
       </div>
     </div>
