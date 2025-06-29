@@ -35,17 +35,19 @@ const Login: NextPage = () => {
     setError("");
     setShowError(false);
 
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
     if (!email || !password) {
       setError("Please fill in all required fields.");
       setShowError(true);
-      setIsClicked(false);
+      setTimeout(() => setIsClicked(false), 100);
       return;
     }
 
     if (!validateEmail(email)) {
       setError("Please enter a valid email address.");
       setShowError(true);
-      setIsClicked(false);
+      setTimeout(() => setIsClicked(false), 100);
       return;
     }
 
@@ -54,21 +56,42 @@ const Login: NextPage = () => {
       formData.append("email", email);
       formData.append("password", password);
 
-      await login(formData);
-      router.push("/discover");
+      setError(undefined); // Clear previous errors
+
+      // Call the server action
+      const result = await login(formData);
+
+      // Handle the result
+      if (result.success) {
+        router.push("/discover");
+      } else {
+        setError(
+          result.error || "Login failed. Please check your credentials."
+        );
+        setShowError(true);
+      }
     } catch (error) {
       console.error("Login failed:", error);
       setError("Login failed. Please check your credentials and try again.");
       setShowError(true);
     } finally {
-      setIsClicked(false);
+      setTimeout(() => setIsClicked(false), 200);
     }
   };
 
   return (
     <div className={styles.login}>
       <div className={styles.login1}>
+        <Image
+          className={styles.authlogoIcon}
+          width={832}
+          height={978}
+          sizes="100vw"
+          alt=""
+          src="/authLogo.svg"
+        />
         <div className={styles.background} />
+
         <div className={styles.authwindow}>
           <div className={styles.authwindow1} />
           <div className={styles.authcontent}>
@@ -210,14 +233,6 @@ const Login: NextPage = () => {
           alt=""
           src="/close.svg"
           onClick={() => router.push("/home")}
-        />
-        <Image
-          className={styles.authlogoIcon}
-          width={832}
-          height={978}
-          sizes="100vw"
-          alt=""
-          src="/authLogo.svg"
         />
       </div>
     </div>
