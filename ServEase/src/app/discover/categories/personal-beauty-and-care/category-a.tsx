@@ -243,7 +243,6 @@ const PBACS: NextPage = () => {
     <div className={styles.pbacs}>
       {/* popular services */}
       <div className={styles.popularServices}>
-
         <b className={styles.allServices1}>
           <span>Popular</span>
           <span className={styles.services}> Services</span>
