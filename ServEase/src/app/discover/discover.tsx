@@ -6,13 +6,11 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import styles from "../styles/DiscoverPage.module.css";
 
-
 const DiscoverPage: NextPage = () => {
   const router = useRouter();
   const onLinkContainerClick = useCallback(() => {
     console.log("Link clicked!");
   }, []);
-
 
   return (
     <div className={styles.discover1Parent}>
@@ -25,7 +23,7 @@ const DiscoverPage: NextPage = () => {
           </div>
           <b className={styles.contactUs}>Contact Us</b>
           <div className={styles.supportserveasecom}>support@servease.com</div>
-          <div className={styles.contactNumber}>+63 9XX-XXX-XXXX</div>
+          <div className={styles.contactNumber}>+63 996 3175 214</div>
           <b className={styles.support}>Support</b>
           <div className={styles.faqs}>FAQs</div>
           <div className={styles.privacyPolicy}>Privacy Policy</div>
@@ -39,7 +37,7 @@ const DiscoverPage: NextPage = () => {
           <div className={styles.home} onClick={() => router.push("/home")}>
             Home
           </div>
-          <div 
+          <div
             className={styles.discover}
             onClick={() => {
               window.scrollTo({ top: 0, behavior: "smooth" });
@@ -47,13 +45,13 @@ const DiscoverPage: NextPage = () => {
           >
             Discover
           </div>
-          <div 
+          <div
             className={styles.createAnAccount}
             onClick={() => router.push("/signup")}
           >
             Create an Account
           </div>
-          
+
           <div className={styles.lineParent}>
             <div className={styles.lineDiv} />
             <div className={styles.servease2025}>
@@ -70,7 +68,7 @@ const DiscoverPage: NextPage = () => {
             onClick={() => router.push("/home")}
           />
         </div>
-        
+
         <div className={styles.whatweofferbox} />
         <div className={styles.background}>
           <div className={styles.link} onClick={onLinkContainerClick}>
@@ -193,51 +191,62 @@ const DiscoverPage: NextPage = () => {
         <div className={styles.heroImage}>
           <div className={styles.image10} />
         </div>
-        <div className={styles.navigation}>
+
+        {/* nav */}
+        <div className={styles.nav}>
           <Image
-            className={styles.serveaseLogoAlbumCover31}
+            className={styles.serveaseLogoAlbumCover3}
             width={40}
             height={40}
             sizes="100vw"
             alt=""
-            src="/Servease Logo.svg"
+            src="/logo.svg"
+            onClick={() => router.push("/home")}
           />
-          <div className={styles.servease1}>
+          <div
+            className={styles.servease1}
+            onClick={() => router.push("/home")}
+          >
             <span className={styles.serv}>serv</span>
             <b>ease</b>
           </div>
-          <div className={styles.navigationChild} />
+          <div className={styles.navChild} />
           <div className={styles.homeParent}>
-            <div 
-              className={styles.home1}
-              onClick={() => router.push("/home")}
-              >Home
+            <div className={styles.home1} onClick={() => router.push("/home")}>
+              Home
             </div>
-            <div 
+            <div
               className={styles.home1}
               onClick={() => {
-              window.scrollTo({ top: 0, behavior: "smooth" });
+                window.scrollTo({ top: 0, behavior: "smooth" });
               }}
-              >Discover
+            >
+              Discover
             </div>
-            <div 
+            <div
               className={styles.contactUs1}
               onClick={() => {
                 window.scrollTo({
                   top: document.body.scrollHeight,
                   behavior: "smooth",
                 });
-                }}
-                >Contact Us
-              </div>
+              }}
+            >
+              Contact Us
+            </div>
           </div>
-          <div className={styles.navigationChild} />
-          <div className={styles.button}>
-            <div className={styles.star} />
-            <div className={styles.signIn}>Sign in</div>
-            <div className={styles.star} />
+          <div className={styles.navChild} />
+          <div className={styles.buttonS}>
+            <div
+              className={styles.signIn}
+              onClick={() => router.push("/login")}
+            >
+              Sign in
+            </div>
           </div>
         </div>
+
+        {/* search */}
         <div className={styles.form}>
           <div className={styles.verticalborder}>
             <div className={styles.link7}>
