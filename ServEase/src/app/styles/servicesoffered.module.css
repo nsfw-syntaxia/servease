@@ -134,10 +134,15 @@
 
 .tableHeader, .serviceRow {
   display: grid;
-  grid-template-columns: 2fr 3fr 1fr 1fr; /* Defines the 4 column layout */
+  grid-template-columns: 2.5fr 3.5fr 1fr 1fr; 
   gap: 1.5rem;
   align-items: center;
   padding: 0 2rem;
+  transition: grid-template-columns 0.3s ease;
+}
+
+.editModeHeader, .editModeRow {
+  grid-template-columns: 2.5fr 3.5fr 1fr 1fr 0.5fr;
 }
 
 .tableHeader {
@@ -145,6 +150,8 @@
   font-weight: 800;
   font-size: 20px;
 }
+
+
 
 .serviceRow {
   background-color: #E9E1D9; /* Row background from image */
@@ -179,7 +186,6 @@
   padding: 12px 24px;
   border-radius: 12px;
   border: none;
-  background-color: var(--color-tan);
   color: white;
   font-size: 18px;
   font-weight: 500;
@@ -194,6 +200,17 @@
 
 .editButton {
   padding: 12px 20px;
+  background-color: var(--color-tan);
+}
+
+.addButton {
+  padding: 12px 20px;
+  background-color: var(--color-tan);
+}
+
+.doneButton {
+  background-color: var(--color-dimgray);
+  color: white;
 }
 
 .footer {

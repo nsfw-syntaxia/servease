@@ -14,21 +14,49 @@ const mockServices = [
 ];
 
 // Reusable component for a single row in the services table
-const ServiceRow = ({ service }: { service: any }) => (
-    <div className={styles.serviceRow}>
+const ServiceRow = ({ service, isEditMode, onDelete }: { service: any, isEditMode: boolean, onDelete: (id: number) => void }) => (
+    <div className={`${styles.serviceRow} ${isEditMode ? styles.editModeRow : ''}`}>
         <div className={styles.tableCell}>{service.name}</div>
         <div className={styles.tableCell}>{service.description}</div>
         <div className={styles.tableCell}>{service.price}</div>
         <div className={styles.tableCell}>{service.duration}</div>
+        
+        {isEditMode && (
+            <div className={styles.rowActions}>
+                <Image
+                    width={20}
+                    height={20}
+                    alt="Edit Service"
+                    src="/edit_black.svg" 
+                    className={styles.actionIcon}
+                />
+                <Image
+                    width={20}
+                    height={20}
+                    alt="Delete Service"
+                    src="/delete.svg" 
+                    className={styles.actionIcon}
+                    onClick={() => onDelete(service.id)}
+                />
+            </div>
+        )}
     </div>
 );
 
 const ServicesOfferedPage: NextPage = () => {
     const [services, setServices] = useState(mockServices);
+     const [isEditMode, setIsEditMode] = useState(false);
+
+    const toggleEditMode = () => {
+        setIsEditMode(prevMode => !prevMode);
+    };
+
+    const handleDeleteService = (idToDelete: number) => {
+        setServices(prevServices => prevServices.filter(service => service.id !== idToDelete));
+    };
 
     return (
         <div className={styles.pageContainer}>
-            {/* ===== HEADER / NAVIGATION ===== */}
             <header className={styles.navigation}>
                 <div className={styles.navBrand}>
                     <Image
@@ -45,7 +73,15 @@ const ServicesOfferedPage: NextPage = () => {
                 <nav className={styles.navLinks}>
                     <a className={styles.navLink}>Home</a>
                     <a className={styles.navLink}>Discover</a>
-                    <a className={styles.navLink}>Contact Us</a>
+                    <a 
+                    className={styles.navLink}
+                    onClick={() => {
+                window.scrollTo({
+                  top: document.body.scrollHeight,
+                  behavior: "smooth",
+                });
+              }}
+                >Contact Us</a>
                 </nav>
                 <div className={styles.userAvatar}>
                     <Image
@@ -82,15 +118,28 @@ const ServicesOfferedPage: NextPage = () => {
 
                     <div className={styles.tableBody}>
                         {services.map((service) => (
-                            <ServiceRow key={service.id} service={service} />
+                            <ServiceRow
+                                key={service.id}
+                                service={service}
+                                isEditMode={isEditMode}
+                                onDelete={handleDeleteService}
+                            />
                         ))}
                     </div>
                 </div>
 
                 <div className={styles.actionButtons}>
-                    <button className={`${styles.btn} ${styles.editButton}`}>
-                        <Image width={20} height={20} alt="Edit" src="/edit.svg" />
-                        <span>Edit</span>
+                     <button
+                        className={`${styles.btn} ${isEditMode ? styles.doneButton : styles.editButton}`}
+                        onClick={toggleEditMode}
+                    >
+                        <Image
+                            width={20}
+                            height={20}
+                            alt={isEditMode ? "Done" : "Edit"}
+                            src={isEditMode ? "/check_thin.svg" : "/edit.svg"} 
+                        />
+                        <span>{isEditMode ? 'Done' : 'Edit'}</span>
                     </button>
                     <button className={`${styles.btn} ${styles.addButton}`}>
                         <Image width={18} height={18} alt="Add" src="/plus.svg" />
