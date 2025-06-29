@@ -7,120 +7,138 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import styles from "../../../styles/discover-2-a.module.css";
 
-const PopularServiceCard = ({ service }: { service: any }) => (
-  <div className={styles.serviceCard}>
-    <div className={styles.serviceImage}></div>
-    <div className={styles.serviceCardContent}>
-      <div className={styles.serviceProvider}>
-        <div className={styles.providerAvatar}></div>
-        <div className={styles.providerInfo}>
-          <h3 className={styles.providerName}>{service.providerName}</h3>
-          <div className={styles.rating}>
-            <div className={styles.stars}>
-              <Image
-                width={20}
-                height={20}
-                sizes="100vw"
-                src="/Star 3.svg"
-                alt="Star"
-              />
-              <Image
-                width={20}
-                height={20}
-                sizes="100vw"
-                src="/Star 3.svg"
-                alt="Star"
-              />
-              <Image
-                width={20}
-                height={20}
-                sizes="100vw"
-                src="/Star 3.svg"
-                alt="Star"
-              />
-              <Image
-                width={20}
-                height={20}
-                sizes="100vw"
-                src="/Star 3.svg"
-                alt="Star"
-              />
-              <Image
-                width={20}
-                height={20}
-                sizes="100vw"
-                src="/Star 4.svg"
-                alt="Star"
-              />
-            </div>
-            <span className={styles.ratingScore}>
-              {service.rating.toFixed(1)}
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-);
-const FeaturedServiceCard = ({ service }: { service: any }) => (
-  <div className={styles.serviceCard}>
-    <div className={styles.serviceImage}></div>
-    <div className={styles.serviceCardContent}>
-      <div className={styles.serviceProvider}>
-        <div className={styles.providerAvatar}></div>
-        <div className={styles.providerInfo}>
-          <h3 className={styles.providerName}>{service.providerName}</h3>
-          <div className={styles.rating}>
-            <span className={styles.ratingScore}>{service.location}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-);
-const AllServiceCard = ({ service }: { service: any }) => (
-  <div className={styles.service}>
-    <div className={styles.image} />
-    <div className={styles.info}>
-      <div className={styles.avatar}>
-        <div className={styles.avatar1} />
-        <div className={styles.avatar5}>
-          <div className={styles.serviceFacilityNameParent}>
-            <div className={styles.serviceFacilityName}>{service.name}</div>
-            <div className={styles.location}>{service.location}</div>
-          </div>
-          <div className={styles.avatar2} />
-          <div className={styles.avatar3}>
-            <div className={styles.groupParent}>
-              <div className={styles.parent}>
-                <div className={styles.div}>{service.rating}</div>
+const PopularServiceCard = ({ service }: { service: any }) => {
+  const router = useRouter();
+  return (
+    <div
+      className={styles.serviceCard}
+      onClick={() => router.push("/facility-details")}
+    >
+      <div className={styles.serviceImage}></div>
+      <div className={styles.serviceCardContent}>
+        <div className={styles.serviceProvider}>
+          <div className={styles.providerAvatar}></div>
+          <div className={styles.providerInfo}>
+            <h3 className={styles.providerName}>{service.providerName}</h3>
+            <div className={styles.rating}>
+              <div className={styles.stars}>
                 <Image
-                  className={styles.groupChild}
-                  width={23.7}
+                  width={20}
                   height={20}
                   sizes="100vw"
-                  alt=""
-                  src="/starFilled.svg"
+                  src="/Star 3.svg"
+                  alt="Star"
+                />
+                <Image
+                  width={20}
+                  height={20}
+                  sizes="100vw"
+                  src="/Star 3.svg"
+                  alt="Star"
+                />
+                <Image
+                  width={20}
+                  height={20}
+                  sizes="100vw"
+                  src="/Star 3.svg"
+                  alt="Star"
+                />
+                <Image
+                  width={20}
+                  height={20}
+                  sizes="100vw"
+                  src="/Star 3.svg"
+                  alt="Star"
+                />
+                <Image
+                  width={20}
+                  height={20}
+                  sizes="100vw"
+                  src="/Star 4.svg"
+                  alt="Star"
                 />
               </div>
-              <div className={styles.link}>
-                <div className={styles.viewDetails}>View Details</div>
-                <Image
-                  className={styles.svgIcon}
-                  width={14}
-                  height={14}
-                  sizes="100vw"
-                  alt=""
-                  src="/gs2.svg"
-                />
+              <span className={styles.ratingScore}>
+                {service.rating.toFixed(1)}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+const FeaturedServiceCard = ({ service }: { service: any }) => {
+  const router = useRouter();
+  return (
+    <div
+      className={styles.serviceCard}
+      onClick={() => router.push("/facility-details")}
+    >
+      <div className={styles.serviceImage}></div>
+      <div className={styles.serviceCardContent}>
+        <div className={styles.serviceProvider}>
+          <div className={styles.providerAvatar}></div>
+          <div className={styles.providerInfo}>
+            <h3 className={styles.providerName}>{service.providerName}</h3>
+            <div className={styles.rating}>
+              <span className={styles.ratingScore}>{service.location}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+const AllServiceCard = ({ service }: { service: any }) => {
+  const router = useRouter();
+  return (
+    <div className={styles.service}>
+      <div className={styles.image} />
+      <div className={styles.info}>
+        <div className={styles.avatar}>
+          <div className={styles.avatar1} />
+          <div className={styles.avatar5}>
+            <div className={styles.serviceFacilityNameParent}>
+              <div className={styles.serviceFacilityName}>{service.name}</div>
+              <div className={styles.location}>{service.location}</div>
+            </div>
+            <div className={styles.avatar2} />
+            <div className={styles.avatar3}>
+              <div className={styles.groupParent}>
+                <div className={styles.parent}>
+                  <div className={styles.div}>{service.rating}</div>
+                  <Image
+                    className={styles.groupChild}
+                    width={23.7}
+                    height={20}
+                    sizes="100vw"
+                    alt=""
+                    src="/starFilled.svg"
+                  />
+                </div>
+                <div
+                  className={styles.link}
+                  onClick={() => router.push("/facility-details")}
+                >
+                  <div className={styles.viewDetails}>View Details</div>
+                  <Image
+                    className={styles.svgIcon}
+                    width={14}
+                    height={14}
+                    sizes="100vw"
+                    alt=""
+                    src="/gs2.svg"
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 const PBACS: NextPage = () => {
   const [showPrev, setShowPrev] = useState(false);
