@@ -1,0 +1,740 @@
+.serveaseLogoAlbumCover31,
+.servease1,
+.home1,
+.contactUs1,
+.button1,
+.button,
+.link,
+.link1,
+.supportserveasecom,
+.facebookParent,
+.twitterParent,
+.instagramParent,
+.home,
+.discover,
+.createAnAccount,
+.faqs,
+.privacyPolicy,
+.termsConditions,
+.aboutUs,
+.servease,
+.serveaseLogoAlbumCover3,
+.viewDetails,
+.svgIcon
+{
+  cursor: pointer;
+}
+
+.joinUsChild {
+  	position: absolute;
+  	top: 56px;
+  	left: 471px;
+  	width: 497px;
+  	height: 93px;
+}
+.paraContent {
+  	position: absolute;
+  	top: 1022px;
+  	left: 73px;
+  	width: 115px;
+  	height: 42px;
+}
+.footerChild {
+  	position: absolute;
+  	top: 0px;
+  	left: 0px;
+  	background-color: var(--color-white);
+  	width: 100%;
+  	height: 534px;
+}
+.yourTrustedPlatform {
+  	position: absolute;
+  	top: 157px;
+  	left: 143px;
+  	line-height: 40px;
+  	display: inline-block;
+  	width: 359px;
+}
+.contactUs {
+  	position: absolute;
+  	top: 87px;
+  	left: calc(50% + 343px);
+  	font-size: var(--font-size-26);
+  	line-height: 128.02%;
+  	display: inline-block;
+  	width: 217px;
+}
+.supportserveasecom {
+  	position: absolute;
+  	top: 157px;
+  	left: calc(50% + 343px);
+  	line-height: 40px;
+}
+.div {
+  	position: absolute;
+  	top: 197px;
+  	left: calc(50% + 343px);
+  	line-height: 40px;
+  	display: inline-block;
+  	width: 233px;
+}
+.support {
+  	position: absolute;
+  	top: 87px;
+  	left: calc(50% + 144px);
+  	font-size: var(--font-size-26);
+  	line-height: 128.02%;
+  	display: inline-block;
+  	width: 196px;
+}
+.faqs {
+  	position: absolute;
+  	top: 158px;
+  	left: calc(50% + 144px);
+  	line-height: 40px;
+  	display: inline-block;
+  	width: 233px;
+}
+.privacyPolicy {
+  	position: absolute;
+  	top: 197px;
+  	left: calc(50% + 144px);
+  	line-height: 40px;
+  	display: inline-block;
+  	width: 233px;
+}
+.termsConditions {
+  	position: absolute;
+  	top: 237px;
+  	left: calc(50% + 144px);
+  	line-height: 40px;
+  	display: inline-block;
+  	width: 233px;
+}
+.aboutUs {
+  	position: absolute;
+  	top: 277px;
+  	left: calc(50% + 144px);
+  	line-height: 40px;
+  	display: inline-block;
+  	width: 233px;
+}
+.quickLinks {
+  	position: absolute;
+  	top: 87px;
+  	left: calc(50% - 126px);
+  	font-size: var(--font-size-26);
+  	line-height: 128.02%;
+  	display: inline-block;
+  	width: 196px;
+}
+.servease {
+  	position: absolute;
+  	top: 87px;
+  	left: calc(50% - 529px);
+  	font-size: var(--font-size-26);
+  	line-height: 128.02%;
+  	display: inline-block;
+  	width: 148px;
+}
+.home {
+  	position: absolute;
+  	top: 158px;
+  	left: calc(50% - 126px);
+  	line-height: 40px;
+  	display: inline-block;
+  	width: 233px;
+}
+.discover {
+  	position: absolute;
+  	top: 197px;
+  	left: calc(50% - 126px);
+  	line-height: 40px;
+  	display: inline-block;
+  	width: 233px;
+}
+.createAnAccount {
+  	position: absolute;
+  	top: 236px;
+  	left: calc(50% - 126px);
+  	line-height: 40px;
+  	display: inline-block;
+  	width: 233px;
+}
+.facebook {
+  	position: absolute;
+  	top: 0px;
+  	left: 32px;
+  	font-weight: 500;
+}
+.groupChild {
+  	position: absolute;
+  	top: 0px;
+  	left: 0px;
+  	width: 22px;
+  	height: 22px;
+  	overflow: hidden;
+}
+.facebookParent {
+  	position: absolute;
+  	top: 347px;
+  	left: 153px;
+  	width: 117px;
+  	height: 22px;
+  	font-size: var(--font-size-18);
+  	color: var(--color-white);
+  	font-family: var(--font-inter);
+}
+.twitter {
+  	position: absolute;
+  	top: 0px;
+  	left: 34px;
+  	font-weight: 500;
+}
+.groupItem {
+  	position: absolute;
+  	top: 1px;
+  	left: 0px;
+  	width: 26px;
+  	height: 22px;
+  	overflow: hidden;
+}
+.twitterParent {
+  	position: absolute;
+  	top: 347px;
+  	left: 305px;
+  	width: 95px;
+  	height: 23px;
+  	font-size: var(--font-size-18);
+  	color: var(--color-white);
+  	font-family: var(--font-inter);
+}
+.instagram {
+  	position: absolute;
+  	top: 1px;
+  	left: 32px;
+  	font-weight: 500;
+}
+.groupInner {
+  	position: absolute;
+  	top: 0px;
+  	left: 0px;
+  	width: 24px;
+  	height: 24px;
+  	overflow: hidden;
+}
+.instagramParent {
+  	position: absolute;
+  	top: 346px;
+  	left: 435px;
+  	width: 119px;
+  	height: 24px;
+  	font-size: var(--font-size-18);
+  	color: var(--color-white);
+  	font-family: var(--font-inter);
+}
+.lineDiv {
+  	position: absolute;
+  	top: -1px;
+  	left: -1px;
+  	border-top: 2px solid var(--color-black);
+  	box-sizing: border-box;
+  	width: 1185px;
+  	height: 2px;
+}
+.servease2025 {
+  	position: absolute;
+  	top: 27px;
+  	left: 14px;
+}
+.lineParent {
+  	position: absolute;
+  	top: 389px;
+  	left: 129px;
+  	width: 1183px;
+  	height: 53px;
+  	font-size: 20px;
+}
+.serveaseLogoAlbumCover3 {
+  	position: absolute;
+  	top: 84px;
+  	left: 143px;
+  	width: 40px;
+  	height: 40px;
+  	object-fit: cover;
+}
+.footer {
+  	position: absolute;
+  	top: 1713px;
+  	left: 1px;
+  	background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), var(--color-white);
+  	width: 100%;
+  	height: 475px;
+}
+.serveaseLogoAlbumCover31 {
+  	width: 40px;
+  	position: relative;
+  	max-height: 100%;
+  	object-fit: cover;
+}
+.serv {
+  color: var(--color-tan);
+  font-weight: 500;
+  font-size: 24px;
+}
+
+.ease {
+  color: var(--color-tan);
+  font-weight: 700;
+  font-size: 24px;
+}
+.servease1 {
+  	position: relative;
+  	line-height: 150%;
+    color: var(--color-tan);
+}
+.navigationChild {
+  	width: 124px;
+  	height: 45px;
+}
+.home1 {
+  	width: 119px;
+  	position: relative;
+  	line-height: 150%;
+  	font-weight: 600;
+  	display: flex;
+  	align-items: center;
+  	justify-content: center;
+  	flex-shrink: 0;
+}
+.contactUs1 {
+  	width: 147px;
+  	position: relative;
+  	line-height: 150%;
+  	font-weight: 600;
+  	display: flex;
+  	align-items: center;
+  	justify-content: center;
+  	height: 27px;
+  	flex-shrink: 0;
+}
+.home1:hover,
+.contactUs1:hover {
+  color: var(--color-tan);
+  font-weight: 700;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+.homeParent {
+  	display: flex;
+  	flex-direction: row;
+  	align-items: center;
+  	justify-content: center;
+  	gap: 25px;
+  	text-align: center;
+  	font-size: var(--font-size-18);
+  	color: var(--color-gray-200);
+}
+.navigationItem {
+  	width: 184px;
+  	height: 45px;
+}
+.avatarPlaceholderIcon {
+  	position: absolute;
+  	height: 64%;
+  	width: 100%;
+  	top: 25%;
+  	right: 14.73%;
+  	bottom: 11%;
+  	left: 14.77%;
+  	max-width: 100%;
+  	overflow: hidden;
+  	max-height: 100%;
+}
+.genericAvatar {
+  	width: 40px;
+  	position: relative;
+  	border-radius: 100px;
+  	background-color: var(--color-tan);
+  	height: 40px;
+  	overflow: hidden;
+  	flex-shrink: 0;
+}
+.navigation {
+  	position: fixed;
+  	top: 20px;
+  	left: calc(50% - 557px);
+  	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  	border-radius: 50px;
+  	background-color: var(--color-white);
+  	width: 1113px;
+  	height: 69px;
+  	overflow: hidden;
+  	display: flex;
+  	flex-direction: row;
+  	align-items: center;
+  	justify-content: flex-start;
+  	padding: 0px 60px;
+  	box-sizing: border-box;
+  	gap: 10px;
+  	font-size: var(--font-size-28);
+    z-index: 1;
+    animation: bounceInTop 0.8s ease forwards;
+}
+@keyframes bounceInTop {
+  0% {
+    opacity: 0;
+    transform: translate(0%, -80px);
+  }
+  60% {
+    opacity: 1;
+    transform: translate(0%, 15px);
+  }
+  80% {
+    transform: translate(0%, -5px);
+  }
+  100% {
+    transform: translate(0%, 0);
+  }
+}
+.appointments1 {
+  	position: absolute;
+  	top: 178px;
+  	left: 131px;
+  	font-size: 50px;
+  	line-height: 150%;
+  	display: flex;
+  	color: var(--color-gray-100);
+  	align-items: center;
+  	width: 618px;
+  	height: 75px;
+}
+.cancelled {
+  	position: absolute;
+  	top: calc(50% - 13.88px);
+  	left: calc(50% - 43px);
+  	line-height: 27.75px;
+  	font-weight: 500;
+  	display: flex;
+  	align-items: center;
+  	justify-content: center;
+  	width: 80.8px;
+  	height: 27.8px;
+}
+.button {
+  	position: absolute;
+  	top: 186px;
+  	left: 1145px;
+  	border-radius: var(--br-12);
+  	background-color: var(--color-tan);
+  	border: 1px solid var(--color-silver);
+  	box-sizing: border-box;
+  	width: 150px;
+  	height: 50px;
+  	opacity: 0.5;
+  	text-align: center;
+  	color: var(--color-white);
+}
+.completed {
+  	position: absolute;
+  	top: calc(50% - 14px);
+  	left: calc(50% - 45px);
+  	line-height: 27.75px;
+  	font-weight: 500;
+  	display: flex;
+  	align-items: center;
+  	justify-content: center;
+  	width: 95px;
+  	height: 28px;
+}
+.upcoming {
+  	position: absolute;
+  	top: calc(50% - 14px);
+  	left: calc(50% - 46px);
+  	line-height: 27.75px;
+  	font-weight: 500;
+  	display: flex;
+  	align-items: center;
+  	justify-content: center;
+  	width: 95px;
+  	height: 28px;
+}
+.button2 {
+  	position: absolute;
+  	top: 0px;
+  	left: -126px;
+  	border-radius: var(--br-12);
+  	background-color: var(--color-tan);
+  	border: 1px solid var(--color-tan);
+  	box-sizing: border-box;
+  	width: 150px;
+  	height: 50px;
+}
+.button1 {
+  	position: absolute;
+  	top: 186px;
+  	left: 1016px;
+  	border-radius: var(--br-12);
+  	background-color: var(--color-tan);
+  	box-sizing: border-box;
+  	width: 150px;
+  	height: 50px;
+  	text-align: center;
+  	color: var(--color-white);
+}
+
+.avatarIcon {
+  	position: absolute;
+  	top: 44px;
+  	left: 93px;
+  	width: 110px;
+  	height: 110px;
+}
+.serviceFacilityName {
+  	position: absolute;
+  	top: 45px;
+  	left: 239px;
+  	line-height: 150%;
+  	font-weight: 600;
+}
+.location {
+  	position: absolute;
+  	top: 102px;
+  	left: 239px;
+  	font-size: var(--font-size-28);
+  	line-height: 150%;
+  	font-weight: 500;
+  	color: var(--color-tan);
+}
+.heroImage {
+  	position: absolute;
+  	top: calc(50% - 140.5px);
+  	left: calc(50% - 515px);
+  	border-radius: 30px;
+  	background-color: var(--color-antiquewhite);
+  	width: 1030px;
+  	height: 281px;
+  	overflow: hidden;
+}
+.vectorIcon {
+  	position: absolute;
+  	height: 35%;
+  	width: 2.33%;
+  	top: 31.61%;
+  	right: 91.26%;
+  	bottom: 33.39%;
+  	left: 6.4%;
+  	max-width: 100%;
+  	overflow: hidden;
+  	max-height: 100%;
+}
+.calendarMonthIcon {
+  	position: absolute;
+  	height: 43.33%;
+  	width: 2.89%;
+  	top: 27.21%;
+  	right: 56.36%;
+  	bottom: 29.46%;
+  	left: 39%;
+  	max-width: 100%;
+  	overflow: hidden;
+  	max-height: 100%;
+}
+.avatarIcon1 {
+  	position: absolute;
+  	top: 18.96px;
+  	left: 687.63px;
+  	width: 21px;
+  	height: 21px;
+}
+.heroImage1 {
+  	position: absolute;
+  	top: calc(50% + 46.54px);
+  	left: calc(50% - 448.63px);
+  	border-radius: 30px;
+  	background-color: var(--color-white);
+  	width: 900px;
+  	height: 60px;
+  	overflow: hidden;
+}
+.heroImageParent {
+  	position: absolute;
+  	top: calc(50% - 140.5px);
+  	left: calc(50% - 515px);
+  	width: 1030px;
+  	height: 281px;
+  	font-size: 33px;
+  	color: var(--color-gray-100);
+}
+.pm {
+  	position: absolute;
+  	top: 204px;
+  	left: 155px;
+  	line-height: 150%;
+  	font-weight: 500;
+  	display: flex;
+  	align-items: center;
+  	width: 128px;
+  	height: 25px;
+}
+.calendarMonthIcon1 {
+  	position: absolute;
+  	height: 86.8%;
+  	width: 10.12%;
+  	top: 6.11%;
+  	right: 89.88%;
+  	bottom: 7.09%;
+  	left: 0%;
+  	max-width: 100%;
+  	overflow: hidden;
+  	max-height: 100%;
+}
+.wedJune30 {
+  	position: absolute;
+  	top: 0px;
+  	left: 33.65px;
+  	line-height: 150%;
+  	font-weight: 500;
+  	display: flex;
+  	align-items: center;
+  	width: 159px;
+  	height: 25px;
+}
+.calendarMonthParent {
+  	position: absolute;
+  	height: 8.9%;
+  	width: 18.7%;
+  	top: 72.6%;
+  	right: 40.68%;
+  	bottom: 18.51%;
+  	left: 40.62%;
+}
+.confirmed {
+  	position: absolute;
+  	top: 203px;
+  	left: 787px;
+  	line-height: 150%;
+  	font-weight: 500;
+  	display: flex;
+  	align-items: center;
+  	width: 133px;
+  	height: 26px;
+}
+.viewDetails {
+  	position: absolute;
+  	top: 0px;
+  	left: 0px;
+  	line-height: 27.75px;
+  	font-weight: 500;
+  	display: flex;
+  	align-items: center;
+  	width: 111.7px;
+  	height: 28px;
+}
+.svgIcon {
+  	position: absolute;
+  	top: 6px;
+  	left: 115.98px;
+  	width: 17px;
+  	height: 16px;
+}
+.viewDetailsParent {
+  	position: absolute;
+  	top: 18px;
+  	left: 867px;
+  	width: 133px;
+  	height: 28px;
+  	font-size: var(--font-size-18);
+  	color: var(--color-dimgray);
+}
+.groupParent {
+  	position: absolute;
+  	top: calc(50% - 140.5px);
+  	left: calc(50% - 515px);
+  	width: 1030px;
+  	height: 281px;
+}
+.joinUsInner {
+  	position: absolute;
+  	top: calc(50% - 464px);
+  	left: calc(50% - 532px);
+  	width: 1030px;
+  	height: 281px;
+  	font-size: 23px;
+  	color: var(--color-tan);
+}
+.groupDiv {
+  	position: absolute;
+  	top: calc(50% - 124px);
+  	left: calc(50% - 530px);
+  	width: 1030px;
+  	height: 281px;
+  	font-size: 23px;
+  	color: var(--color-tan);
+}
+.joinUs {
+  	position: absolute;
+  	height: 100%;
+  	top: 0px;
+  	bottom: 0px;
+  	left: 0px;
+  	background-color: var(--color-whitesmoke);
+  	width: 100%;
+  	overflow: hidden;
+}
+.groupWrapper1 {
+  	position: absolute;
+  	top: calc(50% - 809px);
+  	left: calc(50% - 533px);
+  	width: 1030px;
+  	height: 281px;
+  	font-size: 23px;
+  	color: var(--color-tan);
+}
+.joinUsParent {
+  	position: absolute;
+  	height: 100%;
+  	top: 0px;
+  	bottom: 0px;
+  	left: 10px;
+  	width: 100%;
+}
+.appointments {
+  	width: 100%;
+  	position: relative;
+  	background-color: var(--color-white);
+  	box-sizing: border-box;
+  	height: 2252px;
+  	overflow: hidden;
+  	text-align: left;
+  	font-size: var(--font-size-16);
+  	color: var(--color-black);
+  	font-family: var(--font-dm-sans);
+}
+
+.supportserveasecom,
+.faqs,
+.privacyPolicy,
+.termsConditions,
+.aboutUs,
+.home,
+.discover,
+.createAnAccount,
+.contactNumber,
+.contactUs {
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.supportserveasecom:hover,
+.faqs:hover,
+.privacyPolicy:hover,
+.termsConditions:hover,
+.aboutUs:hover,
+.home:hover,
+.discover:hover,
+.createAnAccount:hover,
+.contactNumber:hover,
+.contactUs:hover {
+  transform: translateX(8px);
+  color: var(--color-tan);
+}
