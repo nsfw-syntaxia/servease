@@ -30,39 +30,6 @@ const SevicesOffered: NextPage = () => {
             <div className={styles.home}>Home</div>
             <div className={styles.discover}>Discover</div>
             <div className={styles.createAnAccount}>Create an Account</div>
-            <div className={styles.facebookParent}>
-              <div className={styles.facebook}>Facebook</div>
-              <Image
-                className={styles.groupChild}
-                width={22}
-                height={22}
-                sizes="100vw"
-                alt=""
-                src="/Frame 1.svg"
-              />
-            </div>
-            <div className={styles.twitterParent}>
-              <div className={styles.twitter}>Twitter</div>
-              <Image
-                className={styles.groupItem}
-                width={26}
-                height={22}
-                sizes="100vw"
-                alt=""
-                src="/Frame 2.svg"
-              />
-            </div>
-            <div className={styles.instagramParent}>
-              <div className={styles.instagram}>Instagram</div>
-              <Image
-                className={styles.groupInner}
-                width={24}
-                height={24}
-                sizes="100vw"
-                alt=""
-                src="/Frame 3.svg"
-              />
-            </div>
             <div className={styles.lineParent}>
               <div className={styles.lineDiv} />
               <div className={styles.servease2025}>
@@ -105,7 +72,7 @@ const SevicesOffered: NextPage = () => {
                 height={25.6}
                 sizes="100vw"
                 alt=""
-                src="/Avatar Placeholder.svg"
+                src="/Avatar.svg"
               />
             </div>
           </div>
@@ -155,14 +122,6 @@ const SevicesOffered: NextPage = () => {
                         <div className={styles.description}>description</div>
                         <div className={styles.p50000}>P500.00</div>
                         <div className={styles.min}>30 min.</div>
-                        <Image
-                          className={styles.deleteIcon}
-                          width={24}
-                          height={24}
-                          sizes="100vw"
-                          alt=""
-                          src="/delete.svg"
-                        />
                       </div>
                     </div>
                   </div>
@@ -192,7 +151,7 @@ const SevicesOffered: NextPage = () => {
             height={18}
             sizes="100vw"
             alt=""
-            src="/Group 1000003060.png"
+            src="/plus.svg"
           />
         </div>
         <div className={styles.buttonWrapper}>
@@ -208,7 +167,7 @@ const SevicesOffered: NextPage = () => {
               height={20}
               sizes="100vw"
               alt=""
-              src="/edit-03.svg"
+              src="/edit.svg"
             />
           </div>
         </div>
@@ -219,7 +178,7 @@ const SevicesOffered: NextPage = () => {
         height={26}
         sizes="100vw"
         alt=""
-        src="/Outline / Arrows / Arrow Left.svg"
+        src="/Arrow Left.svg"
       />
     </div>
   );

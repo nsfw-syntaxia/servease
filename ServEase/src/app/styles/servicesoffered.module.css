@@ -17,7 +17,7 @@
   	top: 0px;
   	left: 0px;
   	background-color: var(--color-white);
-  	width: 1440px;
+  	width: 100%;
   	height: 534px;
 }
 .yourTrustedPlatform {
@@ -241,7 +241,7 @@
   	top: 1283px;
   	left: 1px;
   	background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), var(--color-white);
-  	width: 1440px;
+  	width: 100%;
   	height: 475px;
 }
 .serveaseLogoAlbumCover31 {
@@ -386,7 +386,7 @@
   	position: absolute;
   	top: calc(50% - 36px);
   	left: calc(50% - 577px);
-  	border-radius: var(--br-30);
+  	border-radius: 30px;
   	background-color: var(--color-antiquewhite);
   	width: 1154px;
   	height: 72px;
@@ -459,7 +459,7 @@
   	bottom: 0px;
   	left: 0px;
   	background-color: var(--color-whitesmoke);
-  	width: 1440px;
+  	width: 100%;
   	overflow: hidden;
 }
 .joinUsWrapper {
@@ -468,7 +468,7 @@
   	top: 0px;
   	bottom: 0px;
   	left: 0px;
-  	width: 1440px;
+  	width: 100%;
 }
 .offered {
   	color: var(--color-gray-100);
@@ -599,7 +599,6 @@
   	width: 100%;
   	position: relative;
   	background-color: var(--color-white);
-  	border: 1px solid var(--color-black);
   	box-sizing: border-box;
   	height: 1795px;
   	overflow: hidden;
