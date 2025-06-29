@@ -3,11 +3,64 @@
 import type { NextPage } from "next";
 import Image from "next/image";
 import styles from "../styles/dashboard-client.module.css";
+import { useState } from "react"; 
+
+const UpcomingAppointmentCard = ({ appointment }: { appointment: any }) => (
+  <div className={styles.appointmentCard}>
+    <div className={styles.cardContent}>
+      <div className={styles.serviceInfo}>
+        <div className={styles.serviceAvatar}>
+          <Image
+            width={60}
+            height={60}
+            src="/circle.svg"
+            alt="Service Provider"
+          />
+        </div>
+        <div className={styles.serviceDetails}>
+          <h3 className={styles.serviceName}>{appointment.serviceName}</h3>
+          <p className={styles.serviceLocation}>{appointment.location}</p>
+        </div>
+      </div>
+      <div className={styles.appointmentInfo}>
+        <div className={styles.timeInfo}>
+          <Image width={16} height={16} src="/Vector.svg" alt="Time" />
+          <span>{appointment.time}</span>
+        </div>
+        <div className={styles.dateInfo}>
+          <Image width={20} height={20} src="/calendar_month.svg" alt="Date" />
+          <span>{appointment.date}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+);
 
 const DashboardClient: NextPage = () => {
+  // --- MOCK DATA ---
+  // This array simulates the data you would get from an API.
+  // - To see two appointments, keep it as is.
+  // - To see one appointment, delete one of the objects.
+  // - To see the "no appointments" message, change it to: const [appointments, setAppointments] = useState([]);
+  const [appointments, setAppointments] = useState([
+    {
+      id: 1,
+      serviceName: "Service Facility Name",
+      location: "Location",
+      time: "1:00 PM",
+      date: "Wed, June 30",
+    },
+    {
+      id: 2,
+      serviceName: "Another Service Place",
+      location: "Another Location",
+      time: "4:30 PM",
+      date: "Thu, July 1",
+    },
+  ]);
+
   return (
     <div className={styles.dashboardClient}>
-      {/* Navigation */}
       <nav className={styles.navigation}>
         <div className={styles.navContent}>
           <div className={styles.logo}>
@@ -72,91 +125,16 @@ const DashboardClient: NextPage = () => {
           </div>
 
           <div className={styles.appointmentsGrid}>
-            <div className={styles.appointmentCard}>
-              <div className={styles.cardContent}>
-                <div className={styles.serviceInfo}>
-                  <div className={styles.serviceAvatar}>
-                    <Image
-                      width={60}
-                      height={60}
-                      src="/Avatar.svg"
-                      alt="Service Provider"
-                    />
-                  </div>
-                  <div className={styles.serviceDetails}>
-                    <h3 className={styles.serviceName}>
-                      Service Facility Name
-                    </h3>
-                    <p className={styles.serviceLocation}>Location</p>
-                  </div>
-                </div>
-                <div className={styles.appointmentInfo}>
-                  <div className={styles.timeInfo}>
-                    <Image
-                      width={16}
-                      height={16}
-                      src="/Vector.svg"
-                      alt="Time"
-                    />
-                    <span>1:00 PM</span>
-                  </div>
-                  <div className={styles.dateInfo}>
-                    <Image
-                      width={20}
-                      height={20}
-                      src="/calendar_month.svg"
-                      alt="Date"
-                    />
-                    <span>Wed, June 30</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className={styles.appointmentCard}>
-              <div className={styles.cardContent}>
-                <div className={styles.serviceInfo}>
-                  <div className={styles.serviceAvatar}>
-                    <Image
-                      width={60}
-                      height={60}
-                      src="/Avatar.svg"
-                      alt="Service Provider"
-                    />
-                  </div>
-                  <div className={styles.serviceDetails}>
-                    <h3 className={styles.serviceName}>
-                      Service Facility Name
-                    </h3>
-                    <p className={styles.serviceLocation}>Location</p>
-                  </div>
-                </div>
-                <div className={styles.appointmentInfo}>
-                  <div className={styles.timeInfo}>
-                    <Image
-                      width={16}
-                      height={16}
-                      src="/Vector.svg"
-                      alt="Time"
-                    />
-                    <span>1:00 PM</span>
-                  </div>
-                  <div className={styles.dateInfo}>
-                    <Image
-                      width={20}
-                      height={20}
-                      src="/calendar_month.svg"
-                      alt="Date"
-                    />
-                    <span>Wed, June 30</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            {appointments.length > 0 ? (
+              appointments.map((app) => (
+                <UpcomingAppointmentCard key={app.id} appointment={app} />
+              ))
+            ) : (
+              <p>You have no upcoming appointments.</p>
+            )}
           </div>
         </section>
 
-        {/* Featured Services Section */}
         <section className={styles.featuredSection}>
           <div className={styles.sectionHeader}>
             <h2 className={styles.sectionTitle}>
@@ -314,7 +292,12 @@ const DashboardClient: NextPage = () => {
             </div>
 
             <button className={styles.nextButton}>
-              <Image width={28} height={28} src="/Chevron right.svg" alt="Next" />
+              <Image
+                width={28}
+                height={28}
+                src="/Chevron right.svg"
+                alt="Next"
+              />
             </button>
           </div>
         </section>
