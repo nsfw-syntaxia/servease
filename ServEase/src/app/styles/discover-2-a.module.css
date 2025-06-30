@@ -1062,7 +1062,7 @@
 .nav {
   position: fixed;
   top: 1.5rem;
-  left: calc(100% - 85%);
+  left: calc(50% - 556px);
   width: 80%;
   height: 77px;
   max-width: 1113px;
