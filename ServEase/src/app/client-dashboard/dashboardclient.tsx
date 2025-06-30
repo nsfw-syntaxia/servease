@@ -3,7 +3,7 @@
 import type { NextPage } from "next";
 import Image from "next/image";
 import styles from "../styles/dashboard-client.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 const UpcomingAppointmentCard = ({ appointment }: { appointment: any }) => (
@@ -96,6 +96,25 @@ const DashboardClient: NextPage = () => {
     }
   };
 
+  const slides = [
+    { id: 1, image: "/header-image.jpg", alt: "Barber tools on a slate background" },
+    { id: 2, image: "/LandingPageImage2.png", alt: "Another view of barber tools" },
+    { id: 3, image: "/LandingPageImage3.png", alt: "Close up of hair clippers" },
+    { id: 4, image: "/LandingPageImage4.png", alt: "Hair styling products" },
+  ];
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide(prev => (prev === slides.length - 1 ? 0 : prev + 1));
+    }, 4000); 
+    return () => clearInterval(timer); 
+  }, [slides.length]);
+
+  const goToSlide = (slideIndex: number) => {
+    setCurrentSlide(slideIndex);
+  };
+
 
   return (
     <div className={styles.dashboardClient}>
@@ -149,13 +168,40 @@ const DashboardClient: NextPage = () => {
       </nav>
 
       <section className={styles.heroSection}>
+        {slides.map((slide, index) => (
+          <div
+            key={slide.id}
+            className={`${styles.slide} ${
+              index === currentSlide ? styles.active : ""
+            }`}
+          >
+            <Image
+              src={slide.image}
+              alt={slide.alt}
+              layout="fill"
+              objectFit="cover"
+              priority={index === 0} // Load the first image faster
+            />
+          </div>
+        ))}
+        <div className={styles.heroOverlay} />
         <div className={styles.heroContent}>
-          <div className={styles.heroText}>
             <h1 className={styles.heroTitle}>
               <span className={styles.bookAn}>Book an</span>
               <span className={styles.appointment}>Appointment</span>
             </h1>
-          </div>
+        </div>
+        <div className={styles.slideDots}>
+          {slides.map((_, index) => (
+            <button
+              key={index}
+              className={`${styles.dot} ${
+                index === currentSlide ? styles.active : ""
+              }`}
+              onClick={() => goToSlide(index)}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
         </div>
       </section>
 

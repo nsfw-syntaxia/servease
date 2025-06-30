@@ -126,11 +126,10 @@
 
 
 .heroSection {
+  position: relative; /* Crucial for positioning child elements */
+  overflow: hidden; /* Hides image parts outside the rounded corners */
   width: 90%;
   height: 60vh;
-  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/header-image.jpg');
-  background-size: cover;
-  background-position: center;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -141,9 +140,65 @@
   margin-right: 4%;
 }
 
-/* ... (rest of the file from .heroContent to the end is unchanged) ... */
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  z-index: 0; /* Slides are in the background */
+}
+
+.slide.active {
+  opacity: 1;
+}
+
+.heroOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3));
+  z-index: 1; /* Overlay is above slides but below content */
+}
+
+.slideDots {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 15px;
+  z-index: 2; 
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dot:hover {
+  background-color: white;
+}
+
+.dot.active {
+  background-color: white;
+  transform: scale(1.2);
+}
+
 .heroContent {
   max-width: 600px;
+  position: relative; /* To ensure it's positioned correctly by flexbox */
+  z-index: 2; 
 }
 
 .heroTitle {
