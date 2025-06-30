@@ -9,6 +9,7 @@ import styles from "../styles/register-client.module.css";
 import ClientSignup1 from "./registerclientpage1";
 import ClientSignup2 from "./registerclientpage2";
 import ClientSignup3 from "./registerclientpage3";
+import { completeClientRegistration } from "./actions";
 
 function Stepper({ activeStep }: { activeStep: number }) {
   const getStepClass = (step: number) => {
@@ -121,10 +122,43 @@ function ExpandableSection({
   );
 }
 
+// Define the form data structure
+interface FormData {
+  // Step 1 - Login
+  email: string;
+  password: string;
+  
+  // Step 2 - Profile
+  firstName: string;
+  middleName: string;
+  lastName: string;
+  gender: string;
+  birthMonth: string;
+  birthDay: string;
+  birthYear: string;
+  
+  // Step 3 - Contact
+  contact: string;
+}
+
 const ClientSignup: NextPage = () => {
   const [activeSection, setActiveSection] = useState<number | null>(1);
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
+  
+  // Store all form data in state
+  const [formData, setFormData] = useState<FormData>({
+    email: '',
+    password: '',
+    firstName: '',
+    middleName: '',
+    lastName: '',
+    gender: '',
+    birthMonth: '',
+    birthDay: '',
+    birthYear: '',
+    contact: ''
+  });
 
   const handleNextStep = () => {
     setCompletedSteps((prev) => [...new Set([...prev, currentStep])]);
@@ -137,6 +171,11 @@ const ClientSignup: NextPage = () => {
 
   const handleBackClick = () => {
     router.push("/landingpage");
+  };
+
+  // Update form data from individual steps
+  const updateFormData = (stepData: Partial<FormData>) => {
+    setFormData(prev => ({ ...prev, ...stepData }));
   };
 
   return (
@@ -172,10 +211,20 @@ const ClientSignup: NextPage = () => {
               Sign up and get connected with trusted professionals.
             </div>
           </div>
-
-          <div
-            style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
-          >
+          
+          <form action={completeClientRegistration} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+            {/* Hidden inputs to store all form data */}
+            <input type="hidden" name="email" value={formData.email} />
+            <input type="hidden" name="password" value={formData.password} />
+            <input type="hidden" name="first_name" value={formData.firstName} />
+            <input type="hidden" name="middle_name" value={formData.middleName} />
+            <input type="hidden" name="last_name" value={formData.lastName} />
+            <input type="hidden" name="gender" value={formData.gender} />
+            <input type="hidden" name="birth_month" value={formData.birthMonth} />
+            <input type="hidden" name="birth_day" value={formData.birthDay} />
+            <input type="hidden" name="birth_year" value={formData.birthYear} />
+            <input type="hidden" name="contact" value={formData.contact} />
+            
             <Stepper activeStep={activeSection ?? 0} />
 
             <ExpandableSection
@@ -186,11 +235,10 @@ const ClientSignup: NextPage = () => {
               currentStep={currentStep}
               completedSteps={completedSteps}
             >
-              <ClientSignup1
-                onNext={() => {
-                  setCurrentStep((prev) => Math.max(prev, 2));
-                  handleNextStep();
-                }}
+              <ClientSignup1 
+                onNext={handleNextStep} 
+                onDataChange={updateFormData}
+                initialData={{ email: formData.email, password: formData.password }}
               />
             </ExpandableSection>
 
@@ -202,10 +250,17 @@ const ClientSignup: NextPage = () => {
               currentStep={currentStep}
               completedSteps={completedSteps}
             >
-              <ClientSignup2
-                onNext={() => {
-                  setCurrentStep((prev) => Math.max(prev, 3));
-                  handleNextStep();
+              <ClientSignup2 
+                onNext={handleNextStep} 
+                onDataChange={updateFormData}
+                initialData={{
+                  firstName: formData.firstName,
+                  middleName: formData.middleName,
+                  lastName: formData.lastName,
+                  gender: formData.gender,
+                  birthMonth: formData.birthMonth,
+                  birthDay: formData.birthDay,
+                  birthYear: formData.birthYear
                 }}
               />
             </ExpandableSection>
@@ -218,13 +273,12 @@ const ClientSignup: NextPage = () => {
               currentStep={currentStep}
               completedSteps={completedSteps}
             >
-              <ClientSignup3
-                onNext={() => {
-                  handleNextStep();
-                }}
+              <ClientSignup3 
+                onDataChange={updateFormData}
+                initialData={{ contact: formData.contact }}
               />
             </ExpandableSection>
-          </div>
+          </form>
         </div>
       </div>
     </div>

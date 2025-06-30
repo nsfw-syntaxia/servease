@@ -1,17 +1,12 @@
 "use client";
 
 import type { NextPage } from "next";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import styles from "../styles/register-client-3.module.css";
-import {addContactAndCompleteProfile} from "./actions3";
 
-type Props = {
-  onNext: () => void;
-};
 
-const ClientSignup3: NextPage<Props> = ({ onNext }) => {
+const ClientSignup3: NextPage = () => {
   const [phone, setPhone] = useState("");
   const [countryCode] = useState("+63");
   const [codeSent, setCodeSent] = useState(false);
@@ -24,11 +19,11 @@ const ClientSignup3: NextPage<Props> = ({ onNext }) => {
   const [otpErrorMessage, setOtpErrorMessage] = useState("");
   const otpRefs = useRef<HTMLInputElement[]>([]);
 
-  const router = useRouter();
 
   const isPhoneValid = phone.replace(/\D/g, "").trim().length === 10;
   const isOtpValid = otp.every((digit) => /^\d$/.test(digit));
-  const isNextEnabled = codeSent && isOtpValid;
+  // The submit button is enabled only when the mock OTP is valid.
+  const isSubmitEnabled = codeSent && isOtpValid;
 
   const handlePhoneChange = (input: string) => {
     const raw = input.replace(/\D/g, "").slice(0, 10);
@@ -103,24 +98,6 @@ const ClientSignup3: NextPage<Props> = ({ onNext }) => {
   ) => {
     if (e.key === "Backspace" && !otp[index] && index > 0) {
       otpRefs.current[index - 1]?.focus();
-    }
-  };
-
-  const handleSubmit = async () => {
-    setErrorMessage("");
-    try {
-      if (!isOtpValid) throw new Error("Please enter a valid 4-digit code");
-
-      setLoading(true);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      const formData = new FormData();
-      formData.append('contact', countryCode + phone);
-      await addContactAndCompleteProfile(formData);
-      router.push("/discover");
-    } catch (error: any) {
-      setErrorMessage(error.message || "Verification failed");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -266,22 +243,27 @@ const ClientSignup3: NextPage<Props> = ({ onNext }) => {
         </div>
       </div>
 
-      <div
+      <button
+        type="submit" // CRITICAL: This triggers the parent <form>'s action.
         className={styles.button3}
+        disabled={!isSubmitEnabled || loading} // Disable if OTP isn't valid or during mock loading
         style={{
           backgroundColor: "#a68465",
-          opacity: isNextEnabled ? "1" : "0.5",
+          opacity: isSubmitEnabled ? "1" : "0.5",
           transition: "opacity 0.2s ease",
-          cursor: isNextEnabled ? "pointer" : "not-allowed",
+          cursor: isSubmitEnabled ? "pointer" : "not-allowed",
+          border: "none",
+          padding: 0,
+          font: "inherit",
         }}
-        onClick={isNextEnabled ? handleSubmit : undefined}
       >
         <div className={styles.signUpWrapper}>
           <div className={styles.webDesigns}>
-            {loading ? "Verifying..." : "Sign Up"}
+            {/* You could use useFormStatus here for a real pending state */}
+            {loading ? "Processing..." : "Sign Up"}
           </div>
         </div>
-      </div>
+      </button>
     </div>
   );
 };

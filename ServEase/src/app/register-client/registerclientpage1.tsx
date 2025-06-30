@@ -2,17 +2,18 @@
 
 import type { NextPage } from "next";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "../styles/RegisterFacilityPage1copy.module.css";
-import { clientLoginCredentials } from "./actions1";
 
 type Props = {
   onNext: () => void;
+  onDataChange: (data: { email: string; password: string }) => void;
+  initialData: { email: string; password: string };
 };
 
-export default function ClientSignup1({ onNext }: Props) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export default function ClientSignup1({ onNext, onDataChange, initialData }: Props) {
+  const [email, setEmail] = useState(initialData.email);
+  const [password, setPassword] = useState(initialData.password);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
@@ -25,6 +26,11 @@ export default function ClientSignup1({ onNext }: Props) {
     password: false,
     confirmPassword: false,
   });
+
+  // Update parent form data whenever email or password changes
+  useEffect(() => {
+    onDataChange({ email, password });
+  }, [email, password, onDataChange]);
 
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -39,7 +45,7 @@ export default function ClientSignup1({ onNext }: Props) {
     setConfirmPasswordVisible(!confirmPasswordVisible);
   };
 
-  const handleSignUpClick = async () => {
+  const handleNextClick = () => {
     setButtonClicked(true);
     setTimeout(() => setButtonClicked(false), 200);
 
@@ -85,20 +91,10 @@ export default function ClientSignup1({ onNext }: Props) {
       return;
     }
 
-    try {
-      const formData = new FormData();
-      formData.append('email', email);
-      formData.append('password', password);
-      await clientLoginCredentials(formData);
-      setFieldErrors(newFieldErrors);
-      setError("");
-      setShowError(false);
-      console.log("Form is valid, proceeding to next step");
-      onNext();
-    }
-    catch (error) {
-      console.log("Error registration");
-    }
+    // Clear errors and proceed to next step
+    setError("");
+    setShowError(false);
+    onNext();
   };
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -137,8 +133,8 @@ export default function ClientSignup1({ onNext }: Props) {
       <div className={styles.loginDescrip}>
         <div className={styles.loginDescrip1}>
           <div className={styles.setUpYour}>
-            Set up your login credential to keep your account secure. We’ll send
-            a one-time link to confirm it’s really you.
+            Set up your login credential to keep your account secure. We'll send
+            a one-time link to confirm it's really you.
           </div>
           <div className={styles.allFieldsRequired}>
             *All fields required unless noted.
@@ -236,7 +232,7 @@ export default function ClientSignup1({ onNext }: Props) {
             opacity: isFormValid ? "1" : "0.5",
             transition: "opacity 0.2s ease",
           }}
-          onClick={handleSignUpClick}
+          onClick={handleNextClick}
         >
           <div className={styles.signup}>
             <div className={styles.signupText}>Next</div>
