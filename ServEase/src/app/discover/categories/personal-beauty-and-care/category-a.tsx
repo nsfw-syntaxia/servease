@@ -391,7 +391,7 @@ const PBACS: NextPage = () => {
           <Link
             href={{
               pathname: "/specific-category",
-              query: { name: "Hair_Salons" },
+              query: { name: "Hair Salons" },
             }}
           >
             <div className={styles.iconContainer}>
@@ -408,44 +408,65 @@ const PBACS: NextPage = () => {
             </div>
           </Link>
 
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.nailSalonIcon}
-                src="/nail salon.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Nail Salons" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.nailSalonIcon}
+                  src="/nail salon.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Nail Salons</div>
             </div>
-            <div className={styles.label}>Nail Salons</div>
-          </div>
+          </Link>
 
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.spaIcon}
-                src="/spa.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Spa & Massage Centers" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.spaIcon}
+                  src="/spa.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Spa & Massage Centers</div>
             </div>
-            <div className={styles.label}>Spa & Massage Centers</div>
-          </div>
+          </Link>
 
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.piercingIcon}
-                src="/piercing.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Tattoo & Piercing Parlors" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.piercingIcon}
+                  src="/piercing.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Tattoo & Piercing Parlors</div>
             </div>
-            <div className={styles.label}>Tattoo & Piercing Parlors</div>
-          </div>
+          </Link>
         </div>
       </div>
 

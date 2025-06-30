@@ -178,8 +178,8 @@ const SpecificCategory: NextPage = () => {
       <div className={styles.bg}>
         {/* hero img */}
         <div className={styles.heroImg}>
-          <Image width={1300} height={331} alt="" src="/Barbershop.png" />
-          <div className={styles.personalBeautyAnd}>Barbershop</div>
+          <Image width={1300} height={331} alt="" src={`/${name}.png`} />
+          <div className={styles.personalBeautyAnd}>{name}</div>
         </div>
 
         {/* search */}
