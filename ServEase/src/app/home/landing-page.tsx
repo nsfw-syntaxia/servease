@@ -372,7 +372,7 @@ const LandingPage = () => {
             </div>
             <div 
               className={styles.home1}
-              onClick={() => router.push("/home")}
+              onClick={() => router.push("/discover")}
               >Discover
             </div>
             <div
