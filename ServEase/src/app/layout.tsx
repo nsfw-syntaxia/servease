@@ -1,8 +1,10 @@
 import { DM_Sans } from "next/font/google";
 import { Benne } from "next/font/google";
 import { Poppins } from "next/font/google";
-import Loading from "@/components/components/ui/loading";
 import "./styles/globals.css";
+
+import { LoadingProvider } from "@/components/components/ui/loading-context";
+import Loading from "@/components/components/ui/loading";
 
 const DmSansFont = DM_Sans({
   variable: "--font-dm-sans",
@@ -37,8 +39,10 @@ export default function RootLayout({ children }) {
       <body
         className={`${DmSansFont.variable} ${BenneFont.variable} ${poppins.variable} antialiased`}
       >
-        <Loading />
-        {children}
+        <LoadingProvider>
+          <Loading />
+          {children}
+        </LoadingProvider>
       </body>
     </html>
   );
