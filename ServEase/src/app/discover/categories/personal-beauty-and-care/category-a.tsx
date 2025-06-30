@@ -241,6 +241,200 @@ const PBACS: NextPage = () => {
 
   return (
     <div className={styles.pbacs}>
+      {/* nav */}
+      <div className={styles.nav}>
+        <Image
+          className={styles.serveaseLogoAlbumCover3}
+          width={40}
+          height={40}
+          sizes="100vw"
+          alt=""
+          src="/logo.svg"
+          onClick={() => router.push("/home")}
+        />
+        <div className={styles.servease1} onClick={() => router.push("/home")}>
+          <span className={styles.serv}>serv</span>
+          <b>ease</b>
+        </div>
+        <div className={styles.navChild} />
+        <div className={styles.homeParent}>
+          <div className={styles.home1} onClick={() => router.push("/home")}>
+            Home
+          </div>
+          <div
+            className={styles.home1}
+            onClick={() => router.push("/discover")}
+          >
+            Discover
+          </div>
+          <div
+            className={styles.contactUs1}
+            onClick={() => {
+              window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: "smooth",
+              });
+            }}
+          >
+            Contact Us
+          </div>
+        </div>
+        <div className={styles.navChild} />
+        <div className={styles.dropdownWrapper} ref={dropdownRef}>
+          <div className={styles.avataricon} onClick={() => setOpen(!open)}>
+            <Image
+              src="/avatar.svg"
+              alt="Profile"
+              width={40}
+              height={40}
+              sizes="100vw"
+            />
+          </div>
+
+          {open && (
+            <div className={styles.dropdownMenu}>
+              {items.map((item, index) => {
+                const isActive = hovered === item.label;
+                const isFirst = index === 0;
+                const isLast = index === items.length - 1;
+
+                let borderClass = "";
+                if (isActive && isFirst) {
+                  borderClass = styles.activeTop;
+                } else if (isActive && isLast) {
+                  borderClass = styles.activeBottom;
+                }
+
+                return (
+                  <Link
+                    href={item.href}
+                    key={item.label}
+                    className={`${styles.dropdownItem} ${
+                      isActive ? styles.active : ""
+                    } ${borderClass}`}
+                    onMouseEnter={() => setHovered(item.label)}
+                    onMouseLeave={() => setHovered("")}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </div>
+      <div className={styles.bg}>
+        {/* hero img */}
+        <div className={styles.heroImg}>
+          <div className={styles.personalBeautyAnd}>
+            Personal Beauty and Care Services
+          </div>
+        </div>
+
+        {/* search */}
+        <div className={styles.searchBox}>
+          <div className={styles.filtering}>
+            <div className={styles.link6}>
+              <Image
+                className={styles.icon2}
+                width={20}
+                height={20}
+                sizes="100vw"
+                alt=""
+                src="/filtering.svg"
+              />
+              <div className={styles.moreFilters}>More Filters</div>
+            </div>
+          </div>
+          <div className={styles.btnfind}>
+            <Image
+              className={styles.icon3}
+              width={15}
+              height={15}
+              sizes="100vw"
+              alt=""
+              src="/search.svg"
+            />
+            <div className={styles.findListing}>Find Listing</div>
+          </div>
+          <div className={styles.inputBox}>
+            <input
+              type="text"
+              className={styles.enterAService}
+              placeholder="Enter a Service Name, Category, or Location"
+            />
+          </div>
+        </div>
+
+        {/* icons */}
+        <div className={styles.icons}>
+          <div className={styles.iconContainer}>
+            <div className={styles.iconWrapper}>
+              <Image
+                className={styles.barbershopIcon}
+                src="/barbershop.svg"
+                alt=""
+                width={75}
+                height={75}
+              />
+            </div>
+            <div className={styles.label}>Barbershops</div>
+          </div>
+
+          <div className={styles.iconContainer}>
+            <div className={styles.iconWrapper}>
+              <Image
+                className={styles.hairSalonIcon}
+                src="/hair salon.svg"
+                alt=""
+                width={75}
+                height={75}
+              />
+            </div>
+            <div className={styles.label}>Hair Salons</div>
+          </div>
+
+          <div className={styles.iconContainer}>
+            <div className={styles.iconWrapper}>
+              <Image
+                className={styles.nailSalonIcon}
+                src="/nail salon.svg"
+                alt=""
+                width={75}
+                height={75}
+              />
+            </div>
+            <div className={styles.label}>Nail Salons</div>
+          </div>
+
+          <div className={styles.iconContainer}>
+            <div className={styles.iconWrapper}>
+              <Image
+                className={styles.spaIcon}
+                src="/spa.svg"
+                alt=""
+                width={75}
+                height={75}
+              />
+            </div>
+            <div className={styles.label}>Spa & Massage Centers</div>
+          </div>
+
+          <div className={styles.iconContainer}>
+            <div className={styles.iconWrapper}>
+              <Image
+                className={styles.piercingIcon}
+                src="/piercing.svg"
+                alt=""
+                width={75}
+                height={75}
+              />
+            </div>
+            <div className={styles.label}>Tattoo & Piercing Parlors</div>
+          </div>
+        </div>
+      </div>
+
       {/* popular services */}
       <div className={styles.popularServices}>
         <b className={styles.allServices1}>
@@ -379,200 +573,6 @@ const PBACS: NextPage = () => {
         </div>
       </div>
 
-      <div className={styles.bg} />
-      {/* icons */}
-      <div className={styles.icons}>
-        <div className={styles.iconContainer}>
-          <div className={styles.iconWrapper}>
-            <Image
-              className={styles.barbershopIcon}
-              src="/barbershop.svg"
-              alt=""
-              width={75}
-              height={75}
-            />
-          </div>
-          <div className={styles.label}>Barbershops</div>
-        </div>
-
-        <div className={styles.iconContainer}>
-          <div className={styles.iconWrapper}>
-            <Image
-              className={styles.hairSalonIcon}
-              src="/hair salon.svg"
-              alt=""
-              width={75}
-              height={75}
-            />
-          </div>
-          <div className={styles.label}>Hair Salons</div>
-        </div>
-
-        <div className={styles.iconContainer}>
-          <div className={styles.iconWrapper}>
-            <Image
-              className={styles.nailSalonIcon}
-              src="/nail salon.svg"
-              alt=""
-              width={75}
-              height={75}
-            />
-          </div>
-          <div className={styles.label}>Nail Salons</div>
-        </div>
-
-        <div className={styles.iconContainer}>
-          <div className={styles.iconWrapper}>
-            <Image
-              className={styles.spaIcon}
-              src="/spa.svg"
-              alt=""
-              width={75}
-              height={75}
-            />
-          </div>
-          <div className={styles.label}>Spa & Massage Centers</div>
-        </div>
-
-        <div className={styles.iconContainer}>
-          <div className={styles.iconWrapper}>
-            <Image
-              className={styles.piercingIcon}
-              src="/piercing.svg"
-              alt=""
-              width={75}
-              height={75}
-            />
-          </div>
-          <div className={styles.label}>Tattoo & Piercing Parlors</div>
-        </div>
-      </div>
-
-      {/* search */}
-      <div className={styles.searchBox}>
-        <div className={styles.filtering}>
-          <div className={styles.link6}>
-            <Image
-              className={styles.icon2}
-              width={20}
-              height={20}
-              sizes="100vw"
-              alt=""
-              src="/filtering.svg"
-            />
-            <div className={styles.moreFilters}>More Filters</div>
-          </div>
-        </div>
-        <div className={styles.btnfind}>
-          <Image
-            className={styles.icon3}
-            width={15}
-            height={15}
-            sizes="100vw"
-            alt=""
-            src="/search.svg"
-          />
-          <div className={styles.findListing}>Find Listing</div>
-        </div>
-        <div className={styles.inputBox}>
-          <input
-            type="text"
-            className={styles.enterAService}
-            placeholder="Enter a Service Name, Category, or Location"
-          />
-        </div>
-      </div>
-
-      {/* hero img */}
-      <div className={styles.heroImg}>
-        <div className={styles.image12} />
-        <div className={styles.personalBeautyAnd}>
-          Personal Beauty and Care Services
-        </div>
-      </div>
-
-      {/* nav */}
-      <div className={styles.nav}>
-        <Image
-          className={styles.serveaseLogoAlbumCover3}
-          width={40}
-          height={40}
-          sizes="100vw"
-          alt=""
-          src="/logo.svg"
-          onClick={() => router.push("/home")}
-        />
-        <div className={styles.servease1} onClick={() => router.push("/home")}>
-          <span className={styles.serv}>serv</span>
-          <b>ease</b>
-        </div>
-        <div className={styles.navChild} />
-        <div className={styles.homeParent}>
-          <div className={styles.home1} onClick={() => router.push("/home")}>
-            Home
-          </div>
-          <div
-            className={styles.home1}
-            onClick={() => router.push("/discover")}
-          >
-            Discover
-          </div>
-          <div
-            className={styles.contactUs1}
-            onClick={() => {
-              window.scrollTo({
-                top: document.body.scrollHeight,
-                behavior: "smooth",
-              });
-            }}
-          >
-            Contact Us
-          </div>
-        </div>
-        <div className={styles.navChild} />
-        <div className={styles.dropdownWrapper} ref={dropdownRef}>
-          <div className={styles.avataricon} onClick={() => setOpen(!open)}>
-            <Image
-              src="/avatar.svg"
-              alt="Profile"
-              width={40}
-              height={40}
-              sizes="100vw"
-            />
-          </div>
-
-          {open && (
-            <div className={styles.dropdownMenu}>
-              {items.map((item, index) => {
-                const isActive = hovered === item.label;
-                const isFirst = index === 0;
-                const isLast = index === items.length - 1;
-
-                let borderClass = "";
-                if (isActive && isFirst) {
-                  borderClass = styles.activeTop;
-                } else if (isActive && isLast) {
-                  borderClass = styles.activeBottom;
-                }
-
-                return (
-                  <Link
-                    href={item.href}
-                    key={item.label}
-                    className={`${styles.dropdownItem} ${
-                      isActive ? styles.active : ""
-                    } ${borderClass}`}
-                    onMouseEnter={() => setHovered(item.label)}
-                    onMouseLeave={() => setHovered("")}
-                  >
-                    {item.label}
-                  </Link>
-                );
-              })}
-            </div>
-          )}
-        </div>
-      </div>
       <div className={styles.footer}>
         <div className={styles.footerChild} />
         <div className={styles.yourTrustedPlatform}>
