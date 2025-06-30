@@ -1,54 +1,69 @@
-import DashboardClient from './dashboardclient'; 
 import { createClient } from "../lib/supabase/server";
 import { redirect } from "next/navigation";
+import DashboardClient from "./dashboardclient"; // Your existing component
+import { type Appointment, type Service } from "../lib/supabase/types"; // We'll define these types for clarity
 
-// This is a Server Component, so we can make it async
-export default async function DashboardPage() {
-  const supabase = await createClient();
+export default async function ClientDashboardPage() {
+  const supabase = createClient();
 
-  // 1. Get the current user session
   const { data: { user } } = await supabase.auth.getUser();
 
-  // 2. If no user is logged in, redirect to the login page
   if (!user) {
-    redirect("/login"); // Or your login page
+    redirect("/login");
   }
 
-  // 3. Fetch user profile data (including avatar) from the 'profiles' table
   const { data: profile } = await supabase
     .from('profiles')
-    .select('profile_picture') // Select the column with the avatar path
+    .select('role, avatar_url')
     .eq('id', user.id)
     .single();
 
-  let avatarUrl = '/Avatar.svg'; // Default avatar
-  if (profile && profile.profile_picture) {
-    // If an avatar exists, get its public URL from Supabase Storage
-    const { data: { publicUrl } } = supabase.storage
-      .from('avatars') // The name of your storage bucket
-      .getPublicUrl(profile.profile_picture);
-    avatarUrl = publicUrl;
+  if (!profile || profile.role !== 'client') {
+    redirect('/login');
   }
 
-  // 4. Fetch other data like appointments and featured services
-  // (This is an example of how you would fetch this from your database)
+  let avatarUrl = '/avatar.svg'; 
+  if (profile.avatar_url) {
+    if (!profile.avatar_url.startsWith('http')) {
+      const { data } = supabase.storage
+        .from('avatars') 
+        .getPublicUrl(profile.avatar_url);
+      avatarUrl = data.publicUrl;
+    } else {
+      avatarUrl = profile.avatar_url;
+    }
+  }
+
   const { data: appointments } = await supabase
     .from('appointments')
-    .select('*')
-    .eq('user_id', user.id)
-    .order('date', { ascending: true });
+    .select(`
+      id,
+      start_time,
+      status,
+      service:services (name),
+      provider:profiles (business_name, address)
+    `)
+    .eq('client_id', user.id)
+    .in('status', ['pending', 'confirmed']) 
+    .order('start_time', { ascending: true })
+    .limit(2); 
 
   const { data: featuredServices } = await supabase
     .from('services')
-    .select('*')
-    .eq('is_featured', true);
+    .select(`
+      id,
+      name,
+      price,
+      provider:profiles (business_name, avatar_url)
+    `)
+    .limit(6);
 
-  // 5. Render the Client Component and pass all the fetched data as props
+
   return (
     <DashboardClient
       avatarUrl={avatarUrl}
-      appointments={appointments || []}
-      featuredServices={featuredServices || []}
+      appointments={appointments as Appointment[] || []}
+      featuredServices={featuredServices as Service[] || []}
     />
   );
 }

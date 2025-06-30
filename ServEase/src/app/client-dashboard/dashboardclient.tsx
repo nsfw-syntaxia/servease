@@ -5,112 +5,108 @@ import Image from "next/image";
 import styles from "../styles/dashboard-client.module.css";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { type Appointment, type Service } from "../lib/supabase/types"; 
 
 interface DashboardClientProps {
   avatarUrl: string;
-  appointments: any[]; // Replace 'any' with your actual appointment type
-  featuredServices: any[]; // Replace 'any' with your actual service type
+  appointments: Appointment[];
+  featuredServices: Service[];
 }
 
-const UpcomingAppointmentCard = ({ appointment }: { appointment: any }) => (
-  <div className={styles.appointmentCard}>
-    <div className={styles.cardContent}>
-      <div className={styles.serviceInfo}>
-        <div className={styles.serviceAvatar}>
-          <Image
-            width={60}
-            height={60}
-            src="/circle.svg"
-            alt="Service Provider"
-          />
-        </div>
-        <div className={styles.serviceDetails}>
-          <h3 className={styles.serviceName}>{appointment.serviceName}</h3>
-          <p className={styles.serviceLocation}>{appointment.location}</p>
-        </div>
-      </div>
-      <div className={styles.appointmentInfo}>
-        <div className={styles.timeInfo}>
-          <Image width={16} height={16} src="/Vector.svg" alt="Time" />
-          <span>{appointment.time}</span>
-        </div>
-        <div className={styles.dateInfo}>
-          <Image width={20} height={20} src="/calendar_month.svg" alt="Date" />
-          <span>{appointment.date}</span>
-        </div>
-      </div>
-    </div>
-  </div>
-);
+const UpcomingAppointmentCard = ({ appointment }: { appointment: Appointment }) => {
+  const appointmentDate = new Date(appointment.start_time);
+  const time = appointmentDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+  const date = appointmentDate.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' });
 
-// Card for a single featured service
-const FeaturedServiceCard = ({ service }: { service: any }) => (
-  <div className={styles.serviceCard}>
-    <div className={styles.serviceImage}></div>
-    <div className={styles.serviceCardContent}>
-      <div className={styles.serviceProvider}>
-        <div className={styles.providerAvatar}></div>
-        <div className={styles.providerInfo}>
-          <h3 className={styles.providerName}>{service.providerName}</h3>
-          <div className={styles.rating}>
-            <div className={styles.stars}>
-              <Image width={16} height={16} src="/Star 3.svg" alt="Star" />
-              <Image width={16} height={16} src="/Star 3.svg" alt="Star" />
-              <Image width={16} height={16} src="/Star 3.svg" alt="Star" />
-              <Image width={16} height={16} src="/Star 3.svg" alt="Star" />
-              <Image width={16} height={16} src="/Star 4.svg" alt="Star" />
-            </div>
-            <span className={styles.ratingScore}>
-              {service.rating.toFixed(1)}
-            </span>
+  const providerName = appointment.provider?.[0]?.business_name || 'Unknown Provider';
+  const providerAddress = appointment.provider?.[0]?.address || 'No address provided';
+
+  return (
+    <div className={styles.appointmentCard}>
+      <div className={styles.cardContent}>
+        <div className={styles.serviceInfo}>
+          <div className={styles.serviceAvatar}>
+          </div>
+          <div className={styles.serviceDetails}>
+            <h3 className={styles.serviceName}>{providerName}</h3>
+            <p className={styles.serviceLocation}>{providerAddress}</p>
+          </div>
+        </div>
+        <div className={styles.appointmentInfo}>
+          <div className={styles.timeInfo}>
+            <Image width={16} height={16} src="/Vector.svg" alt="Time" />
+            <span>{time}</span>
+          </div>
+          <div className={styles.dateInfo}>
+            <Image width={20} height={20} src="/calendar_month.svg" alt="Date" />
+            <span>{date}</span>
           </div>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
+
+// --- FIX 2: UPDATED FEATURED SERVICE CARD WITH SAFE DATA ACCESS ---
+const FeaturedServiceCard = ({ service }: { service: Service }) => {
+  // Safely access the provider's name and avatar
+  const providerName = service.provider?.[0]?.business_name || 'Unknown Provider';
+  const providerAvatar = service.provider?.[0]?.avatar_url || '/Avatar.svg'; // Fallback to default avatar
+
+  return (
+    <div className={styles.serviceCard}>
+      <div className={styles.serviceImage}>
+        {/* You could put the service image here if you had one */}
+      </div>
+      <div className={styles.serviceCardContent}>
+        <div className={styles.serviceProvider}>
+          <div className={styles.providerAvatar}>
+            {/* In the future, this can use the providerAvatar variable */}
+          </div>
+          <div className={styles.providerInfo}>
+            <h3 className={styles.providerName}>{providerName}</h3>
+            <div className={styles.rating}>
+              <div className={styles.stars}>
+                {/* You would fetch and display real ratings here */}
+                <Image width={16} height={16} src="/Star 3.svg" alt="Star" />
+                <Image width={16} height={16} src="/Star 3.svg" alt="Star" />
+                <Image width={16} height={16} src="/Star 3.svg" alt="Star" />
+                <Image width={16} height={16} src="/Star 3.svg" alt="Star" />
+                <Image width={16} height={16} src="/Star 4.svg" alt="Star" />
+              </div>
+              {/* This rating would also come from your data */}
+              <span className={styles.ratingScore}>4.5</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 
 const DashboardClient: NextPage<DashboardClientProps> = ({ avatarUrl, appointments, featuredServices }) => {
   const router = useRouter();
-
-  // REMOVED: All useEffect and useState for fetching data.
-  // We now get this data from props.
-
-  // KEPT: All client-side state for interactivity (slideshow, carousel)
   const [currentIndex, setCurrentIndex] = useState(0);
   const visibleServices = 3; 
 
   const handleNext = () => {
-    // Stop at the last possible slide to not show empty space
-    if (currentIndex < featuredServices.length - visibleServices) {
+    if (featuredServices && currentIndex < featuredServices.length - visibleServices) {
       setCurrentIndex((prevIndex) => prevIndex + 1);
     }
   };
 
   const handlePrev = () => {
-    // Stop at the beginning
     if (currentIndex > 0) {
       setCurrentIndex((prevIndex) => prevIndex - 1);
     }
   };
 
   const slides = [
-    {
-      id: 1,
-      image: "/header-image.jpg",
-      alt: "Barber tools on a slate background",
-    },
-    {
-      id: 2,
-      image: "/LandingPageImage2.png",
-      alt: "Another view of barber tools",
-    },
-    {
-      id: 3,
-      image: "/LandingPageImage3.png",
-      alt: "Close up of hair clippers",
-    },
-    { id: 4, image: "/LandingPageImage4.png", alt: "Hair styling products" },
+    { id: 1, image: "/header-image.jpg", alt: "Barber tools" },
+    { id: 2, image: "/LandingPageImage2.png", alt: "Salon interior" },
+    { id: 3, image: "/LandingPageImage3.png", alt: "Hair clippers" },
+    { id: 4, image: "/LandingPageImage4.png", alt: "Styling products" },
   ];
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -121,81 +117,31 @@ const DashboardClient: NextPage<DashboardClientProps> = ({ avatarUrl, appointmen
     return () => clearInterval(timer);
   }, [slides.length]);
 
-  const goToSlide = (slideIndex: number) => {
-    setCurrentSlide(slideIndex);
-  };
+  const goToSlide = (slideIndex: number) => setCurrentSlide(slideIndex);
 
   return (
     <div className={styles.dashboardClient}>
       <nav className={styles.navigation}>
         <div className={styles.navContent}>
           <div className={styles.logo}>
-            <Image
-              className={styles.logoImage}
-              width={40}
-              height={40}
-              sizes="100vw"
-              alt="Servease Logo"
-              src="/Servease Logo.svg"
-            />
-            <div className={styles.brandName}>
-              <span className={styles.serv}>serv</span>
-              <span className={styles.ease}>ease</span>
-            </div>
+            <Image className={styles.logoImage} width={40} height={40} alt="Servease Logo" src="/Servease Logo.svg" />
+            <div className={styles.brandName}><span className={styles.serv}>serv</span><span className={styles.ease}>ease</span></div>
           </div>
-
           <div className={styles.navLinks}>
-            <a href="#" className={styles.navLink}>
-              Home
-            </a>
-            <a href="#" className={styles.navLink}>
-              Discover
-            </a>
-            <a
-              href="#"
-              className={styles.navLink}
-              onClick={() => {
-                window.scrollTo({
-                  top: document.body.scrollHeight,
-                  behavior: "smooth",
-                });
-              }}
-            >
-              Contact Us
-            </a>
+            <a href="#" className={styles.navLink}>Home</a>
+            <a href="#" className={styles.navLink}>Discover</a>
+            <a href="#" className={styles.navLink} onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" })}>Contact Us</a>
           </div>
-
           <div className={styles.userAvatar}>
-            <Image
-              // Use a key to force re-render when the URL changes from default to fetched
-              key={avatarUrl}
-              className={styles.avatarIcon}
-              width={40}
-              height={40}
-              sizes="100vw"
-              alt="User Avatar"
-              // Use the state variable for the image source
-              src={avatarUrl}
-            />
+            <Image key={avatarUrl} className={styles.avatarIcon} width={40} height={40} alt="User Avatar" src={avatarUrl} />
           </div>
         </div>
       </nav>
 
       <section className={styles.heroSection}>
         {slides.map((slide, index) => (
-          <div
-            key={slide.id}
-            className={`${styles.slide} ${
-              index === currentSlide ? styles.active : ""
-            }`}
-          >
-            <Image
-              src={slide.image}
-              alt={slide.alt}
-              layout="fill"
-              objectFit="cover"
-              priority={index === 0} // Load the first image faster
-            />
+          <div key={slide.id} className={`${styles.slide} ${index === currentSlide ? styles.active : ""}`}>
+            <Image src={slide.image} alt={slide.alt} layout="fill" objectFit="cover" priority={index === 0} />
           </div>
         ))}
         <div className={styles.heroOverlay} />
@@ -207,14 +153,7 @@ const DashboardClient: NextPage<DashboardClientProps> = ({ avatarUrl, appointmen
         </div>
         <div className={styles.slideDots}>
           {slides.map((_, index) => (
-            <button
-              key={index}
-              className={`${styles.dot} ${
-                index === currentSlide ? styles.active : ""
-              }`}
-              onClick={() => goToSlide(index)}
-              aria-label={`Go to slide ${index + 1}`}
-            />
+            <button key={index} className={`${styles.dot} ${index === currentSlide ? styles.active : ""}`} onClick={() => goToSlide(index)} aria-label={`Go to slide ${index + 1}`} />
           ))}
         </div>
       </section>
@@ -226,15 +165,11 @@ const DashboardClient: NextPage<DashboardClientProps> = ({ avatarUrl, appointmen
               <span>Upcoming</span>
               <span className={styles.titleAccent}> Appointments</span>
             </h2>
-            <button
-              className={styles.viewAllBtn}
-              onClick={() => router.push("/appointments")}
-            >
-              View All
-            </button>
+            <button className={styles.viewAllBtn} onClick={() => router.push("/appointments")}>View All</button>
           </div>
           <div className={styles.appointmentsGrid}>
-            {appointments.length > 0 ? (
+            {/* The map function now correctly uses the 'appointments' prop */}
+            {appointments && appointments.length > 0 ? (
               appointments.map((app) => (
                 <UpcomingAppointmentCard key={app.id} appointment={app} />
               ))
@@ -253,47 +188,22 @@ const DashboardClient: NextPage<DashboardClientProps> = ({ avatarUrl, appointmen
           </div>
 
           <div className={styles.servicesCarousel}>
-            {/* Show Prev button only if not at the beginning */}
             {currentIndex > 0 && (
-              <button
-                className={`${styles.carouselButton} ${styles.prevButton}`}
-                onClick={handlePrev}
-              >
-                <Image
-                  width={28}
-                  height={28}
-                  src="/Chevron right.svg"
-                  alt="Previous"
-                />
+              <button className={`${styles.carouselButton} ${styles.prevButton}`} onClick={handlePrev}>
+                <Image width={28} height={28} src="/Chevron right.svg" alt="Previous" />
               </button>
             )}
-
             <div className={styles.carouselViewport}>
-              <div
-                className={styles.carouselTrack}
-                style={{
-                  // This inline style moves the track one card-width at a time
-                  transform: `translateX(calc(-${currentIndex} * (100% / ${visibleServices})))`,
-                }}
-              >
-                {featuredServices.map((service) => (
+              <div className={styles.carouselTrack} style={{ transform: `translateX(calc(-${currentIndex} * (100% / ${visibleServices})))` }}>
+                {/* FIX 3: THE MAP FUNCTION ON LINE 259 NOW CORRECTLY USES THE 'featuredServices' PROP */}
+                {featuredServices && featuredServices.map((service) => (
                   <FeaturedServiceCard key={service.id} service={service} />
                 ))}
               </div>
             </div>
-
-            {/* Show Next button only if not at the end */}
-            {currentIndex < featuredServices.length - visibleServices && (
-              <button
-                className={`${styles.carouselButton} ${styles.nextButton}`}
-                onClick={handleNext}
-              >
-                <Image
-                  width={28}
-                  height={28}
-                  src="/Chevron right.svg"
-                  alt="Next"
-                />
+            {featuredServices && currentIndex < featuredServices.length - visibleServices && (
+              <button className={`${styles.carouselButton} ${styles.nextButton}`} onClick={handleNext}>
+                <Image width={28} height={28} src="/Chevron right.svg" alt="Next" />
               </button>
             )}
           </div>

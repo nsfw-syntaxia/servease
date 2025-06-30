@@ -63,7 +63,7 @@ const Login: NextPage = () => {
 
       // Handle the result
       if (result.success) {
-        router.push("/discover");
+        router.push("/client-dashboard");
       } else {
         setError(
           result.error || "Login failed. Please check your credentials."
