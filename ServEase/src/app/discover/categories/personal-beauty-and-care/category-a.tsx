@@ -368,31 +368,45 @@ const PBACS: NextPage = () => {
 
         {/* icons */}
         <div className={styles.icons}>
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.barbershopIcon}
-                src="/barbershop.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Barbershops" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.barbershopIcon}
+                  src="/barbershop.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Barbershops</div>
             </div>
-            <div className={styles.label}>Barbershops</div>
-          </div>
+          </Link>
 
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.hairSalonIcon}
-                src="/hair salon.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Hair_Salons" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.hairSalonIcon}
+                  src="/hair salon.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Hair Salons</div>
             </div>
-            <div className={styles.label}>Hair Salons</div>
-          </div>
+          </Link>
 
           <div className={styles.iconContainer}>
             <div className={styles.iconWrapper}>
