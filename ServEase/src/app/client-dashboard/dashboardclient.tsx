@@ -6,9 +6,6 @@ import styles from "../styles/dashboard-client.module.css";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-// --- REUSABLE COMPONENTS ---
-
-// Card for a single upcoming appointment
 const UpcomingAppointmentCard = ({ appointment }: { appointment: any }) => (
   <div className={styles.appointmentCard}>
     <div className={styles.cardContent}>
@@ -111,7 +108,7 @@ const DashboardClient: NextPage = () => {
               height={40}
               sizes="100vw"
               alt="Servease Logo"
-              src="/Servease Logo (Album Cover) (3) 1.png"
+              src="/Servease Logo.svg"
             />
             <div className={styles.brandName}>
               <span className={styles.serv}>serv</span>
