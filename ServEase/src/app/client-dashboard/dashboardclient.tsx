@@ -6,6 +6,12 @@ import styles from "../styles/dashboard-client.module.css";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
+interface DashboardClientProps {
+  avatarUrl: string;
+  appointments: any[]; // Replace 'any' with your actual appointment type
+  featuredServices: any[]; // Replace 'any' with your actual service type
+}
+
 const UpcomingAppointmentCard = ({ appointment }: { appointment: any }) => (
   <div className={styles.appointmentCard}>
     <div className={styles.cardContent}>
@@ -54,7 +60,9 @@ const FeaturedServiceCard = ({ service }: { service: any }) => (
               <Image width={16} height={16} src="/Star 3.svg" alt="Star" />
               <Image width={16} height={16} src="/Star 4.svg" alt="Star" />
             </div>
-            <span className={styles.ratingScore}>{service.rating.toFixed(1)}</span>
+            <span className={styles.ratingScore}>
+              {service.rating.toFixed(1)}
+            </span>
           </div>
         </div>
       </div>
@@ -62,59 +70,60 @@ const FeaturedServiceCard = ({ service }: { service: any }) => (
   </div>
 );
 
-
-const DashboardClient: NextPage = () => {
+const DashboardClient: NextPage<DashboardClientProps> = ({ avatarUrl, appointments, featuredServices }) => {
   const router = useRouter();
-  const [appointments, setAppointments] = useState([
-    { id: 1, serviceName: "Service Facility Name", location: "Location", time: "1:00 PM", date: "Wed, June 30" },
-    { id: 2, serviceName: "Another Service Place", location: "Another Location", time: "4:30 PM", date: "Thu, July 1" },
-  ]);
 
-  const [featuredServices, setFeaturedServices] = useState([
-    { id: 1, providerName: "Glamour Salon", rating: 4.5 },
-    { id: 2, providerName: "AutoCare Experts", rating: 4.8 },
-    { id: 3, providerName: "HomeClean Pro", rating: 4.2 },
-    { id: 4, providerName: "PetPamper Palace", rating: 4.9 },
-    { id: 5, providerName: "Tech-Fix It", rating: 4.6 },
-    { id: 6, providerName: "GardenScapes", rating: 4.7 },
-  ]);
+  // REMOVED: All useEffect and useState for fetching data.
+  // We now get this data from props.
 
+  // KEPT: All client-side state for interactivity (slideshow, carousel)
   const [currentIndex, setCurrentIndex] = useState(0);
-  const visibleServices = 3; // How many services are visible at once
+  const visibleServices = 3; 
 
   const handleNext = () => {
     // Stop at the last possible slide to not show empty space
     if (currentIndex < featuredServices.length - visibleServices) {
-      setCurrentIndex(prevIndex => prevIndex + 1);
+      setCurrentIndex((prevIndex) => prevIndex + 1);
     }
   };
 
   const handlePrev = () => {
     // Stop at the beginning
     if (currentIndex > 0) {
-      setCurrentIndex(prevIndex => prevIndex - 1);
+      setCurrentIndex((prevIndex) => prevIndex - 1);
     }
   };
 
   const slides = [
-    { id: 1, image: "/header-image.jpg", alt: "Barber tools on a slate background" },
-    { id: 2, image: "/LandingPageImage2.png", alt: "Another view of barber tools" },
-    { id: 3, image: "/LandingPageImage3.png", alt: "Close up of hair clippers" },
+    {
+      id: 1,
+      image: "/header-image.jpg",
+      alt: "Barber tools on a slate background",
+    },
+    {
+      id: 2,
+      image: "/LandingPageImage2.png",
+      alt: "Another view of barber tools",
+    },
+    {
+      id: 3,
+      image: "/LandingPageImage3.png",
+      alt: "Close up of hair clippers",
+    },
     { id: 4, image: "/LandingPageImage4.png", alt: "Hair styling products" },
   ];
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide(prev => (prev === slides.length - 1 ? 0 : prev + 1));
-    }, 4000); 
-    return () => clearInterval(timer); 
+      setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+    }, 4000);
+    return () => clearInterval(timer);
   }, [slides.length]);
 
   const goToSlide = (slideIndex: number) => {
     setCurrentSlide(slideIndex);
   };
-
 
   return (
     <div className={styles.dashboardClient}>
@@ -142,26 +151,31 @@ const DashboardClient: NextPage = () => {
             <a href="#" className={styles.navLink}>
               Discover
             </a>
-            <a href="#" 
-            className={styles.navLink}
-            onClick={() => {
+            <a
+              href="#"
+              className={styles.navLink}
+              onClick={() => {
                 window.scrollTo({
                   top: document.body.scrollHeight,
                   behavior: "smooth",
                 });
-              }}>
+              }}
+            >
               Contact Us
             </a>
           </div>
 
           <div className={styles.userAvatar}>
             <Image
+              // Use a key to force re-render when the URL changes from default to fetched
+              key={avatarUrl}
               className={styles.avatarIcon}
               width={40}
               height={40}
               sizes="100vw"
               alt="User Avatar"
-              src="/Avatar.svg"
+              // Use the state variable for the image source
+              src={avatarUrl}
             />
           </div>
         </div>
@@ -186,10 +200,10 @@ const DashboardClient: NextPage = () => {
         ))}
         <div className={styles.heroOverlay} />
         <div className={styles.heroContent}>
-            <h1 className={styles.heroTitle}>
-              <span className={styles.bookAn}>Book an</span>
-              <span className={styles.appointment}>Appointment</span>
-            </h1>
+          <h1 className={styles.heroTitle}>
+            <span className={styles.bookAn}>Book an</span>
+            <span className={styles.appointment}>Appointment</span>
+          </h1>
         </div>
         <div className={styles.slideDots}>
           {slides.map((_, index) => (
@@ -205,7 +219,6 @@ const DashboardClient: NextPage = () => {
         </div>
       </section>
 
-
       <main className={styles.mainContent}>
         <section className={styles.upcomingSection}>
           <div className={styles.sectionHeader}>
@@ -213,10 +226,12 @@ const DashboardClient: NextPage = () => {
               <span>Upcoming</span>
               <span className={styles.titleAccent}> Appointments</span>
             </h2>
-            <button 
-            className={styles.viewAllBtn}
-            onClick={() => router.push("/appointments")}
-            >View All</button>
+            <button
+              className={styles.viewAllBtn}
+              onClick={() => router.push("/appointments")}
+            >
+              View All
+            </button>
           </div>
           <div className={styles.appointmentsGrid}>
             {appointments.length > 0 ? (
@@ -236,12 +251,20 @@ const DashboardClient: NextPage = () => {
               <span className={styles.titleAccent}> Services</span>
             </h2>
           </div>
-          
+
           <div className={styles.servicesCarousel}>
             {/* Show Prev button only if not at the beginning */}
             {currentIndex > 0 && (
-              <button className={`${styles.carouselButton} ${styles.prevButton}`} onClick={handlePrev}>
-                <Image width={28} height={28} src="/Chevron right.svg" alt="Previous" />
+              <button
+                className={`${styles.carouselButton} ${styles.prevButton}`}
+                onClick={handlePrev}
+              >
+                <Image
+                  width={28}
+                  height={28}
+                  src="/Chevron right.svg"
+                  alt="Previous"
+                />
               </button>
             )}
 
@@ -250,7 +273,7 @@ const DashboardClient: NextPage = () => {
                 className={styles.carouselTrack}
                 style={{
                   // This inline style moves the track one card-width at a time
-                  transform: `translateX(calc(-${currentIndex} * (100% / ${visibleServices})))`
+                  transform: `translateX(calc(-${currentIndex} * (100% / ${visibleServices})))`,
                 }}
               >
                 {featuredServices.map((service) => (
@@ -258,11 +281,19 @@ const DashboardClient: NextPage = () => {
                 ))}
               </div>
             </div>
-            
+
             {/* Show Next button only if not at the end */}
             {currentIndex < featuredServices.length - visibleServices && (
-              <button className={`${styles.carouselButton} ${styles.nextButton}`} onClick={handleNext}>
-                <Image width={28} height={28} src="/Chevron right.svg" alt="Next" />
+              <button
+                className={`${styles.carouselButton} ${styles.nextButton}`}
+                onClick={handleNext}
+              >
+                <Image
+                  width={28}
+                  height={28}
+                  src="/Chevron right.svg"
+                  alt="Next"
+                />
               </button>
             )}
           </div>
@@ -271,40 +302,40 @@ const DashboardClient: NextPage = () => {
 
       <footer className={styles.footer}>
         <div className={styles.footerContent}>
-            <div className={styles.footerColumn}>
-              <div className={styles.footerLogo}>
-                  <Image
-                      className={styles.logoIcon}
-                      width={40}
-                      height={40}
-                      alt="Servease Logo"
-                      src="/Servease Logo (Album Cover) (3) 2.png"
-                    />
-                  <b className={styles.footerTitle}>servease</b>
-              </div>
-              <p className={styles.yourTrustedPlatform}>
-                Your trusted platform to discover, book, and manage local
-                services—anytime, anywhere.
-              </p>
+          <div className={styles.footerColumn}>
+            <div className={styles.footerLogo}>
+              <Image
+                className={styles.logoIcon}
+                width={40}
+                height={40}
+                alt="Servease Logo"
+                src="/Servease Logo (Album Cover) (3) 2.png"
+              />
+              <b className={styles.footerTitle}>servease</b>
             </div>
-            <div className={styles.footerColumn}>
-              <b className={styles.footerTitle}>Quick Links</b>
-              <a className={styles.footerLink}>Home</a>
-              <a className={styles.footerLink}>Discover</a>
-              <a className={styles.footerLink}>Create an Account</a>
-            </div>
-            <div className={styles.footerColumn}>
-              <b className={styles.footerTitle}>Support</b>
-              <a className={styles.footerLink}>FAQs</a>
-              <a className={styles.footerLink}>Privacy Policy</a>
-              <a className={styles.footerLink}>Terms & Conditions</a>
-              <a className={styles.footerLink}>About Us</a>
-            </div>
-            <div className={styles.footerColumn}>
-              <b className={styles.footerTitle}>Contact Us</b>
-              <a className={styles.footerLink}>support@servease.com</a>
-              <a className={styles.footerLink}>+63 996 3175 214</a>
-            </div>
+            <p className={styles.yourTrustedPlatform}>
+              Your trusted platform to discover, book, and manage local
+              services—anytime, anywhere.
+            </p>
+          </div>
+          <div className={styles.footerColumn}>
+            <b className={styles.footerTitle}>Quick Links</b>
+            <a className={styles.footerLink}>Home</a>
+            <a className={styles.footerLink}>Discover</a>
+            <a className={styles.footerLink}>Create an Account</a>
+          </div>
+          <div className={styles.footerColumn}>
+            <b className={styles.footerTitle}>Support</b>
+            <a className={styles.footerLink}>FAQs</a>
+            <a className={styles.footerLink}>Privacy Policy</a>
+            <a className={styles.footerLink}>Terms & Conditions</a>
+            <a className={styles.footerLink}>About Us</a>
+          </div>
+          <div className={styles.footerColumn}>
+            <b className={styles.footerTitle}>Contact Us</b>
+            <a className={styles.footerLink}>support@servease.com</a>
+            <a className={styles.footerLink}>+63 996 3175 214</a>
+          </div>
         </div>
         <div className={styles.footerBottom}>
           <div className={styles.footerLine} />
