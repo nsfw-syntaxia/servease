@@ -1,8 +1,9 @@
-'use client'
+"use client";
 
 import type { NextPage } from "next";
 import Image from "next/image";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import styles from "../styles/appointments.module.css";
 
 // A single Appointment Card component for reusability
@@ -68,6 +69,7 @@ const AppointmentCard = () => (
 
 const Appointments: NextPage = () => {
   const [activeFilter, setActiveFilter] = useState("upcoming");
+  const router = useRouter();
 
   const handleFilterChange = (filter: string) => {
     setActiveFilter(filter);
@@ -91,9 +93,22 @@ const Appointments: NextPage = () => {
         </div>
 
         <nav className={styles.navLinks}>
-          <a className={styles.navLink}>Home</a>
+          <a 
+          className={styles.navLink}
+          onClick={() => {
+          router.push("/client-dashboard")
+          ;}}
+          >Home</a>
           <a className={styles.navLink}>Discover</a>
-          <a className={styles.navLink}>Contact Us</a>
+          <a 
+          className={styles.navLink}
+          onClick={() => {
+                window.scrollTo({
+                  top: document.body.scrollHeight,
+                  behavior: "smooth",
+                });
+              }}
+          >Contact Us</a>
         </nav>
 
         <div className={styles.genericAvatar}>
