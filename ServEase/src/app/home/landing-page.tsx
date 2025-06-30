@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import styles from "../styles/landing-page.module.css";
 import React, { createContext, useContext } from "react";
 
+import { useRedirectLoading } from "@/components/hooks/redirect-loading";
+
 const heroImages = [
   "/LandingPageImage1.png",
   "/LandingPageImage2.png",
@@ -206,6 +208,7 @@ const LandingPage = () => {
   const offerAnimationTriggered = useRef(false);
   const whyChooseAnimationTriggered = useRef(false);
   const registerAnimationTriggered = useRef(false);
+  const redirect = useRedirectLoading();
   const router = useRouter();
 
   useEffect(() => {
@@ -370,10 +373,8 @@ const LandingPage = () => {
             >
               Home
             </div>
-            <div 
-              className={styles.home1}
-              onClick={() => router.push("/discover")}
-              >Discover
+            <div className={styles.home1} onClick={() => redirect("/discover")}>
+              Discover
             </div>
             <div
               className={styles.contactUs1}
@@ -836,10 +837,8 @@ const LandingPage = () => {
           >
             Home
           </div>
-          <div 
-            className={styles.discover}
-            onClick={() => router.push("/home")}
-            >Discover
+          <div className={styles.discover} onClick={() => router.push("/home")}>
+            Discover
           </div>
           <div
             className={styles.createAnAccount}

@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useLoading } from "@/components/components/ui/loading-context";
 
-export const useRedirectWithLoading = () => {
+export const useRedirectLoading = () => {
   const router = useRouter();
   const { showLoading } = useLoading();
 
