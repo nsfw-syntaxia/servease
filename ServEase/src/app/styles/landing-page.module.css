@@ -2086,7 +2086,7 @@ color: #000;
   .servease {
     position: flex;
     text-align: center;
-    top: 35px;
+    top: 30px;
     width: 26%;
     align-items: center;
   }
@@ -2103,7 +2103,7 @@ color: #000;
   .yourTrustedPlatform {
     position: relative;
     left: 80px;
-    top: 30px;
+    top: 20px;
     text-align: center;
     width: 40%;
     margin: 20px auto;
@@ -2111,14 +2111,33 @@ color: #000;
     line-height: 24px;
   }
 
-  .quickLinks,
-  .support,
-  .contactUs {
+  .quickLinks
+  {
     position: relative;
-    top: 50px;
-    left: auto;
-    text-align: center;
-    width: 50%;
+    top: 60px;
+    left: 320px;
+    text-align: left;
+    width: 900px;
+    margin: 30px 0 10px 0;
+    font-size: 20px;
+  }
+  .support
+  {
+    position: relative;
+    top: 60px;
+    left: 330px;
+    text-align: left;
+    width: 900px;
+    margin: 30px 0 10px 0;
+    font-size: 20px;
+  }
+  .contactUs
+  {
+    position: relative;
+    top: 60px;
+    left: 320px;
+    text-align: left;
+    width: 900px;
     margin: 30px 0 10px 0;
     font-size: 20px;
   }
@@ -2136,10 +2155,10 @@ color: #000;
     top: 50px;
     left: auto;
     text-align: center;
-    width: 50%;
+    width: 750px;
     margin: 10px 0;
     font-size: 14px;
-    line-height: 30px;
+    line-height: 25px;
   }
 
   .lineParent {
@@ -2152,7 +2171,7 @@ color: #000;
   }
 
   .lineDiv {
-    width: 48%;
+    width: 47%;
   }
 
   .servease2025 {
@@ -2161,9 +2180,10 @@ color: #000;
     left: auto;
     text-align: center;
     margin-top: 20px;
-    width: 48%;
+    width: 50%;
   }
 }
+
 
 /* ─────────────── Small Mobile Styles ─────────────── */
 @media screen and (max-width: 480px) {
@@ -2215,7 +2235,6 @@ color: #000;
     font-size: 18px;
   }
 }
-
 /* ─────────────── Landscape Mobile Styles ─────────────── */
 @media screen and (max-height: 500px) and (orientation: landscape) {
   .heroImageWrapper {
