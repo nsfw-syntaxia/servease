@@ -368,83 +368,126 @@ const FABS: NextPage = () => {
 
         {/* icons */}
         <div className={styles.icons}>
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.breadIcon}
-                src="/bread.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Bakeries" },
+            }}
+            className={styles.iconContainer}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.breadIcon}
+                  src="/Bakeries.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Bakeries</div>
             </div>
-            <div className={styles.label}>Bakeries</div>
-          </div>
-
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.beerIcon}
-                src="/beer.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          </Link>
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Bars" },
+            }}
+            className={styles.iconContainer}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.beerIcon}
+                  src="/Bars.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Bars</div>
             </div>
-            <div className={styles.label}>Bars</div>
-          </div>
-
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.coffeeIcon}
-                src="/coffee.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          </Link>
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Cafes & Coffee Shops" },
+            }}
+            className={styles.iconContainer}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.coffeeIcon}
+                  src="/Cafes & Coffee Shops.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Cafes & Coffee Shops</div>
             </div>
-            <div className={styles.label}>Cafes & Coffee Shops</div>
-          </div>
-
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.shopIcon}
-                src="/shop.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          </Link>
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Mini Marts" },
+            }}
+            className={styles.iconContainer}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.shopIcon}
+                  src="/Mini Marts.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Mini Marts</div>
             </div>
-            <div className={styles.label}>Mini Marts</div>
-          </div>
-
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.restoIcon}
-                src="/resto.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          </Link>
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Restaurants & Diners" },
+            }}
+            className={styles.iconContainer}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.restoIcon}
+                  src="/Restaurants & Diners.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Restaurants & Diners</div>
             </div>
-            <div className={styles.label}>Restaurants & Diners</div>
-          </div>
-
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.groceryIcon}
-                src="/grocery.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          </Link>
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Supermarkets & Grocery Stores" },
+            }}
+            className={styles.iconContainer}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.groceryIcon}
+                  src="/Supermarkets & Grocery Stores.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Supermarkets & Grocery Stores</div>
             </div>
-            <div className={styles.label}>Supermarkets / Grocery Stores</div>
-          </div>
+          </Link>
         </div>
       </div>
 
