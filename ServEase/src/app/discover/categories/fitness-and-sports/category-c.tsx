@@ -368,44 +368,63 @@ const FASS: NextPage = () => {
 
         {/* icons */}
         <div className={styles.icons}>
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.danceIcon}
-                src="/dance.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Dance Studios" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.danceIcon}
+                  src="/Dance Studios.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Dance Studios</div>
             </div>
-            <div className={styles.label}>Dance Studios</div>
-          </div>
-
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.gymsIcon}
-                src="/gyms.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          </Link>
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Gyms" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.gymsIcon}
+                  src="/Gyms.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Gyms</div>
             </div>
-            <div className={styles.label}>Gyms</div>
-          </div>
-
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.sportsIcon}
-                src="/ball.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          </Link>
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Sports Centers" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.sportsIcon}
+                  src="/Sports Centers.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Sports Centers</div>
             </div>
-            <div className={styles.label}>Sports Centers</div>
-          </div>
+          </Link>
         </div>
       </div>
 
