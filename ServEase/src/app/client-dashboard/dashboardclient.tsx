@@ -5,7 +5,7 @@ import Image from "next/image";
 import styles from "../styles/dashboard-client.module.css";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { type Appointment, type Service } from "../lib/supabase/types"; 
+import { type Appointment, type Service } from "../lib/supabase/types";
 
 interface DashboardClientProps {
   avatarUrl: string;
@@ -13,20 +13,32 @@ interface DashboardClientProps {
   featuredServices: Service[];
 }
 
-const UpcomingAppointmentCard = ({ appointment }: { appointment: Appointment }) => {
+const UpcomingAppointmentCard = ({
+  appointment,
+}: {
+  appointment: Appointment;
+}) => {
   const appointmentDate = new Date(appointment.start_time);
-  const time = appointmentDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-  const date = appointmentDate.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' });
+  const time = appointmentDate.toLocaleTimeString([], {
+    hour: "numeric",
+    minute: "2-digit",
+  });
+  const date = appointmentDate.toLocaleDateString([], {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+  });
 
-  const providerName = appointment.provider?.[0]?.business_name || 'Unknown Provider';
-  const providerAddress = appointment.provider?.[0]?.address || 'No address provided';
+  const providerName =
+    appointment.provider?.[0]?.business_name || "Unknown Provider";
+  const providerAddress =
+    appointment.provider?.[0]?.address || "No address provided";
 
   return (
     <div className={styles.appointmentCard}>
       <div className={styles.cardContent}>
         <div className={styles.serviceInfo}>
-          <div className={styles.serviceAvatar}>
-          </div>
+          <div className={styles.serviceAvatar}></div>
           <div className={styles.serviceDetails}>
             <h3 className={styles.serviceName}>{providerName}</h3>
             <p className={styles.serviceLocation}>{providerAddress}</p>
@@ -38,7 +50,12 @@ const UpcomingAppointmentCard = ({ appointment }: { appointment: Appointment }) 
             <span>{time}</span>
           </div>
           <div className={styles.dateInfo}>
-            <Image width={20} height={20} src="/calendar_month.svg" alt="Date" />
+            <Image
+              width={20}
+              height={20}
+              src="/calendar_month.svg"
+              alt="Date"
+            />
             <span>{date}</span>
           </div>
         </div>
@@ -50,8 +67,9 @@ const UpcomingAppointmentCard = ({ appointment }: { appointment: Appointment }) 
 // --- FIX 2: UPDATED FEATURED SERVICE CARD WITH SAFE DATA ACCESS ---
 const FeaturedServiceCard = ({ service }: { service: Service }) => {
   // Safely access the provider's name and avatar
-  const providerName = service.provider?.[0]?.business_name || 'Unknown Provider';
-  const providerAvatar = service.provider?.[0]?.avatar_url || '/avatar.svg'; // Fallback to default avatar
+  const providerName =
+    service.provider?.[0]?.business_name || "Unknown Provider";
+  const providerAvatar = service.provider?.[0]?.avatar_url || "/avatar.svg"; // Fallback to default avatar
 
   return (
     <div className={styles.serviceCard}>
@@ -84,14 +102,20 @@ const FeaturedServiceCard = ({ service }: { service: Service }) => {
   );
 };
 
-
-const DashboardClient: NextPage<DashboardClientProps> = ({ avatarUrl, appointments, featuredServices }) => {
+const DashboardClient: NextPage<DashboardClientProps> = ({
+  avatarUrl,
+  appointments,
+  featuredServices,
+}) => {
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const visibleServices = 3; 
+  const visibleServices = 3;
 
   const handleNext = () => {
-    if (featuredServices && currentIndex < featuredServices.length - visibleServices) {
+    if (
+      featuredServices &&
+      currentIndex < featuredServices.length - visibleServices
+    ) {
       setCurrentIndex((prevIndex) => prevIndex + 1);
     }
   };
@@ -118,30 +142,72 @@ const DashboardClient: NextPage<DashboardClientProps> = ({ avatarUrl, appointmen
   }, [slides.length]);
 
   const goToSlide = (slideIndex: number) => setCurrentSlide(slideIndex);
-
+  console.log("Avatar URL from props:", avatarUrl);
   return (
     <div className={styles.dashboardClient}>
       <nav className={styles.navigation}>
         <div className={styles.navContent}>
           <div className={styles.logo}>
-            <Image className={styles.logoImage} width={40} height={40} alt="Servease Logo" src="/Servease Logo.svg" />
-            <div className={styles.brandName}><span className={styles.serv}>serv</span><span className={styles.ease}>ease</span></div>
+            <Image
+              className={styles.logoImage}
+              width={40}
+              height={40}
+              alt="Servease Logo"
+              src="/Servease Logo.svg"
+            />
+            <div className={styles.brandName}>
+              <span className={styles.serv}>serv</span>
+              <span className={styles.ease}>ease</span>
+            </div>
           </div>
           <div className={styles.navLinks}>
-            <a href="#" className={styles.navLink}>Home</a>
-            <a href="#" className={styles.navLink}>Discover</a>
-            <a href="#" className={styles.navLink} onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" })}>Contact Us</a>
+            <a href="#" className={styles.navLink}>
+              Home
+            </a>
+            <a href="#" className={styles.navLink}>
+              Discover
+            </a>
+            <a
+              href="#"
+              className={styles.navLink}
+              onClick={() =>
+                window.scrollTo({
+                  top: document.body.scrollHeight,
+                  behavior: "smooth",
+                })
+              }
+            >
+              Contact Us
+            </a>
           </div>
           <div className={styles.userAvatar}>
-            <Image key={avatarUrl} className={styles.avatarIcon} width={40} height={40} alt="User Avatar" src={avatarUrl} />
+            <Image
+              key={avatarUrl}
+              className={styles.avatarIcon}
+              width={40}
+              height={40}
+              alt="User Avatar"
+              src={avatarUrl}
+            />
           </div>
         </div>
       </nav>
 
       <section className={styles.heroSection}>
         {slides.map((slide, index) => (
-          <div key={slide.id} className={`${styles.slide} ${index === currentSlide ? styles.active : ""}`}>
-            <Image src={slide.image} alt={slide.alt} layout="fill" objectFit="cover" priority={index === 0} />
+          <div
+            key={slide.id}
+            className={`${styles.slide} ${
+              index === currentSlide ? styles.active : ""
+            }`}
+          >
+            <Image
+              src={slide.image}
+              alt={slide.alt}
+              layout="fill"
+              objectFit="cover"
+              priority={index === 0}
+            />
           </div>
         ))}
         <div className={styles.heroOverlay} />
@@ -153,7 +219,14 @@ const DashboardClient: NextPage<DashboardClientProps> = ({ avatarUrl, appointmen
         </div>
         <div className={styles.slideDots}>
           {slides.map((_, index) => (
-            <button key={index} className={`${styles.dot} ${index === currentSlide ? styles.active : ""}`} onClick={() => goToSlide(index)} aria-label={`Go to slide ${index + 1}`} />
+            <button
+              key={index}
+              className={`${styles.dot} ${
+                index === currentSlide ? styles.active : ""
+              }`}
+              onClick={() => goToSlide(index)}
+              aria-label={`Go to slide ${index + 1}`}
+            />
           ))}
         </div>
       </section>
@@ -165,7 +238,14 @@ const DashboardClient: NextPage<DashboardClientProps> = ({ avatarUrl, appointmen
               <span>Upcoming</span>
               <span className={styles.titleAccent}> Appointments</span>
             </h2>
-            <button className={styles.viewAllBtn} onClick={() => router.push("/appointments")}>View All</button>
+            {appointments && appointments.length >= 3 && (
+              <button
+                className={styles.viewAllBtn}
+                onClick={() => router.push("/appointments")}
+              >
+                View All
+              </button>
+            )}
           </div>
           <div className={styles.appointmentsGrid}>
             {/* The map function now correctly uses the 'appointments' prop */}
@@ -174,7 +254,7 @@ const DashboardClient: NextPage<DashboardClientProps> = ({ avatarUrl, appointmen
                 <UpcomingAppointmentCard key={app.id} appointment={app} />
               ))
             ) : (
-              <p>You have no upcoming appointments.</p>
+              <p className={styles.none}>You have no upcoming appointments.</p>
             )}
           </div>
         </section>
@@ -189,23 +269,46 @@ const DashboardClient: NextPage<DashboardClientProps> = ({ avatarUrl, appointmen
 
           <div className={styles.servicesCarousel}>
             {currentIndex > 0 && (
-              <button className={`${styles.carouselButton} ${styles.prevButton}`} onClick={handlePrev}>
-                <Image width={28} height={28} src="/Chevron right.svg" alt="Previous" />
+              <button
+                className={`${styles.carouselButton} ${styles.prevButton}`}
+                onClick={handlePrev}
+              >
+                <Image
+                  width={28}
+                  height={28}
+                  src="/Chevron right.svg"
+                  alt="Previous"
+                />
               </button>
             )}
             <div className={styles.carouselViewport}>
-              <div className={styles.carouselTrack} style={{ transform: `translateX(calc(-${currentIndex} * (100% / ${visibleServices})))` }}>
+              <div
+                className={styles.carouselTrack}
+                style={{
+                  transform: `translateX(calc(-${currentIndex} * (100% / ${visibleServices})))`,
+                }}
+              >
                 {/* FIX 3: THE MAP FUNCTION ON LINE 259 NOW CORRECTLY USES THE 'featuredServices' PROP */}
-                {featuredServices && featuredServices.map((service) => (
-                  <FeaturedServiceCard key={service.id} service={service} />
-                ))}
+                {featuredServices &&
+                  featuredServices.map((service) => (
+                    <FeaturedServiceCard key={service.id} service={service} />
+                  ))}
               </div>
             </div>
-            {featuredServices && currentIndex < featuredServices.length - visibleServices && (
-              <button className={`${styles.carouselButton} ${styles.nextButton}`} onClick={handleNext}>
-                <Image width={28} height={28} src="/Chevron right.svg" alt="Next" />
-              </button>
-            )}
+            {featuredServices &&
+              currentIndex < featuredServices.length - visibleServices && (
+                <button
+                  className={`${styles.carouselButton} ${styles.nextButton}`}
+                  onClick={handleNext}
+                >
+                  <Image
+                    width={28}
+                    height={28}
+                    src="/Chevron right.svg"
+                    alt="Next"
+                  />
+                </button>
+              )}
           </div>
         </section>
       </main>
