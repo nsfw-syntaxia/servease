@@ -24,7 +24,7 @@ const AllServiceCard = ({ service }: { service: any }) => {
               width={35}
               height={35}
               alt=""
-              src="/barbershop.svg"
+              src={`/${name}.svg`}
             />
           </div>
           <div className={styles.avatar5}>

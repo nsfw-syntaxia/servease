@@ -378,7 +378,7 @@ const PBACS: NextPage = () => {
               <div className={styles.iconWrapper}>
                 <Image
                   className={styles.barbershopIcon}
-                  src="/barbershop.svg"
+                  src="/Barbershops.svg"
                   alt=""
                   width={75}
                   height={75}
@@ -398,7 +398,7 @@ const PBACS: NextPage = () => {
               <div className={styles.iconWrapper}>
                 <Image
                   className={styles.hairSalonIcon}
-                  src="/hair salon.svg"
+                  src="/Hair Salons.svg"
                   alt=""
                   width={75}
                   height={75}
@@ -418,7 +418,7 @@ const PBACS: NextPage = () => {
               <div className={styles.iconWrapper}>
                 <Image
                   className={styles.nailSalonIcon}
-                  src="/nail salon.svg"
+                  src="/Nail Salons.svg"
                   alt=""
                   width={75}
                   height={75}
@@ -438,7 +438,7 @@ const PBACS: NextPage = () => {
               <div className={styles.iconWrapper}>
                 <Image
                   className={styles.spaIcon}
-                  src="/spa.svg"
+                  src="/Spa & Massage Centers.svg"
                   alt=""
                   width={75}
                   height={75}
@@ -458,7 +458,7 @@ const PBACS: NextPage = () => {
               <div className={styles.iconWrapper}>
                 <Image
                   className={styles.piercingIcon}
-                  src="/piercing.svg"
+                  src="/Tattoo & Piercing Parlors.svg"
                   alt=""
                   width={75}
                   height={75}

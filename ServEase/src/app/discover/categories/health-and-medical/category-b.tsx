@@ -368,96 +368,144 @@ const HAMS: NextPage = () => {
 
         {/* icons */}
         <div className={styles.icons}>
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.animalIcon}
-                src="/animal.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Animal Clinics" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.animalIcon}
+                  src="/Animal Clinics.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Animal Clinics</div>
             </div>
-            <div className={styles.label}>Animal Clinics</div>
-          </div>
+          </Link>
 
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.dentistIcon}
-                src="/dentist.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Dental Clinics" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.dentistIcon}
+                  src="/Dental Clinics.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Dental Clinics</div>
             </div>
-            <div className={styles.label}>Dental Clinics</div>
-          </div>
+          </Link>
 
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.dermaIcon}
-                src="/derma.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Dermatology Clinics" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.dermaIcon}
+                  src="/Dermatology Clinics.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Dermatology Clinics</div>
             </div>
-            <div className={styles.label}>Dermatology Clinics</div>
-          </div>
+          </Link>
 
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.hospitalIcon}
-                src="/hospital.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Hospitals" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.hospitalIcon}
+                  src="/Hospitals.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Hospitals</div>
             </div>
-            <div className={styles.label}>Hospitals</div>
-          </div>
+          </Link>
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Laboratories" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.labIcon}
+                  src="/Laboratories.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Laboratories</div>
+            </div>
+          </Link>
 
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.labIcon}
-                src="/lab.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Pharmacies" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.pillIcon}
+                  src="/Pharmacies.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Pharmacies</div>
             </div>
-            <div className={styles.label}>Laboratories</div>
-          </div>
+          </Link>
 
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.pillIcon}
-                src="/pill.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Therapy Centers" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.psychIcon}
+                  src="/Therapy Centers.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Therapy Centers</div>
             </div>
-            <div className={styles.label}>Pharmacies</div>
-          </div>
-
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.psychIcon}
-                src="/psych.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
-            </div>
-            <div className={styles.label}>Therapy Centers</div>
-          </div>
+          </Link>
         </div>
       </div>
 
