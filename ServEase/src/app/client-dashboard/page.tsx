@@ -1,36 +1,46 @@
 import { createClient } from "../lib/supabase/server";
 import { redirect } from "next/navigation";
-import DashboardClient from "./dashboardclient"; // Your existing component
-import { type Appointment, type Service } from "../lib/supabase/types"; // We'll define these types for clarity
+import DashboardClient from "./dashboardclient";
+import { type Appointment, type Service } from "../lib/supabase/types"; 
 
 export default async function ClientDashboardPage() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  console.log('Dashboard: Checking user session...');
+  const { data: { user }, error: userError } = await supabase.auth.getUser();
+
+  console.log('Dashboard: User data:', user ? 'User found' : 'No user');
+  console.log('Dashboard: User error:', userError);
 
   if (!user) {
+    console.log('Dashboard: No user found, redirecting to login');
     redirect("/login");
   }
 
-  const { data: profile } = await supabase
+  console.log('Dashboard: Fetching user profile...');
+  const { data: profile, error: profileError } = await supabase
     .from('profiles')
-    .select('role, avatar_url')
+    .select('role, picture_url')
     .eq('id', user.id)
     .single();
 
+  console.log('Dashboard: Profile data:', profile);
+  console.log('Dashboard: Profile error:', profileError);
+
   if (!profile || profile.role !== 'client') {
+    console.log('Dashboard: Invalid profile or role, redirecting to login');
     redirect('/login');
   }
 
   let avatarUrl = '/avatar.svg'; 
-  if (profile.avatar_url) {
-    if (!profile.avatar_url.startsWith('http')) {
+  if (profile.picture_url) {
+    if (!profile.picture_url.startsWith('http')) {
       const { data } = supabase.storage
         .from('avatars') 
-        .getPublicUrl(profile.avatar_url);
+        .getPublicUrl(profile.picture_url);
       avatarUrl = data.publicUrl;
     } else {
-      avatarUrl = profile.avatar_url;
+      avatarUrl = profile.picture_url;
     }
   }
 
@@ -58,6 +68,7 @@ export default async function ClientDashboardPage() {
     `)
     .limit(6);
 
+  console.log('Dashboard: Rendering dashboard for user:', user.id);
 
   return (
     <DashboardClient

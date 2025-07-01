@@ -51,7 +51,7 @@ const UpcomingAppointmentCard = ({ appointment }: { appointment: Appointment }) 
 const FeaturedServiceCard = ({ service }: { service: Service }) => {
   // Safely access the provider's name and avatar
   const providerName = service.provider?.[0]?.business_name || 'Unknown Provider';
-  const providerAvatar = service.provider?.[0]?.avatar_url || '/Avatar.svg'; // Fallback to default avatar
+  const providerAvatar = service.provider?.[0]?.avatar_url || '/avatar.svg'; // Fallback to default avatar
 
   return (
     <div className={styles.serviceCard}>
