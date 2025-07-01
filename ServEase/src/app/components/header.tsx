@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import styles from "../styles/shared-header.module.css";
+import styles from "../styles/header.module.css";
 import { type UserRole } from "../layout"; 
 
 interface HeaderProps {

@@ -47,7 +47,6 @@ export default async function RootLayout({
   let userRole: UserRole = 'guest';  
   let homePath = '/home';                
 
-  // 2. If a user is logged in, fetch their profile to get the correct role and avatar
   if (user) {
     const { data: profile } = await supabase
       .from('profiles')
@@ -56,16 +55,14 @@ export default async function RootLayout({
       .single();
     
     if (profile) {
-      userRole = profile.role; // Set role to 'client' or 'provider'
+      userRole = profile.role; 
 
-      // Set the correct home page path based on the user's role
       if (profile.role === 'client') {
         homePath = '/client-dashboard';
       } else if (profile.role === 'provider') {
-        homePath = '/provider-dashboard'; // Or whatever your provider dashboard route is
+        homePath = '/provider-dashboard'; 
       }
       
-      // Get the correct avatar URL
       if (profile.picture_url) {
         if (profile.picture_url.startsWith('http')) {
           avatarUrl = profile.picture_url;
@@ -88,14 +85,12 @@ export default async function RootLayout({
       <body
         className={`${DmSansFont.variable} ${BenneFont.variable} ${poppins.variable} antialiased`}
       >
-        {/* The Header component now receives the user data and is rendered on every page */}
         <Header 
           avatarUrl={avatarUrl} 
           userRole={userRole}
           homePath={homePath}
         />
         
-        {/* The rest of your application pages will be rendered here */}
         <main>{children}</main>
 
         {/* You can also move your shared Footer component here later */}
