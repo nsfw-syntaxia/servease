@@ -64,6 +64,7 @@ const UpcomingAppointmentCard = ({
   );
 };
 
+
 // --- FIX 2: UPDATED FEATURED SERVICE CARD WITH SAFE DATA ACCESS ---
 const FeaturedServiceCard = ({ service }: { service: Service }) => {
   // Safely access the provider's name and avatar
@@ -143,55 +144,12 @@ const DashboardClient: NextPage<DashboardClientProps> = ({
 
   const goToSlide = (slideIndex: number) => setCurrentSlide(slideIndex);
   console.log("Avatar URL from props:", avatarUrl);
+
+
+
   return (
     <div className={styles.dashboardClient}>
-      <nav className={styles.navigation}>
-        <div className={styles.navContent}>
-          <div className={styles.logo}>
-            <Image
-              className={styles.logoImage}
-              width={40}
-              height={40}
-              alt="Servease Logo"
-              src="/Servease Logo.svg"
-            />
-            <div className={styles.brandName}>
-              <span className={styles.serv}>serv</span>
-              <span className={styles.ease}>ease</span>
-            </div>
-          </div>
-          <div className={styles.navLinks}>
-            <a href="#" className={styles.navLink}>
-              Home
-            </a>
-            <a href="#" className={styles.navLink}>
-              Discover
-            </a>
-            <a
-              href="#"
-              className={styles.navLink}
-              onClick={() =>
-                window.scrollTo({
-                  top: document.body.scrollHeight,
-                  behavior: "smooth",
-                })
-              }
-            >
-              Contact Us
-            </a>
-          </div>
-          <div className={styles.userAvatar}>
-            <Image
-              key={avatarUrl}
-              className={styles.avatarIcon}
-              width={40}
-              height={40}
-              alt="User Avatar"
-              src={avatarUrl}
-            />
-          </div>
-        </div>
-      </nav>
+      
 
       <section className={styles.heroSection}>
         {slides.map((slide, index) => (
