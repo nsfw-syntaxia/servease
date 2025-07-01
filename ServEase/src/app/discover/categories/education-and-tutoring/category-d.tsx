@@ -368,31 +368,44 @@ const EATS: NextPage = () => {
 
         {/* icons */}
         <div className={styles.icons}>
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.schoolIcon}
-                src="/univ.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Schools & Universities" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.schoolIcon}
+                  src="/Schools & Universities.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Schools & Universities</div>
             </div>
-            <div className={styles.label}>Schools & Universities</div>
-          </div>
-
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.tutorIcon}
-                src="/books.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          </Link>
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Tutoring Centers" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.tutorIcon}
+                  src="/Tutoring Centers.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Tutoring Centers</div>
             </div>
-            <div className={styles.label}>Tutoring Centers</div>
-          </div>
+          </Link>
         </div>
       </div>
 

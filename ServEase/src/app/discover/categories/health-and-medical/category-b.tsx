@@ -373,6 +373,7 @@ const HAMS: NextPage = () => {
               pathname: "/specific-category",
               query: { name: "Animal Clinics" },
             }}
+            className={styles.iconContainer}
           >
             <div className={styles.iconContainer}>
               <div className={styles.iconWrapper}>
@@ -393,6 +394,7 @@ const HAMS: NextPage = () => {
               pathname: "/specific-category",
               query: { name: "Dental Clinics" },
             }}
+            className={styles.iconContainer}
           >
             <div className={styles.iconContainer}>
               <div className={styles.iconWrapper}>
@@ -413,6 +415,7 @@ const HAMS: NextPage = () => {
               pathname: "/specific-category",
               query: { name: "Dermatology Clinics" },
             }}
+            className={styles.iconContainer}
           >
             <div className={styles.iconContainer}>
               <div className={styles.iconWrapper}>
@@ -433,6 +436,7 @@ const HAMS: NextPage = () => {
               pathname: "/specific-category",
               query: { name: "Hospitals" },
             }}
+            className={styles.iconContainer}
           >
             <div className={styles.iconContainer}>
               <div className={styles.iconWrapper}>
@@ -452,6 +456,7 @@ const HAMS: NextPage = () => {
               pathname: "/specific-category",
               query: { name: "Laboratories" },
             }}
+            className={styles.iconContainer}
           >
             <div className={styles.iconContainer}>
               <div className={styles.iconWrapper}>
@@ -472,6 +477,7 @@ const HAMS: NextPage = () => {
               pathname: "/specific-category",
               query: { name: "Pharmacies" },
             }}
+            className={styles.iconContainer}
           >
             <div className={styles.iconContainer}>
               <div className={styles.iconWrapper}>
@@ -492,6 +498,7 @@ const HAMS: NextPage = () => {
               pathname: "/specific-category",
               query: { name: "Therapy Centers" },
             }}
+            className={styles.iconContainer}
           >
             <div className={styles.iconContainer}>
               <div className={styles.iconWrapper}>
