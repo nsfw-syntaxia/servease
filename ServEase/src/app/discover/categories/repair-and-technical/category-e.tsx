@@ -368,57 +368,82 @@ const RATS: NextPage = () => {
 
         {/* icons */}
         <div className={styles.icons}>
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.appliIcon}
-                src="/appli repair.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Home Appliance Repair Centers" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.appliIcon}
+                  src="/Home Appliance Repair Centers.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Home Appliance Repair Centers</div>
             </div>
-            <div className={styles.label}>Home Appliance Repair Centers</div>
-          </div>
-
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.carwashIcon}
-                src="/car wash.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          </Link>
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Car Wash Stations" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.carwashIcon}
+                  src="/Car Wash Stations.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Car Wash Stations</div>
             </div>
-            <div className={styles.label}>Car Wash Stations</div>
-          </div>
-
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.carrepairIcon}
-                src="/car repair.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          </Link>
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Vehicle Repair Shops" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.carrepairIcon}
+                  src="/Vehicle Repair Shops.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Vehicle Repair Shops</div>
             </div>
-            <div className={styles.label}>Vehicle Repair Shops</div>
-          </div>
-
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.elecrepairIcon}
-                src="/elec repair.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          </Link>
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Electronics Repair Shops" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.elecrepairIcon}
+                  src="/Electronics Repair Shops.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Electronics Repair Shops</div>
             </div>
-            <div className={styles.label}>Electronics Repair Shops</div>
-          </div>
+          </Link>
         </div>
       </div>
 
