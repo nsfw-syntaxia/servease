@@ -49,7 +49,7 @@ export async function addContactAndCompleteProfile(formData: FormData): Promise<
     birth_date: initialProfile.birth_date,
     gender: initialProfile.gender,
     contact_number: contactNumber.trim(),
-    picture_url: 'avatar.svg' 
+    picture_url: '/avatar.svg' 
   };
   
   console.log("Data to insert into FINAL 'profiles' table:", finalProfileData);

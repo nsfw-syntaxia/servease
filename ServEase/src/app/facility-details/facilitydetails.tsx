@@ -169,9 +169,6 @@ const FacilityDetails: NextPage = () => {
           <div className={styles.frameGroup}>
             <div className={styles.barbershopParent}>
               <div className={styles.barbershop}>barbershop</div>
-              <div className={styles.wrapper}>
-                <b className={styles.b}>₱300 - ₱700</b>
-              </div>
               <div className={styles.groupContainer}>
                 <div className={styles.parent}>
                   <b className={styles.kReviews}>4.0</b>
