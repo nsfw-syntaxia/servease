@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Image from "next/image";
-import styles from "./index.module.css";
+import styles from "../styles/facility-dashboard.module.css";
 
 const DashboardFacility: NextPage = () => {
   return (
