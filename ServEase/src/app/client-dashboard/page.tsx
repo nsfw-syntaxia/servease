@@ -78,11 +78,3 @@ export default async function ClientDashboardPage() {
     />
   );
 }
-
-export async function Logout()
-{
-  const supabase = await createClient();
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-  };
-}

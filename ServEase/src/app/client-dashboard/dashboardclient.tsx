@@ -65,7 +65,6 @@ const UpcomingAppointmentCard = ({
 };
 
 
-// --- FIX 2: UPDATED FEATURED SERVICE CARD WITH SAFE DATA ACCESS ---
 const FeaturedServiceCard = ({ service }: { service: Service }) => {
   // Safely access the provider's name and avatar
   const providerName =
@@ -144,7 +143,6 @@ const DashboardClient: NextPage<DashboardClientProps> = ({
 
   const goToSlide = (slideIndex: number) => setCurrentSlide(slideIndex);
   console.log("Avatar URL from props:", avatarUrl);
-
 
 
   return (
