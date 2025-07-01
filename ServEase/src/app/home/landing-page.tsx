@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import styles from "../styles/landing-page.module.css";
 import React, { createContext, useContext } from "react";
 
+import { useRedirectLoading } from "@/components/hooks/redirect-loading";
+
 const heroImages = [
   "/LandingPageImage1.png",
   "/LandingPageImage2.png",
@@ -206,6 +208,7 @@ const LandingPage = () => {
   const offerAnimationTriggered = useRef(false);
   const whyChooseAnimationTriggered = useRef(false);
   const registerAnimationTriggered = useRef(false);
+  const redirect = useRedirectLoading();
   const router = useRouter();
 
   useEffect(() => {
@@ -370,10 +373,8 @@ const LandingPage = () => {
             >
               Home
             </div>
-            <div 
-              className={styles.home1}
-              onClick={() => router.push("/home")}
-              >Discover
+            <div className={styles.home1} onClick={() => redirect("/discover")}>
+              Discover
             </div>
             <div
               className={styles.contactUs1}
@@ -389,10 +390,7 @@ const LandingPage = () => {
           </div>
           <div className={styles.navigationChild} />
           <div className={styles.button1}>
-            <div
-              className={styles.signIn}
-              onClick={() => router.push("/login")}
-            >
+            <div className={styles.signIn} onClick={() => redirect("/login")}>
               Sign in
             </div>
           </div>
@@ -423,7 +421,7 @@ const LandingPage = () => {
                 <div className={styles.button}>
                   <div
                     className={styles.joinServeaseNow}
-                    onClick={() => router.push("/signup")}
+                    onClick={() => redirect("/signup")}
                   >
                     Join servease now
                   </div>
@@ -731,7 +729,7 @@ const LandingPage = () => {
             <div className={styles.link}>
               <div
                 className={styles.getStarted}
-                onClick={() => router.push("/signup")}
+                onClick={() => redirect("/signup")}
               >
                 Get Started
               </div>
@@ -771,7 +769,7 @@ const LandingPage = () => {
             <div className={styles.link1}>
               <div
                 className={styles.getStarted1}
-                onClick={() => router.push("/signup")}
+                onClick={() => redirect("/signup")}
               >
                 Get Started
               </div>
@@ -821,14 +819,15 @@ const LandingPage = () => {
           >
             Home
           </div>
-          <div 
+          <div
             className={styles.discover}
-            onClick={() => router.push("/home")}
-            >Discover
+            onClick={() => redirect("/discover")}
+          >
+            Discover
           </div>
           <div
             className={styles.createAnAccount}
-            onClick={() => router.push("/signup")}
+            onClick={() => redirect("/signup")}
           >
             Create an Account
           </div>

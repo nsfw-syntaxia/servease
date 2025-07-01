@@ -176,57 +176,64 @@ export async function uploadDocument(formData: FormData): Promise<FormResult> {
   return { success: `Successfully uploaded ${file.name}!` };
 }
 
-export async function facilityContact(formData: FormData): Promise<void> {
-  console.log("--- ADD CONTACT & COMPLETE PROFILE ACTION ---");
+export async function completeProviderProfile(formData: FormData): Promise<{ error?: string }> {
+  console.log("--- FINAL STEP: COMPLETE PROVIDER PROFILE ---");
 
   const supabase = await createClient();
 
-  const { data, error: authError } = await supabase.auth.getUser();
+  const { data: { user } } = await supabase.auth.getUser();
 
-  if (authError || !data?.user) {
-    console.error("User is not authenticated or there was an auth error:", authError);
+  if (!user) {
+    const errorMsg = "User not authenticated. Please log in and try again.";
+    console.error(errorMsg);
+    return { error: errorMsg };
   }
-
-  const user = data.user;
-  console.log("Authenticated user found:", user.id);
+  console.log("Authenticated provider found:", user.id);
 
   const contactNumber = formData.get('contact_number') as string;
 
   if (!contactNumber?.trim()) {
-    console.error("Validation FAILED: Contact number is missing.");
+    const errorMsg = "Validation FAILED: Contact number is missing.";
+    console.error(errorMsg);
+    return { error: errorMsg };
   }
 
-  console.log(`Fetching initial profile for user_id: ${user.id}`);
+  console.log(`Fetching initial provider profile for user_id: ${user.id}`);
   const { data: initialProfile, error: fetchError } = await supabase
     .from('facility_initial_profile') 
-    .select('*')
+    .select('facility_name, location, owner_name') 
     .eq('user_id', user.id) 
     .single(); 
 
   if (fetchError || !initialProfile) {
-    console.error('Could not find initial profile for user or fetch error:', fetchError);
+    const errorMsg = `Could not find initial provider profile: ${fetchError?.message}`;
+    console.error(errorMsg);
+    return { error: "Could not find your profile data from the previous step. Please start over." };
   }
+  console.log("Found initial provider profile data:", initialProfile);
 
-  console.log("Found initial profile data:", initialProfile);
-
-  const completeProfileData = {
-    ...initialProfile, 
-    contact: contactNumber.trim(), 
-    user_id: user.id 
+  const finalProfileData = {
+    id: user.id,                      
+    role: 'provider' as const,      
+    full_name: initialProfile.owner_name, 
+    business_name: initialProfile.facility_name, 
+    address: initialProfile.location,
+    contact_number: contactNumber.trim(),
+    picture_url: 'avatar.svg',        
   };
   
-  delete completeProfileData.id; 
-  delete completeProfileData.created_at; 
-
-  console.log("Data to insert into final table:", completeProfileData);
+  console.log("Data to insert into FINAL 'profiles' table:", finalProfileData);
 
   const { error: insertError } = await supabase
-    .from('service_providers') 
-    .insert(completeProfileData);
+    .from('profiles') 
+    .insert(finalProfileData);
 
   if (insertError) {
-    console.error('--- SUPABASE FINAL INSERT ERROR ---', insertError);
+    const errorMsg = `--- SUPABASE PROVIDER PROFILE INSERT ERROR ---: ${insertError.message}`;
+    console.error(errorMsg);
+    return { error: "A database error occurred while creating your final profile." };
   }
+  console.log("Successfully inserted provider data into 'profiles' table.");
 
   const { error: deleteError } = await supabase
     .from('facility_initial_profile')
@@ -234,10 +241,10 @@ export async function facilityContact(formData: FormData): Promise<void> {
     .eq('user_id', user.id);
 
   if (deleteError) {
-    console.error('--- SUPABASE DELETE ERROR ---', deleteError);
+    console.error(`--- SUPABASE TEMP PROVIDER PROFILE DELETE ERROR ---: ${deleteError.message}`);
   } else {
-    console.log(`Successfully deleted initial profile for user_id: ${user.id}`);
+    console.log(`Successfully deleted temporary provider profile for user_id: ${user.id}`);
   }
 
-  console.log("SUCCESS! User registration fully completed for:", user.id);
+  console.log("SUCCESS! Provider registration fully completed for:", user.id);
 }
