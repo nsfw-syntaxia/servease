@@ -390,10 +390,7 @@ const LandingPage = () => {
           </div>
           <div className={styles.navigationChild} />
           <div className={styles.button1}>
-            <div
-              className={styles.signIn}
-              onClick={() => router.push("/login")}
-            >
+            <div className={styles.signIn} onClick={() => redirect("/login")}>
               Sign in
             </div>
           </div>
@@ -424,7 +421,7 @@ const LandingPage = () => {
                 <div className={styles.button}>
                   <div
                     className={styles.joinServeaseNow}
-                    onClick={() => router.push("/signup")}
+                    onClick={() => redirect("/signup")}
                   >
                     Join servease now
                   </div>
@@ -732,7 +729,7 @@ const LandingPage = () => {
             <div className={styles.link}>
               <div
                 className={styles.getStarted}
-                onClick={() => router.push("/signup")}
+                onClick={() => redirect("/signup")}
               >
                 Get Started
               </div>
@@ -772,7 +769,7 @@ const LandingPage = () => {
             <div className={styles.link1}>
               <div
                 className={styles.getStarted1}
-                onClick={() => router.push("/signup")}
+                onClick={() => redirect("/signup")}
               >
                 Get Started
               </div>
@@ -837,12 +834,15 @@ const LandingPage = () => {
           >
             Home
           </div>
-          <div className={styles.discover} onClick={() => router.push("/home")}>
+          <div
+            className={styles.discover}
+            onClick={() => redirect("/discover")}
+          >
             Discover
           </div>
           <div
             className={styles.createAnAccount}
-            onClick={() => router.push("/signup")}
+            onClick={() => redirect("/signup")}
           >
             Create an Account
           </div>
