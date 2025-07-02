@@ -5,7 +5,7 @@
   transform: translateX(-50%);
   width: 80%;
   max-width: 1113px;
-  padding: 1rem 2rem;
+  padding: 1rem 3rem;
   z-index: 100;
 
   display: flex;
@@ -41,23 +41,29 @@
 }
 
 /* === Logo and Brand Name === */
+.logoIcon:hover {
+  transform: scale(1.1);
+}
+
 .navBrand {
   display: flex;
   align-items: center;
   gap: 12px;
   font-family: var(--font-dm-sans), sans-serif;
+  cursor: pointer;
 }
 
 .logoIcon {
   width: 40px;
   height: 40px;
   object-fit: cover;
+  transition: transform 0.3s ease;
 }
 
 .logoText {
   font-size: 28px;
   font-weight: 700;
-  white-space: nowrap; 
+  white-space: nowrap;
   font-family: var(--font-dm-sans), sans-serif;
 }
 
@@ -76,8 +82,8 @@
   align-items: center;
   font-size: 18px;
   font-weight: 600;
-  gap: 90px; 
-  margin: 0 auto; 
+  gap: 90px;
+  margin: 0 auto;
 }
 
 .navLink {
@@ -102,27 +108,59 @@
   justify-content: center;
 }
 
-.userAvatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: var(--color-gainsboro); /* A neutral background for loading */
+.avataricon {
+  align-self: stretch;
   display: flex;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  overflow: hidden;
+  justify-content: flex-start;
+  gap: var(--gap-16);
+  position: relative;
+  margin-left: 5%;
+  transition: transform 0.3s ease;
   cursor: pointer;
-  transition: transform 0.2s ease;
+}
+.avataricon:hover {
+  transform: scale(1.1);
+}
+.dropdownWrapper {
+  position: relative;
+  display: inline-block;
 }
 
-.userAvatar:hover {
-  transform: scale(1.05);
+.dropdownMenu {
+  position: absolute;
+  right: 0;
+  margin-top: 10px;
+  width: 186px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 100;
 }
 
-.avatarIcon {
-  width: 100%; /* Make image fill the circle */
-  height: 100%;
-  object-fit: cover; /* Important for non-square avatars */
+.dropdownItem {
+  padding: 15px 16px;
+  color: #241f1b;
+  text-decoration: none;
+  display: block;
+  transition: background 0.2s ease;
+  font-size: 18px;
+}
+
+.active {
+  background-color: #a68465;
+  color: white;
+}
+
+.activeTop {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.activeBottom {
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
 }
 
 /* NEW: Styles for the Login button */
