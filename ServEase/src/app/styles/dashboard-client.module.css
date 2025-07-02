@@ -2,7 +2,7 @@
 .dashboardClient {
   width: 100%;
   min-height: 100vh;
-  background-color: var(--color-white);
+  background-color: #f8f7f3;
   font-family: var(--font-dm-sans);
   position: relative;
   overflow-x: hidden;
@@ -56,14 +56,14 @@
 }
 
 .navContent {
-  display: contents; 
+  display: contents;
 }
 
 .logo {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 12px; 
+  gap: 12px;
 }
 
 .logoImage {
@@ -124,7 +124,6 @@
   height: 28px;
 }
 
-
 .heroSection {
   position: relative; /* Crucial for positioning child elements */
   overflow: hidden; /* Hides image parts outside the rounded corners */
@@ -172,7 +171,7 @@
   transform: translateX(-50%);
   display: flex;
   gap: 15px;
-  z-index: 2; 
+  z-index: 2;
 }
 
 .dot {
@@ -198,7 +197,7 @@
 .heroContent {
   max-width: 600px;
   position: relative; /* To ensure it's positioned correctly by flexbox */
-  z-index: 2; 
+  z-index: 2;
 }
 
 .heroTitle {
@@ -242,7 +241,7 @@
 }
 
 .titleAccent {
-  color: #2E231D;
+  color: #2e231d;
 }
 
 .viewAllBtn {
@@ -353,6 +352,14 @@
 }
 
 .featuredSection {
+  position: relative;
+  margin: 0 auto;
+  width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 64px;
   margin-bottom: 80px;
 }
 .servicesCarousel {
@@ -372,20 +379,26 @@
 }
 .serviceCard {
   flex: 0 0 calc(95% / 3);
-  box-sizing: border-box; 
+  box-sizing: border-box;
   background-color: var(--color-white);
   border: 2px solid var(--color-antiquewhite);
   border-radius: var(--br-12);
   overflow: hidden;
   transition: all 0.3s ease;
+  position: relative;
+  transition: transform 0.12s ease-out, box-shadow 0.12s ease-out,
+    border 0.12s ease-out;
+  cursor: pointer;
 }
 .serviceCard:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  border: 1px solid var(--color-tan);
 }
 .serviceImage {
   width: 100%;
-  height: 200px;
+  height: 254px;
   background-color: var(--color-antiquewhite);
 }
 .serviceCardContent {
@@ -414,13 +427,15 @@
   gap: 8px;
 }
 .ratingScore {
-  font-size: 13px;
+  color: #bba68a;
+  line-height: 150%;
+  font-size: 16px;
   font-weight: 500;
-  color: var(--color-tan);
 }
 .stars {
   display: flex;
-  gap: 2px;
+  gap: -0.5px;
+  color: var(--color-tan-100);
 }
 .carouselButton {
   position: absolute;
@@ -440,13 +455,13 @@
 }
 .carouselButton:hover {
   background-color: var(--color-tan);
-  transform: translateY(-50%) scale(1.05);
+  transform: translateY(-60%) scale(1.05);
 }
 .nextButton {
-  right: -27px;
+  right: -45px;
 }
 .prevButton {
-  left: -27px;
+  left: -65px;
 }
 .prevButton img {
   transform: scaleX(-1);
@@ -456,7 +471,7 @@
   width: 100%;
   background-color: var(--color-white);
   padding: 4rem 2rem 2rem;
-  margin-top: auto; 
+  margin-top: auto;
 }
 
 .footerContent {
@@ -509,7 +524,6 @@
   margin-bottom: 1.5rem;
 }
 
-
 /* --- Responsive Design --- */
 @media (max-width: 1200px) {
   /* On tablets, make the navbar a bit wider and reduce padding */
@@ -521,12 +535,12 @@
   .serviceCard {
     flex-basis: calc(100% / 2);
   }
-  
+
   .footerContent {
     grid-template-columns: 1fr 1fr;
   }
-   .footerBottom	{
-	text-align: center;
+  .footerBottom {
+    text-align: center;
   }
 }
 
@@ -542,37 +556,37 @@
   .navLinks {
     display: none;
   }
-  
+
   .heroSection {
     padding: 0 5%;
     margin-left: 2%;
     margin-right: 2%;
   }
-  
+
   .bookAn {
     font-size: 36px;
   }
-  
+
   .appointment {
     font-size: 40px;
   }
-  
+
   .mainContent {
     padding: 40px 5%;
   }
-  
+
   .sectionTitle {
     font-size: 36px;
   }
-  
+
   .appointmentsGrid {
     grid-template-columns: 1fr;
   }
-  
+
   .serviceCard {
     flex-basis: 100%;
   }
-  
+
   .carouselButton {
     width: 45px;
     height: 45px;
@@ -583,7 +597,7 @@
   .prevButton {
     left: -10px;
   }
-  
+
   .footerContent {
     grid-template-columns: 1fr;
     text-align: center;
@@ -591,10 +605,10 @@
   .footerColumn {
     align-items: center;
   }
-  .footerBottom	{
-	text-align: center;
+  .footerBottom {
+    text-align: center;
   }
-  
+
   .footer {
     padding: 40px 5% 20px;
   }
@@ -604,25 +618,79 @@
   .navigation {
     padding: 0.5rem 1rem;
   }
-  
+
   /* On very small screens, hide the brand name text to save space */
   .brandName {
     display: none;
   }
-  
+
   .heroSection {
     height: 50vh;
   }
-  
+
   .bookAn {
     font-size: 28px;
   }
-  
+
   .appointment {
     font-size: 32px;
   }
-  
+
   .sectionTitle {
     font-size: 28px;
   }
+}
+
+.avataricon {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--gap-16);
+  position: relative;
+  margin-left: 5%;
+  transition: transform 0.3s ease;
+}
+.avataricon:hover {
+  transform: scale(1.1);
+}
+.dropdownWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdownMenu {
+  position: absolute;
+  right: 0;
+  margin-top: 10px;
+  width: 186px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+.dropdownItem {
+  padding: 15px 16px;
+  color: #241f1b;
+  text-decoration: none;
+  display: block;
+  transition: background 0.2s ease;
+  font-size: 18px;
+}
+
+.active {
+  background-color: #a68465;
+  color: white;
+}
+
+.activeTop {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.activeBottom {
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
 }
