@@ -234,3 +234,115 @@ const ProfileClient: NextPage = () => {
 };
 
 export default ProfileClient;
+
+/*
+
+change password
+
+const ChangePassword: NextPage = () => {
+  return (
+    <div className={styles.changePassword}>
+      <div className={styles.frameParent}>
+        <div className={styles.frameGroup}>
+          <div className={styles.xWrapper}>
+            <Image
+              className={styles.xIcon}
+              width={30}
+              height={30}
+              sizes="100vw"
+              alt=""
+              src="x.svg"
+            />
+          </div>
+          <div className={styles.frameContainer}>
+            <div className={styles.changeYourPasswordWrapper}>
+              <b className={styles.changeYourPassword}>Change your password</b>
+            </div>
+            <div className={styles.enterYourCurrent}>
+              Enter your current password and new password.
+            </div>
+          </div>
+        </div>
+        <Image
+          className={styles.frameChild}
+          width={471}
+          height={1}
+          sizes="100vw"
+          alt=""
+          src="Line 261.svg"
+        />
+        <div className={styles.frameDiv}>
+          <div className={styles.frameItem} />
+          <div className={styles.frameParent1}>
+            <div className={styles.currentPasswordWrapper}>
+              <div className={styles.changeYourPassword}>Current Password</div>
+            </div>
+            <div className={styles.textField}>
+              <div className={styles.inputs} />
+              <div className={styles.icons} />
+              <div className={styles.eyeOff}>
+                <Image
+                  className={styles.icon}
+                  width={33.9}
+                  height={27.5}
+                  sizes="100vw"
+                  alt=""
+                  src="Icon.svg"
+                />
+              </div>
+            </div>
+            <div className={styles.frameInner} />
+            <div className={styles.changeYourPassword}>New Password</div>
+            <div className={styles.textField}>
+              <div className={styles.inputs} />
+              <div className={styles.icons} />
+              <div className={styles.eyeOff}>
+                <Image
+                  className={styles.icon}
+                  width={33.9}
+                  height={27.5}
+                  sizes="100vw"
+                  alt=""
+                  src="Icon.svg"
+                />
+              </div>
+            </div>
+            <div className={styles.frameInner} />
+            <div className={styles.currentPasswordWrapper}>
+              <div className={styles.changeYourPassword}>
+                Confirm New Password
+              </div>
+            </div>
+            <div className={styles.textField}>
+              <div className={styles.inputs} />
+              <div className={styles.icons} />
+              <div className={styles.eyeOff}>
+                <Image
+                  className={styles.icon}
+                  width={33.9}
+                  height={27.5}
+                  sizes="100vw"
+                  alt=""
+                  src="Icon.svg"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className={styles.buttonWrapper}>
+          <div className={styles.button}>
+            <div className={styles.buttonInner}>
+              <div className={styles.buttonInner}>
+                <div className={styles.updatePassword}>Update Password</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ChangePassword;
+
+*/
