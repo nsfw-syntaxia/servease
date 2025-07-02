@@ -60,7 +60,7 @@ export default async function RootLayout({
       if (profile.role === 'client') {
         homePath = '/client-dashboard';
       } else if (profile.role === 'provider') {
-        homePath = '/provider-dashboard'; 
+        homePath = '/facility-dashboard'; 
       }
       
       if (profile.picture_url) {

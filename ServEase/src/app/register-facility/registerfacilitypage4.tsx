@@ -114,7 +114,7 @@ const FacilitySignup4: NextPage<Props> = ({ onNext }) => {
       const formData = new FormData();
       formData.append('contact_number', countryCode + phone);
       await completeProviderProfile(formData);
-      router.push("/discover");
+      router.push("/facility-dashboard");
     } catch (error: any) {
       setErrorMessage(error.message || "Verification failed");
     } finally {
