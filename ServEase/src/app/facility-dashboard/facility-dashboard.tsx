@@ -28,7 +28,7 @@ const DashboardFacility: NextPage = () => {
               height={40}
               sizes="100vw"
               alt=""
-              src="Servease Logo (Album Cover) (3) 1.png"
+              src="/logo.svg"
             />
             <div className={styles.servease}>
               <span className={styles.serv}>serv</span>
@@ -386,7 +386,7 @@ const DashboardFacility: NextPage = () => {
           height={40}
           sizes="100vw"
           alt=""
-          src="Servease Logo (Album Cover) (3) 2.png"
+          src="/logo.svg"
         />
       </div>
     </div>

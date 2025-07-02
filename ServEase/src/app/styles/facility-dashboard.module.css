@@ -39,7 +39,7 @@
   width: 1300px;
   height: 523px;
   overflow: hidden;
-  background-image: url("Hero Image.png");
+  background-image: url("/header-image.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: top;
