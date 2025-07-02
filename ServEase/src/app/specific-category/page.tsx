@@ -1,5 +1,10 @@
+import { Suspense } from "react";
 import SpecificCategory from "./specific-category";
 
-export default function Home() {
-  return <SpecificCategory />;
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SpecificCategory />
+    </Suspense>
+  );
 }

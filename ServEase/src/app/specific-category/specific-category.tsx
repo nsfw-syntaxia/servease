@@ -4,8 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import type { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import styles from "../styles/specific-category.module.css";
 
 const AllServiceCard = ({ service }: { service: any }) => {
