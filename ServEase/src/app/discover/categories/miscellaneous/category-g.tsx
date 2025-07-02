@@ -207,31 +207,27 @@ const MS: NextPage = () => {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentIndex1, setCurrentIndex1] = useState(0);
-  const visibleServices = 3; // How many services are visible at once
+  const visibleServices = 3;
   const visibleServices1 = 3;
 
   const handleNext = () => {
-    // Stop at the last possible slide to not show empty space
     if (currentIndex < popularServices.length - visibleServices) {
       setCurrentIndex((prevIndex) => prevIndex + 3);
     }
   };
 
   const handlePrev = () => {
-    // Stop at the beginning
     if (currentIndex > 0) {
       setCurrentIndex((prevIndex) => prevIndex - 3);
     }
   };
   const handleNext1 = () => {
-    // Stop at the last possible slide to not show empty space
     if (currentIndex1 < featuredServices.length - visibleServices1) {
       setCurrentIndex1((prevIndex1) => prevIndex1 + 3);
     }
   };
 
   const handlePrev1 = () => {
-    // Stop at the beginning
     if (currentIndex1 > 0) {
       setCurrentIndex1((prevIndex1) => prevIndex1 - 3);
     }
@@ -326,9 +322,7 @@ const MS: NextPage = () => {
       <div className={styles.bg}>
         {/* hero img */}
         <div className={styles.heroImg}>
-          <div className={styles.personalBeautyAnd}>
-            Miscellaneous Services
-          </div>
+          <div className={styles.personalBeautyAnd}>Miscellaneous Services</div>
         </div>
 
         {/* search */}
@@ -367,59 +361,84 @@ const MS: NextPage = () => {
         </div>
 
         {/* icons */}
-      <div className={styles.icons}>
-        <div className={styles.iconContainer}>
-          <div className={styles.iconWrapper}>
-            <Image
-              className={styles.funeralIcon}
-              src="/funeral.svg"
-              alt=""
-              width={75}
-              height={75}
-            />
-          </div>
-          <div className={styles.label}>Funeral Homes</div>
+        <div className={styles.icons}>
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Funeral Homes" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.funeralIcon}
+                  src="/Funeral Homes.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Funeral Homes</div>
+            </div>
+          </Link>
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Hotels" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.hotelIcon}
+                  src="/Hotels.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Hotels</div>
+            </div>
+          </Link>
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Laundry Shops" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.laundryIcon}
+                  src="/Laundry Shops.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Laundry Shops</div>
+            </div>
+          </Link>
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Tailor & Dress Shops" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.maniqIcon}
+                  src="/Tailor & Dress Shops.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Tailor & Dress Shops</div>
+            </div>
+          </Link>
         </div>
-
-        <div className={styles.iconContainer}>
-          <div className={styles.iconWrapper}>
-            <Image
-              className={styles.hotelIcon}
-              src="/hotel.svg"
-              alt=""
-              width={75}
-              height={75}
-            />
-          </div>
-          <div className={styles.label}>Hotels</div>
-        </div>
-
-        <div className={styles.iconContainer}>
-          <div className={styles.iconWrapper}>
-            <Image
-              className={styles.laundryIcon}
-              src="/laundry.svg"
-              alt=""
-              width={75}
-              height={75}
-            />
-          </div>
-          <div className={styles.label}>Laundry Shops</div>
-        </div>
-
-        <div className={styles.iconContainer}>
-          <div className={styles.iconWrapper}>
-            <Image
-              className={styles.maniqIcon}
-              src="/maniq.svg"
-              alt=""
-              width={75}
-              height={75}
-            />
-          </div>
-          <div className={styles.label}>Tailor & Dress Shops</div>
-        </div>
-      </div>
       </div>
 
       {/* popular services */}
@@ -448,7 +467,6 @@ const MS: NextPage = () => {
             <div
               className={styles.carouselTrack}
               style={{
-                // This inline style moves the track one card-width at a time
                 transform: `translateX(calc(-${currentIndex} * (100% / ${visibleServices})))`,
               }}
             >
@@ -502,7 +520,6 @@ const MS: NextPage = () => {
             <div
               className={styles.carouselTrack}
               style={{
-                // This inline style moves the track one card-width at a time
                 transform: `translateX(calc(-${currentIndex1} * (100% / ${visibleServices1})))`,
               }}
             >

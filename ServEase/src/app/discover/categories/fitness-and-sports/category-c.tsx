@@ -207,31 +207,27 @@ const FASS: NextPage = () => {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentIndex1, setCurrentIndex1] = useState(0);
-  const visibleServices = 3; // How many services are visible at once
+  const visibleServices = 3;
   const visibleServices1 = 3;
 
   const handleNext = () => {
-    // Stop at the last possible slide to not show empty space
     if (currentIndex < popularServices.length - visibleServices) {
       setCurrentIndex((prevIndex) => prevIndex + 3);
     }
   };
 
   const handlePrev = () => {
-    // Stop at the beginning
     if (currentIndex > 0) {
       setCurrentIndex((prevIndex) => prevIndex - 3);
     }
   };
   const handleNext1 = () => {
-    // Stop at the last possible slide to not show empty space
     if (currentIndex1 < featuredServices.length - visibleServices1) {
       setCurrentIndex1((prevIndex1) => prevIndex1 + 3);
     }
   };
 
   const handlePrev1 = () => {
-    // Stop at the beginning
     if (currentIndex1 > 0) {
       setCurrentIndex1((prevIndex1) => prevIndex1 - 3);
     }
@@ -368,44 +364,63 @@ const FASS: NextPage = () => {
 
         {/* icons */}
         <div className={styles.icons}>
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.danceIcon}
-                src="/dance.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Dance Studios" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.danceIcon}
+                  src="/Dance Studios.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Dance Studios</div>
             </div>
-            <div className={styles.label}>Dance Studios</div>
-          </div>
-
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.gymsIcon}
-                src="/gyms.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          </Link>
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Gyms" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.gymsIcon}
+                  src="/Gyms.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Gyms</div>
             </div>
-            <div className={styles.label}>Gyms</div>
-          </div>
-
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.sportsIcon}
-                src="/ball.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          </Link>
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Sports Centers" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.sportsIcon}
+                  src="/Sports Centers.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Sports Centers</div>
             </div>
-            <div className={styles.label}>Sports Centers</div>
-          </div>
+          </Link>
         </div>
       </div>
 
@@ -435,7 +450,6 @@ const FASS: NextPage = () => {
             <div
               className={styles.carouselTrack}
               style={{
-                // This inline style moves the track one card-width at a time
                 transform: `translateX(calc(-${currentIndex} * (100% / ${visibleServices})))`,
               }}
             >
@@ -489,7 +503,6 @@ const FASS: NextPage = () => {
             <div
               className={styles.carouselTrack}
               style={{
-                // This inline style moves the track one card-width at a time
                 transform: `translateX(calc(-${currentIndex1} * (100% / ${visibleServices1})))`,
               }}
             >
