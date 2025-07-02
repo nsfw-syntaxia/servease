@@ -713,6 +713,138 @@
     left: 0;
   }
   .title {
+    font-size: 35px;
+    margin-right: 10%;
+    width: 100%;
+  }
+  .welcomeToServeaseContainer {
+  position: relative;
+  margin-top: -7%;
+  margin-right: 60px;
+}
+  .pleaseLogIn {
+  position: relative;
+  font-size: 17px;
+  margin-right: 60px;
+  margin-bottom: -10%;
+  }
+  .logincontent {
+    width: 100%;
+    padding: 0px 30px;
+  }
+  
+  .email1, .password1 {
+    width: 110%;
+    margin-right: 110px;
+    right: 15%;
+  }
+  .buttoncontainer {
+  width: 300px;
+  position: relative;
+  border-radius: 40px;
+  background-color: var(--color-tan);
+  height: 40px;
+  overflow: hidden;
+  flex-shrink: 0;
+  opacity: 0.5;
+  font-size: 22px;
+  cursor: pointer;
+  bottom: 70px;
+  right: 11%;
+}
+.navbar {
+  width: 500px;
+  border-radius: var(--br-12);
+  height: 56px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0px;
+  cursor: pointer;
+}
+.login2 {
+  width: 250px;
+  position: relative;
+  background-color: var(--color-tan);
+  height: 56px;
+  overflow: hidden;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.navigationbar {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-right: 50%;
+  margin-left: 36%;
+  margin-top: -1%;
+  position: relative;
+}
+.rememberMe1 {
+  position: relative;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.rememberMe {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-left: -12%;
+  margin-top: 1%;
+}
+
+.forgetPassword {
+  position: relative;
+  text-decoration: underline;
+  font-weight: 500;
+  color: var(--color-tan);
+  cursor: pointer;
+  margin-right: 10%;
+  margin-top: 1%;
+}
+}
+/* ---------- Small Mobile (max-width: 480px) ---------- */
+@media screen and (max-width: 480px)
+{
+  .authwindow {
+    width: 100%;
+    height: 58%;
+    border-radius: 26px;
+    background: white;
+    top: 130px;
+    position: relative;
+    margin: 5% 0 0 5%;
+  }
+
+  .authlogoIcon {
+    position: absolute;
+    width: 100%;
+    height: 120px;
+    margin-top: 5%;
+    margin-left: 1px;
+  }
+
+  .login1 {
+    width: 100%;
+    left: 0;
+    top: 0;
+  }
+
+  .authwindow1 {
+    width: 90%;
+    height: auto;
+    top: 20px;
+    left: 0;
+  }
+  .title {
     font-size: 32px;
     margin-right: 40%;
     width: 100%;
