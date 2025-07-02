@@ -185,9 +185,9 @@ const DashboardFacility: NextPage = () => {
             alt=""
             src="Avatar.svg"
           />
-          <div className={styles.div2}>15</div>
-          <div className={styles.totalCompletedAppointments}>
-            Total Completed Appointments
+          <div className={styles.div2}>5</div>
+          <div className={styles.todaysUpcomingAppointments}>
+            Today’s Upcoming Appointments
           </div>
           <div className={styles.star}>
             <Image

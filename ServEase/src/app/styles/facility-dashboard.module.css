@@ -377,7 +377,7 @@
   font-weight: 600;
 }
 
-.totalCompletedAppointments {
+.todaysUpcomingAppointments {
   position: absolute;
   top: 924px;
   left: 534px;
@@ -970,7 +970,6 @@
   display: inline-block;
   width: 233px;
 }
-
 .discover1 {
   position: absolute;
   top: 197px;
