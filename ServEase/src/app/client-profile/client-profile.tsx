@@ -346,3 +346,95 @@ const ChangePassword: NextPage = () => {
 export default ChangePassword;
 
 */
+
+/*
+
+delete account
+
+const DeleteAccount: NextPage = () => {
+  return (
+    <div className={styles.deleteAccount}>
+      <div className={styles.frameParent}>
+        <div className={styles.frameGroup}>
+          <div className={styles.xWrapper}>
+            <Image
+              className={styles.xIcon}
+              width={30}
+              height={30}
+              sizes="100vw"
+              alt=""
+              src="x.svg"
+            />
+          </div>
+          <div className={styles.frameContainer}>
+            <div className={styles.deleteAccountWrapper}>
+              <b className={styles.password}>Delete Account</b>
+            </div>
+            <div className={styles.areYouSure}>
+              Are you sure you want to delete your account? This will
+              immediately log you out of your account and you will not be able
+              to log in again.
+            </div>
+          </div>
+        </div>
+        <Image
+          className={styles.frameChild}
+          width={471}
+          height={1}
+          sizes="100vw"
+          alt=""
+          src="Line 261.svg"
+        />
+        <div className={styles.frameDiv}>
+          <div className={styles.frameItem} />
+          <div className={styles.frameParent1}>
+            <div className={styles.passwordWrapper}>
+              <div className={styles.password}>Password</div>
+            </div>
+            <div className={styles.textField}>
+              <div className={styles.inputs} />
+              <div className={styles.eyeOff}>
+                <Image
+                  className={styles.icon}
+                  width={33.9}
+                  height={27.5}
+                  sizes="100vw"
+                  alt=""
+                  src="Icon.svg"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className={styles.groupParent}>
+          <div className={styles.groupWrapper}>
+            <div className={styles.groupWrapper}>
+              <div className={styles.button}>
+                <div className={styles.buttonInner}>
+                  <div className={styles.cancelWrapper}>
+                    <div className={styles.cancel}>Cancel</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className={styles.groupContainer}>
+            <div className={styles.buttonContainer}>
+              <div className={styles.button1}>
+                <div className={styles.buttonChild}>
+                  <div className={styles.cancelWrapper}>
+                    <div className={styles.cancel}>Delete Account</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default DeleteAccount;
+
+*/
