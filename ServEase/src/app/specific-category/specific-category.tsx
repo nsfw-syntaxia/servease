@@ -7,9 +7,13 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import styles from "../styles/specific-category.module.css";
 
-const AllServiceCard = ({ service }: { service: any }) => {
-  const searchParams = useSearchParams();
-  const name = searchParams.get("name");
+const AllServiceCard = ({
+  service,
+  iconName,
+}: {
+  service: any;
+  iconName: string;
+}) => {
   const router = useRouter();
 
   return (
@@ -23,7 +27,7 @@ const AllServiceCard = ({ service }: { service: any }) => {
               width={35}
               height={35}
               alt=""
-              src={`/${name}.svg`}
+              src={`/${iconName}.svg`}
             />
           </div>
           <div className={styles.avatar5}>
@@ -227,17 +231,29 @@ const SpecificCategory: NextPage = () => {
           <div className={styles.allCards}>
             <div className={styles.cards}>
               {allservices.map((service, id) => (
-                <AllServiceCard key={id} service={service} />
+                <AllServiceCard
+                  key={id}
+                  service={service}
+                  iconName={name || "default"}
+                />
               ))}
             </div>
             <div className={styles.cards}>
               {allservices.map((service, id) => (
-                <AllServiceCard key={id} service={service} />
+                <AllServiceCard
+                  key={id}
+                  service={service}
+                  iconName={name || "default"}
+                />
               ))}
             </div>
             <div className={styles.cards}>
               {allservices.map((service, id) => (
-                <AllServiceCard key={id} service={service} />
+                <AllServiceCard
+                  key={id}
+                  service={service}
+                  iconName={name || "default"}
+                />
               ))}
             </div>
           </div>
