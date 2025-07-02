@@ -1,0 +1,1182 @@
+.joinUsChild {
+  position: absolute;
+  top: 56px;
+  left: 471px;
+  width: 497px;
+  height: 93px;
+}
+
+.paraContent {
+  position: absolute;
+  top: 1022px;
+  left: 73px;
+  width: 115px;
+  height: 42px;
+}
+
+.serveaseLogoAlbumCover3 {
+  width: 40px;
+  position: relative;
+  max-height: 100%;
+  object-fit: cover;
+}
+
+.serv {
+  font-weight: 500;
+}
+
+.servease {
+  position: relative;
+  line-height: 150%;
+}
+
+.navigationChild {
+  width: 124px;
+  height: 45px;
+}
+
+.home {
+  width: 119px;
+  position: relative;
+  line-height: 150%;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.contactUs {
+  width: 147px;
+  position: relative;
+  line-height: 150%;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 27px;
+  flex-shrink: 0;
+}
+
+.homeParent {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  text-align: center;
+  font-size: var(--font-size-18);
+  color: var(--color-gray-200);
+}
+
+.navigationItem {
+  width: 184px;
+  height: 45px;
+}
+
+.avatarPlaceholderIcon {
+  position: absolute;
+  height: 64%;
+  width: 100%;
+  top: 25%;
+  right: 14.73%;
+  bottom: 11%;
+  left: 14.77%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+
+.genericAvatar {
+  width: 40px;
+  position: relative;
+  border-radius: var(--br-100);
+  background-color: var(--color-tan);
+  height: 40px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.navigation {
+  position: absolute;
+  top: 47px;
+  left: calc(50% - 557px);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 50px;
+  background-color: var(--color-white);
+  width: 1113px;
+  height: 69px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0px 60px;
+  box-sizing: border-box;
+  gap: 10px;
+  font-size: 28px;
+}
+
+.joinUsItem {
+  position: absolute;
+  top: 361px;
+  left: 204px;
+  border-radius: var(--br-10);
+  background-color: var(--color-white);
+  width: 1032px;
+  height: 893px;
+}
+
+.avatarPlaceholderIcon1 {
+  position: absolute;
+  height: 64.1%;
+  width: 100%;
+  top: 25%;
+  right: 14.73%;
+  bottom: 10.9%;
+  left: 14.77%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+
+.genericAvatar1 {
+  position: absolute;
+  top: 493px;
+  left: 236px;
+  border-radius: var(--br-100);
+  background-color: var(--color-tan);
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+}
+
+.joinUsInner {
+  position: absolute;
+  top: 560px;
+  left: 304px;
+  box-shadow: 0px 1px 4px rgba(26, 15, 1, 0.12);
+  border-radius: 50%;
+  background-color: var(--color-white);
+  width: 30px;
+  height: 30px;
+}
+
+.edit03Icon {
+  position: absolute;
+  top: 566px;
+  left: 309px;
+  width: 19px;
+  height: 19px;
+  overflow: hidden;
+}
+
+.rectangleDiv {
+  position: absolute;
+  top: 1314px;
+  left: 204px;
+  border-radius: var(--br-10);
+  background-color: var(--color-white);
+  width: 1032px;
+  height: 98px;
+}
+
+.rectangleIcon {
+  position: absolute;
+  top: 313px;
+  left: 204px;
+  width: 1032px;
+  height: 148px;
+}
+
+.serviceFacilityName {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  font-size: var(--font-size-20);
+  font-weight: 500;
+}
+
+.verified {
+  position: absolute;
+  top: 4px;
+  left: 258px;
+  font-weight: 500;
+  color: var(--color-tan);
+}
+
+.servicefacilityemailcom {
+  position: absolute;
+  top: 36px;
+  left: 0px;
+  opacity: 0.5;
+}
+
+.serviceFacilityNameParent {
+  position: absolute;
+  top: 513px;
+  left: 360px;
+  width: 316px;
+  height: 57px;
+}
+
+.joinUsChild1 {
+  position: absolute;
+  height: 2.11%;
+  width: 14.58%;
+  top: 30.59%;
+  right: 69.03%;
+  bottom: 67.3%;
+  left: 16.39%;
+  border-radius: var(--br-8);
+  background-color: var(--color-snow);
+  border: 1px solid var(--color-tan);
+  box-sizing: border-box;
+}
+
+.joinUsChild2 {
+  position: absolute;
+  height: 2.11%;
+  width: 6.81%;
+  top: 30.59%;
+  right: 76.81%;
+  bottom: 67.3%;
+  left: 16.39%;
+  border-radius: var(--br-8);
+  background-color: var(--color-snow);
+  border: 1px solid var(--color-tan);
+  box-sizing: border-box;
+}
+
+.serviceFacilityName1 {
+  position: absolute;
+  top: 685px;
+  left: 236px;
+  opacity: 0.8;
+}
+
+.joinUsChild3 {
+  position: absolute;
+  height: 2.61%;
+  width: 32.5%;
+  top: 36.16%;
+  right: 51.11%;
+  bottom: 61.23%;
+  left: 16.39%;
+  border-radius: var(--br-8);
+  background-color: var(--color-snow);
+}
+
+.serviceFacilityName2 {
+  position: absolute;
+  top: 36.86%;
+  left: 17.78%;
+  opacity: 0.4;
+}
+
+.category {
+  position: absolute;
+  top: 797px;
+  left: 236px;
+  opacity: 0.8;
+}
+
+.joinUsChild4 {
+  position: absolute;
+  height: 2.61%;
+  width: 32.5%;
+  top: 41.78%;
+  right: 51.11%;
+  bottom: 55.62%;
+  left: 16.39%;
+  border-radius: var(--br-8);
+  background-color: var(--color-snow);
+}
+
+.category1 {
+  position: absolute;
+  top: 42.48%;
+  left: 17.78%;
+  opacity: 0.4;
+}
+
+.workingDays {
+  position: absolute;
+  top: 909px;
+  left: 236px;
+  opacity: 0.8;
+}
+
+.contactNumber {
+  position: absolute;
+  top: 1021px;
+  left: 236px;
+  opacity: 0.8;
+}
+
+.joinUsChild5 {
+  position: absolute;
+  height: 2.61%;
+  width: 32.5%;
+  top: 53.01%;
+  right: 51.11%;
+  bottom: 44.38%;
+  left: 16.39%;
+  border-radius: var(--br-8);
+  background-color: var(--color-snow);
+}
+
+.xxXxxxXxx {
+  position: absolute;
+  top: 53.71%;
+  left: 17.78%;
+  opacity: 0.4;
+}
+
+.address {
+  position: absolute;
+  top: 685px;
+  left: 736px;
+  opacity: 0.8;
+}
+
+.joinUsChild6 {
+  position: absolute;
+  height: 2.61%;
+  width: 32.5%;
+  top: 36.16%;
+  right: 16.39%;
+  bottom: 61.23%;
+  left: 51.11%;
+  border-radius: var(--br-8);
+  background-color: var(--color-snow);
+}
+
+.address1 {
+  position: absolute;
+  top: 36.86%;
+  left: 52.5%;
+  font-family: var(--font-poppins);
+  opacity: 0.4;
+}
+
+.tags {
+  position: absolute;
+  top: 1133px;
+  left: 236px;
+  opacity: 0.8;
+}
+
+.joinUsChild7 {
+  position: absolute;
+  height: 2.61%;
+  width: 32.5%;
+  top: 58.63%;
+  right: 51.11%;
+  bottom: 38.77%;
+  left: 16.39%;
+  border-radius: var(--br-8);
+  background-color: var(--color-snow);
+}
+
+.tags1 {
+  position: absolute;
+  top: 59.33%;
+  left: 17.78%;
+  opacity: 0.4;
+}
+
+.specificCategory {
+  position: absolute;
+  top: 797px;
+  left: 736px;
+  opacity: 0.8;
+}
+
+.joinUsChild8 {
+  position: absolute;
+  height: 2.61%;
+  width: 32.5%;
+  top: 41.78%;
+  right: 16.39%;
+  bottom: 55.62%;
+  left: 51.11%;
+  border-radius: var(--br-8);
+  background-color: var(--color-snow);
+}
+
+.specificCategory1 {
+  position: absolute;
+  top: 42.48%;
+  left: 52.5%;
+  font-family: var(--font-poppins);
+  opacity: 0.4;
+}
+
+.workingHours {
+  position: absolute;
+  top: 909px;
+  left: 736px;
+  opacity: 0.8;
+}
+
+.joinUsChild9 {
+  position: absolute;
+  height: 2.61%;
+  width: 32.5%;
+  top: 47.39%;
+  right: 16.39%;
+  bottom: 50%;
+  left: 51.11%;
+  border-radius: var(--br-8);
+  background-color: var(--color-snow);
+}
+
+.workingHours1 {
+  position: absolute;
+  top: 48.09%;
+  left: 52.5%;
+  opacity: 0.4;
+}
+
+.joinUsChild10 {
+  position: absolute;
+  height: 2.61%;
+  width: 32.5%;
+  top: 47.39%;
+  right: 51.11%;
+  bottom: 50%;
+  left: 16.39%;
+  border-radius: var(--br-8);
+  background-color: var(--color-snow);
+}
+
+.workingDays1 {
+  position: absolute;
+  top: 48.09%;
+  left: 17.78%;
+  opacity: 0.4;
+}
+
+.emailAddress {
+  position: absolute;
+  top: 1021px;
+  left: 736px;
+  opacity: 0.8;
+}
+
+.joinUsChild11 {
+  position: absolute;
+  height: 2.61%;
+  width: 32.5%;
+  top: 53.01%;
+  right: 16.39%;
+  bottom: 44.38%;
+  left: 51.11%;
+  border-radius: var(--br-8);
+  background-color: var(--color-snow);
+}
+
+.emailAddress1 {
+  position: absolute;
+  top: 53.71%;
+  left: 52.5%;
+  opacity: 0.4;
+}
+
+.servicesOffered {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+.servicesOfferedWrapper {
+  position: absolute;
+  top: 1352px;
+  left: 304px;
+  width: 124px;
+  height: 21px;
+}
+
+.groupChild {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+  left: 0%;
+  border-radius: var(--br-8);
+  background-color: var(--color-tan);
+  opacity: 0.1;
+}
+
+.view {
+  position: absolute;
+  width: 86.19%;
+  top: 25%;
+  left: 7.18%;
+  display: inline-block;
+}
+
+.rectangleParent {
+  position: absolute;
+  height: 2.21%;
+  width: 12.57%;
+  top: 67.2%;
+  right: 51.18%;
+  bottom: 30.59%;
+  left: 36.25%;
+  text-align: center;
+  color: var(--color-tan);
+}
+
+.ellipseDiv {
+  position: absolute;
+  top: 1338px;
+  left: 236px;
+  border-radius: 50%;
+  background-color: var(--color-tan);
+  width: 48px;
+  height: 48px;
+  opacity: 0.1;
+}
+
+.appointmentTimeslotsWrapper {
+  position: absolute;
+  top: 1352px;
+  left: 805px;
+  width: 174px;
+  height: 21px;
+}
+
+.rectangleGroup {
+  position: absolute;
+  height: 2.21%;
+  width: 12.57%;
+  top: 67.2%;
+  right: 16.39%;
+  bottom: 30.59%;
+  left: 71.04%;
+  text-align: center;
+  color: var(--color-tan);
+}
+
+.joinUsChild12 {
+  position: absolute;
+  top: 1338px;
+  left: 737px;
+  border-radius: 50%;
+  background-color: var(--color-tan);
+  width: 48px;
+  height: 48px;
+  opacity: 0.1;
+}
+
+.joinUsChild13 {
+  position: absolute;
+  top: 409px;
+  left: 1174px;
+  box-shadow: 0px 1px 4px rgba(26, 15, 1, 0.12);
+  border-radius: 50%;
+  background-color: var(--color-white);
+  width: 30px;
+  height: 30px;
+}
+
+.edit03Icon1 {
+  position: absolute;
+  top: 415px;
+  left: 1179px;
+  width: 19px;
+  height: 19px;
+  overflow: hidden;
+}
+
+.verifiedaccountIcon {
+  position: absolute;
+  top: 513px;
+  left: 587px;
+  width: 26px;
+  height: 26px;
+  overflow: hidden;
+}
+
+.likes {
+  position: absolute;
+  top: 620px;
+  left: 277px;
+  font-weight: 600;
+  color: var(--color-tan);
+  opacity: 0.8;
+}
+
+.icon {
+  position: absolute;
+  height: 76.11%;
+  width: 100%;
+  top: 12.49%;
+  right: 6.32%;
+  bottom: 11.4%;
+  left: 6.45%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+
+.heart {
+  position: absolute;
+  top: 622px;
+  left: 252px;
+  width: 18px;
+  height: 18px;
+  overflow: hidden;
+}
+
+.div {
+  position: absolute;
+  top: 620px;
+  left: 360px;
+  font-weight: 900;
+  color: var(--color-tan);
+  opacity: 0.8;
+}
+
+.joinUsChild14 {
+  position: absolute;
+  height: 2.11%;
+  width: 16.25%;
+  top: 30.59%;
+  right: 50.97%;
+  bottom: 67.3%;
+  left: 32.78%;
+  border-radius: var(--br-8);
+  background-color: var(--color-snow);
+  border: 1px solid var(--color-tan);
+  box-sizing: border-box;
+}
+
+.joinUsChild15 {
+  position: absolute;
+  height: 2.11%;
+  width: 7.99%;
+  top: 30.59%;
+  right: 59.24%;
+  bottom: 67.3%;
+  left: 32.78%;
+  border-radius: var(--br-8);
+  background-color: var(--color-snow);
+  border: 1px solid var(--color-tan);
+  box-sizing: border-box;
+}
+
+.ratings {
+  position: absolute;
+  top: 620px;
+  left: 513px;
+  font-weight: 600;
+  color: var(--color-tan);
+  opacity: 0.8;
+}
+
+.div1 {
+  position: absolute;
+  top: 620px;
+  left: 613px;
+  font-weight: 900;
+  color: var(--color-tan);
+  opacity: 0.8;
+}
+
+.icon1 {
+  position: absolute;
+  height: 79.44%;
+  width: 100%;
+  top: 8.33%;
+  right: 8.33%;
+  bottom: 12.22%;
+  left: 8.33%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+
+.star {
+  position: absolute;
+  top: 622px;
+  left: 488px;
+  width: 18px;
+  height: 18px;
+  overflow: hidden;
+}
+
+.joinUsChild16 {
+  position: absolute;
+  height: 2.11%;
+  width: 15.69%;
+  top: 30.59%;
+  right: 33.47%;
+  bottom: 67.3%;
+  left: 50.83%;
+  border-radius: var(--br-8);
+  background-color: var(--color-snow);
+  border: 1px solid var(--color-tan);
+  box-sizing: border-box;
+}
+
+.joinUsChild17 {
+  position: absolute;
+  height: 2.11%;
+  width: 8.06%;
+  top: 30.59%;
+  right: 41.11%;
+  bottom: 67.3%;
+  left: 50.83%;
+  border-radius: var(--br-8);
+  background-color: var(--color-snow);
+  border: 1px solid var(--color-tan);
+  box-sizing: border-box;
+}
+
+.reviews {
+  position: absolute;
+  top: 620px;
+  left: 770px;
+  font-weight: 600;
+  color: var(--color-tan);
+  opacity: 0.8;
+}
+
+.div2 {
+  position: absolute;
+  top: 620px;
+  left: 874px;
+  font-weight: 900;
+  color: var(--color-tan);
+  opacity: 0.8;
+}
+
+.icon2 {
+  position: absolute;
+  height: 75%;
+  width: 100%;
+  top: 12.5%;
+  right: 3.96%;
+  bottom: 12.5%;
+  left: 4.17%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+
+.users {
+  position: absolute;
+  top: 623px;
+  left: 746px;
+  width: 16px;
+  height: 16px;
+  overflow: hidden;
+}
+
+.footerChild {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: var(--color-white);
+  width: 1440px;
+  height: 475px;
+}
+
+.yourTrustedPlatform {
+  position: absolute;
+  top: 157px;
+  left: 143px;
+  line-height: 40px;
+  display: inline-block;
+  width: 359px;
+}
+
+.contactUs1 {
+  position: absolute;
+  top: 87px;
+  left: calc(50% + 343px);
+  font-size: var(--font-size-26);
+  line-height: 128.02%;
+  display: inline-block;
+  width: 217px;
+}
+
+.supportserveasecom {
+  position: absolute;
+  top: 157px;
+  left: calc(50% + 343px);
+  line-height: 40px;
+}
+
+.div3 {
+  position: absolute;
+  top: 197px;
+  left: calc(50% + 343px);
+  line-height: 40px;
+  display: inline-block;
+  width: 233px;
+}
+
+.support {
+  position: absolute;
+  top: 87px;
+  left: calc(50% + 144px);
+  font-size: var(--font-size-26);
+  line-height: 128.02%;
+  display: inline-block;
+  width: 196px;
+}
+
+.faqs {
+  position: absolute;
+  top: 158px;
+  left: calc(50% + 144px);
+  line-height: 40px;
+  display: inline-block;
+  width: 233px;
+}
+
+.privacyPolicy {
+  position: absolute;
+  top: 197px;
+  left: calc(50% + 144px);
+  line-height: 40px;
+  display: inline-block;
+  width: 233px;
+}
+
+.termsConditions {
+  position: absolute;
+  top: 237px;
+  left: calc(50% + 144px);
+  line-height: 40px;
+  display: inline-block;
+  width: 233px;
+}
+
+.aboutUs {
+  position: absolute;
+  top: 277px;
+  left: calc(50% + 144px);
+  line-height: 40px;
+  display: inline-block;
+  width: 233px;
+}
+
+.quickLinks {
+  position: absolute;
+  top: 87px;
+  left: calc(50% - 126px);
+  font-size: var(--font-size-26);
+  line-height: 128.02%;
+  display: inline-block;
+  width: 196px;
+}
+
+.servease1 {
+  position: absolute;
+  top: 87px;
+  left: calc(50% - 529px);
+  font-size: var(--font-size-26);
+  line-height: 128.02%;
+  display: inline-block;
+  width: 148px;
+}
+
+.home1 {
+  position: absolute;
+  top: 158px;
+  left: calc(50% - 126px);
+  line-height: 40px;
+  display: inline-block;
+  width: 233px;
+}
+
+.discover1 {
+  position: absolute;
+  top: 197px;
+  left: calc(50% - 126px);
+  line-height: 40px;
+  display: inline-block;
+  width: 233px;
+}
+
+.createAnAccount {
+  position: absolute;
+  top: 236px;
+  left: calc(50% - 126px);
+  line-height: 40px;
+  display: inline-block;
+  width: 233px;
+}
+
+.facebook {
+  position: absolute;
+  top: 0px;
+  left: 32px;
+  font-weight: 500;
+}
+
+.groupInner {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 22px;
+  height: 22px;
+  overflow: hidden;
+}
+
+.facebookParent {
+  position: absolute;
+  top: 347px;
+  left: 153px;
+  width: 117px;
+  height: 22px;
+  font-size: var(--font-size-18);
+  color: var(--color-white);
+  font-family: var(--font-inter);
+}
+
+.twitter {
+  position: absolute;
+  top: 0px;
+  left: 34px;
+  font-weight: 500;
+}
+
+.frameIcon {
+  position: absolute;
+  top: 1px;
+  left: 0px;
+  width: 26px;
+  height: 22px;
+  overflow: hidden;
+}
+
+.twitterParent {
+  position: absolute;
+  top: 347px;
+  left: 305px;
+  width: 95px;
+  height: 23px;
+  font-size: var(--font-size-18);
+  color: var(--color-white);
+  font-family: var(--font-inter);
+}
+
+.instagram {
+  position: absolute;
+  top: 1px;
+  left: 32px;
+  font-weight: 500;
+}
+
+.groupChild1 {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 24px;
+  height: 24px;
+  overflow: hidden;
+}
+
+.instagramParent {
+  position: absolute;
+  top: 346px;
+  left: 435px;
+  width: 119px;
+  height: 24px;
+  font-size: var(--font-size-18);
+  color: var(--color-white);
+  font-family: var(--font-inter);
+}
+
+.lineDiv {
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid var(--color-black);
+  box-sizing: border-box;
+  width: 1185px;
+  height: 2px;
+}
+
+.servease2025 {
+  position: absolute;
+  top: 27px;
+  left: 14px;
+}
+
+.lineParent {
+  position: absolute;
+  top: 389px;
+  left: 129px;
+  width: 1183px;
+  height: 53px;
+  font-size: var(--font-size-20);
+}
+
+.serveaseLogoAlbumCover31 {
+  position: absolute;
+  top: 84px;
+  left: 143px;
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+}
+
+.footer {
+  position: absolute;
+  top: 1517px;
+  left: 0px;
+  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+    var(--color-white);
+  width: 1440px;
+  height: 475px;
+}
+
+.edit {
+  position: absolute;
+  top: calc(50% - 14px);
+  left: calc(50% - 59px);
+  line-height: 27.75px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 118px;
+  height: 28px;
+}
+
+.editWrapper {
+  position: absolute;
+  top: calc(50% - 14px);
+  left: calc(50% - 59px);
+  width: 118px;
+  height: 28px;
+}
+
+.buttonInner {
+  position: absolute;
+  top: calc(50% - 14px);
+  left: calc(50% - 49px);
+  width: 118px;
+  height: 28px;
+}
+
+.edit03Icon2 {
+  position: absolute;
+  top: 15px;
+  left: 13px;
+  width: 20px;
+  height: 20px;
+}
+
+.button {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  border-radius: 12px;
+  background-color: var(--color-tan);
+  border: 1px solid var(--color-tan);
+  box-sizing: border-box;
+  width: 96px;
+  height: 50px;
+}
+
+.buttonWrapper {
+  position: absolute;
+  top: 518px;
+  left: 1108px;
+  width: 96px;
+  height: 50px;
+  text-align: center;
+  font-size: var(--font-size-20);
+  color: var(--color-white);
+}
+
+.vuesaxboldbriefcaseIcon {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+  left: 0%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+
+.briefcase {
+  position: absolute;
+  top: 1350px;
+  left: 248px;
+  width: 24px;
+  height: 24px;
+}
+
+.vuesaxboldclockIcon {
+  position: absolute;
+  height: 1.2%;
+  width: 1.67%;
+  top: 67.7%;
+  right: 46.32%;
+  bottom: 31.09%;
+  left: 52.01%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+
+.joinUs {
+  position: absolute;
+  height: 100%;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  background-color: var(--color-whitesmoke);
+  width: 1440px;
+  overflow: hidden;
+}
+
+.joinUsWrapper {
+  position: absolute;
+  height: 100%;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  width: 1440px;
+}
+
+.profile {
+  position: absolute;
+  top: 172px;
+  left: 140px;
+  font-size: 55px;
+  line-height: 150%;
+  display: flex;
+  color: var(--color-gray-100);
+  align-items: center;
+  width: 441px;
+  height: 75px;
+}
+
+.profileFacility {
+  width: 100%;
+  position: relative;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-black);
+  box-sizing: border-box;
+  height: 1994px;
+  overflow: hidden;
+  text-align: left;
+  font-size: var(--font-size-16);
+  color: var(--color-black);
+  font-family: var(--font-dm-sans);
+}
