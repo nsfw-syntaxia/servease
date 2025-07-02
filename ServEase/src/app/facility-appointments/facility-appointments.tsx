@@ -312,3 +312,44 @@ const FacilityAppointments: NextPage = () => {
 };
 
 export default FacilityAppointments;
+
+/*
+
+dropdown for appointment status management
+
+const Dropdown: NextPage = () => {
+  return (
+    <div className={styles.dropdown}>
+      <div className={styles.image8Wrapper}>
+        <div className={styles.image8} />
+      </div>
+      <div className={styles.image11Parent}>
+        <div className={styles.image11} />
+        <div className={styles.paraContentWrapper}>
+          <div className={styles.paraContent}>
+            <div className={styles.confirmed}>Confirmed</div>
+          </div>
+        </div>
+        <div className={styles.paraContentContainer}>
+          <div className={styles.paraContent1}>
+            <div className={styles.pending}>Pending</div>
+          </div>
+        </div>
+        <div className={styles.paraContentFrame}>
+          <div className={styles.paraContent}>
+            <div className={styles.pending}>Completed</div>
+          </div>
+        </div>
+        <div className={styles.frameDiv}>
+          <div className={styles.paraContent}>
+            <div className={styles.pending}>Cancelled</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Dropdown;
+
+*/
