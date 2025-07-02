@@ -3,7 +3,8 @@
 import type { NextPage } from "next";
 import Image from "next/image";
 import styles from "../styles/dashboard-client.module.css";
-import { useState, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { type Appointment, type Service } from "../lib/supabase/types";
 
@@ -141,14 +142,38 @@ const DashboardClient: NextPage<DashboardClientProps> = ({
     return () => clearInterval(timer);
   }, [slides.length]);
 
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(false);
+  const [hovered, setHovered] = useState("");
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const items = [
+    { label: "My Account", href: "/account" },
+    { label: "Appointments", href: "/appointments" },
+    { label: "Messages", href: "/messages" },
+    { label: "Notifications", href: "/notifications" },
+    { label: "Log out", href: "/logout" },
+  ];
+
   const goToSlide = (slideIndex: number) => setCurrentSlide(slideIndex);
   console.log("Avatar URL from props:", avatarUrl);
 
 
   return (
     <div className={styles.dashboardClient}>
-      
-
       <section className={styles.heroSection}>
         {slides.map((slide, index) => (
           <div

@@ -207,31 +207,27 @@ const PBACS: NextPage = () => {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentIndex1, setCurrentIndex1] = useState(0);
-  const visibleServices = 3; // How many services are visible at once
+  const visibleServices = 3;
   const visibleServices1 = 3;
 
   const handleNext = () => {
-    // Stop at the last possible slide to not show empty space
     if (currentIndex < popularServices.length - visibleServices) {
       setCurrentIndex((prevIndex) => prevIndex + 3);
     }
   };
 
   const handlePrev = () => {
-    // Stop at the beginning
     if (currentIndex > 0) {
       setCurrentIndex((prevIndex) => prevIndex - 3);
     }
   };
   const handleNext1 = () => {
-    // Stop at the last possible slide to not show empty space
     if (currentIndex1 < featuredServices.length - visibleServices1) {
       setCurrentIndex1((prevIndex1) => prevIndex1 + 3);
     }
   };
 
   const handlePrev1 = () => {
-    // Stop at the beginning
     if (currentIndex1 > 0) {
       setCurrentIndex1((prevIndex1) => prevIndex1 - 3);
     }
@@ -241,257 +237,6 @@ const PBACS: NextPage = () => {
 
   return (
     <div className={styles.pbacs}>
-      {/* popular services */}
-      <div className={styles.popularServices}>
-
-        <b className={styles.allServices1}>
-          <span>Popular</span>
-          <span className={styles.services}> Services</span>
-        </b>
-        <div className={styles.servicesCarousel}>
-          {/* Show Prev button only if not at the beginning */}
-          {currentIndex > 0 && (
-            <button
-              className={`${styles.carouselButton} ${styles.prevButton}`}
-              onClick={handlePrev}
-            >
-              <Image
-                width={28}
-                height={28}
-                src="/Chevron right.svg"
-                alt="Previous"
-              />
-            </button>
-          )}
-
-          <div className={styles.carouselViewport}>
-            <div
-              className={styles.carouselTrack}
-              style={{
-                // This inline style moves the track one card-width at a time
-                transform: `translateX(calc(-${currentIndex} * (100% / ${visibleServices})))`,
-              }}
-            >
-              {popularServices.map((service) => (
-                <PopularServiceCard key={service.id} service={service} />
-              ))}
-            </div>
-          </div>
-
-          {/* Show Next button only if not at the end */}
-          {currentIndex < popularServices.length - visibleServices && (
-            <button
-              className={`${styles.carouselButton} ${styles.nextButton}`}
-              onClick={handleNext}
-            >
-              <Image
-                width={28}
-                height={28}
-                src="/Chevron right.svg"
-                alt="Next"
-              />
-            </button>
-          )}
-        </div>
-        <div className={styles.line1} />
-      </div>
-
-      {/* new services */}
-      <div className={styles.newServices}>
-        <b className={styles.allServices1}>
-          <span>New</span>
-          <span className={styles.services}> Services</span>
-        </b>
-        <div className={styles.servicesCarousel}>
-          {/* Show Prev button only if not at the beginning */}
-          {currentIndex1 > 0 && (
-            <button
-              className={`${styles.carouselButton} ${styles.prevButton}`}
-              onClick={handlePrev1}
-            >
-              <Image
-                width={28}
-                height={28}
-                src="/Chevron right.svg"
-                alt="Previous"
-              />
-            </button>
-          )}
-
-          <div className={styles.carouselViewport}>
-            <div
-              className={styles.carouselTrack}
-              style={{
-                // This inline style moves the track one card-width at a time
-                transform: `translateX(calc(-${currentIndex1} * (100% / ${visibleServices1})))`,
-              }}
-            >
-              {featuredServices.map((service) => (
-                <FeaturedServiceCard key={service.id} service={service} />
-              ))}
-            </div>
-          </div>
-
-          {/* Show Next button only if not at the end */}
-          {currentIndex1 < featuredServices.length - visibleServices1 && (
-            <button
-              className={`${styles.carouselButton} ${styles.nextButton}`}
-              onClick={handleNext1}
-            >
-              <Image
-                width={28}
-                height={28}
-                src="/Chevron right.svg"
-                alt="Next"
-              />
-            </button>
-          )}
-        </div>
-        <div className={styles.line1} />
-      </div>
-
-      {/* all services */}
-      <div className={styles.allServices}>
-        <b className={styles.allServices1}>
-          <span>All</span>
-          <span className={styles.services}> Services</span>
-        </b>
-        <div className={styles.allView}>
-          <div className={styles.allCards}>
-            <div className={styles.cards}>
-              {allservices.map((service, id) => (
-                <AllServiceCard key={id} service={service} />
-              ))}
-            </div>
-            <div className={styles.cards}>
-              {allservices.map((service, id) => (
-                <AllServiceCard key={id} service={service} />
-              ))}
-            </div>
-            <div className={styles.cards}>
-              {allservices.map((service, id) => (
-                <AllServiceCard key={id} service={service} />
-              ))}
-            </div>
-          </div>
-          <div className={styles.button}>
-            <div className={styles.viewAll}>View All</div>
-          </div>
-        </div>
-      </div>
-
-      <div className={styles.bg} />
-      {/* icons */}
-      <div className={styles.icons}>
-        <div className={styles.iconContainer}>
-          <div className={styles.iconWrapper}>
-            <Image
-              className={styles.barbershopIcon}
-              src="/barbershop.svg"
-              alt=""
-              width={75}
-              height={75}
-            />
-          </div>
-          <div className={styles.label}>Barbershops</div>
-        </div>
-
-        <div className={styles.iconContainer}>
-          <div className={styles.iconWrapper}>
-            <Image
-              className={styles.hairSalonIcon}
-              src="/hair salon.svg"
-              alt=""
-              width={75}
-              height={75}
-            />
-          </div>
-          <div className={styles.label}>Hair Salons</div>
-        </div>
-
-        <div className={styles.iconContainer}>
-          <div className={styles.iconWrapper}>
-            <Image
-              className={styles.nailSalonIcon}
-              src="/nail salon.svg"
-              alt=""
-              width={75}
-              height={75}
-            />
-          </div>
-          <div className={styles.label}>Nail Salons</div>
-        </div>
-
-        <div className={styles.iconContainer}>
-          <div className={styles.iconWrapper}>
-            <Image
-              className={styles.spaIcon}
-              src="/spa.svg"
-              alt=""
-              width={75}
-              height={75}
-            />
-          </div>
-          <div className={styles.label}>Spa & Massage Centers</div>
-        </div>
-
-        <div className={styles.iconContainer}>
-          <div className={styles.iconWrapper}>
-            <Image
-              className={styles.piercingIcon}
-              src="/piercing.svg"
-              alt=""
-              width={75}
-              height={75}
-            />
-          </div>
-          <div className={styles.label}>Tattoo & Piercing Parlors</div>
-        </div>
-      </div>
-
-      {/* search */}
-      <div className={styles.searchBox}>
-        <div className={styles.filtering}>
-          <div className={styles.link6}>
-            <Image
-              className={styles.icon2}
-              width={20}
-              height={20}
-              sizes="100vw"
-              alt=""
-              src="/filtering.svg"
-            />
-            <div className={styles.moreFilters}>More Filters</div>
-          </div>
-        </div>
-        <div className={styles.btnfind}>
-          <Image
-            className={styles.icon3}
-            width={15}
-            height={15}
-            sizes="100vw"
-            alt=""
-            src="/search.svg"
-          />
-          <div className={styles.findListing}>Find Listing</div>
-        </div>
-        <div className={styles.inputBox}>
-          <input
-            type="text"
-            className={styles.enterAService}
-            placeholder="Enter a Service Name, Category, or Location"
-          />
-        </div>
-      </div>
-
-      {/* hero img */}
-      <div className={styles.heroImg}>
-        <div className={styles.image12} />
-        <div className={styles.personalBeautyAnd}>
-          Personal Beauty and Care Services
-        </div>
-      </div>
-
       {/* nav */}
       <div className={styles.nav}>
         <Image
@@ -574,6 +319,289 @@ const PBACS: NextPage = () => {
           )}
         </div>
       </div>
+      <div className={styles.bg}>
+        {/* hero img */}
+        <div className={styles.heroImg}>
+          <div className={styles.personalBeautyAnd}>
+            Personal Beauty and Care Services
+          </div>
+        </div>
+
+        {/* search */}
+        <div className={styles.searchBox}>
+          <div className={styles.filtering}>
+            <div className={styles.link6}>
+              <Image
+                className={styles.icon2}
+                width={20}
+                height={20}
+                sizes="100vw"
+                alt=""
+                src="/filtering.svg"
+              />
+              <div className={styles.moreFilters}>More Filters</div>
+            </div>
+          </div>
+          <div className={styles.btnfind}>
+            <Image
+              className={styles.icon3}
+              width={15}
+              height={15}
+              sizes="100vw"
+              alt=""
+              src="/search.svg"
+            />
+            <div className={styles.findListing}>Find Listing</div>
+          </div>
+          <div className={styles.inputBox}>
+            <input
+              type="text"
+              className={styles.enterAService}
+              placeholder="Enter a Service Name, Category, or Location"
+            />
+          </div>
+        </div>
+
+        {/* icons */}
+        <div className={styles.icons}>
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Barbershops" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.barbershopIcon}
+                  src="/Barbershops.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Barbershops</div>
+            </div>
+          </Link>
+
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Hair Salons" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.hairSalonIcon}
+                  src="/Hair Salons.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Hair Salons</div>
+            </div>
+          </Link>
+
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Nail Salons" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.nailSalonIcon}
+                  src="/Nail Salons.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Nail Salons</div>
+            </div>
+          </Link>
+
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Spa & Massage Centers" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.spaIcon}
+                  src="/Spa & Massage Centers.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Spa & Massage Centers</div>
+            </div>
+          </Link>
+
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Tattoo & Piercing Parlors" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.piercingIcon}
+                  src="/Tattoo & Piercing Parlors.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Tattoo & Piercing Parlors</div>
+            </div>
+          </Link>
+        </div>
+      </div>
+
+      {/* popular services */}
+      <div className={styles.popularServices}>
+        <b className={styles.allServices1}>
+          <span>Popular</span>
+          <span className={styles.services}> Services</span>
+        </b>
+        <div className={styles.servicesCarousel}>
+          {/* Show Prev button only if not at the beginning */}
+          {currentIndex > 0 && (
+            <button
+              className={`${styles.carouselButton} ${styles.prevButton}`}
+              onClick={handlePrev}
+            >
+              <Image
+                width={28}
+                height={28}
+                src="/Chevron right.svg"
+                alt="Previous"
+              />
+            </button>
+          )}
+
+          <div className={styles.carouselViewport}>
+            <div
+              className={styles.carouselTrack}
+              style={{
+                transform: `translateX(calc(-${currentIndex} * (100% / ${visibleServices})))`,
+              }}
+            >
+              {popularServices.map((service) => (
+                <PopularServiceCard key={service.id} service={service} />
+              ))}
+            </div>
+          </div>
+
+          {/* Show Next button only if not at the end */}
+          {currentIndex < popularServices.length - visibleServices && (
+            <button
+              className={`${styles.carouselButton} ${styles.nextButton}`}
+              onClick={handleNext}
+            >
+              <Image
+                width={28}
+                height={28}
+                src="/Chevron right.svg"
+                alt="Next"
+              />
+            </button>
+          )}
+        </div>
+        <div className={styles.line1} />
+      </div>
+
+      {/* new services */}
+      <div className={styles.newServices}>
+        <b className={styles.allServices1}>
+          <span>New</span>
+          <span className={styles.services}> Services</span>
+        </b>
+        <div className={styles.servicesCarousel}>
+          {/* Show Prev button only if not at the beginning */}
+          {currentIndex1 > 0 && (
+            <button
+              className={`${styles.carouselButton} ${styles.prevButton}`}
+              onClick={handlePrev1}
+            >
+              <Image
+                width={28}
+                height={28}
+                src="/Chevron right.svg"
+                alt="Previous"
+              />
+            </button>
+          )}
+
+          <div className={styles.carouselViewport}>
+            <div
+              className={styles.carouselTrack}
+              style={{
+                transform: `translateX(calc(-${currentIndex1} * (100% / ${visibleServices1})))`,
+              }}
+            >
+              {featuredServices.map((service) => (
+                <FeaturedServiceCard key={service.id} service={service} />
+              ))}
+            </div>
+          </div>
+
+          {/* Show Next button only if not at the end */}
+          {currentIndex1 < featuredServices.length - visibleServices1 && (
+            <button
+              className={`${styles.carouselButton} ${styles.nextButton}`}
+              onClick={handleNext1}
+            >
+              <Image
+                width={28}
+                height={28}
+                src="/Chevron right.svg"
+                alt="Next"
+              />
+            </button>
+          )}
+        </div>
+        <div className={styles.line1} />
+      </div>
+
+      {/* all services */}
+      <div className={styles.allServices}>
+        <b className={styles.allServices1}>
+          <span>All</span>
+          <span className={styles.services}> Services</span>
+        </b>
+        <div className={styles.allView}>
+          <div className={styles.allCards}>
+            <div className={styles.cards}>
+              {allservices.map((service, id) => (
+                <AllServiceCard key={id} service={service} />
+              ))}
+            </div>
+            <div className={styles.cards}>
+              {allservices.map((service, id) => (
+                <AllServiceCard key={id} service={service} />
+              ))}
+            </div>
+            <div className={styles.cards}>
+              {allservices.map((service, id) => (
+                <AllServiceCard key={id} service={service} />
+              ))}
+            </div>
+          </div>
+          <div className={styles.button}>
+            <div className={styles.viewAll}>View All</div>
+          </div>
+        </div>
+      </div>
+
       <div className={styles.footer}>
         <div className={styles.footerChild} />
         <div className={styles.yourTrustedPlatform}>
