@@ -32,15 +32,37 @@ export default async function PersonalAndBeautyCarePage() {
     return <div>Failed to load services. Please check server logs.</div>;
   }
   
-  const profilesWithRating: Profile[] = data.map(p => ({
-      ...p,
-      // Fallback for rating if not present in the database
-      rating: p.rating || (Math.random() * (5 - 3.5) + 3.5)
-  }));
+const processedProfiles: Profile[] = data.map(profile => {
+      let finalAvatarUrl = '/avatar.svg'; // Default fallback avatar
 
-  const popularServices = [...profilesWithRating].sort((a, b) => b.rating - a.rating);
-  const newServices = [...profilesWithRating].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
-  const allServices = profilesWithRating;
+      // Your logic, applied to each profile in the array
+      if (profile.avatar_url) {
+          if (profile.avatar_url.startsWith('http')) {
+              // If it's already a full URL, use it
+              finalAvatarUrl = profile.avatar_url;
+          } else {
+              // Otherwise, it's a path; generate the public URL
+              const { data: urlData } = supabase.storage
+                .from('avatars') // IMPORTANT: Make sure 'avatars' is your correct bucket name
+                .getPublicUrl(profile.avatar_url);
+              
+              finalAvatarUrl = urlData.publicUrl;
+          }
+      }
+
+      // Return a new object with the original data, a fallback rating, and the corrected avatar URL
+      return {
+          ...profile,
+          rating: profile.rating || (Math.random() * (5 - 3.5) + 3.5),
+          avatar_url: finalAvatarUrl, // Overwrite the old path with the full URL
+      };
+  });
+
+  // --- DATA SORTING ---
+  // Use the newly processed data for sorting
+  const popularServices = [...processedProfiles].sort((a, b) => b.rating - a.rating);
+  const newServices = [...processedProfiles].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+  const allServices = processedProfiles;
   
   return (
     <ClientPage
