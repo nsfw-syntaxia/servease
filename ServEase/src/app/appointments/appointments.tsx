@@ -7,14 +7,11 @@ import { useRouter } from "next/navigation";
 import styles from "../styles/appointments.module.css";
 import { type Appointment } from "../lib/supabase/types"; // Import the type
 
-// --- MODIFIED AppointmentCard to accept props ---
 const AppointmentCard = ({ appointment }: { appointment: Appointment }) => {
-  // Format date and time from the start_time string
   const appointmentDate = new Date(appointment.start_time);
   const time = appointmentDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
   const date = appointmentDate.toLocaleDateString([], { weekday: 'short', month: 'long', day: 'numeric' });
 
-  // Safely get provider details
   const providerName = appointment.provider?.[0]?.business_name || 'Unknown Provider';
   const providerAddress = appointment.provider?.[0]?.address || 'No address provided';
   const status = appointment.status || 'unknown';
@@ -27,7 +24,7 @@ const AppointmentCard = ({ appointment }: { appointment: Appointment }) => {
           width={100}
           height={100}
           alt="Service Provider Avatar"
-          src="/circle.svg" // You can later change this to a dynamic provider avatar
+          src="/circle.svg" 
         />
         <div className={styles.cardHeaderText}>
           <h3 className={styles.serviceFacilityName}>{providerName}</h3>
@@ -66,7 +63,6 @@ const AppointmentCard = ({ appointment }: { appointment: Appointment }) => {
 };
 
 
-// The main component now receives appointments as a prop
 const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({ initialAppointments }) => {
   const [activeFilter, setActiveFilter] = useState("upcoming");
   const router = useRouter();
@@ -75,8 +71,6 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({ 
     setActiveFilter(filter);
   };
 
-  // --- CLIENT-SIDE FILTERING LOGIC ---
-  // This filters the data without needing new network requests
   const filteredAppointments = useMemo(() => {
     if (!initialAppointments) return [];
     switch (activeFilter) {
@@ -85,7 +79,7 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({ 
       case 'completed':
         return initialAppointments.filter(app => app.status === 'completed');
       case 'cancelled':
-        return initialAppointments.filter(app => app.status === 'cancelled');
+        return initialAppointments.filter(app => app.status === 'canceled');
       default:
         return [];
     }

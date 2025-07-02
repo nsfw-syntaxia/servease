@@ -1,6 +1,6 @@
 import { createClient } from "../lib/supabase/server";
 import { redirect } from "next/navigation";
-import AppointmentsClient from "./AppointmentsClient"; // We will create this next
+import AppointmentsClient from "./appointments"; // We will create this next
 import { type Appointment } from "../lib/supabase/types";
 
 export default async function AppointmentsPage() {
