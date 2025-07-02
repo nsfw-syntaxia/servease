@@ -116,7 +116,7 @@ const ClientSignup3: NextPage<Props> = ({ onNext }) => {
       const formData = new FormData();
       formData.append('contact', countryCode + phone);
       await addContactAndCompleteProfile(formData);
-      router.push("/discover");
+      router.push("/client-dashboard");
     } catch (error: any) {
       setErrorMessage(error.message || "Verification failed");
     } finally {

@@ -143,6 +143,9 @@ export default function FacilitySignup2({ onNext }: Props) {
 
   const isDaySelected = (day: string) => selectedDays.includes(day);
 
+
+
+
   const generateTimeOptions = () => {
     const times: string[] = [];
 
@@ -272,9 +275,7 @@ export default function FacilitySignup2({ onNext }: Props) {
       formData.append("working_days", JSON.stringify(selectedDays));
       formData.append("start_time", selectedStartTime);
       formData.append("end_time", selectedEndTime);
-      {
-        /*await facilityProfile(formData);*/
-      }
+      await facilityProfile(formData)
       console.log("All fields valid. Continue to next step.");
       onNext();
     } catch {}

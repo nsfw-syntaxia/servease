@@ -3,17 +3,20 @@ import { Benne } from "next/font/google";
 import { Poppins } from "next/font/google";
 import "./styles/globals.css";
 
+import { LoadingProvider } from "@/components/components/ui/loading-context";
+import Loading from "@/components/components/ui/loading";
+
 const DmSansFont = DM_Sans({
   variable: "--font-dm-sans",
   subsets: ["latin"],
-  display: 'swap'
+  display: "swap",
 });
 
 const BenneFont = Benne({
   weight: "400",
   variable: "--font-benne",
   subsets: ["latin"],
-  display: 'swap'
+  display: "swap",
 });
 
 const poppins = Poppins({
@@ -26,7 +29,7 @@ const poppins = Poppins({
 export const metadata = {
   title: "servease",
   icons: {
-    icon: "/Servease logo.svg",
+    icon: "/logo.svg",
   },
 };
 
@@ -36,7 +39,10 @@ export default function RootLayout({ children }) {
       <body
         className={`${DmSansFont.variable} ${BenneFont.variable} ${poppins.variable} antialiased`}
       >
-        {children}
+        <LoadingProvider>
+          <Loading />
+          {children}
+        </LoadingProvider>
       </body>
     </html>
   );
