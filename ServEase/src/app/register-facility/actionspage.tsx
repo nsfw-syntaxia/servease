@@ -176,6 +176,7 @@ export async function uploadDocument(formData: FormData): Promise<FormResult> {
   return { success: `Successfully uploaded ${file.name}!` };
 }
 
+
 export async function completeProviderProfile(formData: FormData): Promise<{ error?: string }> {
   console.log("--- FINAL STEP: COMPLETE PROVIDER PROFILE ---");
 
@@ -199,41 +200,79 @@ export async function completeProviderProfile(formData: FormData): Promise<{ err
   }
 
   console.log(`Fetching initial provider profile for user_id: ${user.id}`);
-  const { data: initialProfile, error: fetchError } = await supabase
+  const { data: initialProfileData, error: fetchError } = await supabase
     .from('facility_initial_profile') 
-    .select('facility_name, location, owner_name') 
+    .select('*')
     .eq('user_id', user.id) 
     .single(); 
 
-  if (fetchError || !initialProfile) {
+  if (fetchError || !initialProfileData) {
     const errorMsg = `Could not find initial provider profile: ${fetchError?.message}`;
     console.error(errorMsg);
     return { error: "Could not find your profile data from the previous step. Please start over." };
   }
-  console.log("Found initial provider profile data:", initialProfile);
+  console.log("Found initial provider profile data:", initialProfileData);
+
+  let facilityImageUrl: string | null = null; // Default to null
+
+
+  const imageDocumentType = 'Facility Photos'; 
+  
+  console.log(`Fetching facility image document for user_id: ${user.id}`);
+  const { data: documentData, error: documentError } = await supabase
+      .from('facility_documents')
+      .select('file_path')
+      .eq('user_id', user.id)
+      .eq('document_type', imageDocumentType)
+      .order('created_at', { ascending: false }) 
+      .limit(1)
+      .single();
+
+  if (documentError) {
+      console.warn(`Could not fetch facility image document: ${documentError.message}`);
+  }
+
+  if (documentData && documentData.file_path) {
+      console.log('Found facility image path:', documentData.file_path);
+      const { data: urlData } = supabase
+          .storage
+          .from('documents') 
+          .getPublicUrl(documentData.file_path);
+      
+      facilityImageUrl = urlData.publicUrl;
+      console.log('Constructed public facility image URL:', facilityImageUrl);
+  } else {
+      console.log('No specific facility image document found for this user.');
+  }
 
   const finalProfileData = {
     id: user.id,                      
     role: 'provider' as const,      
-    full_name: initialProfile.owner_name, 
-    business_name: initialProfile.facility_name, 
-    address: initialProfile.location,
+    full_name: initialProfileData.owner_name, 
+    business_name: initialProfileData.facility_name, 
+    address: initialProfileData.location,
     contact_number: contactNumber.trim(),
-    picture_url: 'avatar.svg',        
+    category: initialProfileData.category,
+    specific_category: initialProfileData.specific_category,
+    working_days: initialProfileData.working_days,
+    start_time: initialProfileData.start_time,
+    end_time: initialProfileData.end_time,
+    picture_url: '/avatar.svg', 
+    facility_image_url: facilityImageUrl,
   };
   
-  console.log("Data to insert into FINAL 'profiles' table:", finalProfileData);
+  console.log("Data to upsert into FINAL 'profiles' table:", finalProfileData);
 
-  const { error: insertError } = await supabase
+  const { error: upsertError } = await supabase
     .from('profiles') 
-    .insert(finalProfileData);
+    .upsert(finalProfileData);
 
-  if (insertError) {
-    const errorMsg = `--- SUPABASE PROVIDER PROFILE INSERT ERROR ---: ${insertError.message}`;
+  if (upsertError) {
+    const errorMsg = `--- SUPABASE PROFILE UPSERT ERROR ---: ${upsertError.message}`;
     console.error(errorMsg);
     return { error: "A database error occurred while creating your final profile." };
   }
-  console.log("Successfully inserted provider data into 'profiles' table.");
+  console.log("Successfully upserted provider data into 'profiles' table.");
 
   const { error: deleteError } = await supabase
     .from('facility_initial_profile')
@@ -241,10 +280,12 @@ export async function completeProviderProfile(formData: FormData): Promise<{ err
     .eq('user_id', user.id);
 
   if (deleteError) {
-    console.error(`--- SUPABASE TEMP PROVIDER PROFILE DELETE ERROR ---: ${deleteError.message}`);
+    console.error(`--- SUPABASE TEMP PROFILE DELETE ERROR ---: ${deleteError.message}`);
   } else {
-    console.log(`Successfully deleted temporary provider profile for user_id: ${user.id}`);
+    console.log(`Successfully deleted temporary profile for user_id: ${user.id}`);
   }
 
   console.log("SUCCESS! Provider registration fully completed for:", user.id);
+  
+  return {}; 
 }
