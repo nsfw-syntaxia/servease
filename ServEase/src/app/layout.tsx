@@ -28,7 +28,7 @@ const poppins = Poppins({
 export const metadata = {
   title: "servease",
   icons: {
-    icon: "/Servease logo.svg",
+    icon: "/logo.svg",
   },
 };
 
