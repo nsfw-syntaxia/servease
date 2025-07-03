@@ -37,6 +37,131 @@ const Dropdown: NextPage = () => {
 export default Dropdown;
 */
 
+/*
+css for dropdown menu
+
+note:
+if upcoming, show "completed" and "cancelled"
+if pending, show "confirmed" and "cancelled"
+
+.image8 {
+  	position: absolute;
+  	top: 0px;
+  	left: 0px;
+  	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  	border-radius: var(--br-12);
+  	background-color: var(--color-white);
+  	width: 186px;
+  	height: 255px;
+}
+
+.image8Wrapper {
+  	position: absolute;
+  	top: 0px;
+  	left: 0px;
+  	width: 186px;
+  	height: 255px;
+}
+
+.image11 {
+  	position: absolute;
+  	top: 0px;
+  	left: 0px;
+  	border-radius: var(--br-12) var(--br-12) 0px 0px;
+  	background-color: var(--color-tan);
+  	width: 186px;
+  	height: 67.5px;
+}
+
+.confirmed {
+  	position: relative;
+  	line-height: 26px;
+  	font-weight: 600;
+}
+.paraContent {
+  	display: flex;
+  	flex-direction: row;
+  	align-items: flex-start;
+  	justify-content: flex-start;
+}
+
+.paraContentWrapper {
+  	position: absolute;
+  	top: 19.69px;
+  	left: 25px;
+  	width: 135.9px;
+  	display: flex;
+  	flex-direction: row;
+  	align-items: flex-start;
+  	justify-content: flex-start;
+  	color: var(--color-white);
+}
+
+.pending {
+  	position: relative;
+  	line-height: 26px;
+}
+
+.paraContent1 {
+  	width: 128px;
+  	display: flex;
+  	flex-direction: row;
+  	align-items: flex-start;
+  	justify-content: flex-start;
+}
+
+.paraContentContainer {
+  	position: absolute;
+  	top: 81.39px;
+  	left: 25px;
+  	width: 76.6px;
+  	display: flex;
+  	flex-direction: row;
+  	align-items: flex-start;
+  	justify-content: flex-start;
+}
+
+.paraContentFrame {
+  	position: absolute;
+  	top: 143.09px;
+  	left: 25px;
+  	width: 135.9px;
+  	display: flex;
+  	flex-direction: row;
+  	align-items: flex-start;
+  	justify-content: flex-start;
+}
+
+.frameDiv {
+  	position: absolute;
+  	top: 204.79px;
+  	left: 25px;
+  	width: 135.9px;
+  	display: flex;
+  	flex-direction: row;
+  	align-items: flex-start;
+  	justify-content: flex-start;
+}
+
+.image11Parent {
+  	position: absolute;
+  	top: 0px;
+  	left: 0px;
+  	width: 186px;
+  	height: 230.8px;
+}
+
+.dropdown {
+  	width: 100%;
+  	position: relative;
+  	height: 255px;
+  	text-align: left;
+  	font-size: var(--font-size-18);
+  	color: var(--color-gray);
+  	font-family: var(--font-dm-sans);
+}
+*/
+
 "use client";
 
 import type { NextPage } from "next";
