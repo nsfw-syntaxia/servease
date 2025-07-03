@@ -1,22 +1,21 @@
-import { DM_Sans } from "next/font/google";
-import { Benne } from "next/font/google";
-import { Poppins } from "next/font/google";
+import { DM_Sans, Benne, Poppins } from "next/font/google";
 import "./styles/globals.css";
+import { createClient } from "./lib/supabase/server";
+import Header from "./components/header"; 
 
-import { LoadingProvider } from "@/components/components/ui/loading-context";
-import Loading from "@/components/components/ui/loading";
+export type UserRole = 'client' | 'provider' | 'guest';
 
 const DmSansFont = DM_Sans({
   variable: "--font-dm-sans",
   subsets: ["latin"],
-  display: "swap",
+  display: 'swap'
 });
 
 const BenneFont = Benne({
   weight: "400",
   variable: "--font-benne",
   subsets: ["latin"],
-  display: "swap",
+  display: 'swap'
 });
 
 const poppins = Poppins({
@@ -29,20 +28,73 @@ const poppins = Poppins({
 export const metadata = {
   title: "servease",
   icons: {
-    icon: "/logo.svg",
+    icon: "/Servease logo.svg",
   },
 };
 
-export default function RootLayout({ children }) {
+
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+
+
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  let avatarUrl = '/avatar.svg'; 
+  let userRole: UserRole = 'guest';  
+  let homePath = '/home';                
+
+  if (user) {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role, picture_url')
+      .eq('id', user.id)
+      .single();
+    
+    if (profile) {
+      userRole = profile.role; 
+
+      if (profile.role === 'client') {
+        homePath = '/client-dashboard';
+      } else if (profile.role === 'provider') {
+        homePath = '/facility-dashboard'; 
+      }
+      
+      if (profile.picture_url) {
+        if (profile.picture_url.startsWith('http')) {
+          avatarUrl = profile.picture_url;
+        } else {
+          const { data: publicUrlData } = supabase.storage
+            .from('avatars')
+            .getPublicUrl(profile.picture_url);
+          
+          if (publicUrlData && publicUrlData.publicUrl) {
+            avatarUrl = publicUrlData.publicUrl;
+          }
+        }
+      }
+    }
+  }
+
+  console.log(userRole);
   return (
     <html lang="en">
       <body
         className={`${DmSansFont.variable} ${BenneFont.variable} ${poppins.variable} antialiased`}
       >
-        <LoadingProvider>
-          <Loading />
-          {children}
-        </LoadingProvider>
+        <Header 
+          avatarUrl={avatarUrl} 
+          userRole={userRole}
+          homePath={homePath}
+        />
+        
+        <main>{children}</main>
+
+        {/* You can also move your shared Footer component here later */}
+        {/* <Footer /> */}
       </body>
     </html>
   );

@@ -207,31 +207,27 @@ const HAMS: NextPage = () => {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentIndex1, setCurrentIndex1] = useState(0);
-  const visibleServices = 3; // How many services are visible at once
+  const visibleServices = 3;
   const visibleServices1 = 3;
 
   const handleNext = () => {
-    // Stop at the last possible slide to not show empty space
     if (currentIndex < popularServices.length - visibleServices) {
       setCurrentIndex((prevIndex) => prevIndex + 3);
     }
   };
 
   const handlePrev = () => {
-    // Stop at the beginning
     if (currentIndex > 0) {
       setCurrentIndex((prevIndex) => prevIndex - 3);
     }
   };
   const handleNext1 = () => {
-    // Stop at the last possible slide to not show empty space
     if (currentIndex1 < featuredServices.length - visibleServices1) {
       setCurrentIndex1((prevIndex1) => prevIndex1 + 3);
     }
   };
 
   const handlePrev1 = () => {
-    // Stop at the beginning
     if (currentIndex1 > 0) {
       setCurrentIndex1((prevIndex1) => prevIndex1 - 3);
     }
@@ -368,96 +364,151 @@ const HAMS: NextPage = () => {
 
         {/* icons */}
         <div className={styles.icons}>
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.animalIcon}
-                src="/animal.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Animal Clinics" },
+            }}
+            className={styles.iconContainer}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.animalIcon}
+                  src="/Animal Clinics.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Animal Clinics</div>
             </div>
-            <div className={styles.label}>Animal Clinics</div>
-          </div>
+          </Link>
 
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.dentistIcon}
-                src="/dentist.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Dental Clinics" },
+            }}
+            className={styles.iconContainer}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.dentistIcon}
+                  src="/Dental Clinics.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Dental Clinics</div>
             </div>
-            <div className={styles.label}>Dental Clinics</div>
-          </div>
+          </Link>
 
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.dermaIcon}
-                src="/derma.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Dermatology Clinics" },
+            }}
+            className={styles.iconContainer}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.dermaIcon}
+                  src="/Dermatology Clinics.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Dermatology Clinics</div>
             </div>
-            <div className={styles.label}>Dermatology Clinics</div>
-          </div>
+          </Link>
 
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.hospitalIcon}
-                src="/hospital.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Hospitals" },
+            }}
+            className={styles.iconContainer}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.hospitalIcon}
+                  src="/Hospitals.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Hospitals</div>
             </div>
-            <div className={styles.label}>Hospitals</div>
-          </div>
+          </Link>
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Laboratories" },
+            }}
+            className={styles.iconContainer}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.labIcon}
+                  src="/Laboratories.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Laboratories</div>
+            </div>
+          </Link>
 
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.labIcon}
-                src="/lab.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Pharmacies" },
+            }}
+            className={styles.iconContainer}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.pillIcon}
+                  src="/Pharmacies.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Pharmacies</div>
             </div>
-            <div className={styles.label}>Laboratories</div>
-          </div>
+          </Link>
 
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.pillIcon}
-                src="/pill.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Therapy Centers" },
+            }}
+            className={styles.iconContainer}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.psychIcon}
+                  src="/Therapy Centers.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Therapy Centers</div>
             </div>
-            <div className={styles.label}>Pharmacies</div>
-          </div>
-
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.psychIcon}
-                src="/psych.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
-            </div>
-            <div className={styles.label}>Therapy Centers</div>
-          </div>
+          </Link>
         </div>
       </div>
 
@@ -487,7 +538,6 @@ const HAMS: NextPage = () => {
             <div
               className={styles.carouselTrack}
               style={{
-                // This inline style moves the track one card-width at a time
                 transform: `translateX(calc(-${currentIndex} * (100% / ${visibleServices})))`,
               }}
             >
@@ -541,7 +591,6 @@ const HAMS: NextPage = () => {
             <div
               className={styles.carouselTrack}
               style={{
-                // This inline style moves the track one card-width at a time
                 transform: `translateX(calc(-${currentIndex1} * (100% / ${visibleServices1})))`,
               }}
             >

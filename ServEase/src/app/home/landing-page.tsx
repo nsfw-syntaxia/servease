@@ -6,8 +6,6 @@ import { useRouter } from "next/navigation";
 import styles from "../styles/landing-page.module.css";
 import React, { createContext, useContext } from "react";
 
-import { useRedirectLoading } from "@/components/hooks/redirect-loading";
-
 const heroImages = [
   "/LandingPageImage1.png",
   "/LandingPageImage2.png",
@@ -208,7 +206,6 @@ const LandingPage = () => {
   const offerAnimationTriggered = useRef(false);
   const whyChooseAnimationTriggered = useRef(false);
   const registerAnimationTriggered = useRef(false);
-  const redirect = useRedirectLoading();
   const router = useRouter();
 
   useEffect(() => {
@@ -335,67 +332,6 @@ const LandingPage = () => {
   return (
     <TypewriterProvider>
       <div className={styles.landingPage}>
-        {/* nav bar */}
-        <div
-          className={`${styles.navigation} ${
-            navDropped ? styles.navAnimate : ""
-          }`}
-        >
-          <div className={styles.navigationlogo}>
-            <Image
-              className={styles.serveaseLogoAlbumCover31}
-              width={40}
-              height={40}
-              sizes="100vw"
-              alt=""
-              src="/logo.svg"
-              onClick={() => {
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-            />
-            <div
-              className={styles.servease1}
-              onClick={() => {
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-            >
-              <span className={styles.serv1}>serv</span>
-              <b>ease</b>
-            </div>
-          </div>
-          <div className={styles.navigationChild} />
-          <div className={styles.homeParent}>
-            <div
-              className={styles.home1}
-              onClick={() => {
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-            >
-              Home
-            </div>
-            <div className={styles.home1} onClick={() => redirect("/discover")}>
-              Discover
-            </div>
-            <div
-              className={styles.contactUs1}
-              onClick={() => {
-                window.scrollTo({
-                  top: document.body.scrollHeight,
-                  behavior: "smooth",
-                });
-              }}
-            >
-              Contact Us
-            </div>
-          </div>
-          <div className={styles.navigationChild} />
-          <div className={styles.button1}>
-            <div className={styles.signIn} onClick={() => redirect("/login")}>
-              Sign in
-            </div>
-          </div>
-        </div>
-
         {/* hero img */}
         {showHero && (
           <div className={`${styles.heroImageWrapper} ${styles.heroFade}`}>
@@ -421,7 +357,7 @@ const LandingPage = () => {
                 <div className={styles.button}>
                   <div
                     className={styles.joinServeaseNow}
-                    onClick={() => redirect("/signup")}
+                    onClick={() => router.push("/signup")}
                   >
                     Join servease now
                   </div>
@@ -729,7 +665,7 @@ const LandingPage = () => {
             <div className={styles.link}>
               <div
                 className={styles.getStarted}
-                onClick={() => redirect("/signup")}
+                onClick={() => router.push("/signup")}
               >
                 Get Started
               </div>
@@ -769,7 +705,7 @@ const LandingPage = () => {
             <div className={styles.link1}>
               <div
                 className={styles.getStarted1}
-                onClick={() => redirect("/signup")}
+                onClick={() => router.push("/signup")}
               >
                 Get Started
               </div>
@@ -801,6 +737,21 @@ const LandingPage = () => {
             Your trusted platform to discover, book, and manage local
             services—anytime, anywhere.
           </div>
+          <b className={styles.contactUs}>Contact Us</b>
+          <div className={styles.supportserveasecom}>support@servease.com</div>
+          <div className={styles.contactNumber}>+63 996 3175 214</div>
+          <b className={styles.support}>Support</b>
+          <div className={styles.faqs}>FAQs</div>
+          <div className={styles.privacyPolicy}>Privacy Policy</div>
+          <div className={styles.termsConditions}>{`Terms & Conditions`}</div>
+          <div
+            className={styles.aboutUs}
+            onClick={() => {
+              window.scrollTo({ top: 500, behavior: "smooth" });
+            }}
+          >
+            About Us
+          </div>
           <b className={styles.quickLinks}>Quick Links</b>
           <div
             className={styles.servease}
@@ -819,33 +770,17 @@ const LandingPage = () => {
           >
             Home
           </div>
-          <div
+          <div 
             className={styles.discover}
-            onClick={() => redirect("/discover")}
-          >
-            Discover
+            onClick={() => router.push("/home")}
+            >Discover
           </div>
           <div
             className={styles.createAnAccount}
-            onClick={() => redirect("/signup")}
+            onClick={() => router.push("/signup")}
           >
             Create an Account
           </div>
-          <b className={styles.support}>Support</b>
-          <div className={styles.faqs}>FAQs</div>
-          <div className={styles.privacyPolicy}>Privacy Policy</div>
-          <div className={styles.termsConditions}>{`Terms & Conditions`}</div>
-          <div
-            className={styles.aboutUs}
-            onClick={() => {
-              window.scrollTo({ top: 500, behavior: "smooth" });
-            }}
-          >
-            About Us
-          </div>
-          <b className={styles.contactUs}>Contact Us</b>
-          <div className={styles.supportserveasecom}>support@servease.com</div>
-          <div className={styles.contactNumber}>+63 996 3175 214</div>
           <div className={styles.lineParent}>
             <div className={styles.lineDiv} />
             <div className={styles.servease2025}>

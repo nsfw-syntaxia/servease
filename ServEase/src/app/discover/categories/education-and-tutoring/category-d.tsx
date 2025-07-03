@@ -207,31 +207,27 @@ const EATS: NextPage = () => {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentIndex1, setCurrentIndex1] = useState(0);
-  const visibleServices = 3; // How many services are visible at once
+  const visibleServices = 3;
   const visibleServices1 = 3;
 
   const handleNext = () => {
-    // Stop at the last possible slide to not show empty space
     if (currentIndex < popularServices.length - visibleServices) {
       setCurrentIndex((prevIndex) => prevIndex + 3);
     }
   };
 
   const handlePrev = () => {
-    // Stop at the beginning
     if (currentIndex > 0) {
       setCurrentIndex((prevIndex) => prevIndex - 3);
     }
   };
   const handleNext1 = () => {
-    // Stop at the last possible slide to not show empty space
     if (currentIndex1 < featuredServices.length - visibleServices1) {
       setCurrentIndex1((prevIndex1) => prevIndex1 + 3);
     }
   };
 
   const handlePrev1 = () => {
-    // Stop at the beginning
     if (currentIndex1 > 0) {
       setCurrentIndex1((prevIndex1) => prevIndex1 - 3);
     }
@@ -368,31 +364,44 @@ const EATS: NextPage = () => {
 
         {/* icons */}
         <div className={styles.icons}>
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.schoolIcon}
-                src="/univ.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Schools & Universities" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.schoolIcon}
+                  src="/Schools & Universities.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Schools & Universities</div>
             </div>
-            <div className={styles.label}>Schools & Universities</div>
-          </div>
-
-          <div className={styles.iconContainer}>
-            <div className={styles.iconWrapper}>
-              <Image
-                className={styles.tutorIcon}
-                src="/books.svg"
-                alt=""
-                width={75}
-                height={75}
-              />
+          </Link>
+          <Link
+            href={{
+              pathname: "/specific-category",
+              query: { name: "Tutoring Centers" },
+            }}
+          >
+            <div className={styles.iconContainer}>
+              <div className={styles.iconWrapper}>
+                <Image
+                  className={styles.tutorIcon}
+                  src="/Tutoring Centers.svg"
+                  alt=""
+                  width={75}
+                  height={75}
+                />
+              </div>
+              <div className={styles.label}>Tutoring Centers</div>
             </div>
-            <div className={styles.label}>Tutoring Centers</div>
-          </div>
+          </Link>
         </div>
       </div>
 
@@ -422,7 +431,6 @@ const EATS: NextPage = () => {
             <div
               className={styles.carouselTrack}
               style={{
-                // This inline style moves the track one card-width at a time
                 transform: `translateX(calc(-${currentIndex} * (100% / ${visibleServices})))`,
               }}
             >
@@ -476,7 +484,6 @@ const EATS: NextPage = () => {
             <div
               className={styles.carouselTrack}
               style={{
-                // This inline style moves the track one card-width at a time
                 transform: `translateX(calc(-${currentIndex1} * (100% / ${visibleServices1})))`,
               }}
             >
