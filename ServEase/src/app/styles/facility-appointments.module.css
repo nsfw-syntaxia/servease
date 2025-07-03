@@ -169,6 +169,11 @@
   min-width: 200px;
 }
 
+.dropdownIcon {
+  margin-left: -5px; /* adjust spacing as needed */
+  vertical-align: middle; /* aligns the icon with the text */
+}
+
 .statusButton {
   width: 21px; /* set the width of the button */
   height: 21px; /* set the height of the button */
