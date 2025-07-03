@@ -1,386 +1,246 @@
-.appointmentsChild {
-  position: absolute;
-  top: 56px;
-  left: 471px;
-  width: 497px;
-  height: 93px;
+.appointmentsPage {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--color-whitesmoke);
+  color: var(--color-black);
+  font-family: var(--font-dm-sans);
+  cursor: default;
 }
 
-.avatarPlaceholderIcon {
-  position: absolute;
-  height: 64%;
+.mainContent {
+  flex-grow: 1;
   width: 100%;
-  top: 25%;
-  right: 14.73%;
-  bottom: 11%;
-  left: 14.77%;
-  max-width: 100%;
-  overflow: hidden;
-  max-height: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 120px 20px 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.genericAvatar {
-  width: 40px;
-  position: relative;
-  border-radius: 100px;
-  background-color: var(--color-tan);
-  height: 40px;
-  overflow: hidden;
+.contentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1030px;
+  margin-top: 2rem;
+  margin-bottom: 4rem;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.pageTitle {
+  font-size: 50px;
+  line-height: 1.2;
+  color: #2e231d;
+  margin: 0;
+  font-weight: bold;
+}
+
+.filterButtons {
+  display: inline-flex;
+  background-color: #c9bbaf;
+  border-radius: 50px;
+  padding: 4px;
   flex-shrink: 0;
 }
 
-.appointments2 {
-  position: absolute;
-  top: 178px;
-  left: 131px;
-  font-size: 50px;
-  line-height: 150%;
+.filterButton {
+  padding: 8px 25px;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer; /* pointer cursor for buttons */
+  border: none;
+  background-color: transparent;
+  color: white;
+  transition: all 0.3s ease-in-out;
+}
+
+.filterButton:hover:not(.active) {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.filterButton.active {
+  background-color: var(--color-tan);
+  color: var(--color-white);
+  font-weight: 700;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.appointmentsList {
   display: flex;
-  color: var(--color-gray-100);
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1030px;
+}
+
+.appointmentCard {
+  background-color: var(--color-antiquewhite);
+  border-radius: 30px;
+  padding: 2rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  margin-bottom: 10px;
+  cursor: pointer; /* pointer cursor for appointment cards */
+}
+
+.appointmentCard:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.cardHeader {
+  display: flex;
   align-items: center;
-  width: 618px;
-  height: 75px;
+  gap: 1.5rem;
+  flex-wrap: wrap;
 }
 
-.avatarIcon {
-  position: absolute;
-  top: 44px;
-  left: 93px;
-  width: 110px;
-  height: 110px;
+.cardAvatar {
+  width: 100px;
+  height: 100px;
 }
 
-.clientName {
-  position: absolute;
-  top: 45px;
-  left: 239px;
-  line-height: 150%;
+.cardHeaderText {
+  flex-grow: 1;
+}
+
+.serviceFacilityName {
+  font-size: 33px;
   font-weight: 600;
+  color: var(--color-gray-100);
+  margin: 0;
 }
 
-.service {
-  position: absolute;
-  top: 102px;
-  left: 239px;
-  font-size: var(--font-size-28);
-  line-height: 150%;
+.location {
+  font-size: 28px;
   font-weight: 500;
   color: var(--color-tan);
-}
-
-.heroImage {
-  position: absolute;
-  top: calc(50% - 140.5px);
-  left: calc(50% - 515px);
-  border-radius: var(--br-30);
-  background-color: var(--color-antiquewhite);
-  width: 1030px;
-  height: 281px;
-  overflow: hidden;
-}
-
-.heroImageIcon {
-  position: absolute;
-  top: calc(50% + 46.54px);
-  left: calc(50% - 448.63px);
-  border-radius: var(--br-30);
-  width: 900px;
-  height: 60px;
-  overflow: hidden;
-}
-
-.heroImageParent {
-  position: absolute;
-  top: calc(50% - 140.5px);
-  left: calc(50% - 515px);
-  width: 1030px;
-  height: 281px;
-  font-size: 33px;
-  color: var(--color-gray-100);
-}
-
-.pm {
-  position: absolute;
-  top: 204px;
-  left: 155px;
-  line-height: 150%;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  width: 128px;
-  height: 25px;
-}
-
-.calendarMonthIcon {
-  position: absolute;
-  height: 86.8%;
-  width: 10.12%;
-  top: 6.11%;
-  right: 89.88%;
-  bottom: 7.09%;
-  left: 0%;
-  max-width: 100%;
-  overflow: hidden;
-  max-height: 100%;
-}
-
-.wedJune30 {
-  position: absolute;
-  top: 0px;
-  left: 33.65px;
-  line-height: 150%;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  width: 159px;
-  height: 25px;
-}
-
-.calendarMonthParent {
-  position: absolute;
-  height: 8.9%;
-  width: 18.7%;
-  top: 72.6%;
-  right: 40.68%;
-  bottom: 18.51%;
-  left: 40.62%;
-}
-
-.confirmed {
-  position: absolute;
-  top: 203px;
-  left: 787px;
-  line-height: 150%;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  width: 133px;
-  height: 26px;
+  margin: 0;
 }
 
 .viewDetails {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  line-height: 27.75px;
-  font-weight: 500;
   display: flex;
   align-items: center;
-  width: 111.7px;
-  height: 28px;
-}
-
-.svgIcon {
-  position: absolute;
-  top: 6px;
-  left: 115.98px;
-  width: 17px;
-  height: 16px;
-}
-
-.viewDetailsParent {
-  position: absolute;
-  top: 18px;
-  left: 867px;
-  width: 133px;
-  height: 28px;
-  font-size: var(--font-size-18);
+  margin-top: -80px;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 500;
   color: var(--color-dimgray);
+  cursor: pointer; /* pointer cursor for view details */
+  transition: color 0.3s ease;
+  margin-left: auto;
 }
 
-.groupParent {
-  position: absolute;
-  top: calc(50% - 140.5px);
-  left: calc(50% - 515px);
-  width: 1030px;
-  height: 281px;
-}
-
-.appointmentsInner {
-  position: absolute;
-  top: calc(50% - 464px);
-  left: calc(50% - 532px);
-  width: 1030px;
-  height: 281px;
-  font-size: 23px;
+.viewDetails:hover {
   color: var(--color-tan);
+  text-decoration: underline;
 }
 
-.confirmed1 {
-  position: absolute;
-  top: 203px;
-  left: 785px;
-  line-height: 150%;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  width: 133px;
-  height: 26px;
-}
-
-.groupDiv {
-  position: absolute;
-  top: calc(50% - 124px);
-  left: calc(50% - 530px);
-  width: 1030px;
-  height: 281px;
-  font-size: 23px;
-  color: var(--color-tan);
-}
-
-.cancelled {
-  position: absolute;
-  top: calc(50% - 14px);
-  left: calc(50% - 45px);
-  line-height: 27.75px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 95px;
-  height: 28px;
-}
-
-.button {
-  position: absolute;
-  top: 186px;
-  left: 1145px;
-  border-radius: var(--br-12);
-  background-color: var(--color-silver);
-  border: 1px solid var(--color-silver);
-  box-sizing: border-box;
-  width: 150px;
-  height: 50px;
-  text-align: center;
-}
-
-.button1 {
-  position: absolute;
-  top: 186px;
-  left: 1019px;
-  border-radius: var(--br-12);
-  background-color: var(--color-silver);
-  border: 1px solid var(--color-silver);
-  box-sizing: border-box;
-  width: 150px;
-  height: 50px;
-  text-align: center;
-}
-
-.upcoming {
-  position: absolute;
-  top: calc(50% - 14px);
-  left: calc(50% - 46px);
-  line-height: 27.75px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 95px;
-  height: 28px;
-}
-
-.button3 {
-  position: absolute;
-  top: 0px;
-  left: -126px;
-  border-radius: var(--br-12);
-  background-color: var(--color-tan);
-  border: 1px solid var(--color-tan);
-  box-sizing: border-box;
-  width: 150px;
-  height: 50px;
-}
-
-.button2 {
-  position: absolute;
-  top: 186px;
-  left: 893px;
-  border-radius: var(--br-12);
-  background-color: var(--color-silver);
-  border: 1px solid var(--color-silver);
-  box-sizing: border-box;
-  width: 150px;
-  height: 50px;
-  text-align: center;
-}
-
-.arrowDropDownIcon {
-  position: absolute;
-  top: 866px;
-  left: 1096px;
-  width: 24px;
-  height: 24px;
-}
-
-.arrowDropDownIcon1 {
-  position: absolute;
-  top: 1206px;
-  left: 1096px;
-  width: 24px;
-  height: 24px;
-}
-
-.appointments1 {
-  position: absolute;
-  height: 100%;
-  top: 0px;
-  bottom: 0px;
-  left: 0px;
-  background-color: var(--color-whitesmoke);
-  width: 1440px;
-  overflow: hidden;
-}
-
-.confirmed2 {
-  position: absolute;
-  top: 203px;
-  left: 788px;
-  line-height: 150%;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  width: 133px;
-  height: 26px;
-}
-
-.arrowDropDownIcon2 {
-  position: absolute;
-  top: 204px;
-  left: 909px;
-  width: 24px;
-  height: 24px;
-}
-
-.card {
-  position: absolute;
-  top: calc(50% - 809px);
-  left: calc(50% - 533px);
-  width: 1030px;
-  height: 281px;
-  font-size: 23px;
-  color: var(--color-tan);
-}
-
-.appointmentsParent {
-  position: absolute;
-  height: 100%;
-  top: 0px;
-  bottom: 0px;
-  left: 0px;
-  width: 1440px;
-}
-
-.appointments {
-  width: 100%;
-  position: relative;
+.cardBody {
   background-color: var(--color-white);
-  box-sizing: border-box;
-  height: 2252px;
-  overflow: hidden;
-  text-align: left;
-  font-size: var(--font-size-16);
-  color: var(--color-white);
-  font-family: var(--font-dm-sans);
-  cursor: default;
+  border-radius: 20px;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between; /* changed from space-around to space-between */
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  width: calc(100% - 4rem); /* account for padding */
+  margin: 0 auto;
+}
+
+.infoItem {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--color-tan);
+  margin-left: 60px;
+  flex: 1; /* allow items to grow equally */
+  justify-content: flex-start; /* align items to the start */
+  min-width: 200px; /* set a minimum width to prevent wrapping */
+}
+
+
+.confirmed {
+  color: var(--color-tan);
+}
+
+/* set default cursor for the entire page */
+.body {
+  cursor: default; /* default arrow cursor */
+}
+
+/* ensure cursor is pointer for navigation and cards */
+.navigation,
+.appointmentCard {
+  cursor: pointer; /* pointer cursor for navigation and appointment cards */
+}
+
+@media (max-width: 992px) {
+  .navigation {
+    width: 90%;
+  }
+  .navLinks {
+    display: none;
+  }
+  .pageTitle {
+    font-size: 40px;
+  }
+  .serviceFacilityName {
+    font-size: 28px;
+  }
+  .location {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mainContent {
+    padding-top: 100px;
+  }
+  .navigation {
+    width: 95%;
+    padding: 0.75rem 1.5rem;
+  }
+  .contentHeader {
+    justify-content: center;
+  }
+  .pageTitle {
+    font-size: 32px;
+    text-align: center;
+  }
+  .cardHeader {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .viewDetails {
+    margin-left: 0;
+    margin-top: 1rem;
+  }
+  .footerContent {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .footerColumn {
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .logoText {
+    display: none;
+  }
 }
