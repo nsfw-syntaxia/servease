@@ -184,56 +184,37 @@ const EATSClientPage: NextPage<{
   initialNewServices: Profile[];
   initialAllServices: Profile[];
 }> = ({ initialPopularServices, initialNewServices, initialAllServices }) => {
-  const [open, setOpen] = useState(false);
-  const [hovered, setHovered] = useState("");
-  const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
-
-  const items = [
-    { label: "My Account", href: "/account" },
-    { label: "Appointments", href: "/appointments" },
-    { label: "Messages", href: "/messages" },
-    { label: "Notifications", href: "/notifications" },
-    { label: "Log out", href: "/logout" },
-  ];
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentIndex1, setCurrentIndex1] = useState(0);
   const visibleServices = 3;
+  const visibleServices1 = 3;
 
   const handleNext = () => {
     if (currentIndex < initialPopularServices.length - visibleServices) {
-      setCurrentIndex((prev) => prev + 3);
+      setCurrentIndex((prevIndex) => prevIndex + 3);
     }
   };
+
   const handlePrev = () => {
     if (currentIndex > 0) {
-      setCurrentIndex((prev) => prev - 3);
+      setCurrentIndex((prevIndex) => prevIndex - 3);
     }
   };
+
   const handleNext1 = () => {
-    if (currentIndex1 < initialNewServices.length - visibleServices) {
-      setCurrentIndex1((prev) => prev + 3);
+    if (currentIndex1 < initialNewServices.length - visibleServices1) {
+      setCurrentIndex1((prevIndex1) => prevIndex1 + 3);
     }
   };
+
   const handlePrev1 = () => {
     if (currentIndex1 > 0) {
-      setCurrentIndex1((prev) => prev - 3);
+      setCurrentIndex1((prevIndex1) => prevIndex1 - 3);
     }
   };
+
   const chunkArray = (arr: any[], size: number) => {
     const result = [];
     for (let i = 0; i < arr.length; i += size) {
@@ -241,6 +222,7 @@ const EATSClientPage: NextPage<{
     }
     return result;
   };
+
   return (
     <div className={styles.pbacs}>
       <div className={styles.bg}>
@@ -347,7 +329,9 @@ const EATSClientPage: NextPage<{
             <div
               className={styles.carouselTrack}
               style={{
-                transform: `translateX(calc(-${currentIndex} * (100% / ${visibleServices})))`,
+                transform: `translateX(calc(-${
+                  currentIndex * (100 / visibleServices)
+                }%))`,
               }}
             >
               {initialPopularServices.map((service) => (
@@ -395,7 +379,9 @@ const EATSClientPage: NextPage<{
             <div
               className={styles.carouselTrack}
               style={{
-                transform: `translateX(calc(-${currentIndex1} * (100% / ${visibleServices})))`,
+                transform: `translateX(calc(-${
+                  currentIndex1 * (100 / visibleServices1)
+                }%))`,
               }}
             >
               {initialNewServices.map((service) => (
@@ -403,7 +389,7 @@ const EATSClientPage: NextPage<{
               ))}
             </div>
           </div>
-          {currentIndex1 < initialNewServices.length - visibleServices && (
+          {currentIndex1 < initialNewServices.length - visibleServices1 && (
             <button
               className={`${styles.carouselButton} ${styles.nextButton}`}
               onClick={handleNext1}

@@ -18,14 +18,11 @@ interface Profile {
   rating: number;
 }
 
-// --- DYNAMIC CARD COMPONENTS ---
-
 const PopularServiceCard = ({ service }: { service: Profile }) => {
   const router = useRouter();
   return (
     <div
       className={styles.serviceCard}
-      // Correctly navigates to the specific facility's page
       onClick={() => router.push(`/facility/${service.id}`)}
     >
       <div className={styles.serviceImage}>
@@ -44,14 +41,13 @@ const PopularServiceCard = ({ service }: { service: Profile }) => {
               alt={service.full_name}
               layout="fill"
               objectFit="cover"
-              className={styles.avatarImage} // This class should make the image round
+              className={styles.avatarImage}
             />
           </div>
           <div className={styles.providerInfo}>
             <h3 className={styles.providerName}>{service.business_name}</h3>
             <div className={styles.rating}>
               <div className={styles.stars}>
-                {/* Dynamically generates stars based on rating */}
                 {[...Array(5)].map((_, i) => (
                   <Image
                     key={i}
@@ -83,7 +79,6 @@ const FeaturedServiceCard = ({ service }: { service: Profile }) => {
   return (
     <div
       className={styles.serviceCard}
-      // Correctly navigates to the specific facility's page
       onClick={() => router.push(`/facility/${service.id}`)}
     >
       <div className={styles.serviceImage}>
@@ -102,13 +97,12 @@ const FeaturedServiceCard = ({ service }: { service: Profile }) => {
               alt={service.full_name}
               layout="fill"
               objectFit="cover"
-              className={styles.avatarImage} // This class should make the image round
+              className={styles.avatarImage}
             />
           </div>
           <div className={styles.providerInfo}>
             <h3 className={styles.providerName}>{service.business_name}</h3>
             <div className={styles.rating}>
-              {/* This card correctly shows the address/location instead of a rating */}
               <span className={styles.ratingScore}>{service.address}</span>
             </div>
           </div>
@@ -191,31 +185,7 @@ const HAMSClientPage: NextPage<{
   initialNewServices: Profile[];
   initialAllServices: Profile[];
 }> = ({ initialPopularServices, initialNewServices, initialAllServices }) => {
-  const [open, setOpen] = useState(false);
-  const [hovered, setHovered] = useState("");
-  const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
-
-  const items = [
-    { label: "My Account", href: "/account" },
-    { label: "Appointments", href: "/appointments" },
-    { label: "Messages", href: "/messages" },
-    { label: "Notifications", href: "/notifications" },
-    { label: "Log out", href: "/logout" },
-  ];
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentIndex1, setCurrentIndex1] = useState(0);
@@ -227,21 +197,25 @@ const HAMSClientPage: NextPage<{
       setCurrentIndex((prevIndex) => prevIndex + 3);
     }
   };
+
   const handlePrev = () => {
     if (currentIndex > 0) {
       setCurrentIndex((prevIndex) => prevIndex - 3);
     }
   };
+
   const handleNext1 = () => {
     if (currentIndex1 < initialNewServices.length - visibleServices1) {
       setCurrentIndex1((prevIndex1) => prevIndex1 + 3);
     }
   };
+
   const handlePrev1 = () => {
     if (currentIndex1 > 0) {
       setCurrentIndex1((prevIndex1) => prevIndex1 - 3);
     }
   };
+
   const chunkArray = (arr: any[], size: number) => {
     const result = [];
     for (let i = 0; i < arr.length; i += size) {
@@ -437,7 +411,6 @@ const HAMSClientPage: NextPage<{
         </div>
       </div>
 
-      {/* Renders popular services using the passed 'initialPopularServices' prop */}
       <div className={styles.popularServices}>
         <b className={styles.allServices1}>
           <span>Popular</span>
@@ -461,7 +434,9 @@ const HAMSClientPage: NextPage<{
             <div
               className={styles.carouselTrack}
               style={{
-                transform: `translateX(calc(-${currentIndex} * (100% / ${visibleServices})))`,
+                transform: `translateX(calc(-${
+                  currentIndex * (100 / visibleServices)
+                }%))`,
               }}
             >
               {initialPopularServices.map((service) => (
@@ -486,7 +461,6 @@ const HAMSClientPage: NextPage<{
         <div className={styles.line1} />
       </div>
 
-      {/* Renders new services using the passed 'initialNewServices' prop */}
       <div className={styles.newServices}>
         <b className={styles.allServices1}>
           <span>New</span>
@@ -510,7 +484,9 @@ const HAMSClientPage: NextPage<{
             <div
               className={styles.carouselTrack}
               style={{
-                transform: `translateX(calc(-${currentIndex1} * (100% / ${visibleServices1})))`,
+                transform: `translateX(calc(-${
+                  currentIndex1 * (100 / visibleServices1)
+                }%))`,
               }}
             >
               {initialNewServices.map((service) => (
@@ -535,7 +511,6 @@ const HAMSClientPage: NextPage<{
         <div className={styles.line1} />
       </div>
 
-      {/* Renders all services using the passed 'initialAllServices' prop */}
       <div className={styles.allServices}>
         <b className={styles.allServices1}>
           <span>All</span>
@@ -559,7 +534,6 @@ const HAMSClientPage: NextPage<{
         </div>
       </div>
 
-      {/* footer (identical to static version) */}
       <div className={styles.footer}>
         <div className={styles.footerChild} />
         <div className={styles.yourTrustedPlatform}>

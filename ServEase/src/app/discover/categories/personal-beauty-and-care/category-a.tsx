@@ -23,7 +23,7 @@ const PopularServiceCard = ({ service }: { service: Profile }) => {
   return (
     <div
       className={styles.serviceCard}
-      onClick={() => router.push(`/facility-details?id=${service.id}`)}
+      onClick={() => router.push(`/facility/${service.id}`)}
     >
       <div className={styles.serviceImage}>
         <Image
@@ -79,7 +79,7 @@ const FeaturedServiceCard = ({ service }: { service: Profile }) => {
   return (
     <div
       className={styles.serviceCard}
-      onClick={() => router.push(`/facility-details?id=${service.id}`)}
+      onClick={() => router.push(`/facility/${service.id}`)}
     >
       <div className={styles.serviceImage}>
         <Image
@@ -117,7 +117,6 @@ const AllServiceCard = ({ service }: { service: Profile }) => {
   return (
     <div className={styles.service}>
       <div className={styles.image}>
-        {/* Dynamic Image */}
         <Image
           src={service.facility_image_url || "/placeholder-facility.jpg"}
           alt={service.business_name}
@@ -128,7 +127,6 @@ const AllServiceCard = ({ service }: { service: Profile }) => {
       <div className={styles.info}>
         <div className={styles.avatar}>
           <div className={styles.avatar1}>
-            {/* Dynamic Avatar */}
             <Image
               src={service.avatar_url || "/avatar.svg"}
               alt={service.full_name}
@@ -160,9 +158,7 @@ const AllServiceCard = ({ service }: { service: Profile }) => {
                 </div>
                 <div
                   className={styles.link}
-                  onClick={() =>
-                    router.push(`/facility-details?id=${service.id}`)
-                  }
+                  onClick={() => router.push(`/facility/${service.id}`)}
                 >
                   <div className={styles.viewDetails}>View Details</div>
                   <Image
@@ -189,32 +185,6 @@ const PBACS: NextPage<{
   initialAllServices: Profile[];
 }> = ({ initialPopularServices, initialNewServices, initialAllServices }) => {
   const router = useRouter();
-
-  const [open, setOpen] = useState(false);
-  const [hovered, setHovered] = useState("");
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  const items = [
-    { label: "My Account", href: "/account" },
-    { label: "Appointments", href: "/appointments" },
-    { label: "Messages", href: "/messages" },
-    { label: "Notifications", href: "/notifications" },
-    { label: "Log out", href: "/logout" },
-  ];
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentIndex1, setCurrentIndex1] = useState(0);
