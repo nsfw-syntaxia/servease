@@ -6,7 +6,7 @@ import { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { createClient } from "../../../app/lib/supabase/server";
+import { createClient } from "../../utils/supabase/server";
 
 import styles from "../../styles/facilitydetails.module.css"; 
 
