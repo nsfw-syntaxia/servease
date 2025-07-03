@@ -1,77 +1,9 @@
-.joinUsChild {
+.appointmentsChild {
   position: absolute;
   top: 56px;
   left: 471px;
   width: 497px;
   height: 93px;
-}
-
-.paraContent {
-  position: absolute;
-  top: 1022px;
-  left: 73px;
-  width: 115px;
-  height: 42px;
-}
-
-.serveaseLogoAlbumCover3 {
-  width: 40px;
-  position: relative;
-  max-height: 100%;
-  object-fit: cover;
-}
-
-.serv {
-  font-weight: 500;
-}
-
-.servease {
-  position: relative;
-  line-height: 150%;
-}
-
-.navigationChild {
-  width: 124px;
-  height: 45px;
-}
-
-.home {
-  width: 119px;
-  position: relative;
-  line-height: 150%;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.contactUs {
-  width: 147px;
-  position: relative;
-  line-height: 150%;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 27px;
-  flex-shrink: 0;
-}
-
-.homeParent {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 25px;
-  text-align: center;
-  font-size: var(--font-size-18);
-  color: var(--color-gray-200);
-}
-
-.navigationItem {
-  width: 184px;
-  height: 45px;
 }
 
 .avatarPlaceholderIcon {
@@ -97,28 +29,7 @@
   flex-shrink: 0;
 }
 
-.navigation {
-  position: absolute;
-  top: 47px;
-  left: calc(50% - 557px);
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 50px;
-  background-color: var(--color-white);
-  width: 1113px;
-  height: 69px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 0px 60px;
-  box-sizing: border-box;
-  gap: 10px;
-  font-size: var(--font-size-28);
-  color: var(--color-black);
-}
-
-.appointments1 {
+.appointments2 {
   position: absolute;
   top: 178px;
   left: 131px;
@@ -168,46 +79,11 @@
   overflow: hidden;
 }
 
-.vectorIcon {
-  position: absolute;
-  height: 35%;
-  width: 2.33%;
-  top: 31.61%;
-  right: 91.26%;
-  bottom: 33.39%;
-  left: 6.4%;
-  max-width: 100%;
-  overflow: hidden;
-  max-height: 100%;
-}
-
-.calendarMonthIcon {
-  position: absolute;
-  height: 43.33%;
-  width: 2.89%;
-  top: 27.21%;
-  right: 56.36%;
-  bottom: 29.46%;
-  left: 40.75%;
-  max-width: 100%;
-  overflow: hidden;
-  max-height: 100%;
-}
-
-.avatarIcon1 {
-  position: absolute;
-  top: 18.96px;
-  left: 687.63px;
-  width: 21px;
-  height: 21px;
-}
-
-.heroImage1 {
+.heroImageIcon {
   position: absolute;
   top: calc(50% + 46.54px);
   left: calc(50% - 448.63px);
   border-radius: var(--br-30);
-  background-color: var(--color-white);
   width: 900px;
   height: 60px;
   overflow: hidden;
@@ -235,7 +111,7 @@
   height: 25px;
 }
 
-.calendarMonthIcon1 {
+.calendarMonthIcon {
   position: absolute;
   height: 86.8%;
   width: 10.12%;
@@ -320,7 +196,7 @@
   height: 281px;
 }
 
-.joinUsInner {
+.appointmentsInner {
   position: absolute;
   top: calc(50% - 464px);
   left: calc(50% - 532px);
@@ -328,6 +204,18 @@
   height: 281px;
   font-size: 23px;
   color: var(--color-tan);
+}
+
+.confirmed1 {
+  position: absolute;
+  top: 203px;
+  left: 785px;
+  line-height: 150%;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  width: 133px;
+  height: 26px;
 }
 
 .groupDiv {
@@ -417,189 +305,23 @@
   text-align: center;
 }
 
-.footerChild {
+.arrowDropDownIcon {
   position: absolute;
-  top: 0px;
-  left: 0px;
-  background-color: var(--color-white);
-  width: 1440px;
-  height: 475px;
+  top: 866px;
+  left: 1096px;
+  width: 24px;
+  height: 24px;
 }
 
-.yourTrustedPlatform {
+.arrowDropDownIcon1 {
   position: absolute;
-  top: 157px;
-  left: 143px;
-  line-height: 40px;
-  display: inline-block;
-  width: 359px;
+  top: 1206px;
+  left: 1096px;
+  width: 24px;
+  height: 24px;
 }
 
-.contactUs1 {
-  position: absolute;
-  top: 87px;
-  left: calc(50% + 343px);
-  font-size: var(--font-size-26);
-  line-height: 128.02%;
-  display: inline-block;
-  width: 217px;
-}
-
-.supportserveasecom {
-  position: absolute;
-  top: 157px;
-  left: calc(50% + 343px);
-  line-height: 40px;
-}
-
-.div {
-  position: absolute;
-  top: 197px;
-  left: calc(50% + 343px);
-  line-height: 40px;
-  display: inline-block;
-  width: 233px;
-}
-
-.support {
-  position: absolute;
-  top: 87px;
-  left: calc(50% + 144px);
-  font-size: var(--font-size-26);
-  line-height: 128.02%;
-  display: inline-block;
-  width: 196px;
-}
-
-.faqs {
-  position: absolute;
-  top: 158px;
-  left: calc(50% + 144px);
-  line-height: 40px;
-  display: inline-block;
-  width: 233px;
-}
-
-.privacyPolicy {
-  position: absolute;
-  top: 197px;
-  left: calc(50% + 144px);
-  line-height: 40px;
-  display: inline-block;
-  width: 233px;
-}
-
-.termsConditions {
-  position: absolute;
-  top: 237px;
-  left: calc(50% + 144px);
-  line-height: 40px;
-  display: inline-block;
-  width: 233px;
-}
-
-.aboutUs {
-  position: absolute;
-  top: 277px;
-  left: calc(50% + 144px);
-  line-height: 40px;
-  display: inline-block;
-  width: 233px;
-}
-
-.quickLinks {
-  position: absolute;
-  top: 87px;
-  left: calc(50% - 126px);
-  font-size: var(--font-size-26);
-  line-height: 128.02%;
-  display: inline-block;
-  width: 196px;
-}
-
-.servease1 {
-  position: absolute;
-  top: 87px;
-  left: calc(50% - 529px);
-  font-size: var(--font-size-26);
-  line-height: 128.02%;
-  display: inline-block;
-  width: 148px;
-}
-
-.home1 {
-  position: absolute;
-  top: 158px;
-  left: calc(50% - 126px);
-  line-height: 40px;
-  display: inline-block;
-  width: 233px;
-}
-
-.discover1 {
-  position: absolute;
-  top: 197px;
-  left: calc(50% - 126px);
-  line-height: 40px;
-  display: inline-block;
-  width: 233px;
-}
-
-.createAnAccount {
-  position: absolute;
-  top: 236px;
-  left: calc(50% - 126px);
-  line-height: 40px;
-  display: inline-block;
-  width: 233px;
-}
-
-.groupChild {
-  position: absolute;
-  top: -1px;
-  left: -1px;
-  border-top: 2px solid var(--color-black);
-  box-sizing: border-box;
-  width: 1185px;
-  height: 2px;
-}
-
-.servease2025 {
-  position: absolute;
-  top: 27px;
-  left: 14px;
-}
-
-.lineParent {
-  position: absolute;
-  top: 389px;
-  left: 129px;
-  width: 1183px;
-  height: 53px;
-  font-size: 20px;
-}
-
-.serveaseLogoAlbumCover31 {
-  position: absolute;
-  top: 84px;
-  left: 143px;
-  width: 40px;
-  height: 40px;
-  object-fit: cover;
-}
-
-.footer {
-  position: absolute;
-  top: 1777px;
-  left: 0px;
-  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
-    var(--color-white);
-  width: 1440px;
-  height: 475px;
-  color: var(--color-black);
-}
-
-.joinUs {
+.appointments1 {
   position: absolute;
   height: 100%;
   top: 0px;
@@ -610,7 +332,27 @@
   overflow: hidden;
 }
 
-.groupWrapper1 {
+.confirmed2 {
+  position: absolute;
+  top: 203px;
+  left: 788px;
+  line-height: 150%;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  width: 133px;
+  height: 26px;
+}
+
+.arrowDropDownIcon2 {
+  position: absolute;
+  top: 204px;
+  left: 909px;
+  width: 24px;
+  height: 24px;
+}
+
+.card {
   position: absolute;
   top: calc(50% - 809px);
   left: calc(50% - 533px);
@@ -620,7 +362,7 @@
   color: var(--color-tan);
 }
 
-.joinUsParent {
+.appointmentsParent {
   position: absolute;
   height: 100%;
   top: 0px;
@@ -633,7 +375,6 @@
   width: 100%;
   position: relative;
   background-color: var(--color-white);
-  border: 1px solid var(--color-black);
   box-sizing: border-box;
   height: 2252px;
   overflow: hidden;
@@ -641,4 +382,5 @@
   font-size: var(--font-size-16);
   color: var(--color-white);
   font-family: var(--font-dm-sans);
+  cursor: default;
 }
