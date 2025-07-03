@@ -172,7 +172,7 @@ const FacilityDetailsPage: NextPage = () => {
   const averageRating = useMemo(() => {
       if (!reviews || reviews.length === 0) return 0;
       const total = reviews.reduce((acc, review) => acc + review.rating, 0);
-      return (total / reviews.length).toFixed(1);
+      return (total / reviews.length);
   }, [reviews]);
 
 
@@ -218,8 +218,8 @@ const FacilityDetailsPage: NextPage = () => {
               
               <div className={styles.groupContainer}>
                 <div className={styles.parent}>
-                  <b className={styles.kReviews}>{averageRating}</b>
-                  <StarRating rating={parseFloat(averageRating)} size={25} />
+                  <b className={styles.kReviews}>{averageRating.toFixed(1)}</b>
+                  <StarRating rating={averageRating} size={25} />
                 </div>
                 <div className={styles.kReviewsWrapper}>
                   <b className={styles.kReviews}>({reviews.length} Reviews)</b>
