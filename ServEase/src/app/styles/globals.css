@@ -10,9 +10,42 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Benne:wght@400&display=swap");
 
+
+/* ---------- Zoom Scaling Support (Windows Display Scaling) ---------- */
+html {
+  font-size: 100%;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+body {
+  zoom: 1;
+}
+
+@media screen and (min-resolution: 120dpi),
+       screen and (min--moz-device-pixel-ratio: 1.25),
+       screen and (min-device-pixel-ratio: 1.25),
+       screen and (min-resolution: 1.25dppx) {
+  html {
+    font-size: 90%;
+  }
+}
+
+@media screen and (min-resolution: 144dpi),
+       screen and (min-device-pixel-ratio: 1.5) {
+  html {
+    font-size: 85%;
+  }
+}
+
 body {
   margin: 0;
   line-height: normal;
+}
+:root {
+  font-size: 100%;
+  scroll-behavior: smooth;
 }
 :root {
   --color-gray-400: #241f1b;

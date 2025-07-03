@@ -113,15 +113,16 @@
   flex-grow: 1;
 }
 
-.serviceFacilityName {
-  font-size: 33px;
+.clientName {
+  font-size: 30px;
   font-weight: 600;
   color: var(--color-gray-100);
   margin: 0;
+  margin-bottom: 5px;
 }
 
-.location {
-  font-size: 28px;
+.serviceType {
+  font-size: 25px;
   font-weight: 500;
   color: var(--color-tan);
   margin: 0;
@@ -169,6 +170,11 @@
   min-width: 200px;
 }
 
+.dropdownIcon {
+  margin-left: -5px;
+  vertical-align: middle; /* aligns the icon with the text */
+}
+
 .statusButton {
   width: 21px; /* set the width of the button */
   height: 21px; /* set the height of the button */
@@ -190,11 +196,6 @@
 
 .canceled {
   background-color: #dfceba; /* canceled color */
-}
-
-.dropdownIcon {
-  margin-left: 5px;
-  vertical-align: middle; /* aligns the icon with the text */
 }
 
 /* only mobile changes below */
@@ -240,11 +241,11 @@
     justify-content: flex-start;
   }
 
-  .serviceFacilityName {
+  .clientName {
     font-size: 24px;
   }
 
-  .location {
+  .serviceType {
     font-size: 18px;
   }
 }

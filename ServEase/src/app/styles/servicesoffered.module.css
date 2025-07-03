@@ -89,11 +89,6 @@
   cursor: pointer;
 }
 
-.avatarIcon {
-  width: 100px;
-  height: 40px;
-}
-
 .mainContent {
   flex-grow: 1;
   width: 100%;
