@@ -4,21 +4,38 @@ import { useEffect, useRef, useState } from "react";
 import type { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import styles from "../styles/specific-category.module.css";
+
+interface Profile {
+  id: string;
+  business_name: string;
+  full_name: string;
+  address: string;
+  facility_image_url: string | null;
+  avatar_url: string | null;
+  created_at: string;
+  rating: number;
+}
 
 const AllServiceCard = ({
   service,
   iconName,
 }: {
-  service: any;
+  service: Profile;
   iconName: string;
 }) => {
   const router = useRouter();
-
   return (
     <div className={styles.service}>
-      <div className={styles.image} />
+      <div className={styles.image}>
+        <Image
+          src={service.facility_image_url || "/placeholder-facility.jpg"}
+          alt={service.business_name}
+          layout="fill"
+          objectFit="cover"
+        />
+      </div>
       <div className={styles.info}>
         <div className={styles.avatar}>
           <div className={styles.avatar1}>
@@ -26,20 +43,22 @@ const AllServiceCard = ({
               className={styles.icons}
               width={35}
               height={35}
-              alt=""
+              alt={iconName}
               src={`/${iconName}.svg`}
             />
           </div>
           <div className={styles.avatar5}>
             <div className={styles.serviceFacilityNameParent}>
-              <div className={styles.serviceFacilityName}>{service.name}</div>
-              <div className={styles.location}>{service.location}</div>
+              <div className={styles.serviceFacilityName}>
+                {service.business_name}
+              </div>
+              <div className={styles.location}>{service.address}</div>
             </div>
             <div className={styles.avatar2} />
             <div className={styles.avatar3}>
               <div className={styles.groupParent}>
                 <div className={styles.parent}>
-                  <div className={styles.div}>{service.rating}</div>
+                  <div className={styles.div}>{service.rating.toFixed(1)}</div>
                   <Image
                     className={styles.groupChild}
                     width={23.7}
@@ -51,7 +70,7 @@ const AllServiceCard = ({
                 </div>
                 <div
                   className={styles.link}
-                  onClick={() => router.push("/facility-details")}
+                  onClick={() => router.push(`/facility/${service.id}`)}
                 >
                   <div className={styles.viewDetails}>View Details</div>
                   <Image
@@ -72,10 +91,14 @@ const AllServiceCard = ({
   );
 };
 
-const SpecificCategory: NextPage = () => {
+const SpecificCategoryClientPage: NextPage<{
+  services: Profile[];
+  subCategoryName: string;
+}> = ({ services, subCategoryName }) => {
   const [open, setOpen] = useState(false);
   const [hovered, setHovered] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   const items = [
     { label: "My Account", href: "/account" },
@@ -85,18 +108,21 @@ const SpecificCategory: NextPage = () => {
     { label: "Log out", href: "/logout" },
   ];
 
-  const allservices = [
-    { id: 1, name: "Service Facility Name", location: "Cebu", rating: 4.0 },
-    { id: 2, name: "Nail Spa", location: "Mandaue", rating: 4.2 },
-  ];
-
-  const searchParams = useSearchParams();
-  const name = searchParams.get("name");
-  const router = useRouter();
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <div className={styles.pbacs}>
-      {/* nav */}
       <div className={styles.nav}>
         <Image
           className={styles.serveaseLogoAlbumCover3}
@@ -145,21 +171,18 @@ const SpecificCategory: NextPage = () => {
               sizes="100vw"
             />
           </div>
-
           {open && (
             <div className={styles.dropdownMenu}>
               {items.map((item, index) => {
                 const isActive = hovered === item.label;
                 const isFirst = index === 0;
                 const isLast = index === items.length - 1;
-
                 let borderClass = "";
                 if (isActive && isFirst) {
                   borderClass = styles.activeTop;
                 } else if (isActive && isLast) {
                   borderClass = styles.activeBottom;
                 }
-
                 return (
                   <Link
                     href={item.href}
@@ -179,13 +202,15 @@ const SpecificCategory: NextPage = () => {
         </div>
       </div>
       <div className={styles.bg}>
-        {/* hero img */}
         <div className={styles.heroImg}>
-          <Image width={1300} height={331} alt="" src={`/${name}.png`} />
-          <div className={styles.personalBeautyAnd}>{name}</div>
+          <Image
+            width={1300}
+            height={331}
+            alt={subCategoryName}
+            src={`/${subCategoryName}.png`}
+          />
+          <div className={styles.personalBeautyAnd}>{subCategoryName}</div>
         </div>
-
-        {/* search */}
         <div className={styles.searchBox}>
           <div className={styles.filtering}>
             <div className={styles.link6}>
@@ -221,7 +246,6 @@ const SpecificCategory: NextPage = () => {
         </div>
       </div>
 
-      {/* all services */}
       <div className={styles.allServices}>
         <b className={styles.allServices1}>
           <span>All</span>
@@ -230,29 +254,29 @@ const SpecificCategory: NextPage = () => {
         <div className={styles.allView}>
           <div className={styles.allCards}>
             <div className={styles.cards}>
-              {allservices.map((service, id) => (
+              {services.slice(0, 3).map((service) => (
                 <AllServiceCard
-                  key={id}
+                  key={service.id}
                   service={service}
-                  iconName={name || "default"}
+                  iconName={subCategoryName}
                 />
               ))}
             </div>
             <div className={styles.cards}>
-              {allservices.map((service, id) => (
+              {services.slice(3, 6).map((service) => (
                 <AllServiceCard
-                  key={id}
+                  key={service.id}
                   service={service}
-                  iconName={name || "default"}
+                  iconName={subCategoryName}
                 />
               ))}
             </div>
             <div className={styles.cards}>
-              {allservices.map((service, id) => (
+              {services.slice(6, 9).map((service) => (
                 <AllServiceCard
-                  key={id}
+                  key={service.id}
                   service={service}
-                  iconName={name || "default"}
+                  iconName={subCategoryName}
                 />
               ))}
             </div>
@@ -309,4 +333,4 @@ const SpecificCategory: NextPage = () => {
   );
 };
 
-export default SpecificCategory;
+export default SpecificCategoryClientPage;
