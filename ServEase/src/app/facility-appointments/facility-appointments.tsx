@@ -41,8 +41,8 @@ export default Dropdown;
 css for dropdown menu
 
 note:
-if upcoming, show "completed" and "cancelled"
-if pending, show "confirmed" and "cancelled"
+if upcoming, show "completed" and "canceled"
+if pending, show "confirmed" and "canceled"
 
 .image8 {
   	position: absolute;
@@ -170,7 +170,7 @@ import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import styles from "../styles/facility-appointments.module.css";
 
-// updated Appointment type definition
+// updated appointment type definition
 type Appointment = {
   id: number;
   start_time: string;
@@ -339,7 +339,7 @@ const AppointmentsFacility: NextPage = () => {
         return mockAppointments.filter((app) => app.status === "pending");
       case "completed":
         return mockAppointments.filter((app) => app.status === "completed");
-      case "cancelled":
+      case "canceled":
         return mockAppointments.filter((app) => app.status === "canceled");
       default:
         return [];
@@ -378,11 +378,11 @@ const AppointmentsFacility: NextPage = () => {
             </button>
             <button
               className={`${styles.filterButton} ${
-                activeFilter === "cancelled" ? styles.active : ""
+                activeFilter === "canceled" ? styles.active : ""
               }`}
-              onClick={() => handleFilterChange("cancelled")}
+              onClick={() => handleFilterChange("canceled")}
             >
-              Cancelled
+              Canceled
             </button>
           </div>
         </div>

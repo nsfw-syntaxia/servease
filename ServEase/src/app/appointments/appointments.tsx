@@ -105,7 +105,7 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
         );
       case "completed":
         return initialAppointments.filter((app) => app.status === "completed");
-      case "cancelled":
+      case "canceled":
         return initialAppointments.filter((app) => app.status === "canceled");
       default:
         return [];
@@ -136,9 +136,9 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
             </button>
             <button
               className={`${styles.filterButton} ${
-                activeFilter === "cancelled" ? styles.active : ""
+                activeFilter === "canceled" ? styles.active : ""
               }`}
-              onClick={() => handleFilterChange("cancelled")}
+              onClick={() => handleFilterChange("canceled")}
             >
               Cancelled
             </button>
