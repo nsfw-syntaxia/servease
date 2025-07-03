@@ -245,6 +245,14 @@ const PBACS: NextPage<{
     }
   };
 
+  const chunkArray = (arr: any[], size: number) => {
+    const result = [];
+    for (let i = 0; i < arr.length; i += size) {
+      result.push(arr.slice(i, i + size));
+    }
+    return result;
+  };
+
   return (
     <div className={styles.pbacs}>
       <div className={styles.bg}>
@@ -385,7 +393,6 @@ const PBACS: NextPage<{
         </div>
       </div>
 
-            {/*popular services */}
       <div className={styles.popularServices}>
         <b className={styles.allServices1}>
           <span>Popular</span>
@@ -493,21 +500,15 @@ const PBACS: NextPage<{
         </b>
         <div className={styles.allView}>
           <div className={styles.allCards}>
-            <div className={styles.cards}>
-              {initialAllServices.slice(0, 3).map((service) => (
-                <AllServiceCard key={service.id} service={service} />
-              ))}
-            </div>
-            <div className={styles.cards}>
-              {initialAllServices.slice(3, 6).map((service) => (
-                <AllServiceCard key={service.id} service={service} />
-              ))}
-            </div>
-            <div className={styles.cards}>
-              {initialAllServices.slice(6, 9).map((service) => (
-                <AllServiceCard key={service.id} service={service} />
-              ))}
-            </div>
+            {chunkArray(initialAllServices.slice(0, 6), 2).map(
+              (row, rowIndex) => (
+                <div className={styles.cards} key={rowIndex}>
+                  {row.map((service) => (
+                    <AllServiceCard key={service.id} service={service} />
+                  ))}
+                </div>
+              )
+            )}
           </div>
           <div className={styles.button}>
             <div className={styles.viewAll}>View All</div>
