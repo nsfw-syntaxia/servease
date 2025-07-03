@@ -65,10 +65,8 @@ const AppointmentCard = ({ appointment }: { appointment: Appointment }) => {
           <span>{time}</span>
         </div>
         <div className={styles.infoItem}>
-          <Image width={21} height={21} alt="Status" src="/circle.svg" />
-          <span className={styles[status]}>
-            {status.charAt(0).toUpperCase() + status.slice(1)}
-          </span>
+          <span className={`${styles.statusButton} ${styles[status]}`}></span>
+          <span>{status.charAt(0).toUpperCase() + status.slice(1)}</span>
         </div>
       </div>
     </div>

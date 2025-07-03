@@ -52,7 +52,7 @@
   border-radius: 50px;
   font-size: 16px;
   font-weight: 500;
-  cursor: pointer; /* pointer cursor for buttons */
+  cursor: pointer;
   border: none;
   background-color: transparent;
   color: white;
@@ -89,7 +89,7 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
   margin-bottom: 10px;
-  cursor: pointer; /* pointer cursor for appointment cards */
+  cursor: pointer;
 }
 
 .appointmentCard:hover {
@@ -135,7 +135,7 @@
   font-size: 18px;
   font-weight: 500;
   color: var(--color-dimgray);
-  cursor: pointer; /* pointer cursor for view details */
+  cursor: pointer;
   transition: color 0.3s ease;
   margin-left: auto;
 }
@@ -150,11 +150,10 @@
   border-radius: 20px;
   padding: 1rem 2rem;
   display: flex;
-  justify-content: space-between; /* changed from space-around to space-between */
+  justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
   gap: 1rem;
-  width: calc(100% - 4rem); /* account for padding */
+  width: calc(100% - 4rem);
   margin: 0 auto;
 }
 
@@ -166,75 +165,82 @@
   font-weight: 500;
   color: var(--color-tan);
   margin-left: 60px;
-  flex: 1; /* allow items to grow equally */
-  justify-content: flex-start; /* align items to the start */
-  min-width: 200px; /* set a minimum width to prevent wrapping */
+  justify-content: flex-start;
+  min-width: 200px;
+}
+
+.statusButton {
+  width: 21px; /* set the width of the button */
+  height: 21px; /* set the height of the button */
+  border-radius: 50%; /* make it circular */
+  display: inline-block; /* allow it to be inline */
 }
 
 .confirmed {
-  color: var(--color-tan);
+  background-color: #604c3d; /* confirmed color */
 }
 
-/* set default cursor for the entire page */
-.body {
-  cursor: default; /* default arrow cursor */
+.pending {
+  background-color: #e0d9c9; /* pending color */
 }
 
-/* ensure cursor is pointer for navigation and cards */
-.navigation,
-.appointmentCard {
-  cursor: pointer; /* pointer cursor for navigation and appointment cards */
+.completed {
+  background-color: #a68465; /* completed color */
 }
 
-@media (max-width: 992px) {
-  .navigation {
-    width: 90%;
-  }
-  .navLinks {
-    display: none;
-  }
-  .pageTitle {
-    font-size: 40px;
-  }
-  .serviceFacilityName {
-    font-size: 28px;
-  }
-  .location {
-    font-size: 22px;
-  }
+.canceled {
+  background-color: #dfceba; /* canceled color */
 }
 
+/* only mobile changes below */
 @media (max-width: 768px) {
   .mainContent {
     padding-top: 100px;
   }
-  .navigation {
-    width: 95%;
-    padding: 0.75rem 1.5rem;
-  }
+
   .contentHeader {
     justify-content: center;
+    margin-bottom: 2rem;
   }
+
   .pageTitle {
     font-size: 32px;
     text-align: center;
   }
+
   .cardHeader {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    gap: 1rem;
   }
+
   .viewDetails {
-    margin-left: 0;
-    margin-top: 1rem;
+    margin: 20px 0 0 0;
+    order: 1;
+    position: static;
+    align-self: center;
   }
-  .footerContent {
+
+  .cardBody {
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    align-items: flex-start;
+    padding: 1.5rem;
   }
-  .footerColumn {
-    align-items: center;
+
+  .infoItem {
+    margin-left: 0;
+    min-width: auto;
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .serviceFacilityName {
+    font-size: 24px;
+  }
+
+  .location {
+    font-size: 18px;
   }
 }
 
