@@ -66,15 +66,16 @@ const ProfileClient: NextPage = () => {
             src="/edit-white.svg"
           />
         </div>
-        <div className={styles.ellipseDiv} />
-        <Image
-          className={styles.edit03Icon1}
-          width={19}
-          height={19}
-          sizes="100vw"
-          alt=""
-          src="/edit-profile.svg"
-        />
+        <div className={styles.ellipseDiv}>
+          <Image
+            className={styles.edit03Icon1}
+            width={19}
+            height={19}
+            sizes="100vw"
+            alt=""
+            src="/edit-profile.svg"
+          />
+        </div>
         <div className={styles.passwordWrapper}>
           <div className={styles.password}>Password</div>
         </div>
