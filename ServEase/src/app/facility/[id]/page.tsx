@@ -1,4 +1,5 @@
 import { createClient } from "../../utils/supabase/server";
+import { createAdminClient } from "../../utils/supabase/admin";
 import FacilityDetailsClientPage from "./FacilityDetailsClientPage";
 import { notFound } from "next/navigation";
 
@@ -14,7 +15,9 @@ interface Profile {
   rating: number;
   subcategory: string;
   category: string;
-  // Assuming you have a location column for the map
+  start_time: string | null;
+  end_time: string | null;
+  working_days: string[] | null; // Added working_days
   location: { lat: number; lng: number } | null;
 }
 
@@ -27,10 +30,8 @@ interface Service {
 
 interface Review {
   id: string;
-  // Add other review fields as needed
 }
 
-// A helper type for the combined facility data
 interface FacilityData extends Profile {
   email: string | null;
 }
@@ -41,8 +42,8 @@ export default async function FacilityPage({
   params: { id: string };
 }) {
   const supabase = await createClient();
+  const supabaseAdmin = await createAdminClient(); // 2. Initialize the admin client
 
-  // --- 1. Fetch the main provider profile ---
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
     .select("*")
@@ -53,38 +54,32 @@ export default async function FacilityPage({
     notFound();
   }
 
-  // --- 2. Fetch the provider's email from auth.users ---
-  // This is a privileged operation and works because this is a Server Component
-  const { data: { user }, error: userError } = await supabase.auth.admin.getUserById(
-    profile.id
-  );
-  
-  const facilityData: FacilityData = {
-    ...profile,
-    email: userError || !user ? "not available" : user.email,
-    rating: profile.rating || (Math.random() * (5 - 3.5) + 3.5),
-  };
+  // 3. Fetch the user's email using the admin client
+  const {
+    data: { user },
+    error: userError,
+  } = await supabaseAdmin.auth.admin.getUserById(profile.id);
 
-
-  // --- 3. Fetch services offered by this provider ---
-  const { data: services, error: servicesError } = await supabase
+  const { data: services } = await supabase
     .from("services")
     .select("*")
     .eq("provider_id", params.id);
-
-  // --- 4. Fetch reviews for this provider ---
-  const { data: reviews, error: reviewsError } = await supabase
+  const { data: reviews } = await supabase
     .from("reviews")
     .select("*")
     .eq("provider_id", params.id);
-  
-  // --- 5. Fetch related services (other providers in the same subcategory) ---
-  const { data: relatedServices, error: relatedServicesError } = await supabase
+  const { data: relatedServices } = await supabase
     .from("profiles")
     .select("id, business_name, rating, facility_image_url, avatar_url")
     .eq("subcategory", profile.subcategory)
-    .neq("id", params.id) // Exclude the current facility
+    .neq("id", params.id)
     .limit(3);
+
+  const facilityData: FacilityData = {
+    ...profile,
+    email: userError || !user ? "Not Available" : user.email,
+    rating: profile.rating || 0,
+  };
 
   return (
     <FacilityDetailsClientPage

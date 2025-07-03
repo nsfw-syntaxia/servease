@@ -6,7 +6,6 @@ import { useState, useMemo } from "react";
 import Image from "next/image";
 import styles from "../../styles/facilitydetails.module.css";
 
-// Re-usable interfaces for props
 interface Profile {
   id: string;
   business_name: string;
@@ -19,6 +18,9 @@ interface Profile {
   rating: number;
   subcategory: string;
   category: string;
+  working_days: string[] | null;
+  start_time: string | null;
+  end_time: string | null;
   location: { lat: number; lng: number } | null;
   email: string | null;
 }
@@ -41,6 +43,87 @@ interface RelatedService {
   facility_image_url: string | null;
   avatar_url: string | null;
 }
+
+const formatTime = (timeStr: string | null) => {
+  if (!timeStr) return "N/A";
+  const [h, m] = timeStr.split(":");
+  const hour = parseInt(h, 10);
+  const minute = parseInt(m, 10);
+  const period = hour >= 12 ? "PM" : "AM";
+  let adjustedHour = hour % 12;
+  if (adjustedHour === 0) adjustedHour = 12;
+  return `${adjustedHour}:${String(minute).padStart(2, "0")} ${period}`;
+};
+
+const DAY_ORDER = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+const DAY_NAMES = {
+    'Mon': 'Monday',
+    'Tue': 'Tuesday', 
+    'Wed': 'Wednesday',
+    'Thu': 'Thursday',
+    'Fri': 'Friday',
+    'Sat': 'Saturday',
+    'Sun': 'Sunday'
+};
+
+const formatWorkingDays = (days: string[] | null): string => {
+    if (!days || days.length === 0) return '';
+    if (days.length === 1) return DAY_NAMES[days[0] as keyof typeof DAY_NAMES] || days[0];
+    
+    // Sort days according to the week order
+    const sortedDays = [...days].sort((a, b) => 
+        DAY_ORDER.indexOf(a) - DAY_ORDER.indexOf(b)
+    );
+    
+    // Check if all days are consecutive
+    const isConsecutive = (): boolean => {
+        const indices = sortedDays.map(day => DAY_ORDER.indexOf(day));
+        
+        // Check for regular consecutive days (no wrap-around)
+        let regularConsecutive = true;
+        for (let i = 1; i < indices.length; i++) {
+            if (indices[i] !== indices[i-1] + 1) {
+                regularConsecutive = false;
+                break;
+            }
+        }
+        
+        if (regularConsecutive) return true;
+        
+        // Check for wrap-around consecutive days (e.g., Sat, Sun, Mon)
+        if (indices.includes(6) && indices.includes(0)) { // Contains both Sun and Mon
+            // Create a reordered array starting from Sunday
+            const reordered = [...indices];
+            const sunIndex = reordered.indexOf(6);
+            const beforeSun = reordered.slice(0, sunIndex);
+            const fromSun = reordered.slice(sunIndex);
+            const newOrder = [...fromSun, ...beforeSun];
+            
+            // Convert Sunday index to -1 for checking consecutive pattern
+            const adjustedOrder = newOrder.map(idx => idx === 6 ? -1 : idx);
+            
+            // Check if the adjusted order is consecutive
+            for (let i = 1; i < adjustedOrder.length; i++) {
+                if (adjustedOrder[i] !== adjustedOrder[i-1] + 1) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        
+        return false;
+    };
+    
+    // If consecutive, return range format with full day names
+    if (isConsecutive()) {
+        const firstDay = DAY_NAMES[sortedDays[0] as keyof typeof DAY_NAMES] || sortedDays[0];
+        const lastDay = DAY_NAMES[sortedDays[sortedDays.length - 1] as keyof typeof DAY_NAMES] || sortedDays[sortedDays.length - 1];
+        return `${firstDay} - ${lastDay}`;
+    }
+    
+    // Otherwise return the original input with full day names joined by commas
+    return days.map(day => DAY_NAMES[day as keyof typeof DAY_NAMES] || day).join(', ');
+};
 
 const FacilityDetailsClientPage: NextPage<{
   facility: Profile;
@@ -316,6 +399,7 @@ const FacilityDetailsClientPage: NextPage<{
                   <div className={styles.nBacalsoAve}>{facility.email}</div>
                 </div>
               </div>
+
               <Image
                 className={styles.dividerIcon1}
                 width={629}
@@ -328,26 +412,24 @@ const FacilityDetailsClientPage: NextPage<{
                   <b className={styles.workSchedule}>Work Schedule</b>
                 </div>
               </div>
+
               <div className={styles.buttonGroup}>
                 <div className={styles.button1}>
                   <div className={styles.star} />
-                  <div className={styles.mondayFriday}>Monday - Friday</div>
+                  {formatWorkingDays(facility.working_days) || 'Not Specified'}
                   <div className={styles.star} />
                 </div>
                 <div className={styles.paraContent7}>
-                  <div className={styles.nBacalsoAve}>08:00 AM - 09:00 PM</div>
+                  <div className={styles.nBacalsoAve}>
+                    {facility.start_time && facility.end_time
+                      ? `${formatTime(facility.start_time)} - ${formatTime(
+                          facility.end_time
+                        )}`
+                      : "Not Available"}
+                  </div>
                 </div>
               </div>
-              <div className={styles.buttonGroup}>
-                <div className={styles.button1}>
-                  <div className={styles.star} />
-                  <div className={styles.mondayFriday}>Saturday - Sunday</div>
-                  <div className={styles.star} />
-                </div>
-                <div className={styles.paraContent7}>
-                  <div className={styles.nBacalsoAve}>10:00 AM - 08:00 PM</div>
-                </div>
-              </div>
+
               <Image
                 className={styles.dividerIcon2}
                 width={629}
@@ -512,7 +594,6 @@ const FacilityDetailsClientPage: NextPage<{
               </div>
             </div>
           </div>
-          {/* Static reviews for now, you would map over the 'reviews' prop here */}
           <div className={styles.locationInner}>
             <div className={styles.frameContainer}>...</div>
           </div>
