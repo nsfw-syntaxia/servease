@@ -241,9 +241,6 @@ const mockAppointments: Appointment[] = [
 ];
 
 const AppointmentCard = ({ appointment }: { appointment: Appointment }) => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [selectedStatus, setSelectedStatus] = useState(appointment.status);
-
   const appointmentDate = new Date(appointment.start_time);
   const time = appointmentDate.toLocaleTimeString([], {
     hour: "numeric",
@@ -258,25 +255,6 @@ const AppointmentCard = ({ appointment }: { appointment: Appointment }) => {
   const clientName = appointment.service?.[0]?.client_name || "Unknown Client";
   const serviceType =
     appointment.service?.[0]?.service_type || "Unknown Service";
-
-  const handleStatusClick = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-
-  const handleStatusChange = (newStatus: string) => {
-    setSelectedStatus(
-      newStatus as "pending" | "confirmed" | "completed" | "canceled"
-    );
-    setIsDropdownOpen(false);
-    // here you can add logic to update the appointment status in your backend
-  };
-
-  const dropdownOptions =
-    selectedStatus === "pending"
-      ? ["Confirmed", "Cancelled"]
-      : selectedStatus === "confirmed"
-      ? ["Completed", "Cancelled"]
-      : [];
 
   return (
     <div className={styles.appointmentCard}>
@@ -319,33 +297,23 @@ const AppointmentCard = ({ appointment }: { appointment: Appointment }) => {
         </div>
         <div className={styles.infoItem}>
           <span
-            className={`${styles.statusButton} ${styles[selectedStatus]}`}
+            className={`${styles.statusButton} ${styles[appointment.status]}`}
           ></span>
-          <span onClick={handleStatusClick} style={{ cursor: "pointer" }}>
-            {selectedStatus.charAt(0).toUpperCase() + selectedStatus.slice(1)}
+          <span>
+            {appointment.status.charAt(0).toUpperCase() +
+              appointment.status.slice(1)}
           </span>
-          <Image
-            className={styles.dropdownIcon}
-            width={24}
-            height={24}
-            sizes="100vw"
-            alt=""
-            src="/arrow_drop_down.svg"
-            onClick={handleStatusClick}
-            style={{ cursor: "pointer" }}
-          />
-          {isDropdownOpen && dropdownOptions.length > 0 && (
-            <div className={styles.dropdown}>
-              {dropdownOptions.map((option) => (
-                <div
-                  key={option}
-                  className={styles.dropdownOption}
-                  onClick={() => handleStatusChange(option.toLowerCase())}
-                >
-                  {option}
-                </div>
-              ))}
-            </div>
+          {(appointment.status === "confirmed" ||
+            appointment.status === "pending") && (
+            <Image
+              className={styles.dropdownIcon}
+              width={24}
+              height={24}
+              sizes="100vw"
+              alt=""
+              src="/arrow_drop_down.svg"
+              style={{ cursor: "pointer" }}
+            />
           )}
         </div>
       </div>
