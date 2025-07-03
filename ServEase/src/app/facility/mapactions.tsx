@@ -4,7 +4,7 @@ import { createClient } from '../lib/supabase/server';
 import { notFound } from 'next/navigation';
 import dynamic from 'next/dynamic';
 
-const MapDisplay = dynamic(() => import('./mapcomponent'), {
+const MapDisplay = dynamic(() => import('./[id]/Map'), {
   ssr: false,
   loading: () => <div style={{height: '500px', background: '#e0e0e0', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>Loading map...</div>
 });

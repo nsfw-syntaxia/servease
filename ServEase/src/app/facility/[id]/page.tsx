@@ -8,7 +8,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { createClient } from "../../../app/lib/supabase/server";
 
-import styles from "../../../styles/facilitydetails.module.css"; 
+import styles from "../../styles/facilitydetails.module.css"; 
 
 // --- TYPE DEFINITIONS ---
 interface Profile {

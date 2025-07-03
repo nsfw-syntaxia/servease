@@ -2,7 +2,7 @@
 
 import { createClient } from "../../../utils/supabase/server";
 // Corrected the import name to match the exported component
-import ClientPage from "./category-a"; 
+import PBACS from "./category-a"; 
 
 // The Profile type can be defined here or in a shared types file
 interface Profile {
@@ -65,7 +65,7 @@ const processedProfiles: Profile[] = data.map(profile => {
   const allServices = processedProfiles;
   
   return (
-    <ClientPage
+    <PBACS
       initialPopularServices={popularServices}
       initialNewServices={newServices}
       initialAllServices={allServices}

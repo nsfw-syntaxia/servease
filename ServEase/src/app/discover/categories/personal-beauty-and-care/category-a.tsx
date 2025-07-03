@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import type { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -17,17 +18,16 @@ interface Profile {
   rating: number;
 }
 
-
 const PopularServiceCard = ({ service }: { service: Profile }) => {
   const router = useRouter();
   return (
     <div
       className={styles.serviceCard}
-      onClick={() => router.push(`/facility/${service.id}`)}
+      onClick={() => router.push(`/facility-details?id=${service.id}`)}
     >
       <div className={styles.serviceImage}>
         <Image
-          src={service.facility_image_url || "/placeholder.jpg"}
+          src={service.facility_image_url || "/placeholder-facility.jpg"} 
           alt={service.business_name}
           layout="fill"
           objectFit="cover"
@@ -37,11 +37,11 @@ const PopularServiceCard = ({ service }: { service: Profile }) => {
         <div className={styles.serviceProvider}>
           <div className={styles.providerAvatar}>
             <Image
-              src={service.avatar_url}
+              src={service.avatar_url || "/avatar.svg"} 
               alt={service.full_name}
               layout="fill"
               objectFit="cover"
-              className={styles.avatarImage}
+              className={styles.avatarImage} 
             />
           </div>
           <div className={styles.providerInfo}>
@@ -53,6 +53,7 @@ const PopularServiceCard = ({ service }: { service: Profile }) => {
                     key={i}
                     width={20}
                     height={20}
+                    sizes="100vw"
                     src={
                       i < Math.round(service.rating)
                         ? "/Star 3.svg"
@@ -73,16 +74,16 @@ const PopularServiceCard = ({ service }: { service: Profile }) => {
   );
 };
 
-const NewServiceCard = ({ service }: { service: Profile }) => {
+const FeaturedServiceCard = ({ service }: { service: Profile }) => {
   const router = useRouter();
   return (
     <div
       className={styles.serviceCard}
-      onClick={() => router.push(`/facility/${service.id}`)}
+      onClick={() => router.push(`/facility-details?id=${service.id}`)}
     >
       <div className={styles.serviceImage}>
         <Image
-          src={service.facility_image_url || "/placeholder.jpg"}
+          src={service.facility_image_url || "/placeholder-facility.jpg"}
           alt={service.business_name}
           layout="fill"
           objectFit="cover"
@@ -92,7 +93,7 @@ const NewServiceCard = ({ service }: { service: Profile }) => {
         <div className={styles.serviceProvider}>
           <div className={styles.providerAvatar}>
             <Image
-              src={service.avatar_url}
+              src={service.avatar_url || "/avatar.svg"}
               alt={service.full_name}
               layout="fill"
               objectFit="cover"
@@ -116,8 +117,9 @@ const AllServiceCard = ({ service }: { service: Profile }) => {
   return (
     <div className={styles.service}>
       <div className={styles.image}>
+        {/* Dynamic Image */}
         <Image
-          src={service.facility_image_url || "/placeholder.jpg"}
+          src={service.facility_image_url || "/placeholder-facility.jpg"}
           alt={service.business_name}
           layout="fill"
           objectFit="cover"
@@ -126,8 +128,9 @@ const AllServiceCard = ({ service }: { service: Profile }) => {
       <div className={styles.info}>
         <div className={styles.avatar}>
           <div className={styles.avatar1}>
+            {/* Dynamic Avatar */}
             <Image
-              src={service.avatar_url}
+              src={service.avatar_url || "/avatar.svg"}
               alt={service.full_name}
               layout="fill"
               objectFit="cover"
@@ -150,19 +153,23 @@ const AllServiceCard = ({ service }: { service: Profile }) => {
                     className={styles.groupChild}
                     width={23.7}
                     height={20}
+                    sizes="100vw"
                     alt=""
                     src="/starFilled.svg"
                   />
                 </div>
                 <div
                   className={styles.link}
-                  onClick={() => router.push(`/facility/${service.id}`)}
+                  onClick={() =>
+                    router.push(`/facility-details?id=${service.id}`)
+                  }
                 >
                   <div className={styles.viewDetails}>View Details</div>
                   <Image
                     className={styles.svgIcon}
                     width={14}
                     height={14}
+                    sizes="100vw"
                     alt=""
                     src="/gs2.svg"
                   />
@@ -176,63 +183,158 @@ const AllServiceCard = ({ service }: { service: Profile }) => {
   );
 };
 
-export default function ClientPage({
-  initialPopularServices,
-  initialNewServices,
-  initialAllServices,
-}: {
+const PBACS: NextPage<{
   initialPopularServices: Profile[];
   initialNewServices: Profile[];
   initialAllServices: Profile[];
-}) {
+}> = ({ initialPopularServices, initialNewServices, initialAllServices }) => {
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
+  const [hovered, setHovered] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const items = [
+    { label: "My Account", href: "/account" },
+    { label: "Appointments", href: "/appointments" },
+    { label: "Messages", href: "/messages" },
+    { label: "Notifications", href: "/notifications" },
+    { label: "Log out", href: "/logout" },
+  ];
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentIndex1, setCurrentIndex1] = useState(0);
   const visibleServices = 3;
   const visibleServices1 = 3;
 
-  useEffect(() => {
-    // ... (Your existing useEffect for dropdown)
-  }, []);
-
   const handleNext = () => {
     if (currentIndex < initialPopularServices.length - visibleServices) {
-      setCurrentIndex((prevIndex) => prevIndex + 1); // Changed back to +1 for smoother carousel
+      setCurrentIndex((prevIndex) => prevIndex + 3);
     }
   };
 
   const handlePrev = () => {
     if (currentIndex > 0) {
-      setCurrentIndex((prevIndex) => prevIndex - 1); // Changed back to -1
+      setCurrentIndex((prevIndex) => prevIndex - 3);
     }
   };
 
   const handleNext1 = () => {
     if (currentIndex1 < initialNewServices.length - visibleServices1) {
-      setCurrentIndex1((prevIndex1) => prevIndex1 + 1);
+      setCurrentIndex1((prevIndex1) => prevIndex1 + 3);
     }
   };
 
   const handlePrev1 = () => {
     if (currentIndex1 > 0) {
-      setCurrentIndex1((prevIndex1) => prevIndex1 - 1);
+      setCurrentIndex1((prevIndex1) => prevIndex1 - 3);
     }
   };
 
   return (
     <div className={styles.pbacs}>
+      <div className={styles.nav}>
+        <Image
+          className={styles.serveaseLogoAlbumCover3}
+          width={40}
+          height={40}
+          sizes="100vw"
+          alt=""
+          src="/logo.svg"
+          onClick={() => router.push("/home")}
+        />
+        <div className={styles.servease1} onClick={() => router.push("/home")}>
+          <span className={styles.serv}>serv</span>
+          <b>ease</b>
+        </div>
+        <div className={styles.navChild} />
+        <div className={styles.homeParent}>
+          <div className={styles.home1} onClick={() => router.push("/home")}>
+            Home
+          </div>
+          <div
+            className={styles.home1}
+            onClick={() => router.push("/discover")}
+          >
+            Discover
+          </div>
+          <div
+            className={styles.contactUs1}
+            onClick={() => {
+              window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: "smooth",
+              });
+            }}
+          >
+            Contact Us
+          </div>
+        </div>
+        <div className={styles.navChild} />
+        <div className={styles.dropdownWrapper} ref={dropdownRef}>
+          <div className={styles.avataricon} onClick={() => setOpen(!open)}>
+            <Image
+              src="/avatar.svg"
+              alt="Profile"
+              width={40}
+              height={40}
+              sizes="100vw"
+            />
+          </div>
+
+          {open && (
+            <div className={styles.dropdownMenu}>
+              {items.map((item, index) => {
+                const isActive = hovered === item.label;
+                const isFirst = index === 0;
+                const isLast = index === items.length - 1;
+
+                let borderClass = "";
+                if (isActive && isFirst) {
+                  borderClass = styles.activeTop;
+                } else if (isActive && isLast) {
+                  borderClass = styles.activeBottom;
+                }
+
+                return (
+                  <Link
+                    href={item.href}
+                    key={item.label}
+                    className={`${styles.dropdownItem} ${
+                      isActive ? styles.active : ""
+                    } ${borderClass}`}
+                    onMouseEnter={() => setHovered(item.label)}
+                    onMouseLeave={() => setHovered("")}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </div>
+
       <div className={styles.bg}>
-        {/* hero img */}
         <div className={styles.heroImg}>
           <div className={styles.personalBeautyAnd}>
             Personal Beauty and Care Services
           </div>
         </div>
-
-        {/* search */}
         <div className={styles.searchBox}>
           <div className={styles.filtering}>
             <div className={styles.link6}>
@@ -266,8 +368,6 @@ export default function ClientPage({
             />
           </div>
         </div>
-
-        {/* icons */}
         <div className={styles.icons}>
           <Link
             href={{
@@ -288,7 +388,6 @@ export default function ClientPage({
               <div className={styles.label}>Barbershops</div>
             </div>
           </Link>
-
           <Link
             href={{
               pathname: "/specific-category",
@@ -308,7 +407,6 @@ export default function ClientPage({
               <div className={styles.label}>Hair Salons</div>
             </div>
           </Link>
-
           <Link
             href={{
               pathname: "/specific-category",
@@ -328,7 +426,6 @@ export default function ClientPage({
               <div className={styles.label}>Nail Salons</div>
             </div>
           </Link>
-
           <Link
             href={{
               pathname: "/specific-category",
@@ -348,7 +445,6 @@ export default function ClientPage({
               <div className={styles.label}>Spa & Massage Centers</div>
             </div>
           </Link>
-
           <Link
             href={{
               pathname: "/specific-category",
@@ -371,116 +467,182 @@ export default function ClientPage({
         </div>
       </div>
 
-      {/* --- POPULAR SERVICES --- */}
       <div className={styles.popularServices}>
-            <b className={styles.allServices1}><span>Popular</span><span className={styles.services}> Services</span></b>
-            {initialPopularServices.length > 0 ? (
-                initialPopularServices.length > visibleServices ? (
-                    <div className={styles.servicesCarousel}>
-                        {currentIndex > 0 && (
-                            <button className={`${styles.carouselButton} ${styles.prevButton}`} onClick={handlePrev}>
-                                <Image width={28} height={28} src="/Chevron right.svg" alt="Previous" style={{ transform: 'rotate(180deg)' }}/>
-                            </button>
-                        )}
-                        <div className={styles.carouselViewport}>
-                            <div className={styles.carouselTrack} style={{ transform: `translateX(-${currentIndex * (100 / visibleServices)}%)` }}>
-                                {initialPopularServices.map((service) => (
-                                    <PopularServiceCard key={service.id} service={service} />
-                                ))}
-                            </div>
-                        </div>
-                        {currentIndex < initialPopularServices.length - visibleServices && (
-                            <button className={`${styles.carouselButton} ${styles.nextButton}`} onClick={handleNext}>
-                                <Image width={28} height={28} src="/Chevron right.svg" alt="Next" />
-                            </button>
-                        )}
-                    </div>
-                ) : (
-                    <div className={styles.staticServiceRow}>
-                        {initialPopularServices.map((service) => (
-                            <PopularServiceCard key={service.id} service={service} />
-                        ))}
-                    </div>
-                )
-            ) : (
-                <div className={styles.noServicesMessage}>No Popular Services At The Moment</div>
-            )}
-            <div className={styles.line1} />
+        <b className={styles.allServices1}>
+          <span>Popular</span>
+          <span className={styles.services}> Services</span>
+        </b>
+        <div className={styles.servicesCarousel}>
+          {currentIndex > 0 && (
+            <button
+              className={`${styles.carouselButton} ${styles.prevButton}`}
+              onClick={handlePrev}
+            >
+              <Image
+                width={28}
+                height={28}
+                src="/Chevron right.svg"
+                alt="Previous"
+              />
+            </button>
+          )}
+          <div className={styles.carouselViewport}>
+            <div
+              className={styles.carouselTrack}
+              style={{
+                transform: `translateX(calc(-${
+                  currentIndex * (100 / visibleServices)
+                }%))`,
+              }}
+            >
+              {initialPopularServices.map((service) => (
+                <PopularServiceCard key={service.id} service={service} />
+              ))}
+            </div>
+          </div>
+          {currentIndex < initialPopularServices.length - visibleServices && (
+            <button
+              className={`${styles.carouselButton} ${styles.nextButton}`}
+              onClick={handleNext}
+            >
+              <Image
+                width={28}
+                height={28}
+                src="/Chevron right.svg"
+                alt="Next"
+              />
+            </button>
+          )}
         </div>
+        <div className={styles.line1} />
+      </div>
 
-        <div className={styles.newServices}>
-             <b className={styles.allServices1}><span>New</span><span className={styles.services}> Services</span></b>
-             {initialNewServices.length > 0 ? (
-                initialNewServices.length > visibleServices1 ? (
-                    <div className={styles.servicesCarousel}>
-                        {currentIndex1 > 0 && (
-                            <button className={`${styles.carouselButton} ${styles.prevButton}`} onClick={handlePrev1}>
-                                <Image width={28} height={28} src="/Chevron right.svg" alt="Previous" style={{ transform: 'rotate(180deg)' }}/>
-                            </button>
-                        )}
-                        <div className={styles.carouselViewport}>
-                            <div className={styles.carouselTrack} style={{ transform: `translateX(-${currentIndex1 * (100 / visibleServices1)}%)` }}>
-                                {initialNewServices.map((service) => (
-                                    <NewServiceCard key={service.id} service={service} />
-                                ))}
-                            </div>
-                        </div>
-                        {currentIndex1 < initialNewServices.length - visibleServices1 && (
-                            <button className={`${styles.carouselButton} ${styles.nextButton}`} onClick={handleNext1}>
-                                <Image width={28} height={28} src="/Chevron right.svg" alt="Next" />
-                            </button>
-                        )}
-                    </div>
-                ) : (
-                    <div className={styles.staticServiceRow}>
-                         {initialNewServices.map((service) => (
-                            <NewServiceCard key={service.id} service={service} />
-                        ))}
-                    </div>
-                )
-             ) : (
-                <div className={styles.noServicesMessage}>No New Services At The Moment</div>
-             )}
-             <div className={styles.line1} />
+      <div className={styles.newServices}>
+        <b className={styles.allServices1}>
+          <span>New</span>
+          <span className={styles.services}> Services</span>
+        </b>
+        <div className={styles.servicesCarousel}>
+          {currentIndex1 > 0 && (
+            <button
+              className={`${styles.carouselButton} ${styles.prevButton}`}
+              onClick={handlePrev1}
+            >
+              <Image
+                width={28}
+                height={28}
+                src="/Chevron right.svg"
+                alt="Previous"
+              />
+            </button>
+          )}
+          <div className={styles.carouselViewport}>
+            <div
+              className={styles.carouselTrack}
+              style={{
+                transform: `translateX(calc(-${
+                  currentIndex1 * (100 / visibleServices1)
+                }%))`,
+              }}
+            >
+              {initialNewServices.map((service) => (
+                <FeaturedServiceCard key={service.id} service={service} />
+              ))}
+            </div>
+          </div>
+          {currentIndex1 < initialNewServices.length - visibleServices1 && (
+            <button
+              className={`${styles.carouselButton} ${styles.nextButton}`}
+              onClick={handleNext1}
+            >
+              <Image
+                width={28}
+                height={28}
+                src="/Chevron right.svg"
+                alt="Next"
+              />
+            </button>
+          )}
         </div>
+        <div className={styles.line1} />
+      </div>
 
-      {/* --- ALL SERVICES --- */}
       <div className={styles.allServices}>
         <b className={styles.allServices1}>
           <span>All</span>
           <span className={styles.services}> Services</span>
         </b>
-        {initialAllServices.length > 0 ? (
-          <div className={styles.allView}>
-            <div className={styles.allCards}>
-              <div className={styles.cards}>
-                {initialAllServices.slice(0, 3).map((service) => (
-                  <AllServiceCard key={service.id} service={service} />
-                ))}
-              </div>
-              <div className={styles.cards}>
-                {initialAllServices.slice(3, 6).map((service) => (
-                  <AllServiceCard key={service.id} service={service} />
-                ))}
-              </div>
-              <div className={styles.cards}>
-                {initialAllServices.slice(6, 9).map((service) => (
-                  <AllServiceCard key={service.id} service={service} />
-                ))}
-              </div>
+        <div className={styles.allView}>
+          <div className={styles.allCards}>
+            <div className={styles.cards}>
+              {initialAllServices.slice(0, 3).map((service) => (
+                <AllServiceCard key={service.id} service={service} />
+              ))}
             </div>
-            {initialAllServices.length > 9 && (
-              <div className={styles.button}>
-                <div className={styles.viewAll}>View All</div>
-              </div>
-            )}
+            <div className={styles.cards}>
+              {initialAllServices.slice(3, 6).map((service) => (
+                <AllServiceCard key={service.id} service={service} />
+              ))}
+            </div>
+            <div className={styles.cards}>
+              {initialAllServices.slice(6, 9).map((service) => (
+                <AllServiceCard key={service.id} service={service} />
+              ))}
+            </div>
           </div>
-        ) : (
-          <div className={styles.noServicesMessage}>
-            No services available in this category yet
+          <div className={styles.button}>
+            <div className={styles.viewAll}>View All</div>
           </div>
-        )}
+        </div>
+      </div>
+
+      <div className={styles.footer}>
+        <div className={styles.footerChild} />
+        <div className={styles.yourTrustedPlatform}>
+          Your trusted platform to discover, book, and manage local
+          services—anytime, anywhere.
+        </div>
+        <b className={styles.contactUs}>Contact Us</b>
+        <div className={styles.supportserveasecom}>support@servease.com</div>
+        <div className={styles.contactNumber}>+63 9XX-XXX-XXXX</div>
+        <b className={styles.support}>Support</b>
+        <div className={styles.faqs}>FAQs</div>
+        <div className={styles.privacyPolicy}>Privacy Policy</div>
+        <div className={styles.termsConditions}>{`Terms & Conditions`}</div>
+        <div className={styles.aboutUs}>About Us</div>
+        <b className={styles.quickLinks}>Quick Links</b>
+        <div className={styles.servease} onClick={() => router.push("/home")}>
+          <span className={styles.serv}>serv</span>
+          <b>ease</b>
+        </div>
+        <div className={styles.home} onClick={() => router.push("/home")}>
+          Home
+        </div>
+        <div className={styles.discover}>Discover</div>
+        <div
+          className={styles.createAnAccount}
+          onClick={() => router.push("/signup")}
+        >
+          Create an Account
+        </div>
+        <div className={styles.lineParent}>
+          <div className={styles.lineDiv} />
+          <div className={styles.servease2025}>
+            servease 2025 © All rights reserved
+          </div>
+        </div>
+        <Image
+          className={styles.serveaseLogoAlbumCover31}
+          width={40}
+          height={40}
+          sizes="100vw"
+          alt="Servease Logo"
+          src="/logo.svg"
+          onClick={() => router.push("/home")}
+        />
       </div>
     </div>
   );
-}
+};
+
+export default PBACS;
