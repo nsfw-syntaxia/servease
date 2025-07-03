@@ -27,7 +27,7 @@ const PopularServiceCard = ({ service }: { service: Profile }) => {
     >
       <div className={styles.serviceImage}>
         <Image
-          src={service.facility_image_url || "/placeholder-facility.jpg"} 
+          src={service.facility_image_url || "/placeholder-facility.jpg"}
           alt={service.business_name}
           layout="fill"
           objectFit="cover"
@@ -37,11 +37,11 @@ const PopularServiceCard = ({ service }: { service: Profile }) => {
         <div className={styles.serviceProvider}>
           <div className={styles.providerAvatar}>
             <Image
-              src={service.avatar_url || "/avatar.svg"} 
+              src={service.avatar_url || "/avatar.svg"}
               alt={service.full_name}
               layout="fill"
               objectFit="cover"
-              className={styles.avatarImage} 
+              className={styles.avatarImage}
             />
           </div>
           <div className={styles.providerInfo}>
@@ -247,88 +247,6 @@ const PBACS: NextPage<{
 
   return (
     <div className={styles.pbacs}>
-      <div className={styles.nav}>
-        <Image
-          className={styles.serveaseLogoAlbumCover3}
-          width={40}
-          height={40}
-          sizes="100vw"
-          alt=""
-          src="/logo.svg"
-          onClick={() => router.push("/home")}
-        />
-        <div className={styles.servease1} onClick={() => router.push("/home")}>
-          <span className={styles.serv}>serv</span>
-          <b>ease</b>
-        </div>
-        <div className={styles.navChild} />
-        <div className={styles.homeParent}>
-          <div className={styles.home1} onClick={() => router.push("/home")}>
-            Home
-          </div>
-          <div
-            className={styles.home1}
-            onClick={() => router.push("/discover")}
-          >
-            Discover
-          </div>
-          <div
-            className={styles.contactUs1}
-            onClick={() => {
-              window.scrollTo({
-                top: document.body.scrollHeight,
-                behavior: "smooth",
-              });
-            }}
-          >
-            Contact Us
-          </div>
-        </div>
-        <div className={styles.navChild} />
-        <div className={styles.dropdownWrapper} ref={dropdownRef}>
-          <div className={styles.avataricon} onClick={() => setOpen(!open)}>
-            <Image
-              src="/avatar.svg"
-              alt="Profile"
-              width={40}
-              height={40}
-              sizes="100vw"
-            />
-          </div>
-
-          {open && (
-            <div className={styles.dropdownMenu}>
-              {items.map((item, index) => {
-                const isActive = hovered === item.label;
-                const isFirst = index === 0;
-                const isLast = index === items.length - 1;
-
-                let borderClass = "";
-                if (isActive && isFirst) {
-                  borderClass = styles.activeTop;
-                } else if (isActive && isLast) {
-                  borderClass = styles.activeBottom;
-                }
-
-                return (
-                  <Link
-                    href={item.href}
-                    key={item.label}
-                    className={`${styles.dropdownItem} ${
-                      isActive ? styles.active : ""
-                    } ${borderClass}`}
-                    onMouseEnter={() => setHovered(item.label)}
-                    onMouseLeave={() => setHovered("")}
-                  >
-                    {item.label}
-                  </Link>
-                );
-              })}
-            </div>
-          )}
-        </div>
-      </div>
-
       <div className={styles.bg}>
         <div className={styles.heroImg}>
           <div className={styles.personalBeautyAnd}>
@@ -467,6 +385,7 @@ const PBACS: NextPage<{
         </div>
       </div>
 
+            {/*popular services */}
       <div className={styles.popularServices}>
         <b className={styles.allServices1}>
           <span>Popular</span>

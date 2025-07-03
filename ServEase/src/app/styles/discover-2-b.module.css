@@ -458,9 +458,11 @@
   width: 100%;
   background-color: var(--color-antiquewhite);
   height: 254px;
+  background-color: aqua;
 }
 .serviceCardContent {
   padding: 20px;
+  background-color: blue;
 }
 .serviceProvider {
   display: flex;
