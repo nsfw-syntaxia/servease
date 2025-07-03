@@ -257,13 +257,13 @@ const HAMSClientPage: NextPage<{
           src="/logo.svg"
           onClick={() => router.push("/home")}
         />
-        <div className={styles.servease1} onClick={() => router.push("/home")}>
+        <div className={styles.servease1} onClick={() => router.push("/client-dashboard")}>
           <span className={styles.serv}>serv</span>
           <b>ease</b>
         </div>
         <div className={styles.navChild} />
         <div className={styles.homeParent}>
-          <div className={styles.home1} onClick={() => router.push("/home")}>
+          <div className={styles.home1} onClick={() => router.push("/client-dashboard")}>
             Home
           </div>
           <div

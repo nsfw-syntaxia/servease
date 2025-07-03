@@ -16,7 +16,7 @@ interface Profile {
   avatar_url: string | null;
   created_at: string;
   rating: number;
-  subcategory: string;
+  specific_category: string;
   category: string;
   working_days: string[] | null;
   start_time: string | null;
@@ -55,74 +55,136 @@ const formatTime = (timeStr: string | null) => {
   return `${adjustedHour}:${String(minute).padStart(2, "0")} ${period}`;
 };
 
-const DAY_ORDER = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+const DAY_ORDER = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const DAY_NAMES = {
-    'Mon': 'Monday',
-    'Tue': 'Tuesday', 
-    'Wed': 'Wednesday',
-    'Thu': 'Thursday',
-    'Fri': 'Friday',
-    'Sat': 'Saturday',
-    'Sun': 'Sunday'
+  Mon: "Monday",
+  Tue: "Tuesday",
+  Wed: "Wednesday",
+  Thu: "Thursday",
+  Fri: "Friday",
+  Sat: "Saturday",
+  Sun: "Sunday",
 };
 
 const formatWorkingDays = (days: string[] | null): string => {
-    if (!days || days.length === 0) return '';
-    if (days.length === 1) return DAY_NAMES[days[0] as keyof typeof DAY_NAMES] || days[0];
-    
-    // Sort days according to the week order
-    const sortedDays = [...days].sort((a, b) => 
-        DAY_ORDER.indexOf(a) - DAY_ORDER.indexOf(b)
-    );
-    
-    // Check if all days are consecutive
-    const isConsecutive = (): boolean => {
-        const indices = sortedDays.map(day => DAY_ORDER.indexOf(day));
-        
-        // Check for regular consecutive days (no wrap-around)
-        let regularConsecutive = true;
-        for (let i = 1; i < indices.length; i++) {
-            if (indices[i] !== indices[i-1] + 1) {
-                regularConsecutive = false;
-                break;
-            }
-        }
-        
-        if (regularConsecutive) return true;
-        
-        // Check for wrap-around consecutive days (e.g., Sat, Sun, Mon)
-        if (indices.includes(6) && indices.includes(0)) { // Contains both Sun and Mon
-            // Create a reordered array starting from Sunday
-            const reordered = [...indices];
-            const sunIndex = reordered.indexOf(6);
-            const beforeSun = reordered.slice(0, sunIndex);
-            const fromSun = reordered.slice(sunIndex);
-            const newOrder = [...fromSun, ...beforeSun];
-            
-            // Convert Sunday index to -1 for checking consecutive pattern
-            const adjustedOrder = newOrder.map(idx => idx === 6 ? -1 : idx);
-            
-            // Check if the adjusted order is consecutive
-            for (let i = 1; i < adjustedOrder.length; i++) {
-                if (adjustedOrder[i] !== adjustedOrder[i-1] + 1) {
-                    return false;
-                }
-            }
-            return true;
-        }
-        
-        return false;
-    };
-    
-    // If consecutive, return range format with full day names
-    if (isConsecutive()) {
-        const firstDay = DAY_NAMES[sortedDays[0] as keyof typeof DAY_NAMES] || sortedDays[0];
-        const lastDay = DAY_NAMES[sortedDays[sortedDays.length - 1] as keyof typeof DAY_NAMES] || sortedDays[sortedDays.length - 1];
-        return `${firstDay} - ${lastDay}`;
+  if (!days || days.length === 0) return "";
+  if (days.length === 1)
+    return DAY_NAMES[days[0] as keyof typeof DAY_NAMES] || days[0];
+
+  // Sort days according to the week order
+  const sortedDays = [...days].sort(
+    (a, b) => DAY_ORDER.indexOf(a) - DAY_ORDER.indexOf(b)
+  );
+
+  // Check if all days are consecutive
+  const isConsecutive = (): boolean => {
+    const indices = sortedDays.map((day) => DAY_ORDER.indexOf(day));
+
+    // Check for regular consecutive days (no wrap-around)
+    let regularConsecutive = true;
+    for (let i = 1; i < indices.length; i++) {
+      if (indices[i] !== indices[i - 1] + 1) {
+        regularConsecutive = false;
+        break;
+      }
     }
-    
-    // Otherwise return the original input with full day names joined by commas
-    return days.map(day => DAY_NAMES[day as keyof typeof DAY_NAMES] || day).join(', ');
+
+    if (regularConsecutive) return true;
+
+    // Check for wrap-around consecutive days (e.g., Sat, Sun, Mon)
+    if (indices.includes(6) && indices.includes(0)) {
+      // Contains both Sun and Mon
+      // Create a reordered array starting from Sunday
+      const reordered = [...indices];
+      const sunIndex = reordered.indexOf(6);
+      const beforeSun = reordered.slice(0, sunIndex);
+      const fromSun = reordered.slice(sunIndex);
+      const newOrder = [...fromSun, ...beforeSun];
+
+      // Convert Sunday index to -1 for checking consecutive pattern
+      const adjustedOrder = newOrder.map((idx) => (idx === 6 ? -1 : idx));
+
+      // Check if the adjusted order is consecutive
+      for (let i = 1; i < adjustedOrder.length; i++) {
+        if (adjustedOrder[i] !== adjustedOrder[i - 1] + 1) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    return false;
+  };
+
+  // If consecutive, return range format with full day names
+  if (isConsecutive()) {
+    const firstDay =
+      DAY_NAMES[sortedDays[0] as keyof typeof DAY_NAMES] || sortedDays[0];
+    const lastDay =
+      DAY_NAMES[sortedDays[sortedDays.length - 1] as keyof typeof DAY_NAMES] ||
+      sortedDays[sortedDays.length - 1];
+    return `${firstDay} - ${lastDay}`;
+  }
+
+  // Otherwise return the original input with full day names joined by commas
+  return days
+    .map((day) => DAY_NAMES[day as keyof typeof DAY_NAMES] || day)
+    .join(", ");
+};
+
+const RelatedServiceCard = ({ related }: { related: RelatedService }) => {
+  const router = useRouter();
+
+  // This JSX is an exact copy of the 'customerQuote' div from your static code
+  return (
+    <div
+      className={styles.customerQuote}
+      onClick={() => router.push(`/facility/${related.id}`)}
+    >
+      <div className={styles.customerQuoteChild}>
+        <Image
+          src={related.facility_image_url || "/placeholder-facility.jpg"}
+          alt={related.business_name}
+          layout="fill"
+          objectFit="cover"
+        />
+      </div>
+      <div className={styles.avatarWrapper}>
+        <div className={styles.avatar}>
+          <div className={styles.avatar1}>
+            <Image
+              src={related.avatar_url || "/avatar.svg"}
+              alt={related.business_name}
+              layout="fill"
+              objectFit="cover"
+            />
+          </div>
+          <div className={styles.serviceFacilityNameParent}>
+            <div className={styles.serviceFacilityName}>
+              {related.business_name}
+            </div>
+            <div className={styles.parent3}>
+              <div className={styles.div4}>{related.rating.toFixed(1)}</div>
+              {[...Array(5)].map((_, i) => (
+                <Image
+                  key={i}
+                  className={styles.groupChild17}
+                  width={20}
+                  height={20}
+                  alt="Star"
+                  src={
+                    i < Math.round(related.rating)
+                      ? "/Star 31.svg"
+                      : "/Star 4.svg"
+                  }
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 const FacilityDetailsClientPage: NextPage<{
@@ -399,7 +461,6 @@ const FacilityDetailsClientPage: NextPage<{
                   <div className={styles.nBacalsoAve}>{facility.email}</div>
                 </div>
               </div>
-
               <Image
                 className={styles.dividerIcon1}
                 width={629}
@@ -412,11 +473,10 @@ const FacilityDetailsClientPage: NextPage<{
                   <b className={styles.workSchedule}>Work Schedule</b>
                 </div>
               </div>
-
               <div className={styles.buttonGroup}>
                 <div className={styles.button1}>
                   <div className={styles.star} />
-                  {formatWorkingDays(facility.working_days) || 'Not Specified'}
+                  {formatWorkingDays(facility.working_days) || "Not Specified"}
                   <div className={styles.star} />
                 </div>
                 <div className={styles.paraContent7}>
@@ -429,7 +489,6 @@ const FacilityDetailsClientPage: NextPage<{
                   </div>
                 </div>
               </div>
-
               <Image
                 className={styles.dividerIcon2}
                 width={629}
@@ -516,7 +575,6 @@ const FacilityDetailsClientPage: NextPage<{
                 </div>
               </div>
               <div className={styles.map}>
-                {/* Map Implementation would go here */}
                 <Image
                   className={styles.bgIcon}
                   fill
@@ -611,59 +669,24 @@ const FacilityDetailsClientPage: NextPage<{
           </b>
           <div className={styles.cards}>
             {relatedServices.map((related) => (
-              <div
-                key={related.id}
-                className={styles.customerQuote}
-                onClick={() => router.push(`/facility/${related.id}`)}
-              >
-                <div className={styles.customerQuoteChild}>
-                  <Image
-                    src={
-                      related.facility_image_url || "/placeholder-facility.jpg"
-                    }
-                    alt={related.business_name}
-                    layout="fill"
-                    objectFit="cover"
-                  />
-                </div>
-                <div className={styles.avatarWrapper}>
-                  <div className={styles.avatar}>
-                    <div className={styles.avatar1}>
-                      <Image
-                        src={related.avatar_url || "/avatar.svg"}
-                        alt={related.business_name}
-                        layout="fill"
-                        objectFit="cover"
-                      />
-                    </div>
-                    <div className={styles.serviceFacilityNameParent}>
-                      <div className={styles.serviceFacilityName}>
-                        {related.business_name}
-                      </div>
-                      <div className={styles.parent3}>
-                        <div className={styles.div4}>
-                          {related.rating.toFixed(1)}
-                        </div>
-                        {[...Array(5)].map((_, i) => (
-                          <Image
-                            key={i}
-                            className={styles.groupChild17}
-                            width={20}
-                            height={20}
-                            alt="Star"
-                            src={
-                              i < Math.round(related.rating)
-                                ? "/Star 31.svg"
-                                : "/Star 4.svg"
-                            }
-                          />
-                        ))}
-                      </div>
-                    </div>
+              <RelatedServiceCard key={related.id} related={related} />
+            ))}
+            <div className={styles.cardsInner}>
+              <div className={styles.buttonWrapper2}>
+                <div className={styles.button31}>
+                  <div className={styles.chevronRight4}>
+                    <Image
+                      className={styles.icon8}
+                      width={30}
+                      height={30}
+                      sizes="100vw"
+                      alt=""
+                      src="/Chevron right.svg"
+                    />
                   </div>
                 </div>
               </div>
-            ))}
+            </div>
           </div>
         </div>
 
