@@ -333,72 +333,6 @@ const LandingPage = () => {
   return (
     <TypewriterProvider>
       <div className={styles.landingPage}>
-        {/* nav bar */}
-        <div
-          className={`${styles.navigation} ${
-            navDropped ? styles.navAnimate : ""
-          }`}
-        >
-          <div className={styles.navigationlogo}>
-            <Image
-              className={styles.serveaseLogoAlbumCover31}
-              width={40}
-              height={40}
-              sizes="100vw"
-              alt=""
-              src="/logo.svg"
-              onClick={() => {
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-            />
-            <div
-              className={styles.servease1}
-              onClick={() => {
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-            >
-              <span className={styles.serv1}>serv</span>
-              <b>ease</b>
-            </div>
-          </div>
-          <div className={styles.navigationChild} />
-          <div className={styles.homeParent}>
-            <div
-              className={styles.home1}
-              onClick={() => {
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-            >
-              Home
-            </div>
-            <div 
-              className={styles.home1}
-              onClick={() => router.push("/home")}
-              >Discover
-            </div>
-            <div
-              className={styles.contactUs1}
-              onClick={() => {
-                window.scrollTo({
-                  top: document.body.scrollHeight,
-                  behavior: "smooth",
-                });
-              }}
-            >
-              Contact Us
-            </div>
-          </div>
-          <div className={styles.navigationChild} />
-          <div className={styles.button1}>
-            <div
-              className={styles.signIn}
-              onClick={() => router.push("/login")}
-            >
-              Sign in
-            </div>
-          </div>
-        </div>
-
         {/* hero img */}
         {showHero && (
           <div className={`${styles.heroImageWrapper} ${styles.heroFade}`}>
@@ -804,6 +738,21 @@ const LandingPage = () => {
             Your trusted platform to discover, book, and manage local
             services—anytime, anywhere.
           </div>
+          <b className={styles.contactUs}>Contact Us</b>
+          <div className={styles.supportserveasecom}>support@servease.com</div>
+          <div className={styles.contactNumber}>+63 996 3175 214</div>
+          <b className={styles.support}>Support</b>
+          <div className={styles.faqs}>FAQs</div>
+          <div className={styles.privacyPolicy}>Privacy Policy</div>
+          <div className={styles.termsConditions}>{`Terms & Conditions`}</div>
+          <div
+            className={styles.aboutUs}
+            onClick={() => {
+              window.scrollTo({ top: 500, behavior: "smooth" });
+            }}
+          >
+            About Us
+          </div>
           <b className={styles.quickLinks}>Quick Links</b>
           <div
             className={styles.servease}
@@ -833,21 +782,6 @@ const LandingPage = () => {
           >
             Create an Account
           </div>
-          <b className={styles.support}>Support</b>
-          <div className={styles.faqs}>FAQs</div>
-          <div className={styles.privacyPolicy}>Privacy Policy</div>
-          <div className={styles.termsConditions}>{`Terms & Conditions`}</div>
-          <div
-            className={styles.aboutUs}
-            onClick={() => {
-              window.scrollTo({ top: 500, behavior: "smooth" });
-            }}
-          >
-            About Us
-          </div>
-          <b className={styles.contactUs}>Contact Us</b>
-          <div className={styles.supportserveasecom}>support@servease.com</div>
-          <div className={styles.contactNumber}>+63 996 3175 214</div>
           <div className={styles.lineParent}>
             <div className={styles.lineDiv} />
             <div className={styles.servease2025}>

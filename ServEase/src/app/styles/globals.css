@@ -10,13 +10,42 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Benne:wght@400&display=swap");
 
+
+/* ---------- Zoom Scaling Support (Windows Display Scaling) ---------- */
 html {
   font-size: 100%;
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
 }
+
+body {
+  zoom: 1;
+}
+
+@media screen and (min-resolution: 120dpi),
+       screen and (min--moz-device-pixel-ratio: 1.25),
+       screen and (min-device-pixel-ratio: 1.25),
+       screen and (min-resolution: 1.25dppx) {
+  html {
+    font-size: 90%;
+  }
+}
+
+@media screen and (min-resolution: 144dpi),
+       screen and (min-device-pixel-ratio: 1.5) {
+  html {
+    font-size: 85%;
+  }
+}
+
 body {
   margin: 0;
   line-height: normal;
+}
+:root {
+  font-size: 100%;
+  scroll-behavior: smooth;
 }
 :root {
   --color-gray-400: #241f1b;
@@ -193,7 +222,7 @@ input[type="password"]::-webkit-clear-button {
   appearance: none !important;
 }
 
-/* rexi's overall global css */
+/* rexis overall global css */
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap");
 
@@ -328,4 +357,30 @@ input[type="password"]::-webkit-clear-button {
   --font-size-20: 20px;
   --font-size-26: 26px;
   --font-size-30: 30px;
+}
+
+:root {
+  /* Color */
+  --color-gray-200: #241f1b;
+  --color-tan: #a68465;
+  --color-white: #fff;
+  --color-gray-100: #2e231d;
+  --color-whitesmoke: #f8f7f3;
+  --color-black: #000;
+  --color-antiquewhite: #e0d9c9;
+  --color-dimgray: #604c3d;
+  --color-silver: #cfbdac;
+
+  /* BorderRadius */
+  --br-12: 12px;
+  --br-30: 30px;
+
+  /* Font */
+  --font-dm-sans: DM Sans;
+
+  /* FontSize */
+  --font-size-16: 16px;
+  --font-size-18: 18px;
+  --font-size-26: 26px;
+  --font-size-28: 28px;
 }
