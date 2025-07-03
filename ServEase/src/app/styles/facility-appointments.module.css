@@ -113,15 +113,16 @@
   flex-grow: 1;
 }
 
-.serviceFacilityName {
-  font-size: 33px;
+.clientName {
+  font-size: 30px;
   font-weight: 600;
   color: var(--color-gray-100);
   margin: 0;
+  margin-bottom: 5px;
 }
 
-.location {
-  font-size: 28px;
+.serviceType {
+  font-size: 25px;
   font-weight: 500;
   color: var(--color-tan);
   margin: 0;
@@ -240,11 +241,11 @@
     justify-content: flex-start;
   }
 
-  .serviceFacilityName {
+  .clientName {
     font-size: 24px;
   }
 
-  .location {
+  .serviceType {
     font-size: 18px;
   }
 }

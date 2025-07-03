@@ -169,68 +169,81 @@ import Image from "next/image";
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import styles from "../styles/facility-appointments.module.css";
-import { type Appointment } from "../lib/supabase/types"; // import the type
 
-// mock Data
+// Updated Appointment type definition
+type Appointment = {
+  id: number;
+  start_time: string;
+  status: "pending" | "confirmed" | "completed" | "canceled";
+  service: Array<{
+    client_name: string;
+    service_type: string;
+  }>;
+};
+
+// Updated mock Data with client_name and service_type
 const mockAppointments: Appointment[] = [
   {
-    id: "1",
+    id: 1,
     start_time: new Date(2025, 7, 10, 10, 0).toISOString(), // August 10, 2025, 10:00 AM
     status: "pending",
-    provider: [
+    service: [
       {
-        business_name: "Sunshine Clinic",
-        address: "123 Health St, Wellness City",
+        client_name: "John Doe",
+        service_type: "Haircut",
       },
     ],
   },
   {
-    id: "2",
+    id: 2,
     start_time: new Date(2025, 7, 15, 14, 30).toISOString(), // August 15, 2025, 2:30 PM
     status: "completed",
-    provider: [
+    service: [
       {
-        business_name: "Green Valley Spa",
-        address: "456 Relaxation Ave, Serenity Town",
+        client_name: "Jane Smith",
+        service_type: "Hair Coloring",
       },
     ],
   },
   {
-    id: "3",
+    id: 3,
     start_time: new Date(2025, 6, 5, 9, 0).toISOString(), // July 5, 2025, 9:00 AM
     status: "canceled",
-    provider: [
+    service: [
       {
-        business_name: "City Dental",
-        address: "789 Tooth Dr, Smile City",
+        client_name: "Mike Johnson",
+        service_type: "Manicure",
       },
     ],
   },
   {
-    id: "4",
+    id: 4,
     start_time: new Date(2025, 8, 1, 11, 0).toISOString(), // September 1, 2025, 11:00 AM
     status: "pending",
-    provider: [
+    service: [
       {
-        business_name: "Pet Groomers Inc.",
-        address: "101 Furry Ln, Animal Town",
+        client_name: "Sarah Williams",
+        service_type: "Spa Treatment",
       },
     ],
   },
   {
-    id: "5",
+    id: 5,
     start_time: new Date(2025, 7, 20, 16, 0).toISOString(), // August 20, 2025, 4:00 PM
     status: "confirmed",
-    provider: [
+    service: [
       {
-        business_name: "Fit Life Gym",
-        address: "202 Muscle Blvd, Strength City",
+        client_name: "David Brown",
+        service_type: "Beard Trim",
       },
     ],
   },
 ];
 
 const AppointmentCard = ({ appointment }: { appointment: Appointment }) => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [selectedStatus, setSelectedStatus] = useState(appointment.status);
+
   const appointmentDate = new Date(appointment.start_time);
   const time = appointmentDate.toLocaleTimeString([], {
     hour: "numeric",
@@ -242,11 +255,28 @@ const AppointmentCard = ({ appointment }: { appointment: Appointment }) => {
     day: "numeric",
   });
 
-  const providerName =
-    appointment.provider?.[0]?.business_name || "Unknown Provider";
-  const providerAddress =
-    appointment.provider?.[0]?.address || "No address provided";
-  const status = appointment.status || "unknown";
+  const clientName = appointment.service?.[0]?.client_name || "Unknown Client";
+  const serviceType =
+    appointment.service?.[0]?.service_type || "Unknown Service";
+
+  const handleStatusClick = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleStatusChange = (newStatus: string) => {
+    setSelectedStatus(
+      newStatus as "pending" | "confirmed" | "completed" | "canceled"
+    );
+    setIsDropdownOpen(false);
+    // here you can add logic to update the appointment status in your backend
+  };
+
+  const dropdownOptions =
+    selectedStatus === "pending"
+      ? ["Confirmed", "Cancelled"]
+      : selectedStatus === "confirmed"
+      ? ["Completed", "Cancelled"]
+      : [];
 
   return (
     <div className={styles.appointmentCard}>
@@ -255,12 +285,12 @@ const AppointmentCard = ({ appointment }: { appointment: Appointment }) => {
           className={styles.cardAvatar}
           width={100}
           height={100}
-          alt="Service Provider Avatar"
+          alt="Client Avatar"
           src="/circle.svg"
         />
         <div className={styles.cardHeaderText}>
-          <h3 className={styles.serviceFacilityName}>{providerName}</h3>
-          <p className={styles.location}>{providerAddress}</p>
+          <h3 className={styles.clientName}>{clientName}</h3>
+          <p className={styles.serviceType}>{serviceType}</p>
         </div>
         <div className={styles.viewDetails}>
           <span>View Details</span>
@@ -288,8 +318,12 @@ const AppointmentCard = ({ appointment }: { appointment: Appointment }) => {
           <span>{time}</span>
         </div>
         <div className={styles.infoItem}>
-          <span className={`${styles.statusButton} ${styles[status]}`}></span>
-          <span>{status.charAt(0).toUpperCase() + status.slice(1)}</span>
+          <span
+            className={`${styles.statusButton} ${styles[selectedStatus]}`}
+          ></span>
+          <span onClick={handleStatusClick} style={{ cursor: "pointer" }}>
+            {selectedStatus.charAt(0).toUpperCase() + selectedStatus.slice(1)}
+          </span>
           <Image
             className={styles.dropdownIcon}
             width={24}
@@ -297,7 +331,22 @@ const AppointmentCard = ({ appointment }: { appointment: Appointment }) => {
             sizes="100vw"
             alt=""
             src="/arrow_drop_down.svg"
+            onClick={handleStatusClick}
+            style={{ cursor: "pointer" }}
           />
+          {isDropdownOpen && dropdownOptions.length > 0 && (
+            <div className={styles.dropdown}>
+              {dropdownOptions.map((option) => (
+                <div
+                  key={option}
+                  className={styles.dropdownOption}
+                  onClick={() => handleStatusChange(option.toLowerCase())}
+                >
+                  {option}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
