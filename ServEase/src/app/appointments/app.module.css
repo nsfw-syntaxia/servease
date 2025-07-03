@@ -192,6 +192,11 @@
   background-color: #dfceba; /* canceled color */
 }
 
+.dropdownIcon {
+  margin-left: 5px;
+  vertical-align: middle; /* aligns the icon with the text */
+}
+
 /* only mobile changes below */
 @media (max-width: 768px) {
   .mainContent {

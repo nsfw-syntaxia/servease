@@ -61,12 +61,25 @@ const AppointmentCard = ({ appointment }: { appointment: Appointment }) => {
           <span>{date}</span>
         </div>
         <div className={styles.infoItem}>
-          <Image width={21} height={21} alt="Clock" src="/Vector.svg" />
-          <span>{time}</span>
-        </div>
-        <div className={styles.infoItem}>
-          <span className={`${styles.statusButton} ${styles[status]}`}></span>
-          <span>{status.charAt(0).toUpperCase() + status.slice(1)}</span>
+          <span
+            className={`${styles.statusButton} ${styles[appointment.status]}`}
+          ></span>
+          <span>
+            {appointment.status.charAt(0).toUpperCase() +
+              appointment.status.slice(1)}
+          </span>
+          {(appointment.status === "confirmed" ||
+            appointment.status === "pending") && (
+            <Image
+              className={styles.dropdownIcon}
+              width={24}
+              height={24}
+              sizes="100vw"
+              alt="Dropdown Icon"
+              src="/arrow_drop_down.svg"
+              style={{ cursor: "pointer" }}
+            />
+          )}
         </div>
       </div>
     </div>

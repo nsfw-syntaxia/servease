@@ -170,7 +170,7 @@ import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import styles from "../styles/facility-appointments.module.css";
 
-// Updated Appointment type definition
+// updated Appointment type definition
 type Appointment = {
   id: number;
   start_time: string;
@@ -181,7 +181,7 @@ type Appointment = {
   }>;
 };
 
-// Updated mock Data with client_name and service_type
+// updated mock Data with client_name and service_type
 const mockAppointments: Appointment[] = [
   {
     id: 1,
