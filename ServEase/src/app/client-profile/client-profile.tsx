@@ -18,16 +18,55 @@ const ProfileClient: NextPage = () => {
   });
 
   const [editData, setEditData] = useState({ ...profileData });
+  const [errors, setErrors] = useState({
+    email: "",
+    contactNumber: "",
+    name: "",
+  });
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validateContactNumber = (contactNumber: string) => {
+    const phoneRegex = /^\+63\s9\d{2}\s\d{3}\s\d{4}$/;
+    return phoneRegex.test(contactNumber);
+  };
+
+  const validateName = (name: string) => {
+    const nameRegex = /^[A-Za-z\s]+$/; // only letters and spaces
+    return nameRegex.test(name) && name.trim().length > 0;
+  };
 
   const handleEdit = () => {
     setIsEditing(true);
     setEditData({ ...profileData });
+    setErrors({ email: "", contactNumber: "", name: "" });
   };
 
   const handleSave = () => {
-    setProfileData({ ...editData });
-    setIsEditing(false);
+    const newErrors = { email: "", contactNumber: "", name: "" };
+
+    if (!validateEmail(editData.email)) {
+      newErrors.email = "Invalid email address.";
+    }
+
+    if (!validateContactNumber(editData.contactNumber)) {
+      newErrors.contactNumber = "Invalid contact number.";
+    }
+
+    if (!validateName(editData.name)) {
+      newErrors.name = "Name must contain only letters.";
+    }
+
+    setErrors(newErrors);
+
+    if (!newErrors.email && !newErrors.contactNumber && !newErrors.name) {
+      setProfileData({ ...editData });
+      setIsEditing(false);
+    }
   };
 
   const handleInputChange = (field: string, value: string) => {
@@ -35,6 +74,17 @@ const ProfileClient: NextPage = () => {
       ...prev,
       [field]: value,
     }));
+
+    // clear error when user starts typing
+    if (field === "email" && errors.email) {
+      setErrors((prev) => ({ ...prev, email: "" }));
+    }
+    if (field === "contactNumber" && errors.contactNumber) {
+      setErrors((prev) => ({ ...prev, contactNumber: "" }));
+    }
+    if (field === "name" && errors.name) {
+      setErrors((prev) => ({ ...prev, name: "" }));
+    }
   };
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,7 +127,11 @@ const ProfileClient: NextPage = () => {
           <div className={styles.clientName}>{profileData.name}</div>
         </div>
         <div className={styles.emailAdd}>
-          <div className={styles.emailAddTbx} />
+          <div
+            className={`${styles.emailAddTbx} ${
+              errors.email ? styles.tbxError : ""
+            }`}
+          />
           {isEditing && (
             <Image
               className={styles.icon}
@@ -91,13 +145,18 @@ const ProfileClient: NextPage = () => {
           {isEditing ? (
             <input
               type="email"
-              className={styles.emailAddressInput}
+              className={`${styles.emailAddressInput} ${
+                errors.email ? styles.inputError : ""
+              }`}
               value={editData.email}
               onChange={(e) => handleInputChange("email", e.target.value)}
-              placeholder="Email Address"
+              placeholder="email@email.com"
             />
           ) : (
             <div className={styles.emailAddress}>{profileData.email}</div>
+          )}
+          {errors.email && (
+            <div className={styles.errorMessage}>{errors.email}</div>
           )}
         </div>
         <div className={styles.emailAddress1}>Email Address</div>
@@ -132,7 +191,11 @@ const ProfileClient: NextPage = () => {
         </div>
         <div className={styles.address2}>Address</div>
         <div className={styles.contactNum}>
-          <div className={styles.emailAddTbx} />
+          <div
+            className={`${styles.emailAddTbx} ${
+              errors.contactNumber ? styles.tbxError : ""
+            }`}
+          />
           {isEditing && (
             <Image
               className={styles.icon}
@@ -146,7 +209,9 @@ const ProfileClient: NextPage = () => {
           {isEditing ? (
             <input
               type="text"
-              className={styles.emailAddressInput}
+              className={`${styles.emailAddressInput} ${
+                errors.contactNumber ? styles.inputError : ""
+              }`}
               value={editData.contactNumber}
               onChange={(e) =>
                 handleInputChange("contactNumber", e.target.value)
@@ -158,6 +223,9 @@ const ProfileClient: NextPage = () => {
               {profileData.contactNumber}
             </div>
           )}
+          {errors.contactNumber && (
+            <div className={styles.errorMessage}>{errors.contactNumber}</div>
+          )}
         </div>
         <div className={styles.contactNumber}>Contact Number</div>
         <div className={styles.gender}>
@@ -166,7 +234,11 @@ const ProfileClient: NextPage = () => {
         </div>
         <div className={styles.gender2}>Gender</div>
         <div className={styles.name}>
-          <div className={styles.emailAddTbx} />
+          <div
+            className={`${styles.emailAddTbx} ${
+              errors.name ? styles.tbxError : ""
+            }`}
+          />
           {isEditing && (
             <Image
               className={styles.icon}
@@ -180,13 +252,18 @@ const ProfileClient: NextPage = () => {
           {isEditing ? (
             <input
               type="text"
-              className={styles.emailAddressInput}
+              className={`${styles.emailAddressInput} ${
+                errors.name ? styles.inputError : ""
+              }`}
               value={editData.name}
               onChange={(e) => handleInputChange("name", e.target.value)}
               placeholder="Name"
             />
           ) : (
             <div className={styles.emailAddress}>{profileData.name}</div>
+          )}
+          {errors.name && (
+            <div className={styles.errorMessage}>{errors.name}</div>
           )}
         </div>
         <div className={styles.name2}>Name</div>
@@ -312,6 +389,8 @@ const ProfileClient: NextPage = () => {
 };
 
 export default ProfileClient;
+
+// CSS styles remain unchanged
 
 /*
 
