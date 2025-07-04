@@ -10,7 +10,7 @@ interface Profile {
   address: string;
   contact_number: string;
   facility_image_url: string | null;
-  avatar_url: string | null;
+  picture_url: string | null;
   created_at: string;
   rating: number;
   specific_category: string;
@@ -38,6 +38,15 @@ interface FacilityData extends Profile {
 
 interface FacilityPageProps {
   params: Promise<{ id: string }>;
+}
+
+interface RelatedServices {
+  id: string;
+  business_name: string;
+  address: string;
+  facility_image_url: string | null;
+  picture_url: string | null;
+  rating: number;
 }
 
 export default async function FacilityPage({ params }: FacilityPageProps) {
@@ -79,26 +88,32 @@ export default async function FacilityPage({ params }: FacilityPageProps) {
     .eq("provider_id", id);
 
   // Fetch related services
-  const { data: relatedServices, error: relatedServicesError } = await supabase
+  const { data: relatedServices } = await supabase
     .from("profiles")
-    .select("id, business_name, rating, facility_image_url, avatar_url")
+    .select("id, business_name, address, rating, facility_image_url, picture_url")
     .eq("specific_category", profile.specific_category)
     .neq("id", id)
     .limit(6);
 
-  // Create facility data with email
+  console.log("Related services found:", relatedServices?.length || 0);
+  console.log("Related services data:", relatedServices);
   const facilityData: FacilityData = {
     ...profile,
     email: userError || !user ? "Not Available" : user.email,
     rating: profile.rating || 0,
   };
+  const processedRelatedServices = (relatedServices || []).map(service => ({
+    ...service,
+    // If service.rating is null or undefined, assign a random one.
+    rating: service.rating || (Math.random() * (5 - 3.5) + 3.5) 
+  }));
 
   return (
     <FacilityDetailsClientPage
       facility={facilityData}
       services={services || []}
       reviews={reviews || []}
-      relatedServices={relatedServices || []}
+      relatedServices={processedRelatedServices || []}
     />
   );
 }
