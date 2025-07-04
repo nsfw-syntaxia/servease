@@ -1,8 +1,64 @@
+"use client";
+
+import React, { useState, useRef } from "react";
 import type { NextPage } from "next";
 import Image from "next/image";
 import styles from "../styles/client-profile.module.css";
 
 const ProfileClient: NextPage = () => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [profileData, setProfileData] = useState({
+    name: "Name",
+    email: "client@email.com",
+    address: "Address",
+    contactNumber: "+63 9XX XXXX XXX",
+    gender: "Gender",
+    birthdate: "Day Month Year",
+    profileImage: "/avatar.svg",
+  });
+
+  const [editData, setEditData] = useState({ ...profileData });
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleEdit = () => {
+    setIsEditing(true);
+    setEditData({ ...profileData });
+  };
+
+  const handleSave = () => {
+    setProfileData({ ...editData });
+    setIsEditing(false);
+  };
+
+  const handleInputChange = (field: string, value: string) => {
+    setEditData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file && (file.type === "image/png" || file.type === "image/jpeg")) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setEditData((prev) => ({
+          ...prev,
+          profileImage: e.target?.result as string,
+        }));
+      };
+      reader.readAsDataURL(file);
+    } else {
+      alert("Please select a PNG or JPG image file.");
+    }
+  };
+
+  const triggerFileUpload = () => {
+    if (isEditing) {
+      fileInputRef.current?.click();
+    }
+  };
+
   return (
     <div className={styles.profileClient}>
       <div className={styles.background} />
@@ -17,69 +73,121 @@ const ProfileClient: NextPage = () => {
           src="/client-cover.png"
         />
         <div className={styles.profileInfo}>
-          <div className={styles.clientemailcom}>client@email.com</div>
-          <div className={styles.clientName}>Client Name</div>
+          <div className={styles.clientemailcom}>{profileData.email}</div>
+          <div className={styles.clientName}>{profileData.name}</div>
         </div>
         <div className={styles.emailAdd}>
           <div className={styles.emailAddTbx} />
-          <Image
-            className={styles.icon}
-            width={18}
-            height={18}
-            sizes="100vw"
-            alt=""
-            src="/edit-gray.svg"
-          />
-          <div className={styles.emailAddress}>Email Address</div>
+          {isEditing && (
+            <Image
+              className={styles.icon}
+              width={18}
+              height={18}
+              sizes="100vw"
+              alt=""
+              src="/edit-gray.svg"
+            />
+          )}
+          {isEditing ? (
+            <input
+              type="email"
+              className={styles.emailAddressInput}
+              value={editData.email}
+              onChange={(e) => handleInputChange("email", e.target.value)}
+              placeholder="Email Address"
+            />
+          ) : (
+            <div className={styles.emailAddress}>{profileData.email}</div>
+          )}
         </div>
         <div className={styles.emailAddress1}>Email Address</div>
         <div className={styles.birthdate}>
           <div className={styles.emailAddTbx} />
-          <div className={styles.emailAddress}>Day Month Year</div>
+          <div className={styles.emailAddress}>{profileData.birthdate}</div>
         </div>
         <div className={styles.dateOfBirth}>Date of Birth</div>
         <div className={styles.address}>
           <div className={styles.emailAddTbx} />
-          <Image
-            className={styles.icon}
-            width={18}
-            height={18}
-            sizes="100vw"
-            alt=""
-            src="/edit-gray.svg"
-          />
-          <div className={styles.emailAddress}>Address</div>
+          {isEditing && (
+            <Image
+              className={styles.icon}
+              width={18}
+              height={18}
+              sizes="100vw"
+              alt=""
+              src="/edit-gray.svg"
+            />
+          )}
+          {isEditing ? (
+            <input
+              type="text"
+              className={styles.emailAddressInput}
+              value={editData.address}
+              onChange={(e) => handleInputChange("address", e.target.value)}
+              placeholder="Address"
+            />
+          ) : (
+            <div className={styles.emailAddress}>{profileData.address}</div>
+          )}
         </div>
         <div className={styles.address2}>Address</div>
         <div className={styles.contactNum}>
           <div className={styles.emailAddTbx} />
-          <Image
-            className={styles.icon}
-            width={18}
-            height={18}
-            sizes="100vw"
-            alt=""
-            src="/edit-gray.svg"
-          />
-          <div className={styles.emailAddress}>+63 9XX XXXX XXX</div>
+          {isEditing && (
+            <Image
+              className={styles.icon}
+              width={18}
+              height={18}
+              sizes="100vw"
+              alt=""
+              src="/edit-gray.svg"
+            />
+          )}
+          {isEditing ? (
+            <input
+              type="text"
+              className={styles.emailAddressInput}
+              value={editData.contactNumber}
+              onChange={(e) =>
+                handleInputChange("contactNumber", e.target.value)
+              }
+              placeholder="+63 9XX XXXX XXX"
+            />
+          ) : (
+            <div className={styles.emailAddress}>
+              {profileData.contactNumber}
+            </div>
+          )}
         </div>
         <div className={styles.contactNumber}>Contact Number</div>
         <div className={styles.gender}>
           <div className={styles.emailAddTbx} />
-          <div className={styles.emailAddress}>Gender</div>
+          <div className={styles.emailAddress}>{profileData.gender}</div>
         </div>
         <div className={styles.gender2}>Gender</div>
         <div className={styles.name}>
           <div className={styles.emailAddTbx} />
-          <Image
-            className={styles.icon}
-            width={18}
-            height={18}
-            sizes="100vw"
-            alt=""
-            src="/edit-gray.svg"
-          />
-          <div className={styles.emailAddress}>Name</div>
+          {isEditing && (
+            <Image
+              className={styles.icon}
+              width={18}
+              height={18}
+              sizes="100vw"
+              alt=""
+              src="/edit-gray.svg"
+            />
+          )}
+          {isEditing ? (
+            <input
+              type="text"
+              className={styles.emailAddressInput}
+              value={editData.name}
+              onChange={(e) => handleInputChange("name", e.target.value)}
+              placeholder="Name"
+            />
+          ) : (
+            <div className={styles.emailAddress}>{profileData.name}</div>
+          )}
         </div>
         <div className={styles.name2}>Name</div>
         <div className={styles.pfp}>
@@ -89,44 +197,65 @@ const ProfileClient: NextPage = () => {
             height={64.1}
             sizes="100vw"
             alt=""
-            src="/avatar.svg"
+            src={isEditing ? editData.profileImage : profileData.profileImage}
           />
         </div>
-        <div className={styles.saveProfileBtn}>
-          <div className={styles.editLabel}>
-            <div className={styles.save}>Save</div>
-          </div>
-          <Image
-            className={styles.checkIcon}
-            width={20}
-            height={20}
-            sizes="100vw"
-            alt=""
-            src="/check_thin.svg"
-          />
-        </div>
-        <div className={styles.editProfileBtn}>
-          <div className={styles.editLabel}>
-            <div className={styles.save}>Edit</div>
-          </div>
-          <Image
-            className={styles.checkIcon}
-            width={20}
-            height={20}
-            sizes="100vw"
-            alt=""
-            src="/edit-white.svg"
-          />
-        </div>
-        <div className={styles.circleEditPfp} />
-        <Image
-          className={styles.editPfpIcon}
-          width={19}
-          height={19}
-          sizes="100vw"
-          alt=""
-          src="/edit-profile.svg"
+
+        <input
+          type="file"
+          ref={fileInputRef}
+          style={{ display: "none" }}
+          accept="image/png,image/jpeg"
+          onChange={handleFileUpload}
         />
+
+        {isEditing && (
+          <div className={styles.saveProfileBtn} onClick={handleSave}>
+            <div className={styles.editLabel}>
+              <div className={styles.save}>Save</div>
+            </div>
+            <Image
+              className={styles.checkIcon}
+              width={20}
+              height={20}
+              sizes="100vw"
+              alt=""
+              src="/check_thin.svg"
+            />
+          </div>
+        )}
+
+        {!isEditing && (
+          <div className={styles.editProfileBtn} onClick={handleEdit}>
+            <div className={styles.editLabel}>
+              <div className={styles.save}>Edit</div>
+            </div>
+            <Image
+              className={styles.checkIcon}
+              width={20}
+              height={20}
+              sizes="100vw"
+              alt=""
+              src="/edit-white.svg"
+            />
+          </div>
+        )}
+
+        {isEditing && (
+          <div className={styles.circleEditPfp} onClick={triggerFileUpload} />
+        )}
+        {isEditing && (
+          <Image
+            className={styles.editPfpIcon}
+            width={19}
+            height={19}
+            sizes="100vw"
+            alt=""
+            src="/edit-profile.svg"
+            onClick={triggerFileUpload}
+          />
+        )}
+
         <div className={styles.moreActions} />
         <div className={styles.passLabel}>
           <div className={styles.password}>Password</div>

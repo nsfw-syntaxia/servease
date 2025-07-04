@@ -82,6 +82,20 @@
   opacity: 0.4;
 }
 
+.emailAddressInput {
+  position: absolute;
+  top: 26.92%;
+  left: 4.27%;
+  width: 85%;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: var(--font-size-16);
+  color: #2e231d;
+  font-family: var(--font-dm-sans);
+  opacity: 1;
+}
+
 .emailAdd {
   position: absolute;
   top: 885px;
