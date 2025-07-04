@@ -1,3 +1,13 @@
+.saveProfileBtn,
+.editProfileBtn,
+.circleEditPfp,
+.editPfpIcon,
+.changePassBtn,
+.enableBtn,
+.deleteAccBtn {
+  cursor: pointer;
+}
+
 .pfpContainer {
   position: absolute;
   top: 361px;
@@ -163,16 +173,9 @@
 }
 
 .avatarIcon {
-  position: absolute;
-  height: 64.1%;
   width: 100%;
-  top: 25%;
-  right: 14.73%;
-  bottom: 10.9%;
-  left: 14.77%;
-  max-width: 100%;
-  overflow: hidden;
-  max-height: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .pfp {
@@ -435,11 +438,13 @@
 }
 
 .content {
+  margin-top: -30px;
   position: absolute;
   height: 100%;
   top: 0px;
   bottom: 0px;
-  left: 0px;
+  left: 50%;
+  transform: translateX(-50%);
   background-color: var(--color-whitesmoke);
   width: 1440px;
   overflow: hidden;
@@ -452,550 +457,34 @@
   font-size: 55px;
   line-height: 150%;
   display: flex;
-  color: var(--color-gray);
+  color: #2e231d;
   align-items: center;
   width: 441px;
   height: 75px;
 }
 
-.profileClient {
+.background {
   width: 100%;
-  position: relative;
-  background-color: var(--color-white);
-  border: 1px solid var(--color-black);
-  box-sizing: border-box;
-  height: 1795px;
-  overflow: hidden;
-  text-align: left;
-  font-size: var(--font-size-16);
-  color: var(--color-black);
-  font-family: var(--font-dm-sans);
-}
-
-/*
-
-.button,
-.ellipseDiv,
-.rectangleParent,
-.rectangleGroup,
-.rectangleContainer {
-  cursor: pointer;
+  height: 100%;
+  background-color: var(--color-whitesmoke);
+  z-index: -1;
 }
 
 .profileClient {
-  margin-top: -30px;
-  width: 100%;
+  margin-top: -50px;
+  width: 100vw;
   min-height: 100vh;
   position: relative;
-  background-color: var(--color-whitesmoke);
+  background-color: var(--color-white);
   box-sizing: border-box;
-  overflow-x: auto;
+  height: 1795px;
+  overflow: hidden;
   text-align: left;
   font-size: var(--font-size-16);
-  color: var(--color-black);
+  color: #2e231d;
   font-family: var(--font-dm-sans);
   cursor: default;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
-
-.joinUs {
-  position: relative;
-  height: 1795px;
-  margin-top: -50px;
-  background-color: transparent;
-  width: 1440px;
-  overflow: visible;
-}
-
-.joinUsItem {
-  position: absolute;
-  top: 718px;
-  left: 920px;
-  width: 20px;
-  height: 20px;
-}
-
-.joinUsInner {
-  position: absolute;
-  top: 361px;
-  left: 204px;
-  border-radius: var(--br-10);
-  background-color: var(--color-white);
-  width: 1032px;
-  height: 610px;
-}
-
-.rectangleDiv {
-  position: absolute;
-  top: 1031px;
-  left: 204px;
-  border-radius: var(--br-10);
-  background-color: var(--color-white);
-  width: 1032px;
-  height: 170px;
-}
-
-.name {
-  position: absolute;
-  top: 625px;
-  left: 236px;
-  opacity: 0.8;
-}
-
-.gender {
-  position: absolute;
-  top: 737px;
-  left: 236px;
-  opacity: 0.8;
-}
-
-.contactNumber {
-  position: absolute;
-  top: 849px;
-  left: 236px;
-  opacity: 0.8;
-}
-
-.address {
-  position: absolute;
-  top: 625px;
-  left: 736px;
-  opacity: 0.8;
-}
-
-.dateOfBirth {
-  position: absolute;
-  top: 737px;
-  left: 736px;
-  opacity: 0.8;
-}
-
-.emailAddress {
-  position: absolute;
-  top: 849px;
-  left: 736px;
-  opacity: 0.8;
-}
-
-.rectangleIcon {
-  position: absolute;
-  top: 313px;
-  left: 204px;
-  width: 1032px;
-  height: 148px;
-}
-
-.clientName {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  font-weight: 500;
-}
-
-.clientemailcom {
-  position: absolute;
-  top: 36px;
-  left: 0px;
-  font-size: var(--font-size-16);
-  opacity: 0.5;
-}
-
-.clientNameParent {
-  position: absolute;
-  top: 513px;
-  left: 360px;
-  width: 133px;
-  height: 57px;
-  font-size: var(--font-size-20);
-}
-
-.joinUsChild1 {
-  position: absolute;
-  height: 2.9%;
-  width: 32.5%;
-  top: 36.82%;
-  right: 51.11%;
-  bottom: 60.28%;
-  left: 16.39%;
-  border-radius: var(--br-8);
-  background-color: var(--color-snow);
-}
-
-.joinUsChild2 {
-  position: absolute;
-  height: 2.9%;
-  width: 32.5%;
-  top: 43.06%;
-  right: 51.11%;
-  bottom: 54.04%;
-  left: 16.39%;
-  border-radius: var(--br-8);
-  background-color: var(--color-snow);
-}
-
-.joinUsChild3 {
-  position: absolute;
-  height: 2.9%;
-  width: 32.5%;
-  top: 49.3%;
-  right: 51.11%;
-  bottom: 47.8%;
-  left: 16.39%;
-  border-radius: var(--br-8);
-  background-color: var(--color-snow);
-}
-
-.joinUsChild4 {
-  position: absolute;
-  height: 2.9%;
-  width: 32.5%;
-  top: 36.82%;
-  right: 16.39%;
-  bottom: 60.28%;
-  left: 51.11%;
-  border-radius: var(--br-8);
-  background-color: var(--color-snow);
-}
-
-.joinUsChild5 {
-  position: absolute;
-  height: 2.9%;
-  width: 32.5%;
-  top: 43.06%;
-  right: 16.39%;
-  bottom: 54.04%;
-  left: 51.11%;
-  border-radius: var(--br-8);
-  background-color: var(--color-snow);
-}
-
-.joinUsChild6 {
-  position: absolute;
-  height: 2.9%;
-  width: 32.5%;
-  top: 49.3%;
-  right: 16.39%;
-  bottom: 47.8%;
-  left: 51.11%;
-  border-radius: var(--br-8);
-  background-color: var(--color-snow);
-}
-
-.name1 {
-  position: absolute;
-  top: 37.6%;
-  left: 17.78%;
-  opacity: 0.4;
-}
-
-.gender1 {
-  position: absolute;
-  top: 43.84%;
-  left: 17.78%;
-  opacity: 0.4;
-}
-
-.xxXxxxXxx {
-  position: absolute;
-  top: 50.08%;
-  left: 17.78%;
-  opacity: 0.4;
-}
-
-.address1 {
-  position: absolute;
-  top: 37.6%;
-  left: 52.5%;
-  opacity: 0.4;
-}
-
-.dayMonthYear {
-  position: absolute;
-  top: 43.84%;
-  left: 52.5%;
-  opacity: 0.4;
-}
-
-.emailAddress1 {
-  position: absolute;
-  top: 50.08%;
-  left: 52.5%;
-  opacity: 0.4;
-}
-
-.avatarPlaceholderIcon1 {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.genericAvatar1 {
-  position: absolute;
-  top: 493px;
-  left: 236px;
-  border-radius: 100px;
-  background-color: var(--color-tan);
-  width: 100px;
-  height: 100px;
-  overflow: hidden;
-}
-
-.edit {
-  position: absolute;
-  top: calc(50% - 14px);
-  left: calc(50% - 59px);
-  line-height: 27.75px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 118px;
-  height: 28px;
-}
-
-.editWrapper {
-  position: absolute;
-  top: calc(50% - 14px);
-  left: calc(50% - 59px);
-  width: 118px;
-  height: 28px;
-}
-
-.buttonInner {
-  position: absolute;
-  top: calc(50% - 14px);
-  left: calc(50% - 49px);
-  width: 118px;
-  height: 28px;
-}
-
-.edit03Icon {
-  position: absolute;
-  top: 15px;
-  left: 13px;
-  width: 20px;
-  height: 20px;
-}
-
-.button {
-  position: absolute;
-  top: 518px;
-  left: 1108px;
-  border-radius: 12px;
-  background-color: var(--color-tan);
-  border: 1px solid var(--color-tan);
-  box-sizing: border-box;
-  width: 96px;
-  height: 50px;
-  text-align: center;
-  font-size: var(--font-size-20);
-  color: var(--color-white);
-}
-
-.ellipseDiv {
-  position: absolute;
-  top: 560px;
-  left: 304px;
-  box-shadow: 0px 1px 4px rgba(26, 15, 1, 0.12);
-  border-radius: 50%;
-  background-color: var(--color-white);
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.edit03Icon1 {
-  width: 19px;
-  height: 19px;
-  overflow: hidden;
-}
-
-.password {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-}
-
-.passwordWrapper {
-  position: absolute;
-  top: 1070px;
-  left: 304px;
-  width: 71px;
-  height: 21px;
-}
-
-.groupChild1 {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 0%;
-  right: 0%;
-  bottom: 0%;
-  left: 0%;
-  border-radius: var(--br-8);
-  background-color: var(--color-tan);
-  opacity: 0.1;
-}
-
-.changePassword {
-  position: absolute;
-  width: 86.19%;
-  top: 25%;
-  left: 7.18%;
-  display: inline-block;
-}
-
-.rectangleParent {
-  position: absolute;
-  height: 2.45%;
-  width: 12.57%;
-  top: 58.94%;
-  right: 51.18%;
-  bottom: 38.61%;
-  left: 36.25%;
-  text-align: center;
-  color: var(--color-tan);
-}
-
-.joinUsChild7 {
-  position: absolute;
-  top: 1056px;
-  left: 236px;
-  border-radius: 50%;
-  background-color: var(--color-tan);
-  width: 48px;
-  height: 48px;
-  opacity: 0.1;
-}
-
-.notificationsWrapper {
-  position: absolute;
-  top: 1142px;
-  left: 304px;
-  width: 94px;
-  height: 21px;
-}
-
-.rectangleGroup {
-  position: absolute;
-  height: 2.45%;
-  width: 12.57%;
-  top: 62.95%;
-  right: 51.18%;
-  bottom: 34.6%;
-  left: 36.25%;
-  text-align: center;
-  color: var(--color-tan);
-}
-
-.joinUsChild8 {
-  position: absolute;
-  top: 1128px;
-  left: 236px;
-  border-radius: 50%;
-  background-color: var(--color-tan);
-  width: 48px;
-  height: 48px;
-  opacity: 0.1;
-}
-
-.vuesaxboldlockIcon {
-  position: absolute;
-  height: 1.34%;
-  width: 1.67%;
-  top: 59.5%;
-  right: 81.11%;
-  bottom: 39.16%;
-  left: 17.22%;
-  max-width: 100%;
-  overflow: hidden;
-  max-height: 100%;
-}
-
-.vuesaxboldnotificationIcon {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 0%;
-  right: 0%;
-  bottom: 0%;
-  left: 0%;
-  max-width: 100%;
-  overflow: hidden;
-  max-height: 100%;
-}
-
-.notification {
-  position: absolute;
-  top: 1140px;
-  left: 248px;
-  width: 24px;
-  height: 24px;
-}
-
-.accountWrapper {
-  position: absolute;
-  top: 1070px;
-  left: 805px;
-  width: 63px;
-  height: 21px;
-}
-
-.rectangleContainer {
-  position: absolute;
-  height: 2.45%;
-  width: 12.57%;
-  top: 58.94%;
-  right: 16.39%;
-  bottom: 38.61%;
-  left: 71.04%;
-  text-align: center;
-  color: var(--color-tan);
-}
-
-.joinUsChild9 {
-  position: absolute;
-  top: 1056px;
-  left: 737px;
-  border-radius: 50%;
-  background-color: var(--color-tan);
-  width: 48px;
-  height: 48px;
-  opacity: 0.1;
-}
-
-.vuesaxboldsetting2Icon {
-  position: absolute;
-  height: 1.34%;
-  width: 1.67%;
-  top: 59.5%;
-  right: 46.32%;
-  bottom: 39.16%;
-  left: 52.01%;
-  max-width: 100%;
-  overflow: hidden;
-  max-height: 100%;
-}
-
-.profile {
-  position: absolute;
-  top: 172px;
-  left: 140px;
-  font-size: 55px;
-  line-height: 150%;
-  display: flex;
-  color: var(--color-gray-100);
-  align-items: center;
-  width: 441px;
-  height: 75px;
-}
-
-*/
 
 /*
 
