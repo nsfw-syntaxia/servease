@@ -18,6 +18,7 @@ interface Profile {
   rating: number;
 }
 
+// This PopularServiceCard is now correct
 const PopularServiceCard = ({ service }: { service: Profile }) => {
   const router = useRouter();
   return (
@@ -74,6 +75,7 @@ const PopularServiceCard = ({ service }: { service: Profile }) => {
   );
 };
 
+// This FeaturedServiceCard is now correct
 const FeaturedServiceCard = ({ service }: { service: Profile }) => {
   const router = useRouter();
   return (
@@ -112,7 +114,14 @@ const FeaturedServiceCard = ({ service }: { service: Profile }) => {
   );
 };
 
-const AllServiceCard = ({ service }: { service: Profile }) => {
+// This AllServiceCard is now correct
+const AllServiceCard = ({
+  service,
+  iconName,
+}: {
+  service: Profile;
+  iconName?: string;
+}) => {
   const router = useRouter();
   return (
     <div className={styles.service}>
@@ -127,13 +136,24 @@ const AllServiceCard = ({ service }: { service: Profile }) => {
       <div className={styles.info}>
         <div className={styles.avatar}>
           <div className={styles.avatar1}>
-            <Image
-              src={service.avatar_url || "/avatar.svg"}
-              alt={service.full_name}
-              layout="fill"
-              objectFit="cover"
-              className={styles.avatarImage}
-            />
+            {/* Conditionally render the icon if iconName is provided */}
+            {iconName ? (
+              <Image
+                className={styles.icons}
+                width={35}
+                height={35}
+                alt={iconName}
+                src={`/${iconName}.svg`}
+              />
+            ) : (
+              <Image
+                src={service.avatar_url || "/avatar.svg"}
+                alt={service.full_name}
+                layout="fill"
+                objectFit="cover"
+                className={styles.avatarImage}
+              />
+            )}
           </div>
           <div className={styles.avatar5}>
             <div className={styles.serviceFacilityNameParent}>

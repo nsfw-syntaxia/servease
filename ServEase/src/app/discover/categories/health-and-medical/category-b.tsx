@@ -229,8 +229,6 @@ const HAMSClientPage: NextPage<{
 
   return (
     <div className={styles.hams}>
-      {/* nav (identical to static version) */}
-
       <div className={styles.bg}>
         <div className={styles.heroImg}>
           <div className={styles.personalBeautyAnd}>
