@@ -2,7 +2,7 @@
 
 import { createContext, useState, useContext, ReactNode } from "react";
 
-// Define the shape of a single service and our shared data
+// (The Service interface remains the same)
 export interface Service {
   id: number;
   provider_id: string;
@@ -12,37 +12,50 @@ export interface Service {
   duration_minutes: number;
 }
 
+// --- MODIFICATION 1: Add date and time to our shared data ---
 interface BookingData {
   selectedServices: Service[];
-  // You will add more data here later, e.g.:
-  // selectedDate: Date | null;
-  // selectedTime: string | null;
+  selectedDate: Date | null;
+  selectedTime: string | null;
 }
 
-// Define the shape of the context value
+// --- MODIFICATION 2: Add setters for date and time to the context type ---
 interface BookingContextType {
   bookingData: BookingData;
   setSelectedServices: (services: Service[]) => void;
-  // Add other setters here as you build more steps
+  setSelectedDate: (date: Date | null) => void;
+  setSelectedTime: (time: string | null) => void;
 }
 
-// Create the context
 const BookingContext = createContext<BookingContextType | undefined>(undefined);
 
-// Create the Provider component
 export function BookingProvider({ children }: { children: ReactNode }) {
+  // --- MODIFICATION 3: Initialize the new state fields ---
   const [bookingData, setBookingData] = useState<BookingData>({
     selectedServices: [],
+    selectedDate: null, // Start with no date selected
+    selectedTime: null, // Start with no time selected
   });
 
-  // Helper function to update only the selected services
   const setSelectedServices = (services: Service[]) => {
     setBookingData((prev) => ({ ...prev, selectedServices: services }));
   };
+  
+  // --- MODIFICATION 4: Create the new setter functions ---
+  const setSelectedDate = (date: Date | null) => {
+    setBookingData((prev) => ({ ...prev, selectedDate: date }));
+  };
 
+  const setSelectedTime = (time: string | null) => {
+    setBookingData((prev) => ({ ...prev, selectedTime: time }));
+  };
+
+  // --- MODIFICATION 5: Pass the new setters in the context value ---
   const value = {
     bookingData,
     setSelectedServices,
+    setSelectedDate,
+    setSelectedTime,
   };
 
   return (
@@ -50,7 +63,6 @@ export function BookingProvider({ children }: { children: ReactNode }) {
   );
 }
 
-// Create a custom hook for easy access
 export function useBooking() {
   const context = useContext(BookingContext);
   if (context === undefined) {
