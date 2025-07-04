@@ -95,112 +95,18 @@ const SpecificCategoryClientPage: NextPage<{
   services: Profile[];
   subCategoryName: string;
 }> = ({ services, subCategoryName }) => {
-  const [open, setOpen] = useState(false);
-  const [hovered, setHovered] = useState("");
-  const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  const items = [
-    { label: "My Account", href: "/account" },
-    { label: "Appointments", href: "/appointments" },
-    { label: "Messages", href: "/messages" },
-    { label: "Notifications", href: "/notifications" },
-    { label: "Log out", href: "/logout" },
-  ];
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  const chunkArray = (arr: any[], size: number) => {
+    const result = [];
+    for (let i = 0; i < arr.length; i += size) {
+      result.push(arr.slice(i, i + size));
+    }
+    return result;
+  };
 
   return (
     <div className={styles.pbacs}>
-      <div className={styles.nav}>
-        <Image
-          className={styles.serveaseLogoAlbumCover3}
-          width={40}
-          height={40}
-          sizes="100vw"
-          alt=""
-          src="/logo.svg"
-          onClick={() => router.push("/home")}
-        />
-        <div className={styles.servease1} onClick={() => router.push("/home")}>
-          <span className={styles.serv}>serv</span>
-          <b>ease</b>
-        </div>
-        <div className={styles.navChild} />
-        <div className={styles.homeParent}>
-          <div className={styles.home1} onClick={() => router.push("/home")}>
-            Home
-          </div>
-          <div
-            className={styles.home1}
-            onClick={() => router.push("/discover")}
-          >
-            Discover
-          </div>
-          <div
-            className={styles.contactUs1}
-            onClick={() => {
-              window.scrollTo({
-                top: document.body.scrollHeight,
-                behavior: "smooth",
-              });
-            }}
-          >
-            Contact Us
-          </div>
-        </div>
-        <div className={styles.navChild} />
-        <div className={styles.dropdownWrapper} ref={dropdownRef}>
-          <div className={styles.avataricon} onClick={() => setOpen(!open)}>
-            <Image
-              src="/avatar.svg"
-              alt="Profile"
-              width={40}
-              height={40}
-              sizes="100vw"
-            />
-          </div>
-          {open && (
-            <div className={styles.dropdownMenu}>
-              {items.map((item, index) => {
-                const isActive = hovered === item.label;
-                const isFirst = index === 0;
-                const isLast = index === items.length - 1;
-                let borderClass = "";
-                if (isActive && isFirst) {
-                  borderClass = styles.activeTop;
-                } else if (isActive && isLast) {
-                  borderClass = styles.activeBottom;
-                }
-                return (
-                  <Link
-                    href={item.href}
-                    key={item.label}
-                    className={`${styles.dropdownItem} ${
-                      isActive ? styles.active : ""
-                    } ${borderClass}`}
-                    onMouseEnter={() => setHovered(item.label)}
-                    onMouseLeave={() => setHovered("")}
-                  >
-                    {item.label}
-                  </Link>
-                );
-              })}
-            </div>
-          )}
-        </div>
-      </div>
       <div className={styles.bg}>
         <div className={styles.heroImg}>
           <Image
@@ -253,33 +159,17 @@ const SpecificCategoryClientPage: NextPage<{
         </b>
         <div className={styles.allView}>
           <div className={styles.allCards}>
-            <div className={styles.cards}>
-              {services.slice(0, 3).map((service) => (
-                <AllServiceCard
-                  key={service.id}
-                  service={service}
-                  iconName={subCategoryName}
-                />
-              ))}
-            </div>
-            <div className={styles.cards}>
-              {services.slice(3, 6).map((service) => (
-                <AllServiceCard
-                  key={service.id}
-                  service={service}
-                  iconName={subCategoryName}
-                />
-              ))}
-            </div>
-            <div className={styles.cards}>
-              {services.slice(6, 9).map((service) => (
-                <AllServiceCard
-                  key={service.id}
-                  service={service}
-                  iconName={subCategoryName}
-                />
-              ))}
-            </div>
+            {chunkArray(services, 2).map((row, rowIndex) => (
+              <div className={styles.cards} key={rowIndex}>
+                {row.map((service) => (
+                  <AllServiceCard
+                    key={service.id}
+                    service={service}
+                    iconName={subCategoryName}
+                  />
+                ))}
+              </div>
+            ))}
           </div>
         </div>
       </div>

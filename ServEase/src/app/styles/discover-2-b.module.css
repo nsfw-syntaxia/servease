@@ -1259,7 +1259,7 @@
   position: relative;
   background-color: #f8f7f3;
   box-sizing: border-box;
-  height: 4500px;
+  height: auto;
   overflow: hidden;
   text-align: left;
   font-size: 50px;
