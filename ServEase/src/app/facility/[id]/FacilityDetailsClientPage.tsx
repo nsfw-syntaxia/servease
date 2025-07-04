@@ -185,10 +185,10 @@ const FacilityDetailsClientPage: NextPage<{
   const router = useRouter();
   const [isLiked, setIsLiked] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
-const [activeFilter, setActiveFilter] = useState("All");
-const [active, setActive] = useState(1);
-const serviceNames = services ? services.map(service => service.name) : [];
-const [activeServiceName, setActiveServiceName] = useState("");
+  const [activeFilter, setActiveFilter] = useState("All");
+  const [active, setActive] = useState(1);
+  const serviceNames = services ? services.map((service) => service.name) : [];
+  const [activeServiceName, setActiveServiceName] = useState("");
 
   const filters = [
     { label: "All", hasStar: false },
@@ -208,15 +208,13 @@ const [activeServiceName, setActiveServiceName] = useState("");
     }, 100);
   };
 
-   useEffect(() => {
-    // When the services data arrives, check if there are services
-    // and if an active service hasn't been set yet.
+  useEffect(() => {
     if (services && services.length > 0 && !activeServiceName) {
       // Set the first service as the default active one.
       setActiveServiceName(services[0].name);
     }
   }, [services, activeServiceName]);
-  
+
   const priceRange = useMemo(() => {
     if (!services || services.length === 0) return "N/A";
     const prices = services.map((s) => s.price);
@@ -226,10 +224,24 @@ const [activeServiceName, setActiveServiceName] = useState("");
     return `₱${minPrice.toFixed(2)} - ₱${maxPrice.toFixed(2)}`;
   }, [services]);
 
-  const selectedServicePrice = useMemo(() => {
-  const selected = services.find((s) => s.name === activeServiceName);
-  return selected ? selected.price.toFixed(2) : "0.00";
-}, [activeServiceName, services]);
+ const selectedService = useMemo(() => {
+    return services.find((s) => s.name === activeServiceName);
+  }, [activeServiceName, services]);
+
+  const selectedServicePrice = selectedService
+    ? selectedService.price.toFixed(2)
+    : "0.00";
+
+   const handleBookNow = () => {
+    if (!selectedService) {
+      alert("Please select a service to book."); 
+      return;
+    }
+
+    const bookingUrl = `/appointment-booking?facilityId=${facility.id}&serviceId=${selectedService.id}`;
+
+    router.push(bookingUrl);
+  };
 
   return (
     <div className={styles.facilityDetailsParent}>
@@ -503,21 +515,25 @@ const [activeServiceName, setActiveServiceName] = useState("");
                   <b className={styles.b}>₱{selectedServicePrice}</b>
                 </div>
               </div>
-              <div className={styles.buttonContainer}>
-  {serviceNames.map((serviceName) => (
-    <div
-      key={serviceName}
-      className={`${styles.button3} ${
-        activeServiceName === serviceName ? styles.active : styles.inactive
-      }`}
-      onClick={() => setActiveServiceName(serviceName)}
-    >
-      <div className={styles.star} />
-      <div className={styles.mondayFriday}>{serviceName}</div>
-      <div className={styles.star} />
-    </div>
-  ))}
-</div>
+               <div className={styles.buttonContainer}>
+              {/* --- UI RESTORED --- */}
+              {/* This JSX is now exactly as you had it, using your original class logic. */}
+              {serviceNames.map((serviceName) => (
+                <div
+                  key={serviceName}
+                  className={`${styles.button3} ${
+                    activeServiceName === serviceName
+                      ? styles.active
+                      : styles.inactive
+                  }`}
+                  onClick={() => setActiveServiceName(serviceName)}
+                >
+                  <div className={styles.star} />
+                  <div className={styles.mondayFriday}>{serviceName}</div>
+                  <div className={styles.star} />
+                </div>
+              ))}
+            </div>
               <Image
                 className={styles.dividerIcon3}
                 width={629}
@@ -549,12 +565,12 @@ const [activeServiceName, setActiveServiceName] = useState("");
                   </div>
                   <div className={styles.favorite11k}>Favorite</div>
                 </div>
-                <div className={styles.button4}>
-                  <div className={styles.star} />
-                  <div className={styles.mondayFriday}>Book Now</div>
-                  <div className={styles.star} />
-                </div>
+                <div className={styles.button4} onClick={handleBookNow}>
+                <div className={styles.star} />
+                <div className={styles.mondayFriday}>Book Now</div>
+                <div className={styles.star} />
               </div>
+            </div>
             </div>
           </div>
         </div>
