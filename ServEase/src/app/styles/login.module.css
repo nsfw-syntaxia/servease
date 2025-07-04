@@ -550,3 +550,346 @@
   font-weight: 500;
   margin-bottom: 8px;
 }
+/* ---------- Zoom Scaling & Desktop Base ---------- */
+
+/* ---------- Tablet (max-width: 1024px) ---------- */
+/* ---------- Tablet (max-width: 1024px) ---------- */
+@media screen and (max-width: 1024px) {
+  .authwindow {
+    width: 100%;
+    height: 56%;
+    border-radius: 26px;
+    background: white;
+    top: 130px;
+    position: relative;
+    margin: 5% 0 0 5%;
+  }
+
+  .authlogoIcon {
+    position: absolute;
+    width: 100%;
+    height: 120px;
+    margin-top: 5%;
+    margin-left: 1px;
+  }
+
+  .login1 {
+    width: 100%;
+    left: 0;
+    top: 0;
+  }
+
+  .authwindow1 {
+    width: 90%;
+    height: auto;
+    top: 20px;
+    left: 0;
+  }
+  .title {
+    font-size: 40px;
+    width: 110%;
+    margin: 10%;
+    margin-top: 1%;
+  }
+  .welcomeToServeaseContainer {
+  position: relative;
+  margin-top: -5%;
+}
+  .pleaseLogIn {
+  position: relative;
+  font-size: 20px;
+  }
+  .logincontent {
+    width: 100%;
+    padding: 0px 30px;
+  }
+  
+  .email1, .password1 {
+    width: 110%;
+    margin-right: 110px;
+    position: relative;
+    top: -50px;
+  }
+  .buttoncontainer {
+  width: 260px;
+  position: relative;
+  border-radius: 40px;
+  background-color: var(--color-tan);
+  height: 40px;
+  overflow: hidden;
+  flex-shrink: 0;
+  opacity: 0.5;
+  font-size: 22px;
+  cursor: pointer;
+  bottom: 110px;
+  right: -10px;
+}
+.navbar {
+  width: 600px;
+  border-radius: var(--br-12);
+  height: 56px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0px;
+  cursor: pointer;
+}
+.login2 {
+  width: 300px;
+  position: relative;
+  background-color: var(--color-tan);
+  height: 56px;
+  overflow: hidden;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.navigationbar {
+  width: 100%;
+  margin: 10% 0 0 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: -2%;
+  position: relative;
+}
+.rememberMe1 {
+  position: relative;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.rememberMe {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-left: 3%;
+  margin-top: -30%;
+}
+
+.forgetPassword {
+  position: relative;
+  text-decoration: underline;
+  font-weight: 500;
+  color: var(--color-tan);
+  cursor: pointer;
+  margin-right: -5%;
+  margin-top: -30%;
+}
+}
+
+
+/* ---------- Mobile (max-width: 768px) ---------- */
+@media screen and (max-width: 768px) {
+  .authwindow {
+    width: 100%;
+    height: 58%;
+    border-radius: 26px;
+    background: white;
+    top: 130px;
+    position: relative;
+    margin: 5% 0 0 5%;
+  }
+
+  .authlogoIcon {
+    position: absolute;
+    width: 100%;
+    height: 120px;
+    margin-top: 5%;
+    margin-left: 1px;
+  }
+
+  .login1 {
+    width: 100%;
+    left: 0;
+    top: 0;
+  }
+
+  .authwindow1 {
+    width: 90%;
+    height: auto;
+    top: 20px;
+    left: 0;
+  }
+  .title {
+    font-size: 35px;
+    margin-right: 10%;
+    width: 100%;
+    position: relative;
+  }
+  .welcomeToServeaseContainer {
+  position: relative;
+  margin-top: -7%;
+  right: 20%;
+}
+  .pleaseLogIn {
+  position: relative;
+  font-size: 17px;
+  right: 20%;
+  }
+  .logincontent {
+    width: 100%;
+    padding: 0px 30px;
+  }
+  
+  .email1, .password1 {
+    width: 110%;
+    margin-right: 110px;
+    right: 40%;
+  }
+  .buttoncontainer {
+  width: 300px;
+  position: relative;
+  border-radius: 40px;
+  background-color: var(--color-tan);
+  height: 40px;
+  overflow: hidden;
+  flex-shrink: 0;
+  opacity: 0.5;
+  font-size: 22px;
+  cursor: pointer;
+  bottom: 90px;
+  right: 40%;
+}
+.navbar {
+  width: 400px;
+  border-radius: var(--br-12);
+  height: 56px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0px;
+  cursor: pointer;
+  position: relative;
+}
+.login2 {
+  width: 200px;
+  position: relative;
+  background-color: var(--color-tan);
+  height: 56px;
+  overflow: hidden;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.navigationbar {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-right: 77%;
+  margin-left: 36%;
+  margin-top: -1%;
+  position: relative;
+}
+.rememberMe1 {
+  position: relative;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.rememberMe {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-left: -37%;
+  margin-top: -30%;
+  position: relative;
+}
+
+.forgetPassword {
+  position: relative;
+  text-decoration: underline;
+  font-weight: 500;
+  color: var(--color-tan);
+  cursor: pointer;
+  margin-right: 33%;
+  margin-top: -30%;
+}
+}
+
+/* ---------- Landscape Mobile (max-height: 500px) ---------- */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+  .authwindow {
+    width: 100%;
+    height: 85%;
+    border-radius: 20px;
+    background: white;
+    position: relative;
+    margin: 3% auto 0 auto;
+  }
+
+  .authlogoIcon {
+    display: none;
+  }
+
+  .authwindow1 {
+    width: 95%;
+    height: auto;
+    top: 10px;
+    left: 0;
+  }
+
+  .logincontent {
+    width: 100%;
+    padding: 0 20px;
+    gap: 15px;
+  }
+
+  .title {
+    font-size: 28px;
+    margin: 2% 0;
+  }
+
+  .pleaseLogIn {
+    font-size: 16px;
+    margin-bottom: 5%;
+  }
+
+  .email1, .password1 {
+    width: 100%;
+    right: auto;
+  }
+
+  .buttoncontainer {
+    width: 240px;
+    font-size: 18px;
+    bottom: 40px;
+    right: 0;
+  }
+
+  .navigationbar {
+    margin-top: 2%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .rememberMe {
+    margin-top: 0;
+    margin-left: 0;
+  }
+
+  .forgetPassword {
+    margin-top: 0;
+    margin-right: 0;
+  }
+
+  .navbar {
+    width: 100%;
+  }
+
+  .login2 {
+    width: 100%;
+  }
+}
+

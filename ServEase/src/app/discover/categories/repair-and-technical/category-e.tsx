@@ -209,132 +209,48 @@ const RATS: NextPage<{
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  const items = [
-    { label: "My Account", href: "/account" },
-    { label: "Appointments", href: "/appointments" },
-    { label: "Messages", href: "/messages" },
-    { label: "Notifications", href: "/notifications" },
-    { label: "Log out", href: "/logout" },
-  ];
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  const top6PopularServices = initialPopularServices.slice(0, 6);
+  const top6NewServices = initialNewServices.slice(0, 6);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentIndex1, setCurrentIndex1] = useState(0);
   const visibleServices = 3;
+  const visibleServices1 = 3;
 
   const handleNext = () => {
-    if (currentIndex < initialPopularServices.length - visibleServices) {
-      setCurrentIndex((prev) => prev + 3);
+    if (currentIndex < top6PopularServices.length - visibleServices) {
+      setCurrentIndex((prevIndex) => prevIndex + 3);
     }
   };
+
   const handlePrev = () => {
     if (currentIndex > 0) {
-      setCurrentIndex((prev) => prev - 3);
+      setCurrentIndex((prevIndex) => prevIndex - 3);
     }
   };
+
   const handleNext1 = () => {
-    if (currentIndex1 < initialNewServices.length - visibleServices) {
-      setCurrentIndex1((prev) => prev + 3);
+    if (currentIndex1 < top6NewServices.length - visibleServices1) {
+      setCurrentIndex1((prevIndex1) => prevIndex1 + 3);
     }
   };
+
   const handlePrev1 = () => {
     if (currentIndex1 > 0) {
-      setCurrentIndex1((prev) => prev - 3);
+      setCurrentIndex1((prevIndex1) => prevIndex1 - 3);
     }
+  };
+
+  const chunkArray = (arr: any[], size: number) => {
+    const result = [];
+    for (let i = 0; i < arr.length; i += size) {
+      result.push(arr.slice(i, i + size));
+    }
+    return result;
   };
 
   return (
     <div className={styles.pbacs}>
-      <div className={styles.nav}>
-        <Image
-          className={styles.serveaseLogoAlbumCover3}
-          width={40}
-          height={40}
-          sizes="100vw"
-          alt=""
-          src="/logo.svg"
-          onClick={() => router.push("/home")}
-        />
-        <div className={styles.servease1} onClick={() => router.push("/home")}>
-          <span className={styles.serv}>serv</span>
-          <b>ease</b>
-        </div>
-        <div className={styles.navChild} />
-        <div className={styles.homeParent}>
-          <div className={styles.home1} onClick={() => router.push("/home")}>
-            Home
-          </div>
-          <div
-            className={styles.home1}
-            onClick={() => router.push("/discover")}
-          >
-            Discover
-          </div>
-          <div
-            className={styles.contactUs1}
-            onClick={() => {
-              window.scrollTo({
-                top: document.body.scrollHeight,
-                behavior: "smooth",
-              });
-            }}
-          >
-            Contact Us
-          </div>
-        </div>
-        <div className={styles.navChild} />
-        <div className={styles.dropdownWrapper} ref={dropdownRef}>
-          <div className={styles.avataricon} onClick={() => setOpen(!open)}>
-            <Image
-              src="/avatar.svg"
-              alt="Profile"
-              width={40}
-              height={40}
-              sizes="100vw"
-            />
-          </div>
-          {open && (
-            <div className={styles.dropdownMenu}>
-              {items.map((item, index) => {
-                const isActive = hovered === item.label;
-                const isFirst = index === 0;
-                const isLast = index === items.length - 1;
-                let borderClass = "";
-                if (isActive && isFirst) {
-                  borderClass = styles.activeTop;
-                } else if (isActive && isLast) {
-                  borderClass = styles.activeBottom;
-                }
-                return (
-                  <Link
-                    href={item.href}
-                    key={item.label}
-                    className={`${styles.dropdownItem} ${
-                      isActive ? styles.active : ""
-                    } ${borderClass}`}
-                    onMouseEnter={() => setHovered(item.label)}
-                    onMouseLeave={() => setHovered("")}
-                  >
-                    {item.label}
-                  </Link>
-                );
-              })}
-            </div>
-          )}
-        </div>
-      </div>
       <div className={styles.bg}>
         <div className={styles.heroImg}>
           <div className={styles.personalBeautyAnd}>
@@ -477,15 +393,17 @@ const RATS: NextPage<{
             <div
               className={styles.carouselTrack}
               style={{
-                transform: `translateX(calc(-${currentIndex} * (100% / ${visibleServices})))`,
+                transform: `translateX(calc(-${
+                  currentIndex * (100 / visibleServices)
+                }%))`,
               }}
             >
-              {initialPopularServices.map((service) => (
+              {top6PopularServices.map((service) => (
                 <PopularServiceCard key={service.id} service={service} />
               ))}
             </div>
           </div>
-          {currentIndex < initialPopularServices.length - visibleServices && (
+          {currentIndex < top6PopularServices.length - visibleServices && (
             <button
               className={`${styles.carouselButton} ${styles.nextButton}`}
               onClick={handleNext}
@@ -525,15 +443,17 @@ const RATS: NextPage<{
             <div
               className={styles.carouselTrack}
               style={{
-                transform: `translateX(calc(-${currentIndex1} * (100% / ${visibleServices})))`,
+                transform: `translateX(calc(-${
+                  currentIndex1 * (100 / visibleServices1)
+                }%))`,
               }}
             >
-              {initialNewServices.map((service) => (
+              {top6NewServices.map((service) => (
                 <FeaturedServiceCard key={service.id} service={service} />
               ))}
             </div>
           </div>
-          {currentIndex1 < initialNewServices.length - visibleServices && (
+          {currentIndex1 < top6NewServices.length - visibleServices1 && (
             <button
               className={`${styles.carouselButton} ${styles.nextButton}`}
               onClick={handleNext1}
@@ -557,21 +477,15 @@ const RATS: NextPage<{
         </b>
         <div className={styles.allView}>
           <div className={styles.allCards}>
-            <div className={styles.cards}>
-              {initialAllServices.slice(0, 3).map((service) => (
-                <AllServiceCard key={service.id} service={service} />
-              ))}
-            </div>
-            <div className={styles.cards}>
-              {initialAllServices.slice(3, 6).map((service) => (
-                <AllServiceCard key={service.id} service={service} />
-              ))}
-            </div>
-            <div className={styles.cards}>
-              {initialAllServices.slice(6, 9).map((service) => (
-                <AllServiceCard key={service.id} service={service} />
-              ))}
-            </div>
+            {chunkArray(initialAllServices.slice(0, 6), 2).map(
+              (row, rowIndex) => (
+                <div className={styles.cards} key={rowIndex}>
+                  {row.map((service) => (
+                    <AllServiceCard key={service.id} service={service} />
+                  ))}
+                </div>
+              )
+            )}
           </div>
           <div className={styles.button}>
             <div className={styles.viewAll}>View All</div>

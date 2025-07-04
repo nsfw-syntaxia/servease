@@ -473,3 +473,191 @@
     transform: scale(1);
   }
 }
+/* ---------- Tablet (max-width: 1024px) ---------- */
+@media screen and (max-width: 1024px) {
+  .background {
+    left: 0;
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  .authwindow {
+    width: 80%;
+    height: 60%;
+    border-radius: 26px;
+    background: white;
+    top: 130px;
+    position: relative;
+     margin: 40px auto;
+     margin-left: -111%;
+
+  }
+
+  .authwindow1 {
+    width: 90%;
+    height: auto;
+    left: 0;
+    top: 20px;
+  }
+
+  .title {
+    font-size: 36px;
+    margin: 20px 0 10px;
+    margin-left: -40px;
+  }
+
+  .authlogoIcon {
+   position: absolute;
+    width: 60%;
+    height: 120px;
+    margin-top: 5%;
+    margin-left: 1px;
+  }
+
+  .signupcontent {
+    padding: 0 40px;
+    gap: 40px;
+  }
+
+  .buttoncontainer {
+    width: 300px;
+    height: 50px;
+    bottom: 30px;
+    right: 45px;
+  }
+
+  .usertype {
+    width: 115%;
+  }
+
+  .service, .client {
+    width: 100%;
+  }
+
+.navigationbar {
+  width: 604px;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10%;
+}
+}
+
+/* ---------- Mobile (max-width: 768px) ---------- */
+@media screen and (max-width: 768px) {
+  .background {
+    left: 0;
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  .authwindow {
+     width: 95%;
+    height: 55%;
+    border-radius: 26px;
+    background: white;
+    top: 150px;
+    position: relative;
+     margin: 40px auto;
+     margin-left: -129%;
+  }
+
+  .authwindow1 {
+    width: 95%;
+    height: auto;
+    top: 0;
+    left: 0;
+  }
+
+  .authlogoIcon {
+    position: absolute;
+    width: 35%;
+    height: 120px;
+    margin-top: 10%;
+    margin-left: 1px;
+  }
+
+  .title {
+    font-size: 25px;
+    margin: 20px 0 10px;
+    width: 100%;
+    margin-right: 39%;
+  }
+
+  .signupcontent {
+    padding: 0 20px;
+    gap: 30px;
+  }
+
+  .buttoncontainer {
+    width: 280px;
+    height: 44px;
+    bottom: 20px;
+    right: 35%;
+  }
+
+  .usertype {
+    width: 60px;
+    height: 190px;
+    right: 300px;
+  }
+
+  .service, .client {
+    width: 100%;
+    left: -11%;
+    right: -10%;
+  }
+
+.navbar {
+  width: 500px;
+  border-radius: var(--br-12);
+  height: 56px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0px;
+  cursor: pointer;
+  margin-right: 25%;
+
+}
+
+.login {
+  width: 250px;
+  position: relative;
+  background-color: var(--color-tan);
+  height: 56px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.signup2 {
+  width: 250px;
+  position: relative;
+  background-color: var(--color-tan);
+  height: 56px;
+  overflow: hidden;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+}
+
+/* ---------- Landscape Mobile (max-height: 500px) ---------- */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+  .authwindow {
+    height: 90vh;
+    margin-top: 0;
+  }
+
+  .authlogoIcon {
+    display: none;
+  }
+
+  .logincontent {
+    gap: 20px;
+  }
+}
+
