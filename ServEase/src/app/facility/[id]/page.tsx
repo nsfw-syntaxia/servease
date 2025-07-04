@@ -69,25 +69,21 @@ export default async function FacilityPage({ params }: FacilityPageProps) {
 
   console.log(`Searching for related services where 'specific_category' equals: "${profile.specific_category}"`);
 
-  // Get user email from admin client
   const {
     data: { user },
     error: userError,
   } = await supabaseAdmin.auth.admin.getUserById(profile.id);
 
-  // Fetch services for this facility
   const { data: services } = await supabase
     .from("services")
     .select("*")
     .eq("provider_id", id);
 
-  // Fetch reviews for this facility
   const { data: reviews } = await supabase
     .from("reviews")
     .select("*")
     .eq("provider_id", id);
 
-  // Fetch related services
   const { data: relatedServices } = await supabase
     .from("profiles")
     .select("id, business_name, address, rating, facility_image_url, picture_url")
@@ -95,8 +91,10 @@ export default async function FacilityPage({ params }: FacilityPageProps) {
     .neq("id", id)
     .limit(6);
 
-  console.log("Related services found:", relatedServices?.length || 0);
-  console.log("Related services data:", relatedServices);
+  console.log("Services found:", services?.length || 0);
+  console.log("Services data:", services);
+  console.log("Related service providers found:", relatedServices?.length || 0);
+  console.log("Related service providers data:", relatedServices);
   const facilityData: FacilityData = {
     ...profile,
     email: userError || !user ? "Not Available" : user.email,
@@ -104,7 +102,6 @@ export default async function FacilityPage({ params }: FacilityPageProps) {
   };
   const processedRelatedServices = (relatedServices || []).map(service => ({
     ...service,
-    // If service.rating is null or undefined, assign a random one.
     rating: service.rating || (Math.random() * (5 - 3.5) + 3.5) 
   }));
 

@@ -743,15 +743,17 @@
 }
 
 .buttonContainer {
+  display: flex;
   flex-direction: row;
+  flex-wrap: wrap; /* Allow items to wrap to the next line */
   align-items: flex-start;
   justify-content: flex-start;
-  gap: var(--gap-20);
+  gap: 16px; /* Use a single gap value */
   z-index: 16;
   text-align: center;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  width: 100%; /* Ensure it takes up the full width of its parent */
+  background-color: var(--color-tan);
+  color: white;
 }
 
 .buttonParent1 {

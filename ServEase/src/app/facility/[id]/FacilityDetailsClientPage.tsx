@@ -2,7 +2,7 @@
 
 import type { NextPage } from "next";
 import { useRouter } from "next/navigation";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
 import styles from "../../styles/facilitydetails.module.css";
 
@@ -13,7 +13,7 @@ interface Profile {
   address: string;
   contact_number: string;
   facility_image_url: string | null;
-  avatar_url: string | null;
+  picture_url: string | null;
   created_at: string;
   rating: number;
   specific_category: string;
@@ -26,8 +26,8 @@ interface Profile {
 }
 
 interface Service {
-  id: string;
-  service_name: string;
+  id: number; // Corrected type
+  name: string; // Corrected property name
   price: number;
   provider_id: string;
 }
@@ -41,7 +41,7 @@ interface RelatedService {
   business_name: string;
   rating: number;
   facility_image_url: string | null;
-  avatar_url: string | null;
+  picture_url: string | null;
 }
 
 const formatTime = (timeStr: string | null) => {
@@ -71,16 +71,13 @@ const formatWorkingDays = (days: string[] | null): string => {
   if (days.length === 1)
     return DAY_NAMES[days[0] as keyof typeof DAY_NAMES] || days[0];
 
-  // Sort days according to the week order
   const sortedDays = [...days].sort(
     (a, b) => DAY_ORDER.indexOf(a) - DAY_ORDER.indexOf(b)
   );
 
-  // Check if all days are consecutive
   const isConsecutive = (): boolean => {
     const indices = sortedDays.map((day) => DAY_ORDER.indexOf(day));
 
-    // Check for regular consecutive days (no wrap-around)
     let regularConsecutive = true;
     for (let i = 1; i < indices.length; i++) {
       if (indices[i] !== indices[i - 1] + 1) {
@@ -91,20 +88,15 @@ const formatWorkingDays = (days: string[] | null): string => {
 
     if (regularConsecutive) return true;
 
-    // Check for wrap-around consecutive days (e.g., Sat, Sun, Mon)
     if (indices.includes(6) && indices.includes(0)) {
-      // Contains both Sun and Mon
-      // Create a reordered array starting from Sunday
       const reordered = [...indices];
       const sunIndex = reordered.indexOf(6);
       const beforeSun = reordered.slice(0, sunIndex);
       const fromSun = reordered.slice(sunIndex);
       const newOrder = [...fromSun, ...beforeSun];
 
-      // Convert Sunday index to -1 for checking consecutive pattern
       const adjustedOrder = newOrder.map((idx) => (idx === 6 ? -1 : idx));
 
-      // Check if the adjusted order is consecutive
       for (let i = 1; i < adjustedOrder.length; i++) {
         if (adjustedOrder[i] !== adjustedOrder[i - 1] + 1) {
           return false;
@@ -116,7 +108,6 @@ const formatWorkingDays = (days: string[] | null): string => {
     return false;
   };
 
-  // If consecutive, return range format with full day names
   if (isConsecutive()) {
     const firstDay =
       DAY_NAMES[sortedDays[0] as keyof typeof DAY_NAMES] || sortedDays[0];
@@ -126,7 +117,6 @@ const formatWorkingDays = (days: string[] | null): string => {
     return `${firstDay} - ${lastDay}`;
   }
 
-  // Otherwise return the original input with full day names joined by commas
   return days
     .map((day) => DAY_NAMES[day as keyof typeof DAY_NAMES] || day)
     .join(", ");
@@ -135,7 +125,6 @@ const formatWorkingDays = (days: string[] | null): string => {
 const RelatedServiceCard = ({ related }: { related: RelatedService }) => {
   const router = useRouter();
 
-  // This JSX is an exact copy of the 'customerQuote' div from your static code
   return (
     <div
       className={styles.customerQuote}
@@ -153,7 +142,7 @@ const RelatedServiceCard = ({ related }: { related: RelatedService }) => {
         <div className={styles.avatar}>
           <div className={styles.avatar1}>
             <Image
-              src={related.avatar_url || "/avatar.svg"}
+              src={related.picture_url || "/avatar.svg"}
               alt={related.business_name}
               layout="fill"
               objectFit="cover"
@@ -194,13 +183,12 @@ const FacilityDetailsClientPage: NextPage<{
   relatedServices: RelatedService[];
 }> = ({ facility, services, reviews, relatedServices }) => {
   const router = useRouter();
-  const [activeIndex, setActiveIndex] = useState(
-    services.length > 0 ? services[0].id : ""
-  );
   const [isLiked, setIsLiked] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [activeFilter, setActiveFilter] = useState("All");
-  const [active, setActive] = useState(1);
+const [activeFilter, setActiveFilter] = useState("All");
+const [active, setActive] = useState(1);
+const serviceNames = services ? services.map(service => service.name) : [];
+const [activeServiceName, setActiveServiceName] = useState("");
 
   const filters = [
     { label: "All", hasStar: false },
@@ -220,6 +208,15 @@ const FacilityDetailsClientPage: NextPage<{
     }, 100);
   };
 
+   useEffect(() => {
+    // When the services data arrives, check if there are services
+    // and if an active service hasn't been set yet.
+    if (services && services.length > 0 && !activeServiceName) {
+      // Set the first service as the default active one.
+      setActiveServiceName(services[0].name);
+    }
+  }, [services, activeServiceName]);
+  
   const priceRange = useMemo(() => {
     if (!services || services.length === 0) return "N/A";
     const prices = services.map((s) => s.price);
@@ -230,9 +227,9 @@ const FacilityDetailsClientPage: NextPage<{
   }, [services]);
 
   const selectedServicePrice = useMemo(() => {
-    const selected = services.find((s) => s.id === activeIndex);
-    return selected ? selected.price.toFixed(2) : "0.00";
-  }, [activeIndex, services]);
+  const selected = services.find((s) => s.name === activeServiceName);
+  return selected ? selected.price.toFixed(2) : "0.00";
+}, [activeServiceName, services]);
 
   return (
     <div className={styles.facilityDetailsParent}>
@@ -507,60 +504,56 @@ const FacilityDetailsClientPage: NextPage<{
                 </div>
               </div>
               <div className={styles.buttonContainer}>
-                {services.map((service) => (
-                  <div
-                    key={service.id}
-                    className={`${styles.button3} ${
-                      activeIndex === service.id
-                        ? styles.active
-                        : styles.inactive
-                    }`}
-                    onClick={() => setActiveIndex(service.id)}
-                  >
-                    <div className={styles.star} />
-                    <div className={styles.mondayFriday}>
-                      {service.service_name}
-                    </div>
-                    <div className={styles.star} />
+  {serviceNames.map((serviceName) => (
+    <div
+      key={serviceName}
+      className={`${styles.button3} ${
+        activeServiceName === serviceName ? styles.active : styles.inactive
+      }`}
+      onClick={() => setActiveServiceName(serviceName)}
+    >
+      <div className={styles.star} />
+      <div className={styles.mondayFriday}>{serviceName}</div>
+      <div className={styles.star} />
+    </div>
+  ))}
+</div>
+              <Image
+                className={styles.dividerIcon3}
+                width={629}
+                height={1}
+                alt=""
+                src="/Divider1.svg"
+              />
+              <div className={styles.buttonParent2}>
+                <div className={styles.button9} onClick={handleClick}>
+                  <div className={styles.heart}>
+                    <Image
+                      src="/Heart.svg"
+                      alt="heart outline"
+                      width={30.5}
+                      height={26.6}
+                      className={`${styles.icon2} ${
+                        !isLiked && !isAnimating ? styles.iconVisible : ""
+                      }`}
+                    />
+                    <Image
+                      src="/Heart1.svg"
+                      alt="heart filled"
+                      width={30.5}
+                      height={26.6}
+                      className={`${styles.icon2} ${
+                        isLiked && !isAnimating ? styles.iconVisible : ""
+                      }`}
+                    />
                   </div>
-                ))}
-              </div>
-            </div>
-            <Image
-              className={styles.dividerIcon3}
-              width={629}
-              height={1}
-              alt=""
-              src="/Divider1.svg"
-            />
-            <div className={styles.buttonParent2}>
-              <div className={styles.button9} onClick={handleClick}>
-                <div className={styles.heart}>
-                  <Image
-                    src="/Heart.svg"
-                    alt="heart outline"
-                    width={30.5}
-                    height={26.6}
-                    className={`${styles.icon2} ${
-                      !isLiked && !isAnimating ? styles.iconVisible : ""
-                    }`}
-                  />
-                  <Image
-                    src="/Heart1.svg"
-                    alt="heart filled"
-                    width={30.5}
-                    height={26.6}
-                    className={`${styles.icon2} ${
-                      isLiked && !isAnimating ? styles.iconVisible : ""
-                    }`}
-                  />
+                  <div className={styles.favorite11k}>Favorite</div>
                 </div>
-                <div className={styles.favorite11k}>Favorite</div>
-              </div>
-              <div className={styles.button4}>
-                <div className={styles.star} />
-                <div className={styles.mondayFriday}>Book Now</div>
-                <div className={styles.star} />
+                <div className={styles.button4}>
+                  <div className={styles.star} />
+                  <div className={styles.mondayFriday}>Book Now</div>
+                  <div className={styles.star} />
+                </div>
               </div>
             </div>
           </div>
@@ -580,7 +573,7 @@ const FacilityDetailsClientPage: NextPage<{
                   fill
                   objectFit="cover"
                   alt="Map Background"
-                  src="/map-placeholder.png"
+                  src="/Map.svg"
                 />
                 <Image
                   className={styles.locationOnIcon}
