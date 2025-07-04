@@ -5,6 +5,192 @@ import styles from "../styles/client-profile.module.css";
 const ProfileClient: NextPage = () => {
   return (
     <div className={styles.profileClient}>
+      <div className={styles.content}>
+        <div className={styles.pfpContainer} />
+        <Image
+          className={styles.pfpCoverIcon}
+          width={1032}
+          height={148}
+          sizes="100vw"
+          alt=""
+          src="/client-cover.png"
+        />
+        <div className={styles.profileInfo}>
+          <div className={styles.clientemailcom}>client@email.com</div>
+          <div className={styles.clientName}>Client Name</div>
+        </div>
+        <div className={styles.emailAdd}>
+          <div className={styles.emailAddTbx} />
+          <Image
+            className={styles.icon}
+            width={18}
+            height={18}
+            sizes="100vw"
+            alt=""
+            src="/edit-gray.svg"
+          />
+          <div className={styles.emailAddress}>Email Address</div>
+        </div>
+        <div className={styles.emailAddress1}>Email Address</div>
+        <div className={styles.birthdate}>
+          <div className={styles.emailAddTbx} />
+          <div className={styles.emailAddress}>Day Month Year</div>
+        </div>
+        <div className={styles.dateOfBirth}>Date of Birth</div>
+        <div className={styles.address}>
+          <div className={styles.emailAddTbx} />
+          <Image
+            className={styles.icon}
+            width={18}
+            height={18}
+            sizes="100vw"
+            alt=""
+            src="/edit-gray.svg"
+          />
+          <div className={styles.emailAddress}>Address</div>
+        </div>
+        <div className={styles.address2}>Address</div>
+        <div className={styles.contactNum}>
+          <div className={styles.emailAddTbx} />
+          <Image
+            className={styles.icon}
+            width={18}
+            height={18}
+            sizes="100vw"
+            alt=""
+            src="/edit-gray.svg"
+          />
+          <div className={styles.emailAddress}>+63 9XX XXXX XXX</div>
+        </div>
+        <div className={styles.contactNumber}>Contact Number</div>
+        <div className={styles.gender}>
+          <div className={styles.emailAddTbx} />
+          <div className={styles.emailAddress}>Gender</div>
+        </div>
+        <div className={styles.gender2}>Gender</div>
+        <div className={styles.name}>
+          <div className={styles.emailAddTbx} />
+          <Image
+            className={styles.icon}
+            width={18}
+            height={18}
+            sizes="100vw"
+            alt=""
+            src="/edit-gray.svg"
+          />
+          <div className={styles.emailAddress}>Name</div>
+        </div>
+        <div className={styles.name2}>Name</div>
+        <div className={styles.pfp}>
+          <Image
+            className={styles.avatarIcon}
+            width={70.5}
+            height={64.1}
+            sizes="100vw"
+            alt=""
+            src="/avatar.svg"
+          />
+        </div>
+        <div className={styles.saveProfileBtn}>
+          <div className={styles.editLabel}>
+            <div className={styles.save}>Save</div>
+          </div>
+          <Image
+            className={styles.checkIcon}
+            width={20}
+            height={20}
+            sizes="100vw"
+            alt=""
+            src="/check_thin.svg"
+          />
+        </div>
+        <div className={styles.editProfileBtn}>
+          <div className={styles.editLabel}>
+            <div className={styles.save}>Edit</div>
+          </div>
+          <Image
+            className={styles.checkIcon}
+            width={20}
+            height={20}
+            sizes="100vw"
+            alt=""
+            src="/edit-white.svg"
+          />
+        </div>
+        <div className={styles.circleEditPfp} />
+        <Image
+          className={styles.editPfpIcon}
+          width={19}
+          height={19}
+          sizes="100vw"
+          alt=""
+          src="/edit-profile.svg"
+        />
+        <div className={styles.moreActions} />
+        <div className={styles.passLabel}>
+          <div className={styles.password}>Password</div>
+        </div>
+        <div className={styles.changePassBtn}>
+          <div className={styles.btn} />
+          <div className={styles.changePassword}>Change Password</div>
+        </div>
+        <div className={styles.circlePassword} />
+        <Image
+          className={styles.lockIcon}
+          width={24}
+          height={24}
+          sizes="100vw"
+          alt=""
+          src="/change-pass.svg"
+        />
+        <div className={styles.notifLabel}>
+          <div className={styles.password}>Notifications</div>
+        </div>
+        <div className={styles.enableBtn}>
+          <div className={styles.btn} />
+          <div className={styles.changePassword}>Enable</div>
+        </div>
+        <div className={styles.circleNotif} />
+        <Image
+          className={styles.notificationIcon}
+          width={24}
+          height={24}
+          sizes="100vw"
+          alt=""
+          src="/notification-enable.svg"
+        />
+        <div className={styles.accountLabel}>
+          <div className={styles.password}>Account</div>
+        </div>
+        <div className={styles.deleteAccBtn}>
+          <div className={styles.btn} />
+          <div className={styles.changePassword}>Delete Account</div>
+        </div>
+        <div className={styles.circleSetting} />
+        <Image
+          className={styles.settingIcon}
+          width={24}
+          height={24}
+          sizes="100vw"
+          alt=""
+          src="/setting-client.svg"
+        />
+      </div>
+      <b className={styles.profile}>Profile</b>
+    </div>
+  );
+};
+
+export default ProfileClient;
+
+/*
+import type { NextPage } from "next";
+import Image from "next/image";
+import styles from "../styles/client-profile.module.css";
+
+const ProfileClient: NextPage = () => {
+  return (
+    <div className={styles.profileClient}>
       <div className={styles.joinUs}>
         <div className={styles.joinUsChild} />
         <div className={styles.paraContent} />
@@ -133,6 +319,7 @@ const ProfileClient: NextPage = () => {
 };
 
 export default ProfileClient;
+*/
 
 /*
 
