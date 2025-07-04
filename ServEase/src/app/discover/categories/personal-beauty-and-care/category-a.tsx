@@ -185,6 +185,8 @@ const PBACS: NextPage<{
   initialAllServices: Profile[];
 }> = ({ initialPopularServices, initialNewServices, initialAllServices }) => {
   const router = useRouter();
+  const top6PopularServices = initialPopularServices.slice(0, 6);
+  const top6NewServices = initialNewServices.slice(0, 6);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentIndex1, setCurrentIndex1] = useState(0);
@@ -192,7 +194,7 @@ const PBACS: NextPage<{
   const visibleServices1 = 3;
 
   const handleNext = () => {
-    if (currentIndex < initialPopularServices.length - visibleServices) {
+    if (currentIndex < top6PopularServices.length - visibleServices) {
       setCurrentIndex((prevIndex) => prevIndex + 3);
     }
   };
@@ -204,7 +206,7 @@ const PBACS: NextPage<{
   };
 
   const handleNext1 = () => {
-    if (currentIndex1 < initialNewServices.length - visibleServices1) {
+    if (currentIndex1 < top6NewServices.length - visibleServices1) {
       setCurrentIndex1((prevIndex1) => prevIndex1 + 3);
     }
   };
@@ -391,12 +393,12 @@ const PBACS: NextPage<{
                 }%))`,
               }}
             >
-              {initialPopularServices.map((service) => (
+              {top6PopularServices.map((service) => (
                 <PopularServiceCard key={service.id} service={service} />
               ))}
             </div>
           </div>
-          {currentIndex < initialPopularServices.length - visibleServices && (
+          {currentIndex < top6PopularServices.length - visibleServices && (
             <button
               className={`${styles.carouselButton} ${styles.nextButton}`}
               onClick={handleNext}
@@ -441,12 +443,12 @@ const PBACS: NextPage<{
                 }%))`,
               }}
             >
-              {initialNewServices.map((service) => (
+              {top6NewServices.map((service) => (
                 <FeaturedServiceCard key={service.id} service={service} />
               ))}
             </div>
           </div>
-          {currentIndex1 < initialNewServices.length - visibleServices1 && (
+          {currentIndex1 < top6NewServices.length - visibleServices1 && (
             <button
               className={`${styles.carouselButton} ${styles.nextButton}`}
               onClick={handleNext1}

@@ -291,7 +291,6 @@
   align-items: center;
   justify-content: center;
   padding-left: 5px;
-  background-color: aqua;
 }
 .carouselTrack {
   display: flex;
@@ -436,7 +435,7 @@
 /* cards */
 
 .serviceCard {
-  flex: 0 0 calc(85% / 3);
+  flex: 0 0 calc(95% / 3);
   box-sizing: border-box;
   border: 2px solid var(--color-antiquewhite);
   border-radius: 12px;
@@ -672,6 +671,7 @@
   justify-content: flex-start;
   padding: var(--padding-20);
   min-height: 90px;
+  border-radius: 0px 0px 12px 12px;
   background-color: #e0d9c9;
   z-index: 1;
 }
