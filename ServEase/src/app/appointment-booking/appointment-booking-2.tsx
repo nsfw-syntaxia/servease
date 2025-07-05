@@ -29,7 +29,7 @@ export default function AppointmentScheduler({ onNext }: Props) {
   const fetchingRef = useRef(false);
   const lastFetchRef = useRef<string>("");
 
-  const prevDateRef = useRef<Date | null>();
+  const prevDateRef = useRef<Date | null>(null);
   const totalBookingDuration = useMemo(() => {
     return selectedServices.reduce((sum, service) => sum + service.duration_minutes, 0);
   }, [selectedServices]);
