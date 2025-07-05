@@ -56,7 +56,8 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
   };
 
   const validateContactNumber = (contactNumber: string) => {
-    const phoneRegex = /^\+63\s9\d{2}\s\d{3}\s\d{4}$/;
+    // This new regex matches the format +63XXX XXXX XXX (e.g., +63917 1234 567)
+    const phoneRegex = /^\+63\d{3}\s\d{4}\s\d{3}$/;
     return phoneRegex.test(contactNumber);
   };
 
