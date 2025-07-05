@@ -1,19 +1,20 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import type { NextPage } from "next";
 import Image from "next/image";
 import styles from "../styles/client-profile.module.css";
+import { getUserProfileData, type ProfileDataType } from "./actions";
 
 const ProfileClient: NextPage = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [profileData, setProfileData] = useState({
     name: "Name",
-    email: "client@email.com",
+    email: "Email Address",
     address: "Address",
-    contactNumber: "+63 9XX XXXX XXX",
+    contactNumber: "Contact Number",
     gender: "Gender",
-    birthdate: "Day Month Year",
+    birthdate: "Birthdate",
     profileImage: "/avatar.svg",
   });
 
@@ -24,6 +25,38 @@ const ProfileClient: NextPage = () => {
     name: "",
   });
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const fetchAndSetData = async () => {
+      // call the server action
+      const { data, error } = await getUserProfileData();
+
+      if (error) {
+        console.error("Failed to load profile:", error);
+        // optional: you could set an error message to display in the ui
+        return;
+      }
+
+      if (data) {
+        // if data is fetched successfully, update the component's state
+        // provide fallbacks to avoid empty fields if some data is missing
+        const filledData = {
+          name: data.name || "",
+          email: data.email || "",
+          address: data.address || "",
+          contactNumber:
+            data.contactNumber || "",
+          gender: data.gender || "",
+          birthdate: data.birthdate || "",
+          profileImage: data.profileImage || "/avatar.svg",
+        };
+        setProfileData(filledData);
+        setEditData(filledData);
+      }
+    };
+
+    fetchAndSetData();
+  }, []); // the empty dependency array `[]` ensures this runs only once
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -36,7 +69,7 @@ const ProfileClient: NextPage = () => {
   };
 
   const validateName = (name: string) => {
-    const nameRegex = /^[A-Za-z\s]+$/; // only letters and spaces
+    const nameRegex = /^[A-Za-z\s]+$/; // only letters
     return nameRegex.test(name) && name.trim().length > 0;
   };
 
@@ -389,8 +422,6 @@ const ProfileClient: NextPage = () => {
 };
 
 export default ProfileClient;
-
-// CSS styles remain unchanged
 
 /*
 
