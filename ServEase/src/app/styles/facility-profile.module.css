@@ -40,6 +40,15 @@
 .serviceFacilityName {
   position: relative;
   font-weight: 500;
+  /* This still ensures the name itself never wraps to a new line */
+  white-space: nowrap; 
+}
+
+.subheadingInfo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
 }
 
 .verified1 {
@@ -72,26 +81,29 @@
   height: 26px;
   font-size: var(--font-size-16);
   color: var(--color-tan);
+  flex-shrink: 0; 
 }
 
 .verifiedFaci {
   position: absolute;
   top: 0px;
   left: 0px;
-  width: 322px;
-  display: flex;
+  /* This makes the container's width fit its content, creating the dynamic effect */
+  display: inline-flex; 
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
+  /* This creates the 10px space you requested between the name and the badge */
+  gap: 10px; 
   font-size: var(--font-size-20);
+  /* We remove the fixed width to allow the container to be dynamic */
 }
+
 
 .profileInfo {
   position: absolute;
   top: 513px;
   left: 360px;
-  width: 322px;
+  /* width is no longer needed here */
   height: 57px;
 }
 
@@ -134,13 +146,6 @@
   top: 961px;
   left: 236px;
   opacity: 0.8;
-}
-
-.emailAddress {
-  position: absolute;
-  top: 26.92%;
-  left: 4.27%;
-  opacity: 0.4;
 }
 
 .emailAdd {
@@ -704,4 +709,75 @@
   color: var(--color-black);
   font-family: var(--font-dm-sans);
   cursor: default;
+}
+
+/* ADD THESE STYLES TO YOUR facility-profile.module.css FILE */
+
+/* Replaces .emailAddress for displaying data text */
+.profileDataText {
+  position: absolute;
+  top: 26.92%;
+  left: 4.27%;
+  opacity: 0.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 85%;
+}
+
+/* For the input fields that appear during editing */
+.profileInput {
+  position: absolute;
+  top: 26.92%;
+  left: 4.27%;
+  width: 85%;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: var(--font-size-16);
+  color: #2e231d;
+  font-family: var(--font-dm-sans);
+  opacity: 1;
+}
+
+/* Styles for error states on textboxes */
+.tbxError {
+  border: 1px solid #d8000c !important;
+  background-color: #fff2f0 !important;
+}
+
+.tbxError:hover {
+  border-color: #d8000c !important;
+}
+
+.tbxError:focus-within {
+  border-color: #d8000c !important;
+}
+
+/* Styles for error states on input text */
+.inputError {
+  color: #d8000c !important;
+}
+
+/* Styles for the error message display */
+.errorMessage {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 4px;
+  font-size: 12px;
+  color: #d8000c;
+  background-color: rgba(255, 242, 240, 0.9);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-weight: 400;
+  z-index: 10;
+  white-space: nowrap;
+}
+
+/* Adjustments for avatar icon to use layout fill */
+.avatarIcon {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
