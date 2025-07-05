@@ -688,10 +688,10 @@
 @media screen and (max-width: 768px) {
   .authwindow {
     width: 100%;
-    height: 58%;
+    height: 40%;
     border-radius: 26px;
     background: white;
-    top: 130px;
+    top: 100px;
     position: relative;
     margin: 5% 0 0 5%;
   }
@@ -699,7 +699,7 @@
   .authlogoIcon {
     position: absolute;
     width: 100%;
-    height: 120px;
+    height: 85px;
     margin-top: 5%;
     margin-left: 1px;
   }
@@ -717,7 +717,7 @@
     left: 0;
   }
   .title {
-    font-size: 35px;
+    font-size: 25px;
     margin-right: 10%;
     width: 100%;
     position: relative;
@@ -725,22 +725,35 @@
   .welcomeToServeaseContainer {
   position: relative;
   margin-top: -7%;
-  right: 20%;
+  right: 36%;
 }
   .pleaseLogIn {
   position: relative;
-  font-size: 17px;
-  right: 20%;
+  font-size: 14px;
+  right: 36%;
   }
   .logincontent {
     width: 100%;
     padding: 0px 30px;
   }
-  
+  .tbx {
+  height: 35px;
+}
+.passwordInput::placeholder {
+  color: #a0a0a0;
+  font-size: 13px;
+}
+.hideIcon {
+  width: 30px;
+  top: calc(50% - 10px);
+  right: 15px;
+  height: 20px;
+}
   .email1, .password1 {
-    width: 110%;
-    margin-right: 110px;
-    right: 40%;
+    width: 90%;
+    margin-right: 100px;
+    right: 58%;
+    font-size: 12px;
   }
   .buttoncontainer {
   width: 300px;
@@ -757,9 +770,9 @@
   right: 40%;
 }
 .navbar {
-  width: 400px;
+  width: 300px;
   border-radius: var(--br-12);
-  height: 56px;
+  height: 47px;
   overflow: hidden;
   flex-shrink: 0;
   display: flex;
@@ -771,10 +784,10 @@
   position: relative;
 }
 .login2 {
-  width: 200px;
+  width: 150px;
   position: relative;
   background-color: var(--color-tan);
-  height: 56px;
+  height: 47px;
   overflow: hidden;
   flex-shrink: 0;
   cursor: pointer;
@@ -785,9 +798,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-right: 77%;
-  margin-left: 36%;
-  margin-top: -1%;
+  margin-right: 83%;
+  margin-left: 11%;
+  margin-top: -3%;
   position: relative;
 }
 .rememberMe1 {
