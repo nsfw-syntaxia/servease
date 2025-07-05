@@ -1,5 +1,5 @@
-import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { createServerClient } from "@supabase/ssr";
 
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({
@@ -29,46 +29,93 @@ export async function middleware(request: NextRequest) {
     }
   );
 
+  console.log(`\n--- New Request ---`); // <-- DEBUG LOG
+  console.log(`Request Path: ${request.nextUrl.pathname}`); // <-- DEBUG LOG
+
   const {
     data: { user },
   } = await supabase.auth.getUser();
+  const { pathname } = request.nextUrl;
 
-  // Debugging logs
-  console.log("User  state:", user);
-  console.log("Request path:", request.nextUrl.pathname);
+  // --- LOGGED-IN USER LOGIC ---
+  if (user) {
+    // Fetch user's role from the database
+    console.log(`Middleware state: User is LOGGED IN (ID: ${user.id})`); // <-- DEBUG LOG
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .single();
 
-  // Define public routes that don't require authentication
-  const publicRoutes = [
-    "/",
-    "/home",
-    "/login",
-    "/signup",
-    "/auth",
-    "/api/logout", // Allow access to the logout API
-    // Add other public routes here
-  ];
+    // Determine the correct dashboard URL based on the user's role
+    const role = profile?.role;
+    const dashboardUrl =
+      role === "client"
+        ? "/client-dashboard"
+        : role === "provider"
+        ? "/provider-dashboard"
+        : "/home"; // Fallback to home if role is not found
 
-  // If user is not authenticated and trying to access a protected route
-  if (
-    !user &&
-    !publicRoutes.some((route) => request.nextUrl.pathname.startsWith(route))
-  ) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/home"; // Redirect to home instead of login
-    return NextResponse.redirect(url);
+    // 1. If a logged-in user tries to access guest pages, redirect them to their dashboard.
+    if (pathname.startsWith("/login") || pathname.startsWith("/signup")) {
+      console.log(
+        `User on ${pathname}, redirecting to their dashboard: ${dashboardUrl}`
+      );
+      return NextResponse.redirect(new URL(dashboardUrl, request.url));
+    }
+
+    // 2. If a logged-in user lands on the generic home or root, redirect them to their dashboard.
+    if (pathname === "/home" || pathname === "/") {
+      console.log(
+        `User on root/home, redirecting to their dashboard: ${dashboardUrl}`
+      );
+      return NextResponse.redirect(new URL(dashboardUrl, request.url));
+    }
+  }
+  // --- GUEST LOGIC ---
+  else {
+    console.log("Middleware state: User is a GUEST (user is null)"); // <-- DEBUG LOG
+    // Define routes that require authentication
+    const authenticatedRoutes = [
+      "/client-dashboard",
+      "/provider-dashboard",
+      "/client-profile",
+      "/facility-profile",
+      "/appointments",
+      "/discover",
+      // Add any other protected routes here
+    ];
+
+    const isAccessingProtectedRoute = authenticatedRoutes.some((route) =>
+      pathname.startsWith(route)
+    );
+    console.log(
+      `Is guest trying to access a protected route? ${isAccessingProtectedRoute}`
+    ); // <-- CRUCIAL DEBUG LOG
+
+    /*
+    // 3. If a guest tries to access a protected route, redirect them to the login page.
+    if (authenticatedRoutes.some((route) => pathname.startsWith(route))) {
+      console.log(
+        `Guest on protected route ${pathname}, redirecting to /login`
+      );
+      return NextResponse.redirect(new URL("/login", request.url));
+    }*/
+
+    if (isAccessingProtectedRoute) {
+      console.log(
+        `>>> REDIRECTING guest from protected route (${pathname}) to /login`
+      ); // <-- DEBUG LOG
+      return NextResponse.redirect(new URL("/login", request.url));
+    } else {
+      console.log(
+        `Guest is accessing a public route (${pathname}). Allowing access.`
+      ); // <-- DEBUG LOG
+    }
   }
 
-  // If user is authenticated but trying to access auth pages, redirect to home
-  if (
-    user &&
-    (request.nextUrl.pathname.startsWith("/login") ||
-      request.nextUrl.pathname.startsWith("/signup"))
-  ) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/home";
-    return NextResponse.redirect(url);
-  }
-
+  console.log("--- End of Middleware Logic ---"); // <-- DEBUG LOG
+  // If no redirection rules match, allow the request to proceed
   return response;
 }
 
