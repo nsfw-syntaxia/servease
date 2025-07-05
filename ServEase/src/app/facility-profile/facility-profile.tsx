@@ -21,9 +21,75 @@ const ProfileFacility: NextPage = () => {
   const [errors, setErrors] = useState({
     email: "",
     contactNumber: "",
-    name: "",
   });
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validateContactNumber = (contactNumber: string) => {
+    const phoneRegex = /^\+63\d{3}\s\d{4}\s\d{3}$/;
+    return phoneRegex.test(contactNumber);
+  };
+
+  const handleEdit = () => {
+    setIsEditing(true);
+    setEditData({ ...profileData });
+    setErrors({ email: "", contactNumber: "" });
+  };
+
+  const handleSave = () => {
+    const newErrors = { email: "", contactNumber: "" };
+    if (!validateEmail(editData.email)) {
+      newErrors.email = "Invalid email address.";
+    }
+    if (!validateContactNumber(editData.contactNumber)) {
+      newErrors.contactNumber = "Invalid contact number.";
+    }
+    setErrors(newErrors);
+    if (!newErrors.email && !newErrors.contactNumber) {
+      setProfileData({ ...editData });
+      setIsEditing(false);
+    }
+  };
+
+  const handleInputChange = (field: string, value: string) => {
+    setEditData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+
+    // clear error when user starts typing
+    if (field === "email" && errors.email) {
+      setErrors((prev) => ({ ...prev, email: "" }));
+    }
+    if (field === "contactNumber" && errors.contactNumber) {
+      setErrors((prev) => ({ ...prev, contactNumber: "" }));
+    }
+  };
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file && (file.type === "image/png" || file.type === "image/jpeg")) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setEditData((prev) => ({
+          ...prev,
+          profileImage: e.target?.result as string,
+        }));
+      };
+      reader.readAsDataURL(file);
+    } else {
+      alert("Please select a PNG or JPG image file.");
+    }
+  };
+  const triggerFileUpload = () => {
+    if (isEditing) {
+      fileInputRef.current?.click();
+    }
+  };
 
   return (
     <div className={styles.profileFacility}>
