@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import type { NextPage } from "next";
 import Image from "next/image";
 import styles from "../styles/login.module.css";
-import { login } from "./actions"; 
+import { login } from "./actions";
 
 const Login: NextPage = () => {
   const [rememberMeChecked, setRememberMeChecked] = useState(false);
@@ -57,10 +57,12 @@ const Login: NextPage = () => {
 
       const result = await login(formData);
 
-       if (result.success && result.redirectTo) {
+      if (result.success && result.redirectTo) {
         router.push(result.redirectTo);
       } else {
-        setError(result.error || "Login failed. Please check your credentials.");
+        setError(
+          result.error || "Login failed. Please check your credentials."
+        );
         setShowError(true);
       }
     } catch (err) {
@@ -211,7 +213,7 @@ const Login: NextPage = () => {
                   onClick={handleLogin}
                 >
                   <div className={styles.buttontext}>
-                    <div className={styles.rememberMe1}>Log In</div>
+                    <div className={styles.buttontext}>Log In</div>
                   </div>
                 </div>
               </div>

@@ -28,7 +28,7 @@ const poppins = Poppins({
 export const metadata = {
   title: "servease",
   icons: {
-    icon: "/Servease logo.svg",
+    icon: "/logo.svg",
   },
 };
 
@@ -60,7 +60,7 @@ export default async function RootLayout({
       if (profile.role === 'client') {
         homePath = '/client-dashboard';
       } else if (profile.role === 'provider') {
-        homePath = '/facility-dashboard'; 
+        homePath = '/provider-dashboard'; 
       }
       
       if (profile.picture_url) {
