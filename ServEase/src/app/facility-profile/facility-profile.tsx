@@ -1,3 +1,4 @@
+/*
 import type { NextPage } from "next";
 import Image from "next/image";
 import styles from "../styles/facility-profile.module.css";
@@ -16,7 +17,7 @@ const ProfileFacility: NextPage = () => {
               height={40}
               sizes="100vw"
               alt=""
-              src="Servease Logo (Album Cover) (3) 1.png"
+              src="/logo.svg"
             />
             <div className={styles.servease}>
               <span className={styles.serv}>serv</span>
@@ -36,7 +37,7 @@ const ProfileFacility: NextPage = () => {
                 height={25.6}
                 sizes="100vw"
                 alt=""
-                src="Avatar Placeholder.svg"
+                src="/Avatar Placeholder.svg"
               />
             </div>
           </div>
@@ -48,7 +49,7 @@ const ProfileFacility: NextPage = () => {
               height={64.1}
               sizes="100vw"
               alt=""
-              src="Avatar Placeholder.svg"
+              src="/Avatar Placeholder.svg"
             />
           </div>
           <div className={styles.joinUsInner} />
@@ -58,7 +59,7 @@ const ProfileFacility: NextPage = () => {
             height={19}
             sizes="100vw"
             alt=""
-            src="edit-03.svg"
+            src="/edit-03.svg"
           />
           <div className={styles.rectangleDiv} />
           <Image
@@ -67,7 +68,7 @@ const ProfileFacility: NextPage = () => {
             height={148}
             sizes="100vw"
             alt=""
-            src="Rectangle 6691.svg"
+            src="/Rectangle 6691.svg"
           />
           <div className={styles.serviceFacilityNameParent}>
             <div className={styles.serviceFacilityName}>
@@ -296,3 +297,4 @@ const ProfileFacility: NextPage = () => {
 };
 
 export default ProfileFacility;
+*/
