@@ -415,6 +415,7 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+  overflow: hidden;
 }
 
 .service {
@@ -427,7 +428,6 @@
 .service:hover {
   transform: translateY(-6px) scale(1.01);
   box-shadow: 0 6px 16px rgba(166, 132, 101, 0.3);
-  border-radius: 13px;
   border: 1px solid var(--color-tan);
 }
 
@@ -666,6 +666,9 @@
   justify-content: flex-start;
   padding: var(--padding-20);
   min-height: 90px;
+  border-radius: 0px 0px 12px 12px;
+  background-color: #e0d9c9;
+  z-index: 1;
 }
 
 .cards {

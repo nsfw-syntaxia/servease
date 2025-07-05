@@ -449,18 +449,13 @@ const MS: NextPage<{
         </b>
         <div className={styles.allView}>
           <div className={styles.allCards}>
-            {chunkArray(initialAllServices.slice(0, 6), 2).map(
-              (row, rowIndex) => (
-                <div className={styles.cards} key={rowIndex}>
-                  {row.map((service) => (
-                    <AllServiceCard key={service.id} service={service} />
-                  ))}
-                </div>
-              )
-            )}
-          </div>
-          <div className={styles.button}>
-            <div className={styles.viewAll}>View All</div>
+            {chunkArray(initialAllServices, 2).map((row, rowIndex) => (
+              <div className={styles.cards} key={rowIndex}>
+                {row.map((service) => (
+                  <AllServiceCard key={service.id} service={service} />
+                ))}
+              </div>
+            ))}
           </div>
         </div>
       </div>

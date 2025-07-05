@@ -1232,11 +1232,11 @@
 
 .pbacs {
   width: 100%;
-  position: relative;
   background-color: #f8f7f3;
+  position: relative;
   box-sizing: border-box;
-  height: 4300px;
-  overflow: hidden;
+  height: auto;
+  overflow: auto;
   text-align: left;
   font-size: 50px;
   color: var(--color-tan-200);
