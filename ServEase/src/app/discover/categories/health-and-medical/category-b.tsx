@@ -527,9 +527,6 @@ const HAMSClientPage: NextPage<{
               </div>
             ))}
           </div>
-          <div className={styles.button}>
-            <div className={styles.viewAll}>View All</div>
-          </div>
         </div>
       </div>
 
