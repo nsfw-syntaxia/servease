@@ -1,39 +1,41 @@
+// app/appointments/page.tsx
+
 import { createClient } from "../lib/supabase/server";
 import { redirect } from "next/navigation";
-import AppointmentsClient from "./appointments"; // We will create this next
-import { type Appointment } from "../lib/supabase/types";
+import AppointmentsClient from "./appointments";
+import { type Appointment } from "./appointments";
 
 export default async function AppointmentsPage() {
   const supabase = await createClient();
 
-  // 1. Get the authenticated user
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect("/login"); // Protect the page
+    redirect("/login");
   }
 
-  // 2. Fetch ALL appointments for the client, ordered by date
-  //    It's more efficient to fetch them all at once than on each filter click.
+  // The fix is in this .select() block
   const { data: appointments, error } = await supabase
     .from('appointments')
     .select(`
       id,
-      start_time,
+      date,
+      time,
       status,
-      service:services (name),
-      provider:profiles (business_name, address)
-    `)
+      address,
+      provider:provider_id ( business_name, picture_url )
+    `) // <-- The invalid comment has been removed from this string
     .eq('client_id', user.id)
-    .order('start_time', { ascending: false }); // Show newest first
+    .order('date', { ascending: true }) 
+    .order('time', { ascending: true });
 
   if (error) {
+    // This is where the error you saw was being logged.
     console.error("Error fetching appointments:", error);
-    // You could return an error message component here
+    return <div>Error loading appointments.</div>;
   }
-
-  // 3. Pass the fetched appointments to the Client Component
+  
   return (
-    <AppointmentsClient initialAppointments={appointments as Appointment[] || []} />
+    <AppointmentsClient initialAppointments={appointments as any || []} />
   );
 }
