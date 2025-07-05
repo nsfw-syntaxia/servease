@@ -1,23 +1,42 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react"; // No useEffect needed anymore
 import type { NextPage } from "next";
 import Image from "next/image";
 import styles from "../styles/client-profile.module.css";
-import { getUserProfileData, type ProfileDataType } from "./actions";
+import { type ProfileDataType } from "./actions"; // Only the type is needed now
 
-const ProfileClient: NextPage = () => {
-  const [isEditing, setIsEditing] = useState(false);
+// Helper function to format the text as requested
+const capitalizeWords = (str: string): string => {
+  if (!str) return ""; // Handle null or empty strings gracefully
+  return str
+    .toLowerCase()
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+};
+
+// The component now accepts the `initialData` prop
+const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
+  initialData,
+}) => {
+  // The state is now initialized directly from the prop, with formatting applied.
   const [profileData, setProfileData] = useState({
-    name: "Name",
-    email: "Email Address",
-    address: "Address",
-    contactNumber: "Contact Number",
-    gender: "Gender",
-    birthdate: "Birthdate",
-    profileImage: "/avatar.svg",
+    // Apply formatting and provide fallbacks
+    name: capitalizeWords(initialData.name) || "Name",
+    email: initialData.email || "Email Address",
+
+    // --- SPECIAL HANDLING FOR ADDRESS ---
+    // As requested, if the address from the database is empty, show the placeholder.
+    address: capitalizeWords(initialData.address) || "Address",
+
+    contactNumber: initialData.contactNumber || "Contact Number",
+    gender: capitalizeWords(initialData.gender) || "Gender",
+    birthdate: initialData.birthdate || "Birthdate",
+    profileImage: initialData.profileImage || "/avatar.svg",
   });
 
+  const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState({ ...profileData });
   const [errors, setErrors] = useState({
     email: "",
@@ -26,37 +45,10 @@ const ProfileClient: NextPage = () => {
   });
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    const fetchAndSetData = async () => {
-      // call the server action
-      const { data, error } = await getUserProfileData();
+  // The useEffect for fetching data is now REMOVED.
+  // This is why the flicker is gone.
 
-      if (error) {
-        console.error("Failed to load profile:", error);
-        // optional: you could set an error message to display in the ui
-        return;
-      }
-
-      if (data) {
-        // if data is fetched successfully, update the component's state
-        // provide fallbacks to avoid empty fields if some data is missing
-        const filledData = {
-          name: data.name || "",
-          email: data.email || "",
-          address: data.address || "",
-          contactNumber:
-            data.contactNumber || "",
-          gender: data.gender || "",
-          birthdate: data.birthdate || "",
-          profileImage: data.profileImage || "/avatar.svg",
-        };
-        setProfileData(filledData);
-        setEditData(filledData);
-      }
-    };
-
-    fetchAndSetData();
-  }, []); // the empty dependency array `[]` ensures this runs only once
+  // ----- NO LOGIC OR UI (JSX) CHANGES BELOW THIS LINE -----
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -69,7 +61,7 @@ const ProfileClient: NextPage = () => {
   };
 
   const validateName = (name: string) => {
-    const nameRegex = /^[A-Za-z\s]+$/; // only letters
+    const nameRegex = /^[A-Za-z\s]+$/;
     return nameRegex.test(name) && name.trim().length > 0;
   };
 
@@ -82,17 +74,12 @@ const ProfileClient: NextPage = () => {
   const handleSave = () => {
     const newErrors = { email: "", contactNumber: "", name: "" };
 
-    if (!validateEmail(editData.email)) {
+    if (!validateEmail(editData.email))
       newErrors.email = "Invalid email address.";
-    }
-
-    if (!validateContactNumber(editData.contactNumber)) {
+    if (!validateContactNumber(editData.contactNumber))
       newErrors.contactNumber = "Invalid contact number.";
-    }
-
-    if (!validateName(editData.name)) {
+    if (!validateName(editData.name))
       newErrors.name = "Name must contain only letters.";
-    }
 
     setErrors(newErrors);
 
@@ -103,21 +90,13 @@ const ProfileClient: NextPage = () => {
   };
 
   const handleInputChange = (field: string, value: string) => {
-    setEditData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-
-    // clear error when user starts typing
-    if (field === "email" && errors.email) {
+    setEditData((prev) => ({ ...prev, [field]: value }));
+    if (field === "email" && errors.email)
       setErrors((prev) => ({ ...prev, email: "" }));
-    }
-    if (field === "contactNumber" && errors.contactNumber) {
+    if (field === "contactNumber" && errors.contactNumber)
       setErrors((prev) => ({ ...prev, contactNumber: "" }));
-    }
-    if (field === "name" && errors.name) {
+    if (field === "name" && errors.name)
       setErrors((prev) => ({ ...prev, name: "" }));
-    }
   };
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -137,9 +116,7 @@ const ProfileClient: NextPage = () => {
   };
 
   const triggerFileUpload = () => {
-    if (isEditing) {
-      fileInputRef.current?.click();
-    }
+    if (isEditing) fileInputRef.current?.click();
   };
 
   return (

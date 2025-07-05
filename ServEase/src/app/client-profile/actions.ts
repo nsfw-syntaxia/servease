@@ -1,10 +1,8 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import { createClient } from "../utils/supabase/server";
 import { createAdminClient } from "../utils/supabase/admin";
 
-// this is the data structure the client component expects
 export type ProfileDataType = {
   name: string;
   email: string;
@@ -15,26 +13,20 @@ export type ProfileDataType = {
   profileImage: string;
 };
 
-// this is our main server action
 export async function getUserProfileData(): Promise<{
   data?: ProfileDataType;
   error?: string;
 }> {
-  // get the current user session, this is the secure way to identify the user on the server
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   if (!user) {
-    // a server action called from a client can't redirect directly
-    // instead, we return an error that the client can handle
     return { error: "User not authenticated." };
   }
 
   try {
-    // concurrently fetch data from 'profiles' and 'auth.users'
-    // this is more efficient than awaiting them one by one
     const profilePromise = supabase
       .from("profiles")
       .select(
@@ -46,16 +38,21 @@ export async function getUserProfileData(): Promise<{
     const supabaseAdmin = createAdminClient();
     const authUserPromise = supabaseAdmin.auth.admin.getUserById(user.id);
 
-    // await both promises to resolve
     const [
-      { data: profile, error: profileError },
+      { data: profile, error: profileError }, // `profile` will be null if not found
       { data: authUser, error: userError },
     ] = await Promise.all([profilePromise, authUserPromise]);
 
-    if (profileError) throw profileError;
+    // --- KEY FIX: Don't throw an error if the profile is just missing ---
+    // This is expected if the user hasn't completed their profile yet.
+    // We only throw if there's a different, unexpected error.
+    if (profileError && profileError.code !== "PGRST116") {
+      // PGRST116 is the code for "exact one row not found"
+      throw profileError;
+    }
     if (userError) throw userError;
 
-    // map the database columns to the client-side state names and format the data.
+    // Map the data. This now safely handles a `null` profile object.
     const formattedData: ProfileDataType = {
       name: profile?.full_name || "",
       email: authUser?.user?.email || "",
@@ -72,7 +69,6 @@ export async function getUserProfileData(): Promise<{
       profileImage: profile?.picture_url || "/avatar.svg",
     };
 
-    // return the data successfully.
     return { data: formattedData };
   } catch (error: any) {
     console.error("Error fetching profile data:", error.message);
