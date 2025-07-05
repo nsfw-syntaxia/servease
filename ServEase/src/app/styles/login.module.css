@@ -593,7 +593,7 @@
   }
   .welcomeToServeaseContainer {
   position: relative;
-  margin-top: -5%;
+  margin-top: -7%;
 }
   .pleaseLogIn {
   position: relative;
@@ -608,7 +608,7 @@
     width: 110%;
     margin-right: 110px;
     position: relative;
-    top: -50px;
+    top: -70px;
   }
   .buttoncontainer {
   width: 260px;
@@ -669,7 +669,7 @@
   justify-content: center;
   gap: 12px;
   margin-left: 3%;
-  margin-top: -30%;
+  margin-top: -44%;
 }
 
 .forgetPassword {
@@ -679,7 +679,14 @@
   color: var(--color-tan);
   cursor: pointer;
   margin-right: -5%;
-  margin-top: -30%;
+  margin-top: -44%;
+}
+.errorbox {
+  width: 300px;
+  font-size: 12px;
+  position: absolute;
+  bottom: 155px;
+  margin-left: 20px;
 }
 }
 
@@ -725,12 +732,12 @@
   .welcomeToServeaseContainer {
   position: relative;
   margin-top: -7%;
-  right: 20%;
+  right: 22%;
 }
   .pleaseLogIn {
   position: relative;
   font-size: 17px;
-  right: 20%;
+  right: 23%;
   }
   .logincontent {
     width: 100%;
@@ -740,7 +747,8 @@
   .email1, .password1 {
     width: 110%;
     margin-right: 110px;
-    right: 40%;
+    right: 41%;
+    top: -60px;
   }
   .buttoncontainer {
   width: 300px;
@@ -785,7 +793,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-right: 77%;
+  margin-right: 80%;
   margin-left: 36%;
   margin-top: -1%;
   position: relative;
@@ -803,7 +811,7 @@
   justify-content: center;
   gap: 12px;
   margin-left: -37%;
-  margin-top: -30%;
+  margin-top: -37%;
   position: relative;
 }
 
@@ -813,8 +821,16 @@
   font-weight: 500;
   color: var(--color-tan);
   cursor: pointer;
-  margin-right: 33%;
-  margin-top: -30%;
+  margin-right: 35%;
+  margin-top: -37%;
+}
+.errorbox {
+  width: 315px;
+  font-size: 14px;
+  position: absolute;
+  bottom: 155px;
+  margin-left: -240px;
+  margin-bottom: -20px;
 }
 }
 
