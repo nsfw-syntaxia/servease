@@ -7,7 +7,10 @@ import styles from "../styles/appointment-booking-3.module.css";
 import { useBooking } from "./BookingContext";
 import { createClient } from "../lib/supabase/client";
 
-// Update the type to match your 'profiles' table structure
+type Props = {
+  onNext: () => void;
+};
+
 interface ProviderProfile {
   id: string;
   business_name: string;
@@ -15,7 +18,6 @@ interface ProviderProfile {
   contact_number: string;
 }
 
-// Add a type for the Client's profile
 interface ClientProfile {
   id: string;
   full_name: string;
@@ -28,7 +30,7 @@ const formatCurrency = (amount: number) => {
   }).format(amount);
 };
 
-export default function Booking3() {
+export default function Booking3({ onNext }: Props) {
   const [isAgreed, setIsAgreed] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -143,6 +145,8 @@ export default function Booking3() {
         throw new Error(`Failed to save: ${insertError.message}`);
 
       resetBookingData();
+
+      onNext();
       router.push("/booking-success");
     } catch (error: any) {
       setErrorMessage(error.message);
