@@ -7,8 +7,7 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-// --- FIX 1: Define the correct types to match the data from the server ---
-interface ProviderInfo {
+export interface ProviderInfo {
   business_name: string;
   picture_url: string | null;
 }
@@ -21,11 +20,12 @@ interface Appointment {
   provider: ProviderInfo | null;
 }
 
-interface Service {
-  id: string;
+export interface Service {
+  id: number;
   name: string;
   price: number;
-  provider: ProviderInfo | null;
+  provider_name: string; 
+  provider_picture_url: string | null; 
 }
 
 interface DashboardClientProps {
