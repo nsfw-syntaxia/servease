@@ -91,7 +91,7 @@ const Header = ({ avatarUrl, userRole, homePath }: HeaderProps) => {
             </a>
             <a
               className={styles.navLink}
-              onClick={() => router.push("/facility-dashboard")}
+              onClick={() => router.push("/discover")}
             >
               Discover
             </a>
@@ -105,7 +105,7 @@ const Header = ({ avatarUrl, userRole, homePath }: HeaderProps) => {
             </a>
             <a
               className={styles.navLink}
-              onClick={() => router.push("/provider/schedule")}
+              onClick={() => router.push("/schedule")}
             >
               Schedule
             </a>
