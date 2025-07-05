@@ -396,7 +396,7 @@
 
 .hoverselectcircle {
   position: absolute;
-  top: 9px;
+  top: 8px;
   left: 531px;
   border-radius: 50%;
   border: 1px solid var(--color-dimgray);
@@ -592,11 +592,21 @@
   }
 
   .buttoncontainer {
-    width: 280px;
+    width: 250px;
     height: 44px;
     bottom: 20px;
-    right: 35%;
+    right: 42%;
+    font-size: 20px;
   }
+.buttontext {
+  position: absolute;
+  top: calc(50% - 15px);
+  left: calc(53% - 100px);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
 
   .usertype {
     width: 60px;
@@ -606,7 +616,7 @@
 
   .service, .client {
     width: 100%;
-    left: -11%;
+    left: -23%;
     right: -10%;
   }
 
