@@ -20,6 +20,15 @@ const capitalizeWords = (str: string): string => {
 const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
   initialData,
 }) => {
+  const placeholders = {
+    name: "Name",
+    address: "Address",
+    email: "email@email.com",
+    contactNumber: "+639XX XXXX XXX",
+    gender: "Gender",
+    birthdate: "Birthdate",
+  };
+
   const [profileData, setProfileData] = useState({
     name: capitalizeWords(initialData.name) || "Name",
     email: initialData.email || "Email Address",
@@ -36,6 +45,7 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
     email: "",
     contactNumber: "",
     name: "",
+    address: "",
   });
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -60,40 +70,75 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
   const handleEdit = () => {
     setIsEditing(true);
     setEditData({ ...profileData });
-    setErrors({ email: "", contactNumber: "", name: "" });
+    setErrors({ email: "", contactNumber: "", name: "", address: "" });
   };
 
   const handleSave = async () => {
-    // input validation
-    const newErrors = { email: "", contactNumber: "", name: "" };
+    const trimmedData = {
+      name: editData.name.trim(),
+      address: editData.address.trim(),
+      contactNumber: editData.contactNumber.trim(),
+      email: editData.email.trim(),
+    };
 
-    if (!validateEmail(editData.email))
-      newErrors.email = "Invalid email address.";
-    if (!validateContactNumber(editData.contactNumber))
-      newErrors.contactNumber = "Invalid contact number.";
-    if (!validateName(editData.name))
+    // validation block
+    const newErrors = {
+      name: "",
+      email: "",
+      contactNumber: "",
+      address: "",
+    };
+
+    // check for empty or placeholder values
+    if (!trimmedData.name || trimmedData.name === placeholders.name) {
+      newErrors.name = "Name cannot be empty.";
+    }
+    if (!trimmedData.address || trimmedData.address === placeholders.address) {
+      newErrors.address = "Address cannot be empty.";
+    }
+    if (
+      !trimmedData.contactNumber ||
+      trimmedData.contactNumber === placeholders.contactNumber
+    ) {
+      newErrors.contactNumber = "Contact number cannot be empty.";
+    }
+    if (!trimmedData.email) {
+      newErrors.email = "Email address cannot be empty.";
+    }
+
+    // check formatting if the field isn't already marked with an error
+    if (!newErrors.name && !validateName(trimmedData.name)) {
       newErrors.name = "Name must contain only letters.";
+    }
+    if (!newErrors.email && !validateEmail(trimmedData.email)) {
+      newErrors.email = "Invalid email address.";
+    }
+    if (
+      !newErrors.contactNumber &&
+      !validateContactNumber(trimmedData.contactNumber)
+    ) {
+      newErrors.contactNumber = "Invalid contact number.";
+    }
 
+    // update the errors state
     setErrors(newErrors);
-    if (Object.values(newErrors).some((err) => err)) return;
 
+    // ff any error message exists, stop the save process
+    if (Object.values(newErrors).some((err) => err)) {
+      return;
+    }
+
+    // save if no errors
     setIsSaving(true);
     let newPfpUrl: string | undefined = undefined;
 
-    //file upload
+    // file upload
     if (pfpFile) {
       const supabase = createClient();
-
-      // create a stable file path based on the user's email
-      // this ensures that when they upload again, it overwrites the same file
       const filePath = `public/${initialData.email}-avatar`;
-
       const { data: uploadData, error: uploadError } = await supabase.storage
         .from("avatars")
-        // use .upload() with the 'upsert: true' option
-        .upload(filePath, pfpFile, {
-          upsert: true,
-        });
+        .upload(filePath, pfpFile, { upsert: true });
 
       if (uploadError) {
         alert("Error uploading profile picture: " + uploadError.message);
@@ -101,15 +146,13 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
         return;
       }
 
-      // get the public url using the same stable file path
       const { data: urlData } = supabase.storage
         .from("avatars")
-        .getPublicUrl(filePath); // use the stable path here too
-
+        .getPublicUrl(filePath);
       newPfpUrl = urlData.publicUrl;
     }
 
-    // email update
+    // email address update
     if (editData.email !== initialData.email) {
       const { error: emailError } = await updateUserEmail(editData.email);
       if (emailError) {
@@ -121,9 +164,9 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
 
     // profile data update
     const payload = {
-      full_name: editData.name,
-      address: editData.address,
-      contact_number: editData.contactNumber,
+      full_name: trimmedData.name,
+      address: trimmedData.address,
+      contact_number: trimmedData.contactNumber,
       ...(newPfpUrl && { picture_url: newPfpUrl }),
     };
 
@@ -137,7 +180,7 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
         profileImage: newPfpUrl || editData.profileImage,
       });
       setIsEditing(false);
-      setPfpFile(null); // clear the file from state
+      setPfpFile(null);
     }
 
     setIsSaving(false);
@@ -145,12 +188,10 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
 
   const handleInputChange = (field: string, value: string) => {
     setEditData((prev) => ({ ...prev, [field]: value }));
-    if (field === "email" && errors.email)
-      setErrors((prev) => ({ ...prev, email: "" }));
-    if (field === "contactNumber" && errors.contactNumber)
-      setErrors((prev) => ({ ...prev, contactNumber: "" }));
-    if (field === "name" && errors.name)
-      setErrors((prev) => ({ ...prev, name: "" }));
+    // clear error for the specific field when user types
+    if (errors[field as keyof typeof errors]) {
+      setErrors((prev) => ({ ...prev, [field]: "" }));
+    }
   };
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -232,7 +273,11 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
         </div>
         <div className={styles.dateOfBirth}>Date of Birth</div>
         <div className={styles.address}>
-          <div className={styles.emailAddTbx} />
+          <div
+            className={`${styles.emailAddTbx} ${
+              errors.address ? styles.tbxError : ""
+            }`}
+          />
           {isEditing && (
             <Image
               className={styles.icon}
@@ -246,13 +291,18 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
           {isEditing ? (
             <input
               type="text"
-              className={styles.emailAddressInput}
+              className={`${styles.emailAddressInput} ${
+                errors.address ? styles.inputError : ""
+              }`}
               value={editData.address}
               onChange={(e) => handleInputChange("address", e.target.value)}
               placeholder="Address"
             />
           ) : (
             <div className={styles.emailAddress}>{profileData.address}</div>
+          )}
+          {errors.address && (
+            <div className={styles.errorMessage}>{errors.address}</div>
           )}
         </div>
         <div className={styles.address2}>Address</div>
