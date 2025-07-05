@@ -40,6 +40,11 @@
   font-weight: bold;
 }
 
+.noAppointments {
+  margin-top: 20px;
+  font-size: 25px;
+}
+
 /* === START: UPDATED NAVIGATION BAR STYLES === */
 
 .navigation {

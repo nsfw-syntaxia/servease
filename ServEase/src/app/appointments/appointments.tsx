@@ -1,39 +1,56 @@
+// app/appointments/appointments.tsx
+
 "use client";
 
 import type { NextPage } from "next";
 import Image from "next/image";
 import { useState, useMemo } from "react";
-import { useRouter } from "next/navigation";
 import styles from "../styles/appointments.module.css";
-import { type Appointment } from "../lib/supabase/types"; // import the type
 
-const AppointmentCard = ({ appointment }: { appointment: Appointment }) => {
-  const appointmentDate = new Date(appointment.start_time);
-  const time = appointmentDate.toLocaleTimeString([], {
-    hour: "numeric",
-    minute: "2-digit",
-  });
-  const date = appointmentDate.toLocaleDateString([], {
+export type Appointment = {
+  id: string;
+  date: string;
+  time: string;
+  status: "pending" | "confirmed" | "completed" | "canceled";
+  address: string;
+  provider: {
+    business_name: string;
+    picture_url: string | null; 
+  } | null;
+};
+
+
+const formatDisplayDate = (dateString: string) => {
+  const date = new Date(dateString + 'T00:00:00');
+  return date.toLocaleDateString("en-US", {
     weekday: "short",
     month: "long",
     day: "numeric",
   });
+};
 
-  const providerName =
-    appointment.provider?.[0]?.business_name || "Unknown Provider";
-  const providerAddress =
-    appointment.provider?.[0]?.address || "No address provided";
-  const status = appointment.status || "unknown";
+const formatDisplayTime = (timeString: string) => {
+  const [hours, minutes] = timeString.split(':');
+  const date = new Date();
+  date.setHours(parseInt(hours, 10), parseInt(minutes, 10));
+  return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+};
+
+const AppointmentCard = ({ appointment }: { appointment: Appointment }) => {
+  const providerName = appointment.provider?.business_name || "Unknown Provider";
+  const providerAddress = appointment.address || "No address provided";
+
+  const avatarUrl = appointment.provider?.picture_url || '/circle.svg';
 
   return (
     <div className={styles.appointmentCard}>
       <div className={styles.cardHeader}>
         <Image
           className={styles.cardAvatar}
-          width={100}
-          height={100}
-          alt="Service Provider Avatar"
-          src="/circle.svg"
+          width={40}
+          height={40}
+          alt="Provider Avatar"
+          src={avatarUrl}
         />
         <div className={styles.cardHeaderText}>
           <h3 className={styles.serviceFacilityName}>{providerName}</h3>
@@ -53,12 +70,12 @@ const AppointmentCard = ({ appointment }: { appointment: Appointment }) => {
       <div className={styles.cardBody}>
         <div className={styles.infoItem}>
           <Image
-            width={26}
-            height={26}
+            width={24}
+            height={24}
             alt="Calendar"
             src="/calendar_month.svg"
           />
-          <span>{date}</span>
+          <span>{`${formatDisplayDate(appointment.date)} at ${formatDisplayTime(appointment.time)}`}</span>
         </div>
         <div className={styles.infoItem}>
           <span
@@ -68,30 +85,17 @@ const AppointmentCard = ({ appointment }: { appointment: Appointment }) => {
             {appointment.status.charAt(0).toUpperCase() +
               appointment.status.slice(1)}
           </span>
-          {(appointment.status === "confirmed" ||
-            appointment.status === "pending") && (
-            <Image
-              className={styles.dropdownIcon}
-              width={24}
-              height={24}
-              sizes="100vw"
-              alt="Dropdown Icon"
-              src="/arrow_drop_down.svg"
-              style={{ cursor: "pointer" }}
-            />
-          )}
         </div>
       </div>
     </div>
   );
 };
-
+// This filtering component remains the same
 const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
   initialAppointments,
 }) => {
   const [activeFilter, setActiveFilter] = useState("upcoming");
-  const router = useRouter();
-
+console.log("Data received by client:", initialAppointments);
   const handleFilterChange = (filter: string) => {
     setActiveFilter(filter);
   };
