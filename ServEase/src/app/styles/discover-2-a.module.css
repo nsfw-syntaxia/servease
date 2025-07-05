@@ -455,7 +455,7 @@
   transition: transform 0.12s ease-out, box-shadow 0.12s ease-out,
     border 0.12s ease-out;
   cursor: pointer;
-  background-color: #e0d9c9;
+  background-color: #ffff;
 }
 
 .serviceCard:hover {
