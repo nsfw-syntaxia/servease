@@ -171,7 +171,7 @@ const allFilesUploaded = Object.values(uploadedFiles).every(
                 <div className={styles.pdf1}>JPEG</div>
               </div>
               <div className={styles.pdf6}>
-                <div className={styles.pdf1}>{`> 10 MB`}</div>
+                <div className={styles.pdf1}>{`< 10 MB`}</div>
               </div>
             </div>
           </>
