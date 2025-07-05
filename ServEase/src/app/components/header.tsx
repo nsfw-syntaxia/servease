@@ -19,6 +19,15 @@ const Header = ({ avatarUrl, userRole, homePath }: HeaderProps) => {
   const [hovered, setHovered] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  const handleAccountClick = () => {
+    if (userRole === "client") {
+      router.push("/client-profile");
+    } else if (userRole === "provider") {
+      router.push("/facility-profile");
+    }
+    setOpen(false);
+  };
+
   const handleLogout = async () => {
     try {
       await fetch("/api/logout", {
@@ -29,11 +38,21 @@ const Header = ({ avatarUrl, userRole, homePath }: HeaderProps) => {
     } catch (error) {
       console.error("Logout failed:", error);
     }
+    setOpen(false);
+  };
+
+  const handleItemClick = (href?: string, onClick?: () => void) => {
+    if (onClick) {
+      onClick();
+    } else if (href) {
+      router.push(href);
+    }
+    setOpen(false); // close the dropdown after clicking an item
   };
 
   // Move the items array after handleLogout is defined
   const items = [
-    { label: "My Account", href: "/account" },
+    { label: "My Account", onClick: handleAccountClick },
     { label: "Appointments", href: "/appointments" },
     { label: "Messages", href: "/messages" },
     { label: "Notifications", href: "/notifications" },
