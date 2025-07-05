@@ -5,6 +5,8 @@ import type { NextPage } from "next";
 import Image from "next/image";
 import styles from "../styles/facility-profile.module.css";
 import { type FacilityProfileDataType } from "./actions";
+import { updateUserProfile, updateUserEmail } from "./actions";
+import { createClient } from "../utils/supabase/client";
 
 const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
   initialData,
@@ -43,13 +45,16 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
   });
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const [isSaving, setIsSaving] = useState(false);
+  const [pfpFile, setPfpFile] = useState<File | null>(null);
+
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
   const validateContactNumber = (contactNumber: string) => {
-    const phoneRegex = /^\+63\d{3}\s\d{3}\s\d{4}$/;
+    const phoneRegex = /^\+63\d{3}\s\d{4}\s\d{3}$/;
     return phoneRegex.test(contactNumber);
   };
 
@@ -65,40 +70,123 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
     });
   };
 
-  const handleSave = () => {
-    const newErrors = { email: "", contactNumber: "" };
-    if (!validateEmail(editData.email)) {
+  const handleSave = async () => {
+    const trimmedData = {
+      name: editData.name.trim(),
+      address: editData.address.trim(),
+      contactNumber: editData.contactNumber.trim(),
+      email: editData.email.trim(),
+      tags: editData.tags.trim(),
+    };
+
+    // validation block
+    const newErrors = {
+      name: "",
+      email: "",
+      contactNumber: "",
+      address: "",
+      tags: "",
+    };
+
+    // check for empty or placeholder values
+    if (!trimmedData.name || trimmedData.name === placeholders.name) {
+      newErrors.name = "Facility name cannot be empty.";
+    }
+    if (!trimmedData.address || trimmedData.address === placeholders.address) {
+      newErrors.address = "Address cannot be empty.";
+    }
+    if (
+      !trimmedData.contactNumber ||
+      trimmedData.contactNumber === placeholders.contactNumber
+    ) {
+      newErrors.contactNumber = "Contact number cannot be empty.";
+    }
+    if (!trimmedData.email) {
+      newErrors.email = "Email address cannot be empty.";
+    }
+
+    // check formatting if the field isn't already marked with an error
+    if (!newErrors.email && !validateEmail(trimmedData.email)) {
       newErrors.email = "Invalid email address.";
     }
-    if (!validateContactNumber(editData.contactNumber)) {
-      newErrors.contactNumber = "Use format: +639XX XXX XXXX";
+    if (
+      !newErrors.contactNumber &&
+      !validateContactNumber(trimmedData.contactNumber)
+    ) {
+      newErrors.contactNumber = "Invalid contact number.";
     }
-    setErrors(newErrors);
-    if (!newErrors.email && !newErrors.contactNumber) {
-      // clean up tags: trim whitespace from each tag
-      const cleanedTags = editData.tags
-        .split(",")
-        .map((tag) => tag.trim())
-        .filter((tag) => tag) // remove any empty tags
-        .join(", ");
 
-      setProfileData({ ...editData, tags: cleanedTags });
-      setIsEditing(false);
+    // update the errors state
+    setErrors(newErrors);
+
+    // if any error message exists, stop the save process
+    if (Object.values(newErrors).some((err) => err)) {
+      return;
     }
+
+    // save if no errors
+    setIsSaving(true);
+    let newPfpUrl: string | undefined = undefined;
+
+    // file upload
+    if (pfpFile) {
+      const supabase = createClient();
+      const filePath = `public/${initialData.email}-avatar`;
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from("avatars")
+        .upload(filePath, pfpFile, { upsert: true });
+
+      if (uploadError) {
+        alert("Error uploading profile picture: " + uploadError.message);
+        setIsSaving(false);
+        return;
+      }
+
+      const { data: urlData } = supabase.storage
+        .from("avatars")
+        .getPublicUrl(filePath);
+      newPfpUrl = urlData.publicUrl;
+    }
+
+    // email address update
+    if (editData.email !== initialData.email) {
+      const { error: emailError } = await updateUserEmail(editData.email);
+      if (emailError) {
+        alert("Email Update Failed: " + emailError);
+      } else {
+        alert("A confirmation link has been sent to your new email address.");
+      }
+    }
+
+    // profile data update
+    const payload = {
+      full_name: trimmedData.name,
+      address: trimmedData.address,
+      contact_number: trimmedData.contactNumber,
+      ...(newPfpUrl && { picture_url: newPfpUrl }),
+    };
+
+    const { error: profileError } = await updateUserProfile(payload);
+
+    if (profileError) {
+      alert("Error saving profile: " + profileError);
+    } else {
+      setProfileData({
+        ...editData,
+        profileImage: newPfpUrl || editData.profileImage,
+      });
+      setIsEditing(false);
+      setPfpFile(null);
+    }
+
+    setIsSaving(false);
   };
 
   const handleInputChange = (field: string, value: string) => {
-    setEditData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-
-    // clear error when user starts typing
-    if (field === "email" && errors.email) {
-      setErrors((prev) => ({ ...prev, email: "" }));
-    }
-    if (field === "contactNumber" && errors.contactNumber) {
-      setErrors((prev) => ({ ...prev, contactNumber: "" }));
+    setEditData((prev) => ({ ...prev, [field]: value }));
+    // clear error for the specific field when user types
+    if (errors[field as keyof typeof errors]) {
+      setErrors((prev) => ({ ...prev, [field]: "" }));
     }
   };
 
@@ -142,19 +230,21 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
           </div>
           <div className={styles.verifiedFaci}>
             <div className={styles.serviceFacilityName}>{profileData.name}</div>
-            <div className={styles.verifiedProfile}>
-              <div className={styles.verified}>
-                <div className={styles.verified1}>Verified</div>
+            {isVerified && (
+              <div className={styles.verifiedProfile}>
+                <div className={styles.verified}>
+                  <div className={styles.verified1}>Verified</div>
+                </div>
+                <Image
+                  className={styles.verifiedAccIcon}
+                  width={26}
+                  height={26}
+                  sizes="100vw"
+                  alt=""
+                  src="/verified acc.svg"
+                />
               </div>
-              <Image
-                className={styles.verifiedAccIcon}
-                width={26}
-                height={26}
-                sizes="100vw"
-                alt=""
-                src="/verified acc.svg"
-              />
-            </div>
+            )}
           </div>
         </div>
 

@@ -123,7 +123,7 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
     // update the errors state
     setErrors(newErrors);
 
-    // ff any error message exists, stop the save process
+    // if any error message exists, stop the save process
     if (Object.values(newErrors).some((err) => err)) {
       return;
     }
