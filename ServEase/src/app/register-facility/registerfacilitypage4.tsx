@@ -108,13 +108,13 @@ const FacilitySignup4: NextPage<Props> = ({ onNext }) => {
 
   const handleSubmit = async () => {
     setErrorMessage("");
-      if (!isOtpValid) throw new Error("Please enter a valid 4-digit code");
-      setLoading(true);
-    try{
+    if (!isOtpValid) throw new Error("Please enter a valid 4-digit code");
+    setLoading(true);
+    try {
       const formData = new FormData();
-      formData.append('contact_number', countryCode + phone);
+      formData.append("contact_number", countryCode + phone);
       await completeProviderProfile(formData);
-      router.push("/facility-dashboard");
+      router.push("/provider-dashboard");
     } catch (error: any) {
       setErrorMessage(error.message || "Verification failed");
     } finally {
