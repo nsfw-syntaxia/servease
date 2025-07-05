@@ -1,80 +1,66 @@
+// app/dashboard/page.tsx
+
 import { createClient } from "../lib/supabase/server";
 import { redirect } from "next/navigation";
 import DashboardClient from "./dashboardclient";
-import { type Appointment, type Service } from "../lib/supabase/types"; 
 
 export default async function ClientDashboardPage() {
   const supabase = await createClient();
 
-  console.log('Dashboard: Checking user session...');
-  const { data: { user }, error: userError } = await supabase.auth.getUser();
-
-  console.log('Dashboard: User data:', user ? 'User found' : 'No user');
-  console.log('Dashboard: User error:', userError);
+  const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
-    console.log('Dashboard: No user found, redirecting to login');
     redirect("/login");
   }
 
-  console.log('Dashboard: Fetching user profile...');
-  const { data: profile, error: profileError } = await supabase
+  const { data: profile } = await supabase
     .from('profiles')
     .select('role, picture_url')
     .eq('id', user.id)
     .single();
 
-  console.log('Dashboard: Profile data:', profile);
-  console.log('Dashboard: Profile error:', profileError);
-
   if (!profile || profile.role !== 'client') {
-    console.log('Dashboard: Invalid profile or role, redirecting to login');
     redirect('/login');
   }
 
   let avatarUrl = '/avatar.svg'; 
   if (profile.picture_url) {
-    if (!profile.picture_url.startsWith('http')) {
-      const { data } = supabase.storage
-        .from('avatars') 
-        .getPublicUrl(profile.picture_url);
-      avatarUrl = data.publicUrl;
-    } else {
-      avatarUrl = profile.picture_url;
-    }
+    const { data } = supabase.storage.from('avatars').getPublicUrl(profile.picture_url);
+    avatarUrl = data.publicUrl;
   }
 
   const { data: appointments } = await supabase
     .from('appointments')
     .select(`
       id,
-      start_time,
+      date,
+      time,
       status,
-      service:services (name),
-      provider:profiles (business_name, address)
+      address,
+      provider:provider_id ( business_name, picture_url )
     `)
     .eq('client_id', user.id)
     .in('status', ['pending', 'confirmed']) 
-    .order('start_time', { ascending: true })
+    .order('date', { ascending: true })
+    .order('time', { ascending: true })
     .limit(2); 
 
+  // --- THE FIX: Query the new view instead of the services table ---
   const { data: featuredServices } = await supabase
-    .from('services')
+    .from('featured_services_view') // Use our new, diverse view
     .select(`
       id,
       name,
       price,
-      provider:profiles (business_name, avatar_url)
+      provider:provider_id ( business_name, picture_url )
     `)
-    .limit(6);
-
-  console.log('Dashboard: Rendering dashboard for user:', user.id);
+    .limit(6); // You can still limit the total number of featured items
 
   return (
     <DashboardClient
       avatarUrl={avatarUrl}
-      appointments={appointments as Appointment[] || []}
-      featuredServices={featuredServices as Service[] || []}
+      appointments={appointments as any || []}
+      featuredServices={featuredServices as any || []}
     />
   );
 }

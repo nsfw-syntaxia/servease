@@ -6,7 +6,27 @@ import styles from "../styles/dashboard-client.module.css";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { type Appointment, type Service } from "../lib/supabase/types";
+
+// --- FIX 1: Define the correct types to match the data from the server ---
+interface ProviderInfo {
+  business_name: string;
+  picture_url: string | null;
+}
+
+interface Appointment {
+  id: string;
+  date: string;
+  time: string;
+  address: string;
+  provider: ProviderInfo | null;
+}
+
+interface Service {
+  id: string;
+  name: string;
+  price: number;
+  provider: ProviderInfo | null;
+}
 
 interface DashboardClientProps {
   avatarUrl: string;
@@ -14,32 +34,40 @@ interface DashboardClientProps {
   featuredServices: Service[];
 }
 
-const UpcomingAppointmentCard = ({
-  appointment,
-}: {
-  appointment: Appointment;
-}) => {
-  const appointmentDate = new Date(appointment.start_time);
-  const time = appointmentDate.toLocaleTimeString([], {
-    hour: "numeric",
-    minute: "2-digit",
-  });
-  const date = appointmentDate.toLocaleDateString([], {
+// Helper functions to format date and time nicely
+const formatDisplayDate = (dateString: string) => {
+  const date = new Date(dateString + 'T00:00:00');
+  return date.toLocaleDateString("en-US", {
     weekday: "short",
     month: "short",
     day: "numeric",
   });
+};
 
-  const providerName =
-    appointment.provider?.[0]?.business_name || "Unknown Provider";
-  const providerAddress =
-    appointment.provider?.[0]?.address || "No address provided";
+const formatDisplayTime = (timeString: string) => {
+  const [hours, minutes] = timeString.split(':');
+  const date = new Date();
+  date.setHours(parseInt(hours, 10), parseInt(minutes, 10));
+  return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+};
+
+// --- FIX 2: Update the UpcomingAppointmentCard component ---
+const UpcomingAppointmentCard = ({ appointment }: { appointment: Appointment }) => {
+  const providerName = appointment.provider?.business_name || "Unknown Provider";
+  const providerAddress = appointment.address || "No address provided";
+  const providerAvatar = appointment.provider?.picture_url || "/circle.svg"; // Fallback avatar
 
   return (
     <div className={styles.appointmentCard}>
       <div className={styles.cardContent}>
         <div className={styles.serviceInfo}>
-          <div className={styles.serviceAvatar}></div>
+          <Image
+            className={styles.serviceAvatar}
+            src={providerAvatar}
+            alt="Provider Avatar"
+            width={40}
+            height={40}
+          />
           <div className={styles.serviceDetails}>
             <h3 className={styles.serviceName}>{providerName}</h3>
             <p className={styles.serviceLocation}>{providerAddress}</p>
@@ -48,16 +76,11 @@ const UpcomingAppointmentCard = ({
         <div className={styles.appointmentInfo}>
           <div className={styles.timeInfo}>
             <Image width={16} height={16} src="/Vector.svg" alt="Time" />
-            <span>{time}</span>
+            <span>{formatDisplayTime(appointment.time)}</span>
           </div>
           <div className={styles.dateInfo}>
-            <Image
-              width={20}
-              height={20}
-              src="/calendar_month.svg"
-              alt="Date"
-            />
-            <span>{date}</span>
+            <Image width={20} height={20} src="/calendar_month.svg" alt="Date" />
+            <span>{formatDisplayDate(appointment.date)}</span>
           </div>
         </div>
       </div>
@@ -65,35 +88,35 @@ const UpcomingAppointmentCard = ({
   );
 };
 
-
+// --- FIX 3: Update the FeaturedServiceCard component ---
 const FeaturedServiceCard = ({ service }: { service: Service }) => {
-  // Safely access the provider's name and avatar
-  const providerName =
-    service.provider?.[0]?.business_name || "Unknown Provider";
-  const providerAvatar = service.provider?.[0]?.avatar_url || "/avatar.svg"; // Fallback to default avatar
+  const providerName = service.provider?.business_name || "Unknown Provider";
+  const providerAvatar = service.provider?.picture_url || "/avatar.svg"; // Fallback to default avatar
 
   return (
     <div className={styles.serviceCard}>
       <div className={styles.serviceImage}>
-        {/* You could put the service image here if you had one */}
+        {/* You could put a service image here if you had one */}
       </div>
       <div className={styles.serviceCardContent}>
         <div className={styles.serviceProvider}>
-          <div className={styles.providerAvatar}>
-            {/* In the future, this can use the providerAvatar variable */}
-          </div>
+          <Image
+            className={styles.providerAvatar}
+            src={providerAvatar}
+            alt="Provider Avatar"
+            width={32}
+            height={32}
+          />
           <div className={styles.providerInfo}>
             <h3 className={styles.providerName}>{providerName}</h3>
             <div className={styles.rating}>
               <div className={styles.stars}>
-                {/* You would fetch and display real ratings here */}
                 <Image width={16} height={16} src="/Star 3.svg" alt="Star" />
                 <Image width={16} height={16} src="/Star 3.svg" alt="Star" />
                 <Image width={16} height={16} src="/Star 3.svg" alt="Star" />
                 <Image width={16} height={16} src="/Star 3.svg" alt="Star" />
                 <Image width={16} height={16} src="/Star 4.svg" alt="Star" />
               </div>
-              {/* This rating would also come from your data */}
               <span className={styles.ratingScore}>4.5</span>
             </div>
           </div>
@@ -103,6 +126,7 @@ const FeaturedServiceCard = ({ service }: { service: Service }) => {
   );
 };
 
+// The main component logic and JSX structure remains the same
 const DashboardClient: NextPage<DashboardClientProps> = ({
   avatarUrl,
   appointments,
@@ -142,35 +166,7 @@ const DashboardClient: NextPage<DashboardClientProps> = ({
     return () => clearInterval(timer);
   }, [slides.length]);
 
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const [open, setOpen] = useState(false);
-  const [hovered, setHovered] = useState("");
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  const items = [
-    { label: "My Account", href: "/account" },
-    { label: "Appointments", href: "/appointments" },
-    { label: "Messages", href: "/messages" },
-    { label: "Notifications", href: "/notifications" },
-    { label: "Log out", href: "/logout" },
-  ];
-
   const goToSlide = (slideIndex: number) => setCurrentSlide(slideIndex);
-  console.log("Avatar URL from props:", avatarUrl);
-
 
   return (
     <div className={styles.dashboardClient}>
@@ -219,7 +215,7 @@ const DashboardClient: NextPage<DashboardClientProps> = ({
               <span>Upcoming</span>
               <span className={styles.titleAccent}> Appointments</span>
             </h2>
-            {appointments && appointments.length >= 3 && (
+            {appointments && appointments.length >= 2 && (
               <button
                 className={styles.viewAllBtn}
                 onClick={() => router.push("/appointments")}
@@ -229,7 +225,6 @@ const DashboardClient: NextPage<DashboardClientProps> = ({
             )}
           </div>
           <div className={styles.appointmentsGrid}>
-            {/* The map function now correctly uses the 'appointments' prop */}
             {appointments && appointments.length > 0 ? (
               appointments.map((app) => (
                 <UpcomingAppointmentCard key={app.id} appointment={app} />
@@ -269,7 +264,6 @@ const DashboardClient: NextPage<DashboardClientProps> = ({
                   transform: `translateX(calc(-${currentIndex} * (100% / ${visibleServices})))`,
                 }}
               >
-                {/* FIX 3: THE MAP FUNCTION ON LINE 259 NOW CORRECTLY USES THE 'featuredServices' PROP */}
                 {featuredServices &&
                   featuredServices.map((service) => (
                     <FeaturedServiceCard key={service.id} service={service} />
@@ -294,7 +288,7 @@ const DashboardClient: NextPage<DashboardClientProps> = ({
         </section>
       </main>
 
-      <footer className={styles.footer}>
+     <footer className={styles.footer}>
         <div className={styles.footerContent}>
           <div className={styles.footerColumn}>
             <div className={styles.footerLogo}>
