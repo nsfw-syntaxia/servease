@@ -1,244 +1,43 @@
-/*
-dropdown for appointment status management
-
-const Dropdown: NextPage = () => {
-  return (
-    <div className={styles.dropdown}>
-      <div className={styles.image8Wrapper}>
-        <div className={styles.image8} />
-      </div>
-      <div className={styles.image11Parent}>
-        <div className={styles.image11} />
-        <div className={styles.paraContentWrapper}>
-          <div className={styles.paraContent}>
-            <div className={styles.confirmed}>Confirmed</div>
-          </div>
-        </div>
-        <div className={styles.paraContentContainer}>
-          <div className={styles.paraContent1}>
-            <div className={styles.pending}>Pending</div>
-          </div>
-        </div>
-        <div className={styles.paraContentFrame}>
-          <div className={styles.paraContent}>
-            <div className={styles.pending}>Completed</div>
-          </div>
-        </div>
-        <div className={styles.frameDiv}>
-          <div className={styles.paraContent}>
-            <div className={styles.pending}>Cancelled</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default Dropdown;
-*/
-
-/*
-css for dropdown menu
-
-note:
-if upcoming, show "completed" and "canceled"
-if pending, show "confirmed" and "canceled"
-
-.image8 {
-  	position: absolute;
-  	top: 0px;
-  	left: 0px;
-  	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  	border-radius: var(--br-12);
-  	background-color: var(--color-white);
-  	width: 186px;
-  	height: 255px;
-}
-
-.image8Wrapper {
-  	position: absolute;
-  	top: 0px;
-  	left: 0px;
-  	width: 186px;
-  	height: 255px;
-}
-
-.image11 {
-  	position: absolute;
-  	top: 0px;
-  	left: 0px;
-  	border-radius: var(--br-12) var(--br-12) 0px 0px;
-  	background-color: var(--color-tan);
-  	width: 186px;
-  	height: 67.5px;
-}
-
-.confirmed {
-  	position: relative;
-  	line-height: 26px;
-  	font-weight: 600;
-}
-.paraContent {
-  	display: flex;
-  	flex-direction: row;
-  	align-items: flex-start;
-  	justify-content: flex-start;
-}
-
-.paraContentWrapper {
-  	position: absolute;
-  	top: 19.69px;
-  	left: 25px;
-  	width: 135.9px;
-  	display: flex;
-  	flex-direction: row;
-  	align-items: flex-start;
-  	justify-content: flex-start;
-  	color: var(--color-white);
-}
-
-.pending {
-  	position: relative;
-  	line-height: 26px;
-}
-
-.paraContent1 {
-  	width: 128px;
-  	display: flex;
-  	flex-direction: row;
-  	align-items: flex-start;
-  	justify-content: flex-start;
-}
-
-.paraContentContainer {
-  	position: absolute;
-  	top: 81.39px;
-  	left: 25px;
-  	width: 76.6px;
-  	display: flex;
-  	flex-direction: row;
-  	align-items: flex-start;
-  	justify-content: flex-start;
-}
-
-.paraContentFrame {
-  	position: absolute;
-  	top: 143.09px;
-  	left: 25px;
-  	width: 135.9px;
-  	display: flex;
-  	flex-direction: row;
-  	align-items: flex-start;
-  	justify-content: flex-start;
-}
-
-.frameDiv {
-  	position: absolute;
-  	top: 204.79px;
-  	left: 25px;
-  	width: 135.9px;
-  	display: flex;
-  	flex-direction: row;
-  	align-items: flex-start;
-  	justify-content: flex-start;
-}
-
-.image11Parent {
-  	position: absolute;
-  	top: 0px;
-  	left: 0px;
-  	width: 186px;
-  	height: 230.8px;
-}
-
-.dropdown {
-  	width: 100%;
-  	position: relative;
-  	height: 255px;
-  	text-align: left;
-  	font-size: var(--font-size-18);
-  	color: var(--color-gray);
-  	font-family: var(--font-dm-sans);
-}
-*/
+// app/appointments/appointments.tsx
 
 "use client";
 
 import type { NextPage } from "next";
 import Image from "next/image";
-import { useState, useMemo, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
-import styles from "../styles/facility-appointments.module.css";
+import { useState, useMemo, useRef, useEffect } from "react";
+import styles from "../styles/client-appointments.module.css";
 
-// updated appointment type definition
-type Appointment = {
-  id: number;
-  start_time: string;
+export type Appointment = {
+  id: string;
+  date: string;
+  time: string;
   status: "pending" | "confirmed" | "completed" | "canceled";
-  service: Array<{
-    client_name: string;
-    service_type: string;
-  }>;
+  address: string;
+  provider: {
+    business_name: string;
+    picture_url: string | null;
+  } | null;
 };
 
-// updated mock Data with client_name and service_type
-const mockAppointments: Appointment[] = [
-  {
-    id: 1,
-    start_time: new Date(2025, 7, 10, 10, 0).toISOString(), // August 10, 2025, 10:00 AM
-    status: "pending",
-    service: [
-      {
-        client_name: "John Doe",
-        service_type: "Haircut",
-      },
-    ],
-  },
-  {
-    id: 2,
-    start_time: new Date(2025, 7, 15, 14, 30).toISOString(), // August 15, 2025, 2:30 PM
-    status: "completed",
-    service: [
-      {
-        client_name: "Jane Smith",
-        service_type: "Hair Coloring",
-      },
-    ],
-  },
-  {
-    id: 3,
-    start_time: new Date(2025, 6, 5, 9, 0).toISOString(), // July 5, 2025, 9:00 AM
-    status: "canceled",
-    service: [
-      {
-        client_name: "Mike Johnson",
-        service_type: "Manicure",
-      },
-    ],
-  },
-  {
-    id: 4,
-    start_time: new Date(2025, 8, 1, 11, 0).toISOString(), // September 1, 2025, 11:00 AM
-    status: "pending",
-    service: [
-      {
-        client_name: "Sarah Williams",
-        service_type: "Spa Treatment",
-      },
-    ],
-  },
-  {
-    id: 5,
-    start_time: new Date(2025, 7, 20, 16, 0).toISOString(), // August 20, 2025, 4:00 PM
-    status: "confirmed",
-    service: [
-      {
-        client_name: "David Brown",
-        service_type: "Beard Trim",
-      },
-    ],
-  },
-];
+const formatDisplayDate = (dateString: string) => {
+  const date = new Date(dateString + "T00:00:00");
+  return date.toLocaleDateString("en-US", {
+    weekday: "short",
+    month: "long",
+    day: "numeric",
+  });
+};
+
+const formatDisplayTime = (timeString: string) => {
+  const [hours, minutes] = timeString.split(":");
+  const date = new Date();
+  date.setHours(parseInt(hours, 10), parseInt(minutes, 10));
+  return date.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+};
 
 const AppointmentCard = ({
   appointment,
@@ -247,28 +46,24 @@ const AppointmentCard = ({
   appointment: Appointment;
   onShowDetails: () => void;
 }) => {
-  const appointmentDate = new Date(appointment.start_time);
+  const providerName =
+    appointment.provider?.business_name || "Unknown Provider";
+  const providerAddress = appointment.address || "No address provided";
+  const avatarUrl = appointment.provider?.picture_url || "/circle.svg";
+
+  const appointmentDate = new Date(appointment.date);
   const time = appointmentDate.toLocaleTimeString([], {
     hour: "numeric",
     minute: "2-digit",
   });
-  const date = appointmentDate.toLocaleDateString([], {
-    weekday: "short",
-    month: "long",
-    day: "numeric",
-  });
-
-  const clientName = appointment.service?.[0]?.client_name || "Unknown Client";
-  const serviceType =
-    appointment.service?.[0]?.service_type || "Unknown Service";
 
   const [showDropdown, setShowDropdown] = useState(false);
   const [hovered, setHovered] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const getAvailableStatusOptions = (status: string): string[] => {
-    if (status === "pending") return ["confirmed", "canceled"];
-    if (status === "confirmed") return ["completed", "canceled"];
+    if (status === "pending") return ["canceled"];
+    if (status === "confirmed") return ["canceled"];
     return [];
   };
 
@@ -293,14 +88,14 @@ const AppointmentCard = ({
       <div className={styles.cardHeader}>
         <Image
           className={styles.cardAvatar}
-          width={100}
-          height={100}
-          alt="Client Avatar"
-          src="/circle.svg"
+          width={40}
+          height={40}
+          alt="Provider Avatar"
+          src={avatarUrl}
         />
         <div className={styles.cardHeaderText}>
-          <h3 className={styles.clientName}>{clientName}</h3>
-          <p className={styles.serviceType}>{serviceType}</p>
+          <h3 className={styles.serviceFacilityName}>{providerName}</h3>
+          <p className={styles.location}>{providerAddress}</p>
         </div>
         <div
           className={styles.viewDetails}
@@ -317,24 +112,23 @@ const AppointmentCard = ({
           />
         </div>
       </div>
-
       <div className={styles.cardBody}>
         <div className={styles.infoItem}>
           <Image
-            width={26}
-            height={26}
+            width={24}
+            height={24}
             alt="Calendar"
             src="/calendar_month.svg"
           />
-          <span>{date}</span>
+          <span>{formatDisplayDate(appointment.date)}</span>
         </div>
         <div className={styles.infoItem}>
           <Image width={21} height={21} alt="Clock" src="/Vector.svg" />
-          <span>{time}</span>
+          <span>{formatDisplayTime(appointment.time)}</span>
         </div>
         <div
           className={styles.infoItem}
-          style={{ position: "relative" }}
+          style={{ position: "relative", cursor: "pointer" }}
           onClick={(e) => {
             e.stopPropagation(); // prevent bubbling to parent
             setShowDropdown((prev) => !prev);
@@ -404,10 +198,15 @@ const AppointmentCard = ({
     </div>
   );
 };
-
-const AppointmentsFacility: NextPage = () => {
+// This filtering component remains the same
+const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
+  initialAppointments,
+}) => {
   const [activeFilter, setActiveFilter] = useState("upcoming");
-  const router = useRouter();
+  console.log("Data received by client:", initialAppointments);
+  const handleFilterChange = (filter: string) => {
+    setActiveFilter(filter);
+  };
   const [selectedAppointment, setSelectedAppointment] =
     useState<Appointment | null>(null);
 
@@ -419,26 +218,21 @@ const AppointmentsFacility: NextPage = () => {
     return () => window.removeEventListener("keydown", onEsc);
   }, []);
 
-  const handleFilterChange = (filter: string) => {
-    setActiveFilter(filter);
-  };
-
   const filteredAppointments = useMemo(() => {
+    if (!initialAppointments) return [];
     switch (activeFilter) {
       case "upcoming":
-        return mockAppointments.filter(
-          (app) => app.status === "confirmed" // only confirmed appointments for upcoming
+        return initialAppointments.filter(
+          (app) => app.status === "pending" || app.status === "confirmed"
         );
-      case "pending":
-        return mockAppointments.filter((app) => app.status === "pending");
       case "completed":
-        return mockAppointments.filter((app) => app.status === "completed");
+        return initialAppointments.filter((app) => app.status === "completed");
       case "canceled":
-        return mockAppointments.filter((app) => app.status === "canceled");
+        return initialAppointments.filter((app) => app.status === "canceled");
       default:
         return [];
     }
-  }, [activeFilter]);
+  }, [activeFilter, initialAppointments]);
 
   return (
     <div className={styles.appointmentsPage}>
@@ -456,14 +250,6 @@ const AppointmentsFacility: NextPage = () => {
             </button>
             <button
               className={`${styles.filterButton} ${
-                activeFilter === "pending" ? styles.active : ""
-              }`}
-              onClick={() => handleFilterChange("pending")}
-            >
-              Pending
-            </button>
-            <button
-              className={`${styles.filterButton} ${
                 activeFilter === "completed" ? styles.active : ""
               }`}
               onClick={() => handleFilterChange("completed")}
@@ -476,7 +262,7 @@ const AppointmentsFacility: NextPage = () => {
               }`}
               onClick={() => handleFilterChange("canceled")}
             >
-              Canceled
+              Cancelled
             </button>
           </div>
         </div>
@@ -515,15 +301,15 @@ const AppointmentsFacility: NextPage = () => {
                 </b>
               </div>
               <div className={styles.rowContainer}>
-                <div className={styles.facilityName}>Client Name</div>
+                <div className={styles.facilityName}>Facility Name</div>
                 <b className={styles.facilityNameCap}>
-                  {selectedAppointment.service[0].client_name}
+                  {selectedAppointment.provider.business_name}
                 </b>
               </div>
               <div className={styles.rowContainer}>
-                <div className={styles.facilityName}>Service</div>
+                <div className={styles.facilityName}>Address</div>
                 <b className={styles.facilityNameCap}>
-                  {selectedAppointment.service[0].service_type}
+                  {selectedAppointment.address}
                 </b>
               </div>
               <div className={styles.rowContainer}>
@@ -533,19 +319,23 @@ const AppointmentsFacility: NextPage = () => {
               <div className={styles.rowContainer}>
                 <div className={styles.facilityName}>Booking Date</div>
                 <b className={styles.facilityNameCap}>
-                  {new Date(selectedAppointment.start_time).toLocaleDateString(
-                    [],
-                    { weekday: "short", month: "long", day: "numeric" }
-                  )}
+                  {new Date(selectedAppointment.date).toLocaleDateString([], {
+                    weekday: "short",
+                    month: "long",
+                    day: "numeric",
+                  })}
                 </b>
               </div>
               <div className={styles.rowContainer}>
                 <div className={styles.facilityName}>Booking Hours</div>
                 <b className={styles.facilityNameCap}>
-                  {new Date(selectedAppointment.start_time).toLocaleTimeString(
-                    [],
-                    { hour: "numeric", minute: "2-digit" }
-                  )}
+                  {new Date(
+                    `${selectedAppointment.date}T${selectedAppointment.time}`
+                  ).toLocaleTimeString([], {
+                    hour: "numeric",
+                    minute: "2-digit",
+                    hour12: true,
+                  })}
                 </b>
               </div>
               <Image
@@ -559,7 +349,8 @@ const AppointmentsFacility: NextPage = () => {
               <div className={styles.serviceNameParent}>
                 <div className={styles.rowContainer}>
                   <div className={styles.facilityName}>
-                    {selectedAppointment.service[0].service_type}
+                    {/*selectedAppointment.[0].service_type*/}
+                    {selectedAppointment.address}
                   </div>
                   <b className={styles.facilityNameCap}>PHP 500.00</b>
                 </div>
@@ -584,4 +375,4 @@ const AppointmentsFacility: NextPage = () => {
   );
 };
 
-export default AppointmentsFacility;
+export default AppointmentsClient;
