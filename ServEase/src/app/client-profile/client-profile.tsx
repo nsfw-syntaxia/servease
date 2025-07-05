@@ -30,13 +30,13 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
   };
 
   const [profileData, setProfileData] = useState({
-    name: capitalizeWords(initialData.name) || "Name",
-    email: initialData.email || "Email Address",
-    address: capitalizeWords(initialData.address) || "Address",
-    contactNumber: initialData.contactNumber || "Contact Number",
-    gender: capitalizeWords(initialData.gender) || "Gender",
-    birthdate: initialData.birthdate || "Birthdate",
-    profileImage: initialData.profileImage || "/avatar.svg",
+    name: capitalizeWords(initialData.name),
+    email: initialData.email,
+    address: capitalizeWords(initialData.address),
+    contactNumber: initialData.contactNumber,
+    gender: capitalizeWords(initialData.gender),
+    birthdate: initialData.birthdate,
+    profileImage: initialData.profileImage,
   });
 
   const [isEditing, setIsEditing] = useState(false);
