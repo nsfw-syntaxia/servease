@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import styles from "../styles/RegisterFacilityPage4copy.module.css";
-import { facilityContact } from "./actionspage";
+import { completeProviderProfile } from "./actionspage";
 
 type Props = {
   onNext: () => void;
@@ -113,8 +113,8 @@ const FacilitySignup4: NextPage<Props> = ({ onNext }) => {
     try{
       const formData = new FormData();
       formData.append('contact_number', countryCode + phone);
-      await facilityContact(formData);
-      router.push("/discover");
+      await completeProviderProfile(formData);
+      router.push("/facility-dashboard");
     } catch (error: any) {
       setErrorMessage(error.message || "Verification failed");
     } finally {

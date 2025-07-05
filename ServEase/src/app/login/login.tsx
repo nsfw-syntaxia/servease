@@ -36,8 +36,6 @@ const Login: NextPage = () => {
     setError("");
     setShowError(false);
 
-    await new Promise((resolve) => setTimeout(resolve, 100));
-
     if (!email || !password) {
       setError("Please fill in all required fields.");
       setShowError(true);
@@ -57,23 +55,19 @@ const Login: NextPage = () => {
       formData.append("email", email);
       formData.append("password", password);
 
-      setError(undefined); // Clear previous errors
-
-      // Call the server action
       const result = await login(formData);
 
-      // Handle the result
-      if (result.success) {
-        router.push("/discover");
+      if (result.success && result.redirectTo) {
+        router.push(result.redirectTo);
       } else {
         setError(
           result.error || "Login failed. Please check your credentials."
         );
         setShowError(true);
       }
-    } catch (error) {
-      console.error("Login failed:", error);
-      setError("Login failed. Please check your credentials and try again.");
+    } catch (err) {
+      console.error("Login failed:", err);
+      setError("An unexpected error occurred. Please try again.");
       setShowError(true);
     } finally {
       setTimeout(() => setIsClicked(false), 200);
@@ -168,7 +162,7 @@ const Login: NextPage = () => {
                         alt={
                           passwordVisible ? "Hide password" : "Show password"
                         }
-                        src={passwordVisible ? "show.svg" : "hide.svg"}
+                        src={passwordVisible ? "/show.svg" : "/hide.svg"}
                         onClick={togglePasswordVisibility}
                       />
                     </div>
@@ -193,7 +187,7 @@ const Login: NextPage = () => {
                               width={14}
                               height={14}
                               alt="check"
-                              src="check.svg"
+                              src="/check.svg"
                             />
                           )}
                         </div>

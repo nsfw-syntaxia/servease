@@ -592,85 +592,86 @@
     margin-top: 1%;
   }
   .welcomeToServeaseContainer {
-  position: relative;
-  margin-top: -5%;
-}
+    position: relative;
+    margin-top: -5%;
+  }
   .pleaseLogIn {
-  position: relative;
-  font-size: 20px;
+    position: relative;
+    font-size: 20px;
   }
   .logincontent {
     width: 100%;
     padding: 0px 30px;
   }
-  
-  .email1, .password1 {
+
+  .email1,
+  .password1 {
     width: 110%;
     margin-right: 110px;
     position: relative;
     top: -50px;
   }
   .buttoncontainer {
-  width: 260px;
-  position: relative;
-  border-radius: 40px;
-  background-color: var(--color-tan);
-  height: 40px;
-  overflow: hidden;
-  flex-shrink: 0;
-  opacity: 0.5;
-  font-size: 22px;
-  cursor: pointer;
-  bottom: 110px;
-  right: -10px;
-}
-.navbar {
-  width: 600px;
-  border-radius: var(--br-12);
-  height: 56px;
-  overflow: hidden;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0px;
-  cursor: pointer;
-}
-.login2 {
-  width: 300px;
-  position: relative;
-  background-color: var(--color-tan);
-  height: 56px;
-  overflow: hidden;
-  flex-shrink: 0;
-  cursor: pointer;
-}
-.navigationbar {
-  width: 100%;
-  margin: 10% 0 0 5%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: -2%;
-  position: relative;
-}
-.rememberMe1 {
-  position: relative;
-  font-weight: 500;
-  cursor: pointer;
-}
+    width: 260px;
+    position: relative;
+    border-radius: 40px;
+    background-color: var(--color-tan);
+    height: 40px;
+    overflow: hidden;
+    flex-shrink: 0;
+    opacity: 0.5;
+    font-size: 22px;
+    cursor: pointer;
+    bottom: 110px;
+    right: -10px;
+  }
+  .navbar {
+    width: 600px;
+    border-radius: var(--br-12);
+    height: 56px;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0px;
+    cursor: pointer;
+  }
+  .login2 {
+    width: 300px;
+    position: relative;
+    background-color: var(--color-tan);
+    height: 56px;
+    overflow: hidden;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  .navigationbar {
+    width: 100%;
+    margin: 10% 0 0 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: -2%;
+    position: relative;
+  }
+  .rememberMe1 {
+    position: relative;
+    font-weight: 500;
+    cursor: pointer;
+  }
 
-.rememberMe {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-left: 3%;
-  margin-top: -30%;
-}
+  .rememberMe {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-left: 3%;
+    margin-top: -30%;
+  }
 
 .forgetPassword {
   position: relative;
@@ -691,8 +692,17 @@
   font-size: 20px;
   margin-left: -13%;
 }
-}
 
+  .forgetPassword {
+    position: relative;
+    text-decoration: underline;
+    font-weight: 500;
+    color: var(--color-tan);
+    cursor: pointer;
+    margin-right: -5%;
+    margin-top: -30%;
+  }
+}
 
 /* ---------- Mobile (max-width: 768px) ---------- */
 @media screen and (max-width: 768px) {
@@ -741,6 +751,14 @@
   position: relative;
   font-size: 14px;
   right: 36%;
+    position: relative;
+    margin-top: -7%;
+    right: 20%;
+  }
+  .pleaseLogIn {
+    position: relative;
+    font-size: 17px;
+    right: 20%;
   }
   .logincontent {
     width: 100%;
@@ -765,6 +783,12 @@
     right: 58%;
     font-size: 13px;
     top: -70px;
+
+  .email1,
+  .password1 {
+    width: 110%;
+    margin-right: 110px;
+    right: 40%;
   }
   
   .buttoncontainer {
@@ -881,6 +905,79 @@
   font-size: 15px;
   margin-left: 5%;
 }
+    width: 300px;
+    position: relative;
+    border-radius: 40px;
+    background-color: var(--color-tan);
+    height: 40px;
+    overflow: hidden;
+    flex-shrink: 0;
+    opacity: 0.5;
+    font-size: 22px;
+    cursor: pointer;
+    bottom: 90px;
+    right: 40%;
+  }
+  .navbar {
+    width: 400px;
+    border-radius: var(--br-12);
+    height: 56px;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0px;
+    cursor: pointer;
+    position: relative;
+  }
+  .login2 {
+    width: 200px;
+    position: relative;
+    background-color: var(--color-tan);
+    height: 56px;
+    overflow: hidden;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  .navigationbar {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-right: 77%;
+    margin-left: 36%;
+    margin-top: -1%;
+    position: relative;
+  }
+  .rememberMe1 {
+    position: relative;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .rememberMe {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-left: -37%;
+    margin-top: -30%;
+    position: relative;
+  }
+
+  .forgetPassword {
+    position: relative;
+    text-decoration: underline;
+    font-weight: 500;
+    color: var(--color-tan);
+    cursor: pointer;
+    margin-right: 33%;
+    margin-top: -30%;
+  }
 }
 
 /* ---------- Landscape Mobile (max-height: 500px) ---------- */
@@ -921,7 +1018,8 @@
     margin-bottom: 5%;
   }
 
-  .email1, .password1 {
+  .email1,
+  .password1 {
     width: 100%;
     right: auto;
   }
@@ -957,4 +1055,3 @@
     width: 100%;
   }
 }
-
