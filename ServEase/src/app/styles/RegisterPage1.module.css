@@ -526,7 +526,7 @@
 
 .errorMessage.errorDetected {
   opacity: 1;
-  height: 42px; 
+  height: 42px;
   padding: 8px;
   margin-top: 8px;
   background-color: #ffe6e6;
@@ -561,9 +561,9 @@
 }
 
 .filled {
-	opacity: 1; 
+  opacity: 1;
   cursor: pointer;
-  transition: opacity 0.2s ease-in-out
+  transition: opacity 0.2s ease-in-out;
 }
 
 .clicked {
@@ -863,7 +863,7 @@
 }
 
 .dropdownMenu::-webkit-scrollbar-track {
-  background: #CCCCCC;
+  background: #cccccc;
   border-radius: 3px;
 }
 

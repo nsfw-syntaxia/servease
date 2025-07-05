@@ -207,6 +207,60 @@ const FacilityDetailsClientPage: NextPage<{
       setIsAnimating(false);
     }, 100);
   };
+  const top6PopularServices = relatedServices.slice(0, 6);
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const visibleServices = 3;
+
+  const handleNext = () => {
+    if (currentIndex < top6PopularServices.length - visibleServices) {
+      setCurrentIndex((prevIndex) => prevIndex + 3);
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex((prevIndex) => prevIndex - 3);
+    }
+  };
+
+  const facilityImages = Array(5).fill(
+    facility.facility_image_url || "/placeholder-facility.jpg"
+  );
+
+  const visibleImages = 3;
+  const [carouselIndex, setCarouselIndex] = useState(visibleImages);
+  const totalImages = facilityImages.length;
+
+  const handleNext1 = () => {
+    if (carouselIndex >= totalImages + visibleImages) return;
+    setCarouselIndex((prev) => prev + 1);
+  };
+
+  const handlePrev1 = () => {
+    if (carouselIndex <= 0) return;
+    setCarouselIndex((prev) => prev - 1);
+  };
+  const [disableAnim, setDisableAnim] = useState(false);
+
+  const disableTransition = () => {
+    setDisableAnim(true);
+    setTimeout(() => setDisableAnim(false), 50); // restore transition
+  };
+
+  useEffect(() => {
+    if (carouselIndex === totalImages + visibleImages) {
+      setTimeout(() => {
+        setCarouselIndex(visibleImages);
+        disableTransition(); // temporarily disable transition
+      }, 300);
+    } else if (carouselIndex === 0) {
+      setTimeout(() => {
+        setCarouselIndex(totalImages);
+        disableTransition();
+      }, 300);
+    }
+  }, [carouselIndex]);
 
   useEffect(() => {
     if (services && services.length > 0 && !activeServiceName) {
@@ -224,7 +278,7 @@ const FacilityDetailsClientPage: NextPage<{
     return `₱${minPrice.toFixed(2)} - ₱${maxPrice.toFixed(2)}`;
   }, [services]);
 
- const selectedService = useMemo(() => {
+  const selectedService = useMemo(() => {
     return services.find((s) => s.name === activeServiceName);
   }, [activeServiceName, services]);
 
@@ -232,9 +286,9 @@ const FacilityDetailsClientPage: NextPage<{
     ? selectedService.price.toFixed(2)
     : "0.00";
 
-   const handleBookNow = () => {
+  const handleBookNow = () => {
     if (!selectedService) {
-      alert("Please select a service to book."); 
+      alert("Please select a service to book.");
       return;
     }
 
@@ -246,40 +300,6 @@ const FacilityDetailsClientPage: NextPage<{
   return (
     <div className={styles.facilityDetailsParent}>
       <div className={styles.facilityDetails}>
-        <div className={styles.navigation}>
-          <Image
-            className={styles.serveaseLogoAlbumCover3}
-            width={40}
-            height={40}
-            alt=""
-            src="/landingLogo.svg"
-          />
-          <div className={styles.servease}>
-            <span className={styles.serv}>serv</span>
-            <b>ease</b>
-          </div>
-          <div className={styles.navigationChild} />
-          <div className={styles.homeParent}>
-            <div className={styles.home} onClick={() => router.push("/home")}>
-              Home
-            </div>
-            <div
-              className={styles.home}
-              onClick={() => router.push("/discover")}
-            >
-              Discover
-            </div>
-            <div className={styles.contactUs}>Contact Us</div>
-          </div>
-          <div className={styles.navigationChild} />
-          <Image
-            className={styles.avatar}
-            width={40}
-            height={40}
-            alt="User Avatar"
-            src="/avatar.svg"
-          />
-        </div>
         <div className={styles.frameParent}>
           <div className={styles.image7Parent}>
             <div className={styles.image7}>
@@ -291,63 +311,85 @@ const FacilityDetailsClientPage: NextPage<{
               />
             </div>
             <div className={styles.image7Group}>
-              <div className={styles.buttonFrame}>
+              <div className={styles.buttonFrame} onClick={handlePrev1}>
                 <div className={styles.button11}>
                   <div className={styles.chevronLeft}>
                     <Image
                       className={styles.icon4}
                       width={5}
                       height={10}
-                      alt=""
+                      alt="Previous"
                       src="/Chevron left.svg"
                     />
                   </div>
                 </div>
               </div>
-              <div className={styles.image71}>
-                <Image
-                  src={
-                    facility.facility_image_url || "/placeholder-facility.jpg"
-                  }
-                  alt={facility.business_name}
-                  layout="fill"
-                  objectFit="cover"
-                />
+
+              <div className={styles.carouselViewport1}>
+                <div
+                  className={styles.carouselTrack1}
+                  style={{
+                    transform: `translateX(-${
+                      carouselIndex * (100 / visibleImages)
+                    }%)`,
+                    transition: disableAnim
+                      ? "none"
+                      : "transform 0.5s ease-in-out",
+                  }}
+                >
+                  {/* Clone last N items at the start */}
+                  {facilityImages.slice(-visibleImages).map((imgSrc, idx) => (
+                    <div className={styles.image71} key={`clone-start-${idx}`}>
+                      <Image
+                        src={imgSrc}
+                        alt="Clone Start"
+                        layout="fill"
+                        objectFit="cover"
+                      />
+                    </div>
+                  ))}
+
+                  {/* Original slides */}
+                  {facilityImages.map((imgSrc, idx) => (
+                    <div className={styles.image71} key={idx}>
+                      <Image
+                        src={imgSrc}
+                        alt={`Facility Image ${idx + 1}`}
+                        layout="fill"
+                        objectFit="cover"
+                      />
+                    </div>
+                  ))}
+
+                  {/* Clone first N items at the end */}
+                  {facilityImages.slice(0, visibleImages).map((imgSrc, idx) => (
+                    <div className={styles.image71} key={`clone-end-${idx}`}>
+                      <Image
+                        src={imgSrc}
+                        alt="Clone End"
+                        layout="fill"
+                        objectFit="cover"
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div className={styles.image71}>
-                <Image
-                  src={
-                    facility.facility_image_url || "/placeholder-facility.jpg"
-                  }
-                  alt={facility.business_name}
-                  layout="fill"
-                  objectFit="cover"
-                />
-              </div>
-              <div className={styles.image71}>
-                <Image
-                  src={
-                    facility.facility_image_url || "/placeholder-facility.jpg"
-                  }
-                  alt={facility.business_name}
-                  layout="fill"
-                  objectFit="cover"
-                />
-              </div>
-              <div className={styles.buttonWrapper}>
+
+              <div className={styles.buttonWrapper} onClick={handleNext1}>
                 <div className={styles.button11}>
                   <div className={styles.chevronRight}>
                     <Image
                       className={styles.icon3}
                       width={50}
                       height={10}
-                      alt=""
+                      alt="Next"
                       src="/Chevron right.svg"
                     />
                   </div>
                 </div>
               </div>
             </div>
+
             <div className={styles.groupParent}>
               <div className={styles.frameChild}></div>
               <div className={styles.dividerIcon}></div>
@@ -512,28 +554,28 @@ const FacilityDetailsClientPage: NextPage<{
               </div>
               <div className={styles.frameDiv}>
                 <div className={styles.paraContent6}>
-                  <b className={styles.b}>₱{selectedServicePrice}</b>
+                  <b className={styles.b}>₱ {selectedServicePrice}</b>
                 </div>
               </div>
-               <div className={styles.buttonContainer}>
-              {/* --- UI RESTORED --- */}
-              {/* This JSX is now exactly as you had it, using your original class logic. */}
-              {serviceNames.map((serviceName) => (
-                <div
-                  key={serviceName}
-                  className={`${styles.button3} ${
-                    activeServiceName === serviceName
-                      ? styles.active
-                      : styles.inactive
-                  }`}
-                  onClick={() => setActiveServiceName(serviceName)}
-                >
-                  <div className={styles.star} />
-                  <div className={styles.mondayFriday}>{serviceName}</div>
-                  <div className={styles.star} />
-                </div>
-              ))}
-            </div>
+              <div className={styles.buttonContainer}>
+                {/* --- UI RESTORED --- */}
+                {/* This JSX is now exactly as you had it, using your original class logic. */}
+                {serviceNames.map((serviceName) => (
+                  <div
+                    key={serviceName}
+                    className={`${styles.button3} ${
+                      activeServiceName === serviceName
+                        ? styles.active
+                        : styles.inactive
+                    }`}
+                    onClick={() => setActiveServiceName(serviceName)}
+                  >
+                    <div className={styles.star} />
+                    <div className={styles.mondayFriday}>{serviceName}</div>
+                    <div className={styles.star} />
+                  </div>
+                ))}
+              </div>
               <Image
                 className={styles.dividerIcon3}
                 width={629}
@@ -566,11 +608,11 @@ const FacilityDetailsClientPage: NextPage<{
                   <div className={styles.favorite11k}>Favorite</div>
                 </div>
                 <div className={styles.button4} onClick={handleBookNow}>
-                <div className={styles.star} />
-                <div className={styles.mondayFriday}>Book Now</div>
-                <div className={styles.star} />
+                  <div className={styles.star} />
+                  <div className={styles.mondayFriday}>Book Now</div>
+                  <div className={styles.star} />
+                </div>
               </div>
-            </div>
             </div>
           </div>
         </div>
@@ -668,7 +710,13 @@ const FacilityDetailsClientPage: NextPage<{
             <div className={styles.frameParent1}>...</div>
           </div>
         </div>
-
+        <Image
+          className={styles.dividerrelated}
+          width={1300}
+          height={1}
+          alt=""
+          src="/Divider1.svg"
+        />
         <div className={styles.relatedservicesbox}>
           <b className={styles.relatedServices}>
             <span className={styles.relatedServicesTxtContainer}>
@@ -676,26 +724,47 @@ const FacilityDetailsClientPage: NextPage<{
               <span className={styles.services}> Services</span>
             </span>
           </b>
-          <div className={styles.cards}>
-            {relatedServices.map((related) => (
-              <RelatedServiceCard key={related.id} related={related} />
-            ))}
-            <div className={styles.cardsInner}>
-              <div className={styles.buttonWrapper2}>
-                <div className={styles.button31}>
-                  <div className={styles.chevronRight4}>
-                    <Image
-                      className={styles.icon8}
-                      width={30}
-                      height={30}
-                      sizes="100vw"
-                      alt=""
-                      src="/Chevron right.svg"
-                    />
-                  </div>
-                </div>
+          <div className={styles.servicesCarousel}>
+            {currentIndex > 0 && (
+              <button
+                className={`${styles.carouselButton} ${styles.prevButton}`}
+                onClick={handlePrev}
+              >
+                <Image
+                  width={28}
+                  height={28}
+                  src="/Chevron right.svg"
+                  alt="Previous"
+                />
+              </button>
+            )}
+            <div className={styles.carouselViewport}>
+              <div
+                className={styles.carouselTrack}
+                style={{
+                  transform: `translateX(calc(-${
+                    currentIndex * (100 / visibleServices)
+                  }%))`,
+                }}
+              >
+                {top6PopularServices.map((related) => (
+                  <RelatedServiceCard key={related.id} related={related} />
+                ))}
               </div>
             </div>
+            {currentIndex < top6PopularServices.length - visibleServices && (
+              <button
+                className={`${styles.carouselButton} ${styles.nextButton}`}
+                onClick={handleNext}
+              >
+                <Image
+                  width={28}
+                  height={28}
+                  src="/Chevron right.svg"
+                  alt="Next"
+                />
+              </button>
+            )}
           </div>
         </div>
 
