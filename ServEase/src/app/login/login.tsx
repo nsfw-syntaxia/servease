@@ -1,11 +1,12 @@
 "use client";
 
+import "../styles/globals.css";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { NextPage } from "next";
 import Image from "next/image";
 import styles from "../styles/login.module.css";
-import { login } from "./actions";
+import { login } from "./actions"; 
 
 const Login: NextPage = () => {
   const [rememberMeChecked, setRememberMeChecked] = useState(false);
@@ -38,14 +39,14 @@ const Login: NextPage = () => {
     if (!email || !password) {
       setError("Please fill in all required fields.");
       setShowError(true);
-      setIsClicked(false);
+      setTimeout(() => setIsClicked(false), 100);
       return;
     }
 
     if (!validateEmail(email)) {
       setError("Please enter a valid email address.");
       setShowError(true);
-      setIsClicked(false);
+      setTimeout(() => setIsClicked(false), 100);
       return;
     }
 
@@ -54,21 +55,36 @@ const Login: NextPage = () => {
       formData.append("email", email);
       formData.append("password", password);
 
-      await login(formData);
-      router.push("/discover");
-    } catch (error) {
-      console.error("Login failed:", error);
-      setError("Login failed. Please check your credentials and try again.");
+      const result = await login(formData);
+
+       if (result.success && result.redirectTo) {
+        router.push(result.redirectTo);
+      } else {
+        setError(result.error || "Login failed. Please check your credentials.");
+        setShowError(true);
+      }
+    } catch (err) {
+      console.error("Login failed:", err);
+      setError("An unexpected error occurred. Please try again.");
       setShowError(true);
     } finally {
-      setIsClicked(false);
+      setTimeout(() => setIsClicked(false), 200);
     }
   };
 
   return (
     <div className={styles.login}>
       <div className={styles.login1}>
+        <Image
+          className={styles.authlogoIcon}
+          width={832}
+          height={978}
+          sizes="100vw"
+          alt=""
+          src="/authLogo.svg"
+        />
         <div className={styles.background} />
+
         <div className={styles.authwindow}>
           <div className={styles.authwindow1} />
           <div className={styles.authcontent}>
@@ -144,7 +160,7 @@ const Login: NextPage = () => {
                         alt={
                           passwordVisible ? "Hide password" : "Show password"
                         }
-                        src={passwordVisible ? "show.svg" : "hide.svg"}
+                        src={passwordVisible ? "/show.svg" : "/hide.svg"}
                         onClick={togglePasswordVisibility}
                       />
                     </div>
@@ -169,7 +185,7 @@ const Login: NextPage = () => {
                               width={14}
                               height={14}
                               alt="check"
-                              src="check.svg"
+                              src="/check.svg"
                             />
                           )}
                         </div>
@@ -210,14 +226,6 @@ const Login: NextPage = () => {
           alt=""
           src="/close.svg"
           onClick={() => router.push("/home")}
-        />
-        <Image
-          className={styles.authlogoIcon}
-          width={832}
-          height={978}
-          sizes="100vw"
-          alt=""
-          src="/authLogo.svg"
         />
       </div>
     </div>

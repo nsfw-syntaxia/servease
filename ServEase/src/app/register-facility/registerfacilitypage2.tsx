@@ -40,7 +40,7 @@ export default function FacilitySignup2({ onNext }: Props) {
         "Hair Salons",
         "Nail Salons",
         "Spa & Massage Centers",
-        "Tattoo and Piercing Parlors",
+        "Tattoo & Piercing Parlors",
       ],
     },
     {
@@ -48,12 +48,12 @@ export default function FacilitySignup2({ onNext }: Props) {
       label: "Health & Medical Services",
       subcategories: [
         "Animal Clinics",
-        "Dentists",
-        "Dermatologists",
+        "Dental Clinics",
+        "Dermatology Clinics",
         "Hospitals",
         "Laboratories",
         "Pharmacies",
-        "Psychologists",
+        "Therapy Centers",
       ],
     },
     {
@@ -64,19 +64,16 @@ export default function FacilitySignup2({ onNext }: Props) {
     {
       value: "04",
       label: "Education & Tutoring Services",
-      subcategories: [
-        "Schools (Daycare, Nursery, Elementary, High Schools, Colleges)",
-        "Tutoring Centers",
-      ],
+      subcategories: ["Schools & Universities", "Tutoring Centers"],
     },
     {
       value: "05",
       label: "Repair & Technical Services",
       subcategories: [
-        "Appliance Repair",
-        "Car Wash",
-        "Car/Motorcycle Repair Shops",
-        "Electronics Repair",
+        "Home Appliance Repair Centers",
+        "Car Wash Stations",
+        "Vehicle Repair Shops",
+        "Electronics Repair Shops",
       ],
     },
     {
@@ -86,9 +83,9 @@ export default function FacilitySignup2({ onNext }: Props) {
         "Bakeries",
         "Bars",
         "Cafes & Coffee Shops",
-        "Mini Mart",
-        "Restaurants",
-        "Supermarkets / Grocery Stores",
+        "Mini Marts",
+        "Restaurants & Diners",
+        "Supermarkets & Grocery Stores",
       ],
     },
     {
@@ -98,7 +95,7 @@ export default function FacilitySignup2({ onNext }: Props) {
         "Funeral Homes",
         "Hotels",
         "Laundry Shops",
-        "Tailoring Services",
+        "Tailor & Dress Shops",
       ],
     },
   ];
@@ -118,7 +115,6 @@ export default function FacilitySignup2({ onNext }: Props) {
   );
   const subcategories = selectedCategoryObject?.subcategories || [];
 
-  //WORKING DAYS
   const workingDaysList = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
 
@@ -147,7 +143,8 @@ export default function FacilitySignup2({ onNext }: Props) {
 
   const isDaySelected = (day: string) => selectedDays.includes(day);
 
-  //TIMERPICKER
+
+
 
   const generateTimeOptions = () => {
     const times: string[] = [];
@@ -278,7 +275,7 @@ export default function FacilitySignup2({ onNext }: Props) {
       formData.append("working_days", JSON.stringify(selectedDays));
       formData.append("start_time", selectedStartTime);
       formData.append("end_time", selectedEndTime);
-      //await facilityProfile(formData);
+      await facilityProfile(formData)
       console.log("All fields valid. Continue to next step.");
       onNext();
     } catch {}

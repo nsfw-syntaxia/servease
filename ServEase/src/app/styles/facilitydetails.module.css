@@ -77,6 +77,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  color: #604c3d;
 }
 .contactUs {
   width: 147px;
@@ -88,6 +89,7 @@
   justify-content: center;
   height: 27px;
   flex-shrink: 0;
+  color: #604c3d;
 }
 .home:hover,
 .contactUs:hover {
@@ -103,39 +105,6 @@
   justify-content: center;
   gap: 25px;
   color: var(--color-gray-200);
-}
-.star {
-  width: 16px;
-  position: relative;
-  height: 16px;
-  overflow: hidden;
-  flex-shrink: 0;
-  display: none;
-}
-.signIn {
-  width: 75px;
-  position: relative;
-  line-height: 100%;
-  font-weight: 600;
-  display: inline-block;
-  flex-shrink: 0;
-}
-.button {
-  width: 100px;
-  border-radius: 8px;
-  background-color: var(--color-tan-200);
-  border: 1px solid var(--color-tan);
-  box-sizing: border-box;
-  height: 40px;
-  overflow: hidden;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-12);
-  gap: var(--gap-8);
-  color: var(--color-snow);
 }
 .navigation {
   position: relative;
@@ -177,6 +146,148 @@
     transform: translate(0%, 0);
   }
 }
+.footer {
+  position: relative;
+  margin-top: 7rem;
+  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+    var(--color-white);
+  width: 100%;
+  height: 475px;
+  color: var(--color-black);
+}
+.footerChild {
+  position: relative;
+  background-color: var(--color-white);
+  width: 100%;
+  height: 534px;
+  margin: 0 auto;
+}
+.yourTrustedPlatform {
+  position: absolute;
+  top: 157px;
+  left: 143px;
+  line-height: 40px;
+  display: inline-block;
+  width: 359px;
+}
+.contactUs1 {
+  position: absolute;
+  top: 87px;
+  left: calc(50% + 343px);
+  font-size: var(--font-size-26);
+  line-height: 128.02%;
+  display: inline-block;
+  width: 217px;
+}
+.supportserveasecom {
+  position: absolute;
+  top: 157px;
+  left: calc(50% + 343px);
+  line-height: 40px;
+}
+.contactNumber {
+  position: absolute;
+  top: 197px;
+  left: calc(50% + 343px);
+  line-height: 40px;
+  display: inline-block;
+  width: 233px;
+}
+.support {
+  position: absolute;
+  top: 87px;
+  left: calc(50% + 144px);
+  font-size: var(--font-size-26);
+  line-height: 128.02%;
+  display: inline-block;
+  width: 196px;
+}
+.faqs {
+  position: absolute;
+  top: 158px;
+  left: calc(50% + 144px);
+  line-height: 40px;
+  display: inline-block;
+  width: 233px;
+}
+.privacyPolicy {
+  position: absolute;
+  top: 197px;
+  left: calc(50% + 144px);
+  line-height: 40px;
+  display: inline-block;
+  width: 233px;
+}
+.termsConditions {
+  position: absolute;
+  top: 237px;
+  left: calc(50% + 144px);
+  line-height: 40px;
+  display: inline-block;
+  width: 233px;
+}
+.aboutUs {
+  position: absolute;
+  top: 277px;
+  left: calc(50% + 144px);
+  line-height: 40px;
+  display: inline-block;
+  width: 233px;
+}
+.quickLinks {
+  position: absolute;
+  top: 87px;
+  left: calc(50% - 126px);
+  font-size: var(--font-size-26);
+  line-height: 128.02%;
+  display: inline-block;
+  width: 196px;
+}
+.servease1 {
+  position: absolute;
+  top: 87px;
+  left: calc(50% - 529px);
+  font-size: var(--font-size-26);
+  line-height: 128.02%;
+  display: inline-block;
+  width: 148px;
+  color: #a68465;
+}
+
+.star {
+  width: 16px;
+  position: relative;
+  height: 16px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: none;
+}
+.signIn {
+  width: 75px;
+  position: relative;
+  line-height: 100%;
+  font-weight: 600;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.button {
+  width: 100px;
+  border-radius: 8px;
+  background-color: var(--color-tan-200);
+  border: 1px solid var(--color-tan);
+  box-sizing: border-box;
+  height: 40px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: var(--padding-12);
+  gap: var(--gap-8);
+  color: var(--color-snow);
+}
+
 .image7 {
   align-self: stretch;
   position: relative;
@@ -577,7 +688,7 @@
 .button3 {
   width: 190px;
   border-radius: var(--br-4);
-  background-color: var(--color-tan-200);
+  background-color: var(--color-tan);
   height: 40px;
   overflow: hidden;
   flex-shrink: 0;
@@ -588,7 +699,7 @@
   padding: var(--padding-12);
   box-sizing: border-box;
   gap: var(--gap-8);
-  color: var(--color-linen);
+  color: var(--color-white);
   transition: transform 0.3s ease, background-position 0.5s ease,
     opacity 0.3s ease;
 }
@@ -628,19 +739,19 @@
 }
 
 .inactive {
-  opacity: 0.5;
+  opacity: 0.6;
 }
 
 .buttonContainer {
+  display: flex;
   flex-direction: row;
+  flex-wrap: wrap; /* Allow items to wrap to the next line */
   align-items: flex-start;
   justify-content: flex-start;
-  gap: var(--gap-20);
+  gap: 16px; /* Use a single gap value */
   z-index: 16;
   text-align: center;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  width: 100%; /* Ensure it takes up the full width of its parent */
 }
 
 .buttonParent1 {
@@ -787,8 +898,8 @@
 }
 .button11 {
   position: relative;
-  border-radius: var(--br-100);
-  background-color: var(--color-tan-300);
+  border-radius: 50%;
+  background-color: var(--color-tan);
   width: 45px;
   height: 45px;
   transition: all 0.3s ease;
@@ -1022,7 +1133,7 @@
 .button20 {
   width: 192px;
   border-radius: var(--br-4);
-  border: 1px solid var(--color-tan-200);
+  border: 1px solid var(--color-tan);
   box-sizing: border-box;
   height: 42px;
   overflow: hidden;
@@ -1049,7 +1160,7 @@
 .group {
   width: 1139px;
   border-radius: var(--br-4);
-  border: 2px solid var(--color-tan-200);
+  border: 2px solid var(--color-tan);
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
@@ -1296,7 +1407,7 @@
 .button26 {
   width: 45px;
   border-radius: var(--br-100);
-  border: 2px solid var(--color-tan-200);
+  border: 2px solid var(--color-tan);
   box-sizing: border-box;
   height: 45px;
   overflow: hidden;
@@ -1313,7 +1424,7 @@
   top: 0px;
   left: 0px;
   border-radius: var(--br-100);
-  background-color: var(--color-tan-200);
+  background-color: var(--color-tan);
   width: 45px;
   height: 45px;
   transition: all 0.3s ease;
@@ -1484,7 +1595,7 @@
   justify-content: flex-start;
   gap: var(--gap-2);
 }
-.avatar {
+.avatar{
   align-self: stretch;
   display: flex;
   flex-direction: row;
@@ -1633,106 +1744,7 @@
   gap: 30px;
   color: var(--color-gray-100);
 }
-.footerChild {
-  position: relative;
-  top: 0px;
-  left: 0px;
-  background-color: var(--color-white);
-  width: 100%;
-  height: 534px;
-  margin: 0 auto;
-}
-.yourTrustedPlatform {
-  position: absolute;
-  top: 157px;
-  left: 143px;
-  line-height: 40px;
-  display: inline-block;
-  width: 359px;
-}
-.contactUs1 {
-  position: absolute;
-  top: 87px;
-  left: calc(50% + 343px);
-  font-size: var(--font-size-26);
-  line-height: 128.02%;
-  display: inline-block;
-  width: 217px;
-}
-.supportserveasecom {
-  position: absolute;
-  top: 157px;
-  left: calc(50% + 343px);
-  line-height: 40px;
-}
-.contactNumber {
-  position: absolute;
-  top: 197px;
-  left: calc(50% + 343px);
-  line-height: 40px;
-  display: inline-block;
-  width: 233px;
-}
-.support {
-  position: absolute;
-  top: 87px;
-  left: calc(50% + 144px);
-  font-size: var(--font-size-26);
-  line-height: 128.02%;
-  display: inline-block;
-  width: 196px;
-}
-.faqs {
-  position: absolute;
-  top: 158px;
-  left: calc(50% + 144px);
-  line-height: 40px;
-  display: inline-block;
-  width: 233px;
-}
-.privacyPolicy {
-  position: absolute;
-  top: 197px;
-  left: calc(50% + 144px);
-  line-height: 40px;
-  display: inline-block;
-  width: 233px;
-}
-.termsConditions {
-  position: absolute;
-  top: 237px;
-  left: calc(50% + 144px);
-  line-height: 40px;
-  display: inline-block;
-  width: 233px;
-}
-.aboutUs {
-  position: absolute;
-  top: 277px;
-  left: calc(50% + 144px);
-  line-height: 40px;
-  display: inline-block;
-  width: 233px;
-}
-.quickLinks {
-  position: absolute;
-  top: 87px;
-  left: calc(50% - 126px);
-  font-size: var(--font-size-26);
-  line-height: 128.02%;
-  display: inline-block;
-  width: 196px;
-}
-.servease1 {
-  position: absolute;
-  top: 87px;
-  left: calc(50% - 529px);
-  font-size: var(--font-size-26);
-  line-height: 128.02%;
-  display: inline-block;
-  width: 148px;
-  color: #a68465;
-}
+
 .home1 {
   position: absolute;
   top: 158px;
@@ -1860,15 +1872,7 @@
   object-fit: cover;
   transition: transform 0.3s ease;
 }
-.footer {
-  position: relative;
-  margin-top: 7rem;
-  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
-    var(--color-white);
-  width: 100%;
-  height: 475px;
-  color: var(--color-black);
-}
+
 .facilityDetails {
   position: relative;
   background-color: var(--color-whitesmoke);

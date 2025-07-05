@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import "../styles/globals.css";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import styles from "../styles/landing-page.module.css";
@@ -332,68 +333,6 @@ const LandingPage = () => {
   return (
     <TypewriterProvider>
       <div className={styles.landingPage}>
-        {/* nav bar */}
-        <div
-          className={`${styles.navigation} ${
-            navDropped ? styles.navAnimate : ""
-          }`}
-        >
-          <div className={styles.navigationlogo}>
-            <Image
-              className={styles.serveaseLogoAlbumCover31}
-              width={40}
-              height={40}
-              sizes="100vw"
-              alt=""
-              src="/landingLogo.svg"
-              onClick={() => {
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-            />
-            <div
-              className={styles.servease1}
-              onClick={() => {
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-            >
-              <span className={styles.serv1}>serv</span>
-              <b>ease</b>
-            </div>
-          </div>
-          <div className={styles.navigationChild} />
-          <div className={styles.homeParent}>
-            <div
-              className={styles.home1}
-              onClick={() => {
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-            >
-              Home
-            </div>
-            <div className={styles.home1}>Discover</div>
-            <div
-              className={styles.contactUs1}
-              onClick={() => {
-                window.scrollTo({
-                  top: document.body.scrollHeight,
-                  behavior: "smooth",
-                });
-              }}
-            >
-              Contact Us
-            </div>
-          </div>
-          <div className={styles.navigationChild} />
-          <div className={styles.button1}>
-            <div
-              className={styles.signIn}
-              onClick={() => router.push("/login")}
-            >
-              Sign in
-            </div>
-          </div>
-        </div>
-
         {/* hero img */}
         {showHero && (
           <div className={`${styles.heroImageWrapper} ${styles.heroFade}`}>
@@ -801,7 +740,7 @@ const LandingPage = () => {
           </div>
           <b className={styles.contactUs}>Contact Us</b>
           <div className={styles.supportserveasecom}>support@servease.com</div>
-          <div className={styles.contactNumber}>+63 9XX-XXX-XXXX</div>
+          <div className={styles.contactNumber}>+63 996 3175 214</div>
           <b className={styles.support}>Support</b>
           <div className={styles.faqs}>FAQs</div>
           <div className={styles.privacyPolicy}>Privacy Policy</div>
@@ -832,7 +771,11 @@ const LandingPage = () => {
           >
             Home
           </div>
-          <div className={styles.discover}>Discover</div>
+          <div 
+            className={styles.discover}
+            onClick={() => router.push("/home")}
+            >Discover
+          </div>
           <div
             className={styles.createAnAccount}
             onClick={() => router.push("/signup")}
@@ -851,7 +794,7 @@ const LandingPage = () => {
             height={40}
             sizes="100vw"
             alt=""
-            src="/landingLogo.svg"
+            src="/logo.svg"
             onClick={() => {
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
