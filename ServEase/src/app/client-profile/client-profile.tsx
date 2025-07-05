@@ -1,14 +1,15 @@
 "use client";
 
-import React, { useState, useRef } from "react"; // No useEffect needed anymore
+import React, { useState, useRef } from "react";
 import type { NextPage } from "next";
 import Image from "next/image";
 import styles from "../styles/client-profile.module.css";
-import { type ProfileDataType } from "./actions"; // Only the type is needed now
+import { type ProfileDataType } from "./actions";
+import { updateUserProfile, updateUserEmail } from "./actions";
+import { createClient } from "../utils/supabase/client";
 
-// Helper function to format the text as requested
 const capitalizeWords = (str: string): string => {
-  if (!str) return ""; // Handle null or empty strings gracefully
+  if (!str) return "";
   return str
     .toLowerCase()
     .split(" ")
@@ -16,20 +17,13 @@ const capitalizeWords = (str: string): string => {
     .join(" ");
 };
 
-// The component now accepts the `initialData` prop
 const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
   initialData,
 }) => {
-  // The state is now initialized directly from the prop, with formatting applied.
   const [profileData, setProfileData] = useState({
-    // Apply formatting and provide fallbacks
     name: capitalizeWords(initialData.name) || "Name",
     email: initialData.email || "Email Address",
-
-    // --- SPECIAL HANDLING FOR ADDRESS ---
-    // As requested, if the address from the database is empty, show the placeholder.
     address: capitalizeWords(initialData.address) || "Address",
-
     contactNumber: initialData.contactNumber || "Contact Number",
     gender: capitalizeWords(initialData.gender) || "Gender",
     birthdate: initialData.birthdate || "Birthdate",
@@ -45,10 +39,8 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
   });
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // The useEffect for fetching data is now REMOVED.
-  // This is why the flicker is gone.
-
-  // ----- NO LOGIC OR UI (JSX) CHANGES BELOW THIS LINE -----
+  const [isSaving, setIsSaving] = useState(false);
+  const [pfpFile, setPfpFile] = useState<File | null>(null);
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -56,7 +48,6 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
   };
 
   const validateContactNumber = (contactNumber: string) => {
-    // This new regex matches the format +63XXX XXXX XXX (e.g., +63917 1234 567)
     const phoneRegex = /^\+63\d{3}\s\d{4}\s\d{3}$/;
     return phoneRegex.test(contactNumber);
   };
@@ -72,7 +63,8 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
     setErrors({ email: "", contactNumber: "", name: "" });
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    // input validation
     const newErrors = { email: "", contactNumber: "", name: "" };
 
     if (!validateEmail(editData.email))
@@ -83,11 +75,72 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
       newErrors.name = "Name must contain only letters.";
 
     setErrors(newErrors);
+    if (Object.values(newErrors).some((err) => err)) return;
 
-    if (!newErrors.email && !newErrors.contactNumber && !newErrors.name) {
-      setProfileData({ ...editData });
-      setIsEditing(false);
+    setIsSaving(true);
+    let newPfpUrl: string | undefined = undefined;
+
+    //file upload
+    if (pfpFile) {
+      const supabase = createClient();
+
+      // create a stable file path based on the user's email
+      // this ensures that when they upload again, it overwrites the same file
+      const filePath = `public/${initialData.email}-avatar`;
+
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from("avatars")
+        // use .upload() with the 'upsert: true' option
+        .upload(filePath, pfpFile, {
+          upsert: true,
+        });
+
+      if (uploadError) {
+        alert("Error uploading profile picture: " + uploadError.message);
+        setIsSaving(false);
+        return;
+      }
+
+      // get the public url using the same stable file path
+      const { data: urlData } = supabase.storage
+        .from("avatars")
+        .getPublicUrl(filePath); // use the stable path here too
+
+      newPfpUrl = urlData.publicUrl;
     }
+
+    // email update
+    if (editData.email !== initialData.email) {
+      const { error: emailError } = await updateUserEmail(editData.email);
+      if (emailError) {
+        alert("Email Update Failed: " + emailError);
+      } else {
+        alert("A confirmation link has been sent to your new email address.");
+      }
+    }
+
+    // profile data update
+    const payload = {
+      full_name: editData.name,
+      address: editData.address,
+      contact_number: editData.contactNumber,
+      ...(newPfpUrl && { picture_url: newPfpUrl }),
+    };
+
+    const { error: profileError } = await updateUserProfile(payload);
+
+    if (profileError) {
+      alert("Error saving profile: " + profileError);
+    } else {
+      setProfileData({
+        ...editData,
+        profileImage: newPfpUrl || editData.profileImage,
+      });
+      setIsEditing(false);
+      setPfpFile(null); // clear the file from state
+    }
+
+    setIsSaving(false);
   };
 
   const handleInputChange = (field: string, value: string) => {
@@ -103,6 +156,8 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file && (file.type === "image/png" || file.type === "image/jpeg")) {
+      setPfpFile(file);
+
       const reader = new FileReader();
       reader.onload = (e) => {
         setEditData((prev) => ({
@@ -227,7 +282,7 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
               onChange={(e) =>
                 handleInputChange("contactNumber", e.target.value)
               }
-              placeholder="+63 9XX XXXX XXX"
+              placeholder="+639XX XXXX XXX"
             />
           ) : (
             <div className={styles.emailAddress}>

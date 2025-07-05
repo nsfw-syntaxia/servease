@@ -2,6 +2,7 @@
 
 import { createClient } from "../utils/supabase/server";
 import { createAdminClient } from "../utils/supabase/admin";
+import { revalidatePath } from "next/cache";
 
 export type ProfileDataType = {
   name: string;
@@ -74,4 +75,57 @@ export async function getUserProfileData(): Promise<{
     console.error("Error fetching profile data:", error.message);
     return { error: "Failed to fetch profile data." };
   }
+}
+
+export type UpdateProfilePayload = {
+  full_name: string;
+  address: string;
+  contact_number: string;
+  picture_url?: string; // <-- MODIFICATION: picture_url is now optional
+};
+
+export async function updateUserProfile(
+  payload: UpdateProfilePayload
+): Promise<{ error?: string }> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { error: "You must be logged in to update your profile." };
+  }
+
+  const { error } = await supabase
+    .from("profiles")
+    .update(payload)
+    .eq("id", user.id);
+
+  if (error) {
+    console.error("Supabase profile update error:", error.message);
+    return { error: "Could not update profile information." };
+  }
+
+  revalidatePath("/client-profile"); // Adjust if your URL is different
+  return {};
+}
+
+export async function updateUserEmail(
+  newEmail: string
+): Promise<{ error?: string }> {
+  const supabase = await createClient();
+  const { error } = await supabase.auth.updateUser({ email: newEmail });
+
+  if (error) {
+    console.error("Supabase email update error:", error.message);
+    // Provide a user-friendly error message
+    if (error.message.includes("same as the current email")) {
+      return { error: "This is already your current email address." };
+    }
+    return { error: "Could not update your email address." };
+  }
+
+  // A confirmation email will be sent to the new address.
+  // The email won't actually change until the user clicks the link.
+  return {};
 }
