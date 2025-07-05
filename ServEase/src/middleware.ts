@@ -27,7 +27,11 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await supabase.auth.getUser ();
+
+  // Debugging logs
+  console.log("User  state:", user);
+  console.log("Request path:", request.nextUrl.pathname);
 
   // Define public routes that don't require authentication
   const publicRoutes = [
