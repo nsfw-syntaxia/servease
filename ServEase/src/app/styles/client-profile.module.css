@@ -495,7 +495,7 @@
   overflow: hidden;
   text-align: left;
   font-size: var(--font-size-16);
-  color: #2e231d;
+  color: var(--color-black);
   font-family: var(--font-dm-sans);
   cursor: default;
 }
