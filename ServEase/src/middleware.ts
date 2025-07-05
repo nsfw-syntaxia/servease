@@ -74,6 +74,7 @@ export async function middleware(request: NextRequest) {
       "/messages",
       "/notifications",
       "/schedule",
+      "/discover",
     ];
 
     // If a guest tries to access a protected route, redirect them to login
