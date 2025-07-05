@@ -227,7 +227,7 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
           height={148}
           sizes="100vw"
           alt=""
-          src="/client-cover.png"
+          src="/profile-cover.png"
         />
         <div className={styles.profileInfo}>
           <div className={styles.clientemailcom}>{profileData.email}</div>
