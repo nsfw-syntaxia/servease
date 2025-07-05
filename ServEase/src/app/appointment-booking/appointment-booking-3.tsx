@@ -30,6 +30,14 @@ const formatCurrency = (amount: number) => {
   }).format(amount);
 };
 
+// Helper function to format date for database without timezone issues
+const formatDateForDB = (date: Date): string => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
 export default function Booking3({ onNext }: Props) {
   const [isAgreed, setIsAgreed] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -133,7 +141,7 @@ export default function Booking3({ onNext }: Props) {
       const appointmentToInsert = {
         client_id: clientProfile.id,
         provider_id: providerProfile.id,
-        date: selectedDate.toISOString().split("T")[0],
+        date: formatDateForDB(selectedDate), // Fixed: Use helper function to avoid timezone issues
         time: selectedTime,
         status: "pending",
         price: selectedServices.reduce((sum, s) => sum + s.price, 0),
