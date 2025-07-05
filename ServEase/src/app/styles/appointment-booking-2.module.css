@@ -1224,7 +1224,7 @@
 .button3 {
   width: 190px;
   border-radius: var(--br-4);
-  background-color: var(--color-tan-200);
+  background-color: var(--color-tan);
   height: 40px;
   overflow: hidden;
   flex-shrink: 0;

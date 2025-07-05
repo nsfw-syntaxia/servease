@@ -2,8 +2,8 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import { createClient } from "../lib/supabase/client"; // Your Supabase client
-import { useBooking, Service } from "./BookingContext"; // Import from our context
+import { createClient } from "../lib/supabase/client"; 
+import { useBooking, Service } from "./BookingContext"; 
 import styles from "../styles/appointment-booking-1.module.css";
 
 type Props = {
@@ -20,7 +20,7 @@ export default function Booking1({ onNext }: Props) {
   const [allServices, setAllServices] = useState<Service[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [fetchError, setFetchError] = useState<string | null>(null);
-  
+
   const [errorMessage, setErrorMessage] = useState("");
   const [buttonClicked, setButtonClicked] = useState(false);
 
@@ -49,7 +49,9 @@ export default function Booking1({ onNext }: Props) {
   }, [supabase, searchParams]);
 
   const toggleService = (serviceToToggle: Service) => {
-    const isSelected = selectedServices.some((s) => s.id === serviceToToggle.id);
+    const isSelected = selectedServices.some(
+      (s) => s.id === serviceToToggle.id
+    );
     const updatedServices = isSelected
       ? selectedServices.filter((s) => s.id !== serviceToToggle.id)
       : [...selectedServices, serviceToToggle];
@@ -69,13 +71,27 @@ export default function Booking1({ onNext }: Props) {
     setErrorMessage("");
     onNext();
   };
-  
+
   const totalPrice = useMemo(() => {
     return selectedServices.reduce((sum, service) => sum + service.price, 0);
   }, [selectedServices]);
 
-  if (isLoading) return <div style={{ textAlign: 'center', padding: '40px', fontFamily: 'sans-serif' }}>Loading services...</div>;
-  if (fetchError) return <div className={`${styles.errorbox} ${styles.visible}`}>{fetchError}</div>;
+  if (isLoading)
+    return (
+      <div
+        style={{
+          textAlign: "center",
+          padding: "40px",
+          fontFamily: "sans-serif",
+        }}
+      >
+        Loading services...
+      </div>
+    );
+  if (fetchError)
+    return (
+      <div className={`${styles.errorbox} ${styles.visible}`}>{fetchError}</div>
+    );
 
   return (
     <div className={styles.frameGroup}>
@@ -84,27 +100,46 @@ export default function Booking1({ onNext }: Props) {
           Browse and select one or more services you’d like to book from our
           trusted professionals.
         </div>
-        <div className={styles.atLeastChoose}>{`*At least choose one service `}</div>
+        <div
+          className={styles.atLeastChoose}
+        >{`*At least choose one service `}</div>
       </div>
       <div className={styles.container}>
         {allServices.map((service) => {
           const isActive = selectedServices.some((s) => s.id === service.id);
           return (
             <div
-              key={service.id} 
+              key={service.id}
               className={`${styles.card} ${isActive ? styles.active : ""} ${
                 errorMessage ? styles.errorborder : ""
               }`}
               onClick={() => toggleService(service)}
             >
               <div className={styles.header}>
-                <div className={`${styles.checkbox} ${isActive ? styles.checkboxActive : ""}`}>
-                  {isActive && (<Image src="/check.svg" alt="check" width={13} height={13} />)}
+                <div
+                  className={`${styles.checkbox} ${
+                    isActive ? styles.checkboxActive : ""
+                  }`}
+                >
+                  {isActive && (
+                    <Image
+                      src="/check.svg"
+                      alt="check"
+                      width={13}
+                      height={13}
+                    />
+                  )}
                 </div>
                 <div className={styles.name}>{service.name}</div>
-                <div className={styles.price}>{`PHP${service.price.toFixed(2)}`}</div>
+                <div className={styles.price}>{`PHP${service.price.toFixed(
+                  2
+                )}`}</div>
               </div>
-              <div className={`${styles.content} ${isActive ? styles.contentVisible : ""}`}>
+              <div
+                className={`${styles.content} ${
+                  isActive ? styles.contentVisible : ""
+                }`}
+              >
                 {service.description || "No description available."}
               </div>
             </div>
@@ -112,15 +147,25 @@ export default function Booking1({ onNext }: Props) {
         })}
       </div>
       <div className={styles.messageWrapper}>
-        <div className={`${styles.privacyNotice} ${selectedServices.length > 0 ? styles.visible : styles.hidden}`}>
+        <div
+          className={`${styles.privacyNotice} ${
+            selectedServices.length > 0 ? styles.visible : styles.hidden
+          }`}
+        >
           Total: PHP{totalPrice.toFixed(2)}
         </div>
-        <div className={`${styles.errorbox} ${errorMessage ? styles.visible : styles.hidden}`}>
+        <div
+          className={`${styles.errorbox} ${
+            errorMessage ? styles.visible : styles.hidden
+          }`}
+        >
           Please select at least one service
         </div>
       </div>
       <div
-        className={`${styles.buttoncontainer} ${buttonClicked ? styles.clicked : ""}`}
+        className={`${styles.buttoncontainer} ${
+          buttonClicked ? styles.clicked : ""
+        }`}
         style={{
           backgroundColor: "#a68465",
           opacity: selectedServices.length > 0 ? "1" : "0.5",
