@@ -259,6 +259,7 @@ export async function completeProviderProfile(formData: FormData): Promise<{ err
     end_time: initialProfileData.end_time,
     picture_url: '/avatar.svg', 
     facility_image_url: facilityImageUrl,
+    status: 'pending' as const
   };
   
   console.log("Data to upsert into FINAL 'profiles' table:", finalProfileData);

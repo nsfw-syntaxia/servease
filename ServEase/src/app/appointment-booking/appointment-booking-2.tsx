@@ -29,6 +29,7 @@ export default function AppointmentScheduler({ onNext }: Props) {
   const fetchingRef = useRef(false);
   const lastFetchRef = useRef<string>("");
 
+  const prevDateRef = useRef<Date | null>();
   const totalBookingDuration = useMemo(() => {
     return selectedServices.reduce((sum, service) => sum + service.duration_minutes, 0);
   }, [selectedServices]);
@@ -103,7 +104,16 @@ export default function AppointmentScheduler({ onNext }: Props) {
     if (selectedTime) {
       setSelectedTime(null);
     }
+
+    const hasDateChanged = prevDateRef.current?.getTime() !== selectedDate?.getTime();
     
+    // Only clear the selected time if the date has ACTUALLY changed.
+    // This preserves the time on initial load or when navigating back.
+    if (hasDateChanged) {
+        console.log("Date has changed, clearing selected time.");
+        setSelectedTime(null);
+    }
+
     // Fetch slots for the new date
     fetchAvailableSlots(selectedDate, facilityId);
 
