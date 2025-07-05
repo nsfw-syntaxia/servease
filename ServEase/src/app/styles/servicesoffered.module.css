@@ -2,9 +2,9 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: #F8F6F4; 
+  background-color: #f8f6f4;
   font-family: var(--font-dm-sans);
-  color: #2E231D; 
+  color: #2e231d;
 }
 
 .navigation {
@@ -92,15 +92,15 @@
 .mainContent {
   flex-grow: 1;
   width: 100%;
-  max-width: 1154px; 
+  max-width: 1154px;
   margin: 0 auto;
-  padding: 140px 20px 60px 20px; 
+  padding: 140px 20px 60px 20px;
 }
 
 .profileTitle {
   font-size: 55px;
   font-weight: 700;
-  color: #2E231D;
+  color: #2e231d;
   margin-bottom: 2rem;
 }
 
@@ -128,9 +128,10 @@
   gap: 1rem;
 }
 
-.tableHeader, .serviceRow {
+.tableHeader,
+.serviceRow {
   display: grid;
-  grid-template-columns: 3fr 3fr 1.2fr 1.6fr; 
+  grid-template-columns: 3fr 3fr 1.2fr 1.6fr;
   gap: 1.5rem;
   align-items: center;
   padding: 0 2rem;
@@ -143,13 +144,13 @@
 }
 
 .serviceRow {
-  background-color: #E9E1D9; 
+  background-color: #e9e1d9;
   border-radius: 50px;
   padding-top: 1.25rem;
   padding-bottom: 1.25rem;
   font-size: 18px;
   font-weight: 500;
-  color: #5C544F;
+  color: #5c544f;
   transition: all 0.3s ease;
   margin-bottom: 25px;
 }
@@ -161,23 +162,23 @@
 
 .durationCellContent {
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   align-items: center;
   width: 100%;
 }
 
 .rowActions {
-  display: flex; 
+  display: flex;
   align-items: center;
   gap: 0.75rem;
-  opacity: 0; 
-  pointer-events: none; 
+  opacity: 0;
+  pointer-events: none;
   transition: opacity 0.3s ease;
 }
 
 .editModeRow .rowActions {
   opacity: 1;
-  pointer-events: auto; 
+  pointer-events: auto;
 }
 
 .actionIcon {
@@ -215,7 +216,7 @@
 
 .btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
 }
 
 .editButton {
@@ -238,7 +239,7 @@
   width: 100%;
   background-color: var(--color-white);
   padding: 4rem 2rem 2rem;
-  margin-top: auto; 
+  margin-top: auto;
 }
 
 .footerContent {
@@ -285,40 +286,46 @@
   margin: 3rem auto 0 auto;
   padding-top: 1.5rem;
 
-
-.footerLine {
-  border-top: 1px solid var(--color-gray-200);
-  opacity: 0.5;
-  margin-bottom: 1.5rem;
-}}
+  .footerLine {
+    border-top: 1px solid var(--color-gray-200);
+    opacity: 0.5;
+    margin-bottom: 1.5rem;
+  }
+}
 
 @media (max-width: 992px) {
   .navLinks {
-    display: none; 
+    display: none;
   }
-  .tableHeader, .serviceRow {
-    grid-template-columns: 1fr 2fr 1fr; 
+  .tableHeader,
+  .serviceRow {
+    grid-template-columns: 1fr 2fr 1fr;
   }
-  .tableCell:last-child, .headerCell:last-child {
-    display: none; 
+  .tableCell:last-child,
+  .headerCell:last-child {
+    display: none;
   }
   .footerContent {
     grid-template-columns: 1fr 1fr;
   }
-   .footerBottom	{
-	text-align: center;
+  .footerBottom {
+    text-align: center;
   }
 }
 
 @media (max-width: 768px) {
-  .profileTitle { font-size: 48px; }
-  .servicesTitle { font-size: 30px; }
-  
+  .profileTitle {
+    font-size: 48px;
+  }
+  .servicesTitle {
+    font-size: 30px;
+  }
+
   .tableHeader {
     display: none;
   }
   .serviceRow {
-    grid-template-columns: 1fr; 
+    grid-template-columns: 1fr;
     padding: 1.5rem;
     border-radius: 20px;
     gap: 0.75rem;
@@ -328,11 +335,21 @@
     color: var(--color-tan);
     margin-right: 0.5rem;
   }
-  .tableCell:nth-child(1)::before { content: 'Service: '; }
-  .tableCell:nth-child(2)::before { content: 'Details: '; }
-  .tableCell:nth-child(3)::before { content: 'Price: '; }
-  .tableCell:nth-child(4) { display: block; } 
-  .tableCell:nth-child(4)::before { content: 'Duration: '; }
+  .tableCell:nth-child(1)::before {
+    content: "Service: ";
+  }
+  .tableCell:nth-child(2)::before {
+    content: "Details: ";
+  }
+  .tableCell:nth-child(3)::before {
+    content: "Price: ";
+  }
+  .tableCell:nth-child(4) {
+    display: block;
+  }
+  .tableCell:nth-child(4)::before {
+    content: "Duration: ";
+  }
 
   .footerContent {
     grid-template-columns: 1fr;
@@ -341,13 +358,13 @@
   .footerColumn {
     align-items: center;
   }
-  .footerBottom	{
-	text-align: center;
+  .footerBottom {
+    text-align: center;
   }
 }
 
 @media (max-width: 480px) {
   .logoText {
-    display: none; 
+    display: none;
   }
 }

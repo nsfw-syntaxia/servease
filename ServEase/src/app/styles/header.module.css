@@ -146,6 +146,7 @@
   display: block;
   transition: background 0.2s ease;
   font-size: 18px;
+  cursor: pointer;
 }
 
 .active {

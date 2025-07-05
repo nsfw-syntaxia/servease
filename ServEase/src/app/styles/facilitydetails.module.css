@@ -1595,7 +1595,7 @@
   justify-content: flex-start;
   gap: var(--gap-2);
 }
-.avatar{
+.avatar {
   align-self: stretch;
   display: flex;
   flex-direction: row;
