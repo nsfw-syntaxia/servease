@@ -681,6 +681,16 @@
   margin-right: -5%;
   margin-top: -30%;
 }
+.buttontext {
+  width: 100px;
+  position: relative;
+  height: 30px;
+  overflow: hidden;
+  flex-shrink: 0;
+  cursor: pointer;
+  font-size: 20px;
+  margin-left: -13%;
+}
 }
 
 
@@ -724,7 +734,7 @@
   }
   .welcomeToServeaseContainer {
   position: relative;
-  margin-top: -7%;
+  margin-top: -9%;
   right: 36%;
 }
   .pleaseLogIn {
@@ -737,37 +747,52 @@
     padding: 0px 30px;
   }
   .tbx {
-  height: 35px;
+  height: 30px;
 }
 .passwordInput::placeholder {
   color: #a0a0a0;
-  font-size: 13px;
+  font-size: 12px;
 }
 .hideIcon {
   width: 30px;
-  top: calc(50% - 10px);
+  top: calc(50% - 9px);
   right: 15px;
-  height: 20px;
+  height: 17px;
 }
   .email1, .password1 {
-    width: 90%;
+    width: 87%;
     margin-right: 100px;
     right: 58%;
-    font-size: 12px;
+    font-size: 13px;
+    top: -70px;
   }
+  
   .buttoncontainer {
-  width: 300px;
+  width: 150px;
   position: relative;
   border-radius: 40px;
   background-color: var(--color-tan);
-  height: 40px;
+  height: 33px;
   overflow: hidden;
   flex-shrink: 0;
   opacity: 0.5;
-  font-size: 22px;
-  cursor: pointer;
-  bottom: 90px;
-  right: 40%;
+  bottom: 160px;
+  right: 135%;
+}
+
+.login {
+  display: flex;
+  width: 100%;
+  position: relative;
+  background-color: #f9f7f4;
+  box-sizing: border-box;
+  height: 100vh;
+  overflow: hidden;
+  text-align: center;
+  font-size: var(--font-size-10);
+  color: var(--color-white);
+  font-family: var(--font-dm-sans);
+  cursor: default;
 }
 .navbar {
   width: 300px;
@@ -807,6 +832,7 @@
   position: relative;
   font-weight: 500;
   cursor: pointer;
+  font-size: 11px;
 }
 
 .rememberMe {
@@ -814,9 +840,9 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  margin-left: -37%;
-  margin-top: -30%;
+  gap: 7px;
+  margin-left: -55%;
+  margin-top: -43%;
   position: relative;
 }
 
@@ -826,8 +852,34 @@
   font-weight: 500;
   color: var(--color-tan);
   cursor: pointer;
-  margin-right: 33%;
-  margin-top: -30%;
+  margin-right: 74%;
+  margin-top: -43%;
+  font-size: 11px;
+}
+.checkedContainer {
+  width: 15px;
+  height: 15px;
+  position: relative;
+  border-radius: 1px;
+  background-color: var(--color-tan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkIcon {
+  width: 12px;
+  height: 12px;
+}
+.buttontext {
+  width: 50px;
+  position: relative;
+  height: 30px;
+  overflow: hidden;
+  flex-shrink: 0;
+  cursor: pointer;
+  font-size: 15px;
+  margin-left: 5%;
 }
 }
 

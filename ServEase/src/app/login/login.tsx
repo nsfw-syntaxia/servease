@@ -219,7 +219,7 @@ const Login: NextPage = () => {
                   onClick={handleLogin}
                 >
                   <div className={styles.buttontext}>
-                    <div className={styles.rememberMe1}>Log In</div>
+                    <div className={styles.buttontext}>Log In</div>
                   </div>
                 </div>
               </div>
