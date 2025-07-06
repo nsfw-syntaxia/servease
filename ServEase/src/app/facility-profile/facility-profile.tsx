@@ -71,7 +71,9 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
     setEditData((prev) => ({ ...prev, tags: tagsArray.join(", ") }));
   }, [tagsArray]);
 
-  const [facilityPhotos, setFacilityPhotos] = useState<string[]>([]);
+  const [facilityPhotos, setFacilityPhotos] = useState<
+    Array<{ url: string; path: string }>
+  >([]);
   const [isLoadingPhotos, setIsLoadingPhotos] = useState(true);
 
   const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
@@ -100,17 +102,21 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
       if (error) throw error;
 
       if (data) {
-        const photoUrls = data
+        const photoData = data
           .map((doc) => {
             if (!doc.file_path) return null;
+
             const { data: urlData } = supabase.storage
               .from("documents")
               .getPublicUrl(doc.file_path);
-            return `${urlData.publicUrl}?t=${new Date().getTime()}`;
+            return {
+              url: `${urlData.publicUrl}?t=${new Date().getTime()}`,
+              path: doc.file_path,
+            };
           })
-          .filter(Boolean) as string[];
+          .filter(Boolean) as Array<{ url: string; path: string }>;
 
-        setFacilityPhotos(Array.from(new Set(photoUrls)));
+        setFacilityPhotos(photoData);
       }
     } catch (error) {
       console.error("Error fetching facility photos:", error);
@@ -122,37 +128,6 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
   useEffect(() => {
     fetchFacilityPhotos();
   }, [fetchFacilityPhotos]);
-
-  const handleDeletePhoto = async (photoUrl: string) => {
-    if (!window.confirm("Are you sure you want to delete this photo?")) {
-      return;
-    }
-    try {
-      const url = new URL(photoUrl);
-      const pathname = url.pathname;
-      const filePath = pathname.substring(
-        pathname.indexOf("/documents/") + "/documents/".length
-      );
-
-      const result = await deleteFacilityPhoto(filePath);
-      if (result.error) {
-        throw new Error(result.error);
-      }
-
-      setFacilityPhotos((prevPhotos) =>
-        prevPhotos.filter((p) => p !== photoUrl)
-      );
-    } catch (error: any) {
-      alert(`Failed to delete photo: ${error.message}`);
-    }
-  };
-
-  const handleImageError = useCallback((failedUrl: string) => {
-    console.warn(`Image failed to load, removing from view: ${failedUrl}`);
-    setFacilityPhotos((prevPhotos) =>
-      prevPhotos.filter((p) => p !== failedUrl)
-    );
-  }, []);
 
   const handleTriggerAddPhoto = () => {
     if (isUploadingPhoto || facilityPhotos.length >= 4) return;
@@ -176,15 +151,49 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
 
       const result = await uploadFacilityPhoto(formData);
 
-      if (result.error) throw new Error(result.error);
+      if (result.error || !result.filePath) {
+        throw new Error(
+          result.error || "Upload did not return a valid file path."
+        );
+      }
 
-      // on success, refresh the photo list to show the new addition
-      await fetchFacilityPhotos();
+      const supabase = createClient();
+      const newPath = result.filePath;
+
+      const { data: urlData } = supabase.storage
+        .from("documents")
+        .getPublicUrl(newPath);
+
+      const newPhoto = {
+        url: `${urlData.publicUrl}?t=${new Date().getTime()}`,
+        path: newPath,
+      };
+
+      setFacilityPhotos((prevPhotos) => [...prevPhotos, newPhoto]);
     } catch (error: any) {
       alert(`Error uploading photo: ${error.message}`);
     } finally {
       if (addPhotoInputRef.current) addPhotoInputRef.current.value = "";
       setIsUploadingPhoto(false);
+    }
+  };
+
+  const handleDeletePhoto = async (filePathToDelete: string) => {
+    if (!window.confirm("Are you sure you want to delete this photo?")) {
+      return;
+    }
+    try {
+      const result = await deleteFacilityPhoto(filePathToDelete);
+
+      if (result.error) {
+        throw new Error(result.error);
+      }
+
+      setFacilityPhotos((prevPhotos) =>
+        prevPhotos.filter((p) => p.path !== filePathToDelete)
+      );
+    } catch (error: any) {
+      alert(`Failed to delete photo: ${error.message}`);
     }
   };
 
@@ -716,26 +725,33 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
 
         <div className={styles.photosDisplay}>
           {!isLoadingPhotos &&
-            facilityPhotos.map((photoUrl, index) => (
-              <div key={`${photoUrl}-${index}`} className={styles.photoItem}>
+            facilityPhotos.map((photo) => (
+              <div key={photo.path} className={styles.photoItem}>
+                {" "}
                 <Image
                   className={styles.photoImage}
-                  src={photoUrl}
-                  alt={`Facility photo ${index + 1}`}
+                  src={photo.url}
+                  alt={`Facility Photo`}
                   layout="fill"
                   objectFit="cover"
-                  onError={() => handleImageError(photoUrl)}
                 />
-                {isEditing && (
-                  <button
-                    className={styles.deletePhotoBtn}
-                    onClick={() => handleDeletePhoto(photoUrl)}
-                  >
-                    ×
-                  </button>
-                )}
+                <button
+                  className={styles.deletePhotoBtn}
+                  onClick={() => handleDeletePhoto(photo.path)}
+                >
+                  ×
+                </button>
               </div>
             ))}
+
+          {/* show a placeholder while a new photo is uploading */}
+          {isUploadingPhoto && (
+            <div
+              className={`${styles.photoItem} ${styles.uploadingPlaceholder}`}
+            >
+              <p>Uploading...</p>
+            </div>
+          )}
 
           {/* conditionally render the add btn */}
           {!isLoadingPhotos &&
@@ -746,7 +762,7 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
                   className={styles.addContainerIcon}
                   width={108}
                   height={200}
-                  alt="Add a new photo"
+                  alt=""
                   src="/add container.svg"
                 />
                 <div className={styles.plus}>
@@ -754,7 +770,7 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
                     className={styles.iconplus}
                     width={24}
                     height={24}
-                    alt="Plus icon"
+                    alt=""
                     src="/plus icon.svg"
                   />
                 </div>

@@ -125,7 +125,7 @@ export async function updateUserEmail(
 
 export async function uploadFacilityPhoto(
   formData: FormData
-): Promise<{ success?: string; error?: string }> {
+): Promise<{ success?: string; error?: string; filePath?: string }> {
   const supabase = await createClient();
 
   const {
@@ -136,8 +136,7 @@ export async function uploadFacilityPhoto(
   }
 
   const file = formData.get("photo") as File;
-
-  if (!file || file.size === 0) {
+  if (!file) {
     return { error: "No file was provided." };
   }
 
@@ -150,7 +149,6 @@ export async function uploadFacilityPhoto(
     .upload(filePath, file);
 
   if (storageError) {
-    console.error("Storage Error:", storageError);
     return { error: `Failed to upload file: ${storageError.message}` };
   }
 
@@ -169,7 +167,7 @@ export async function uploadFacilityPhoto(
 
   revalidatePath("/facility-profile");
 
-  return { success: `Successfully uploaded ${file.name}!` };
+  return { success: `Successfully uploaded ${file.name}!`, filePath: filePath };
 }
 
 export async function deleteFacilityPhoto(
