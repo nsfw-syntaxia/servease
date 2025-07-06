@@ -851,3 +851,13 @@
   z-index: 10;
   white-space: nowrap;
 }
+
+.uploadingPlaceholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--color-tan);
+  font-weight: 500;
+  opacity: 0.8;
+  background-color: #efe9e1;
+}

@@ -111,7 +111,7 @@ export async function updateUserEmail(
 
   if (error) {
     console.error("Supabase email update error:", error.message);
-    
+
     if (error.message.includes("same as the current email")) {
       return { error: "This is already your current email address." };
     }
@@ -121,4 +121,95 @@ export async function updateUserEmail(
   // a confirmation email will be sent to the new address
   // the email won't actually change until the user clicks the link
   return {};
+}
+
+export async function uploadFacilityPhoto(
+  formData: FormData
+): Promise<{ success?: string; error?: string }> {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    return { error: "You must be logged in to upload a photo." };
+  }
+
+  const file = formData.get("photo") as File;
+
+  if (!file || file.size === 0) {
+    return { error: "No file was provided." };
+  }
+
+  const fileExtension = file.name.split(".").pop();
+  const fileName = `${crypto.randomUUID()}.${fileExtension}`;
+  const filePath = `${user.id}/${fileName}`;
+
+  const { error: storageError } = await supabase.storage
+    .from("documents")
+    .upload(filePath, file);
+
+  if (storageError) {
+    console.error("Storage Error:", storageError);
+    return { error: `Failed to upload file: ${storageError.message}` };
+  }
+
+  const { error: dbError } = await supabase.from("facility_documents").insert({
+    user_id: user.id,
+    document_type: "Facility Photos",
+    file_path: filePath,
+    file_name: file.name,
+  });
+
+  if (dbError) {
+    console.error("Database Error, rolling back storage upload:", dbError);
+    await supabase.storage.from("documents").remove([filePath]);
+    return { error: `Failed to save photo record: ${dbError.message}` };
+  }
+
+  revalidatePath("/facility-profile");
+
+  return { success: `Successfully uploaded ${file.name}!` };
+}
+
+export async function deleteFacilityPhoto(
+  filePath: string
+): Promise<{ error?: string }> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { error: "User not authenticated." };
+  }
+
+  try {
+    const { error: storageError } = await supabase.storage
+      .from("documents")
+      .remove([filePath]);
+
+    if (storageError) {
+      console.error("Storage deletion error:", storageError.message);
+      if (storageError.message !== "The resource was not found") {
+        throw storageError;
+      }
+    }
+
+    const { error: dbError } = await supabase
+      .from("facility_documents")
+      .delete()
+      .eq("user_id", user.id)
+      .eq("file_path", filePath);
+
+    if (dbError) {
+      throw dbError;
+    }
+
+    revalidatePath("/facility-profile");
+    return {};
+  } catch (error: any) {
+    console.error("Error deleting facility photo:", error.message);
+    return { error: "Failed to delete photo." };
+  }
 }

@@ -1,11 +1,15 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import type { NextPage } from "next";
 import Image from "next/image";
 import styles from "../styles/facility-profile.module.css";
-import { type FacilityProfileDataType } from "./actions";
-import { updateUserProfile, updateUserEmail } from "./actions";
+import {
+  type FacilityProfileDataType,
+  updateUserProfile,
+  updateUserEmail,
+  uploadFacilityPhoto,
+} from "./actions";
 import { createClient } from "../utils/supabase/client";
 
 const capitalizeWords = (str: string): string => {
@@ -69,54 +73,85 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
   const [facilityPhotos, setFacilityPhotos] = useState<string[]>([]);
   const [isLoadingPhotos, setIsLoadingPhotos] = useState(true);
 
-  useEffect(() => {
-    const fetchFacilityPhotos = async () => {
-      const supabase = createClient();
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
+  const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
+  const addPhotoInputRef = useRef<HTMLInputElement>(null);
 
-      if (!user) {
-        setIsLoadingPhotos(false);
-        return;
+  const fetchFacilityPhotos = useCallback(async () => {
+    let isActive = true;
+    const supabase = createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) return;
+    try {
+      const { data, error } = await supabase
+        .from("facility_documents")
+        .select("file_path")
+        .eq("user_id", user.id)
+        .eq("document_type", "Facility Photos")
+        .order("created_at", { ascending: true })
+        .limit(4);
+      if (error) throw error;
+      if (isActive && data) {
+        const photoUrls = data
+          .map((doc) => {
+            if (!doc.file_path) return null;
+            const { data: urlData } = supabase.storage
+              .from("documents")
+              .getPublicUrl(doc.file_path);
+            return urlData.publicUrl;
+          })
+          .filter(Boolean);
+        const uniquePhotoUrls = Array.from(new Set(photoUrls as string[]));
+        setFacilityPhotos(uniquePhotoUrls);
       }
-
-      try {
-        const { data, error } = await supabase
-          .from("facility_documents")
-          .select("file_path")
-          .eq("user_id", user.id)
-          .eq("document_type", "Facility Photos")
-          .limit(4);
-
-        if (error) throw error;
-
-        if (data) {
-          const photoUrls = data
-            .map((doc) => {
-              const filePathFromDB = doc.file_path;
-              if (!filePathFromDB) return null;
-              const { data: urlData } = supabase.storage
-                .from("documents")
-                .getPublicUrl(filePathFromDB);
-              return urlData.publicUrl;
-            })
-            .filter(Boolean);
-          const uniquePhotoUrls = Array.from(new Set(photoUrls));
-
-          console.log("Final unique photo URLs:", uniquePhotoUrls);
-
-          setFacilityPhotos(uniquePhotoUrls);
-        }
-      } catch (error) {
-        console.error("Error fetching facility photos:", error);
-      } finally {
-        setIsLoadingPhotos(false);
-      }
+    } catch (error) {
+      console.error("Error fetching facility photos:", error);
+    } finally {
+      if (isActive) setIsLoadingPhotos(false);
+    }
+    return () => {
+      isActive = false;
     };
-
-    fetchFacilityPhotos();
   }, []);
+
+  useEffect(() => {
+    fetchFacilityPhotos();
+  }, [fetchFacilityPhotos]);
+
+  const handleTriggerAddPhoto = () => {
+    if (isUploadingPhoto || facilityPhotos.length >= 4) return;
+    addPhotoInputRef.current?.click();
+  };
+
+  const handleAddPhoto = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+    if (!allowedTypes.includes(file.type)) {
+      alert("Invalid file type. Please select a JPG, JPEG, or PNG image.");
+      return;
+    }
+
+    setIsUploadingPhoto(true);
+    try {
+      const formData = new FormData();
+      formData.append("photo", file);
+
+      const result = await uploadFacilityPhoto(formData);
+
+      if (result.error) throw new Error(result.error);
+
+      // on success, refresh the photo list to show the new addition
+      await fetchFacilityPhotos();
+    } catch (error: any) {
+      alert(`Error uploading photo: ${error.message}`);
+    } finally {
+      if (addPhotoInputRef.current) addPhotoInputRef.current.value = "";
+      setIsUploadingPhoto(false);
+    }
+  };
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -126,12 +161,6 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
   const validateContactNumber = (contactNumber: string) => {
     const phoneRegex = /^\+63\d{3}\s\d{4}\s\d{3}$/;
     return phoneRegex.test(contactNumber);
-  };
-
-  const validateTags = (tags: string) => {
-    if (!tags.trim()) return true;
-    const tagsRegex = /^[a-zA-Z0-9\s]+(,\s*[a-zA-Z0-9\s]+)*$/;
-    return tagsRegex.test(tags);
   };
 
   const handleEdit = () => {
@@ -378,7 +407,7 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
           </div>
         </div>
 
-        <div className={styles.tags2}>Tags</div>
+        <div className={styles.tags2}>Tags (comma-separated)</div>
         <div className={styles.tags}>
           <div
             className={`${styles.contactNumTbx} ${
@@ -651,6 +680,7 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
         <div className={styles.faciPhotos} />
 
         <div className={styles.photosDisplay}>
+          {/* render existing photos */}
           {!isLoadingPhotos &&
             facilityPhotos.map((photoUrl, index) => (
               <div key={`${photoUrl}-${index}`} className={styles.photoItem}>
@@ -658,27 +688,47 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
               </div>
             ))}
 
-          {!isLoadingPhotos && facilityPhotos.length < 4 && (
-            <div className={styles.addPhotos}>
-              <Image
-                className={styles.addContainerIcon}
-                width={108}
-                height={200}
-                alt="Add a new photo"
-                src="/add container.svg"
-              />
-              <div className={styles.plus}>
-                <Image
-                  className={styles.iconplus}
-                  width={24}
-                  height={24}
-                  alt="Plus icon"
-                  src="/plus icon.svg"
-                />
-              </div>
+          {/* show a placeholder while a new photo is uploading */}
+          {isUploadingPhoto && (
+            <div
+              className={`${styles.photoItem} ${styles.uploadingPlaceholder}`}
+            >
+              <p>Uploading...</p>
             </div>
           )}
+
+          {/* conditionally render the add btn */}
+          {!isLoadingPhotos &&
+            !isUploadingPhoto &&
+            facilityPhotos.length < 4 && (
+              <div className={styles.addPhotos} onClick={handleTriggerAddPhoto}>
+                <Image
+                  className={styles.addContainerIcon}
+                  width={108}
+                  height={200}
+                  alt="Add a new photo"
+                  src="/add container.svg"
+                />
+                <div className={styles.plus}>
+                  <Image
+                    className={styles.iconplus}
+                    width={24}
+                    height={24}
+                    alt="Plus icon"
+                    src="/plus icon.svg"
+                  />
+                </div>
+              </div>
+            )}
         </div>
+
+        <input
+          type="file"
+          ref={addPhotoInputRef}
+          style={{ display: "none" }}
+          accept="image/png,image/jpeg,image/jpg"
+          onChange={handleAddPhoto}
+        />
 
         <div className={styles.photos}>Photos</div>
         <div className={styles.moreActions} />
