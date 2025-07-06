@@ -6,7 +6,6 @@ import { useState, useEffect } from "react";
 import styles from "../styles/servicesoffered.module.css";
 import { XCircle, CheckCircle } from "lucide-react";
 
-// Updated interface: removed duration
 interface Service {
   id: number;
   name: string;
@@ -14,28 +13,27 @@ interface Service {
   price: string;
 }
 
-// Updated mock data: removed duration
 const mockServices: Service[] = [
   {
     id: 1,
     name: "Classic Manicure",
     description:
       "A timeless classic. This service includes nail shaping, cuticle care, a relaxing hand massage, and a polish of your choice. Perfect for maintaining healthy and beautiful nails.",
-    price: "P500.00",
+    price: "Php500.00",
   },
   {
     id: 2,
     name: "Gel Pedicure",
     description:
       "Long-lasting color and shine. Includes a foot soak, nail shaping, cuticle work, callus removal, a soothing foot massage, and is finished with high-quality gel polish.",
-    price: "P850.00",
+    price: "Php850.00",
   },
   {
     id: 3,
     name: "Signature Facial",
     description:
       "Rejuvenate your skin with our signature facial. This customized treatment addresses your specific skin concerns, from hydration to anti-aging. It's a truly relaxing experience.",
-    price: "P1200.00",
+    price: "Php1200.00",
   },
 ];
 
@@ -56,7 +54,6 @@ const ServiceRow = ({
   onCancelEdit: () => void;
   onUpdateService: (service: Service) => void;
 }) => {
-  // Updated state: removed duration
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -83,25 +80,23 @@ const ServiceRow = ({
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Updated validation: removed duration
   const validate = () => {
     const newErrors: Record<string, string> = {};
     if (!formData.name.trim()) newErrors.name = "Service name is required.";
     if (!formData.description.trim()) {
       newErrors.description = "Description is required.";
-    } else if ((formData.description.match(/[.!?]+/g) || []).length > 5) {
-      newErrors.description = "Description cannot exceed 5 sentences.";
+    } else if (formData.description.length > 50) {
+      newErrors.description = "Description cannot exceed 50 characters.";
     }
     if (!formData.price.trim()) {
       newErrors.price = "Price is required.";
     } else if (!/^\d+(\.\d{1,2})?$/.test(formData.price)) {
-      newErrors.price = "Please enter a valid price (e.g., 500 or 500.00).";
+      newErrors.price = "Please enter a valid price.";
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  // Updated save handler: removed duration
   const handleSave = () => {
     if (!validate()) {
       return;
@@ -110,7 +105,7 @@ const ServiceRow = ({
       ...service,
       name: formData.name.trim(),
       description: formData.description.trim(),
-      price: `P${parseFloat(formData.price).toFixed(2)}`,
+      price: `Php${parseFloat(formData.price).toFixed(2)}`,
     };
     onUpdateService(updatedService);
   };
@@ -118,7 +113,7 @@ const ServiceRow = ({
   if (isCurrentlyEditing) {
     return (
       <div className={`${styles.serviceRow} ${styles.isEditingRow}`}>
-        {/* Service Name Input */}
+        {/* service name */}
         <div className={styles.tableCell}>
           <input
             type="text"
@@ -128,26 +123,31 @@ const ServiceRow = ({
             className={`${styles.editableField} ${
               errors.name ? styles.errorField : ""
             }`}
+            placeholder="Service Name"
           />
           {errors.name && (
             <span className={styles.errorText}>{errors.name}</span>
           )}
         </div>
-        {/* Description Input */}
+        {/* descrip */}
         <div className={styles.tableCell}>
           <textarea
             name="description"
             value={formData.description}
             onChange={handleInputChange}
+            maxLength={50}
             className={`${styles.editableField} ${styles.editableTextarea} ${
               errors.description ? styles.errorField : ""
             }`}
+            placeholder="Maximum of 50 characters."
           />
-          {errors.description && (
-            <span className={styles.errorText}>{errors.description}</span>
-          )}
+          <span
+            className={errors.description ? styles.errorText : styles.charCount}
+          >
+            {errors.description ?? `${formData.description.length}/50`}
+          </span>
         </div>
-        {/* Price Input */}
+        {/* price */}
         <div className={styles.tableCell}>
           <input
             type="text"
@@ -163,7 +163,7 @@ const ServiceRow = ({
             <span className={styles.errorText}>{errors.price}</span>
           )}
         </div>
-        {/* Actions Cell */}
+        {/* actions */}
         <div className={`${styles.tableCell} ${styles.actionsCell}`}>
           <div className={styles.rowActions}>
             <CheckCircle
@@ -187,21 +187,21 @@ const ServiceRow = ({
       <div className={styles.tableCell}>{service.name}</div>
       <div className={styles.tableCell}>{service.description}</div>
       <div className={styles.tableCell}>{service.price}</div>
-      {/* Actions Cell */}
+
       <div className={`${styles.tableCell} ${styles.actionsCell}`}>
         {isGlobalEditMode && (
           <div className={styles.rowActions}>
             <Image
-              width={20}
-              height={20}
+              width={18}
+              height={18}
               alt="Edit Service"
               src="/edit_black.svg"
               className={styles.actionIcon}
               onClick={() => onStartEdit(service.id)}
             />
             <Image
-              width={20}
-              height={20}
+              width={24}
+              height={24}
               alt="Delete Service"
               src="/delete.svg"
               className={styles.actionIcon}
@@ -254,7 +254,6 @@ const ServicesOfferedPage: NextPage = () => {
         </div>
 
         <div className={styles.servicesTable}>
-          {/* Updated Table Header */}
           <div className={styles.tableHeader}>
             <div className={styles.headerCell}>Service Name</div>
             <div className={styles.headerCell}>Description</div>
