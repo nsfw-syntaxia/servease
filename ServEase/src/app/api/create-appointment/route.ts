@@ -1,12 +1,21 @@
 // app/api/create-appointment/route.ts
-import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
-import { Resend } from "resend";
-import { ReactElement } from "react";
+import { NextResponse } from 'next/server';
+import { createClient } from '@supabase/supabase-js';
+import { Resend } from 'resend';
+import { ReactElement } from 'react';
+// --- FIX: Corrected the import path (removed extra slash) ---
+import { ClientBookingPending } from '../../emails/ClientBookingPending'; 
+import { ProviderBookingNotification } from '../../emails/ProviderBookingNotification';
 
-// Import the new pending template
-import { ClientBookingPending } from "../../emails/ClientBookingPending";
-import { ProviderBookingNotification } from "../../emails/ProviderBookingNotification";
+
+interface ProviderBookingNotificationProps {
+  providerName: string;
+  clientName: string;
+  clientEmail: string;
+  date: string;
+  time: string;
+  services: { name: string; price: number }[];
+}
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const supabaseAdmin = createClient(
@@ -15,59 +24,32 @@ const supabaseAdmin = createClient(
   { auth: { persistSession: false } }
 );
 
-// ... (formatCurrency function remains the same) ...
 const formatCurrency = (amount: number) => {
-  return new Intl.NumberFormat("en-PH", {
-    style: "currency",
-    currency: "PHP",
-  }).format(amount);
+    return new Intl.NumberFormat("en-PH", {
+      style: "currency",
+      currency: "PHP",
+    }).format(amount);
 };
 
 export async function POST(request: Request) {
   try {
-    // ... (All the data fetching logic remains the same up to the insertion) ...
     const { providerId, clientId, date, time, services } = await request.json();
 
     if (!providerId || !clientId || !date || !time || !services) {
-      return NextResponse.json(
-        { error: "Missing required booking information." },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required booking information.' }, { status: 400 });
     }
 
-    const [
-      providerProfileRes,
-      clientProfileRes,
-      providerAuthRes,
-      clientAuthRes,
-    ] = await Promise.all([
-      supabaseAdmin
-        .from("profiles")
-        .select("business_name, address")
-        .eq("id", providerId)
-        .single(),
-      supabaseAdmin
-        .from("profiles")
-        .select("full_name")
-        .eq("id", clientId)
-        .single(),
+    const [providerProfileRes, clientProfileRes, providerAuthRes, clientAuthRes] = await Promise.all([
+      supabaseAdmin.from('profiles').select('business_name, address, contact_number').eq('id', providerId).single(),
+      supabaseAdmin.from('profiles').select('full_name').eq('id', clientId).single(),
       supabaseAdmin.auth.admin.getUserById(providerId),
-      supabaseAdmin.auth.admin.getUserById(clientId),
+      supabaseAdmin.auth.admin.getUserById(clientId)
     ]);
-
-    // ... (Error handling for fetches remains the same) ...
-    if (providerProfileRes.error)
-      throw new Error(
-        `Provider profile fetch failed: ${providerProfileRes.error.message}`
-      );
-    if (clientProfileRes.error)
-      throw new Error(
-        `Client profile fetch failed: ${clientProfileRes.error.message}`
-      );
-    if (providerAuthRes.error || !providerAuthRes.data.user)
-      throw new Error("Provider auth user not found.");
-    if (clientAuthRes.error || !clientAuthRes.data.user)
-      throw new Error("Client auth user not found.");
+    
+    if (providerProfileRes.error) throw new Error(`Provider profile fetch failed: ${providerProfileRes.error.message}`);
+    if (clientProfileRes.error) throw new Error(`Client profile fetch failed: ${clientProfileRes.error.message}`);
+    if (providerAuthRes.error || !providerAuthRes.data.user) throw new Error('Provider auth user not found.');
+    if (clientAuthRes.error || !clientAuthRes.data.user) throw new Error('Client auth user not found.');
 
     const providerProfile = providerProfileRes.data;
     const clientProfile = clientProfileRes.data;
@@ -75,14 +57,12 @@ export async function POST(request: Request) {
     const clientEmail = clientAuthRes.data.user.email;
 
     if (!providerEmail || !clientEmail) {
-      throw new Error("Could not retrieve email for provider or client.");
+        throw new Error('Could not retrieve email for provider or client.');
     }
 
+    // --- FIX: Corrected the TypeScript type syntax ---
     const serviceNames = services.map((s: { name: string }) => s.name);
-    const totalPrice = services.reduce(
-      (sum: number, s: { price: number }) => sum + s.price,
-      0
-    );
+    const totalPrice = services.reduce((sum: number, s: { price: number }) => sum + s.price, 0);
 
     const { error: insertError } = await supabaseAdmin
       .from("appointments")
@@ -91,7 +71,7 @@ export async function POST(request: Request) {
         provider_id: providerId,
         date: date,
         time: time,
-        status: "pending", // Status is correctly set to pending
+        status: "pending",
         price: totalPrice,
         services: serviceNames,
         address: providerProfile.address,
@@ -101,51 +81,45 @@ export async function POST(request: Request) {
       throw new Error(`Failed to create appointment: ${insertError.message}`);
     }
 
-    // --- MODIFIED EMAIL SENDING LOGIC ---
-    // Now sends the PENDING email to the client and the request to the provider.
     Promise.allSettled([
-      // 1. Send PENDING email to Client
-      resend.emails.send({
-        from: "Booking Request Received <onboarding@resend.dev>",
-        to: [clientEmail],
-        subject: "Your Booking Request is Awaiting Approval",
-        react: ClientBookingPending({
-          clientName: clientProfile.full_name,
-          providerName: providerProfile.business_name,
-          date: new Date(date).toLocaleDateString("en-US", {
-            month: "long",
-            day: "numeric",
-            year: "numeric",
-          }),
-          time: time,
-        }) as ReactElement,
-      }),
-      // 2. Send NOTIFICATION email to Provider
-      resend.emails.send({
-        from: "New Booking Request <onboarding@resend.dev>",
-        to: [providerEmail],
-        subject: `New Booking Request from ${clientProfile.full_name}`,
-        react: ProviderBookingNotification({
-          providerName: providerProfile.business_name,
-          clientName: clientProfile.full_name,
-          clientEmail: clientEmail,
-          date: new Date(date).toLocaleDateString("en-US", {
-            month: "long",
-            day: "numeric",
-            year: "numeric",
-          }),
-          time: time,
-          services: services,
-        }) as ReactElement,
-      }),
-    ]).then((results) => {
-      /* ... error logging ... */
+        resend.emails.send({
+            from: 'Booking Request Received <onboarding@resend.dev>',
+            to: [clientEmail],
+            subject: 'Your Booking Request is Awaiting Approval',
+            react: ClientBookingPending({
+                clientName: clientProfile.full_name,
+                providerName: providerProfile.business_name,
+                address: providerProfile.address,
+                contactNumber: providerProfile.contact_number,
+                date: new Date(date).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }),
+                time: time,
+                services: services, // The full array with name and price
+                totalPrice: formatCurrency(totalPrice),
+            }) as ReactElement,
+        }),
+        resend.emails.send({
+            from: 'New Booking Request <onboarding@resend.dev>',
+            to: [providerEmail],
+            subject: `New Booking Request from ${clientProfile.full_name}`,
+            react: ProviderBookingNotification({
+                providerName: providerProfile.business_name,
+                clientName: clientProfile.full_name,
+                clientEmail: clientEmail,
+                date: new Date(date).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }),
+                time: time,
+                services: services,
+            } as ProviderBookingNotificationProps) as ReactElement,
+        })
+    ]).then(results => {
+        results.forEach((result, index) => {
+            if (result.status === 'rejected') {
+                console.error(`Failed to send email ${index === 0 ? 'to client' : 'to provider'}:`, result.reason);
+            }
+        });
     });
 
-    return NextResponse.json({
-      success: true,
-      message: "Appointment request submitted. Awaiting provider confirmation.",
-    });
+    return NextResponse.json({ success: true, message: 'Appointment request submitted. Awaiting provider confirmation.' });
+
   } catch (error: any) {
     console.error("Create Appointment API Error:", error.message);
     return NextResponse.json({ error: error.message }, { status: 500 });

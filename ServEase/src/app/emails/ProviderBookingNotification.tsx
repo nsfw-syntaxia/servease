@@ -9,7 +9,7 @@ interface ProviderBookingNotificationProps {
   services: { name: string; price: number }[];
 }
 
-const ProviderBookingNotification: React.FC<Readonly<ProviderBookingNotificationProps>> = ({
+export const ProviderBookingNotification: React.FC<Readonly<ProviderBookingNotificationProps>> = ({
   providerName,
   clientName,
   clientEmail,

@@ -161,7 +161,7 @@ export default function Booking3({ onNext }: Props) {
       // If the API call is successful, the appointment and emails are handled.
       resetBookingData();
       onNext();
-      router.push("/appointments");
+      router.push("/client-appointments");
     } catch (error: any) {
       setErrorMessage(error.message);
       setIsSubmitting(false);

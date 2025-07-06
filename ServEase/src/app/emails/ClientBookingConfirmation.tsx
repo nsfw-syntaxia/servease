@@ -17,9 +17,7 @@ const formatCurrency = (amount: number) => {
   }).format(amount);
 };
 
-export const ClientBookingConfirmation: React.FC<
-  Readonly<ClientBookingConfirmationProps>
-> = ({
+const ClientBookingConfirmation: React.FC<Readonly<ClientBookingConfirmationProps>> = ({
   clientName,
   providerName,
   date,
@@ -80,7 +78,7 @@ export const ClientBookingConfirmation: React.FC<
           paddingTop: "20px",
         }}
       >
-        <h3 style={{ color: "#333" }}>Services Booked</h3>
+        <h3 style={{ color: "#333" }}>Service/s Booked</h3>
         {services.map((service, index) => (
           <div
             key={index}
