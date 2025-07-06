@@ -66,6 +66,58 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
     setEditData((prev) => ({ ...prev, tags: tagsArray.join(", ") }));
   }, [tagsArray]);
 
+  const [facilityPhotos, setFacilityPhotos] = useState<string[]>([]);
+  const [isLoadingPhotos, setIsLoadingPhotos] = useState(true);
+
+  useEffect(() => {
+    const fetchFacilityPhotos = async () => {
+      const supabase = createClient();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) {
+        setIsLoadingPhotos(false);
+        return;
+      }
+
+      try {
+        const { data, error } = await supabase
+          .from("facility_documents")
+          .select("file_path")
+          .eq("user_id", user.id)
+          .eq("document_type", "Facility Photos")
+          .limit(4);
+
+        if (error) throw error;
+
+        if (data) {
+          const photoUrls = data
+            .map((doc) => {
+              const filePathFromDB = doc.file_path;
+              if (!filePathFromDB) return null;
+              const { data: urlData } = supabase.storage
+                .from("documents")
+                .getPublicUrl(filePathFromDB);
+              return urlData.publicUrl;
+            })
+            .filter(Boolean);
+          const uniquePhotoUrls = Array.from(new Set(photoUrls));
+
+          console.log("Final unique photo URLs:", uniquePhotoUrls);
+
+          setFacilityPhotos(uniquePhotoUrls);
+        }
+      } catch (error) {
+        console.error("Error fetching facility photos:", error);
+      } finally {
+        setIsLoadingPhotos(false);
+      }
+    };
+
+    fetchFacilityPhotos();
+  }, []);
+
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -597,36 +649,37 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
         )}
 
         <div className={styles.faciPhotos} />
+
         <div className={styles.photosDisplay}>
-          <div className={styles.addPhotos}>
-            <Image
-              className={styles.addContainerIcon}
-              width={108}
-              height={200}
-              sizes="100vw"
-              alt=""
-              src="/add container.svg"
-            />
-            <div className={styles.plus}>
+          {!isLoadingPhotos &&
+            facilityPhotos.map((photoUrl, index) => (
+              <div key={`${photoUrl}-${index}`} className={styles.photoItem}>
+                <Image src={photoUrl} alt="" layout="fill" objectFit="cover" />
+              </div>
+            ))}
+
+          {!isLoadingPhotos && facilityPhotos.length < 4 && (
+            <div className={styles.addPhotos}>
               <Image
-                className={styles.iconplus}
-                width={24}
-                height={24}
-                sizes="100vw"
-                alt=""
-                src="/plus icon.svg"
+                className={styles.addContainerIcon}
+                width={108}
+                height={200}
+                alt="Add a new photo"
+                src="/add container.svg"
               />
+              <div className={styles.plus}>
+                <Image
+                  className={styles.iconplus}
+                  width={24}
+                  height={24}
+                  alt="Plus icon"
+                  src="/plus icon.svg"
+                />
+              </div>
             </div>
-          </div>
-          <Image
-            className={styles.photoContainerIcon}
-            width={200}
-            height={200}
-            sizes="100vw"
-            alt=""
-            src="/photo container.svg"
-          />
+          )}
         </div>
+
         <div className={styles.photos}>Photos</div>
         <div className={styles.moreActions} />
         <div className={styles.passLabel}>

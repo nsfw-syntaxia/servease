@@ -444,28 +444,23 @@
 }
 
 .addPhotos {
-  position: absolute;
-  top: 0px;
-  left: 215px;
+  position: relative;
   width: 108px;
   height: 200px;
-}
-
-.photoContainerIcon {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  border-radius: var(--br-10);
-  width: 200px;
-  height: 200px;
+  cursor: pointer;
+  flex-shrink: 0;
 }
 
 .photosDisplay {
   position: absolute;
   top: 1222px;
   left: 239px;
-  width: 323px;
   height: 200px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 15px;
+  width: auto;
 }
 
 .photos {
@@ -474,6 +469,20 @@
   left: 239px;
   font-size: var(--font-size-20);
   font-weight: 500;
+}
+
+.photoItem {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  border-radius: var(--br-10);
+  overflow: hidden;
+  flex-shrink: 0;
+  background-color: #e0d9c9;
+}
+
+.photoItem img {
+  object-fit: cover;
 }
 
 .moreActions {
