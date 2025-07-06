@@ -1,4 +1,3 @@
-// app/appointments/appointments.tsx
 
 "use client";
 
@@ -7,17 +6,26 @@ import Image from "next/image";
 import { useState, useMemo, useRef, useEffect } from "react";
 import styles from "../styles/client-appointments.module.css";
 
+export type ServiceDetail = {
+  name: string;
+  price: number;
+};
+
 export type Appointment = {
   id: string;
   date: string;
   time: string;
   status: "pending" | "confirmed" | "completed" | "canceled";
   address: string;
+  price: number; 
+  services: ServiceDetail[]; 
   provider: {
     business_name: string;
     picture_url: string | null;
+    contact_number: string | null;
   } | null;
 };
+
 
 const formatDisplayDate = (dateString: string) => {
   const date = new Date(dateString + "T00:00:00");
@@ -50,20 +58,12 @@ const AppointmentCard = ({
     appointment.provider?.business_name || "Unknown Provider";
   const providerAddress = appointment.address || "No address provided";
   const avatarUrl = appointment.provider?.picture_url || "/circle.svg";
-
-  const appointmentDate = new Date(appointment.date);
-  const time = appointmentDate.toLocaleTimeString([], {
-    hour: "numeric",
-    minute: "2-digit",
-  });
-
   const [showDropdown, setShowDropdown] = useState(false);
   const [hovered, setHovered] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const getAvailableStatusOptions = (status: string): string[] => {
-    if (status === "pending") return ["canceled"];
-    if (status === "confirmed") return ["canceled"];
+    if (status === "pending" || status === "confirmed") return ["cancel"];
     return [];
   };
 
@@ -76,7 +76,6 @@ const AppointmentCard = ({
         setShowDropdown(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -130,7 +129,7 @@ const AppointmentCard = ({
           className={styles.infoItem}
           style={{ position: "relative", cursor: "pointer" }}
           onClick={(e) => {
-            e.stopPropagation(); // prevent bubbling to parent
+            e.stopPropagation();
             setShowDropdown((prev) => !prev);
           }}
           ref={dropdownRef}
@@ -142,7 +141,6 @@ const AppointmentCard = ({
             {appointment.status.charAt(0).toUpperCase() +
               appointment.status.slice(1)}
           </span>
-
           {(appointment.status === "pending" ||
             appointment.status === "confirmed") && (
             <>
@@ -157,37 +155,23 @@ const AppointmentCard = ({
               {showDropdown && (
                 <div className={styles.dropdownMenu}>
                   {getAvailableStatusOptions(appointment.status).map(
-                    (item, index) => {
-                      const isActive = hovered === item;
-                      const isFirst = index === 0;
-                      const isLast =
-                        index ===
-                        getAvailableStatusOptions(appointment.status).length -
-                          1;
-
-                      let borderClass = "";
-                      if (isActive && isFirst) borderClass = styles.activeTop;
-                      else if (isActive && isLast)
-                        borderClass = styles.activeBottom;
-
-                      return (
-                        <div
-                          key={item}
-                          className={`${styles.dropdownItem} ${
-                            isActive ? styles.active : ""
-                          } ${borderClass}`}
-                          onMouseEnter={() => setHovered(item)}
-                          onMouseLeave={() => setHovered("")}
-                          onClick={(e) => {
-                            e.stopPropagation(); // prevent click bubbling to parent (and closing)
-                            console.log("Selected new status:", item);
-                            setShowDropdown(false);
-                          }}
-                        >
-                          {item.charAt(0).toUpperCase() + item.slice(1)}
-                        </div>
-                      );
-                    }
+                    (item) => (
+                      <div
+                        key={item}
+                        className={`${styles.dropdownItem} ${
+                          hovered === item ? styles.active : ""
+                        }`}
+                        onMouseEnter={() => setHovered(item)}
+                        onMouseLeave={() => setHovered("")}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          console.log("Selected new status:", item);
+                          setShowDropdown(false);
+                        }}
+                      >
+                        {item.charAt(0).toUpperCase() + item.slice(1)}
+                      </div>
+                    )
                   )}
                 </div>
               )}
@@ -198,25 +182,13 @@ const AppointmentCard = ({
     </div>
   );
 };
-// This filtering component remains the same
+
 const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
   initialAppointments,
 }) => {
   const [activeFilter, setActiveFilter] = useState("upcoming");
-  console.log("Data received by client:", initialAppointments);
-  const handleFilterChange = (filter: string) => {
-    setActiveFilter(filter);
-  };
   const [selectedAppointment, setSelectedAppointment] =
     useState<Appointment | null>(null);
-
-  useEffect(() => {
-    const onEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setSelectedAppointment(null);
-    };
-    window.addEventListener("keydown", onEsc);
-    return () => window.removeEventListener("keydown", onEsc);
-  }, []);
 
   const filteredAppointments = useMemo(() => {
     if (!initialAppointments) return [];
@@ -234,6 +206,14 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
     }
   }, [activeFilter, initialAppointments]);
 
+  useEffect(() => {
+    const onEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSelectedAppointment(null);
+    };
+    window.addEventListener("keydown", onEsc);
+    return () => window.removeEventListener("keydown", onEsc);
+  }, []);
+
   return (
     <div className={styles.appointmentsPage}>
       <main className={styles.mainContent}>
@@ -244,7 +224,7 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
               className={`${styles.filterButton} ${
                 activeFilter === "upcoming" ? styles.active : ""
               }`}
-              onClick={() => handleFilterChange("upcoming")}
+              onClick={() => setActiveFilter("upcoming")}
             >
               Upcoming
             </button>
@@ -252,7 +232,7 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
               className={`${styles.filterButton} ${
                 activeFilter === "completed" ? styles.active : ""
               }`}
-              onClick={() => handleFilterChange("completed")}
+              onClick={() => setActiveFilter("completed")}
             >
               Completed
             </button>
@@ -260,7 +240,7 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
               className={`${styles.filterButton} ${
                 activeFilter === "canceled" ? styles.active : ""
               }`}
-              onClick={() => handleFilterChange("canceled")}
+              onClick={() => setActiveFilter("canceled")}
             >
               Cancelled
             </button>
@@ -283,6 +263,7 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
           )}
         </div>
       </main>
+
       {selectedAppointment && (
         <div
           className={styles.modalOverlay}
@@ -303,7 +284,7 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
               <div className={styles.rowContainer}>
                 <div className={styles.facilityName}>Facility Name</div>
                 <b className={styles.facilityNameCap}>
-                  {selectedAppointment.provider.business_name}
+                  {selectedAppointment.provider?.business_name || 'N/A'}
                 </b>
               </div>
               <div className={styles.rowContainer}>
@@ -313,31 +294,24 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
                 </b>
               </div>
               <div className={styles.rowContainer}>
-                <div className={styles.facilityName}>Phone Number</div>
-                <b className={styles.facilityNameCap}>+63 123 4567 789</b>
+                <div className={styles.facilityName}>Contact Number</div>
+                <b className={styles.facilityNameCap}>
+                  {selectedAppointment.provider?.contact_number || 'Not Provided'}
+                </b>
               </div>
               <div className={styles.rowContainer}>
                 <div className={styles.facilityName}>Booking Date</div>
                 <b className={styles.facilityNameCap}>
-                  {new Date(selectedAppointment.date).toLocaleDateString([], {
-                    weekday: "short",
-                    month: "long",
-                    day: "numeric",
-                  })}
+                  {formatDisplayDate(selectedAppointment.date)}
                 </b>
               </div>
               <div className={styles.rowContainer}>
                 <div className={styles.facilityName}>Booking Hours</div>
                 <b className={styles.facilityNameCap}>
-                  {new Date(
-                    `${selectedAppointment.date}T${selectedAppointment.time}`
-                  ).toLocaleTimeString([], {
-                    hour: "numeric",
-                    minute: "2-digit",
-                    hour12: true,
-                  })}
+                  {formatDisplayTime(selectedAppointment.time)}
                 </b>
               </div>
+
               <Image
                 className={styles.dividerIcon}
                 width={390}
@@ -346,15 +320,25 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
                 alt=""
                 src="/Divider1.svg"
               />
+
               <div className={styles.serviceNameParent}>
-                <div className={styles.rowContainer}>
-                  <div className={styles.facilityName}>
-                    {/*selectedAppointment.[0].service_type*/}
-                    {selectedAppointment.address}
+                {selectedAppointment.services && selectedAppointment.services.length > 0 ? (
+                  selectedAppointment.services.map((service, index) => (
+                    <div className={styles.rowContainer} key={`service-${index}`}>
+                      <div className={styles.facilityName}>{service.name}</div>
+                      <b className={styles.facilityNameCap}>
+                        PHP {service.price.toFixed(2)}
+                      </b>
+                    </div>
+                  ))
+                ) : (
+                  <div className={styles.rowContainer}>
+                    <div className={styles.facilityName}>No services listed</div>
+                    <b className={styles.facilityNameCap}>PHP 0.00</b>
                   </div>
-                  <b className={styles.facilityNameCap}>PHP 500.00</b>
-                </div>
+                )}
               </div>
+
               <Image
                 className={styles.dividerIcon1}
                 width={390}
@@ -363,9 +347,12 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
                 alt=""
                 src="/Divider1.svg"
               />
+
               <div className={styles.rowContainerTotal}>
                 <div className={styles.facilityName}>Total</div>
-                <b className={styles.facilityNameCap}>PHP 1000.00</b>
+                <b className={styles.facilityNameCap}>
+                  PHP {(selectedAppointment.price ?? 0).toFixed(2)}
+                </b>
               </div>
             </div>
           </div>
