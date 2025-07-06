@@ -40,8 +40,7 @@
 .serviceFacilityName {
   position: relative;
   font-weight: 500;
-  /* This still ensures the name itself never wraps to a new line */
-  white-space: nowrap; 
+  white-space: nowrap;
 }
 
 .subheadingInfo {
@@ -81,7 +80,7 @@
   height: 26px;
   font-size: var(--font-size-16);
   color: var(--color-tan);
-  flex-shrink: 0; 
+  flex-shrink: 0;
 }
 
 .verifiedFaci {
@@ -89,15 +88,14 @@
   top: 0px;
   left: 0px;
   /* This makes the container's width fit its content, creating the dynamic effect */
-  display: inline-flex; 
+  display: inline-flex;
   flex-direction: row;
   align-items: center;
   /* This creates the 10px space you requested between the name and the badge */
-  gap: 10px; 
+  gap: 10px;
   font-size: var(--font-size-20);
   /* We remove the fixed width to allow the container to be dynamic */
 }
-
 
 .profileInfo {
   position: absolute;
@@ -146,6 +144,79 @@
   top: 961px;
   left: 236px;
   opacity: 0.8;
+}
+
+.tagsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  height: 100%;
+  padding-left: 15px;
+}
+
+.tagItem {
+  background-color: #e0e0e0;
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 14px;
+  color: #333;
+  white-space: nowrap;
+}
+
+.tagsInputContainer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  height: 100%;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+.tagPill {
+  display: flex;
+  align-items: center;
+  background-color: var(--color-tan);
+  color: white;
+  padding: 4px 5px 4px 10px;
+  border-radius: 16px;
+  font-size: 14px;
+  white-space: nowrap;
+  gap: 5px;
+}
+
+.tagRemoveBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 0;
+}
+
+.tagRemoveBtn:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.tagInputField {
+  flex-grow: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: var(--font-size-16);
+  color: var(--color-black);
+  font-family: var(--font-dm-sans);
+  min-width: 100px;
+  height: 100%;
 }
 
 .emailAdd {
@@ -711,9 +782,6 @@
   cursor: default;
 }
 
-/* ADD THESE STYLES TO YOUR facility-profile.module.css FILE */
-
-/* Replaces .emailAddress for displaying data text */
 .profileDataText {
   position: absolute;
   top: 26.92%;
@@ -725,7 +793,7 @@
   max-width: 85%;
 }
 
-/* For the input fields that appear during editing */
+/* for the input fields that appear during editing */
 .profileInput {
   position: absolute;
   top: 26.92%;
@@ -740,7 +808,7 @@
   opacity: 1;
 }
 
-/* Styles for error states on textboxes */
+/* styles for error states on textboxes */
 .tbxError {
   border: 1px solid #d8000c !important;
   background-color: #fff2f0 !important;
@@ -754,12 +822,12 @@
   border-color: #d8000c !important;
 }
 
-/* Styles for error states on input text */
+/* styles for error states on input text */
 .inputError {
   color: #d8000c !important;
 }
 
-/* Styles for the error message display */
+/* styles for the error message display */
 .errorMessage {
   position: absolute;
   top: 100%;
@@ -773,11 +841,4 @@
   font-weight: 400;
   z-index: 10;
   white-space: nowrap;
-}
-
-/* Adjustments for avatar icon to use layout fill */
-.avatarIcon {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
