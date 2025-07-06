@@ -495,11 +495,11 @@ const FacilityDetailsClientPage: NextPage<{
                       src="/Phone.svg"
                     />
                   </div>
-                  <div className={styles.nBacalsoAve}>
+                  <div className={styles.nBacalsoAvephone}>
                     {facility.contact_number || "Not Available"}
                   </div>
                 </div>
-                <div className={styles.paraContent1}>
+                <div className={styles.paraContentmail}>
                   <div className={styles.locationPointIcon}>
                     <Image
                       className={styles.icon1}

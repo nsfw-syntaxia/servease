@@ -1,3 +1,926 @@
+.wrapper2:hover,
+.heart:hover {
+  transform: scale(1.1);
+}
+
+/*related service card*/
+
+.customerQuote {
+  width: 400px;
+  box-sizing: border-box;
+  border: 2px solid #e0d9c9;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  position: relative;
+  transition: transform 0.12s ease-out, box-shadow 0.12s ease-out,
+    border 0.12s ease-out;
+  cursor: pointer;
+  background-color: #e0d9c9;
+}
+
+.customerQuote:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 6px 16px rgba(166, 132, 101, 0.3);
+  border-radius: 12px;
+  border: 1px solid #a68465;
+}
+
+.avatarWrapper {
+  padding: 15px;
+  z-index: 1;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.avatar1 {
+  width: 45px;
+  margin-left: 20px;
+  position: relative;
+  border-radius: 50%;
+  height: 45px;
+}
+
+.serviceFacilityNameParent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 2px;
+}
+
+.serviceFacilityName {
+  position: relative;
+  line-height: 150%;
+  font-weight: 600;
+}
+
+.parent3 {
+  width: 140px;
+  position: relative;
+  height: 20px;
+  font-size: 13px;
+  color: #a68465;
+}
+
+.div4 {
+  position: absolute;
+  top: 0px;
+  left: 120px;
+  line-height: 150%;
+  font-weight: 500;
+}
+
+.groupChild17 {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 20px;
+  height: 20px;
+}
+
+/*main*/
+
+.facilityDetailsParent {
+  width: 100%;
+  position: relative;
+  height: auto;
+  text-align: left;
+  font-size: 16px;
+  color: #a68465;
+  font-family: var(--font-dm-sans);
+}
+
+.facilityDetails {
+  position: relative;
+  background-color: #f8f7f3;
+  box-sizing: border-box;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+}
+
+/*facility details parent*/
+
+.frameParent {
+  position: relative;
+  margin: 0 auto;
+  margin-top: 9%;
+  width: 1225px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 69px;
+  font-size: 18px;
+}
+
+/*facility details pics*/
+
+.image7Parent {
+  width: 527px;
+  height: 719px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 24px;
+}
+
+.image7 {
+  align-self: stretch;
+  position: relative;
+  border-radius: 4px;
+  background-color: #e0d9c9;
+  height: 350px;
+  overflow: hidden;
+}
+
+.image7Group {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin-left: -13%;
+  width: 670px;
+}
+
+/*small carousel buttons*/
+
+.buttonFrame {
+  position: relative;
+  right: -8%;
+  width: 45px;
+  height: 45px;
+  transform: rotate(-180deg);
+  z-index: 100;
+}
+
+.button11 {
+  position: relative;
+  border-radius: 50%;
+  background-color: #a68465;
+  width: 45px;
+  height: 45px;
+  transition: all 0.3s ease;
+  opacity: 0.9;
+  cursor: pointer;
+}
+
+.button11:hover,
+.button30:hover {
+  background-color: #a68465;
+  transition: all 0.3s ease;
+  transform: scale(1.1);
+  opacity: 1;
+}
+
+.chevronLeft {
+  position: relative;
+  margin-left: 25%;
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.icon4 {
+  position: relative;
+  margin-top: -10%;
+  height: 50%;
+  width: 50%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+  transform: rotate(180deg);
+}
+
+.buttonWrapper {
+  position: relative;
+  left: -8%;
+  width: 45px;
+  height: 45px;
+  z-index: 100;
+}
+
+.chevronRight {
+  position: relative;
+  margin-left: 25%;
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.icon3 {
+  position: relative;
+  margin-top: -15%;
+  height: 50%;
+  width: 50%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+
+/*small carousel*/
+
+.carouselViewport1 {
+  overflow: hidden;
+  width: calc(260px * 3 + 48px);
+  position: relative;
+}
+
+.carouselTrack1 {
+  display: flex;
+  gap: 20px;
+  transition: transform 0.5s ease-in-out;
+}
+
+.image71 {
+  flex: 1;
+  position: relative;
+  border-radius: 4px;
+  background-color: #e0d9c9;
+  height: 180px;
+  min-width: 160px;
+  overflow: hidden;
+}
+
+.image71 img {
+  border-radius: 4px;
+  transition: transform 0.3s ease;
+}
+
+.image71:hover img {
+  transform: scale(1.03);
+}
+
+/*chat, map, review*/
+
+.groupParent {
+  width: 394px;
+  border-radius: 4px;
+  border: 2px solid #a68465;
+  box-sizing: border-box;
+  height: 104px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0px;
+  gap: 15px;
+  padding: 20px;
+}
+
+.frameChild {
+  position: relative;
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  background-color: #e0d9c9;
+}
+
+.dividerIcon {
+  width: 1px;
+  position: relative;
+  height: 100px;
+  background-color: #e0d9c9;
+}
+
+.wrapper2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: sans-serif;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.circle {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #a87b5b;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: #a87b5b;
+  background-color: #fdfbf7;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.circle:hover {
+  background-color: #f1e6da;
+}
+
+.circleactive {
+  background-color: #f0ebe4;
+}
+
+.label {
+  margin-top: 0.5rem;
+  color: #a68465;
+  font-size: 1rem;
+}
+
+/*facility info*/
+
+.barbershopParent {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  position: relative;
+  gap: 10px;
+}
+
+.barbershop {
+  width: 487px;
+  position: relative;
+  font-size: 60px;
+  line-height: 76px;
+  font-weight: 800;
+  color: #604c3d;
+  display: inline-block;
+  z-index: 0;
+}
+
+.wrapper {
+  margin: 0 !important;
+  position: absolute;
+  top: 14px;
+  left: 449px;
+  border-radius: 4px;
+  background-color: #efebe2;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 8px 16px;
+  z-index: 1;
+  font-size: 20px;
+  cursor: default;
+}
+
+.b {
+  position: relative;
+  line-height: 32px;
+}
+
+/*facility ratings*/
+
+.groupContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 15px;
+  z-index: 2;
+  font-size: 20px;
+}
+
+.parent {
+  width: 172px;
+  position: relative;
+  height: 30px;
+}
+
+.kReviews {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  line-height: 150%;
+}
+
+.groupChild {
+  position: absolute;
+  top: 2px;
+  left: 47px;
+  width: 25px;
+  height: 25px;
+}
+
+.kReviewsWrapper {
+  width: 142px;
+  position: relative;
+  height: 30px;
+}
+
+/*facility location*/
+
+.paraContentWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  z-index: 3;
+  font-size: 20px;
+}
+
+.paraContent1 {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 8px 0px;
+  gap: 12px;
+}
+
+.locationPointIcon {
+  width: 25px;
+  position: relative;
+  height: 25px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.nBacalsoAve {
+  position: relative;
+  line-height: 26px;
+  font-weight: 500;
+}
+
+/*facility phone number and mail*/
+
+.paraContentParent {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  z-index: 4;
+  font-size: 20px;
+}
+
+.paraContentmail {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 8px 0px;
+  gap: 12px;
+  margin-left: 40%;
+}
+
+.nBacalsoAvephone {
+  position: absolute;
+  left: 38px;
+  line-height: 26px;
+  font-weight: 500;
+}
+
+.icon {
+  position: absolute;
+  height: 83.2%;
+  width: 100%;
+  top: 8.33%;
+  right: 8.4%;
+  bottom: 8.47%;
+  left: 8.8%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+
+.icon1 {
+  position: absolute;
+  height: 66.8%;
+  width: 100%;
+  top: 16.67%;
+  right: 8.47%;
+  bottom: 16.53%;
+  left: 8.33%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+
+.dividerIcon1 {
+  align-self: stretch;
+  position: relative;
+  max-width: 100%;
+  overflow: hidden;
+  height: 1px;
+  flex-shrink: 0;
+  z-index: 6;
+}
+
+/*working schedule*/
+
+.paraContentContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  z-index: 8;
+  font-size: 32px;
+  color: #604c3d;
+}
+
+.paraContent6 {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 8px 0px;
+}
+
+.workSchedule {
+  position: relative;
+  line-height: 26px;
+}
+
+.buttonGroup {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 20px;
+  z-index: 10;
+  text-align: center;
+  width: 400px;
+}
+
+.button1 {
+  width: 190px;
+  border-radius: 4px;
+  background-color: #efebe2;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  box-sizing: border-box;
+  gap: 8px;
+  cursor: default;
+}
+
+.star {
+  width: 16px;
+  position: relative;
+  height: 16px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: none;
+}
+
+.paraContent7 {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 12px 0px;
+  text-align: left;
+  font-size: 20px;
+  margin-left: 2%;
+  cursor: default;
+}
+
+.dividerIcon2 {
+  align-self: stretch;
+  position: relative;
+  max-width: 100%;
+  overflow: hidden;
+  height: 1px;
+  flex-shrink: 0;
+  z-index: 12;
+}
+
+/*available services*/
+
+.paraContentFrame {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  z-index: 14;
+  font-size: 32px;
+  color: #604c3d;
+}
+
+.frameDiv {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  z-index: 15;
+  font-size: 24px;
+}
+
+/*services buttons*/
+
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 16px;
+  z-index: 16;
+  text-align: center;
+  width: 100%;
+}
+
+.button3 {
+  width: 190px;
+  border-radius: 4px;
+  background-color: #a68465;
+  height: 40px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  box-sizing: border-box;
+  gap: 8px;
+  color: white;
+  transition: transform 0.3s ease, background-position 0.5s ease,
+    opacity 0.3s ease;
+}
+
+.button4 {
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+
+  width: 190px;
+  height: 40px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  background: linear-gradient(120deg, #a68465, #c3a68c, #a68465);
+  background-size: 200% 100%;
+  background-position: 0% 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  gap: 8px;
+
+  color: #fbf7f4;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-position 0.5s ease,
+    opacity 0.3s ease;
+}
+
+.button4:hover,
+.button3:hover {
+  background-position: 100% 50%;
+  transform: scale(1.05);
+}
+
+.active {
+  opacity: 1;
+}
+
+.inactive {
+  opacity: 0.6;
+}
+
+.mondayFriday {
+  width: 170px;
+  position: relative;
+  line-height: 100%;
+  font-weight: 500;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.dividerIcon3 {
+  align-self: stretch;
+  position: relative;
+  max-width: 100%;
+  overflow: hidden;
+  height: 1px;
+  flex-shrink: 0;
+}
+
+/*heart/like*/
+
+.buttonParent2 {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 20px;
+  text-align: center;
+  margin-top: 2%;
+}
+
+.button9 {
+  width: 190px;
+  border-radius: 4px;
+  background-color: #f8f7f3;
+  height: 40px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  box-sizing: border-box;
+  gap: 10px;
+}
+
+.heart {
+  width: 35px;
+  height: 35px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.icon2 {
+  position: absolute;
+  height: 76%;
+  width: 100%;
+  top: 12.49%;
+  right: 6.4%;
+  bottom: 11.51%;
+  left: 6.45%;
+  max-width: 100%;
+  max-height: 100%;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.iconVisible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.favorite11k {
+  width: 120px;
+  position: relative;
+  line-height: 100%;
+  font-weight: 500;
+  display: inline-block;
+  flex-shrink: 0;
+  margin-left: 1px;
+  font-size: 14px;
+}
+
+/*location*/
+
+.whatweofferbox {
+  position: relative;
+  margin-top: 7rem;
+  padding-top: 0.1%;
+  background-color: #efebe2;
+  width: 100%;
+  height: 780px;
+}
+
+.location {
+  position: relative;
+  margin: 0 auto;
+  margin-top: 3rem;
+  height: 659px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 48px;
+}
+
+.location1 {
+  position: relative;
+  font-size: 54px;
+  color: #604c3d;
+}
+
+.paraContentWrapper1 {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: 24px;
+}
+
+.map {
+  width: 1178px;
+  position: relative;
+  border: 1px solid black;
+  height: 400px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.bgIcon {
+  position: absolute;
+  top: 185px;
+  left: 352px;
+  width: 40px;
+  height: 40px;
+}
+
+.locationOnIcon {
+  position: absolute;
+  top: 170px;
+  left: 327px;
+  width: 90px;
+  height: 90px;
+  overflow: hidden;
+}
+
+/*get direction button*/
+
+.button13 {
+  width: 190px;
+  border-radius: 4px;
+  margin-top: 2%;
+  height: 40px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  border: 2px solid #a68465;
+  padding: 12px;
+  gap: 8px;
+  text-align: center;
+  font-size: 18px;
+  transition: all 0.3s ease;
+}
+
+.button13:hover {
+  background-color: #402f27;
+  border: 1px solid #402f27;
+  transform: scale(1.05);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.button13:hover .bookNow1 {
+  color: #e0d9c9;
+  font-weight: 600;
+}
+
+.button13:hover .svgIcon {
+  content: url("/SVG1.svg");
+}
+
+.link {
+  border-radius: 4px;
+  background-color: transparent;
+  box-sizing: border-box;
+  height: 40px;
+  width: 100%;
+  text-align: center;
+  color: #402f27;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 23px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.bookNow1 {
+  position: relative;
+  line-height: 27.75px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 27.8px;
+  flex-shrink: 0;
+}
+
+.svgIcon {
+  width: 14px;
+  position: relative;
+  height: 14px;
+}
+
+/*ratings*/
+
+/*header*/
+
 .serveaseLogoAlbumCover3 {
   width: 40px;
   position: relative;
@@ -38,15 +961,6 @@
 .support,
 .contactUs1 {
   cursor: default;
-}
-
-.serveaseLogoAlbumCover3:hover,
-.serveaseLogoAlbumCover31:hover,
-.wrapper2:hover,
-.heart:hover,
-.buttonPlusIcon:hover,
-.buttonMinusIcon:hover {
-  transform: scale(1.1);
 }
 
 .serv {
@@ -248,14 +1162,6 @@
   color: #a68465;
 }
 
-.star {
-  width: 16px;
-  position: relative;
-  height: 16px;
-  overflow: hidden;
-  flex-shrink: 0;
-  display: none;
-}
 .signIn {
   width: 75px;
   position: relative;
@@ -282,31 +1188,11 @@
   color: var(--color-snow);
 }
 
-.image7 {
-  align-self: stretch;
-  position: relative;
-  border-radius: 4px;
-  background-color: var(--color-antiquewhite);
-  height: 350px;
-  overflow: hidden;
-}
 .paraContent {
   width: 25px;
   height: 5px;
 }
-.frameChild {
-  position: relative;
-  height: 60px;
-  width: 60px;
-  border-radius: 50%;
-  background-color: var(--color-antiquewhite);
-}
-.dividerIcon {
-  width: 1px;
-  position: relative;
-  height: 100px;
-  background-color: var(--color-antiquewhite);
-}
+
 .frameItem {
   min-width: 45px;
   height: 45px;
@@ -326,66 +1212,7 @@
   line-height: 40px;
   width: 233px;
 }
-.groupParent {
-  width: 394px;
-  border-radius: 4px;
-  border: 2px solid #a68465;
-  box-sizing: border-box;
-  height: 104px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 0px;
-  gap: 15px;
-  padding: 20px;
-}
-.image7Parent {
-  width: 527px;
-  height: 719px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  gap: var(--gap-24);
-}
-.barbershop {
-  width: 487px;
-  position: relative;
-  font-size: 60px;
-  line-height: 76px;
-  font-weight: 800;
-  color: var(--color-dimgray);
-  display: inline-block;
-  z-index: 0;
-}
-.b {
-  position: relative;
-  line-height: 32px;
-}
-.wrapper {
-  margin: 0 !important;
-  position: absolute;
-  top: 14px;
-  left: 449px;
-  border-radius: var(--br-4);
-  background-color: var(--color-linen);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  padding: var(--padding-8) 16px;
-  z-index: 1;
-  font-size: var(--font-size-20);
-  cursor: default;
-}
-.groupChild {
-  position: absolute;
-  top: 2px;
-  left: 47px;
-  width: 25px;
-  height: 25px;
-}
+
 .groupItem {
   position: absolute;
   top: 2px;
@@ -414,38 +1241,7 @@
   width: 25px;
   height: 25px;
 }
-.parent {
-  width: 172px;
-  position: relative;
-  height: 30px;
-}
-.kReviews {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  line-height: 150%;
-}
-.kReviewsWrapper {
-  width: 142px;
-  position: relative;
-  height: 30px;
-}
-.groupContainer {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: var(--gap-15);
-  z-index: 2;
-  font-size: var(--font-size-20);
-}
-.locationPointIcon {
-  width: 25px;
-  position: relative;
-  height: 25px;
-  overflow: hidden;
-  flex-shrink: 0;
-}
+
 .buttonParent {
   background-color: aqua;
   width: auto;
@@ -457,133 +1253,19 @@
   gap: var(--gap-15);
   z-index: 2;
 }
-.nBacalsoAve {
-  position: relative;
-  line-height: 26px;
-  font-weight: 500;
-}
-.paraContent1 {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding: var(--padding-8) 0px;
-  gap: var(--gap-12);
-}
-.paraContentWrapper {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-  z-index: 3;
-  font-size: var(--font-size-20);
-}
-.icon {
-  position: absolute;
-  height: 83.2%;
-  width: 100%;
-  top: 8.33%;
-  right: 8.4%;
-  bottom: 8.47%;
-  left: 8.8%;
-  max-width: 100%;
-  overflow: hidden;
-  max-height: 100%;
-}
-.icon1 {
-  position: absolute;
-  height: 66.8%;
-  width: 100%;
-  top: 16.67%;
-  right: 8.47%;
-  bottom: 16.53%;
-  left: 8.33%;
-  max-width: 100%;
-  overflow: hidden;
-  max-height: 100%;
-}
-.paraContentParent {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 50px;
-  z-index: 4;
-  font-size: var(--font-size-20);
-}
+
 .paraContent4 {
   width: 25px;
   height: 5px;
   z-index: 5;
 }
-.dividerIcon1 {
-  align-self: stretch;
-  position: relative;
-  max-width: 100%;
-  overflow: hidden;
-  height: 1px;
-  flex-shrink: 0;
-  z-index: 6;
-}
+
 .paraContent5 {
   width: 25px;
   height: 5px;
   z-index: 7;
 }
-.workSchedule {
-  position: relative;
-  line-height: 26px;
-}
-.paraContent6 {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding: var(--padding-8) 0px;
-}
-.paraContentContainer {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-  z-index: 8;
-  font-size: var(--font-size-32);
-  color: var(--color-dimgray);
-}
-.mondayFriday {
-  width: 170px;
-  position: relative;
-  line-height: 100%;
-  font-weight: 500;
-  display: inline-block;
-  flex-shrink: 0;
-}
-.button1 {
-  width: 190px;
-  border-radius: 4px;
-  background-color: #efebe2;
-  overflow: hidden;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: 12px;
-  box-sizing: border-box;
-  gap: 8px;
-  cursor: default;
-}
-.paraContent7 {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding: 12px 0px;
-  text-align: left;
-  font-size: 20px;
-  margin-left: 2%;
-  cursor: default;
-}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -619,52 +1301,18 @@
   flex-shrink: 0;
 }
 
-.buttonGroup {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: var(--gap-20);
-  z-index: 10;
-  text-align: center;
-  width: 400px;
-}
 .paraContent9 {
   width: 25px;
   height: 5px;
   z-index: 11;
 }
-.dividerIcon2 {
-  align-self: stretch;
-  position: relative;
-  max-width: 100%;
-  overflow: hidden;
-  height: 1px;
-  flex-shrink: 0;
-  z-index: 12;
-}
+
 .paraContent10 {
   width: 25px;
   height: 5px;
   z-index: 13;
 }
-.paraContentFrame {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-  z-index: 14;
-  font-size: var(--font-size-32);
-  color: var(--color-dimgray);
-}
-.frameDiv {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-  z-index: 15;
-  font-size: var(--font-size-24);
-}
+
 .button3 {
   width: 190px;
   border-radius: 4px;
@@ -683,6 +1331,40 @@
   transition: transform 0.3s ease, background-position 0.5s ease,
     opacity 0.3s ease;
 }
+
+.button4:hover,
+.button3:hover {
+  background-position: 100% 50%;
+  transform: scale(1.05);
+}
+
+.active {
+  opacity: 1;
+}
+
+.inactive {
+  opacity: 0.6;
+}
+
+.buttonParent1 {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-20);
+  z-index: 17;
+  text-align: center;
+}
+
+.frameGroup {
+  width: 629px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 25px;
+}
+
 .button4 {
   position: relative;
   overflow: hidden;
@@ -701,6 +1383,7 @@
   justify-content: center;
   padding: 12px;
   gap: 8px;
+  cursor: pointer;
 
   color: var(--color-snow);
   cursor: pointer;
@@ -708,274 +1391,8 @@
     opacity 0.3s ease;
 }
 
-.button4:hover,
-.button3:hover {
-  background-position: 100% 50%;
-  transform: scale(1.05);
-}
-
-.active {
-  opacity: 1;
-}
-
-.inactive {
-  opacity: 0.6;
-}
-
-.buttonContainer {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap; /* Allow items to wrap to the next line */
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 16px; /* Use a single gap value */
-  z-index: 16;
-  text-align: center;
-  width: 100%; /* Ensure it takes up the full width of its parent */
-}
-
-.buttonParent1 {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: var(--gap-20);
-  z-index: 17;
-  text-align: center;
-}
-.barbershopParent {
-  align-self: stretch;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  position: relative;
-  gap: var(--gap-10);
-}
-.dividerIcon3 {
-  align-self: stretch;
-  position: relative;
-  max-width: 100%;
-  overflow: hidden;
-  height: 1px;
-  flex-shrink: 0;
-}
-.heart {
-  width: 35px;
-  height: 35px;
-  position: relative;
-  overflow: hidden;
-  flex-shrink: 0;
-  transition: transform 0.3s ease;
-}
-
-.icon2 {
-  position: absolute;
-  height: 76%;
-  width: 100%;
-  top: 12.49%;
-  right: 6.4%;
-  bottom: 11.51%;
-  left: 6.45%;
-  max-width: 100%;
-  max-height: 100%;
-  transition: opacity 0.25s ease, transform 0.25s ease;
-  opacity: 0;
-  transform: scale(0.8);
-}
-
-.iconVisible {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.favorite11k {
-  margin-left: 1px;
-  font-size: 14px;
-}
-
-.favorite11k {
-  width: 120px;
-  position: relative;
-  line-height: 100%;
-  font-weight: 500;
-  display: inline-block;
-  flex-shrink: 0;
-}
-.button9 {
-  width: 190px;
-  border-radius: var(--br-4);
-  background-color: var(--color-whitesmoke);
-  height: 40px;
-  overflow: hidden;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-12);
-  box-sizing: border-box;
-  gap: var(--gap-10);
-}
-.buttonParent2 {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: var(--gap-20);
-  text-align: center;
-  margin-top: 2%;
-}
-.frameGroup {
-  width: 629px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 25px;
-}
-.frameParent {
-  position: relative;
-  margin: 0 auto;
-  margin-top: 9%;
-  width: 1225px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 69px;
-  font-size: var(--font-size-18);
-}
-.icon3 {
-  position: relative;
-  margin-top: -15%;
-  height: 50%;
-  width: 50%;
-  max-width: 100%;
-  overflow: hidden;
-  max-height: 100%;
-}
 /*small carousel*/
-.buttonFrame {
-  position: relative;
-  right: -8%;
-  width: 45px;
-  height: 45px;
-  transform: rotate(-180deg);
-  z-index: 100;
-}
-.image71 {
-  flex: 1;
-  position: relative;
-  border-radius: 4px;
-  background-color: var(--color-antiquewhite);
-  height: 180px;
-  min-width: 160px;
-  overflow: hidden;
-}
-.image71 img {
-  border-radius: 4px;
-  transition: transform 0.3s ease;
-}
-.image71:hover img {
-  transform: scale(1.03);
-}
-.image7Group {
-  align-self: stretch;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 24px;
-  margin-left: -13%;
-  width: 670px;
-}
-.chevronLeft {
-  position: relative;
-  margin-left: 25%;
-  width: 50px;
-  height: 50px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-}
-.chevronRight {
-  position: relative;
-  margin-left: 25%;
-  width: 50px;
-  height: 50px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-}
-.button11 {
-  position: relative;
-  border-radius: 50%;
-  background-color: var(--color-tan);
-  width: 45px;
-  height: 45px;
-  transition: all 0.3s ease;
-}
-.button11:hover,
-.button30:hover {
-  background-color: #a68465;
-  transition: all 0.3s ease;
-  transform: scale(1.1);
-}
-.buttonWrapper {
-  position: relative;
-  left: -8%;
-  width: 45px;
-  height: 45px;
-  z-index: 100;
-}
-.carouselViewport1 {
-  overflow: hidden;
-  width: calc(260px * 3 + 48px);
-  position: relative;
-  background-color: aqua;
-}
 
-.carouselTrack1 {
-  display: flex;
-  gap: 20px;
-  transition: transform 0.5s ease-in-out;
-}
-.icon4 {
-  position: relative;
-  margin-top: -10%;
-  height: 50%;
-  width: 50%;
-  max-width: 100%;
-  overflow: hidden;
-  max-height: 100%;
-  transform: rotate(180deg);
-}
-
-.whatweofferbox {
-  position: relative;
-  margin-top: 7rem;
-  padding-top: 0.1%;
-  background-color: var(--color-linen);
-  width: 100%;
-  height: 780px;
-}
-.location1 {
-  position: relative;
-  font-size: 54px;
-  color: var(--color-dimgray);
-}
-.paraContentWrapper1 {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-  font-size: 24px;
-}
 .paraContent14 {
   width: 25px;
   height: 15px;
@@ -1007,21 +1424,7 @@
   height: 40px;
   transition: transform 0.3s ease;
 }
-.locationOnIcon {
-  position: absolute;
-  top: 170px;
-  left: 327px;
-  width: 90px;
-  height: 90px;
-  overflow: hidden;
-}
-.bgIcon {
-  position: absolute;
-  top: 185px;
-  left: 352px;
-  width: 40px;
-  height: 40px;
-}
+
 .logo {
   position: absolute;
   top: 199px;
@@ -1031,50 +1434,7 @@
   display: inline-block;
   width: 33px;
 }
-.map {
-  width: 1178px;
-  position: relative;
-  border: 1px solid black;
-  height: 400px;
-  text-align: center;
-  font-size: 12px;
-}
 
-.svgIcon {
-  width: 14px;
-  position: relative;
-  height: 14px;
-}
-
-.button13 {
-  width: 190px;
-  border-radius: 4px;
-  margin-top: 2%;
-  height: 40px;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-end;
-  border: 2px solid #a68465;
-  padding: 12px;
-  gap: 8px;
-  text-align: center;
-  font-size: 18px;
-  transition: all 0.3s ease;
-}
-.location {
-  position: relative;
-  margin: 0 auto;
-  margin-top: 3rem;
-  height: 659px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--gap-10);
-  font-size: var(--font-size-48);
-}
 .serviceRatings {
   position: relative;
   font-size: var(--font-size-48);
@@ -1563,25 +1923,7 @@
   background-color: var(--color-gainsboro-200);
   height: 45px;
 }
-.serviceFacilityName {
-  position: relative;
-  line-height: 150%;
-  font-weight: 600;
-}
-.div4 {
-  position: absolute;
-  top: 0px;
-  left: 120px;
-  line-height: 150%;
-  font-weight: 500;
-}
-.groupChild17 {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 20px;
-  height: 20px;
-}
+
 .groupChild18 {
   position: absolute;
   top: 0px;
@@ -1610,48 +1952,7 @@
   width: 20px;
   height: 20px;
 }
-.parent3 {
-  width: 140px;
-  position: relative;
-  height: 20px;
-  font-size: 13px;
-  color: var(--color-tan-100);
-}
-.serviceFacilityNameParent {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: var(--gap-2);
-}
-.avatar {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-.avatarWrapper {
-  padding: 15px;
-  z-index: 1;
-}
-.customerQuote {
-  width: 400px;
-  box-sizing: border-box;
-  border: 2px solid var(--color-antiquewhite);
-  border-radius: 12px;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  position: relative;
-  transition: transform 0.12s ease-out, box-shadow 0.12s ease-out,
-    border 0.12s ease-out;
-  cursor: pointer;
-  background-color: #e0d9c9;
-}
-.customerQuote:hover {
-  transform: translateY(-6px) scale(1.01);
-  box-shadow: 0 6px 16px rgba(166, 132, 101, 0.3);
-  border-radius: 12px;
-  border: 1px solid var(--color-tan);
-}
+
 .customerQuoteItem {
   align-self: stretch;
   border-radius: var(--br-12) var(--br-12) 0px 0px;
@@ -1705,29 +2006,6 @@
   max-width: 100%;
   overflow: hidden;
   max-height: 100%;
-}
-.wrapper2 {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-family: sans-serif;
-  transition: transform 0.3s ease;
-}
-
-.circle {
-  width: 50px;
-  height: 50px;
-  background-color: #eae4d8;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.label {
-  margin-top: 0.5rem;
-  color: #a68465; /* brown text */
-  font-size: 1rem;
 }
 
 .button31 {
@@ -1904,95 +2182,11 @@
   transition: transform 0.3s ease;
 }
 
-.facilityDetails {
-  position: relative;
-  background-color: var(--color-whitesmoke);
-  box-sizing: border-box;
-  width: 100%;
-  height: auto;
-  overflow: hidden;
-}
-.facilityDetailsParent {
-  width: 100%;
-  position: relative;
-  height: auto;
-  text-align: left;
-  font-size: var(--font-size-16);
-  color: #a68465;
-  font-family: var(--font-dm-sans);
-}
-.link {
-  border-radius: 4px;
-  background-color: transparent;
-  box-sizing: border-box;
-  height: 40px;
-  width: 100%;
-  text-align: center;
-  color: #402f27;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 12px 23px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  gap: 10px;
-  cursor: pointer;
-}
-
-.button13:hover {
-  background-color: #402f27;
-  border: 1px solid #402f27;
-  transform: scale(1.05);
-  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.button13:hover .bookNow1 {
-  color: #e0d9c9;
-  font-weight: 600;
-}
-
-.button13:hover .svgIcon {
-  content: url("/SVG1.svg");
-}
-.bookNow1 {
-  position: relative;
-  line-height: 27.75px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 27.8px;
-  flex-shrink: 0;
-}
 .circlewrapper {
   display: flex;
   gap: 16px;
   justify-content: center;
   align-items: center;
-}
-
-.circle {
-  width: 40px;
-  height: 40px;
-  border: 2px solid #a87b5b;
-  border-radius: 50%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  color: #a87b5b;
-  background-color: #fdfbf7;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.circle:hover {
-  background-color: #f1e6da;
-}
-
-.circleactive {
-  background-color: #f0ebe4;
 }
 
 .supportserveasecom,
@@ -2058,13 +2252,6 @@
   gap: var(--gap-16);
 }
 
-.avatar1 {
-  width: 45px;
-  margin-left: 20px;
-  position: relative;
-  border-radius: 50%;
-  height: 45px;
-}
 .carouselButton {
   position: absolute;
   top: 50%;
