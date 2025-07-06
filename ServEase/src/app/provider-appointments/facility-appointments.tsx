@@ -683,7 +683,9 @@ const AppointmentsFacility: NextPage = () => {
 
             <h2 className={styles.title}>Write a Review</h2>
             <p className={styles.subtitle}>
-              Share your experience to help others make informed decisions.
+              Share your experience at{" "}
+              {selectedAppointmentReview.service[0].client_name} to help others
+              make informed decisions.
             </p>
 
             <form onSubmit={handleSubmit} className={styles.form}>
@@ -733,20 +735,6 @@ const AppointmentsFacility: NextPage = () => {
                   className={styles.input}
                   placeholder="Enter your name"
                   required
-                />
-              </div>
-
-              <div className={styles.fieldGroup}>
-                <label className={styles.label} htmlFor="email">
-                  Email (Optional)
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className={styles.input}
-                  placeholder="Enter your email"
                 />
               </div>
 
