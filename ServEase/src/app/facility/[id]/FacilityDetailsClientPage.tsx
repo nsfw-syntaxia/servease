@@ -684,7 +684,7 @@ const FacilityDetailsClientPage: NextPage<{
                   <div
                     key={filter.label}
                     className={`${styles.buttonstar} ${
-                      activeFilter === filter.label ? styles.active : ""
+                      activeFilter === filter.label ? styles.activerating : ""
                     }`}
                     onClick={() => setActiveFilter(filter.label)}
                   >
@@ -766,53 +766,6 @@ const FacilityDetailsClientPage: NextPage<{
               </button>
             )}
           </div>
-        </div>
-
-        <div className={styles.footer}>
-          <div className={styles.footerChild} />
-          <div className={styles.yourTrustedPlatform}>
-            Your trusted platform to discover, book, and manage local
-            services—anytime, anywhere.
-          </div>
-          <b className={styles.contactUs1}>Contact Us</b>
-          <div className={styles.supportserveasecom}>support@servease.com</div>
-          <div className={styles.contactNumber}>contact number</div>
-          <b className={styles.support}>Support</b>
-          <div className={styles.faqs}>FAQs</div>
-          <div className={styles.privacyPolicy}>Privacy Policy</div>
-          <div className={styles.termsConditions}>{`Terms & Conditions`}</div>
-          <div className={styles.aboutUs}>About Us</div>
-          <b className={styles.quickLinks}>Quick Links</b>
-          <div
-            className={styles.servease1}
-            onClick={() => {
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
-          >
-            <span className={styles.serv}>serv</span>
-            <b>ease</b>
-          </div>
-          <div className={styles.home1} onClick={() => router.push("/home")}>
-            Home
-          </div>
-          <div className={styles.discover1}>Discover</div>
-          <div className={styles.lineParent}>
-            <div className={styles.lineDiv} />
-            <div className={styles.servease2025}>
-              servease 2025 © All rights reserved
-            </div>
-          </div>
-          <Image
-            className={styles.serveaseLogoAlbumCover31}
-            width={40}
-            height={40}
-            sizes="100vw"
-            alt=""
-            src="/landingLogo.svg"
-            onClick={() => {
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
-          />
         </div>
       </div>
     </div>

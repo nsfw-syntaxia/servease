@@ -482,52 +482,6 @@ const PBACS: NextPage<{
           </div>
         </div>
       </div>
-
-      <div className={styles.footer}>
-        <div className={styles.footerChild} />
-        <div className={styles.yourTrustedPlatform}>
-          Your trusted platform to discover, book, and manage local
-          services—anytime, anywhere.
-        </div>
-        <b className={styles.contactUs}>Contact Us</b>
-        <div className={styles.supportserveasecom}>support@servease.com</div>
-        <div className={styles.contactNumber}>+63 9XX-XXX-XXXX</div>
-        <b className={styles.support}>Support</b>
-        <div className={styles.faqs}>FAQs</div>
-        <div className={styles.privacyPolicy}>Privacy Policy</div>
-        <div className={styles.termsConditions}>{`Terms & Conditions`}</div>
-        <div className={styles.aboutUs}>About Us</div>
-        <b className={styles.quickLinks}>Quick Links</b>
-        <div className={styles.servease} onClick={() => router.push("/home")}>
-          <span className={styles.serv}>serv</span>
-          <b>ease</b>
-        </div>
-        <div className={styles.home} onClick={() => router.push("/home")}>
-          Home
-        </div>
-        <div className={styles.discover}>Discover</div>
-        <div
-          className={styles.createAnAccount}
-          onClick={() => router.push("/signup")}
-        >
-          Create an Account
-        </div>
-        <div className={styles.lineParent}>
-          <div className={styles.lineDiv} />
-          <div className={styles.servease2025}>
-            servease 2025 © All rights reserved
-          </div>
-        </div>
-        <Image
-          className={styles.serveaseLogoAlbumCover31}
-          width={40}
-          height={40}
-          sizes="100vw"
-          alt="Servease Logo"
-          src="/logo.svg"
-          onClick={() => router.push("/home")}
-        />
-      </div>
     </div>
   );
 };
