@@ -166,7 +166,7 @@ if pending, show "confirmed" and "canceled"
 
 import type { NextPage } from "next";
 import Image from "next/image";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import styles from "../styles/facility-appointments.module.css";
 
@@ -240,7 +240,13 @@ const mockAppointments: Appointment[] = [
   },
 ];
 
-const AppointmentCard = ({ appointment }: { appointment: Appointment }) => {
+const AppointmentCard = ({
+  appointment,
+  onShowDetails,
+}: {
+  appointment: Appointment;
+  onShowDetails: () => void;
+}) => {
   const appointmentDate = new Date(appointment.start_time);
   const time = appointmentDate.toLocaleTimeString([], {
     hour: "numeric",
@@ -256,6 +262,32 @@ const AppointmentCard = ({ appointment }: { appointment: Appointment }) => {
   const serviceType =
     appointment.service?.[0]?.service_type || "Unknown Service";
 
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [hovered, setHovered] = useState("");
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const getAvailableStatusOptions = (status: string): string[] => {
+    if (status === "pending") return ["confirmed", "canceled"];
+    if (status === "confirmed") return ["completed", "canceled"];
+    return [];
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className={styles.appointmentCard}>
       <div className={styles.cardHeader}>
@@ -270,7 +302,11 @@ const AppointmentCard = ({ appointment }: { appointment: Appointment }) => {
           <h3 className={styles.clientName}>{clientName}</h3>
           <p className={styles.serviceType}>{serviceType}</p>
         </div>
-        <div className={styles.viewDetails}>
+        <div
+          className={styles.viewDetails}
+          onClick={onShowDetails}
+          style={{ cursor: "pointer" }}
+        >
           <span>View Details</span>
           <Image
             className={styles.svgIcon}
@@ -281,6 +317,7 @@ const AppointmentCard = ({ appointment }: { appointment: Appointment }) => {
           />
         </div>
       </div>
+
       <div className={styles.cardBody}>
         <div className={styles.infoItem}>
           <Image
@@ -295,7 +332,15 @@ const AppointmentCard = ({ appointment }: { appointment: Appointment }) => {
           <Image width={21} height={21} alt="Clock" src="/Vector.svg" />
           <span>{time}</span>
         </div>
-        <div className={styles.infoItem}>
+        <div
+          className={styles.infoItem}
+          style={{ position: "relative" }}
+          onClick={(e) => {
+            e.stopPropagation(); // prevent bubbling to parent
+            setShowDropdown((prev) => !prev);
+          }}
+          ref={dropdownRef}
+        >
           <span
             className={`${styles.statusButton} ${styles[appointment.status]}`}
           ></span>
@@ -303,17 +348,56 @@ const AppointmentCard = ({ appointment }: { appointment: Appointment }) => {
             {appointment.status.charAt(0).toUpperCase() +
               appointment.status.slice(1)}
           </span>
-          {(appointment.status === "confirmed" ||
-            appointment.status === "pending") && (
-            <Image
-              className={styles.dropdownIcon}
-              width={24}
-              height={24}
-              sizes="100vw"
-              alt=""
-              src="/arrow_drop_down.svg"
-              style={{ cursor: "pointer" }}
-            />
+
+          {(appointment.status === "pending" ||
+            appointment.status === "confirmed") && (
+            <>
+              <Image
+                className={styles.dropdownIcon}
+                width={24}
+                height={24}
+                alt="Dropdown"
+                src="/arrow_drop_down.svg"
+                style={{ cursor: "pointer" }}
+              />
+              {showDropdown && (
+                <div className={styles.dropdownMenu}>
+                  {getAvailableStatusOptions(appointment.status).map(
+                    (item, index) => {
+                      const isActive = hovered === item;
+                      const isFirst = index === 0;
+                      const isLast =
+                        index ===
+                        getAvailableStatusOptions(appointment.status).length -
+                          1;
+
+                      let borderClass = "";
+                      if (isActive && isFirst) borderClass = styles.activeTop;
+                      else if (isActive && isLast)
+                        borderClass = styles.activeBottom;
+
+                      return (
+                        <div
+                          key={item}
+                          className={`${styles.dropdownItem} ${
+                            isActive ? styles.active : ""
+                          } ${borderClass}`}
+                          onMouseEnter={() => setHovered(item)}
+                          onMouseLeave={() => setHovered("")}
+                          onClick={(e) => {
+                            e.stopPropagation(); // prevent click bubbling to parent (and closing)
+                            console.log("Selected new status:", item);
+                            setShowDropdown(false);
+                          }}
+                        >
+                          {item.charAt(0).toUpperCase() + item.slice(1)}
+                        </div>
+                      );
+                    }
+                  )}
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>
@@ -324,6 +408,16 @@ const AppointmentCard = ({ appointment }: { appointment: Appointment }) => {
 const AppointmentsFacility: NextPage = () => {
   const [activeFilter, setActiveFilter] = useState("upcoming");
   const router = useRouter();
+  const [selectedAppointment, setSelectedAppointment] =
+    useState<Appointment | null>(null);
+
+  useEffect(() => {
+    const onEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSelectedAppointment(null);
+    };
+    window.addEventListener("keydown", onEsc);
+    return () => window.removeEventListener("keydown", onEsc);
+  }, []);
 
   const handleFilterChange = (filter: string) => {
     setActiveFilter(filter);
@@ -390,7 +484,11 @@ const AppointmentsFacility: NextPage = () => {
         <div className={styles.appointmentsList}>
           {filteredAppointments.length > 0 ? (
             filteredAppointments.map((appointment) => (
-              <AppointmentCard key={appointment.id} appointment={appointment} />
+              <AppointmentCard
+                key={appointment.id}
+                appointment={appointment}
+                onShowDetails={() => setSelectedAppointment(appointment)}
+              />
             ))
           ) : (
             <p className={styles.noAppointments}>
@@ -399,6 +497,89 @@ const AppointmentsFacility: NextPage = () => {
           )}
         </div>
       </main>
+      {selectedAppointment && (
+        <div
+          className={styles.modalOverlay}
+          onClick={() => setSelectedAppointment(null)}
+        >
+          <div
+            className={styles.calendarSelectChangeSize}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className={styles.facilityNameParent}>
+              <div className={styles.rowContainer}>
+                <div className={styles.facilityName}>Appointment Status</div>
+                <b className={styles.facilityNameCap}>
+                  {selectedAppointment.status.charAt(0).toUpperCase() +
+                    selectedAppointment.status.slice(1)}
+                </b>
+              </div>
+              <div className={styles.rowContainer}>
+                <div className={styles.facilityName}>Client Name</div>
+                <b className={styles.facilityNameCap}>
+                  {selectedAppointment.service[0].client_name}
+                </b>
+              </div>
+              <div className={styles.rowContainer}>
+                <div className={styles.facilityName}>Service</div>
+                <b className={styles.facilityNameCap}>
+                  {selectedAppointment.service[0].service_type}
+                </b>
+              </div>
+              <div className={styles.rowContainer}>
+                <div className={styles.facilityName}>Phone Number</div>
+                <b className={styles.facilityNameCap}>+63 123 4567 789</b>
+              </div>
+              <div className={styles.rowContainer}>
+                <div className={styles.facilityName}>Booking Date</div>
+                <b className={styles.facilityNameCap}>
+                  {new Date(selectedAppointment.start_time).toLocaleDateString(
+                    [],
+                    { weekday: "short", month: "long", day: "numeric" }
+                  )}
+                </b>
+              </div>
+              <div className={styles.rowContainer}>
+                <div className={styles.facilityName}>Booking Hours</div>
+                <b className={styles.facilityNameCap}>
+                  {new Date(selectedAppointment.start_time).toLocaleTimeString(
+                    [],
+                    { hour: "numeric", minute: "2-digit" }
+                  )}
+                </b>
+              </div>
+              <Image
+                className={styles.dividerIcon}
+                width={390}
+                height={1}
+                sizes="100vw"
+                alt=""
+                src="/Divider1.svg"
+              />
+              <div className={styles.serviceNameParent}>
+                <div className={styles.rowContainer}>
+                  <div className={styles.facilityName}>
+                    {selectedAppointment.service[0].service_type}
+                  </div>
+                  <b className={styles.facilityNameCap}>PHP 500.00</b>
+                </div>
+              </div>
+              <Image
+                className={styles.dividerIcon1}
+                width={390}
+                height={1}
+                sizes="100vw"
+                alt=""
+                src="/Divider1.svg"
+              />
+              <div className={styles.rowContainerTotal}>
+                <div className={styles.facilityName}>Total</div>
+                <b className={styles.facilityNameCap}>PHP 1000.00</b>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

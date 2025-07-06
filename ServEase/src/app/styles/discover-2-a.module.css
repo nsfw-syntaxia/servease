@@ -757,7 +757,7 @@
   align-items: flex-start;
   justify-content: flex-start;
   gap: 64px;
-  margin-bottom: 20%;
+  padding-bottom: 5%;
 }
 
 .serviceChild1 {

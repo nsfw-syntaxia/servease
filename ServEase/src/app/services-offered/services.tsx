@@ -85,39 +85,6 @@ const ServicesOfferedPage: NextPage = () => {
 
   return (
     <div className={styles.pageContainer}>
-      <header className={styles.navigation}>
-        <div className={styles.navBrand}>
-          <Image
-            width={40}
-            height={40}
-            alt="Servease Logo"
-            src="/Servease Logo.svg"
-          />
-          <div className={styles.logoText}>
-            <span className={styles.serv}>serv</span>
-            <span className={styles.ease}>ease</span>
-          </div>
-        </div>
-        <nav className={styles.navLinks}>
-          <a className={styles.navLink}>Home</a>
-          <a className={styles.navLink}>Discover</a>
-          <a
-            className={styles.navLink}
-            onClick={() => {
-              window.scrollTo({
-                top: document.body.scrollHeight,
-                behavior: "smooth",
-              });
-            }}
-          >
-            Contact Us
-          </a>
-        </nav>
-        <div className={styles.userAvatar}>
-          <Image width={28} height={26} alt="User Avatar" src="/Avatar.svg" />
-        </div>
-      </header>
-
       <main className={styles.mainContent}>
         <h1 className={styles.profileTitle}>Profile</h1>
 
@@ -169,48 +136,6 @@ const ServicesOfferedPage: NextPage = () => {
           </button>
         </div>
       </main>
-
-      <footer className={styles.footer}>
-        <div className={styles.footerContent}>
-          <div className={styles.footerColumn}>
-            <div className={styles.footerLogo}>
-              <Image
-                width={40}
-                height={40}
-                alt="Servease Logo"
-                src="/Servease Logo (Album Cover) (3) 2.png"
-              />
-              <b>servease</b>
-            </div>
-            <p>
-              Your trusted platform to discover, book, and manage local
-              services—anytime, anywhere.
-            </p>
-          </div>
-          <div className={styles.footerColumn}>
-            <b>Quick Links</b>
-            <a className={styles.footerLink}>Home</a>
-            <a className={styles.footerLink}>Discover</a>
-            <a className={styles.footerLink}>Create an Account</a>
-          </div>
-          <div className={styles.footerColumn}>
-            <b>Support</b>
-            <a className={styles.footerLink}>FAQs</a>
-            <a className={styles.footerLink}>Privacy Policy</a>
-            <a className={styles.footerLink}>Terms & Conditions</a>
-            <a className={styles.footerLink}>About Us</a>
-          </div>
-          <div className={styles.footerColumn}>
-            <b>Contact Us</b>
-            <a className={styles.footerLink}>support@servease.com</a>
-            <a className={styles.footerLink}>+63 996 3175 214</a>
-          </div>
-        </div>
-        <div className={styles.footerBottom}>
-          <div className={styles.footerLine} />
-          <p>servease 2025 © All rights reserved</p>
-        </div>
-      </footer>
     </div>
   );
 };

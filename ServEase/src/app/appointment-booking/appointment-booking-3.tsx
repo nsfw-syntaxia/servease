@@ -30,12 +30,18 @@ const formatCurrency = (amount: number) => {
   }).format(amount);
 };
 
+const formatDateForDB = (date: Date): string => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
 export default function Booking3({ onNext }: Props) {
   const [isAgreed, setIsAgreed] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // --- STATE FOR BOTH PROFILES ---
   const [providerProfile, setProviderProfile] =
     useState<ProviderProfile | null>(null);
   const [clientProfile, setClientProfile] = useState<ClientProfile | null>(
@@ -52,7 +58,6 @@ export default function Booking3({ onNext }: Props) {
   const supabase = useMemo(() => createClient(), []);
   const facilityId = searchParams.get("facilityId");
 
-  // --- REVISED useEffect to fetch BOTH profiles in parallel ---
   useEffect(() => {
     if (!facilityId) {
       setErrorMessage("Facility ID is missing from the URL.");
@@ -63,7 +68,6 @@ export default function Booking3({ onNext }: Props) {
     const fetchAllProfiles = async () => {
       setIsLoading(true);
 
-      // Get the current logged-in user
       const {
         data: { user },
       } = await supabase.auth.getUser();
@@ -73,26 +77,23 @@ export default function Booking3({ onNext }: Props) {
         return;
       }
 
-      // Prepare both fetch requests
       const fetchProvider = supabase
         .from("profiles")
-        .select("id, business_name, address, contact_number") // Corrected field names
+        .select("id, business_name, address, contact_number") 
         .eq("id", facilityId)
         .single();
 
       const fetchClient = supabase
-        .from("profiles") // Assuming clients are also in the 'profiles' table
+        .from("profiles") 
         .select("id, full_name")
-        .eq("id", user.id) // Fetch the profile of the current user
+        .eq("id", user.id) 
         .single();
 
-      // Execute both requests concurrently for better performance
       const [providerResponse, clientResponse] = await Promise.all([
         fetchProvider,
         fetchClient,
       ]);
 
-      // Check the provider response
       if (providerResponse.error || !providerResponse.data) {
         setErrorMessage(`Could not find provider with ID: ${facilityId}.`);
         console.error("Provider fetch error:", providerResponse.error);
@@ -100,7 +101,6 @@ export default function Booking3({ onNext }: Props) {
         setProviderProfile(providerResponse.data);
       }
 
-      // Check the client response
       if (clientResponse.error || !clientResponse.data) {
         setErrorMessage(`Could not find your user profile.`);
         console.error("Client fetch error:", clientResponse.error);
@@ -115,7 +115,6 @@ export default function Booking3({ onNext }: Props) {
   }, [facilityId, supabase]);
 
   const handleConfirmBooking = async () => {
-    // Validation now checks for both profiles
     if (!isAgreed) return setErrorMessage("You must agree to the terms.");
     if (
       !selectedDate ||
@@ -130,31 +129,35 @@ export default function Booking3({ onNext }: Props) {
     setIsSubmitting(true);
     setErrorMessage("");
     try {
+      const serviceNames = selectedServices.map(service => service.name);
+
       const appointmentToInsert = {
         client_id: clientProfile.id,
         provider_id: providerProfile.id,
-        date: selectedDate.toISOString().split("T")[0],
+        date: formatDateForDB(selectedDate), 
         time: selectedTime,
         status: "pending",
         price: selectedServices.reduce((sum, s) => sum + s.price, 0),
+        services: serviceNames, 
+        address: providerProfile.address, 
       };
+      
       const { error: insertError } = await supabase
         .from("appointments")
         .insert(appointmentToInsert);
+
       if (insertError)
         throw new Error(`Failed to save: ${insertError.message}`);
 
       resetBookingData();
-
       onNext();
-      router.push("/booking-success");
+      router.push("/appointments");
     } catch (error: any) {
       setErrorMessage(error.message);
       setIsSubmitting(false);
     }
   };
 
-  // Pre-flight check to ensure context has data
   if (
     !facilityId ||
     !selectedDate ||
@@ -184,15 +187,12 @@ export default function Booking3({ onNext }: Props) {
     );
   }
 
-  // Loading state
   if (isLoading) {
     return (
       <div className={styles.loadingMessage}>Loading booking summary...</div>
     );
   }
 
-  // --- REVISED RENDER SECTION ---
-  // Render the component only when loading is false
   return (
     <div className={styles.frameGroup}>
       <div className={styles.numberParent}>
@@ -201,11 +201,9 @@ export default function Booking3({ onNext }: Props) {
         </div>
       </div>
       <div className={styles.calendarSelectChangeSize}>
-        {/* Render only if BOTH profiles were fetched successfully */}
         {providerProfile && clientProfile ? (
           <>
             <div className={styles.facilityNameParent}>
-              {/* --- Facility & Client Details --- */}
               <div className={styles.rowContainer}>
                 <div className={styles.facilityName}>Facility Name</div>
                 <b className={styles.facilityNameCap}>
@@ -231,7 +229,6 @@ export default function Booking3({ onNext }: Props) {
                 </b>
               </div>
 
-              {/* --- Booking Details --- */}
               <div className={styles.rowContainer}>
                 <div className={styles.facilityName}>Booking Date</div>
                 <b className={styles.facilityNameCap}>
@@ -255,7 +252,6 @@ export default function Booking3({ onNext }: Props) {
               src="/Divider1.svg"
             />
 
-            {/* --- Service Breakdown --- */}
             <div className={styles.serviceNameParent}>
               {selectedServices.map((service) => (
                 <div className={styles.rowContainer} key={service.id}>
@@ -274,7 +270,6 @@ export default function Booking3({ onNext }: Props) {
               src="/Divider1.svg"
             />
 
-            {/* --- Total --- */}
             <div className={styles.rowContainerTotal}>
               <div className={styles.facilityName}>Total</div>
               <b className={styles.facilityNameCap}>
@@ -284,7 +279,7 @@ export default function Booking3({ onNext }: Props) {
               </b>
             </div>
           </>
-        ) : // If either profile is null, the error message will be shown below.
+        ) : 
         null}
       </div>
 

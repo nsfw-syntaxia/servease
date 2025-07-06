@@ -355,7 +355,7 @@
   background-color: var(--color-tan);
   height: 1px;
   opacity: 0.5;
-  margin-left: -15px;
+  margin-left: 15px;
 }
 .groupContainer {
   display: flex;
@@ -868,6 +868,7 @@
   background-color: var(--color-whitesmoke);
   width: 100%;
   overflow: hidden;
+  padding-bottom: 5%;
 }
 .joinUsWrapper {
   position: absolute;
@@ -1267,7 +1268,8 @@
   background-color: #a68465;
   height: 1px;
   opacity: 0.5;
-  margin-left: -10px;
+  margin-left: -5px;
+  margin-top: -45px;
 }
 .groupContainer {
   display: flex;
