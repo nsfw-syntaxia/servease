@@ -6,6 +6,7 @@
   font-family: var(--font-dm-sans);
   position: relative;
   overflow-x: hidden;
+  cursor: default;
 }
 
 /* === START: UPDATED NAVIGATION BAR STYLES === */
@@ -229,7 +230,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 40px;
+  margin-bottom: 50px;
 }
 
 .sectionTitle {
@@ -284,6 +285,7 @@
   border-radius: 30px;
   padding: 30px;
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .appointmentCard:hover {
@@ -360,16 +362,22 @@
   justify-content: flex-start;
   gap: 64px;
   margin-bottom: 80px;
+  margin-top: 8%;
 }
 .servicesCarousel {
   position: relative;
   width: 100%;
   display: flex;
   align-items: center;
+  margin-top: -4%;
 }
 .carouselViewport {
   width: 100%;
   overflow: hidden;
+  height: 400px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
 }
 .carouselTrack {
   display: flex;
@@ -379,7 +387,7 @@
 .serviceCard {
   flex: 0 0 calc(95% / 3);
   box-sizing: border-box;
-  background-color: var(--color-white);
+  background-color: #e0d9c9;
   border: 2px solid var(--color-antiquewhite);
   border-radius: var(--br-12);
   overflow: hidden;
@@ -398,10 +406,13 @@
 .serviceImage {
   width: 100%;
   height: 254px;
-  background-color: var(--color-antiquewhite);
+  background-color: white;
+  position: relative;
+  z-index: 0;
 }
 .serviceCardContent {
   padding: 20px;
+  z-index: 1;
 }
 .serviceProvider {
   display: flex;
@@ -692,4 +703,92 @@
 .activeBottom {
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
+}
+
+/*view details*/
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(17, 17, 17, 0.5); /* semi-transparent dark */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+.calendarSelectChangeSize {
+  margin: 0 auto;
+  max-width: 500px;
+  width: 65vh;
+  position: relative;
+  box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06);
+  border-radius: 10px;
+  background-color: var(--color-white);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+  overflow: hidden;
+  text-align: left;
+  font-size: var(--font-size-16);
+  color: var(--color-dimgray);
+  font-family: var(--font-dm-sans);
+  min-height: 54vh;
+  padding: 0 auto;
+}
+.rowContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 3%;
+}
+
+.facilityName {
+  text-align: left;
+  flex: 1;
+}
+
+.facilityNameCap {
+  color: var(--color-tan);
+  text-align: right;
+  flex: 1;
+}
+.facilityNameParent {
+  position: relative;
+  margin: 0 10%;
+  margin-top: 8%;
+  width: 390px;
+  height: 191px;
+}
+.serviceNameParent {
+  position: relative;
+  margin: 0 auto;
+  width: 390px;
+  height: 157px;
+}
+.dividerIcon {
+  position: relative;
+  margin: 5% auto;
+  width: 390px;
+  height: 1px;
+  background-color: #dfceba;
+}
+.dividerIcon1 {
+  position: relative;
+  margin: -10% auto;
+  width: 390px;
+  height: 1px;
+  background-color: #dfceba;
+}
+.rowContainerTotal {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 390px;
+  margin: 0 auto;
+  margin-top: 15%;
+  margin-bottom: 8%;
 }
