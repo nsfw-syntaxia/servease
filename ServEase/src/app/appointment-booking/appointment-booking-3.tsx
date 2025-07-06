@@ -11,6 +11,7 @@ type Props = {
   onNext: () => void;
 };
 
+// These interfaces are now just for displaying data on the page
 interface ProviderProfile {
   id: string;
   business_name: string;
@@ -32,8 +33,8 @@ const formatCurrency = (amount: number) => {
 
 const formatDateForDB = (date: Date): string => {
   const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 };
 
@@ -59,6 +60,7 @@ export default function Booking3({ onNext }: Props) {
   const facilityId = searchParams.get("facilityId");
 
   useEffect(() => {
+    // This useEffect is still needed to fetch data for the summary display
     if (!facilityId) {
       setErrorMessage("Facility ID is missing from the URL.");
       setIsLoading(false);
@@ -77,16 +79,17 @@ export default function Booking3({ onNext }: Props) {
         return;
       }
 
+      // Fetching only display data, no sensitive info like emails
       const fetchProvider = supabase
         .from("profiles")
-        .select("id, business_name, address, contact_number") 
+        .select("id, business_name, address, contact_number")
         .eq("id", facilityId)
         .single();
 
       const fetchClient = supabase
-        .from("profiles") 
+        .from("profiles")
         .select("id, full_name")
-        .eq("id", user.id) 
+        .eq("id", user.id)
         .single();
 
       const [providerResponse, clientResponse] = await Promise.all([
@@ -114,6 +117,7 @@ export default function Booking3({ onNext }: Props) {
     fetchAllProfiles();
   }, [facilityId, supabase]);
 
+  // --- REWRITTEN BOOKING HANDLER ---
   const handleConfirmBooking = async () => {
     if (!isAgreed) return setErrorMessage("You must agree to the terms.");
     if (
@@ -128,27 +132,33 @@ export default function Booking3({ onNext }: Props) {
     }
     setIsSubmitting(true);
     setErrorMessage("");
+
     try {
-      const serviceNames = selectedServices.map(service => service.name);
-
-      const appointmentToInsert = {
-        client_id: clientProfile.id,
-        provider_id: providerProfile.id,
-        date: formatDateForDB(selectedDate), 
+      // Prepare the payload for our secure API route
+      const payload = {
+        providerId: providerProfile.id,
+        clientId: clientProfile.id,
+        date: formatDateForDB(selectedDate),
         time: selectedTime,
-        status: "pending",
-        price: selectedServices.reduce((sum, s) => sum + s.price, 0),
-        services: serviceNames, 
-        address: providerProfile.address, 
+        // Pass services with their details for the email templates
+        services: selectedServices.map((s) => ({
+          name: s.name,
+          price: s.price,
+        })),
       };
-      
-      const { error: insertError } = await supabase
-        .from("appointments")
-        .insert(appointmentToInsert);
 
-      if (insertError)
-        throw new Error(`Failed to save: ${insertError.message}`);
+      const response = await fetch("/api/create-appointment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to create appointment.");
+      }
+
+      // If the API call is successful, the appointment and emails are handled.
       resetBookingData();
       onNext();
       router.push("/appointments");
@@ -158,6 +168,8 @@ export default function Booking3({ onNext }: Props) {
     }
   };
 
+  // --- The rest of your component's JSX remains exactly the same ---
+  // --- No changes needed for the return() part ---
   if (
     !facilityId ||
     !selectedDate ||
@@ -279,8 +291,7 @@ export default function Booking3({ onNext }: Props) {
               </b>
             </div>
           </>
-        ) : 
-        null}
+        ) : null}
       </div>
 
       <div
