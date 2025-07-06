@@ -44,37 +44,6 @@ const FacilityDetails: NextPage = () => {
   return (
     <div className={styles.facilityDetailsParent}>
       <div className={styles.facilityDetails}>
-        <div className={styles.navigation}>
-          <Image
-            className={styles.serveaseLogoAlbumCover3}
-            width={40}
-            height={40}
-            sizes="100vw"
-            alt=""
-            src="/landingLogo.svg"
-          />
-          <div className={styles.servease}>
-            <span className={styles.serv}>serv</span>
-            <b>ease</b>
-          </div>
-          <div className={styles.navigationChild} />
-          <div className={styles.homeParent}>
-            <div className={styles.home} onClick={() => router.push("/home")}>
-              Home
-            </div>
-            <div className={styles.home}>Discover</div>
-            <div className={styles.contactUs}>Contact Us</div>
-          </div>
-          <div className={styles.navigationChild} />
-          <Image
-            className={styles.avatar}
-            width={40}
-            height={40}
-            sizes="100vw"
-            alt=""
-            src="/avatar.svg"
-          />
-        </div>
         <div className={styles.frameParent}>
           <div className={styles.image7Parent}>
             <div className={styles.image7} />

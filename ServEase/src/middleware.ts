@@ -1,10 +1,10 @@
-import { createServerClient } from '@supabase/ssr'
-import { NextResponse, type NextRequest } from 'next/server'
+import { NextResponse, type NextRequest } from "next/server";
+import { createServerClient } from "@supabase/ssr";
 
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({
     request,
-  })
+  });
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -12,52 +12,84 @@ export async function middleware(request: NextRequest) {
     {
       cookies: {
         getAll() {
-          return request.cookies.getAll()
+          return request.cookies.getAll();
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
+          cookiesToSet.forEach(({ name, value, options }) =>
+            request.cookies.set(name, value)
+          );
           response = NextResponse.next({
             request,
-          })
+          });
           cookiesToSet.forEach(({ name, value, options }) =>
             response.cookies.set(name, value, options)
-          )
+          );
         },
       },
     }
-  )
+  );
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const { pathname } = request.nextUrl;
 
-  // Define public routes that don't require authentication
-  const publicRoutes = [
-    '/',
-    '/home',
-    '/login',
-    '/signup',
-    '/auth',
-    // Add other public routes here
-  ]
+  // --- LOGGED-IN USER LOGIC ---
+  if (user) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .single();
 
-  // If user is not authenticated and trying to access a protected route
-  if (!user && !publicRoutes.some(route => request.nextUrl.pathname.startsWith(route))) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/home' // Redirect to home instead of login
-    return NextResponse.redirect(url)
+    const role = profile?.role;
+    const dashboardUrl =
+      role === "client"
+        ? "/client-dashboard"
+        : role === "provider"
+        ? "/provider-dashboard"
+        : "/home"; // Fallback if role not found
+
+    const guestAndGenericRoutes = ["/", "/home", "/login", "/signup"];
+
+    // If the user is on a guest/generic page...
+    if (guestAndGenericRoutes.includes(pathname)) {
+      // ...AND they are not already at their destination dashboard (THIS PREVENTS THE LOOP)
+      if (dashboardUrl !== pathname) {
+        console.log(
+          `User on generic page ${pathname}, redirecting to their dashboard: ${dashboardUrl}`
+        );
+        return NextResponse.redirect(new URL(dashboardUrl, request.url));
+      }
+    }
+  }
+  // --- GUEST LOGIC ---
+  else {
+    const authenticatedRoutes = [
+      "/client-dashboard",
+      "/provider-dashboard",
+      "/client-profile",
+      "/facility-profile",
+      "/appointments",
+      "/messages",
+      "/notifications",
+      "/schedule",
+    ];
+
+    // If a guest tries to access a protected route, redirect them to login
+    if (authenticatedRoutes.some((route) => pathname.startsWith(route))) {
+      console.log(
+        `Guest on protected route ${pathname}, redirecting to /login`
+      );
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
   }
 
-  // If user is authenticated but trying to access auth pages, redirect to home
-  if (user && (request.nextUrl.pathname.startsWith('/login') || request.nextUrl.pathname.startsWith('/signup'))) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/home'
-    return NextResponse.redirect(url)
-  }
-
-  return response
+  return response;
 }
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
-}
+};

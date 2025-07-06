@@ -10,6 +10,15 @@ font-size: 16px;
 color: #fbf7f4;
 font-family: 'DM Sans';
 cursor: default;
+  position: relative;
+  background-color: #f8f7f3;
+  box-sizing: border-box;
+  height: 4189px;
+  overflow: hidden;
+  text-align: center;
+  font-size: 16px;
+  color: #fbf7f4;
+  font-family: "DM Sans";
 }
 
 .serveaseLogoAlbumCover31,
@@ -30,7 +39,7 @@ cursor: default;
 .aboutUs,
 .servease,
 .serveaseLogoAlbumCover3 {
-   position: relative;
+  position: relative;
   top: auto;
   left: auto;
   line-height: 1.8;
@@ -41,34 +50,34 @@ cursor: default;
 }
 
 .navigation {
-    position: fixed;
-  	top: 1.5rem;
-  	left: 50%;
-    transform: translateX(-50%);
-  	gap: 1rem;
-width: 930px;
-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-border-radius: 50px;
-background-color: #fff;
-height: 69px;
-overflow: hidden;
-display: flex;
-flex-direction: row;
-align-items: center;
-justify-content: flex-start;
-padding: 0px 90px 0px 60px;
-box-sizing: border-box;
-gap: 10px;
-text-align: center;
-font-size: 18px;
-color: #000;
-font-family: 'DM Sans';
-z-index: 100;
+  position: fixed;
+  top: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  gap: 1rem;
+  width: 930px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 50px;
+  background-color: #fff;
+  height: 69px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0px 90px 0px 60px;
+  box-sizing: border-box;
+  gap: 10px;
+  text-align: center;
+  font-size: 18px;
+  color: #000;
+  font-family: "DM Sans";
+  z-index: 100;
   animation: bounceInTop 0.8s ease forwards;
 }
 
 .navigationlogo {
- display: flex;
+  display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
@@ -77,10 +86,10 @@ z-index: 100;
 }
 
 .serveaseLogoAlbumCover31 {
- width: 40px;
-position: relative;
-max-height: 100%;
-object-fit: cover;
+  width: 40px;
+  position: relative;
+  max-height: 100%;
+  object-fit: cover;
   transition: transform 0.3s ease;
 }
 
@@ -106,16 +115,16 @@ object-fit: cover;
 }
 
 .homeParent {
- display: flex;
-flex-direction: row;
-align-items: center;
-justify-content: center;
-gap: 25px;
-color: #241f1b;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  color: #241f1b;
 }
 
 .home1 {
-   position: relative;
+  position: relative;
   line-height: 120%;
   font-weight: 600;
   display: flex;
@@ -129,7 +138,7 @@ color: #241f1b;
   transition: all 0.3s ease;
 }
 .contactUs1 {
-   position: relative;
+  position: relative;
   line-height: 150%;
   font-weight: 600;
   display: flex;
@@ -145,7 +154,7 @@ color: #241f1b;
 
 .home1:hover,
 .contactUs1:hover {
- color: var(--color-tan);
+  color: var(--color-tan);
   font-weight: 700;
   text-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
   transform: translateY(-1px);
@@ -154,21 +163,21 @@ color: #241f1b;
 
 .button1 {
   width: 100px;
-border-radius: 8px;
-background-color: #a68465;
-border: 1px solid #a68465;
-box-sizing: border-box;
-height: 40px;
-overflow: hidden;
-flex-shrink: 0;
-display: flex;
-flex-direction: row;
-align-items: center;
-justify-content: center;
-padding: 12px;
-gap: 8px;
-cursor: pointer;
-color: #fbf7f4;
+  border-radius: 8px;
+  background-color: #a68465;
+  border: 1px solid #a68465;
+  box-sizing: border-box;
+  height: 40px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  gap: 8px;
+  cursor: pointer;
+  color: #fbf7f4;
   transition: transform 0.3s ease, background-position 0.5s ease;
 }
 
@@ -179,11 +188,11 @@ color: #fbf7f4;
 
 .signIn {
   width: 75px;
-position: relative;
-line-height: 100%;
-font-weight: 600;
-display: inline-block;
-flex-shrink: 0;
+  position: relative;
+  line-height: 100%;
+  font-weight: 600;
+  display: inline-block;
+  flex-shrink: 0;
   z-index: 1;
   transition: all 0.3s ease;
 }
@@ -618,7 +627,6 @@ flex-shrink: 0;
   margin-bottom: 80px;
   height: auto;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-
 }
 
 .offer {
@@ -1146,8 +1154,6 @@ flex-shrink: 0;
   text-align: center;
   padding: 20px;
   min-height: 486px;
-
-  
 }
 
 .wrapperIntersect1 {
@@ -1291,24 +1297,24 @@ flex-shrink: 0;
 }
 
 .heading2 {
-position: absolute;
-width: calc(100% - 160px);
-top: 87px;
-right: 80px;
-left: 80px;
-height: 90px;
-font-size: 30px;
+  position: absolute;
+  width: calc(100% - 160px);
+  top: 87px;
+  right: 80px;
+  left: 80px;
+  height: 90px;
+  font-size: 30px;
 }
 
 .areYouLookingContainer {
   position: absolute;
-top: -31px;
-left: 0px;
-line-height: 45px;
-display: flex;
-align-items: center;
-width: 346px;
-height: 90px;
+  top: -31px;
+  left: 0px;
+  line-height: 45px;
+  display: flex;
+  align-items: center;
+  width: 346px;
+  height: 90px;
 }
 
 .areYouLooking {
@@ -1317,13 +1323,13 @@ height: 90px;
 
 .findTrustedProfessionals {
   position: absolute;
-top: 149px;
-left: 80px;
-line-height: 27.75px;
-display: flex;
-align-items: center;
-width: 355.4px;
-height: 55.5px;
+  top: 149px;
+  left: 80px;
+  line-height: 27.75px;
+  display: flex;
+  align-items: center;
+  width: 355.4px;
+  height: 55.5px;
 }
 
 .link {
@@ -1466,28 +1472,28 @@ height: 55.5px;
 }
 
 .heading21 {
-position: absolute;
-width: calc(100% - 160px);
-top: 87px;
-right: 80px;
-left: 80px;
-height: 90px;
-font-size: 30px;
+  position: absolute;
+  width: calc(100% - 160px);
+  top: 87px;
+  right: 80px;
+  left: 80px;
+  height: 90px;
+  font-size: 30px;
 }
 
 .areYouOffering {
   position: absolute;
-top: -31px;
-left: 0px;
-line-height: 45px;
-display: flex;
-align-items: center;
-width: 346px;
-height: 90px;
+  top: -31px;
+  left: 0px;
+  line-height: 45px;
+  display: flex;
+  align-items: center;
+  width: 346px;
+  height: 90px;
 }
 
 .serveaseLogoAlbumCover1 {
- position: absolute;
+  position: absolute;
   width: 120px;
   height: 120px;
   bottom: 2rem;
@@ -1528,15 +1534,14 @@ height: 90px;
 /* footer */
 
 .footer {
-position: absolute;
-top: 3708px;
-left: 0px;
-background: #fff;
-width: 100%;
-height: 475px;
-text-align: left;
-color: #000;
-
+  position: absolute;
+  top: 3708px;
+  left: 0px;
+  background: #fff;
+  width: 100%;
+  height: 475px;
+  text-align: left;
+  color: #000;
 }
 
 .footerChild {
@@ -1546,17 +1551,15 @@ color: #000;
   background-color: var(--color-white);
   width: 100%;
   height: 475px;
-  
 }
 
 .yourTrustedPlatform {
   position: absolute;
-    top: 157px;
-    left: 143px;
-    line-height: 40px;
-    display: inline-block;
-    width: 359px;
-  
+  top: 157px;
+  left: 143px;
+  line-height: 40px;
+  display: inline-block;
+  width: 359px;
 }
 
 .contactUs {
@@ -1643,13 +1646,13 @@ color: #000;
 
 .servease {
   position: absolute;
-    top: 87px;
-    left: 200px;
-    font-size: var(--font-size-26);
-    line-height: 128.02%;
-    display: inline-block;
-    width: 148px;
-	color: #A68465;
+  top: 87px;
+  left: 200px;
+  font-size: var(--font-size-26);
+  line-height: 128.02%;
+  display: inline-block;
+  width: 148px;
+  color: #a68465;
 }
 
 .serv {
@@ -1684,42 +1687,41 @@ color: #000;
 }
 
 .lineDiv {
-   position: absolute;
-    top: -1px;
-    left: -1px;
-    border-top: 2px solid var(--color-black);
-    box-sizing: border-box;
-    width: 100%;
-    height: 2px;
-    border-top: 2px solid var(--color-black);
-    box-sizing: border-box;
-    height: 2px;
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid var(--color-black);
+  box-sizing: border-box;
+  width: 100%;
+  height: 2px;
+  border-top: 2px solid var(--color-black);
+  box-sizing: border-box;
+  height: 2px;
 }
 
 .servease2025 {
   position: absolute;
-    top: 27px;
-    left: 14px;
+  top: 27px;
+  left: 14px;
 }
 
 .lineParent {
   position: absolute;
-    top: 389px;
-    left: 129px;
-    width: calc(100% - 258px);
-    height: 53px;
-    font-size: var(--font-size-20);
+  top: 389px;
+  left: 129px;
+  width: calc(100% - 258px);
+  height: 53px;
+  font-size: var(--font-size-20);
 }
 
 .serveaseLogoAlbumCover3 {
-   position: absolute;
-    top: 84px;
-    left: 143px;
-    width: 40px;
-    height: 40px;
-    object-fit: cover;
+  position: absolute;
+  top: 84px;
+  left: 143px;
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
 }
-
 
 .supportserveasecom,
 .faqs,
@@ -1728,8 +1730,7 @@ color: #000;
 .aboutUs,
 .home,
 .discover,
-.createAnAccount
- {
+.createAnAccount {
   transition: transform 0.3s ease, color 0.3s ease;
 }
 
@@ -1758,8 +1759,7 @@ color: #000;
 
 /* ─────────────── Tablet Styles ─────────────── */
 @media screen and (max-width: 1024px) {
-  .landingPage
-  {
+  .landingPage {
     height: auto;
   }
   .navigation {
@@ -1806,7 +1806,7 @@ color: #000;
   .servease {
     text-align: center;
   }
-  
+
   .yourTrustedPlatform {
     text-align: left;
   }
@@ -1818,7 +1818,7 @@ color: #000;
     font-size: 30px;
     line-height: 30px;
   }
-   .findTrustedProfessionals {
+  .findTrustedProfessionals {
     margin: 5% 5%;
     font-size: 15px;
     line-height: 18px;
@@ -1836,12 +1836,12 @@ color: #000;
     height: 56px;
   }
   .footer {
-   position: relative;
-  top: auto;
-  height: auto;
-  padding: 40px 0;
-  background: white;
-  border-top: 1px solid #e9ecef;
+    position: relative;
+    top: auto;
+    height: auto;
+    padding: 40px 0;
+    background: white;
+    border-top: 1px solid #e9ecef;
   }
 
   .footerChild {
@@ -1877,18 +1877,7 @@ color: #000;
     line-height: 20px;
   }
 
-  .quickLinks
-  {
-    position: relative;
-     top: 60px;
-    left: auto;
-    text-align: center;
-    width: 100%;
-    margin: 30px 0 10px 0;
-    font-size: 20px;
-  }
-  .support
-  {
+  .quickLinks {
     position: relative;
     top: 60px;
     left: auto;
@@ -1897,8 +1886,16 @@ color: #000;
     margin: 30px 0 10px 0;
     font-size: 20px;
   }
-  .contactUs
-  {
+  .support {
+    position: relative;
+    top: 60px;
+    left: auto;
+    text-align: center;
+    width: 100%;
+    margin: 30px 0 10px 0;
+    font-size: 20px;
+  }
+  .contactUs {
     position: relative;
     top: 60px;
     left: auto;
@@ -1916,7 +1913,7 @@ color: #000;
   .faqs,
   .createAnAccount,
   .discover,
-  .home{
+  .home {
     position: relative;
     top: 50px;
     left: auto;
@@ -1985,7 +1982,9 @@ color: #000;
     gap: 1px;
   }
 
-  .home1, .discover, .contactUs1 {
+  .home1,
+  .discover,
+  .contactUs1 {
     width: 15px;
     font-size: 15px;
     gap: 1px;
@@ -2223,12 +2222,12 @@ color: #000;
 
   /* ──────── Footer Section ──────── */
   .footer {
-   position: relative;
-  top: auto;
-  height: auto;
-  padding: 40px 0;
-  background: white;
-  border-top: 1px solid #e9ecef;
+    position: relative;
+    top: auto;
+    height: auto;
+    padding: 40px 0;
+    background: white;
+    border-top: 1px solid #e9ecef;
   }
 
   .footerChild {
@@ -2264,18 +2263,16 @@ color: #000;
     line-height: 20px;
   }
 
-  .quickLinks
-  {
+  .quickLinks {
     position: relative;
-     top: 60px;
+    top: 60px;
     left: 240px;
     text-align: left;
     width: 900px;
     margin: 30px 0 10px 0;
     font-size: 20px;
   }
-  .support
-  {
+  .support {
     position: relative;
     top: 60px;
     left: 250px;
@@ -2284,8 +2281,7 @@ color: #000;
     margin: 30px 0 10px 0;
     font-size: 20px;
   }
-  .contactUs
-  {
+  .contactUs {
     position: relative;
     top: 60px;
     left: 235px;
@@ -2303,7 +2299,7 @@ color: #000;
   .faqs,
   .createAnAccount,
   .discover,
-  .home{
+  .home {
     position: relative;
     top: 50px;
     left: auto;

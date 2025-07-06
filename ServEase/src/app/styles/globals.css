@@ -10,7 +10,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Benne:wght@400&display=swap");
 
-
 /* ---------- Zoom Scaling Support (Windows Display Scaling) ---------- */
 html {
   font-size: 100%;
@@ -24,16 +23,16 @@ body {
 }
 
 @media screen and (min-resolution: 120dpi),
-       screen and (min--moz-device-pixel-ratio: 1.25),
-       screen and (min-device-pixel-ratio: 1.25),
-       screen and (min-resolution: 1.25dppx) {
+  screen and (min--moz-device-pixel-ratio: 1.25),
+  screen and (min-device-pixel-ratio: 1.25),
+  screen and (min-resolution: 1.25dppx) {
   html {
     font-size: 90%;
   }
 }
 
 @media screen and (min-resolution: 144dpi),
-       screen and (min-device-pixel-ratio: 1.5) {
+  screen and (min-device-pixel-ratio: 1.5) {
   html {
     font-size: 85%;
   }
@@ -260,27 +259,38 @@ body {
   --gap-10: 10px;
   --gap-12: 12px;
   --gap-16: 16px;
+  --gap-24: 24px;
 
   --padding-4: 4px;
   --padding-8: 8px;
+  --padding-12: 12px;
   --padding-16: 16px;
   --padding-24: 24px;
 
   --br-6: 6px;
   --br-8: 8px;
+  --br-10: 10px;
   --br-12: 12px;
   --br-15: 15px;
+  --br-20: 20px;
   --br-24: 24px;
+  --br-30: 30px;
 
   --font-dm-sans: DM Sans;
   --font-poppins: Poppins;
+  --font-inter: Inter;
+  --font-benne: Benne;
 
   --font-size-12: 12px;
   --font-size-14: 14px;
+  --font-size-15: 15px;
   --font-size-16: 16px;
   --font-size-18: 18px;
   --font-size-20: 20px;
   --font-size-24: 24px;
+  --font-size-26: 26px;
+  --font-size-28: 28px;
+  --font-size-30: 30px;
 }
 
 input[type="password"]::-ms-reveal,
@@ -297,33 +307,10 @@ input[type="password"]::-webkit-clear-button {
   --color-dimgray-400: rgba(102, 102, 102, 0.25);
   --color-dimgray-500: rgba(102, 102, 102, 0.8);
   --color-gray: #111;
-  --color-white: #fff;
   --color-dimgray-200: #604c3d;
   --color-dimgray-100: #666;
-  --color-whitesmoke: #f8f7f3;
-  --color-tan: #a68465;
   --color-darkslategray: #333;
 
-  --gap-8: 8px;
-  --gap-12: 12px;
-  --gap-24: 24px;
-
-  --padding-24: 24px;
-
-  --br-8: 8px;
-  --br-12: 12px;
-  --br-24: 24px;
-
-  --font-poppins: Poppins;
-  --font-dm-sans: DM Sans;
-
-  --font-size-12: 12px;
-  --font-size-14: 14px;
-  --font-size-16: 16px;
-  --font-size-24: 24px;
-}
-
-:root {
   --color-gray-400: #241f1b;
   --color-gray-500: #050b20;
   --color-whitesmoke: #f8f7f3;
@@ -338,49 +325,7 @@ input[type="password"]::-webkit-clear-button {
   --color-snow: #fbf7f4;
   --color-dimgray: #604c3d;
 
-  --gap-8: 8px;
-
-  --padding-12: 12px;
-
-  --br-8: 8px;
-  --br-10: 10px;
-  --br-12: 12px;
-  --br-20: 20px;
-
-  --font-dm-sans: DM Sans;
-  --font-inter: Inter;
-  --font-benne: Benne;
-
-  --font-size-15: 15px;
-  --font-size-16: 16px;
-  --font-size-18: 18px;
-  --font-size-20: 20px;
-  --font-size-26: 26px;
-  --font-size-30: 30px;
-}
-
-:root {
-  /* Color */
   --color-gray-200: #241f1b;
-  --color-tan: #a68465;
-  --color-white: #fff;
   --color-gray-100: #2e231d;
-  --color-whitesmoke: #f8f7f3;
-  --color-black: #000;
-  --color-antiquewhite: #e0d9c9;
-  --color-dimgray: #604c3d;
   --color-silver: #cfbdac;
-
-  /* BorderRadius */
-  --br-12: 12px;
-  --br-30: 30px;
-
-  /* Font */
-  --font-dm-sans: DM Sans;
-
-  /* FontSize */
-  --font-size-16: 16px;
-  --font-size-18: 18px;
-  --font-size-26: 26px;
-  --font-size-28: 28px;
 }
