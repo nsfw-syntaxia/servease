@@ -1,5 +1,15 @@
 .landingPage {
   width: 100%;
+position: relative;
+background-color: #f8f7f3;
+box-sizing: border-box;
+height: 4189px;
+overflow: hidden;
+text-align: center;
+font-size: 16px;
+color: #fbf7f4;
+font-family: 'DM Sans';
+cursor: default;
   position: relative;
   background-color: #f8f7f3;
   box-sizing: border-box;
@@ -36,7 +46,6 @@
   display: block;
   width: auto;
   margin-bottom: 0.5rem;
-  cursor: pointer;
   cursor: pointer;
 }
 
@@ -575,7 +584,6 @@
   padding-top: 1%;
   font-size: 25px;
   overflow: hidden;
-
   /* initially hide background */
   background-color: transparent;
   transition: background-color 0.8s ease;
@@ -819,6 +827,7 @@
 .onlineBooking,
 .serviceDirectory,
 .dualDahsboard {
+  cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -1944,7 +1953,7 @@
     height: auto;
     min-height: 100vh;
   }
-
+  
   .navigation {
     display: flex;
     flex-direction: row;
