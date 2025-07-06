@@ -471,6 +471,10 @@
   font-weight: 500;
 }
 
+.photoImage {
+  z-index: 1;
+}
+
 .photoItem {
   position: relative;
   width: 200px;
@@ -483,6 +487,28 @@
 
 .photoItem img {
   object-fit: cover;
+}
+
+.deletePhotoBtn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 16px;
+  line-height: 22px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  z-index: 2;
+}
+
+.deletePhotoBtn:hover {
+  background-color: rgba(255, 0, 0, 0.8);
 }
 
 .moreActions {

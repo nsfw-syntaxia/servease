@@ -9,6 +9,7 @@ import {
   updateUserProfile,
   updateUserEmail,
   uploadFacilityPhoto,
+  deleteFacilityPhoto,
 } from "./actions";
 import { createClient } from "../utils/supabase/client";
 
@@ -77,12 +78,16 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
   const addPhotoInputRef = useRef<HTMLInputElement>(null);
 
   const fetchFacilityPhotos = useCallback(async () => {
-    let isActive = true;
+    setIsLoadingPhotos(true);
     const supabase = createClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
-    if (!user) return;
+    if (!user) {
+      setIsLoadingPhotos(false);
+      return;
+    }
+
     try {
       const { data, error } = await supabase
         .from("facility_documents")
@@ -91,33 +96,63 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
         .eq("document_type", "Facility Photos")
         .order("created_at", { ascending: true })
         .limit(4);
+
       if (error) throw error;
-      if (isActive && data) {
+
+      if (data) {
         const photoUrls = data
           .map((doc) => {
             if (!doc.file_path) return null;
             const { data: urlData } = supabase.storage
               .from("documents")
               .getPublicUrl(doc.file_path);
-            return urlData.publicUrl;
+            return `${urlData.publicUrl}?t=${new Date().getTime()}`;
           })
-          .filter(Boolean);
-        const uniquePhotoUrls = Array.from(new Set(photoUrls as string[]));
-        setFacilityPhotos(uniquePhotoUrls);
+          .filter(Boolean) as string[];
+
+        setFacilityPhotos(Array.from(new Set(photoUrls)));
       }
     } catch (error) {
       console.error("Error fetching facility photos:", error);
     } finally {
-      if (isActive) setIsLoadingPhotos(false);
+      setIsLoadingPhotos(false);
     }
-    return () => {
-      isActive = false;
-    };
   }, []);
 
   useEffect(() => {
     fetchFacilityPhotos();
   }, [fetchFacilityPhotos]);
+
+  const handleDeletePhoto = async (photoUrl: string) => {
+    if (!window.confirm("Are you sure you want to delete this photo?")) {
+      return;
+    }
+    try {
+      const url = new URL(photoUrl);
+      const pathname = url.pathname;
+      const filePath = pathname.substring(
+        pathname.indexOf("/documents/") + "/documents/".length
+      );
+
+      const result = await deleteFacilityPhoto(filePath);
+      if (result.error) {
+        throw new Error(result.error);
+      }
+
+      setFacilityPhotos((prevPhotos) =>
+        prevPhotos.filter((p) => p !== photoUrl)
+      );
+    } catch (error: any) {
+      alert(`Failed to delete photo: ${error.message}`);
+    }
+  };
+
+  const handleImageError = useCallback((failedUrl: string) => {
+    console.warn(`Image failed to load, removing from view: ${failedUrl}`);
+    setFacilityPhotos((prevPhotos) =>
+      prevPhotos.filter((p) => p !== failedUrl)
+    );
+  }, []);
 
   const handleTriggerAddPhoto = () => {
     if (isUploadingPhoto || facilityPhotos.length >= 4) return;
@@ -680,22 +715,27 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
         <div className={styles.faciPhotos} />
 
         <div className={styles.photosDisplay}>
-          {/* render existing photos */}
           {!isLoadingPhotos &&
             facilityPhotos.map((photoUrl, index) => (
               <div key={`${photoUrl}-${index}`} className={styles.photoItem}>
-                <Image src={photoUrl} alt="" layout="fill" objectFit="cover" />
+                <Image
+                  className={styles.photoImage}
+                  src={photoUrl}
+                  alt={`Facility photo ${index + 1}`}
+                  layout="fill"
+                  objectFit="cover"
+                  onError={() => handleImageError(photoUrl)}
+                />
+                {isEditing && (
+                  <button
+                    className={styles.deletePhotoBtn}
+                    onClick={() => handleDeletePhoto(photoUrl)}
+                  >
+                    ×
+                  </button>
+                )}
               </div>
             ))}
-
-          {/* show a placeholder while a new photo is uploading */}
-          {isUploadingPhoto && (
-            <div
-              className={`${styles.photoItem} ${styles.uploadingPlaceholder}`}
-            >
-              <p>Uploading...</p>
-            </div>
-          )}
 
           {/* conditionally render the add btn */}
           {!isLoadingPhotos &&
