@@ -117,7 +117,6 @@ export default function Booking3({ onNext }: Props) {
     fetchAllProfiles();
   }, [facilityId, supabase]);
 
-  // --- REWRITTEN BOOKING HANDLER ---
   const handleConfirmBooking = async () => {
     if (!isAgreed) return setErrorMessage("You must agree to the terms.");
     if (
@@ -134,19 +133,32 @@ export default function Booking3({ onNext }: Props) {
     setErrorMessage("");
 
     try {
-      // Prepare the payload for our secure API route
+      // Prepare the payload for our secure API route.
+      // This is where we add all the necessary details.
       const payload = {
+        // IDs for database relations
         providerId: providerProfile.id,
         clientId: clientProfile.id,
+        
+        // Basic appointment info
         date: formatDateForDB(selectedDate),
         time: selectedTime,
-        // Pass services with their details for the email templates
+        
+        // Services with their details
         services: selectedServices.map((s) => ({
           name: s.name,
           price: s.price,
         })),
+
+        // --- ADD THESE FIELDS ---
+        // We are adding all the display information the email templates need.
+        providerName: providerProfile.business_name, // <-- ADD THIS
+        providerAddress: providerProfile.address,     // <-- ADD THIS
+        providerContact: providerProfile.contact_number, // <-- ADD THIS
+        clientName: clientProfile.full_name,          // <-- ADD THIS
       };
 
+      // The rest of the function remains the same
       const response = await fetch("/api/create-appointment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -158,7 +170,6 @@ export default function Booking3({ onNext }: Props) {
         throw new Error(errorData.error || "Failed to create appointment.");
       }
 
-      // If the API call is successful, the appointment and emails are handled.
       resetBookingData();
       onNext();
       router.push("/client-appointments");

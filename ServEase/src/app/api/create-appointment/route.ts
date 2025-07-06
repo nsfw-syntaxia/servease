@@ -6,12 +6,10 @@ import nodemailer from 'nodemailer';
 import { render } from '@react-email/render';
 import React from 'react';
 
-// Import your beautiful React email components
 import { ClientBookingPending } from '../../emails/ClientBookingPending'; 
 import { ProviderBookingNotification } from '../../emails/ProviderBookingNotification';
 
-// --- NODEMAILER SETUP ---
-// This uses your Gmail App Password to create a secure transporter
+// --- (No changes needed for transporter, supabaseAdmin, or formatCurrency) ---
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -20,14 +18,12 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Supabase client for secure database access
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
   { auth: { persistSession: false } }
 );
 
-// Helper function to format currency
 const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("en-PH", {
       style: "currency",
@@ -36,32 +32,36 @@ const formatCurrency = (amount: number) => {
 };
 
 
-// The main function that runs when your booking page calls this API
 export async function POST(request: Request) {
   try {
-    // 1. Get data from the client
-    const { providerId, clientId, date, time, services } = await request.json();
+    // 1. Get the NEW, complete data from the client
+    const { 
+        providerId, 
+        clientId, 
+        date, 
+        time, 
+        services,
+        providerName,
+        providerAddress,
+        providerContact,
+        clientName 
+    } = await request.json();
 
-    if (!providerId || !clientId || !date || !time || !services) {
-      return NextResponse.json({ error: 'Missing required booking information.' }, { status: 400 });
+    // Basic validation
+    if (!providerId || !clientId || !date || !time || !services || !providerName || !clientName) {
+      return NextResponse.json({ error: 'Missing required booking information from the payload.' }, { status: 400 });
     }
 
-    // 2. Securely fetch data from Supabase
-    const [providerProfileRes, clientProfileRes, providerAuthRes, clientAuthRes] = await Promise.all([
-      supabaseAdmin.from('profiles').select('business_name, address, contact_number').eq('id', providerId).single(),
-      supabaseAdmin.from('profiles').select('full_name').eq('id', clientId).single(),
+    // 2. Securely fetch ONLY the emails. We don't need to fetch profiles anymore.
+    const [providerAuthRes, clientAuthRes] = await Promise.all([
       supabaseAdmin.auth.admin.getUserById(providerId),
       supabaseAdmin.auth.admin.getUserById(clientId)
     ]);
     
-    // Error handling
-    if (providerProfileRes.error) throw new Error(`Provider profile fetch failed: ${providerProfileRes.error.message}`);
-    if (clientProfileRes.error) throw new Error(`Client profile fetch failed: ${clientProfileRes.error.message}`);
+    // Error handling for email fetches
     if (providerAuthRes.error || !providerAuthRes.data.user) throw new Error('Provider auth user not found.');
     if (clientAuthRes.error || !clientAuthRes.data.user) throw new Error('Client auth user not found.');
 
-    const providerProfile = providerProfileRes.data;
-    const clientProfile = clientProfileRes.data;
     const providerEmail = providerAuthRes.data.user.email;
     const clientEmail = clientAuthRes.data.user.email;
 
@@ -73,7 +73,7 @@ export async function POST(request: Request) {
     const serviceNames = services.map((s: { name: string }) => s.name);
     const totalPrice = services.reduce((sum: number, s: { price: number }) => sum + s.price, 0);
 
-    // 4. Create the appointment in the database
+    // 4. Create the appointment in the database using data from the payload
     const { error: insertError } = await supabaseAdmin
       .from("appointments")
       .insert({
@@ -84,20 +84,19 @@ export async function POST(request: Request) {
         status: "pending",
         price: totalPrice,
         services: serviceNames,
-        address: providerProfile.address,
+        address: providerAddress, // Use the address from the payload
       });
 
     if (insertError) {
       throw new Error(`Failed to create appointment: ${insertError.message}`);
     }
 
-    // --- 5. SEND EMAILS USING NODEMAILER ---
-
-     const clientEmailComponent = React.createElement(ClientBookingPending, {
-        clientName: clientProfile.full_name,
-        providerName: providerProfile.business_name,
-        address: providerProfile.address,
-        contactNumber: providerProfile.contact_number,
+    // 5. Create and render the email components using data from the payload
+    const clientEmailComponent = React.createElement(ClientBookingPending, {
+        clientName: clientName, // Use from payload
+        providerName: providerName, // Use from payload
+        address: providerAddress, // Use from payload
+        contactNumber: providerContact, // Use from payload
         date: new Date(date).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }),
         time: time,
         services: services,
@@ -105,51 +104,38 @@ export async function POST(request: Request) {
     });
 
     const providerEmailComponent = React.createElement(ProviderBookingNotification, {
-        providerName: providerProfile.business_name,
-        clientName: clientProfile.full_name,
-        clientEmail: clientEmail,
+        providerName: providerName, // Use from payload
+        clientName: clientName, // Use from payload
+        clientEmail: clientEmail, // This comes from our secure fetch
         date: new Date(date).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }),
         time: time,
         services: services,
         totalPrice: formatCurrency(totalPrice),
     });
 
-    // Now, render the elements to HTML. The `render` function will be happy with this.
-    const clientEmailHtml = render(clientEmailComponent);
-    const providerEmailHtml = render(providerEmailComponent);
-    const providerEmailHtml = render(
-        ProviderBookingNotification({
-            providerName: providerProfile.business_name,
-            clientName: clientProfile.full_name,
-            clientEmail: clientEmail,
-            date: new Date(date).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }),
-            time: time,
-            services: services,
-            totalPrice: formatCurrency(totalPrice),
-        })
-    );
+    const clientEmailHtml = await render(clientEmailComponent);
+    const providerEmailHtml = await render(providerEmailComponent);
 
-    // Send the two emails
+    // 6. Send the emails
     const sendClientEmailPromise = transporter.sendMail({
-      from: `"servease" <${process.env.GMAIL_EMAIL}>`,
-      to: clientEmail, // Can be any email address
+      from: `"Servease" <${process.env.GMAIL_EMAIL}>`,
+      to: clientEmail,
       subject: 'Your Booking Request is Awaiting Approval',
       html: clientEmailHtml,
     });
 
     const sendProviderEmailPromise = transporter.sendMail({
       from: `"Servease" <${process.env.GMAIL_EMAIL}>`,
-      to: providerEmail, // Can be any email address
-      subject: `New Booking Request from ${clientProfile.full_name}`,
+      to: providerEmail,
+      subject: `New Booking Request from ${clientName}`,
       html: providerEmailHtml,
     });
     
-    // Log the results
     Promise.allSettled([sendClientEmailPromise, sendProviderEmailPromise]).then(results => {
       console.log("Email sending results:", results);
     });
 
-    // 6. Return a success message to the booking page
+    // 7. Return a success message
     return NextResponse.json({ success: true, message: 'Appointment request submitted. Awaiting provider confirmation.' });
 
   } catch (error: any) {
