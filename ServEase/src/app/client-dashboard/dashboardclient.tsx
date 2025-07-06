@@ -3,7 +3,7 @@
 import type { NextPage } from "next";
 import Image from "next/image";
 import styles from "../styles/dashboard-client.module.css";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -12,7 +12,7 @@ export interface ProviderInfo {
   picture_url: string | null;
 }
 
-interface Appointment {
+export interface Appointment {
   id: string;
   date: string;
   time: string;
@@ -21,11 +21,15 @@ interface Appointment {
 }
 
 export interface Service {
-  id: number;
-  name: string;
-  price: number;
+  id: number | null; 
+  name: string | null;
+  price: number | null;
   provider_name: string; 
   provider_picture_url: string | null; 
+  facility_photo_url: string | null;
+  provider_address : string | null;
+  rating: number | null;
+  provider_id: string; 
 }
 
 interface DashboardClientProps {
@@ -34,7 +38,6 @@ interface DashboardClientProps {
   featuredServices: Service[];
 }
 
-// Helper functions to format date and time nicely
 const formatDisplayDate = (dateString: string) => {
   const date = new Date(dateString + 'T00:00:00');
   return date.toLocaleDateString("en-US", {
@@ -51,12 +54,10 @@ const formatDisplayTime = (timeString: string) => {
   return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
 };
 
-// --- FIX 2: Update the UpcomingAppointmentCard component ---
 const UpcomingAppointmentCard = ({ appointment }: { appointment: Appointment }) => {
   const providerName = appointment.provider?.business_name || "Unknown Provider";
   const providerAddress = appointment.address || "No address provided";
-  const providerAvatar = appointment.provider?.picture_url || "/circle.svg"; // Fallback avatar
-
+  const providerAvatar = appointment.provider?.picture_url || "/circle.svg"; 
   return (
     <div className={styles.appointmentCard}>
       <div className={styles.cardContent}>
@@ -88,15 +89,40 @@ const UpcomingAppointmentCard = ({ appointment }: { appointment: Appointment }) 
   );
 };
 
-// --- FIX 3: Update the FeaturedServiceCard component ---
+const renderStars = (rating: number) => {
+  const stars = [];
+  for (let i = 1; i <= 5; i++) {
+    if (rating >= i) {
+      stars.push(<Image key={`star-${i}`} width={16} height={16} src="/Star 3.svg" alt="Full Star" />);
+    } else if (rating >= i - 0.5) {
+      stars.push(<Image key={`star-${i}`} width={16} height={16} src="/star_half.svg" alt="Half Star" />);
+    } else {
+      stars.push(<Image key={`star-${i}`} width={16} height={16} src="/Star 4.svg" alt="Empty Star" />);
+    }
+  }
+  return stars;
+};
+
 const FeaturedServiceCard = ({ service }: { service: Service }) => {
-  const providerName = service.provider?.business_name || "Unknown Provider";
-  const providerAvatar = service.provider?.picture_url || "/avatar.svg"; // Fallback to default avatar
+  const displayRating = useMemo(() => {
+    if (service.rating) return service.rating;
+    return parseFloat((Math.random() * (5 - 3.7) + 3.7).toFixed(1));
+  }, [service.rating]);
+
+  const providerName = service.provider_name || "Unknown Provider";
+  const providerAvatar = service.provider_picture_url || "/avatar.svg"; 
+  const providerAddress = service.provider_address;
+  const facilityPhoto = service.facility_photo_url || "/placeholder-service.jpg";
 
   return (
     <div className={styles.serviceCard}>
       <div className={styles.serviceImage}>
-        {/* You could put a service image here if you had one */}
+        <Image
+          src={facilityPhoto}
+          alt={`${providerName} facility photo`}
+          layout="fill"
+          objectFit="cover"
+        />
       </div>
       <div className={styles.serviceCardContent}>
         <div className={styles.serviceProvider}>
@@ -108,16 +134,13 @@ const FeaturedServiceCard = ({ service }: { service: Service }) => {
             height={32}
           />
           <div className={styles.providerInfo}>
-            <h3 className={styles.providerName}>{providerName}</h3>
+            <h3 className={styles.providerName}>{service.name || providerName}</h3>
+            <p className={styles.serviceLocation}>{providerAddress || 'Unknown Location'}</p>
             <div className={styles.rating}>
               <div className={styles.stars}>
-                <Image width={16} height={16} src="/Star 3.svg" alt="Star" />
-                <Image width={16} height={16} src="/Star 3.svg" alt="Star" />
-                <Image width={16} height={16} src="/Star 3.svg" alt="Star" />
-                <Image width={16} height={16} src="/Star 3.svg" alt="Star" />
-                <Image width={16} height={16} src="/Star 4.svg" alt="Star" />
+                {renderStars(displayRating)}
               </div>
-              <span className={styles.ratingScore}>4.5</span>
+              <span className={styles.ratingScore}>{displayRating.toFixed(1)}</span>
             </div>
           </div>
         </div>
@@ -126,7 +149,7 @@ const FeaturedServiceCard = ({ service }: { service: Service }) => {
   );
 };
 
-// The main component logic and JSX structure remains the same
+
 const DashboardClient: NextPage<DashboardClientProps> = ({
   avatarUrl,
   appointments,
@@ -218,7 +241,7 @@ const DashboardClient: NextPage<DashboardClientProps> = ({
             {appointments && appointments.length >= 2 && (
               <button
                 className={styles.viewAllBtn}
-                onClick={() => router.push("/appointments")}
+                onClick={() => router.push("/client-appointments")}
               >
                 View All
               </button>
