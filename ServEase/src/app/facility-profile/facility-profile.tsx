@@ -160,11 +160,22 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
     if (Object.values(newErrors).some((err) => err)) return;
 
     setIsSaving(true);
+    const supabase = createClient();
     let newPfpUrl: string | undefined = undefined;
 
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      alert("You are not logged in. Please refresh and try again.");
+      setIsSaving(false);
+      return;
+    }
+
     if (pfpFile) {
-      const supabase = createClient();
-      const filePath = `public/${initialData.email}-avatar`;
+      const fileExt = pfpFile.name.split(".").pop();
+      const filePath = `${user.id}.${fileExt}`;
       const { error: uploadError } = await supabase.storage
         .from("avatars")
         .upload(filePath, pfpFile, { upsert: true });
@@ -178,7 +189,8 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
       const { data: urlData } = supabase.storage
         .from("avatars")
         .getPublicUrl(filePath);
-      newPfpUrl = urlData.publicUrl;
+
+      newPfpUrl = `${urlData.publicUrl}?t=${new Date().getTime()}`;
     }
 
     // email address update
@@ -214,7 +226,7 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
       setProfileData({
         ...editData,
         tags: tagsToSave || "",
-        profileImage: newPfpUrl || editData.profileImage,
+        profileImage: newPfpUrl || profileData.profileImage,
       });
       setIsEditing(false);
       setPfpFile(null);
