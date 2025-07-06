@@ -1223,7 +1223,7 @@
 }
 .button3 {
   width: 190px;
-  border-radius: var(--br-4);
+  border-radius: 8px;
   background-color: var(--color-tan);
   height: 40px;
   overflow: hidden;
