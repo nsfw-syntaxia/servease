@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import type { NextPage } from "next";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import styles from "../styles/facility-profile.module.css";
 import {
@@ -25,6 +26,7 @@ const capitalizeWords = (str: string): string => {
 const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
   initialData,
 }) => {
+  const router = useRouter();
   const placeholders = {
     name: "Service Facility Name",
     address: "Address",
@@ -787,11 +789,12 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
         />
 
         <div className={styles.photos}>Photos</div>
+
         <div className={styles.moreActions} />
         <div className={styles.passLabel}>
           <div className={styles.password}>Password</div>
         </div>
-        <div className={styles.changePassBtn}>
+        <div className={`${styles.changePassBtn} ${styles.actionButton}`}>
           <div className={styles.btn} />
           <div className={styles.changePassword}>Change Password</div>
         </div>
@@ -807,7 +810,7 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
         <div className={styles.notifLabel}>
           <div className={styles.password}>Notifications</div>
         </div>
-        <div className={styles.enableBtn}>
+        <div className={`${styles.enableBtn} ${styles.actionButton}`}>
           <div className={styles.btn} />
           <div className={styles.changePassword}>Enable</div>
         </div>
@@ -823,7 +826,7 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
         <div className={styles.accountLabel}>
           <div className={styles.password}>Account</div>
         </div>
-        <div className={styles.deleteAccBtn}>
+        <div className={`${styles.deleteAccBtn} ${styles.actionButton}`}>
           <div className={styles.btn} />
           <div className={styles.changePassword}>Delete Account</div>
         </div>
@@ -839,7 +842,7 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
         <div className={styles.servicesOfferedLabel}>
           <div className={styles.password}>Services Offered</div>
         </div>
-        <div className={styles.viewServicesBtn}>
+        <div className={`${styles.viewServicesBtn} ${styles.actionButton}`} onClick={() => router.push("/services-offered")}>
           <div className={styles.btn} />
           <div className={styles.changePassword}>View</div>
         </div>
@@ -855,7 +858,7 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
         <div className={styles.appointmentLabel}>
           <div className={styles.password}>Appointment Timeslots</div>
         </div>
-        <div className={styles.viewAppointmentsBtn}>
+        <div className={`${styles.viewAppointmentsBtn} ${styles.actionButton}`}>
           <div className={styles.btn} />
           <div className={styles.changePassword}>View</div>
         </div>
