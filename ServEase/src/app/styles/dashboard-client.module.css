@@ -127,16 +127,15 @@
 .heroSection {
   position: relative; /* Crucial for positioning child elements */
   overflow: hidden; /* Hides image parts outside the rounded corners */
-  width: 90%;
+  width: 1300px;
   height: 60vh;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   padding: 0 8%;
-  margin-top: 80px;
+  margin: 0 auto;
+  margin-top: 4%;
   border-radius: 40px;
-  margin-left: 5%;
-  margin-right: 4%;
 }
 
 .slide {
