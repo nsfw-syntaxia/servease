@@ -486,10 +486,10 @@
 
 .profileClient {
   margin-top: -50px;
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
   position: relative;
-  background-color: var(--color-white);
+  background-color: var(--color-whitesmoke);
   box-sizing: border-box;
   height: 1795px;
   overflow: hidden;
@@ -551,12 +551,13 @@
   position: absolute;
   margin: 0 !important;
   top: 0px;
-  left: 424px;
+  left: 200px;
   height: 30px;
   overflow: hidden;
   flex-shrink: 0;
   z-index: 0;
   color: var(--color-tan);
+  cursor: pointer;
 }
 
 .xWrapper {
@@ -933,16 +934,15 @@
     transform: scale(1);
   }
 }
-/*
 
-delete account
+/*delete account*/
 
 .xIcon {
   width: 100%;
   position: absolute;
   margin: 0 !important;
   top: 0px;
-  left: 424px;
+  left: 204px;
   height: 30px;
   overflow: hidden;
   flex-shrink: 0;
@@ -1108,20 +1108,23 @@ delete account
   height: 28px;
 }
 
-.button {
+.buttoncancel {
   position: absolute;
   top: 0px;
   left: 0px;
   border-radius: var(--br-12);
-  border: 1px solid var(--color-tan);
+  border: 1px solid #a68465;
+  background-color: white;
+  color: #a68465;
   box-sizing: border-box;
   width: 141.7px;
   height: 50px;
+  cursor: pointer;
 }
 
 .groupWrapper {
   position: absolute;
-  top: 0px;
+  top: 12px;
   left: 0px;
   width: 141.7px;
   height: 50px;
@@ -1157,7 +1160,7 @@ delete account
 
 .groupContainer {
   position: absolute;
-  top: 0px;
+  top: 24px;
   left: 162.6px;
   width: 215.4px;
   height: 50px;
@@ -1173,7 +1176,7 @@ delete account
   color: var(--color-tan);
 }
 
-.frameParent {
+.frameParentdelete {
   width: 454px;
   display: flex;
   flex-direction: column;
@@ -1186,7 +1189,7 @@ delete account
   position: relative;
   border-radius: var(--br-12);
   background-color: var(--color-white);
-  width: 100%;
+  width: 534px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1199,4 +1202,60 @@ delete account
   font-family: var(--font-dm-sans);
 }
 
-*/
+.buttonWrapperDelete {
+  width: 454px;
+  position: relative;
+  height: 50px;
+  text-align: center;
+  font-size: 20px;
+  color: var(--color-white);
+  margin-top: 6%;
+}
+
+.buttoncontainerdelete {
+  width: 215px;
+  position: relative;
+  border-radius: 12px;
+  background-color: var(--color-tan);
+  height: 50px;
+  flex-shrink: 0;
+  font-size: 22px;
+  cursor: pointer;
+  opacity: 0.5;
+  margin-top: -3%;
+}
+
+.buttoncontainerActivedelete {
+  opacity: 1 !important;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.errorboxdelete {
+  width: 454px;
+  background-color: #ffe6e6;
+  border: 1px solid #d8000c;
+  border-radius: 12px;
+  padding: 8px;
+  text-align: center;
+  color: #d8000c;
+  font-size: 15px;
+  font-weight: 400;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  position: absolute;
+  bottom: 72px;
+}
+.xIcondelete {
+  width: 100%;
+  position: absolute;
+  margin: 0 !important;
+  top: 0px;
+  left: 200px;
+  height: 30px;
+  overflow: hidden;
+  flex-shrink: 0;
+  z-index: 0;
+  cursor: pointer;
+}

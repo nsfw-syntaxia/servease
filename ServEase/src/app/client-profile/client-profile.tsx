@@ -228,7 +228,8 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
     if (isEditing) fileInputRef.current?.click();
   };
 
-  const [showOverlay, setShowOverlayPassword] = useState(false);
+  const [showOverlayPassword, setShowOverlayPassword] = useState(false);
+  const [showOverlayDelete, setShowOverlayDelete] = useState(false);
 
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [password, setPassword] = useState("");
@@ -239,6 +240,8 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
   const [error, setError] = useState("");
   const [showError, setShowError] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
+  const [iscancelClicked, setIscancelClicked] = useState(false);
+  const [isdeleteClicked, setIsdeleteClicked] = useState(false);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -252,7 +255,7 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
     ConfirmsetPasswordVisible(!ConfirmpasswordVisible);
   };
 
-  const handleLogin = async () => {
+  const handlePassword = async () => {
     setIsClicked(true);
     setError("");
     setShowError(false);
@@ -279,8 +282,33 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
     setShowOverlayPassword(false);
   };
 
+  const handleCancel = async () => {
+    setIscancelClicked(true);
+    setError("");
+    setShowError(false);
+
+    setShowOverlayDelete(false);
+  };
+
+  const handleDelete = async () => {
+    setIsdeleteClicked(true);
+    setError("");
+    setShowError(false);
+
+    if (!password) {
+      setError("Please fill in all required fields.");
+      setShowError(true);
+      setTimeout(() => setIsdeleteClicked(false), 100);
+      return;
+    }
+
+    setShowOverlayDelete(false);
+  };
+
   const handleClose = () => {
     setShowOverlayPassword(false);
+    setShowOverlayDelete(false);
+    setShowError(false);
     // Reset all fields
     setPassword("");
     NewsetPassword("");
@@ -561,7 +589,11 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
           <div className={styles.accountLabel}>
             <div className={styles.password}>Account</div>
           </div>
-          <div className={styles.deleteAccBtn}>
+          <div
+            className={styles.deleteAccBtn}
+            onClick={() => setShowOverlayDelete(true)}
+            style={{ cursor: "pointer" }}
+          >
             <div className={styles.btn} />
             <div className={styles.changePassword}>Delete Account</div>
           </div>
@@ -577,8 +609,10 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
         </div>
         <b className={styles.profile}>Profile</b>
       </main>
+
       {/* Overlay Change Password Form */}
-      {showOverlay && (
+
+      {showOverlayPassword && (
         <div className={styles.modalOverlay}>
           <div className={styles.changePasswordpage}>
             <div className={styles.frameParent}>
@@ -744,10 +778,126 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
                         : ""
                     } 
                     ${isClicked ? styles.clicked : ""}`}
-                  onClick={handleLogin}
+                  onClick={handlePassword}
                 >
                   <div className={styles.buttonInner}>
                     <div className={styles.updatePassword}>Update Password</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Overlay Delete Account Form */}
+
+      {showOverlayDelete && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.deleteAccount}>
+            <div className={styles.frameParentdelete}>
+              <div className={styles.frameGroup}>
+                <div className={styles.xWrapper} onClick={handleClose}>
+                  <Image
+                    className={styles.xIcondelete}
+                    width={30}
+                    height={30}
+                    sizes="100vw"
+                    alt="close"
+                    src="/close.svg"
+                  />
+                </div>
+                <div className={styles.frameContainer}>
+                  <div className={styles.deleteAccountWrapper}>
+                    <b className={styles.password}>Delete Account</b>
+                  </div>
+                  <div className={styles.areYouSure}>
+                    Are you sure you want to delete your account? This will
+                    immediately log you out of your account and you will not be
+                    able to log in again.
+                  </div>
+                </div>
+              </div>
+              <Image
+                className={styles.frameChild}
+                width={471}
+                height={1}
+                sizes="100vw"
+                alt=""
+                src="Line 261.svg"
+              />
+              <div className={styles.frameDiv}>
+                <div className={styles.frameItem} />
+                <div className={styles.frameParent1}>
+                  <div className={styles.passwordWrapper}>
+                    <div className={styles.password}>Password</div>
+                  </div>
+                  <div
+                    className={`${styles.textField} ${
+                      showError && (!password || password === Newpassword)
+                        ? styles.tbxError
+                        : ""
+                    }`}
+                  >
+                    <input
+                      type={passwordVisible ? "text" : "password"}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="Enter your password"
+                      className={styles.passwordInput}
+                    />
+                    <div className={styles.eyeOff}>
+                      <Image
+                        className={styles.icon}
+                        width={30}
+                        height={25}
+                        alt={
+                          passwordVisible ? "Hide password" : "Show password"
+                        }
+                        src={passwordVisible ? "/show.svg" : "/hide.svg"}
+                        onClick={togglePasswordVisibility}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                className={`${styles.errorbox} ${
+                  showError ? styles.visible : styles.hidden
+                }`}
+              >
+                {error}
+              </div>
+              <div className={styles.groupParent}>
+                <div className={styles.groupWrapper}>
+                  <div className={styles.groupWrapper}>
+                    <div
+                      className={`${styles.buttoncancel} 
+                    ${iscancelClicked ? styles.clicked : ""}`}
+                      onClick={handleCancel}
+                    >
+                      <div className={styles.buttonInner}>
+                        <div className={styles.cancelWrapper}>
+                          <div className={styles.cancel}>Cancel</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.groupContainer}>
+                  <div className={styles.buttonWrapperDelete}>
+                    <div
+                      className={`${styles.buttoncontainerdelete} 
+                    ${password ? styles.buttoncontainerActivedelete : ""} 
+                    ${isdeleteClicked ? styles.clicked : ""}`}
+                      onClick={handleDelete}
+                    >
+                      <div className={styles.buttonInner}>
+                        <div className={styles.updatePassword}>
+                          Delete Account
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
