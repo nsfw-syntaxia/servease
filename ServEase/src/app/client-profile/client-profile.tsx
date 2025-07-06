@@ -862,7 +862,7 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
                 </div>
               </div>
               <div
-                className={`${styles.errorbox} ${
+                className={`${styles.errorboxdelete} ${
                   showError ? styles.visible : styles.hidden
                 }`}
               >
