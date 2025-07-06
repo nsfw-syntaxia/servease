@@ -807,22 +807,6 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
           alt=""
           src="/change-pass.svg"
         />
-        <div className={styles.notifLabel}>
-          <div className={styles.password}>Notifications</div>
-        </div>
-        <div className={`${styles.enableBtn} ${styles.actionButton}`}>
-          <div className={styles.btn} />
-          <div className={styles.changePassword}>Enable</div>
-        </div>
-        <div className={styles.circleNotif} />
-        <Image
-          className={styles.notificationIcon}
-          width={24}
-          height={24}
-          sizes="100vw"
-          alt=""
-          src="/notification-enable.svg"
-        />
         <div className={styles.accountLabel}>
           <div className={styles.password}>Account</div>
         </div>
@@ -842,7 +826,10 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
         <div className={styles.servicesOfferedLabel}>
           <div className={styles.password}>Services Offered</div>
         </div>
-        <div className={`${styles.viewServicesBtn} ${styles.actionButton}`} onClick={() => router.push("/services-offered")}>
+        <div
+          className={`${styles.viewServicesBtn} ${styles.actionButton}`}
+          onClick={() => router.push("/services-offered")}
+        >
           <div className={styles.btn} />
           <div className={styles.changePassword}>View</div>
         </div>
@@ -856,11 +843,11 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
           src="/briefcase.svg"
         />
         <div className={styles.appointmentLabel}>
-          <div className={styles.password}>Appointment Timeslots</div>
+          <div className={styles.password}>Notifications</div>
         </div>
         <div className={`${styles.viewAppointmentsBtn} ${styles.actionButton}`}>
           <div className={styles.btn} />
-          <div className={styles.changePassword}>View</div>
+          <div className={styles.changePassword}>Enable</div>
         </div>
         <div className={styles.appointmentsCircle} />
         <Image
@@ -869,7 +856,7 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
           height={24}
           sizes="100vw"
           alt=""
-          src="/clock-profile.svg"
+          src="/notification-enable.svg"
         />
       </div>
       <b className={styles.profile}>Profile</b>

@@ -50,7 +50,7 @@
 .tableHeader,
 .serviceRow {
   display: grid;
-  grid-template-columns: 3fr 3fr 1.2fr 1.6fr;
+  grid-template-columns: 2.5fr 3.3fr 1.2fr 1.8fr;
   gap: 1.5rem;
   align-items: center;
   padding: 0 2rem;
@@ -84,6 +84,7 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  gap: 1rem;
 }
 
 .rowActions {
@@ -93,23 +94,116 @@
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
+  flex-shrink: 0;
 }
 
-.editModeRow .rowActions {
+.serviceRow:hover .rowActions,
+.editModeRow .rowActions,
+.isEditingRow .rowActions {
   opacity: 1;
   pointer-events: auto;
 }
 
 .actionIcon {
   cursor: pointer;
-  opacity: 0.6;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  color: #857a73;
+  transition: all 0.2s ease;
 }
 
 .actionIcon:hover {
-  opacity: 1;
   transform: scale(1.1);
 }
+
+/* --- STYLES FOR EDITING --- */
+
+.isEditingRow {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+.isEditingRow .tableCell {
+  position: relative;
+  padding-bottom: 18px;
+}
+
+.editableField {
+  height: 56px;
+  width: 100%;
+  padding: 16px;
+  background-color: #e9e1d9;
+  border: 1px solid #c9c1b9;
+  border-radius: 12px;
+  font-size: 16px;
+  font-family: inherit;
+  color: #604C3D;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.editableField:not(:placeholder-shown) {
+  border-color: var(--color-tan);
+}
+
+.editableField:hover {
+  border-color: var(--color-tan);
+}
+
+.editableField:focus,
+.editableField:focus-within {
+  outline: none;
+  border-color: var(--color-tan);
+  box-shadow: 0 0 0 2px rgba(181, 153, 122, 0.2);
+}
+
+.editableTextarea {
+  resize: none;
+  overflow-y: auto;
+  padding-top: 16px;
+}
+
+.durationInputWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-grow: 1;
+}
+
+.durationValueInput {
+  width: 80px;
+  min-width: 80px;
+}
+
+.durationUnitSelect {
+  width: 100px;
+  min-width: 100px;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23604C3D' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.2em 1.2em;
+  padding-right: 2.5rem;
+}
+
+.errorText {
+  color: #c75e5a;
+  font-size: 13px;
+  font-weight: 500;
+  position: absolute;
+  bottom: 0;
+  left: 10px;
+  white-space: nowrap;
+}
+
+.errorField {
+  border-color: #c75e5a !important;
+}
+
+.saveIcon:hover,
+.cancelIcon:hover {
+  color: #604C3D;
+}
+
+/* --- END EDITING STYLES --- */
 
 .actionButtons {
   display: flex;
@@ -189,13 +283,31 @@
     grid-template-columns: 1fr;
     padding: 1.5rem;
     border-radius: 20px;
-    gap: 0.75rem;
+    gap: 1rem;
   }
+  
+  /* --- MODIFICATION 1: TIGHTEN GAP BETWEEN FIELDS --- */
+  .isEditingRow {
+    gap: 0px; /* Further reduced the gap between entire fields */
+  }
+
+  .isEditingRow .tableCell {
+    padding-bottom: 18px;
+  }
+
+  /* --- MODIFICATION 2: TIGHTEN GAP BETWEEN LABEL AND ITS INPUT --- */
   .tableCell::before {
     font-weight: 700;
     color: var(--color-tan);
     margin-right: 0.5rem;
+    margin-bottom: 2px; /* Made the gap between label and textbox minimal */
+    display: block;
   }
+
+  .editableTextarea {
+    height: 100px;
+  }
+
   .tableCell:nth-child(1)::before {
     content: "Service: ";
   }
@@ -210,6 +322,17 @@
   }
   .tableCell:nth-child(4)::before {
     content: "Duration: ";
+  }
+
+  .durationCellContent {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+  }
+
+  .rowActions {
+      width: 100%;
+      justify-content: flex-end;
   }
 
   .footerContent {
