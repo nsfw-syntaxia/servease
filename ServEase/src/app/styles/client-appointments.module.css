@@ -509,7 +509,7 @@
 .facilityNameParent {
   position: relative;
   margin: 0 10%;
-  margin-top: 8%;
+  margin-top: 10%;
   width: 390px;
   height: 191px;
 }
@@ -543,4 +543,77 @@
   margin: 0 auto;
   margin-top: 15%;
   margin-bottom: 8%;
+}
+
+/* Add these styles to your client-appointments.module.css file */
+
+.confirmDialog {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 400px;
+  margin: 0 auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.confirmDialog h3 {
+  margin: 0 0 16px 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.confirmDialog p {
+  margin: 0 0 24px 0;
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+}
+
+.confirmButtons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.cancelButton {
+  padding: 10px 20px;
+  border: 2px solid #e0e0e0;
+  background: white;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancelButton:hover {
+  border-color: #ccc;
+  background: #f9f9f9;
+}
+
+.confirmButton {
+  padding: 10px 20px;
+  border: none;
+  background: var(--color-tan);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.confirmButton:hover {
+  background: var(--color-tan);
+}
+
+.confirmButton:active {
+  transform: translateY(1px);
+}
+
+.cancelButton:active {
+  transform: translateY(1px);
 }
