@@ -83,7 +83,7 @@ export async function POST(request: Request) {
 
     Promise.allSettled([
         resend.emails.send({
-            from: 'Booking Request Received <onboarding@resend.dev>',
+            from: 'servease <onboarding@resend.dev>',
             to: [clientEmail],
             subject: 'Your Booking Request is Awaiting Approval',
             react: ClientBookingPending({
