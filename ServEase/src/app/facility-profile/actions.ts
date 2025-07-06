@@ -30,7 +30,7 @@ export async function getFacilityProfileData(): Promise<{
   }
 
   try {
-    // We fetch from the 'profiles' table and the 'auth.users' table concurrently
+    // we fetch from the 'profiles' table and the 'auth.users' table concurrently
     const profilePromise = supabase
       .from("profiles")
       .select(
@@ -50,7 +50,7 @@ export async function getFacilityProfileData(): Promise<{
     if (profileError && profileError.code !== "PGRST116") throw profileError;
     if (userError) throw userError;
 
-    // Map the fetched data to the structure our component expects
+    // map the fetched data to the structure our component expects
     const formattedData: FacilityProfileDataType = {
       name: profile?.business_name || "",
       email: authUser?.user?.email || "",
@@ -58,9 +58,9 @@ export async function getFacilityProfileData(): Promise<{
       contactNumber: profile?.contact_number || "",
       category: profile?.category || "",
       specificCategory: profile?.specific_category || "",
-      tags: profile?.tags || "",
+      tags: profile?.tags || "Tags",
       profileImage: profile?.picture_url || "/avatar.svg",
-      isVerified: profile?.status === "verified", // <-- This is our boolean flag
+      isVerified: profile?.status === "verified",
     };
 
     return { data: formattedData };
@@ -71,10 +71,10 @@ export async function getFacilityProfileData(): Promise<{
 }
 
 export type UpdateProfilePayload = {
-  full_name: string;
+  business_name: string;
   address: string;
   contact_number: string;
-  picture_url?: string; // <-- MODIFICATION: picture_url is now optional
+  picture_url?: string;
 };
 
 export async function updateUserProfile(
@@ -99,7 +99,7 @@ export async function updateUserProfile(
     return { error: "Could not update profile information." };
   }
 
-  revalidatePath("/facility-profile"); // Adjust if your URL is different
+  revalidatePath("/facility-profile");
   return {};
 }
 
@@ -111,14 +111,14 @@ export async function updateUserEmail(
 
   if (error) {
     console.error("Supabase email update error:", error.message);
-    // Provide a user-friendly error message
+    
     if (error.message.includes("same as the current email")) {
       return { error: "This is already your current email address." };
     }
     return { error: "Could not update your email address." };
   }
 
-  // A confirmation email will be sent to the new address.
-  // The email won't actually change until the user clicks the link.
+  // a confirmation email will be sent to the new address
+  // the email won't actually change until the user clicks the link
   return {};
 }
