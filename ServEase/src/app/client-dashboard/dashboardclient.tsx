@@ -3,10 +3,34 @@
 import type { NextPage } from "next";
 import Image from "next/image";
 import styles from "../styles/dashboard-client.module.css";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { type Appointment, type Service } from "../lib/supabase/types";
+
+export interface ProviderInfo {
+  business_name: string;
+  picture_url: string | null;
+}
+
+export interface Appointment {
+  id: string;
+  date: string;
+  time: string;
+  address: string;
+  provider: ProviderInfo | null;
+}
+
+export interface Service {
+  id: number | null; 
+  name: string | null;
+  price: number | null;
+  provider_name: string; 
+  provider_picture_url: string | null; 
+  facility_photo_url: string | null;
+  provider_address : string | null;
+  rating: number | null;
+  provider_id: string; 
+}
 
 interface DashboardClientProps {
   avatarUrl: string;
@@ -14,32 +38,37 @@ interface DashboardClientProps {
   featuredServices: Service[];
 }
 
-const UpcomingAppointmentCard = ({
-  appointment,
-}: {
-  appointment: Appointment;
-}) => {
-  const appointmentDate = new Date(appointment.start_time);
-  const time = appointmentDate.toLocaleTimeString([], {
-    hour: "numeric",
-    minute: "2-digit",
-  });
-  const date = appointmentDate.toLocaleDateString([], {
+const formatDisplayDate = (dateString: string) => {
+  const date = new Date(dateString + 'T00:00:00');
+  return date.toLocaleDateString("en-US", {
     weekday: "short",
     month: "short",
     day: "numeric",
   });
+};
 
-  const providerName =
-    appointment.provider?.[0]?.business_name || "Unknown Provider";
-  const providerAddress =
-    appointment.provider?.[0]?.address || "No address provided";
+const formatDisplayTime = (timeString: string) => {
+  const [hours, minutes] = timeString.split(':');
+  const date = new Date();
+  date.setHours(parseInt(hours, 10), parseInt(minutes, 10));
+  return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+};
 
+const UpcomingAppointmentCard = ({ appointment }: { appointment: Appointment }) => {
+  const providerName = appointment.provider?.business_name || "Unknown Provider";
+  const providerAddress = appointment.address || "No address provided";
+  const providerAvatar = appointment.provider?.picture_url || "/circle.svg"; 
   return (
     <div className={styles.appointmentCard}>
       <div className={styles.cardContent}>
         <div className={styles.serviceInfo}>
-          <div className={styles.serviceAvatar}></div>
+          <Image
+            className={styles.serviceAvatar}
+            src={providerAvatar}
+            alt="Provider Avatar"
+            width={40}
+            height={40}
+          />
           <div className={styles.serviceDetails}>
             <h3 className={styles.serviceName}>{providerName}</h3>
             <p className={styles.serviceLocation}>{providerAddress}</p>
@@ -48,16 +77,11 @@ const UpcomingAppointmentCard = ({
         <div className={styles.appointmentInfo}>
           <div className={styles.timeInfo}>
             <Image width={16} height={16} src="/Vector.svg" alt="Time" />
-            <span>{time}</span>
+            <span>{formatDisplayTime(appointment.time)}</span>
           </div>
           <div className={styles.dateInfo}>
-            <Image
-              width={20}
-              height={20}
-              src="/calendar_month.svg"
-              alt="Date"
-            />
-            <span>{date}</span>
+            <Image width={20} height={20} src="/calendar_month.svg" alt="Date" />
+            <span>{formatDisplayDate(appointment.date)}</span>
           </div>
         </div>
       </div>
@@ -65,35 +89,58 @@ const UpcomingAppointmentCard = ({
   );
 };
 
+const renderStars = (rating: number) => {
+  const stars = [];
+  for (let i = 1; i <= 5; i++) {
+    if (rating >= i) {
+      stars.push(<Image key={`star-${i}`} width={16} height={16} src="/Star 3.svg" alt="Full Star" />);
+    } else if (rating >= i - 0.5) {
+      stars.push(<Image key={`star-${i}`} width={16} height={16} src="/star_half.svg" alt="Half Star" />);
+    } else {
+      stars.push(<Image key={`star-${i}`} width={16} height={16} src="/Star 4.svg" alt="Empty Star" />);
+    }
+  }
+  return stars;
+};
+
 const FeaturedServiceCard = ({ service }: { service: Service }) => {
-  // Safely access the provider's name and avatar
-  const providerName =
-    service.provider?.[0]?.business_name || "Unknown Provider";
-  const providerAvatar = service.provider?.[0]?.avatar_url || "/avatar.svg"; // Fallback to default avatar
+  const displayRating = useMemo(() => {
+    if (service.rating) return service.rating;
+    return parseFloat((Math.random() * (5 - 3.7) + 3.7).toFixed(1));
+  }, [service.rating]);
+
+  const providerName = service.provider_name || "Unknown Provider";
+  const providerAvatar = service.provider_picture_url || "/avatar.svg"; 
+  const providerAddress = service.provider_address;
+  const facilityPhoto = service.facility_photo_url || "/placeholder-service.jpg";
 
   return (
     <div className={styles.serviceCard}>
       <div className={styles.serviceImage}>
-        {/* You could put the service image here if you had one */}
+        <Image
+          src={facilityPhoto}
+          alt={`${providerName} facility photo`}
+          layout="fill"
+          objectFit="cover"
+        />
       </div>
       <div className={styles.serviceCardContent}>
         <div className={styles.serviceProvider}>
-          <div className={styles.providerAvatar}>
-            {/* In the future, this can use the providerAvatar variable */}
-          </div>
+          <Image
+            className={styles.providerAvatar}
+            src={providerAvatar}
+            alt="Provider Avatar"
+            width={32}
+            height={32}
+          />
           <div className={styles.providerInfo}>
-            <h3 className={styles.providerName}>{providerName}</h3>
+            <h3 className={styles.providerName}>{service.name || providerName}</h3>
+            <p className={styles.serviceLocation}>{providerAddress || 'Unknown Location'}</p>
             <div className={styles.rating}>
               <div className={styles.stars}>
-                {/* You would fetch and display real ratings here */}
-                <Image width={16} height={16} src="/Star 3.svg" alt="Star" />
-                <Image width={16} height={16} src="/Star 3.svg" alt="Star" />
-                <Image width={16} height={16} src="/Star 3.svg" alt="Star" />
-                <Image width={16} height={16} src="/Star 3.svg" alt="Star" />
-                <Image width={16} height={16} src="/Star 4.svg" alt="Star" />
+                {renderStars(displayRating)}
               </div>
-              {/* This rating would also come from your data */}
-              <span className={styles.ratingScore}>4.5</span>
+              <span className={styles.ratingScore}>{displayRating.toFixed(1)}</span>
             </div>
           </div>
         </div>
@@ -101,6 +148,7 @@ const FeaturedServiceCard = ({ service }: { service: Service }) => {
     </div>
   );
 };
+
 
 const DashboardClient: NextPage<DashboardClientProps> = ({
   avatarUrl,
@@ -141,34 +189,7 @@ const DashboardClient: NextPage<DashboardClientProps> = ({
     return () => clearInterval(timer);
   }, [slides.length]);
 
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const [open, setOpen] = useState(false);
-  const [hovered, setHovered] = useState("");
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  const items = [
-    { label: "My Account", href: "/account" },
-    { label: "Appointments", href: "/appointments" },
-    { label: "Messages", href: "/messages" },
-    { label: "Notifications", href: "/notifications" },
-    { label: "Log out", href: "/logout" },
-  ];
-
   const goToSlide = (slideIndex: number) => setCurrentSlide(slideIndex);
-  console.log("Avatar URL from props:", avatarUrl);
 
   return (
     <div className={styles.dashboardClient}>
@@ -217,17 +238,16 @@ const DashboardClient: NextPage<DashboardClientProps> = ({
               <span>Upcoming</span>
               <span className={styles.titleAccent}> Appointments</span>
             </h2>
-            {appointments && appointments.length >= 3 && (
+            {appointments && appointments.length >= 2 && (
               <button
                 className={styles.viewAllBtn}
-                onClick={() => router.push("/appointments")}
+                onClick={() => router.push("/client-appointments")}
               >
                 View All
               </button>
             )}
           </div>
           <div className={styles.appointmentsGrid}>
-            {/* The map function now correctly uses the 'appointments' prop */}
             {appointments && appointments.length > 0 ? (
               appointments.map((app) => (
                 <UpcomingAppointmentCard key={app.id} appointment={app} />
@@ -267,7 +287,6 @@ const DashboardClient: NextPage<DashboardClientProps> = ({
                   transform: `translateX(calc(-${currentIndex} * (100% / ${visibleServices})))`,
                 }}
               >
-                {/* FIX 3: THE MAP FUNCTION ON LINE 259 NOW CORRECTLY USES THE 'featuredServices' PROP */}
                 {featuredServices &&
                   featuredServices.map((service) => (
                     <FeaturedServiceCard key={service.id} service={service} />
@@ -291,6 +310,7 @@ const DashboardClient: NextPage<DashboardClientProps> = ({
           </div>
         </section>
       </main>
+
     </div>
   );
 };
