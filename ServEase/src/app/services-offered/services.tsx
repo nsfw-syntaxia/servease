@@ -2,6 +2,7 @@
 
 import type { NextPage } from "next";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import styles from "../styles/servicesoffered.module.css";
 import { XCircle, CheckCircle } from "lucide-react";
@@ -13,29 +14,7 @@ interface Service {
   price: string;
 }
 
-const mockServices: Service[] = [
-  {
-    id: 1,
-    name: "Classic Manicure",
-    description:
-      "A timeless classic. This service includes nail shaping, cuticle care, a relaxing hand massage, and a polish of your choice. Perfect for maintaining healthy and beautiful nails.",
-    price: "Php500.00",
-  },
-  {
-    id: 2,
-    name: "Gel Pedicure",
-    description:
-      "Long-lasting color and shine. Includes a foot soak, nail shaping, cuticle work, callus removal, a soothing foot massage, and is finished with high-quality gel polish.",
-    price: "Php850.00",
-  },
-  {
-    id: 3,
-    name: "Signature Facial",
-    description:
-      "Rejuvenate your skin with our signature facial. This customized treatment addresses your specific skin concerns, from hydration to anti-aging. It's a truly relaxing experience.",
-    price: "Php1200.00",
-  },
-];
+const mockServices: Service[] = [];
 
 const ServiceRow = ({
   service,
@@ -63,7 +42,9 @@ const ServiceRow = ({
 
   useEffect(() => {
     if (isCurrentlyEditing) {
-      const priceValue = service.price.replace(/[^0-9.]/g, "");
+      const priceValue = service.price
+        ? service.price.replace(/[^0-9.]/g, "")
+        : "";
       setFormData({
         name: service.name,
         description: service.description,
@@ -113,7 +94,6 @@ const ServiceRow = ({
   if (isCurrentlyEditing) {
     return (
       <div className={`${styles.serviceRow} ${styles.isEditingRow}`}>
-        {/* service name */}
         <div className={styles.tableCell}>
           <input
             type="text"
@@ -129,7 +109,6 @@ const ServiceRow = ({
             <span className={styles.errorText}>{errors.name}</span>
           )}
         </div>
-        {/* descrip */}
         <div className={styles.tableCell}>
           <textarea
             name="description"
@@ -147,7 +126,6 @@ const ServiceRow = ({
             {errors.description ?? `${formData.description.length}/50`}
           </span>
         </div>
-        {/* price */}
         <div className={styles.tableCell}>
           <input
             type="text"
@@ -163,7 +141,6 @@ const ServiceRow = ({
             <span className={styles.errorText}>{errors.price}</span>
           )}
         </div>
-        {/* actions */}
         <div className={`${styles.tableCell} ${styles.actionsCell}`}>
           <div className={styles.rowActions}>
             <CheckCircle
@@ -215,14 +192,26 @@ const ServiceRow = ({
 };
 
 const ServicesOfferedPage: NextPage = () => {
+  const router = useRouter();
   const [services, setServices] = useState<Service[]>(mockServices);
   const [isEditMode, setIsEditMode] = useState(false);
   const [editingServiceId, setEditingServiceId] = useState<number | null>(null);
 
-  const toggleEditMode = () => {
-    if (isEditMode) {
-      setEditingServiceId(null);
+  const cleanupUnsavedService = () => {
+    if (editingServiceId === null) return;
+    const serviceToCancel = services.find((s) => s.id === editingServiceId);
+    if (
+      serviceToCancel &&
+      serviceToCancel.name === "" &&
+      serviceToCancel.price === ""
+    ) {
+      setServices((prev) => prev.filter((s) => s.id !== editingServiceId));
     }
+  };
+
+  const toggleEditMode = () => {
+    cleanupUnsavedService();
+    setEditingServiceId(null);
     setIsEditMode((prevMode) => !prevMode);
   };
 
@@ -241,25 +230,49 @@ const ServicesOfferedPage: NextPage = () => {
     setEditingServiceId(null);
   };
 
+  const handleAddService = () => {
+    if (editingServiceId !== null) return;
+
+    const newService: Service = {
+      id: Date.now(),
+      name: "",
+      description: "",
+      price: "",
+    };
+
+    setServices((prev) => [...prev, newService]);
+    setEditingServiceId(newService.id);
+  };
+
+  const handleCancelEdit = () => {
+    cleanupUnsavedService();
+    setEditingServiceId(null);
+  };
+
   return (
     <div className={styles.pageContainer}>
       <main className={styles.mainContent}>
         <h1 className={styles.profileTitle}>Profile</h1>
 
         <div className={styles.servicesHeader}>
-          <div className={styles.backArrow}>
+          <div
+            className={styles.backArrow}
+            onClick={() => router.push("/facility-profile")}
+          >
             <Image width={26} height={26} alt="Back" src="/Arrow Left.svg" />
           </div>
           <h2 className={styles.servicesTitle}>Services Offered</h2>
         </div>
 
         <div className={styles.servicesTable}>
-          <div className={styles.tableHeader}>
-            <div className={styles.headerCell}>Service Name</div>
-            <div className={styles.headerCell}>Description</div>
-            <div className={styles.headerCell}>Price</div>
-            <div className={styles.headerCell}></div>
-          </div>
+          {services.length > 0 && (
+            <div className={styles.tableHeader}>
+              <div className={styles.headerCell}>Service Name</div>
+              <div className={styles.headerCell}>Description</div>
+              <div className={styles.headerCell}>Price</div>
+              <div className={styles.headerCell}></div>
+            </div>
+          )}
 
           <div className={styles.tableBody}>
             {services.map((service) => (
@@ -270,7 +283,7 @@ const ServicesOfferedPage: NextPage = () => {
                 isCurrentlyEditing={editingServiceId === service.id}
                 onDelete={handleDeleteService}
                 onStartEdit={setEditingServiceId}
-                onCancelEdit={() => setEditingServiceId(null)}
+                onCancelEdit={handleCancelEdit}
                 onUpdateService={handleUpdateService}
               />
             ))}
@@ -278,21 +291,28 @@ const ServicesOfferedPage: NextPage = () => {
         </div>
 
         <div className={styles.actionButtons}>
+          {services.some(
+            (service) => service.name !== "" && service.price !== ""
+          ) && (
+            <button
+              className={`${styles.btn} ${
+                isEditMode ? styles.doneButton : styles.editButton
+              }`}
+              onClick={toggleEditMode}
+            >
+              <Image
+                width={20}
+                height={20}
+                alt={isEditMode ? "Done" : "Edit"}
+                src={isEditMode ? "/check_thin.svg" : "/edit.svg"}
+              />
+              <span>{isEditMode ? "Done" : "Edit"}</span>
+            </button>
+          )}
           <button
-            className={`${styles.btn} ${
-              isEditMode ? styles.doneButton : styles.editButton
-            }`}
-            onClick={toggleEditMode}
+            className={`${styles.btn} ${styles.addButton}`}
+            onClick={handleAddService}
           >
-            <Image
-              width={20}
-              height={20}
-              alt={isEditMode ? "Done" : "Edit"}
-              src={isEditMode ? "/check_thin.svg" : "/edit.svg"}
-            />
-            <span>{isEditMode ? "Done" : "Edit"}</span>
-          </button>
-          <button className={`${styles.btn} ${styles.addButton}`}>
             <Image width={18} height={18} alt="Add" src="/plus.svg" />
             <span>Add Service</span>
           </button>
