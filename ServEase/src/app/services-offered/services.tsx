@@ -4,17 +4,17 @@ import type { NextPage } from "next";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import styles from "../styles/servicesoffered.module.css";
-import { XCircle, CheckCircle } from "lucide-react"; // --- IMPORT ICONS ---
+import { XCircle, CheckCircle } from "lucide-react";
 
-// Define a type for our service object for better type safety
+// Updated interface: removed duration
 interface Service {
   id: number;
   name: string;
   description: string;
   price: string;
-  duration: string;
 }
 
+// Updated mock data: removed duration
 const mockServices: Service[] = [
   {
     id: 1,
@@ -22,7 +22,6 @@ const mockServices: Service[] = [
     description:
       "A timeless classic. This service includes nail shaping, cuticle care, a relaxing hand massage, and a polish of your choice. Perfect for maintaining healthy and beautiful nails.",
     price: "P500.00",
-    duration: "30 min",
   },
   {
     id: 2,
@@ -30,7 +29,6 @@ const mockServices: Service[] = [
     description:
       "Long-lasting color and shine. Includes a foot soak, nail shaping, cuticle work, callus removal, a soothing foot massage, and is finished with high-quality gel polish.",
     price: "P850.00",
-    duration: "1 hrs",
   },
   {
     id: 3,
@@ -38,7 +36,6 @@ const mockServices: Service[] = [
     description:
       "Rejuvenate your skin with our signature facial. This customized treatment addresses your specific skin concerns, from hydration to anti-aging. It's a truly relaxing experience.",
     price: "P1200.00",
-    duration: "1 hrs",
   },
 ];
 
@@ -59,91 +56,61 @@ const ServiceRow = ({
   onCancelEdit: () => void;
   onUpdateService: (service: Service) => void;
 }) => {
-  // State for form data and validation errors
+  // Updated state: removed duration
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     price: "",
-    durationValue: "",
-    durationUnit: "min",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  // When editing starts, populate the form with parsed data from the service prop
   useEffect(() => {
     if (isCurrentlyEditing) {
-      // Parse price to get only the number
       const priceValue = service.price.replace(/[^0-9.]/g, "");
-
-      // Parse duration to split value and unit
-      const durationParts = service.duration.split(" ");
-      const durationValue = durationParts[0] || "";
-      let durationUnit = (durationParts[1] || "min").toLowerCase();
-      if (!["min", "hrs"].includes(durationUnit)) {
-        durationUnit = "min"; // Default to 'min' if unit is unrecognized
-      }
-
       setFormData({
         name: service.name,
         description: service.description,
         price: priceValue,
-        durationValue,
-        durationUnit,
       });
-      setErrors({}); // Clear previous errors
+      setErrors({});
     }
   }, [isCurrentlyEditing, service]);
 
   const handleInputChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Updated validation: removed duration
   const validate = () => {
     const newErrors: Record<string, string> = {};
-
     if (!formData.name.trim()) newErrors.name = "Service name is required.";
-
     if (!formData.description.trim()) {
       newErrors.description = "Description is required.";
     } else if ((formData.description.match(/[.!?]+/g) || []).length > 5) {
       newErrors.description = "Description cannot exceed 5 sentences.";
     }
-
     if (!formData.price.trim()) {
       newErrors.price = "Price is required.";
     } else if (!/^\d+(\.\d{1,2})?$/.test(formData.price)) {
       newErrors.price = "Please enter a valid price (e.g., 500 or 500.00).";
     }
-
-    if (!formData.durationValue.trim()) {
-      newErrors.durationValue = "Duration is required.";
-    } else if (
-      !/^\d+$/.test(formData.durationValue) ||
-      parseInt(formData.durationValue) <= 0
-    ) {
-      newErrors.durationValue = "Must be a positive number.";
-    }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
+  // Updated save handler: removed duration
   const handleSave = () => {
     if (!validate()) {
-      return; // Stop if validation fails
+      return;
     }
-
     const updatedService: Service = {
       ...service,
       name: formData.name.trim(),
       description: formData.description.trim(),
       price: `P${parseFloat(formData.price).toFixed(2)}`,
-      duration: `${formData.durationValue} ${formData.durationUnit}`,
     };
     onUpdateService(updatedService);
   };
@@ -151,6 +118,7 @@ const ServiceRow = ({
   if (isCurrentlyEditing) {
     return (
       <div className={`${styles.serviceRow} ${styles.isEditingRow}`}>
+        {/* Service Name Input */}
         <div className={styles.tableCell}>
           <input
             type="text"
@@ -165,6 +133,7 @@ const ServiceRow = ({
             <span className={styles.errorText}>{errors.name}</span>
           )}
         </div>
+        {/* Description Input */}
         <div className={styles.tableCell}>
           <textarea
             name="description"
@@ -178,6 +147,7 @@ const ServiceRow = ({
             <span className={styles.errorText}>{errors.description}</span>
           )}
         </div>
+        {/* Price Input */}
         <div className={styles.tableCell}>
           <input
             type="text"
@@ -193,31 +163,8 @@ const ServiceRow = ({
             <span className={styles.errorText}>{errors.price}</span>
           )}
         </div>
-        <div className={`${styles.tableCell} ${styles.durationCellContent}`}>
-          <div className={styles.durationInputWrapper}>
-            <input
-              type="number"
-              name="durationValue"
-              value={formData.durationValue}
-              onChange={handleInputChange}
-              className={`${styles.editableField} ${
-                styles.durationValueInput
-              } ${errors.durationValue ? styles.errorField : ""}`}
-              placeholder="30"
-            />
-            <select
-              name="durationUnit"
-              value={formData.durationUnit}
-              onChange={handleInputChange}
-              className={`${styles.editableField} ${styles.durationUnitSelect}`}
-            >
-              <option value="min">min</option>
-              <option value="hrs">hrs</option>
-            </select>
-          </div>
-          {errors.durationValue && (
-            <span className={styles.errorText}>{errors.durationValue}</span>
-          )}
+        {/* Actions Cell */}
+        <div className={`${styles.tableCell} ${styles.actionsCell}`}>
           <div className={styles.rowActions}>
             <CheckCircle
               size={24}
@@ -240,8 +187,8 @@ const ServiceRow = ({
       <div className={styles.tableCell}>{service.name}</div>
       <div className={styles.tableCell}>{service.description}</div>
       <div className={styles.tableCell}>{service.price}</div>
-      <div className={`${styles.tableCell} ${styles.durationCellContent}`}>
-        <span>{service.duration}</span>
+      {/* Actions Cell */}
+      <div className={`${styles.tableCell} ${styles.actionsCell}`}>
         {isGlobalEditMode && (
           <div className={styles.rowActions}>
             <Image
@@ -273,7 +220,6 @@ const ServicesOfferedPage: NextPage = () => {
   const [editingServiceId, setEditingServiceId] = useState<number | null>(null);
 
   const toggleEditMode = () => {
-    // If we are turning OFF edit mode, also cancel any active row editing
     if (isEditMode) {
       setEditingServiceId(null);
     }
@@ -292,7 +238,7 @@ const ServicesOfferedPage: NextPage = () => {
         service.id === updatedService.id ? updatedService : service
       )
     );
-    setEditingServiceId(null); // Exit editing state for this row
+    setEditingServiceId(null);
   };
 
   return (
@@ -308,11 +254,12 @@ const ServicesOfferedPage: NextPage = () => {
         </div>
 
         <div className={styles.servicesTable}>
+          {/* Updated Table Header */}
           <div className={styles.tableHeader}>
             <div className={styles.headerCell}>Service Name</div>
             <div className={styles.headerCell}>Description</div>
             <div className={styles.headerCell}>Price</div>
-            <div className={styles.headerCell}>Duration</div>
+            <div className={styles.headerCell}></div>
           </div>
 
           <div className={styles.tableBody}>

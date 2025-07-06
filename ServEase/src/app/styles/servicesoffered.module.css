@@ -47,11 +47,14 @@
   gap: 1rem;
 }
 
+/* --- MODIFIED DESKTOP LAYOUT --- */
 .tableHeader,
 .serviceRow {
   display: grid;
-  grid-template-columns: 2.5fr 3.3fr 1.2fr 1.8fr;
-  gap: 1.5rem;
+  /* Rebalanced columns to give Price more space */
+  grid-template-columns: 5fr 15fr 3fr 1fr;
+  /* Reduced gap for more content space */
+  gap: 3rem;
   align-items: center;
   padding: 0 2rem;
 }
@@ -79,14 +82,6 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
-.durationCellContent {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  gap: 1rem;
-}
-
 .rowActions {
   display: flex;
   align-items: center;
@@ -95,6 +90,13 @@
   pointer-events: none;
   transition: opacity 0.3s ease;
   flex-shrink: 0;
+  justify-content: flex-end;
+}
+
+.actionsCell {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .serviceRow:hover .rowActions,
@@ -117,13 +119,20 @@
 /* --- STYLES FOR EDITING --- */
 
 .isEditingRow {
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
+  align-items: stretch;
+  padding-top: 1.1rem; /* Specific padding from your code */
+  padding-bottom: 0rem; /* Specific padding from your code */
 }
 
 .isEditingRow .tableCell {
+  display: flex;
+  align-items: center;
   position: relative;
   padding-bottom: 18px;
+}
+
+.isEditingRow .actionsCell {
+  justify-content: flex-end;
 }
 
 .editableField {
@@ -135,7 +144,7 @@
   border-radius: 12px;
   font-size: 16px;
   font-family: inherit;
-  color: #604C3D;
+  color: #604c3d;
   box-sizing: border-box;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
@@ -161,29 +170,6 @@
   padding-top: 16px;
 }
 
-.durationInputWrapper {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-grow: 1;
-}
-
-.durationValueInput {
-  width: 80px;
-  min-width: 80px;
-}
-
-.durationUnitSelect {
-  width: 100px;
-  min-width: 100px;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23604C3D' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 1rem center;
-  background-size: 1.2em 1.2em;
-  padding-right: 2.5rem;
-}
-
 .errorText {
   color: #c75e5a;
   font-size: 13px;
@@ -200,7 +186,7 @@
 
 .saveIcon:hover,
 .cancelIcon:hover {
-  color: #604C3D;
+  color: #604c3d;
 }
 
 /* --- END EDITING STYLES --- */
@@ -285,22 +271,31 @@
     border-radius: 20px;
     gap: 1rem;
   }
-  
-  /* --- MODIFICATION 1: TIGHTEN GAP BETWEEN FIELDS --- */
+
   .isEditingRow {
-    gap: 0px; /* Further reduced the gap between entire fields */
+    gap: 0px; /* Specific gap from your code */
   }
 
   .isEditingRow .tableCell {
     padding-bottom: 18px;
   }
 
-  /* --- MODIFICATION 2: TIGHTEN GAP BETWEEN LABEL AND ITS INPUT --- */
+  .isEditingRow .tableCell {
+    flex-direction: column;
+    align-items: flex-start; /* Left-align inputs */
+    text-align: left; /* Ensure text and labels are aligned left */
+  }
+
+  .isEditingRow .editableField,
+  .isEditingRow .editableTextarea {
+    text-align: left; /* Align text inside input/textarea */
+  }
+
   .tableCell::before {
     font-weight: 700;
     color: var(--color-tan);
     margin-right: 0.5rem;
-    margin-bottom: 2px; /* Made the gap between label and textbox minimal */
+    margin-bottom: 2px;
     display: block;
   }
 
@@ -308,31 +303,52 @@
     height: 100px;
   }
 
-  .tableCell:nth-child(1)::before {
-    content: "Service: ";
-  }
-  .tableCell:nth-child(2)::before {
-    content: "Details: ";
-  }
-  .tableCell:nth-child(3)::before {
-    content: "Price: ";
-  }
-  .tableCell:nth-child(4) {
+  /* --- MOBILE LAYOUT CORRECTION --- */
+  /* This ensures the label is a block element above the content */
+  .tableCell::before {
+    font-weight: 700;
+    color: var(--color-tan);
+    margin-right: 0.5rem;
+    margin-bottom: 2px; /* Adds a nice space between label and input */
     display: block;
   }
-  .tableCell:nth-child(4)::before {
-    content: "Duration: ";
+
+  .editableTextarea {
+    height: 100px;
   }
 
-  .durationCellContent {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 12px;
+  /* Corrected labels for mobile view */
+  .tableCell:nth-child(1)::before {
+    content: "Service Name"; /* Changed from "Service: " */
+  }
+  .tableCell:nth-child(2)::before {
+    content: "Description"; /* Changed from "Details: " */
+  }
+  .tableCell:nth-child(3)::before {
+    content: "Price"; /* Changed from "Price: " */
+  }
+
+  /* This will make view mode text appear below the label */
+  .tableCell {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Aligns text and inputs to the left */
+  }
+
+  .tableCell:nth-child(4)::before {
+    display: none;
+  }
+
+  .tableCell:last-child {
+    display: flex;
+  }
+
+  .isEditingRow .actionsCell {
+    padding-bottom: 0;
   }
 
   .rowActions {
-      width: 100%;
-      justify-content: flex-end;
+    width: 100%;
   }
 
   .footerContent {
