@@ -71,15 +71,26 @@ export default async function ClientDashboardPage() {
 
     // --- STEP 3: MAP THE RAW DATA TO THE FINAL 'Appointment' TYPE ---
     const appointments: Appointment[] = (rawAppointments || []).map((app) => {
-      // Handle provider picture URL
-      let providerAvatarUrl = "/avatar.svg";
       const provider = Array.isArray(app.provider) ? app.provider[0] : app.provider;
+      
+      // Fix: Handle provider picture URL properly
+      let providerAvatarUrl = null;
       if (provider && provider.picture_url) {
-        const { data } = supabase.storage.from("avatars").getPublicUrl(provider.picture_url);
-        providerAvatarUrl = data.publicUrl;
+        try {
+          // Check if it's already a full URL
+          if (provider.picture_url.startsWith('http')) {
+            providerAvatarUrl = provider.picture_url;
+          } else {
+            // Generate public URL for Supabase storage
+            const { data } = supabase.storage.from("avatars").getPublicUrl(provider.picture_url);
+            providerAvatarUrl = data.publicUrl;
+          }
+        } catch (error) {
+          console.error("Error generating provider avatar URL:", error);
+          providerAvatarUrl = null;
+        }
       }
       
-      // Map service names to objects with names and prices
       const servicesWithDetails = (app.services as string[])?.map(serviceName => {
         const serviceDetail = serviceDetailsMap.get(serviceName);
         return {
@@ -88,6 +99,9 @@ export default async function ClientDashboardPage() {
         };
       }) || [];
 
+      // Debug log to check the URL
+      console.log("Provider avatar URL:", providerAvatarUrl);
+
       return {
         id: app.id,
         date: app.date,
@@ -95,23 +109,20 @@ export default async function ClientDashboardPage() {
         status: app.status,
         address: app.address,
         price: app.price,
-        services: servicesWithDetails, // Use the detailed services list
+        services: servicesWithDetails,
         provider: provider
           ? {
               business_name: provider.business_name,
               picture_url: providerAvatarUrl,
-              contact_number: provider.contact_number, // Pass the contact number
+              contact_number: provider.contact_number,
             }
           : null,
       };
     });
     
-    // --- (The rest of your featured services logic remains the same) ---
     const { data: rawFeaturedServices, error: rpcError } = await supabase.rpc(
       "get_random_featured_services_with_provider"
     );
-    // ... (keep the rest of the featured services processing logic as is)
-    // ...
 
     const featuredServices = await Promise.all(
       rawFeaturedServices?.map(async (service, index) => {
@@ -153,7 +164,6 @@ export default async function ClientDashboardPage() {
         };
       }) || []
     );
-
     return (
       <DashboardClient
         avatarUrl={avatarUrl}
@@ -161,7 +171,6 @@ export default async function ClientDashboardPage() {
         featuredServices={(featuredServices as Service[]) || []}
       />
     );
-
   } catch (error) {
     console.error("Dashboard error:", error);
     if (error instanceof Error && error.message.includes("rate limit")) {

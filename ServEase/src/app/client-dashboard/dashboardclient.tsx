@@ -77,18 +77,60 @@ const UpcomingAppointmentCard = ({
   const providerName =
     appointment.provider?.business_name || "Unknown Provider";
   const providerAddress = appointment.address || "No address provided";
-  const providerAvatar = appointment.provider?.picture_url || "/circle.svg";
+  
+  const providerAvatar = useMemo(() => {
+    if (appointment.provider?.picture_url) {
+      if (appointment.provider.picture_url.startsWith('http')) {
+        return appointment.provider.picture_url;
+      }
+      return appointment.provider.picture_url;
+    }
+    return "/circle.svg";
+  }, [appointment.provider?.picture_url]);
+  
+  const [imageError, setImageError] = useState(false);
+  const [imageLoading, setImageLoading] = useState(true);
+  
+  const formattedStatus = appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1);
+
   return (
     <div className={styles.appointmentCard} onClick={onShowDetails}>
       <div className={styles.cardContent}>
         <div className={styles.serviceInfo}>
-          <Image
-            className={styles.serviceAvatar}
-            src={providerAvatar}
-            alt="Provider Avatar"
-            width={40}
-            height={40}
-          />
+          <div style={{ position: 'relative', width: 60, height: 60, flexShrink: 0 }}>
+            {!imageError ? (
+              <Image
+                className={styles.serviceAvatar}
+                src={providerAvatar}
+                alt={`${providerName} Avatar`}
+                width={40}
+                height={40}
+                onError={() => setImageError(true)}
+                onLoad={() => setImageLoading(false)}
+                style={{
+                  borderRadius: '50%',
+                  objectFit: 'cover'
+                }}
+              />
+            ) : (
+              <div 
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: '50%',
+                  backgroundColor: '#f0f0f0',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '12px',
+                  color: '#666',
+                  border: '1px solid #ddd'
+                }}
+              >
+                {providerName.charAt(0).toUpperCase()}
+              </div>
+            )}
+          </div>
           <div className={styles.serviceDetails}>
             <h3 className={styles.serviceName}>{providerName}</h3>
             <p className={styles.serviceLocation}>{providerAddress}</p>
@@ -107,6 +149,9 @@ const UpcomingAppointmentCard = ({
               alt="Date"
             />
             <span>{formatDisplayDate(appointment.date)}</span>
+          </div>
+          <div className={`${styles.statusInfo} ${styles[appointment.status]}`}>
+            <span>{formattedStatus}</span>
           </div>
         </div>
       </div>

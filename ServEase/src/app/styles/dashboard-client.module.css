@@ -338,7 +338,12 @@
   background-color: var(--color-white);
   padding: 15px 20px;
   border-radius: 30px;
+  position: relative;
 }
+
+
+
+
 
 .timeInfo,
 .dateInfo {
