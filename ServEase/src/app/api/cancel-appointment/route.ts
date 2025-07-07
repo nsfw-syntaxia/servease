@@ -1,14 +1,10 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '../../lib/supabase/server'; // Using the standard server helper
 import nodemailer from 'nodemailer';
 import { render } from '@react-email/render';
 import React from 'react';
+import { CancellationNoticeToProvider } from '../../emails/CancellationNoticeToProvider';
+import { CancellationConfirmationToClient } from '../../emails/CancellationConfirmationToClient';
 
-// Import your two cancellation email components
-import AppointmentCancelledNotice from '../../emails/AppointmentCancelledNotice';
-import ClientCancellationConfirmation from '../../emails/ClientCancellationConfirmation'; 
-
-// Set up the Nodemailer transporter using your Gmail App Password
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -19,77 +15,37 @@ const transporter = nodemailer.createTransport({
 
 export async function POST(req: Request) {
   try {
-    const { 
-      appointmentId, 
-      providerName,
-      clientName,
-      clientEmail,
-      providerEmail,
-      date,
-      time,
-      services
-    } = await req.json();
+    const payload = await req.json();
 
-    // Validate the incoming payload
-    if (!appointmentId || !providerEmail || !clientEmail || !clientName || !Array.isArray(services)) {
-      return NextResponse.json({ error: 'Missing required cancellation details.' }, { status: 400 });
-    }
-    
-    // Use the standard server client for the update operation
-    const supabase = await createClient();
-    
-    // Update the appointment status to 'canceled' in the database
-    const { error: dbError } = await supabase
-      .from('appointments')
-      .update({ status: 'canceled' })
-      .eq('id', appointmentId);
-
-    if (dbError) {
-      console.error('Database cancellation error:', dbError);
-      throw new Error(`Failed to update appointment in the database: ${dbError.message}`);
+    // Basic validation
+    if (!payload.clientEmail || !payload.providerEmail) {
+      return NextResponse.json({ error: 'Missing recipient email addresses.' }, { status: 400 });
     }
 
-    // --- Prepare both emails using React.createElement and render ---
+    // Render both email templates with the rich payload data
+    const providerEmailHtml = await render(
+      React.createElement(CancellationNoticeToProvider, payload)
+    );
+    const clientEmailHtml = await render(
+      React.createElement(CancellationConfirmationToClient, payload)
+    );
 
-    // 1. Prepare the email for the PROVIDER
-    const providerEmailComponent = React.createElement(AppointmentCancelledNotice, {
-      providerName,
-      clientName,
-      date,
-      time,
-      services,
-    });
-    
-    // 2. Prepare the email for the CLIENT
-    const clientEmailComponent = React.createElement(ClientCancellationConfirmation, {
-      clientName,
-      providerName,
-      date,
-      time,
-      services,
-    });
-    
-    // Render both components to HTML strings
-    const providerEmailHtml = await render(providerEmailComponent);
-    const clientEmailHtml = await render(clientEmailComponent);
-
-    // --- Send both emails in parallel ---
-
+    // Send emails in parallel
     const sendProviderEmailPromise = transporter.sendMail({
       from: `"servease" <${process.env.GMAIL_EMAIL}>`,
-      to: providerEmail,
-      subject: `Appointment Cancellation: ${clientName}`,
+      to: payload.providerEmail,
+      subject: `Appointment Cancellation: ${payload.clientName}`,
       html: providerEmailHtml,
     });
     
     const sendClientEmailPromise = transporter.sendMail({
       from: `"servease" <${process.env.GMAIL_EMAIL}>`,
-      to: clientEmail,
-      subject: 'Your Appointment Cancellation Confirmation',
+      to: payload.clientEmail,
+      subject: 'Your Servease Appointment Cancellation',
       html: clientEmailHtml,
     });
 
-    // Use Promise.allSettled to ensure both emails attempt to send, even if one fails.
+    // Use Promise.allSettled to ensure both emails attempt to send.
     Promise.allSettled([sendProviderEmailPromise, sendClientEmailPromise]).then(results => {
       results.forEach((result, index) => {
         const recipient = index === 0 ? 'Provider' : 'Client';
@@ -101,10 +57,10 @@ export async function POST(req: Request) {
       });
     });
 
-    return NextResponse.json({ success: true, message: 'Appointment successfully cancelled.' });
+    return NextResponse.json({ success: true, message: 'Cancellation emails are being sent.' });
 
   } catch (error: any) {
-    console.error("Cancellation API Error:", error.message);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error("Cancel Email API Error:", error.message);
+    return NextResponse.json({ error: "Failed to process email notifications." }, { status: 500 });
   }
 }

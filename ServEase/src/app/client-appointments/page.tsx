@@ -4,24 +4,7 @@ import { redirect } from "next/navigation";
 import AppointmentsClient from "./appointments";
 import { type Appointment } from "./appointments";
 
-// Type for data coming from the database
-type DatabaseAppointment = {
-  id: string;
-  date: string;
-  time: string;
-  status: string;
-  address: string;
-  price: number;
-  services: string[];
-  provider_id: string;
-  profiles: {
-    business_name: string;
-    picture_url: string | null;
-    contact_number: string | null;
-  } | null;
-};
-
-// Type for the raw data from Supabase (before mapping)
+// --- TYPE DEFINITIONS ---
 type RawDatabaseAppointment = {
   id: any;
   date: any;
@@ -38,6 +21,15 @@ type RawDatabaseAppointment = {
   } | null;
 };
 
+// --- THIS IS THE FIX ---
+// Define a simple type for the user object we expect from the admin listUsers call.
+type AuthUser = {
+  id: string;
+  email?: string;
+};
+// --- END OF FIX ---
+
+
 export default async function AppointmentsPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -46,29 +38,27 @@ export default async function AppointmentsPage() {
     redirect("/login");
   }
 
-  // Create admin client for accessing auth.users
-  const adminClient = createAdminClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY! // This is the service role key, not anon key
-  );
+  // --- Step 1: Fetch the client's own profile ---
+  const { data: clientProfile, error: clientProfileError } = await supabase
+    .from('profiles')
+    .select('full_name')
+    .eq('id', user.id)
+    .single();
 
-  // Get appointments with profiles data
+  if (clientProfileError) {
+    console.error("Error fetching client profile:", clientProfileError);
+  }
+  const clientInfo = {
+    full_name: clientProfile?.full_name || user.email || 'Unnamed Client',
+    email: user.email || ''
+  };
+
+  // --- Step 2: Fetch the appointments and join the provider's profile ---
   const { data: rawAppointments, error } = await supabase
     .from('appointments')
     .select(`
-      id,
-      date,
-      time,
-      status,
-      address,
-      price,
-      services,
-      provider_id,
-      profiles:provider_id (
-        business_name,
-        picture_url,
-        contact_number
-      )
+      id, date, time, status, address, price, services, provider_id,
+      profiles:provider_id ( business_name, picture_url, contact_number )
     `)
     .eq('client_id', user.id)
     .order('date', { ascending: true }) 
@@ -79,44 +69,35 @@ export default async function AppointmentsPage() {
     return <div>Error loading appointments.</div>;
   }
 
-  // Get unique provider IDs for email lookup
-  const providerIds = [...new Set(
-    rawAppointments?.map(apt => apt.provider_id).filter(Boolean) || []
-  )];
+  // --- Step 3: Fetch provider emails using the Admin client ---
+  const adminClient = createAdminClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+  
+  const providerIds = [...new Set(rawAppointments?.map(apt => apt.provider_id).filter(Boolean) || [])];
+  const providerEmailMap = new Map<string, string>();
 
-  // Fetch provider emails using admin client
-  let providerEmails: { id: string; email: string }[] = [];
   if (providerIds.length > 0) {
-    const { data: emailData, error: emailError } = await adminClient.auth.admin.listUsers({
-      page: 1,
-      perPage: 1000 // Adjust as needed
-    });
-
+    const { data: emailData, error: emailError } = await adminClient.auth.admin.listUsers({ page: 1, perPage: 1000 });
+    
     if (emailError) {
       console.error("Error fetching provider emails:", emailError);
     } else {
-      // Filter to only include the provider IDs we need
-      providerEmails = emailData.users
+      // --- THIS IS THE FIX ---
+      // We cast the generic 'users' array to our specific 'AuthUser[]' type.
+      const users = emailData.users as AuthUser[];
+      users
         .filter(user => providerIds.includes(user.id))
-        .map(user => ({
-          id: user.id,
-          email: user.email || ''
-        }));
+        .forEach(user => providerEmailMap.set(user.id, user.email || ''));
+      // --- END OF FIX ---
     }
   }
 
-  // Create email lookup map
-  const emailMap = new Map<string, string>();
-  providerEmails.forEach(provider => {
-    emailMap.set(provider.id, provider.email);
-  });
-
-  // Service details logic
+  // --- Step 4: Fetch service details ---
   const allServiceNames = new Set<string>();
   rawAppointments?.forEach(apt => {
-    if (apt.services) {
-      apt.services.forEach(serviceName => allServiceNames.add(serviceName));
-    }
+    if (apt.services) apt.services.forEach(serviceName => allServiceNames.add(serviceName));
   });
 
   const { data: serviceDetails, error: servicesError } = await supabase
@@ -124,47 +105,35 @@ export default async function AppointmentsPage() {
     .select('name, price')
     .in('name', Array.from(allServiceNames));
 
-  if (servicesError) {
-    console.error("Error fetching service details:", servicesError);
+  const serviceDetailsMap = new Map();
+  if (serviceDetails) {
+    serviceDetails.forEach(service => serviceDetailsMap.set(service.name, service));
   }
 
-  const serviceDetailsMap = new Map();
-  serviceDetails?.forEach(service => {
-    serviceDetailsMap.set(service.name, service);
-  });
-
-  // Map appointments with email data
+  // --- Step 5: Map all data into the final, clean Appointment structure ---
   const appointments: Appointment[] = (rawAppointments || []).map((apt: RawDatabaseAppointment) => {
     const servicesWithDetails = apt.services?.map(serviceName => {
       const serviceDetail = serviceDetailsMap.get(serviceName);
-      return {
-        name: serviceName,
-        price: serviceDetail?.price || 0
-      };
+      return { name: serviceName, price: serviceDetail?.price || 0 };
     }) || [];
 
-    // Handle profiles data correctly (it's a single object from foreign key)
-    const profileData = apt.profiles;
-    const providerEmail = emailMap.get(apt.provider_id) || null;
-
-    console.log(user.email);
-    console.log(providerEmails);
+    const providerProfile = apt.profiles;
 
     return {
       id: apt.id,
       date: apt.date,
       time: apt.time,
-      status: apt.status as "pending" | "confirmed" | "completed" | "canceled",
+      status: apt.status,
       address: apt.address,
       price: apt.price, 
       services: servicesWithDetails, 
-      provider: profileData ? {
-        business_name: profileData.business_name,
-        picture_url: profileData.picture_url,
-        contact_number: profileData.contact_number,
-        email: providerEmail // Email from auth.users
+      provider: providerProfile ? {
+        business_name: providerProfile.business_name,
+        picture_url: providerProfile.picture_url,
+        contact_number: providerProfile.contact_number,
+        email: providerEmailMap.get(apt.provider_id) || '',
       } : null,
-      client_email: user.email || '' // Client email for notifications
+      client: clientInfo,
     };
   });
 

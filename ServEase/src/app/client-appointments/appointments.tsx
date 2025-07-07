@@ -6,40 +6,34 @@ import { useState, useMemo, useRef, useEffect } from "react";
 import { createClient } from "../lib/supabase/client";
 import styles from "../styles/client-appointments.module.css";
 
+// --- Interfaces: Using a clean, consistent structure ---
 export interface ClientInfo {
   full_name: string;
   email: string;
 }
-
 export interface ProviderInfo {
   business_name: string;
   picture_url: string | null;
   contact_number: string | null;
-  email: string; 
+  email: string;
 }
-
 export interface ServiceInfo {
   name: string;
   price: number;
 }
-
-export type Appointment = {
+export interface Appointment {
   id: string;
   date: string;
   time: string;
   status: "pending" | "confirmed" | "completed" | "canceled";
   address: string;
-  price: number; 
-  services: ServiceInfo[]; 
-  provider: {
-    business_name: string;
-    picture_url: string | null;
-    contact_number: string | null;
-    email: string | null; // Added for email notifications
-  } | null;
-  client_email?: string; // Added for client email notifications
-};
+  price: number;
+  services: ServiceInfo[];
+  provider: ProviderInfo | null;
+  client: ClientInfo | null; // This matches the data structure from your server page
+}
 
+// --- Helper Functions (No changes needed) ---
 const formatDisplayDate = (dateString: string) => {
   const date = new Date(dateString + "T00:00:00");
   return date.toLocaleDateString("en-US", {
@@ -60,6 +54,7 @@ const formatDisplayTime = (timeString: string) => {
   });
 };
 
+// --- AppointmentCard Component (No changes needed) ---
 const AppointmentCard = ({
   appointment,
   onShowDetails,
@@ -69,6 +64,7 @@ const AppointmentCard = ({
   onShowDetails: () => void;
   onStatusUpdate: (appointmentId: string, newStatus: string) => void;
 }) => {
+  // This component's logic is correct and does not need changes.
   const providerName =
     appointment.provider?.business_name || "Unknown Provider";
   const providerAddress = appointment.address || "No address provided";
@@ -119,7 +115,7 @@ const AppointmentCard = ({
   }, []);
 
   return (
-    <div className={styles.appointmentCard}>
+      <div className={styles.appointmentCard}>
       <div className={styles.cardHeader}>
         <Image
           className={styles.cardAvatar}
@@ -223,6 +219,7 @@ const AppointmentCard = ({
   );
 };
 
+// --- Main AppointmentsClient Component ---
 const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
   initialAppointments,
 }) => {
@@ -235,6 +232,7 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
   const [appointmentToCancel, setAppointmentToCancel] = useState<string | null>(
     null
   );
+  const [isCancelling, setIsCancelling] = useState(false); // For loading state
 
   const supabase = createClient();
 
@@ -254,154 +252,84 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
     }
   }, [activeFilter, appointments]);
 
-  const handleStatusUpdate = async (
-    appointmentId: string,
-    newStatus: string
-  ) => {
+  // This function's only job is to open the confirmation dialog.
+  const handleStatusUpdate = (appointmentId: string, newStatus: string) => {
     if (newStatus === "canceled") {
       setAppointmentToCancel(appointmentId);
       setShowConfirmDialog(true);
-      return;
-    }
-
-    await updateAppointmentStatus(appointmentId, newStatus);
-  };
-
-  const updateAppointmentStatus = async (
-    appointmentId: string,
-    newStatus: string
-  ) => {
-    try {
-      console.log(
-        `Attempting to update appointment ${appointmentId} to status ${newStatus}`
-      );
-
-      const { data, error } = await supabase
-        .from("appointments")
-        .update({ status: newStatus })
-        .eq("id", appointmentId)
-        .select();
-
-      if (error) {
-        console.error("Supabase error details:", error);
-        throw new Error(`Failed to update appointment: ${error.message}`);
-      }
-
-      console.log("Update successful, data:", data);
-
-      // Update local state
-      setAppointments((prev) =>
-        prev.map((apt) =>
-          apt.id === appointmentId
-            ? {
-                ...apt,
-                status: newStatus as
-                  | "pending"
-                  | "confirmed"
-                  | "completed"
-                  | "canceled",
-              }
-            : apt
-        )
-      );
-
-      // Update selected appointment if it's the one being updated
-      if (selectedAppointment?.id === appointmentId) {
-        setSelectedAppointment((prev) =>
-          prev
-            ? {
-                ...prev,
-                status: newStatus as
-                  | "pending"
-                  | "confirmed"
-                  | "completed"
-                  | "canceled",
-              }
-            : null
-        );
-      }
-
-      console.log(
-        `Appointment ${appointmentId} status updated to ${newStatus}`
-      );
-    } catch (error) {
-      console.error("Error updating appointment status:", error);
-      // Show user-friendly error message
-      alert(
-        `Failed to update appointment status. Please try again. Error: ${error instanceof Error ? error.message : "Unknown error"}`
-      );
-      throw error;
     }
   };
 
   const handleConfirmCancel = async () => {
-    if (!appointmentToCancel) {
-      // Close dialog if no appointment to cancel
+    if (!appointmentToCancel) return;
+
+    // 1. Find the full appointment object using the correct ID from state.
+    const appointmentData = appointments.find(apt => apt.id === appointmentToCancel);
+
+    if (!appointmentData || !appointmentData.provider || !appointmentData.client) {
+      alert("Error: Could not find appointment details. Please refresh the page.");
       setShowConfirmDialog(false);
-      setAppointmentToCancel(null);
       return;
     }
 
+    setIsCancelling(true);
+
     try {
-      // Find the appointment to cancel
-      const appointmentToCancelData = appointments.find(
-        (apt) => apt.id === appointmentToCancel
-      );
+      // 2. Update DB status and ONLY select back the ID and status.
+      // This is the primary fix for the "column ...email does not exist" error.
+      const { error: dbError } = await supabase
+        .from("appointments")
+        .update({ status: "canceled" })
+        .eq("id", appointmentToCancel)
+        .select('id, status');
 
-      if (!appointmentToCancelData) {
-        console.error("Appointment not found");
-        setShowConfirmDialog(false);
-        setAppointmentToCancel(null);
-        return;
+      if (dbError) {
+        throw dbError; // This will be caught by the catch block
       }
-
-      // Update the appointment status first
-      await updateAppointmentStatus(appointmentToCancel, "canceled");
-
-      // Prepare payload for email notification
+      
+      // 3. If DB update succeeds, update the local UI state.
+      setAppointments((prev) =>
+        prev.map((apt) =>
+          apt.id === appointmentToCancel ? { ...apt, status: "canceled" } : apt
+        )
+      );
+      
+      // 4. Prepare a comprehensive payload for the email API.
       const payload = {
-        appointmentId: appointmentToCancelData.id,
-        providerName: appointmentToCancelData.provider?.business_name || "Unknown Provider",
-        clientEmail: appointmentToCancelData.client_email || "",
-        providerEmail: appointmentToCancelData.provider?.email || "",
-        date: appointmentToCancelData.date,
-        time: appointmentToCancelData.time,
+        clientName: appointmentData.client.full_name,
+        clientEmail: appointmentData.client.email,
+        providerName: appointmentData.provider.business_name,
+        providerEmail: appointmentData.provider.email,
+        providerContact: appointmentData.provider.contact_number || "Not Provided",
+        address: appointmentData.address,
+        date: appointmentData.date,
+        time: appointmentData.time,
+        status: "Cancelled",
+        services: appointmentData.services,
+        totalPrice: appointmentData.price,
       };
 
-      console.log("Sending email notification with payload:", payload);
+      // 5. Call the API to send the emails.
+      fetch('/api/cancel-appointment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      }).catch(emailError => {
+        console.error("Sending email notifications failed:", emailError);
+      });
 
-      // Send email notification
-      try {
-        const response = await fetch('/api/cancel-appointment', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload),
-        });
-
-        if (!response.ok) {
-          const result = await response.json();
-          console.error("Email notification failed:", result);
-        } else {
-          console.log("Email notification sent successfully");
-        }
-      } catch (emailError) {
-        console.error("Email notification error:", emailError);
-      }
-
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error canceling appointment:", error);
-      alert(`Failed to cancel appointment: ${error instanceof Error ? error.message : "Unknown error"}`);
+      alert(`Cancellation failed: ${error.message}`);
     } finally {
-      // Always close the dialog in the finally block
+      // 6. Clean up and close the dialog.
+      setIsCancelling(false);
       setShowConfirmDialog(false);
       setAppointmentToCancel(null);
     }
   };
-
+  
   const handleCancelCancel = () => {
-    console.log("Canceling cancellation - closing dialog");
     setShowConfirmDialog(false);
     setAppointmentToCancel(null);
   };
@@ -451,7 +379,6 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
             </button>
           </div>
         </div>
-
         <div className={styles.appointmentsList}>
           {filteredAppointments.length > 0 ? (
             filteredAppointments.map((appointment) => (
@@ -470,17 +397,16 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
         </div>
       </main>
 
-      {/* Appointment Details Modal */}
       {selectedAppointment && (
-        <div
-          className={styles.modalOverlay}
-          onClick={() => setSelectedAppointment(null)}
-        >
-          <div
-            className={styles.calendarSelectChangeSize}
-            onClick={(e) => e.stopPropagation()}
-          >
+        <div className={styles.modalOverlay} onClick={() => setSelectedAppointment(null)}>
+          <div className={styles.calendarSelectChangeSize} onClick={(e) => e.stopPropagation()}>
             <div className={styles.facilityNameParent}>
+              <div className={styles.rowContainer}>
+                <div className={styles.facilityName}>Client Name</div>
+                <b className={styles.facilityNameCap}>
+                  {selectedAppointment.client?.full_name || "N/A"}
+                </b>
+              </div>
               <div className={styles.rowContainer}>
                 <div className={styles.facilityName}>Appointment Status</div>
                 <b className={styles.facilityNameCap}>
@@ -503,8 +429,7 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
               <div className={styles.rowContainer}>
                 <div className={styles.facilityName}>Contact Number</div>
                 <b className={styles.facilityNameCap}>
-                  {selectedAppointment.provider?.contact_number ||
-                    "Not Provided"}
+                  {selectedAppointment.provider?.contact_number || "Not Provided"}
                 </b>
               </div>
               <div className={styles.rowContainer}>
@@ -519,53 +444,22 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
                   {formatDisplayTime(selectedAppointment.time)}
                 </b>
               </div>
-
-              <Image
-                className={styles.dividerIcon}
-                width={390}
-                height={1}
-                sizes="100vw"
-                alt=""
-                src="/Divider1.svg"
-              />
-
+              <Image className={styles.dividerIcon} width={390} height={1} alt="" src="/Divider1.svg" />
               <div className={styles.serviceNameParent}>
-                {selectedAppointment.services &&
-                selectedAppointment.services.length > 0 ? (
-                  selectedAppointment.services.map((service, index) => (
-                    <div
-                      className={styles.rowContainer}
-                      key={`service-${index}`}
-                    >
-                      <div className={styles.facilityName}>{service.name}</div>
-                      <b className={styles.facilityNameCap}>
-                        PHP {service.price.toFixed(2)}
-                      </b>
-                    </div>
-                  ))
-                ) : (
-                  <div className={styles.rowContainer}>
-                    <div className={styles.facilityName}>
-                      No services listed
-                    </div>
-                    <b className={styles.facilityNameCap}>PHP 0.00</b>
+                {selectedAppointment.services.map((service, index) => (
+                  <div className={styles.rowContainer} key={`service-${index}`}>
+                    <div className={styles.facilityName}>{service.name}</div>
+                    <b className={styles.facilityNameCap}>
+                      PHP {service.price.toFixed(2)}
+                    </b>
                   </div>
-                )}
+                ))}
               </div>
-
-              <Image
-                className={styles.dividerIcon1}
-                width={390}
-                height={1}
-                sizes="100vw"
-                alt=""
-                src="/Divider1.svg"
-              />
-
+              <Image className={styles.dividerIcon1} width={390} height={1} alt="" src="/Divider1.svg" />
               <div className={styles.rowContainerTotal}>
                 <div className={styles.facilityName}>Total</div>
                 <b className={styles.facilityNameCap}>
-                  PHP {(selectedAppointment.price ?? 0).toFixed(2)}
+                  PHP {selectedAppointment.price.toFixed(2)}
                 </b>
               </div>
             </div>
@@ -574,44 +468,19 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
       )}
 
       {showConfirmDialog && (
-        <div 
-          className={styles.modalOverlay}
-          onClick={(e) => {
-            e.stopPropagation();
-            handleCancelCancel();
-          }}
-        >
-          <div 
-            className={styles.confirmDialog}
-            onClick={(e) => e.stopPropagation()}
-          >
+        <div className={styles.modalOverlay}>
+          <div className={styles.confirmDialog}>
             <h3>Cancel Appointment</h3>
             <p>
               Are you sure you want to cancel this appointment? This action
-              cannot be undone.
+              cannot be undone and email notifications will be sent.
             </p>
             <div className={styles.confirmButtons}>
-              <button
-                className={styles.cancelButton}
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  handleCancelCancel();
-                }}
-                type="button"
-              >
+              <button className={styles.cancelButton} onClick={handleCancelCancel} disabled={isCancelling}>
                 Keep Appointment
               </button>
-              <button
-                className={styles.confirmButton}
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  handleConfirmCancel();
-                }}
-                type="button"
-              >
-                Cancel Appointment
+              <button className={styles.confirmButton} onClick={handleConfirmCancel} disabled={isCancelling}>
+                {isCancelling ? "Cancelling..." : "Cancel Appointment"}
               </button>
             </div>
           </div>
