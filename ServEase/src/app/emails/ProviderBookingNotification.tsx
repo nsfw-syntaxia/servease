@@ -1,7 +1,5 @@
-// emails/ProviderBookingNotification.tsx
 import * as React from "react";
 
-// --- INTERFACE AND PROPS (No changes here) ---
 interface ProviderBookingNotificationProps {
   providerName: string;
   clientName: string;
@@ -12,7 +10,6 @@ interface ProviderBookingNotificationProps {
   totalPrice: string;
 }
 
-// --- HELPER FUNCTION (No changes here) ---
 const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat("en-PH", {
     style: "currency",
@@ -21,7 +18,6 @@ const formatCurrency = (amount: number) => {
 };
 
 
-// --- MAIN COMPONENT ---
 export const ProviderBookingNotification: React.FC<
   Readonly<ProviderBookingNotificationProps>
 > = ({
@@ -42,7 +38,7 @@ export const ProviderBookingNotification: React.FC<
     </head>
     <body style={styles.body}>
       <div style={styles.mainContainer}>
-        {/* Header */}
+      
         <div style={styles.header}>
           <div style={styles.logo}>
             <span style={{ fontWeight: 500 }}>serv</span>
@@ -50,7 +46,6 @@ export const ProviderBookingNotification: React.FC<
           </div>
         </div>
 
-        {/* Content */}
         <div style={styles.content}>
           <h1 style={styles.h1}>You Have a New Booking Request!</h1>
           <p style={styles.paragraph}>Hello {providerName},</p>
@@ -59,7 +54,6 @@ export const ProviderBookingNotification: React.FC<
             below and confirm or decline the appointment from your dashboard.
           </p>
 
-          {/* Appointment Details Section */}
           <div style={styles.summarySection}>
             <h2 style={styles.h2}>Appointment Details</h2>
 
@@ -90,7 +84,6 @@ export const ProviderBookingNotification: React.FC<
           </div>
         </div>
 
-        {/* Footer */}
         <div style={styles.footer}>
           <p style={styles.footerText}>
             © {new Date().getFullYear()} servease. All rights reserved.
@@ -105,7 +98,6 @@ export const ProviderBookingNotification: React.FC<
 );
 
 
-// --- HELPER COMPONENT (No changes here) ---
 const DetailRow = ({ label, value }: { label: string; value: string }) => (
   <div
     style={{
@@ -117,7 +109,7 @@ const DetailRow = ({ label, value }: { label: string; value: string }) => (
   >
     <span
       style={{
-        color: "#604c3d", // textLabel color
+        color: "#604c3d", 
         fontWeight: 500,
         paddingRight: "16px",
       }}
@@ -125,7 +117,7 @@ const DetailRow = ({ label, value }: { label: string; value: string }) => (
       {label}
     </span>
     <span
-      style={{ color: "#050b20", fontWeight: 400, textAlign: "right" }} // textPrimary color
+      style={{ color: "#050b20", fontWeight: 400, textAlign: "right" }} 
     >
       {value}
     </span>
@@ -133,8 +125,6 @@ const DetailRow = ({ label, value }: { label: string; value: string }) => (
 );
 
 
-// --- UPDATED: Centralized Style Definitions ---
-// All styles are now organized here for better readability and maintenance.
 
 const colors = {
   emailBackground: "#f8f7f3",
