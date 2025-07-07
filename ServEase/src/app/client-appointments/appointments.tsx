@@ -5,39 +5,32 @@ import Image from "next/image";
 import { useState, useMemo, useRef, useEffect } from "react";
 import { createClient } from "../lib/supabase/client";
 import styles from "../styles/client-appointments.module.css";
-import { X, Star } from "lucide-react";
 
-interface ReviewFormData {
-  rating: number;
-  reviewText: string;
-  name: string;
+export interface ClientInfo {
+  full_name: string;
   email: string;
 }
-
-interface ReviewFormProps {
-  onClose?: () => void;
-  onSubmit?: (data: ReviewFormData) => void;
+export interface ProviderInfo {
+  business_name: string;
+  picture_url: string | null;
+  contact_number: string | null;
+  email: string;
 }
-
-export type ServiceDetail = {
+export interface ServiceInfo {
   name: string;
   price: number;
-};
-
-export type Appointment = {
+}
+export interface Appointment {
   id: string;
   date: string;
   time: string;
   status: "pending" | "confirmed" | "completed" | "canceled";
   address: string;
   price: number;
-  services: ServiceDetail[];
-  provider: {
-    business_name: string;
-    picture_url: string | null;
-    contact_number: string | null;
-  } | null;
-};
+  services: ServiceInfo[];
+  provider: ProviderInfo | null;
+  client: ClientInfo | null;
+}
 
 const formatDisplayDate = (dateString: string) => {
   const date = new Date(dateString + "T00:00:00");
@@ -63,11 +56,9 @@ const AppointmentCard = ({
   appointment,
   onShowDetails,
   onStatusUpdate,
-  onShowReview,
 }: {
   appointment: Appointment;
   onShowDetails: () => void;
-  onShowReview: () => void;
   onStatusUpdate: (appointmentId: string, newStatus: string) => void;
 }) => {
   const providerName =
@@ -99,7 +90,6 @@ const AppointmentCard = ({
       setShowDropdown(false);
     } catch (error) {
       console.error("Error updating appointment status:", error);
-      // You might want to show a toast notification here
     } finally {
       setIsUpdating(false);
     }
@@ -219,19 +209,6 @@ const AppointmentCard = ({
                 )}
               </>
             )}
-          {appointment.status === "completed" && (
-            <>
-              <Image
-                className={styles.reviewIcon}
-                width={24}
-                height={24}
-                alt="review"
-                src="/review.svg"
-                style={{ cursor: "pointer" }}
-                onClick={onShowReview}
-              />
-            </>
-          )}
         </div>
       </div>
     </div>
@@ -250,6 +227,7 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
   const [appointmentToCancel, setAppointmentToCancel] = useState<string | null>(
     null
   );
+  const [isCancelling, setIsCancelling] = useState(false); // For loading state
 
   const supabase = createClient();
 
@@ -269,98 +247,80 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
     }
   }, [activeFilter, appointments]);
 
-  const handleStatusUpdate = async (
-    appointmentId: string,
-    newStatus: string
-  ) => {
+  const handleStatusUpdate = (appointmentId: string, newStatus: string) => {
     if (newStatus === "canceled") {
       setAppointmentToCancel(appointmentId);
       setShowConfirmDialog(true);
-      return;
-    }
-
-    await updateAppointmentStatus(appointmentId, newStatus);
-  };
-
-  const updateAppointmentStatus = async (
-    appointmentId: string,
-    newStatus: string
-  ) => {
-    try {
-      console.log(
-        `Attempting to update appointment ${appointmentId} to status ${newStatus}`
-      );
-
-      const { data, error } = await supabase
-        .from("appointments")
-        .update({ status: newStatus })
-        .eq("id", appointmentId)
-        .select();
-
-      if (error) {
-        console.error("Supabase error details:", error);
-        throw new Error(`Failed to update appointment: ${error.message}`);
-      }
-
-      console.log("Update successful, data:", data);
-
-      // Update local state
-      setAppointments((prev) =>
-        prev.map((apt) =>
-          apt.id === appointmentId
-            ? {
-                ...apt,
-                status: newStatus as
-                  | "pending"
-                  | "confirmed"
-                  | "completed"
-                  | "canceled",
-              }
-            : apt
-        )
-      );
-
-      // Update selected appointment if it's the one being updated
-      if (selectedAppointment?.id === appointmentId) {
-        setSelectedAppointment((prev) =>
-          prev
-            ? {
-                ...prev,
-                status: newStatus as
-                  | "pending"
-                  | "confirmed"
-                  | "completed"
-                  | "canceled",
-              }
-            : null
-        );
-      }
-
-      console.log(
-        `Appointment ${appointmentId} status updated to ${newStatus}`
-      );
-    } catch (error) {
-      console.error("Error updating appointment status:", error);
-      // Show user-friendly error message
-      alert(
-        `Failed to update appointment status. Please try again. Error: ${
-          error instanceof Error ? error.message : "Unknown error"
-        }`
-      );
-      throw error;
     }
   };
 
   const handleConfirmCancel = async () => {
-    if (appointmentToCancel) {
-      try {
-        await updateAppointmentStatus(appointmentToCancel, "canceled");
-        setShowConfirmDialog(false);
-        setAppointmentToCancel(null);
-      } catch (error) {
-        console.error("Error canceling appointment:", error);
-        // Don't close the dialog if there's an error, let user try again
+    if (!appointmentToCancel) return;
+
+    const appointmentData = appointments.find(
+      (apt) => apt.id === appointmentToCancel
+    );
+
+    if (
+      !appointmentData ||
+      !appointmentData.provider ||
+      !appointmentData.client
+    ) {
+      alert(
+        "Error: Could not find appointment details. Please refresh the page."
+      );
+      setShowConfirmDialog(false);
+      return;
+    }
+
+    setIsCancelling(true);
+
+    try {
+      const { error: dbError } = await supabase
+        .from("appointments")
+        .update({ status: "canceled" })
+        .eq("id", appointmentToCancel)
+        .select("id, status");
+
+      if (dbError) {
+        throw dbError;
       }
+
+      setAppointments((prev) =>
+        prev.map((apt) =>
+          apt.id === appointmentToCancel ? { ...apt, status: "canceled" } : apt
+        )
+      );
+
+      const payload = {
+        clientName: appointmentData.client.full_name,
+        clientEmail: appointmentData.client.email,
+        providerName: appointmentData.provider.business_name,
+        providerEmail: appointmentData.provider.email,
+        providerContact:
+          appointmentData.provider.contact_number || "Not Provided",
+        address: appointmentData.address,
+        date: appointmentData.date,
+        time: appointmentData.time,
+        status: "Cancelled",
+        services: appointmentData.services,
+        totalPrice: appointmentData.price,
+      };
+
+      fetch("/api/cancel-appointment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      }).catch((emailError) => {
+        console.error("Sending email notifications failed:", emailError);
+      });
+    } catch (error: any) {
+      console.error("Error canceling appointment:", error);
+      alert(`Cancellation failed: ${error.message}`);
+    } finally {
+      setIsCancelling(false);
+      setShowConfirmDialog(false);
+      setAppointmentToCancel(null);
     }
   };
 
@@ -381,67 +341,6 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
     window.addEventListener("keydown", onEsc);
     return () => window.removeEventListener("keydown", onEsc);
   }, [showConfirmDialog]);
-
-  /*review */
-  const [selectedAppointmentReview, setSelectedAppointmentReview] =
-    useState<Appointment | null>(null);
-
-  const [rating, setRating] = useState<number>(0);
-  const [hoveredRating, setHoveredRating] = useState<number>(0);
-  const [reviewText, setReviewText] = useState<string>("");
-  const [name, setName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (rating > 0 && reviewText.trim() && name.trim()) {
-      const formData: ReviewFormData = {
-        rating,
-        reviewText: reviewText.trim(),
-        name: name.trim(),
-        email: email.trim(),
-      };
-
-      setIsSubmitted(true);
-      //ichange lang ni to sumbit jd sa datbase poo
-      setSelectedAppointmentReview(null);
-
-      // Reset form after a delay
-      setTimeout(() => {
-        handleCancel();
-      }, 2000);
-    }
-  };
-
-  const handleCancel = () => {
-    setRating(0);
-    setHoveredRating(0);
-    setReviewText("");
-    setName("");
-    setEmail("");
-    setIsSubmitted(false);
-    setSelectedAppointmentReview(null);
-  };
-
-  const getRatingText = (rating: number): string => {
-    switch (rating) {
-      case 1:
-        return "Poor";
-      case 2:
-        return "Fair";
-      case 3:
-        return "Good";
-      case 4:
-        return "Very Good";
-      case 5:
-        return "Excellent";
-      default:
-        return "";
-    }
-  };
-
-  const isFormValid = rating > 0 && reviewText.trim() && name.trim();
 
   return (
     <div className={styles.appointmentsPage}>
@@ -475,7 +374,6 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
             </button>
           </div>
         </div>
-
         <div className={styles.appointmentsList}>
           {filteredAppointments.length > 0 ? (
             filteredAppointments.map((appointment) => (
@@ -483,7 +381,6 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
                 key={appointment.id}
                 appointment={appointment}
                 onShowDetails={() => setSelectedAppointment(appointment)}
-                onShowReview={() => setSelectedAppointmentReview(appointment)}
                 onStatusUpdate={handleStatusUpdate}
               />
             ))
@@ -495,7 +392,6 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
         </div>
       </main>
 
-      {/* Appointment Details Modal */}
       {selectedAppointment && (
         <div
           className={styles.modalOverlay}
@@ -506,6 +402,12 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
             onClick={(e) => e.stopPropagation()}
           >
             <div className={styles.facilityNameParent}>
+              <div className={styles.rowContainer}>
+                <div className={styles.facilityName}>Client Name</div>
+                <b className={styles.facilityNameCap}>
+                  {selectedAppointment.client?.full_name || "N/A"}
+                </b>
+              </div>
               <div className={styles.rowContainer}>
                 <div className={styles.facilityName}>Appointment Status</div>
                 <b className={styles.facilityNameCap}>
@@ -544,53 +446,34 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
                   {formatDisplayTime(selectedAppointment.time)}
                 </b>
               </div>
-
               <Image
                 className={styles.dividerIcon}
                 width={390}
                 height={1}
-                sizes="100vw"
                 alt=""
                 src="/Divider1.svg"
               />
-
               <div className={styles.serviceNameParent}>
-                {selectedAppointment.services &&
-                selectedAppointment.services.length > 0 ? (
-                  selectedAppointment.services.map((service, index) => (
-                    <div
-                      className={styles.rowContainer}
-                      key={`service-${index}`}
-                    >
-                      <div className={styles.facilityName}>{service.name}</div>
-                      <b className={styles.facilityNameCap}>
-                        PHP {service.price.toFixed(2)}
-                      </b>
-                    </div>
-                  ))
-                ) : (
-                  <div className={styles.rowContainer}>
-                    <div className={styles.facilityName}>
-                      No services listed
-                    </div>
-                    <b className={styles.facilityNameCap}>PHP 0.00</b>
+                {selectedAppointment.services.map((service, index) => (
+                  <div className={styles.rowContainer} key={`service-${index}`}>
+                    <div className={styles.facilityName}>{service.name}</div>
+                    <b className={styles.facilityNameCap}>
+                      PHP {service.price.toFixed(2)}
+                    </b>
                   </div>
-                )}
+                ))}
               </div>
-
               <Image
                 className={styles.dividerIcon1}
                 width={390}
                 height={1}
-                sizes="100vw"
                 alt=""
                 src="/Divider1.svg"
               />
-
               <div className={styles.rowContainerTotal}>
                 <div className={styles.facilityName}>Total</div>
                 <b className={styles.facilityNameCap}>
-                  PHP {(selectedAppointment.price ?? 0).toFixed(2)}
+                  PHP {selectedAppointment.price.toFixed(2)}
                 </b>
               </div>
             </div>
@@ -604,132 +487,24 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
             <h3>Cancel Appointment</h3>
             <p>
               Are you sure you want to cancel this appointment? This action
-              cannot be undone.
+              cannot be undone and email notifications will be sent.
             </p>
             <div className={styles.confirmButtons}>
               <button
                 className={styles.cancelButton}
                 onClick={handleCancelCancel}
+                disabled={isCancelling}
               >
                 Keep Appointment
               </button>
               <button
                 className={styles.confirmButton}
                 onClick={handleConfirmCancel}
+                disabled={isCancelling}
               >
-                Cancel Appointment
+                {isCancelling ? "Cancelling..." : "Cancel Appointment"}
               </button>
             </div>
-          </div>
-        </div>
-      )}
-
-      {/*review form*/}
-      {selectedAppointmentReview && (
-        <div className={styles.overlay}>
-          <div className={styles.modal}>
-            <button
-              className={styles.closeButton}
-              onClick={handleCancel}
-              aria-label="Close"
-            >
-              <X size={20} />
-            </button>
-
-            <h2 className={styles.title}>Write a Review</h2>
-            <p className={styles.subtitle}>
-              Share your experience at{" "}
-              {selectedAppointmentReview.provider?.business_name} to help others
-              make informed decisions.
-            </p>
-
-            <form onSubmit={handleSubmit} className={styles.form}>
-              <div className={styles.fieldGroup}>
-                <label className={styles.label}>Rating *</label>
-                <div className={styles.starContainer}>
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <button
-                      key={star}
-                      type="button"
-                      onClick={() => setRating(star)}
-                      onMouseEnter={() => setHoveredRating(star)}
-                      onMouseLeave={() => setHoveredRating(0)}
-                      className={styles.starButton}
-                      aria-label={`Rate ${star} stars`}
-                    >
-                      <Star
-                        size={24}
-                        className={`${styles.star} ${
-                          star <= (hoveredRating || rating)
-                            ? styles.starActive
-                            : styles.starInactive
-                        }`}
-                        fill={
-                          star <= (hoveredRating || rating)
-                            ? "currentColor"
-                            : "none"
-                        }
-                      />
-                    </button>
-                  ))}
-                </div>
-                {rating > 0 && (
-                  <p className={styles.ratingText}>{getRatingText(rating)}</p>
-                )}
-              </div>
-
-              <div className={styles.fieldGroup}>
-                <label className={styles.label} htmlFor="name">
-                  Your Name *
-                </label>
-                <input
-                  id="name"
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className={styles.input}
-                  placeholder="Enter your name"
-                  required
-                />
-              </div>
-
-              <div className={styles.fieldGroup}>
-                <label className={styles.label} htmlFor="review">
-                  Review *
-                </label>
-                <textarea
-                  id="review"
-                  value={reviewText}
-                  onChange={(e) => setReviewText(e.target.value)}
-                  className={styles.textarea}
-                  placeholder="Tell us about your experience..."
-                  maxLength={500}
-                  required
-                />
-                <p className={styles.charCounter}>
-                  {reviewText.length}/500 characters
-                </p>
-              </div>
-
-              <div className={styles.buttonContainer}>
-                <button
-                  type="button"
-                  onClick={handleCancel}
-                  className={styles.cancelButtonReview}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={!isFormValid}
-                  className={`${styles.submitButton} ${
-                    !isFormValid ? styles.submitButtonDisabled : ""
-                  }`}
-                >
-                  Submit Review
-                </button>
-              </div>
-            </form>
           </div>
         </div>
       )}
