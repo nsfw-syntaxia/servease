@@ -32,6 +32,12 @@ const ServiceRow = ({
   onCancelEdit: () => void;
   onUpdateService: (service: Service) => Promise<void>; // make async
 }) => {
+  const rowClassNames = [
+    styles.serviceRow,
+    isGlobalEditMode ? styles.editModeRow : "",
+    isCurrentlyEditing ? styles.isEditingRow : "",
+  ].join(" ");
+
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -97,7 +103,7 @@ const ServiceRow = ({
 
   if (isCurrentlyEditing) {
     return (
-      <div className={`${styles.serviceRow} ${styles.isEditingRow}`}>
+      <div className={rowClassNames}>
         <div className={styles.tableCell}>
           <input
             type="text"
@@ -164,7 +170,7 @@ const ServiceRow = ({
   }
 
   return (
-    <div className={styles.serviceRow}>
+    <div className={rowClassNames}>
       <div className={styles.tableCell}>{service.name}</div>
       <div className={styles.tableCell}>{service.description}</div>
       <div className={styles.tableCell}>{service.price}</div>
