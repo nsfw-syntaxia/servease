@@ -34,14 +34,10 @@ export interface ServiceInfo {
   price: number;
 }
 
-// RATING SYSTEM CHANGE 1: Updated Appointment interface
-// The client_id and provider_id are essential for creating a review.
-// Please ensure your data fetching logic that populates 'initialAppointments'
-// selects these fields from your 'appointments' table.
 export interface Appointment {
   id: string;
-  client_id: string; // <-- ADDED: Needed for review submission
-  provider_id: string; // <-- ADDED: Needed for review submission
+  client_id: string; 
+  provider_id: string; 
   date: string;
   time: string;
   status: "pending" | "confirmed" | "completed" | "canceled";
@@ -411,6 +407,7 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
       // Prepare the data for the 'reviews' table based on its fields:
       // client_id, provider_id, rating, comment, client_name
       const reviewPayload = {
+        appointment_id : selectedAppointmentReview.id,
         client_id: selectedAppointmentReview.client_id,
         provider_id: selectedAppointmentReview.provider_id,
         rating: rating,
