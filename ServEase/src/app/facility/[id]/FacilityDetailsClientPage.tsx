@@ -2,9 +2,12 @@
 
 import type { NextPage } from "next";
 import { useRouter } from "next/navigation";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import Image from "next/image";
 import styles from "../../styles/facilitydetails.module.css";
+import * as maptilerClient from "@maptiler/client";
+import { Map, Marker, config } from "@maptiler/sdk";
+import "@maptiler/sdk/dist/maptiler-sdk.css";
 
 interface Profile {
   id: string;
@@ -26,8 +29,8 @@ interface Profile {
 }
 
 interface Service {
-  id: number; // Corrected type
-  name: string; // Corrected property name
+  id: number;
+  name: string;
   price: number;
   provider_id: string;
 }
@@ -43,6 +46,44 @@ interface RelatedService {
   facility_image_url: string | null;
   picture_url: string | null;
 }
+
+const DynamicMap = ({ lat, lng }: { lat: number; lng: number }) => {
+  const mapContainer = useRef<HTMLDivElement>(null);
+  const mapInstance = useRef<Map | null>(null);
+  const maptilerApiKey = process.env.NEXT_PUBLIC_MAPTILER_API_KEY;
+
+  useEffect(() => {
+    if (!maptilerApiKey || mapInstance.current || !mapContainer.current) return;
+
+    config.apiKey = maptilerApiKey;
+    const map = new Map({
+      container: mapContainer.current,
+      style: "streets-v2",
+      center: [lng, lat], 
+      zoom: 16, 
+    });
+
+    new Marker({ color: "#FF0000" }).setLngLat([lng, lat]).addTo(map);
+    mapInstance.current = map;
+
+    return () => {
+      mapInstance.current?.remove();
+      mapInstance.current = null;
+    };
+  }, [lat, lng, maptilerApiKey]);
+
+  return (
+    <div
+      ref={mapContainer}
+      style={{
+        position: "absolute",
+        width: "100%",
+        height: "100%",
+        borderRadius: "inherit",
+      }}
+    />
+  );
+};
 
 const formatTime = (timeStr: string | null) => {
   if (!timeStr) return "N/A";
@@ -190,6 +231,57 @@ const FacilityDetailsClientPage: NextPage<{
   const serviceNames = services ? services.map((service) => service.name) : [];
   const [activeServiceName, setActiveServiceName] = useState("");
 
+  const [coordinates, setCoordinates] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
+  const [isMapLoading, setIsMapLoading] = useState(true);
+  const [mapError, setMapError] = useState<string | null>(null);
+
+  // --- THIS IS THE CORE LOGIC FOR GEOCODING ---
+  useEffect(() => {
+    // This function will be called when the component mounts
+    const geocodeAddress = async () => {
+      const maptilerApiKey = process.env.NEXT_PUBLIC_MAPTILER_API_KEY;
+
+      // 1. Check if we have an address string and an API key
+      if (!facility.address || !maptilerApiKey) {
+        setMapError("Address or API key is missing.");
+        setIsMapLoading(false);
+        return;
+      }
+
+      try {
+        maptilerClient.config.apiKey = maptilerApiKey;
+
+        // 2. THIS IS THE MAGIC: We send the text address to MapTiler
+        // For your example, it sends: "Bontores St. Basak San Nicolas Cebu City"
+        const results = await maptilerClient.geocoding.forward(
+          facility.address,
+          { limit: 1 }
+        );
+
+        // 3. Check if MapTiler found a result
+        if (results.features.length > 0) {
+          const { center } = results.features[0]; // center is [longitude, latitude]
+          // 4. We save the coordinates to our state
+          setCoordinates({ lng: center[0], lat: center[1] });
+        } else {
+          // If the address is not found
+          setMapError("Location could not be found on the map.");
+        }
+      } catch (error) {
+        console.error("Geocoding failed:", error);
+        setMapError("An error occurred while loading the map.");
+      } finally {
+        // 5. We stop showing the loading message
+        setIsMapLoading(false);
+      }
+    };
+
+    geocodeAddress();
+  }, [facility.address]);
+
   const filters = [
     { label: "All", hasStar: false },
     { label: "5", hasStar: true },
@@ -245,14 +337,14 @@ const FacilityDetailsClientPage: NextPage<{
 
   const disableTransition = () => {
     setDisableAnim(true);
-    setTimeout(() => setDisableAnim(false), 50); // restore transition
+    setTimeout(() => setDisableAnim(false), 50);
   };
 
   useEffect(() => {
     if (carouselIndex === totalImages + visibleImages) {
       setTimeout(() => {
         setCarouselIndex(visibleImages);
-        disableTransition(); // temporarily disable transition
+        disableTransition(); 
       }, 300);
     } else if (carouselIndex === 0) {
       setTimeout(() => {
@@ -264,7 +356,6 @@ const FacilityDetailsClientPage: NextPage<{
 
   useEffect(() => {
     if (services && services.length > 0 && !activeServiceName) {
-      // Set the first service as the default active one.
       setActiveServiceName(services[0].name);
     }
   }, [services, activeServiceName]);
@@ -301,6 +392,7 @@ const FacilityDetailsClientPage: NextPage<{
     <div className={styles.facilityDetailsParent}>
       <div className={styles.facilityDetails}>
         <div className={styles.frameParent}>
+          {/* ... (Your existing JSX for images and facility info) ... */}
           <div className={styles.image7Parent}>
             <div className={styles.image7}>
               <Image
@@ -337,7 +429,6 @@ const FacilityDetailsClientPage: NextPage<{
                       : "transform 0.5s ease-in-out",
                   }}
                 >
-                  {/* Clone last N items at the start */}
                   {facilityImages.slice(-visibleImages).map((imgSrc, idx) => (
                     <div className={styles.image71} key={`clone-start-${idx}`}>
                       <Image
@@ -349,7 +440,6 @@ const FacilityDetailsClientPage: NextPage<{
                     </div>
                   ))}
 
-                  {/* Original slides */}
                   {facilityImages.map((imgSrc, idx) => (
                     <div className={styles.image71} key={idx}>
                       <Image
@@ -558,8 +648,6 @@ const FacilityDetailsClientPage: NextPage<{
                 </div>
               </div>
               <div className={styles.buttonContainer}>
-                {/* --- UI RESTORED --- */}
-                {/* This JSX is now exactly as you had it, using your original class logic. */}
                 {serviceNames.map((serviceName) => (
                   <div
                     key={serviceName}
@@ -616,6 +704,7 @@ const FacilityDetailsClientPage: NextPage<{
             </div>
           </div>
         </div>
+
         <section id="location">
           <div className={styles.whatweofferbox}>
             <div className={styles.location}>
@@ -626,24 +715,52 @@ const FacilityDetailsClientPage: NextPage<{
                 </div>
               </div>
               <div className={styles.map}>
-                <Image
-                  className={styles.bgIcon}
-                  fill
-                  objectFit="cover"
-                  alt="Map Background"
-                  src="/Map.svg"
-                />
-                <Image
-                  className={styles.locationOnIcon}
-                  width={90}
-                  height={90}
-                  alt=""
-                  src="/location_on1.svg"
-                />
+                {isMapLoading ? (
+                  // Show a loading state
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      height: "100%",
+                      backgroundColor: "#e9e9e9",
+                      borderRadius: "inherit",
+                    }}
+                  >
+                    <p>Loading map...</p>
+                  </div>
+                ) : coordinates ? (
+                  // If coordinates were found, render the dynamic map
+                  <DynamicMap lat={coordinates.lat} lng={coordinates.lng} />
+                ) : (
+                  // Fallback if geocoding failed or no address
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      height: "100%",
+                      backgroundColor: "#e9e9e9",
+                      borderRadius: "inherit",
+                    }}
+                  >
+                    <p>Location could not be found on the map.</p>
+                  </div>
+                )}
               </div>
               <div className={styles.button13}>
                 <div className={styles.star} />
-                <div className={styles.link}>
+                <a
+                  href={
+                    coordinates
+                      ? `https://www.google.com/maps/dir/?api=1&destination=${coordinates.lat},${coordinates.lng}`
+                      : "#"
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.link}
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
                   <div className={styles.bookNow1}>Get Directions</div>
                   <Image
                     className={styles.svgIcon}
@@ -652,7 +769,7 @@ const FacilityDetailsClientPage: NextPage<{
                     alt=""
                     src="/SVG.svg"
                   />
-                </div>
+                </a>
                 <div className={styles.star} />
               </div>
             </div>
