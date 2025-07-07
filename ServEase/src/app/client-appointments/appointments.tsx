@@ -6,25 +6,34 @@ import { useState, useMemo, useRef, useEffect } from "react";
 import { createClient } from "../lib/supabase/client";
 import styles from "../styles/client-appointments.module.css";
 
-export type ServiceDetail = {
+export interface ClientInfo {
+  full_name: string;
+  email: string;
+}
+
+export interface ProviderInfo {
+  business_name: string;
+  picture_url: string | null;
+  contact_number: string | null;
+  email: string; 
+}
+
+export interface ServiceInfo {
   name: string;
   price: number;
-};
+}
 
-export type Appointment = {
+export interface Appointment {
   id: string;
   date: string;
   time: string;
   status: "pending" | "confirmed" | "completed" | "canceled";
   address: string;
-  price: number; 
-  services: ServiceDetail[]; 
-  provider: {
-    business_name: string;
-    picture_url: string | null;
-    contact_number: string | null;
-  } | null;
-};
+  price: number;
+  services: ServiceInfo[];
+  provider: ProviderInfo | null;
+  client: ClientInfo | null; 
+}
 
 const formatDisplayDate = (dateString: string) => {
   const date = new Date(dateString + "T00:00:00");
@@ -70,19 +79,20 @@ const AppointmentCard = ({
   };
 
   const getStatusDisplayText = (status: string): string => {
-    return status === "canceled" ? "Cancel" : status.charAt(0).toUpperCase() + status.slice(1);
+    return status === "canceled"
+      ? "Cancel"
+      : status.charAt(0).toUpperCase() + status.slice(1);
   };
 
   const handleStatusChange = async (newStatus: string) => {
     if (isUpdating) return;
-    
+
     setIsUpdating(true);
     try {
       await onStatusUpdate(appointment.id, newStatus);
       setShowDropdown(false);
     } catch (error) {
       console.error("Error updating appointment status:", error);
-      // You might want to show a toast notification here
     } finally {
       setIsUpdating(false);
     }
@@ -161,46 +171,47 @@ const AppointmentCard = ({
             className={`${styles.statusButton} ${styles[appointment.status]}`}
           ></span>
           <span>
-            {isUpdating ? "Updating..." : (
-              appointment.status.charAt(0).toUpperCase() +
-              appointment.status.slice(1)
-            )}
+            {isUpdating
+              ? "Updating..."
+              : appointment.status.charAt(0).toUpperCase() +
+                appointment.status.slice(1)}
           </span>
           {(appointment.status === "pending" ||
-            appointment.status === "confirmed") && !isUpdating && (
-            <>
-              <Image
-                className={styles.dropdownIcon}
-                width={24}
-                height={24}
-                alt="Dropdown"
-                src="/arrow_drop_down.svg"
-                style={{ cursor: "pointer" }}
-              />
-              {showDropdown && (
-                <div className={styles.dropdownMenu}>
-                  {getAvailableStatusOptions(appointment.status).map(
-                    (item) => (
-                      <div
-                        key={item}
-                        className={`${styles.dropdownItem} ${
-                          hovered === item ? styles.active : ""
-                        }`}
-                        onMouseEnter={() => setHovered(item)}
-                        onMouseLeave={() => setHovered("")}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleStatusChange(item);
-                        }}
-                      >
-                        {getStatusDisplayText(item)}
-                      </div>
-                    )
-                  )}
-                </div>
-              )}
-            </>
-          )}
+            appointment.status === "confirmed") &&
+            !isUpdating && (
+              <>
+                <Image
+                  className={styles.dropdownIcon}
+                  width={24}
+                  height={24}
+                  alt="Dropdown"
+                  src="/arrow_drop_down.svg"
+                  style={{ cursor: "pointer" }}
+                />
+                {showDropdown && (
+                  <div className={styles.dropdownMenu}>
+                    {getAvailableStatusOptions(appointment.status).map(
+                      (item) => (
+                        <div
+                          key={item}
+                          className={`${styles.dropdownItem} ${
+                            hovered === item ? styles.active : ""
+                          }`}
+                          onMouseEnter={() => setHovered(item)}
+                          onMouseLeave={() => setHovered("")}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleStatusChange(item);
+                          }}
+                        >
+                          {getStatusDisplayText(item)}
+                        </div>
+                      )
+                    )}
+                  </div>
+                )}
+              </>
+            )}
         </div>
       </div>
     </div>
@@ -213,9 +224,12 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
   const [activeFilter, setActiveFilter] = useState("upcoming");
   const [selectedAppointment, setSelectedAppointment] =
     useState<Appointment | null>(null);
-  const [appointments, setAppointments] = useState<Appointment[]>(initialAppointments);
+  const [appointments, setAppointments] =
+    useState<Appointment[]>(initialAppointments);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
-  const [appointmentToCancel, setAppointmentToCancel] = useState<string | null>(null);
+  const [appointmentToCancel, setAppointmentToCancel] = useState<string | null>(
+    null
+  );
 
   const supabase = createClient();
 
@@ -235,7 +249,10 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
     }
   }, [activeFilter, appointments]);
 
-  const handleStatusUpdate = async (appointmentId: string, newStatus: string) => {
+  const handleStatusUpdate = async (
+    appointmentId: string,
+    newStatus: string
+  ) => {
     if (newStatus === "canceled") {
       setAppointmentToCancel(appointmentId);
       setShowConfirmDialog(true);
@@ -245,14 +262,19 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
     await updateAppointmentStatus(appointmentId, newStatus);
   };
 
-  const updateAppointmentStatus = async (appointmentId: string, newStatus: string) => {
+  const updateAppointmentStatus = async (
+    appointmentId: string,
+    newStatus: string
+  ) => {
     try {
-      console.log(`Attempting to update appointment ${appointmentId} to status ${newStatus}`);
-      
+      console.log(
+        `Attempting to update appointment ${appointmentId} to status ${newStatus}`
+      );
+
       const { data, error } = await supabase
-        .from('appointments')
+        .from("appointments")
         .update({ status: newStatus })
-        .eq('id', appointmentId)
+        .eq("id", appointmentId)
         .select();
 
       if (error) {
@@ -263,26 +285,46 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
       console.log("Update successful, data:", data);
 
       // Update local state
-      setAppointments(prev =>
-        prev.map(apt =>
+      setAppointments((prev) =>
+        prev.map((apt) =>
           apt.id === appointmentId
-            ? { ...apt, status: newStatus as "pending" | "confirmed" | "completed" | "canceled" }
+            ? {
+                ...apt,
+                status: newStatus as
+                  | "pending"
+                  | "confirmed"
+                  | "completed"
+                  | "canceled",
+              }
             : apt
         )
       );
 
       // Update selected appointment if it's the one being updated
       if (selectedAppointment?.id === appointmentId) {
-        setSelectedAppointment(prev =>
-          prev ? { ...prev, status: newStatus as "pending" | "confirmed" | "completed" | "canceled" } : null
+        setSelectedAppointment((prev) =>
+          prev
+            ? {
+                ...prev,
+                status: newStatus as
+                  | "pending"
+                  | "confirmed"
+                  | "completed"
+                  | "canceled",
+              }
+            : null
         );
       }
 
-      console.log(`Appointment ${appointmentId} status updated to ${newStatus}`);
+      console.log(
+        `Appointment ${appointmentId} status updated to ${newStatus}`
+      );
     } catch (error) {
       console.error("Error updating appointment status:", error);
       // Show user-friendly error message
-      alert(`Failed to update appointment status. Please try again. Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      alert(
+        `Failed to update appointment status. Please try again. Error: ${error instanceof Error ? error.message : "Unknown error"}`
+      );
       throw error;
     }
   };
@@ -290,15 +332,36 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
   const handleConfirmCancel = async () => {
     if (appointmentToCancel) {
       try {
+        const payload = {
+        appointmentId: selectedAppointment.id,
+        providerName: selectedAppointment.provider.business_name,
+        clientName: selectedAppointment.client.full_name,
+        providerEmail: selectedAppointment.provider.email,
+        date: selectedAppointment.date,
+        time: selectedAppointment.time,
+      };
         await updateAppointmentStatus(appointmentToCancel, "canceled");
         setShowConfirmDialog(false);
         setAppointmentToCancel(null);
+        const response = await fetch('/api/appointments/cancel', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const result = await response.json();
+        throw new Error(result.error || 'Failed to cancel appointment.');
+      }
       } catch (error) {
         console.error("Error canceling appointment:", error);
         // Don't close the dialog if there's an error, let user try again
       }
     }
   };
+  
 
   const handleCancelCancel = () => {
     setShowConfirmDialog(false);
@@ -390,7 +453,7 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
               <div className={styles.rowContainer}>
                 <div className={styles.facilityName}>Facility Name</div>
                 <b className={styles.facilityNameCap}>
-                  {selectedAppointment.provider?.business_name || 'N/A'}
+                  {selectedAppointment.provider?.business_name || "N/A"}
                 </b>
               </div>
               <div className={styles.rowContainer}>
@@ -402,7 +465,8 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
               <div className={styles.rowContainer}>
                 <div className={styles.facilityName}>Contact Number</div>
                 <b className={styles.facilityNameCap}>
-                  {selectedAppointment.provider?.contact_number || 'Not Provided'}
+                  {selectedAppointment.provider?.contact_number ||
+                    "Not Provided"}
                 </b>
               </div>
               <div className={styles.rowContainer}>
@@ -428,9 +492,13 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
               />
 
               <div className={styles.serviceNameParent}>
-                {selectedAppointment.services && selectedAppointment.services.length > 0 ? (
+                {selectedAppointment.services &&
+                selectedAppointment.services.length > 0 ? (
                   selectedAppointment.services.map((service, index) => (
-                    <div className={styles.rowContainer} key={`service-${index}`}>
+                    <div
+                      className={styles.rowContainer}
+                      key={`service-${index}`}
+                    >
                       <div className={styles.facilityName}>{service.name}</div>
                       <b className={styles.facilityNameCap}>
                         PHP {service.price.toFixed(2)}
@@ -439,7 +507,9 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
                   ))
                 ) : (
                   <div className={styles.rowContainer}>
-                    <div className={styles.facilityName}>No services listed</div>
+                    <div className={styles.facilityName}>
+                      No services listed
+                    </div>
                     <b className={styles.facilityNameCap}>PHP 0.00</b>
                   </div>
                 )}
@@ -469,7 +539,10 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
         <div className={styles.modalOverlay}>
           <div className={styles.confirmDialog}>
             <h3>Cancel Appointment</h3>
-            <p>Are you sure you want to cancel this appointment? This action cannot be undone.</p>
+            <p>
+              Are you sure you want to cancel this appointment? This action
+              cannot be undone.
+            </p>
             <div className={styles.confirmButtons}>
               <button
                 className={styles.cancelButton}

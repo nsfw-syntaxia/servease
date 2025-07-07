@@ -1,3 +1,5 @@
+
+/*
 // app/api/confirm-appointment/route.ts
 import { NextResponse } from "next/server";
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
@@ -5,7 +7,7 @@ import { cookies } from "next/headers";
 import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
 import { ReactElement } from "react";
-import { ClientBookingConfirmation } from "../../../emails/ClientBookingConfirmation";
+import { ClientBookingConfirmation } from "../../emails/ClientBookingConfirmation";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const supabaseAdmin = createClient(

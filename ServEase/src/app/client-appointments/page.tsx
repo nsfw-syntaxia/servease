@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import AppointmentsClient from "./appointments";
 import { type Appointment } from "./appointments";
 
+// 1. UPDATE THIS TYPE TO MATCH WHAT SUPABASE RETURNS
+// The provider and client are arrays of objects, even if there's only one.
 type DatabaseAppointment = {
   id: string;
   date: string;
@@ -15,7 +17,12 @@ type DatabaseAppointment = {
     business_name: string;
     picture_url: string | null;
     contact_number: string | null;
-  } | null;
+    email: string;
+  }[] | null; // <-- It's an array
+  client: {
+    full_name: string;
+    email: string;
+  }[] | null; // <-- It's an array
 };
 
 export default async function AppointmentsPage() {
@@ -29,6 +36,7 @@ export default async function AppointmentsPage() {
     redirect("/login");
   }
 
+  // This query is now correct and fetches all required data
   const { data: rawAppointments, error } = await supabase
     .from("appointments")
     .select(
@@ -43,7 +51,12 @@ export default async function AppointmentsPage() {
       provider:provider_id (
         business_name,
         picture_url,
-        contact_number
+        contact_number,
+        email
+      ),
+      client:client_id (
+        full_name,
+        email
       )
     `
     )
@@ -56,6 +69,7 @@ export default async function AppointmentsPage() {
     return <div>Error loading appointments.</div>;
   }
 
+  // Service details logic remains the same
   const allServiceNames = new Set<string>();
   rawAppointments?.forEach((apt) => {
     if (apt.services) {
@@ -76,9 +90,11 @@ export default async function AppointmentsPage() {
   serviceDetails?.forEach((service) => {
     serviceDetailsMap.set(service.name, service);
   });
+  // End of service details logic
 
+  // 2. UPDATE THE MAPPING LOGIC TO "UNPACK" THE ARRAYS
   const appointments: Appointment[] = (rawAppointments || []).map(
-    (apt: any) => {
+    (apt: DatabaseAppointment) => { // Now using the correct incoming type
       const servicesWithDetails =
         apt.services?.map((serviceName) => {
           const serviceDetail = serviceDetailsMap.get(serviceName);
@@ -100,13 +116,9 @@ export default async function AppointmentsPage() {
         address: apt.address,
         price: apt.price,
         services: servicesWithDetails,
-        provider: apt.provider
-          ? {
-              business_name: apt.provider.business_name,
-              picture_url: apt.provider.picture_url,
-              contact_number: apt.provider.contact_number,
-            }
-          : null,
+        // Take the first item from the array, or null if it's empty/missing
+        provider: apt.provider ? apt.provider[0] || null : null,
+        client: apt.client ? apt.client[0] || null : null,
       };
     }
   );

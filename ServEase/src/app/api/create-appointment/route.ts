@@ -9,7 +9,6 @@ import React from 'react';
 import { ClientBookingPending } from '../../emails/ClientBookingPending'; 
 import { ProviderBookingNotification } from '../../emails/ProviderBookingNotification';
 
-// --- (No changes needed for transporter, supabaseAdmin, or formatCurrency) ---
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -34,7 +33,6 @@ const formatCurrency = (amount: number) => {
 
 export async function POST(request: Request) {
   try {
-    // 1. Get the NEW, complete data from the client
     const { 
         providerId, 
         clientId, 
@@ -47,18 +45,15 @@ export async function POST(request: Request) {
         clientName 
     } = await request.json();
 
-    // Basic validation
     if (!providerId || !clientId || !date || !time || !services || !providerName || !clientName) {
       return NextResponse.json({ error: 'Missing required booking information from the payload.' }, { status: 400 });
     }
 
-    // 2. Securely fetch ONLY the emails. We don't need to fetch profiles anymore.
     const [providerAuthRes, clientAuthRes] = await Promise.all([
       supabaseAdmin.auth.admin.getUserById(providerId),
       supabaseAdmin.auth.admin.getUserById(clientId)
     ]);
     
-    // Error handling for email fetches
     if (providerAuthRes.error || !providerAuthRes.data.user) throw new Error('Provider auth user not found.');
     if (clientAuthRes.error || !clientAuthRes.data.user) throw new Error('Client auth user not found.');
 
@@ -69,11 +64,9 @@ export async function POST(request: Request) {
         throw new Error('Could not retrieve email for provider or client.');
     }
 
-    // 3. Prepare data for the database
     const serviceNames = services.map((s: { name: string }) => s.name);
     const totalPrice = services.reduce((sum: number, s: { price: number }) => sum + s.price, 0);
 
-    // 4. Create the appointment in the database using data from the payload
     const { error: insertError } = await supabaseAdmin
       .from("appointments")
       .insert({
@@ -84,19 +77,18 @@ export async function POST(request: Request) {
         status: "pending",
         price: totalPrice,
         services: serviceNames,
-        address: providerAddress, // Use the address from the payload
+        address: providerAddress, 
       });
 
     if (insertError) {
       throw new Error(`Failed to create appointment: ${insertError.message}`);
     }
 
-    // 5. Create and render the email components using data from the payload
     const clientEmailComponent = React.createElement(ClientBookingPending, {
-        clientName: clientName, // Use from payload
-        providerName: providerName, // Use from payload
-        address: providerAddress, // Use from payload
-        contactNumber: providerContact, // Use from payload
+        clientName: clientName, 
+        providerName: providerName, 
+        address: providerAddress, 
+        contactNumber: providerContact, 
         date: new Date(date).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }),
         time: time,
         services: services,
@@ -104,9 +96,9 @@ export async function POST(request: Request) {
     });
 
     const providerEmailComponent = React.createElement(ProviderBookingNotification, {
-        providerName: providerName, // Use from payload
-        clientName: clientName, // Use from payload
-        clientEmail: clientEmail, // This comes from our secure fetch
+        providerName: providerName,
+        clientName: clientName, 
+        clientEmail: clientEmail, 
         date: new Date(date).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }),
         time: time,
         services: services,
@@ -116,16 +108,15 @@ export async function POST(request: Request) {
     const clientEmailHtml = await render(clientEmailComponent);
     const providerEmailHtml = await render(providerEmailComponent);
 
-    // 6. Send the emails
     const sendClientEmailPromise = transporter.sendMail({
-      from: `"Servease" <${process.env.GMAIL_EMAIL}>`,
+      from: `servease" <${process.env.GMAIL_EMAIL}>`,
       to: clientEmail,
       subject: 'Your Booking Request is Awaiting Approval',
       html: clientEmailHtml,
     });
 
     const sendProviderEmailPromise = transporter.sendMail({
-      from: `"Servease" <${process.env.GMAIL_EMAIL}>`,
+      from: `"servease" <${process.env.GMAIL_EMAIL}>`,
       to: providerEmail,
       subject: `New Booking Request from ${clientName}`,
       html: providerEmailHtml,
@@ -135,7 +126,6 @@ export async function POST(request: Request) {
       console.log("Email sending results:", results);
     });
 
-    // 7. Return a success message
     return NextResponse.json({ success: true, message: 'Appointment request submitted. Awaiting provider confirmation.' });
 
   } catch (error: any) {
