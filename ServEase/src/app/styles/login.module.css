@@ -554,7 +554,7 @@
 
 /* ---------- Tablet (max-width: 1024px) ---------- */
 /* ---------- Tablet (max-width: 1024px) ---------- */
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1024px){
   .authwindow {
     width: 100%;
     height: 56%;
@@ -695,6 +695,148 @@
 @media screen and (max-width: 768px) {
   .authwindow {
     width: 100%;
+    height: 58%;
+    border-radius: 26px;
+    background: white;
+    top: 130px;
+    position: relative;
+    margin: 5% 0 0 5%;
+  }
+
+  .authlogoIcon {
+    position: absolute;
+    width: 100%;
+    height: 120px;
+    margin-top: 5%;
+    margin-left: 1px;
+  }
+
+  .login1 {
+    width: 100%;
+    left: 0;
+    top: 0;
+  }
+
+  .authwindow1 {
+    width: 90%;
+    height: auto;
+    top: 20px;
+    left: 0;
+  }
+  .title {
+    font-size: 35px;
+    margin-right: 10%;
+    width: 100%;
+    position: relative;
+  }
+  .welcomeToServeaseContainer {
+  position: relative;
+  margin-top: -7%;
+  right: 22%;
+}
+  .pleaseLogIn {
+  position: relative;
+  font-size: 17px;
+  right: 23%;
+  }
+  .logincontent {
+    width: 100%;
+    padding: 0px 30px;
+  }
+  
+  .email1, .password1 {
+    width: 110%;
+    margin-right: 110px;
+    right: 41%;
+    top: -60px;
+  }
+  .buttoncontainer {
+  width: 300px;
+  position: relative;
+  border-radius: 40px;
+  background-color: var(--color-tan);
+  height: 40px;
+  overflow: hidden;
+  flex-shrink: 0;
+  opacity: 0.5;
+  font-size: 22px;
+  cursor: pointer;
+  bottom: 90px;
+  right: 40%;
+}
+.navbar {
+  width: 400px;
+  border-radius: var(--br-12);
+  height: 56px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0px;
+  cursor: pointer;
+  position: relative;
+}
+.login2 {
+  width: 200px;
+  position: relative;
+  background-color: var(--color-tan);
+  height: 56px;
+  overflow: hidden;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.navigationbar {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-right: 80%;
+  margin-left: 36%;
+  margin-top: -1%;
+  position: relative;
+}
+.rememberMe1 {
+  position: relative;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.rememberMe {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-left: -37%;
+  margin-top: -37%;
+  position: relative;
+}
+
+.forgetPassword {
+  position: relative;
+  text-decoration: underline;
+  font-weight: 500;
+  color: var(--color-tan);
+  cursor: pointer;
+  margin-right: 35%;
+  margin-top: -37%;
+}
+.errorbox {
+  width: 315px;
+  font-size: 14px;
+  position: absolute;
+  bottom: 155px;
+  margin-left: -240px;
+  margin-bottom: -20px;
+}
+}
+/* ---------- Small Mobile (max-width: 480px) ---------- */
+@media screen and (max-width: 480px) {
+   .authwindow {
+    width: 110%;
     height: 55%;
     border-radius: 26px;
     background: white;
