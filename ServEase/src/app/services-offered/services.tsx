@@ -350,7 +350,14 @@ const ServicesOffered: NextPage<ServicesOfferedClient> = ({ initialData }) => {
 
           <div className={styles.tableBody}>
             {[...services]
-              .sort((a, b) => a.name.localeCompare(b.name))
+              .sort((a, b) => {
+                // push any service with an empty name to the bottom of the list
+                if (a.name === "") return 1;
+                if (b.name === "") return -1;
+
+                // for all other services, sort alphabetically by name
+                return a.name.localeCompare(b.name);
+              })
               .map((service) => (
                 <ServiceRow
                   key={service.id}

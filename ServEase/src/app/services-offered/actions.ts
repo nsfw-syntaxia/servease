@@ -35,7 +35,7 @@ export async function getServices(): Promise<{
     }
 
     const { data: services, error } = await supabase
-      .from("services_offered")
+      .from("services")
       .select("id, name, description, price")
       .eq("provider_id", user.id)
       .order("created_at", { ascending: true });
@@ -76,7 +76,7 @@ export async function addService(payload: ServicePayload): Promise<{
     }
 
     const { data: newService, error } = await supabase
-      .from("services_offered")
+      .from("services")
       .insert({
         ...payload,
         provider_id: user.id,
@@ -123,7 +123,7 @@ export async function updateService(
     }
 
     const { error } = await supabase
-      .from("services_offered")
+      .from("services")
       .update(payload)
       .eq("id", id)
       .eq("provider_id", user.id);
@@ -157,7 +157,7 @@ export async function deleteService(id: number): Promise<{ error?: string }> {
     }
 
     const { error } = await supabase
-      .from("services_offered")
+      .from("services")
       .delete()
       .eq("id", id)
       .eq("provider_id", user.id);
