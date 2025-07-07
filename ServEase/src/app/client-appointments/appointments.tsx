@@ -33,8 +33,15 @@ export interface ServiceInfo {
   name: string;
   price: number;
 }
+
+// RATING SYSTEM CHANGE 1: Updated Appointment interface
+// The client_id and provider_id are essential for creating a review.
+// Please ensure your data fetching logic that populates 'initialAppointments'
+// selects these fields from your 'appointments' table.
 export interface Appointment {
   id: string;
+  client_id: string; // <-- ADDED: Needed for review submission
+  provider_id: string; // <-- ADDED: Needed for review submission
   date: string;
   time: string;
   status: "pending" | "confirmed" | "completed" | "canceled";
@@ -380,25 +387,56 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  // RATING SYSTEM CHANGE 2: Add loading state for submission
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // RATING SYSTEM CHANGE 3: Pre-fill the name when the modal opens for better UX
+  useEffect(() => {
+    if (selectedAppointmentReview) {
+      setName(selectedAppointmentReview.client?.full_name || "");
+    }
+  }, [selectedAppointmentReview]);
+
+  // RATING SYSTEM CHANGE 4: Implement the review submission logic
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (rating > 0 && reviewText.trim() && name.trim()) {
-      const formData: ReviewFormData = {
-        rating,
-        reviewText: reviewText.trim(),
-        name: name.trim(),
-        email: email.trim(),
+    if (!isFormValid || !selectedAppointmentReview) {
+      alert("Please ensure you have selected a rating and filled all required fields.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Prepare the data for the 'reviews' table based on its fields:
+      // client_id, provider_id, rating, comment, client_name
+      const reviewPayload = {
+        client_id: selectedAppointmentReview.client_id,
+        provider_id: selectedAppointmentReview.provider_id,
+        rating: rating,
+        comment: reviewText.trim(),
+        client_name: name.trim(),
       };
 
-      setIsSubmitted(true);
-      //ichange lang ni to sumbit jd sa datbase poo
-      setSelectedAppointmentReview(null);
+      const { error } = await supabase.from("reviews").insert([reviewPayload]);
+      if (error) {
+        console.log("Submitting this payload to 'reviews' table:", reviewPayload);
 
-      // Reset form after a delay
-      setTimeout(() => {
-        handleCancel();
-      }, 2000);
+        console.error("Error submitting review:", error);
+        alert(`Failed to submit review: ${error.message}`);
+      } else {
+        // On success, show a confirmation message and then close the modal
+        setIsSubmitted(true);
+        setTimeout(() => {
+          handleCancel(); // This function already resets state and closes the modal
+        }, 2000); // Wait 2 seconds before closing
+      }
+    } catch (err: any) {
+      console.error("An unexpected error occurred during review submission:", err);
+      alert("An unexpected error occurred. Please try again.");
+    } finally {
+      // Ensure the submitting state is reset regardless of outcome
+      setIsSubmitting(false);
     }
   };
 
@@ -409,6 +447,7 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
     setName("");
     setEmail("");
     setIsSubmitted(false);
+    setIsSubmitting(false); // Also reset submitting state
     setSelectedAppointmentReview(null);
   };
 
@@ -428,6 +467,7 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
         return "";
     }
   };
+
   const isFormValid = rating > 0 && reviewText.trim() && name.trim();
 
   return (
@@ -682,23 +722,30 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
                   {reviewText.length}/500 characters
                 </p>
               </div>
-
+              
               <div className={styles.buttonContainer}>
                 <button
                   type="button"
                   onClick={handleCancel}
                   className={styles.cancelButton}
+                  disabled={isSubmitting}
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  disabled={!isFormValid}
+                  disabled={!isFormValid || isSubmitting}
                   className={`${styles.submitButton} ${
-                    !isFormValid ? styles.submitButtonDisabled : ""
+                    !isFormValid || isSubmitting
+                      ? styles.submitButtonDisabled
+                      : ""
                   }`}
                 >
-                  Submit Review
+                  {isSubmitting
+                    ? "Submitting..."
+                    : isSubmitted
+                    ? "Submitted!"
+                    : "Submit Review"}
                 </button>
               </div>
             </form>
