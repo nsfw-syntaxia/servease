@@ -19,13 +19,27 @@ const Header = ({ avatarUrl, userRole, homePath }: HeaderProps) => {
   const [hovered, setHovered] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  const closeDropdown = () => {
+    setOpen(false);
+    setHovered("");
+  };
+
   const handleAccountClick = () => {
     if (userRole === "client") {
       router.push("/client-profile");
     } else if (userRole === "provider") {
       router.push("/facility-profile");
     }
-    setOpen(false);
+    closeDropdown();
+  };
+
+  const handleAppointmentsClick = () => {
+    if (userRole === "client") {
+      router.push("/client-appointments");
+    } else if (userRole === "provider") {
+      router.push("/facility-appointments");
+    }
+    closeDropdown();
   };
 
   const handleLogout = async () => {
@@ -38,25 +52,15 @@ const Header = ({ avatarUrl, userRole, homePath }: HeaderProps) => {
     } catch (error) {
       console.error("Logout failed:", error);
     }
-    setOpen(false);
+    closeDropdown();
   };
 
-  const handleItemClick = (href?: string, onClick?: () => void) => {
-    if (onClick) {
-      onClick();
-    } else if (href) {
-      router.push(href);
-    }
-    setOpen(false); // close the dropdown after clicking an item
-  };
-
-  // Move the items array after handleLogout is defined
   const items = [
     { label: "My Account", onClick: handleAccountClick },
-    { label: "Appointments", href: "/appointments" },
+    { label: "Appointments", onClick: handleAppointmentsClick },
     { label: "Messages", href: "/messages" },
     { label: "Notifications", href: "/notifications" },
-    { label: "Log out", onClick: handleLogout }, // Use onClick instead of href
+    { label: "Log out", onClick: handleLogout },
   ];
 
   useEffect(() => {
@@ -65,7 +69,7 @@ const Header = ({ avatarUrl, userRole, homePath }: HeaderProps) => {
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target as Node)
       ) {
-        setOpen(false);
+        closeDropdown();
       }
     };
 
