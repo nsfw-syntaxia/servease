@@ -695,7 +695,7 @@
 @media screen and (max-width: 768px) {
   .authwindow {
     width: 100%;
-    height: 58%;
+    height: 55%;
     border-radius: 26px;
     background: white;
     top: 130px;
@@ -732,12 +732,13 @@
   .welcomeToServeaseContainer {
   position: relative;
   margin-top: -7%;
-  right: 22%;
+  right: 40%;
+  font-size: 70%;
 }
   .pleaseLogIn {
   position: relative;
-  font-size: 17px;
-  right: 23%;
+  font-size: 13px;
+  right: 40%;
   }
   .logincontent {
     width: 100%;
@@ -745,13 +746,13 @@
   }
   
   .email1, .password1 {
-    width: 110%;
+    width: 80%;
     margin-right: 110px;
-    right: 41%;
+    right: 55%;
     top: -60px;
   }
   .buttoncontainer {
-  width: 300px;
+  width: 200px;
   position: relative;
   border-radius: 40px;
   background-color: var(--color-tan);
@@ -761,13 +762,13 @@
   opacity: 0.5;
   font-size: 22px;
   cursor: pointer;
-  bottom: 90px;
-  right: 40%;
+  bottom: 80px;
+  right: 110%;
 }
 .navbar {
-  width: 400px;
+  width: 300px;
   border-radius: var(--br-12);
-  height: 56px;
+  height: 45px;
   overflow: hidden;
   flex-shrink: 0;
   display: flex;
@@ -779,10 +780,10 @@
   position: relative;
 }
 .login2 {
-  width: 200px;
+  width: 150px;
   position: relative;
   background-color: var(--color-tan);
-  height: 56px;
+  height: 45px;
   overflow: hidden;
   flex-shrink: 0;
   cursor: pointer;
@@ -793,15 +794,16 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-right: 80%;
+  margin-right: 114%;
   margin-left: 36%;
   margin-top: -1%;
   position: relative;
 }
 .rememberMe1 {
   position: relative;
-  font-weight: 500;
+  font-weight: 400;
   cursor: pointer;
+  font-size: 90%;
 }
 
 .rememberMe {
@@ -809,8 +811,8 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  margin-left: -37%;
+  gap: 9px;
+  margin-left: -55%;
   margin-top: -37%;
   position: relative;
 }
@@ -818,18 +820,19 @@
 .forgetPassword {
   position: relative;
   text-decoration: underline;
-  font-weight: 500;
+  font-weight: 400;
   color: var(--color-tan);
   cursor: pointer;
-  margin-right: 35%;
+  margin-right: 77%;
   margin-top: -37%;
+  font-size: 90%;
 }
 .errorbox {
-  width: 315px;
-  font-size: 14px;
+  width: 250px;
+  font-size: 13px;
   position: absolute;
-  bottom: 155px;
-  margin-left: -240px;
+  bottom: 145px;
+  margin-left: -430px;
   margin-bottom: -20px;
 }
 }
