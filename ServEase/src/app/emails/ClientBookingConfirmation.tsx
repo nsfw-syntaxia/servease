@@ -1,3 +1,4 @@
+/*
 import * as React from "react";
 
 interface ClientBookingConfirmationProps {
@@ -17,7 +18,7 @@ const formatCurrency = (amount: number) => {
   }).format(amount);
 };
 
-const ClientBookingConfirmation: React.FC<Readonly<ClientBookingConfirmationProps>> = ({
+export const ClientBookingConfirmation: React.FC<Readonly<ClientBookingConfirmationProps>> = ({
   clientName,
   providerName,
   date,
@@ -111,9 +112,10 @@ const ClientBookingConfirmation: React.FC<Readonly<ClientBookingConfirmationProp
         We look forward to seeing you!
       </p>
       <p style={{ marginTop: "30px", fontSize: "12px", color: "#999" }}>
-        If you need to reschedule or cancel, please contact the provider
+        If you need to cancel, please contact the provider
         directly.
       </p>
     </div>
   </div>
 );
+*/

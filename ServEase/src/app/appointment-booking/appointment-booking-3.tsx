@@ -11,7 +11,6 @@ type Props = {
   onNext: () => void;
 };
 
-// These interfaces are now just for displaying data on the page
 interface ProviderProfile {
   id: string;
   business_name: string;
@@ -60,7 +59,6 @@ export default function Booking3({ onNext }: Props) {
   const facilityId = searchParams.get("facilityId");
 
   useEffect(() => {
-    // This useEffect is still needed to fetch data for the summary display
     if (!facilityId) {
       setErrorMessage("Facility ID is missing from the URL.");
       setIsLoading(false);
@@ -79,7 +77,6 @@ export default function Booking3({ onNext }: Props) {
         return;
       }
 
-      // Fetching only display data, no sensitive info like emails
       const fetchProvider = supabase
         .from("profiles")
         .select("id, business_name, address, contact_number")
@@ -133,29 +130,22 @@ export default function Booking3({ onNext }: Props) {
     setErrorMessage("");
 
     try {
-      // Prepare the payload for our secure API route.
-      // This is where we add all the necessary details.
       const payload = {
-        // IDs for database relations
         providerId: providerProfile.id,
         clientId: clientProfile.id,
         
-        // Basic appointment info
         date: formatDateForDB(selectedDate),
         time: selectedTime,
         
-        // Services with their details
         services: selectedServices.map((s) => ({
           name: s.name,
           price: s.price,
         })),
 
-        // --- ADD THESE FIELDS ---
-        // We are adding all the display information the email templates need.
-        providerName: providerProfile.business_name, // <-- ADD THIS
-        providerAddress: providerProfile.address,     // <-- ADD THIS
-        providerContact: providerProfile.contact_number, // <-- ADD THIS
-        clientName: clientProfile.full_name,          // <-- ADD THIS
+        providerName: providerProfile.business_name, 
+        providerAddress: providerProfile.address,     
+        providerContact: providerProfile.contact_number, 
+        clientName: clientProfile.full_name,          
       };
 
       // The rest of the function remains the same
@@ -179,8 +169,6 @@ export default function Booking3({ onNext }: Props) {
     }
   };
 
-  // --- The rest of your component's JSX remains exactly the same ---
-  // --- No changes needed for the return() part ---
   if (
     !facilityId ||
     !selectedDate ||
