@@ -1,11 +1,17 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import type { NextPage } from "next";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import styles from "../styles/facility-profile.module.css";
-import { type FacilityProfileDataType } from "./actions";
-import { updateUserProfile, updateUserEmail } from "./actions";
+import {
+  type FacilityProfileDataType,
+  updateUserProfile,
+  updateUserEmail,
+  uploadFacilityPhoto,
+  deleteFacilityPhoto,
+} from "./actions";
 import { createClient } from "../utils/supabase/client";
 
 const capitalizeWords = (str: string): string => {
@@ -20,6 +26,7 @@ const capitalizeWords = (str: string): string => {
 const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
   initialData,
 }) => {
+  const router = useRouter();
   const placeholders = {
     name: "Service Facility Name",
     address: "Address",
@@ -66,6 +73,132 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
     setEditData((prev) => ({ ...prev, tags: tagsArray.join(", ") }));
   }, [tagsArray]);
 
+  const [facilityPhotos, setFacilityPhotos] = useState<
+    Array<{ url: string; path: string }>
+  >([]);
+  const [isLoadingPhotos, setIsLoadingPhotos] = useState(true);
+
+  const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
+  const addPhotoInputRef = useRef<HTMLInputElement>(null);
+
+  const fetchFacilityPhotos = useCallback(async () => {
+    setIsLoadingPhotos(true);
+    const supabase = createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) {
+      setIsLoadingPhotos(false);
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from("facility_documents")
+        .select("file_path")
+        .eq("user_id", user.id)
+        .eq("document_type", "Facility Photos")
+        .order("created_at", { ascending: true })
+        .limit(4);
+
+      if (error) throw error;
+
+      if (data) {
+        const photoData = data
+          .map((doc) => {
+            if (!doc.file_path) return null;
+
+            const { data: urlData } = supabase.storage
+              .from("documents")
+              .getPublicUrl(doc.file_path);
+            return {
+              url: `${urlData.publicUrl}?t=${new Date().getTime()}`,
+              path: doc.file_path,
+            };
+          })
+          .filter(Boolean) as Array<{ url: string; path: string }>;
+
+        setFacilityPhotos(photoData);
+      }
+    } catch (error) {
+      console.error("Error fetching facility photos:", error);
+    } finally {
+      setIsLoadingPhotos(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchFacilityPhotos();
+  }, [fetchFacilityPhotos]);
+
+  const handleTriggerAddPhoto = () => {
+    if (isUploadingPhoto || facilityPhotos.length >= 4) return;
+    addPhotoInputRef.current?.click();
+  };
+
+  const handleAddPhoto = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+    if (!allowedTypes.includes(file.type)) {
+      alert("Invalid file type. Please select a JPG, JPEG, or PNG image.");
+      return;
+    }
+
+    setIsUploadingPhoto(true);
+    try {
+      const formData = new FormData();
+      formData.append("photo", file);
+
+      const result = await uploadFacilityPhoto(formData);
+
+      if (result.error || !result.filePath) {
+        throw new Error(
+          result.error || "Upload did not return a valid file path."
+        );
+      }
+
+      const supabase = createClient();
+      const newPath = result.filePath;
+
+      const { data: urlData } = supabase.storage
+        .from("documents")
+        .getPublicUrl(newPath);
+
+      const newPhoto = {
+        url: `${urlData.publicUrl}?t=${new Date().getTime()}`,
+        path: newPath,
+      };
+
+      setFacilityPhotos((prevPhotos) => [...prevPhotos, newPhoto]);
+    } catch (error: any) {
+      alert(`Error uploading photo: ${error.message}`);
+    } finally {
+      if (addPhotoInputRef.current) addPhotoInputRef.current.value = "";
+      setIsUploadingPhoto(false);
+    }
+  };
+
+  const handleDeletePhoto = async (filePathToDelete: string) => {
+    if (!window.confirm("Are you sure you want to delete this photo?")) {
+      return;
+    }
+    try {
+      const result = await deleteFacilityPhoto(filePathToDelete);
+
+      if (result.error) {
+        throw new Error(result.error);
+      }
+
+      setFacilityPhotos((prevPhotos) =>
+        prevPhotos.filter((p) => p.path !== filePathToDelete)
+      );
+    } catch (error: any) {
+      alert(`Failed to delete photo: ${error.message}`);
+    }
+  };
+
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -74,12 +207,6 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
   const validateContactNumber = (contactNumber: string) => {
     const phoneRegex = /^\+63\d{3}\s\d{4}\s\d{3}$/;
     return phoneRegex.test(contactNumber);
-  };
-
-  const validateTags = (tags: string) => {
-    if (!tags.trim()) return true;
-    const tagsRegex = /^[a-zA-Z0-9\s]+(,\s*[a-zA-Z0-9\s]+)*$/;
-    return tagsRegex.test(tags);
   };
 
   const handleEdit = () => {
@@ -326,7 +453,7 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
           </div>
         </div>
 
-        <div className={styles.tags2}>Tags</div>
+        <div className={styles.tags2}>Tags (comma-separated)</div>
         <div className={styles.tags}>
           <div
             className={`${styles.contactNumTbx} ${
@@ -597,42 +724,77 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
         )}
 
         <div className={styles.faciPhotos} />
+
         <div className={styles.photosDisplay}>
-          <div className={styles.addPhotos}>
-            <Image
-              className={styles.addContainerIcon}
-              width={108}
-              height={200}
-              sizes="100vw"
-              alt=""
-              src="/add container.svg"
-            />
-            <div className={styles.plus}>
-              <Image
-                className={styles.iconplus}
-                width={24}
-                height={24}
-                sizes="100vw"
-                alt=""
-                src="/plus icon.svg"
-              />
+          {!isLoadingPhotos &&
+            facilityPhotos.map((photo) => (
+              <div key={photo.path} className={styles.photoItem}>
+                {" "}
+                <Image
+                  className={styles.photoImage}
+                  src={photo.url}
+                  alt={`Facility Photo`}
+                  layout="fill"
+                  objectFit="cover"
+                />
+                <button
+                  className={styles.deletePhotoBtn}
+                  onClick={() => handleDeletePhoto(photo.path)}
+                >
+                  ×
+                </button>
+              </div>
+            ))}
+
+          {/* show a placeholder while a new photo is uploading */}
+          {isUploadingPhoto && (
+            <div
+              className={`${styles.photoItem} ${styles.uploadingPlaceholder}`}
+            >
+              <p>Uploading...</p>
             </div>
-          </div>
-          <Image
-            className={styles.photoContainerIcon}
-            width={200}
-            height={200}
-            sizes="100vw"
-            alt=""
-            src="/photo container.svg"
-          />
+          )}
+
+          {/* conditionally render the add btn */}
+          {!isLoadingPhotos &&
+            !isUploadingPhoto &&
+            facilityPhotos.length < 4 && (
+              <div className={styles.addPhotos} onClick={handleTriggerAddPhoto}>
+                <Image
+                  className={styles.addContainerIcon}
+                  width={108}
+                  height={200}
+                  alt=""
+                  src="/add container.svg"
+                />
+                <div className={styles.plus}>
+                  <Image
+                    className={styles.iconplus}
+                    width={24}
+                    height={24}
+                    alt=""
+                    src="/plus icon.svg"
+                  />
+                </div>
+              </div>
+            )}
         </div>
+
+        <input
+          type="file"
+          ref={addPhotoInputRef}
+          style={{ display: "none" }}
+          accept="image/png,image/jpeg,image/jpg"
+          onChange={handleAddPhoto}
+        />
+
         <div className={styles.photos}>Photos</div>
+
         <div className={styles.moreActions} />
         <div className={styles.passLabel}>
           <div className={styles.password}>Password</div>
         </div>
-        <div className={styles.changePassBtn}>
+        <div className={`${styles.changePassBtn} ${styles.actionButton}`}>
           <div className={styles.btn} />
           <div className={styles.changePassword}>Change Password</div>
         </div>
@@ -645,26 +807,10 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
           alt=""
           src="/change-pass.svg"
         />
-        <div className={styles.notifLabel}>
-          <div className={styles.password}>Notifications</div>
-        </div>
-        <div className={styles.enableBtn}>
-          <div className={styles.btn} />
-          <div className={styles.changePassword}>Enable</div>
-        </div>
-        <div className={styles.circleNotif} />
-        <Image
-          className={styles.notificationIcon}
-          width={24}
-          height={24}
-          sizes="100vw"
-          alt=""
-          src="/notification-enable.svg"
-        />
         <div className={styles.accountLabel}>
           <div className={styles.password}>Account</div>
         </div>
-        <div className={styles.deleteAccBtn}>
+        <div className={`${styles.deleteAccBtn} ${styles.actionButton}`}>
           <div className={styles.btn} />
           <div className={styles.changePassword}>Delete Account</div>
         </div>
@@ -680,7 +826,10 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
         <div className={styles.servicesOfferedLabel}>
           <div className={styles.password}>Services Offered</div>
         </div>
-        <div className={styles.viewServicesBtn}>
+        <div
+          className={`${styles.viewServicesBtn} ${styles.actionButton}`}
+          onClick={() => router.push("/services-offered")}
+        >
           <div className={styles.btn} />
           <div className={styles.changePassword}>View</div>
         </div>
@@ -694,11 +843,11 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
           src="/briefcase.svg"
         />
         <div className={styles.appointmentLabel}>
-          <div className={styles.password}>Appointment Timeslots</div>
+          <div className={styles.password}>Notifications</div>
         </div>
-        <div className={styles.viewAppointmentsBtn}>
+        <div className={`${styles.viewAppointmentsBtn} ${styles.actionButton}`}>
           <div className={styles.btn} />
-          <div className={styles.changePassword}>View</div>
+          <div className={styles.changePassword}>Enable</div>
         </div>
         <div className={styles.appointmentsCircle} />
         <Image
@@ -707,7 +856,7 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
           height={24}
           sizes="100vw"
           alt=""
-          src="/clock-profile.svg"
+          src="/notification-enable.svg"
         />
       </div>
       <b className={styles.profile}>Profile</b>
