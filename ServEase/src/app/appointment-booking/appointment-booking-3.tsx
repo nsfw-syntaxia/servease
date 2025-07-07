@@ -128,41 +128,30 @@ export default function Booking3({ onNext }: Props) {
     }
     setIsSubmitting(true);
     setErrorMessage("");
-
     try {
-      const payload = {
-        providerId: providerProfile.id,
-        clientId: clientProfile.id,
-        
+      const serviceNames = selectedServices.map((service) => service.name);
+
+      const appointmentToInsert = {
+        client_id: clientProfile.id,
+        provider_id: providerProfile.id,
         date: formatDateForDB(selectedDate),
         time: selectedTime,
-        
-        services: selectedServices.map((s) => ({
-          name: s.name,
-          price: s.price,
-        })),
-
-        providerName: providerProfile.business_name, 
-        providerAddress: providerProfile.address,     
-        providerContact: providerProfile.contact_number, 
-        clientName: clientProfile.full_name,          
+        status: "pending",
+        price: selectedServices.reduce((sum, s) => sum + s.price, 0),
+        services: serviceNames,
+        address: providerProfile.address,
       };
 
-      // The rest of the function remains the same
-      const response = await fetch("/api/create-appointment", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      const { error: insertError } = await supabase
+        .from("appointments")
+        .insert(appointmentToInsert);
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to create appointment.");
-      }
+      if (insertError)
+        throw new Error(`Failed to save: ${insertError.message}`);
 
       resetBookingData();
       onNext();
-      router.push("/client-appointments");
+      router.push("/appointments");
     } catch (error: any) {
       setErrorMessage(error.message);
       setIsSubmitting(false);

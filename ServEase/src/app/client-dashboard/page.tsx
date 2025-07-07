@@ -9,13 +9,8 @@ export default async function ClientDashboardPage() {
   const supabase = await createClient();
 
   try {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) {
-      redirect("/login");
-    }
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) redirect("/login");
 
     const { data: profile } = await supabase
       .from("profiles")
@@ -23,22 +18,22 @@ export default async function ClientDashboardPage() {
       .eq("id", user.id)
       .single();
 
-    if (!profile || profile.role !== "client") {
-      redirect("/login");
-    }
+    if (!profile || profile.role !== "client") redirect("/login");
 
     let avatarUrl = "/avatar.svg";
     if (profile.picture_url) {
-      const { data } = supabase.storage
-        .from("avatars")
-        .getPublicUrl(profile.picture_url);
+      const { data } = supabase.storage.from("avatars").getPublicUrl(profile.picture_url);
       avatarUrl = data.publicUrl;
     }
 
-    const { data: rawAppointments } = await supabase
+    // --- STEP 1: FETCH APPOINTMENTS WITH MORE DETAILS ---
+    const { data: rawAppointments, error: appointmentsError } = await supabase
       .from("appointments")
       .select(
-        "id, date, time, status, address, provider_id, provider:provider_id(business_name, picture_url)"
+        `
+        id, date, time, status, address, price, services, provider_id,
+        provider:provider_id(business_name, picture_url, contact_number)
+        `
       )
       .eq("client_id", user.id)
       .in("status", ["pending", "confirmed"])
@@ -46,38 +41,77 @@ export default async function ClientDashboardPage() {
       .order("time", { ascending: true })
       .limit(2);
 
-    const appointments =
-      rawAppointments?.map((app) => {
-        let providerAvatarUrl = null;
-        const provider = Array.isArray(app.provider)
-          ? app.provider[0]
-          : app.provider;
+    if (appointmentsError) {
+      console.error("Error fetching appointments:", appointmentsError);
+    }
 
-        if (provider && provider.picture_url) {
-          const { data } = supabase.storage
-            .from("avatars")
-            .getPublicUrl(provider.picture_url);
-          providerAvatarUrl = data.publicUrl;
-        }
+    // --- STEP 2: FETCH SERVICE DETAILS (PRICE LOOKUP) ---
+    const allServiceNames = new Set<string>();
+    rawAppointments?.forEach(apt => {
+      if (apt.services) {
+        (apt.services as string[]).forEach(serviceName => allServiceNames.add(serviceName));
+      }
+    });
 
+    const serviceDetailsMap = new Map<string, { name: string; price: number }>();
+    if (allServiceNames.size > 0) {
+      const { data: serviceDetails, error: servicesError } = await supabase
+        .from('services')
+        .select('name, price')
+        .in('name', Array.from(allServiceNames));
+        
+      if (servicesError) {
+        console.error("Error fetching service details:", servicesError);
+      } else {
+        serviceDetails?.forEach(service => {
+          serviceDetailsMap.set(service.name, service);
+        });
+      }
+    }
+
+    // --- STEP 3: MAP THE RAW DATA TO THE FINAL 'Appointment' TYPE ---
+    const appointments: Appointment[] = (rawAppointments || []).map((app) => {
+      // Handle provider picture URL
+      let providerAvatarUrl = "/avatar.svg";
+      const provider = Array.isArray(app.provider) ? app.provider[0] : app.provider;
+      if (provider && provider.picture_url) {
+        const { data } = supabase.storage.from("avatars").getPublicUrl(provider.picture_url);
+        providerAvatarUrl = data.publicUrl;
+      }
+      
+      // Map service names to objects with names and prices
+      const servicesWithDetails = (app.services as string[])?.map(serviceName => {
+        const serviceDetail = serviceDetailsMap.get(serviceName);
         return {
-          ...app,
-          provider: provider
-            ? {
-                ...provider,
-                picture_url: providerAvatarUrl,
-              }
-            : null,
+          name: serviceName,
+          price: serviceDetail?.price || 0
         };
       }) || [];
 
+      return {
+        id: app.id,
+        date: app.date,
+        time: app.time,
+        status: app.status,
+        address: app.address,
+        price: app.price,
+        services: servicesWithDetails, // Use the detailed services list
+        provider: provider
+          ? {
+              business_name: provider.business_name,
+              picture_url: providerAvatarUrl,
+              contact_number: provider.contact_number, // Pass the contact number
+            }
+          : null,
+      };
+    });
+    
+    // --- (The rest of your featured services logic remains the same) ---
     const { data: rawFeaturedServices, error: rpcError } = await supabase.rpc(
       "get_random_featured_services_with_provider"
     );
-
-    if (rpcError) {
-      console.error("Error fetching featured services:", rpcError);
-    }
+    // ... (keep the rest of the featured services processing logic as is)
+    // ...
 
     const featuredServices = await Promise.all(
       rawFeaturedServices?.map(async (service, index) => {
@@ -120,16 +154,14 @@ export default async function ClientDashboardPage() {
       }) || []
     );
 
-    console.log("Raw featured services:", rawFeaturedServices?.slice(0, 1));
-    console.log("Processed featured services:", featuredServices?.slice(0, 1));
-
     return (
       <DashboardClient
         avatarUrl={avatarUrl}
-        appointments={(appointments as Appointment[]) || []}
+        appointments={appointments} // Pass the fully detailed appointments
         featuredServices={(featuredServices as Service[]) || []}
       />
     );
+
   } catch (error) {
     console.error("Dashboard error:", error);
     if (error instanceof Error && error.message.includes("rate limit")) {
