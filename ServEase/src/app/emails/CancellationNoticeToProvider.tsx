@@ -109,13 +109,6 @@ export const CancellationNoticeToProvider: React.FC<
                 </span>
               </div>
             ))}
-
-            <div style={styles.totalRow}>
-              <span style={styles.totalLabel}>Total Value:</span>
-              <span style={styles.totalPrice}>
-                {formatCurrency(totalPrice)}
-              </span>
-            </div>
           </div>
         </div>
 

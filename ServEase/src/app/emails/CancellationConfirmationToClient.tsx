@@ -110,12 +110,6 @@ export const CancellationConfirmationToClient: React.FC<
               </div>
             ))}
 
-            <div style={styles.totalRow}>
-              <span style={styles.totalLabel}>Total: </span>
-              <span style={styles.totalPrice}>
-                {formatCurrency(totalPrice)}
-              </span>
-            </div>
           </div>
         </div>
 
