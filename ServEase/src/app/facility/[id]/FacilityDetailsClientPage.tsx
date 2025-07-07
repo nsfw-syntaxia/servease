@@ -238,13 +238,10 @@ const FacilityDetailsClientPage: NextPage<{
   const [isMapLoading, setIsMapLoading] = useState(true);
   const [mapError, setMapError] = useState<string | null>(null);
 
-  // --- THIS IS THE CORE LOGIC FOR GEOCODING ---
   useEffect(() => {
-    // This function will be called when the component mounts
     const geocodeAddress = async () => {
       const maptilerApiKey = process.env.NEXT_PUBLIC_MAPTILER_API_KEY;
 
-      // 1. Check if we have an address string and an API key
       if (!facility.address || !maptilerApiKey) {
         setMapError("Address or API key is missing.");
         setIsMapLoading(false);
@@ -254,27 +251,21 @@ const FacilityDetailsClientPage: NextPage<{
       try {
         maptilerClient.config.apiKey = maptilerApiKey;
 
-        // 2. THIS IS THE MAGIC: We send the text address to MapTiler
-        // For your example, it sends: "Bontores St. Basak San Nicolas Cebu City"
         const results = await maptilerClient.geocoding.forward(
           facility.address,
           { limit: 1 }
         );
 
-        // 3. Check if MapTiler found a result
         if (results.features.length > 0) {
-          const { center } = results.features[0]; // center is [longitude, latitude]
-          // 4. We save the coordinates to our state
+          const { center } = results.features[0]; 
           setCoordinates({ lng: center[0], lat: center[1] });
         } else {
-          // If the address is not found
           setMapError("Location could not be found on the map.");
         }
       } catch (error) {
         console.error("Geocoding failed:", error);
         setMapError("An error occurred while loading the map.");
       } finally {
-        // 5. We stop showing the loading message
         setIsMapLoading(false);
       }
     };
