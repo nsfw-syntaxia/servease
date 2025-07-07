@@ -23,17 +23,22 @@ export interface ServiceInfo {
   price: number;
 }
 
-export interface Appointment {
+export type Appointment = {
   id: string;
   date: string;
   time: string;
   status: "pending" | "confirmed" | "completed" | "canceled";
   address: string;
-  price: number;
-  services: ServiceInfo[];
-  provider: ProviderInfo | null;
-  client: ClientInfo | null; 
-}
+  price: number; 
+  services: ServiceInfo[]; 
+  provider: {
+    business_name: string;
+    picture_url: string | null;
+    contact_number: string | null;
+    email: string | null; // Added for email notifications
+  } | null;
+  client_email?: string; // Added for client email notifications
+};
 
 const formatDisplayDate = (dateString: string) => {
   const date = new Date(dateString + "T00:00:00");
@@ -330,40 +335,73 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
   };
 
   const handleConfirmCancel = async () => {
-    if (appointmentToCancel) {
-      try {
-        const payload = {
-        appointmentId: selectedAppointment.id,
-        providerName: selectedAppointment.provider.business_name,
-        clientName: selectedAppointment.client.full_name,
-        providerEmail: selectedAppointment.provider.email,
-        date: selectedAppointment.date,
-        time: selectedAppointment.time,
-      };
-        await updateAppointmentStatus(appointmentToCancel, "canceled");
+    if (!appointmentToCancel) {
+      // Close dialog if no appointment to cancel
+      setShowConfirmDialog(false);
+      setAppointmentToCancel(null);
+      return;
+    }
+
+    try {
+      // Find the appointment to cancel
+      const appointmentToCancelData = appointments.find(
+        (apt) => apt.id === appointmentToCancel
+      );
+
+      if (!appointmentToCancelData) {
+        console.error("Appointment not found");
         setShowConfirmDialog(false);
         setAppointmentToCancel(null);
-        const response = await fetch('/api/appointments/cancel', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
+        return;
+      }
 
-      if (!response.ok) {
-        const result = await response.json();
-        throw new Error(result.error || 'Failed to cancel appointment.');
+      // Update the appointment status first
+      await updateAppointmentStatus(appointmentToCancel, "canceled");
+
+      // Prepare payload for email notification
+      const payload = {
+        appointmentId: appointmentToCancelData.id,
+        providerName: appointmentToCancelData.provider?.business_name || "Unknown Provider",
+        clientEmail: appointmentToCancelData.client_email || "",
+        providerEmail: appointmentToCancelData.provider?.email || "",
+        date: appointmentToCancelData.date,
+        time: appointmentToCancelData.time,
+      };
+
+      console.log("Sending email notification with payload:", payload);
+
+      // Send email notification
+      try {
+        const response = await fetch('/api/cancel-appointment', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+          const result = await response.json();
+          console.error("Email notification failed:", result);
+        } else {
+          console.log("Email notification sent successfully");
+        }
+      } catch (emailError) {
+        console.error("Email notification error:", emailError);
       }
-      } catch (error) {
-        console.error("Error canceling appointment:", error);
-        // Don't close the dialog if there's an error, let user try again
-      }
+
+    } catch (error) {
+      console.error("Error canceling appointment:", error);
+      alert(`Failed to cancel appointment: ${error instanceof Error ? error.message : "Unknown error"}`);
+    } finally {
+      // Always close the dialog in the finally block
+      setShowConfirmDialog(false);
+      setAppointmentToCancel(null);
     }
   };
-  
 
   const handleCancelCancel = () => {
+    console.log("Canceling cancellation - closing dialog");
     setShowConfirmDialog(false);
     setAppointmentToCancel(null);
   };
@@ -536,8 +574,17 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
       )}
 
       {showConfirmDialog && (
-        <div className={styles.modalOverlay}>
-          <div className={styles.confirmDialog}>
+        <div 
+          className={styles.modalOverlay}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleCancelCancel();
+          }}
+        >
+          <div 
+            className={styles.confirmDialog}
+            onClick={(e) => e.stopPropagation()}
+          >
             <h3>Cancel Appointment</h3>
             <p>
               Are you sure you want to cancel this appointment? This action
@@ -546,13 +593,23 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
             <div className={styles.confirmButtons}>
               <button
                 className={styles.cancelButton}
-                onClick={handleCancelCancel}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleCancelCancel();
+                }}
+                type="button"
               >
                 Keep Appointment
               </button>
               <button
                 className={styles.confirmButton}
-                onClick={handleConfirmCancel}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleConfirmCancel();
+                }}
+                type="button"
               >
                 Cancel Appointment
               </button>

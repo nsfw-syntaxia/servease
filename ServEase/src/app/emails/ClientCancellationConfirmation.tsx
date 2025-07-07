@@ -1,9 +1,9 @@
 import * as React from "react";
 
 // --- PROPS INTERFACE ---
-interface AppointmentCancelledNoticeProps {
-  providerName: string;
+interface ClientCancellationConfirmationProps {
   clientName: string;
+  providerName: string;
   date: string;
   time: string;
   services: { name: string; price: number }[];
@@ -18,17 +18,17 @@ const formatCurrency = (amount: number) => {
 };
 
 // --- BASE URL FOR LINKS ---
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
 
 // --- MAIN COMPONENT ---
-export const AppointmentCancelledNotice: React.FC<Readonly<AppointmentCancelledNoticeProps>> = ({
-  providerName,
+export const ClientCancellationConfirmation: React.FC<Readonly<ClientCancellationConfirmationProps>> = ({
   clientName,
+  providerName,
   date,
   time,
   services,
 }) => {
-  const totalValue = services.reduce((sum, service) => sum + service.price, 0);
+  const totalPrice = services.reduce((sum, service) => sum + service.price, 0);
 
   return (
     <html lang="en">
@@ -38,7 +38,7 @@ export const AppointmentCancelledNotice: React.FC<Readonly<AppointmentCancelledN
         <style>
           {`@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');`}
         </style>
-        <title>Appointment Cancellation</title>
+        <title>Cancellation Confirmed</title>
       </head>
       <body style={styles.body}>
         <div style={styles.mainContainer}>
@@ -54,21 +54,24 @@ export const AppointmentCancelledNotice: React.FC<Readonly<AppointmentCancelledN
 
           {/* Content */}
           <div style={styles.content}>
-            <h1 style={styles.h1}>Appointment Cancellation Notice</h1>
-            <p style={styles.paragraph}>Hello {providerName},</p>
+            <h1 style={styles.h1}>Your Cancellation is Confirmed</h1>
+            <p style={styles.paragraph}>Hello {clientName},</p>
             <p style={styles.paragraph}>
-              This is a notification that a client has cancelled their appointment. Your schedule for this time has now been cleared.
+              This email confirms that your appointment with {providerName} has been successfully cancelled. We hope to see you again soon.
             </p>
 
             {/* Booking Summary Section */}
             <div style={styles.summarySection}>
               <h2 style={styles.h2}>Details of Cancelled Appointment</h2>
+
               <div style={{ marginBottom: "20px" }}>
-                <DetailRow label="Client: " value={clientName} />
+                <DetailRow label="Provider: " value={providerName} />
                 <DetailRow label="Date: " value={date} />
                 <DetailRow label="Time: " value={time} />
               </div>
+
               <div style={styles.divider} />
+
               <h3 style={styles.h3}>Cancelled Service/s</h3>
               {services.map((service, index) => (
                 <div key={index} style={styles.serviceRow}>
@@ -77,8 +80,8 @@ export const AppointmentCancelledNotice: React.FC<Readonly<AppointmentCancelledN
                 </div>
               ))}
               <div style={styles.totalRow}>
-                <span style={styles.totalLabel}>Total Value:</span>
-                <span style={styles.totalPrice}>{formatCurrency(totalValue)}</span>
+                <span style={styles.totalLabel}>Total:</span>
+                <span style={styles.totalPrice}>{formatCurrency(totalPrice)}</span>
               </div>
             </div>
           </div>
@@ -86,7 +89,7 @@ export const AppointmentCancelledNotice: React.FC<Readonly<AppointmentCancelledN
           {/* Footer */}
           <div style={styles.footer}>
              <p style={styles.footerText}>
-               Manage your schedule on the Servease dashboard:{" "}
+               For more information, visit our website:{" "}
                <a href={baseUrl} target="_blank" style={styles.footerLink}>
                  {baseUrl.replace(/https?:\/\//, '')}
                </a>
@@ -147,4 +150,4 @@ const styles = {
   footerLink: { color: colors.brandPrimary, textDecoration: 'none' },
 };
 
-export default AppointmentCancelledNotice;
+export default ClientCancellationConfirmation;

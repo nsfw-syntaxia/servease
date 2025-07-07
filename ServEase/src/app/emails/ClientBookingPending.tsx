@@ -21,6 +21,7 @@ const formatCurrency = (amount: number) => {
   }).format(amount);
 };
 
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
 
 // --- MAIN COMPONENT ---
 export const ClientBookingPending: React.FC<

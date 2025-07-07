@@ -1,32 +1,44 @@
 import { NextResponse } from 'next/server';
-import { Resend } from 'resend';
-import { createClient } from '../../lib/supabase/server'; // Adjust path
-import AppointmentCancelledNotice from '../../emails/AppointmentCancelledNotice';
+import { createClient } from '../../lib/supabase/server'; // Using the standard server helper
+import nodemailer from 'nodemailer';
+import { render } from '@react-email/render';
 import React from 'react';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Import your two cancellation email components
+import AppointmentCancelledNotice from '../../emails/AppointmentCancelledNotice';
+import ClientCancellationConfirmation from '../../emails/ClientCancellationConfirmation'; 
+
+// Set up the Nodemailer transporter using your Gmail App Password
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.GMAIL_EMAIL,
+    pass: process.env.GMAIL_APP_PASSWORD,
+  },
+});
 
 export async function POST(req: Request) {
-  const supabase = createClient();
-
   try {
-    // 1. Destructure 'services' from the request body
     const { 
       appointmentId, 
       providerName,
       clientName,
+      clientEmail,
       providerEmail,
       date,
       time,
-      services // <-- ADD THIS
+      services
     } = await req.json();
 
-    // Add services to the validation
-    if (!appointmentId || !providerEmail || !clientName || !Array.isArray(services)) {
+    // Validate the incoming payload
+    if (!appointmentId || !providerEmail || !clientEmail || !clientName || !Array.isArray(services)) {
       return NextResponse.json({ error: 'Missing required cancellation details.' }, { status: 400 });
     }
-
-    // Database update remains the same
+    
+    // Use the standard server client for the update operation
+    const supabase = await createClient();
+    
+    // Update the appointment status to 'canceled' in the database
     const { error: dbError } = await supabase
       .from('appointments')
       .update({ status: 'canceled' })
@@ -34,32 +46,65 @@ export async function POST(req: Request) {
 
     if (dbError) {
       console.error('Database cancellation error:', dbError);
-      return NextResponse.json({ error: 'Failed to update appointment in the database.' }, { status: 500 });
+      throw new Error(`Failed to update appointment in the database: ${dbError.message}`);
     }
 
-    // 2. Pass 'services' to the email component
-    const { data, error: emailError } = await resend.emails.send({
-      // IMPORTANT: Use a verified domain, not a public email address.
-      from: 'Servease <notify@your-verified-domain.com>', 
-      to: [providerEmail],
+    // --- Prepare both emails using React.createElement and render ---
+
+    // 1. Prepare the email for the PROVIDER
+    const providerEmailComponent = React.createElement(AppointmentCancelledNotice, {
+      providerName,
+      clientName,
+      date,
+      time,
+      services,
+    });
+    
+    // 2. Prepare the email for the CLIENT
+    const clientEmailComponent = React.createElement(ClientCancellationConfirmation, {
+      clientName,
+      providerName,
+      date,
+      time,
+      services,
+    });
+    
+    // Render both components to HTML strings
+    const providerEmailHtml = await render(providerEmailComponent);
+    const clientEmailHtml = await render(clientEmailComponent);
+
+    // --- Send both emails in parallel ---
+
+    const sendProviderEmailPromise = transporter.sendMail({
+      from: `"servease" <${process.env.GMAIL_EMAIL}>`,
+      to: providerEmail,
       subject: `Appointment Cancellation: ${clientName}`,
-      react: AppointmentCancelledNotice({
-        providerName,
-        clientName,
-        date,
-        time,
-        services, // <-- PASS THE SERVICES ARRAY
-      }) as React.ReactElement,
+      html: providerEmailHtml,
+    });
+    
+    const sendClientEmailPromise = transporter.sendMail({
+      from: `"servease" <${process.env.GMAIL_EMAIL}>`,
+      to: clientEmail,
+      subject: 'Your Appointment Cancellation Confirmation',
+      html: clientEmailHtml,
     });
 
-    if (emailError) {
-      console.error('Resend email sending error:', emailError);
-    }
+    // Use Promise.allSettled to ensure both emails attempt to send, even if one fails.
+    Promise.allSettled([sendProviderEmailPromise, sendClientEmailPromise]).then(results => {
+      results.forEach((result, index) => {
+        const recipient = index === 0 ? 'Provider' : 'Client';
+        if (result.status === 'rejected') {
+          console.error(`Failed to send cancellation email to ${recipient}:`, result.reason);
+        } else {
+          console.log(`Cancellation email successfully sent to ${recipient}.`);
+        }
+      });
+    });
 
-    return NextResponse.json({ message: 'Appointment successfully cancelled.' }, { status: 200 });
+    return NextResponse.json({ success: true, message: 'Appointment successfully cancelled.' });
 
-  } catch (error) {
-    console.error('Cancellation API error:', error);
-    return NextResponse.json({ error: 'An unexpected error occurred.' }, { status: 500 });
+  } catch (error: any) {
+    console.error("Cancellation API Error:", error.message);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
