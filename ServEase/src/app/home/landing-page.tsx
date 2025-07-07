@@ -771,10 +771,8 @@ const LandingPage = () => {
           >
             Home
           </div>
-          <div 
-            className={styles.discover}
-            onClick={() => router.push("/home")}
-            >Discover
+          <div className={styles.discover} onClick={() => router.push("/home")}>
+            Discover
           </div>
           <div
             className={styles.createAnAccount}
