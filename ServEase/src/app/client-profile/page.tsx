@@ -6,7 +6,7 @@ export default async function ProfilePage() {
   const { data, error } = await getUserProfileData();
 
   if (error || !data) {
-    return redirect("/login"); 
+    return redirect("/login");
   }
 
   return <ProfileClient initialData={data} />;
