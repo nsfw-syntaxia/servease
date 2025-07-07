@@ -554,7 +554,7 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
             <div className={styles.password}>Password</div>
           </div>
           <div
-            className={styles.changePassBtn}
+            className={`${styles.changePassBtn} ${styles.actionButton}`}
             onClick={() => setShowOverlayPassword(true)}
             style={{ cursor: "pointer" }}
           >
@@ -573,7 +573,7 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
           <div className={styles.notifLabel}>
             <div className={styles.password}>Notifications</div>
           </div>
-          <div className={styles.enableBtn}>
+          <div className={`${styles.enableBtn} ${styles.actionButton}`}>
             <div className={styles.btn} />
             <div className={styles.changePassword}>Enable</div>
           </div>
@@ -590,7 +590,7 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
             <div className={styles.password}>Account</div>
           </div>
           <div
-            className={styles.deleteAccBtn}
+            className={`${styles.deleteAccBtn} ${styles.actionButton}`}
             onClick={() => setShowOverlayDelete(true)}
             style={{ cursor: "pointer" }}
           >
@@ -673,7 +673,7 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
                     />
                     <div className={styles.eyeOff}>
                       <Image
-                        className={styles.icon}
+                        className={styles.iconeye}
                         width={30}
                         height={25}
                         alt={
@@ -705,7 +705,7 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
                     />
                     <div className={styles.eyeOff}>
                       <Image
-                        className={styles.icon}
+                        className={styles.iconeye}
                         width={30}
                         height={25}
                         alt={
@@ -741,7 +741,7 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
                     />
                     <div className={styles.eyeOff}>
                       <Image
-                        className={styles.icon}
+                        className={styles.iconeye}
                         width={30}
                         height={25}
                         alt={
@@ -848,7 +848,7 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
                     />
                     <div className={styles.eyeOff}>
                       <Image
-                        className={styles.icon}
+                        className={styles.iconeye}
                         width={30}
                         height={25}
                         alt={
