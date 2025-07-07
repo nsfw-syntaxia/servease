@@ -133,7 +133,8 @@ const ServiceRow = ({
           <span
             className={errors.description ? styles.errorText : styles.charCount}
           >
-            {errors.description ?? `${formData.description.length}/50`}
+            {errors.description ??
+              `${formData.description.length}/50 characters`}
           </span>
         </div>
         <div className={styles.tableCell}>
