@@ -59,11 +59,10 @@ const DynamicMap = ({ lat, lng }: { lat: number; lng: number }) => {
     const map = new Map({
       container: mapContainer.current,
       style: "streets-v2",
-      center: [lng, lat], // Receives the coordinates from the geocoding result
-      zoom: 16, // Zoom in a bit closer for a street address
+      center: [lng, lat], 
+      zoom: 16, 
     });
 
-    // Creates the red pin on the map
     new Marker({ color: "#FF0000" }).setLngLat([lng, lat]).addTo(map);
     mapInstance.current = map;
 
@@ -338,14 +337,14 @@ const FacilityDetailsClientPage: NextPage<{
 
   const disableTransition = () => {
     setDisableAnim(true);
-    setTimeout(() => setDisableAnim(false), 50); // restore transition
+    setTimeout(() => setDisableAnim(false), 50);
   };
 
   useEffect(() => {
     if (carouselIndex === totalImages + visibleImages) {
       setTimeout(() => {
         setCarouselIndex(visibleImages);
-        disableTransition(); // temporarily disable transition
+        disableTransition(); 
       }, 300);
     } else if (carouselIndex === 0) {
       setTimeout(() => {
@@ -357,7 +356,6 @@ const FacilityDetailsClientPage: NextPage<{
 
   useEffect(() => {
     if (services && services.length > 0 && !activeServiceName) {
-      // Set the first service as the default active one.
       setActiveServiceName(services[0].name);
     }
   }, [services, activeServiceName]);
@@ -431,7 +429,6 @@ const FacilityDetailsClientPage: NextPage<{
                       : "transform 0.5s ease-in-out",
                   }}
                 >
-                  {/* Clone last N items at the start */}
                   {facilityImages.slice(-visibleImages).map((imgSrc, idx) => (
                     <div className={styles.image71} key={`clone-start-${idx}`}>
                       <Image
@@ -443,7 +440,6 @@ const FacilityDetailsClientPage: NextPage<{
                     </div>
                   ))}
 
-                  {/* Original slides */}
                   {facilityImages.map((imgSrc, idx) => (
                     <div className={styles.image71} key={idx}>
                       <Image
@@ -652,8 +648,6 @@ const FacilityDetailsClientPage: NextPage<{
                 </div>
               </div>
               <div className={styles.buttonContainer}>
-                {/* --- UI RESTORED --- */}
-                {/* This JSX is now exactly as you had it, using your original class logic. */}
                 {serviceNames.map((serviceName) => (
                   <div
                     key={serviceName}
@@ -756,7 +750,6 @@ const FacilityDetailsClientPage: NextPage<{
               </div>
               <div className={styles.button13}>
                 <div className={styles.star} />
-                {/* This link can be made dynamic if you have coordinates */}
                 <a
                   href={
                     coordinates
