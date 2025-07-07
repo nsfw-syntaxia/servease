@@ -10,6 +10,12 @@ import { useRouter } from "next/navigation";
 export interface ProviderInfo {
   business_name: string;
   picture_url: string | null;
+  contact_number: string | null; // Added for modal
+}
+
+export interface AppointmentService { // New type for services in the modal
+  name: string;
+  price: number;
 }
 
 export interface Appointment {
@@ -17,6 +23,9 @@ export interface Appointment {
   date: string;
   time: string;
   address: string;
+  status: "pending" | "confirmed" | "completed" | "canceled"; // Added for modal
+  price: number; // Added for modal (total price)
+  services: AppointmentService[]; // Added for modal
   provider: ProviderInfo | null;
 }
 
@@ -388,26 +397,31 @@ const DashboardClient: NextPage<DashboardClientProps> = ({
               <div className={styles.rowContainer}>
                 <div className={styles.facilityName}>Appointment Status</div>
                 <b className={styles.facilityNameCap}>
-                  Confirmed
-                  {/*selectedAppointment.status.charAt(0).toUpperCase() +
-                    selectedAppointment.status.slice(1)*/}
+                  {/* DYNAMIC STATUS */}
+                  {selectedAppointment.status.charAt(0).toUpperCase() +
+                    selectedAppointment.status.slice(1)}
                 </b>
               </div>
               <div className={styles.rowContainer}>
                 <div className={styles.facilityName}>Facility Name</div>
                 <b className={styles.facilityNameCap}>
-                  {selectedAppointment.provider.business_name}
+                  {/* DYNAMIC NAME */}
+                  {selectedAppointment.provider?.business_name || "N/A"}
                 </b>
               </div>
               <div className={styles.rowContainer}>
                 <div className={styles.facilityName}>Address</div>
                 <b className={styles.facilityNameCap}>
+                  {/* DYNAMIC ADDRESS */}
                   {selectedAppointment.address}
                 </b>
               </div>
               <div className={styles.rowContainer}>
                 <div className={styles.facilityName}>Phone Number</div>
-                <b className={styles.facilityNameCap}>+63 123 4567 789</b>
+                <b className={styles.facilityNameCap}>
+                  {/* DYNAMIC PHONE */}
+                  {selectedAppointment.provider?.contact_number || "Not provided"}
+                </b>
               </div>
               <div className={styles.rowContainer}>
                 <div className={styles.facilityName}>Booking Date</div>
@@ -422,13 +436,7 @@ const DashboardClient: NextPage<DashboardClientProps> = ({
               <div className={styles.rowContainer}>
                 <div className={styles.facilityName}>Booking Hours</div>
                 <b className={styles.facilityNameCap}>
-                  {new Date(
-                    `${selectedAppointment.date}T${selectedAppointment.time}`
-                  ).toLocaleTimeString([], {
-                    hour: "numeric",
-                    minute: "2-digit",
-                    hour12: true,
-                  })}
+                  {formatDisplayTime(selectedAppointment.time)}
                 </b>
               </div>
               <Image
@@ -440,13 +448,15 @@ const DashboardClient: NextPage<DashboardClientProps> = ({
                 src="/Divider1.svg"
               />
               <div className={styles.serviceNameParent}>
-                <div className={styles.rowContainer}>
-                  <div className={styles.facilityName}>
-                    {/*selectedAppointment.[0].service_type*/}
-                    {selectedAppointment.address}
+                {/* DYNAMIC SERVICES LIST */}
+                {selectedAppointment.services.map((service) => (
+                  <div className={styles.rowContainer} key={service.name}>
+                    <div className={styles.facilityName}>{service.name}</div>
+                    <b className={styles.facilityNameCap}>
+                      PHP {service.price.toFixed(2)}
+                    </b>
                   </div>
-                  <b className={styles.facilityNameCap}>PHP 500.00</b>
-                </div>
+                ))}
               </div>
               <Image
                 className={styles.dividerIcon1}
@@ -458,7 +468,10 @@ const DashboardClient: NextPage<DashboardClientProps> = ({
               />
               <div className={styles.rowContainerTotal}>
                 <div className={styles.facilityName}>Total</div>
-                <b className={styles.facilityNameCap}>PHP 1000.00</b>
+                <b className={styles.facilityNameCap}>
+                  {/* DYNAMIC TOTAL PRICE */}
+                  PHP {selectedAppointment.price.toFixed(2)}
+                </b>
               </div>
             </div>
           </div>
