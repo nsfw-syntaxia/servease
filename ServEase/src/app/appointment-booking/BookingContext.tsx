@@ -34,12 +34,13 @@ const initialBookingData: BookingData = {
 };
 
 export function BookingProvider({ children }: { children: ReactNode }) {
-  const [bookingData, setBookingData] = useState<BookingData>(initialBookingData);
+  const [bookingData, setBookingData] =
+    useState<BookingData>(initialBookingData);
 
   const setSelectedServices = (services: Service[]) => {
     setBookingData((prev) => ({ ...prev, selectedServices: services }));
   };
-  
+
   const setSelectedDate = (date: Date | null) => {
     setBookingData((prev) => ({ ...prev, selectedDate: date }));
   };
