@@ -13,7 +13,8 @@ export interface ProviderInfo {
   contact_number: string | null; // Added for modal
 }
 
-export interface AppointmentService { // New type for services in the modal
+export interface AppointmentService {
+  // New type for services in the modal
   name: string;
   price: number;
 }
@@ -70,34 +71,89 @@ const formatDisplayTime = (timeString: string) => {
 const UpcomingAppointmentCard = ({
   appointment,
   onShowDetails,
+  onStatusUpdate,
 }: {
   appointment: Appointment;
   onShowDetails: () => void;
+  onStatusUpdate: (appointmentId: string, newStatus: string) => void;
 }) => {
   const providerName =
     appointment.provider?.business_name || "Unknown Provider";
   const providerAddress = appointment.address || "No address provided";
-  
+
   const providerAvatar = useMemo(() => {
     if (appointment.provider?.picture_url) {
-      if (appointment.provider.picture_url.startsWith('http')) {
+      if (appointment.provider.picture_url.startsWith("http")) {
         return appointment.provider.picture_url;
       }
       return appointment.provider.picture_url;
     }
     return "/circle.svg";
   }, [appointment.provider?.picture_url]);
-  
+
   const [imageError, setImageError] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
-  
-  const formattedStatus = appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1);
+
+  const formattedStatus =
+    appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1);
+
+  const getAvailableStatusOptions = (status: string): string[] => {
+    if (status === "pending" || status === "confirmed") return ["canceled"];
+    return [];
+  };
+
+  const getStatusDisplayText = (status: string): string => {
+    return status === "canceled"
+      ? "Cancel"
+      : status.charAt(0).toUpperCase() + status.slice(1);
+  };
+
+  const handleStatusChange = async (newStatus: string) => {
+    if (isUpdating) return;
+
+    setIsUpdating(true);
+    try {
+      await onStatusUpdate(appointment.id, newStatus);
+      setShowDropdown(false);
+    } catch (error) {
+      console.error("Error updating appointment status:", error);
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [hovered, setHovered] = useState("");
+  const [isUpdating, setIsUpdating] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
-    <div className={styles.appointmentCard} onClick={onShowDetails}>
+    <div className={styles.appointmentCard}>
       <div className={styles.cardContent}>
-        <div className={styles.serviceInfo}>
-          <div style={{ position: 'relative', width: 60, height: 60, flexShrink: 0 }}>
+        <div className={styles.serviceInfo} onClick={onShowDetails}>
+          <div
+            style={{
+              position: "relative",
+              width: 60,
+              height: 60,
+              flexShrink: 0,
+            }}
+          >
             {!imageError ? (
               <Image
                 className={styles.serviceAvatar}
@@ -108,23 +164,23 @@ const UpcomingAppointmentCard = ({
                 onError={() => setImageError(true)}
                 onLoad={() => setImageLoading(false)}
                 style={{
-                  borderRadius: '50%',
-                  objectFit: 'cover'
+                  borderRadius: "50%",
+                  objectFit: "cover",
                 }}
               />
             ) : (
-              <div 
+              <div
                 style={{
                   width: 40,
                   height: 40,
-                  borderRadius: '50%',
-                  backgroundColor: '#f0f0f0',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '12px',
-                  color: '#666',
-                  border: '1px solid #ddd'
+                  borderRadius: "50%",
+                  backgroundColor: "#f0f0f0",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "12px",
+                  color: "#666",
+                  border: "1px solid #ddd",
                 }}
               >
                 {providerName.charAt(0).toUpperCase()}
@@ -150,9 +206,50 @@ const UpcomingAppointmentCard = ({
             />
             <span>{formatDisplayDate(appointment.date)}</span>
           </div>
-          <div className={`${styles.statusInfo} ${styles[appointment.status]}`}>
+          <div
+            className={`${styles.statusInfo} ${styles[appointment.status]}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (
+                appointment.status === "pending" ||
+                appointment.status === "confirmed"
+              ) {
+                setShowDropdown((prev) => !prev);
+              }
+            }}
+            ref={dropdownRef}
+          >
             <span>{formattedStatus}</span>
+            <Image
+              className={styles.dropdownIcon}
+              width={24}
+              height={24}
+              alt="Dropdown"
+              src="/arrow_drop_down.svg"
+              style={{ cursor: "pointer" }}
+            />
           </div>
+
+          {showDropdown && (
+            <div className={styles.dropdownMenu}>
+              {getAvailableStatusOptions(appointment.status).map((item) => (
+                <div
+                  key={item}
+                  className={`${styles.dropdownItem} ${
+                    hovered === item ? styles.active : ""
+                  }`}
+                  onMouseEnter={() => setHovered(item)}
+                  onMouseLeave={() => setHovered("")}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleStatusChange(item);
+                  }}
+                >
+                  {getStatusDisplayText(item)}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -262,6 +359,17 @@ const DashboardClient: NextPage<DashboardClientProps> = ({
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
   const visibleServices = 3;
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [appointmentToCancel, setAppointmentToCancel] = useState<string | null>(
+    null
+  );
+
+  const handleStatusUpdate = (appointmentId: string, newStatus: string) => {
+    if (newStatus === "canceled") {
+      setAppointmentToCancel(appointmentId);
+      setShowConfirmDialog(true);
+    }
+  };
 
   const handleNext = () => {
     if (
@@ -369,6 +477,7 @@ const DashboardClient: NextPage<DashboardClientProps> = ({
                   key={app.id}
                   appointment={app}
                   onShowDetails={() => setSelectedAppointment(app)}
+                  onStatusUpdate={handleStatusUpdate}
                 />
               ))
             ) : (
@@ -465,7 +574,8 @@ const DashboardClient: NextPage<DashboardClientProps> = ({
                 <div className={styles.facilityName}>Phone Number</div>
                 <b className={styles.facilityNameCap}>
                   {/* DYNAMIC PHONE */}
-                  {selectedAppointment.provider?.contact_number || "Not provided"}
+                  {selectedAppointment.provider?.contact_number ||
+                    "Not provided"}
                 </b>
               </div>
               <div className={styles.rowContainer}>
