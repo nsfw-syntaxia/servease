@@ -7,14 +7,13 @@ import { useState, useEffect } from "react";
 import styles from "../styles/servicesoffered.module.css";
 import { XCircle, CheckCircle } from "lucide-react";
 
-interface Service {
-  id: number;
-  name: string;
-  description: string;
-  price: string;
-}
-
-const mockServices: Service[] = [];
+import {
+  type Service,
+  getServices,
+  addService,
+  updateService,
+  deleteService,
+} from "./actions";
 
 const ServiceRow = ({
   service,
@@ -31,14 +30,21 @@ const ServiceRow = ({
   onDelete: (id: number) => void;
   onStartEdit: (id: number) => void;
   onCancelEdit: () => void;
-  onUpdateService: (service: Service) => void;
+  onUpdateService: (service: Service) => Promise<void>; // make async
 }) => {
+  const rowClassNames = [
+    styles.serviceRow,
+    isGlobalEditMode ? styles.editModeRow : "",
+    isCurrentlyEditing ? styles.isEditingRow : "",
+  ].join(" ");
+
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     price: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     if (isCurrentlyEditing) {
@@ -69,6 +75,7 @@ const ServiceRow = ({
     } else if (formData.description.length > 50) {
       newErrors.description = "Description cannot exceed 50 characters.";
     }
+
     if (!formData.price.trim()) {
       newErrors.price = "Price is required.";
     } else if (!/^\d+(\.\d{1,2})?$/.test(formData.price)) {
@@ -78,22 +85,25 @@ const ServiceRow = ({
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSave = () => {
-    if (!validate()) {
+  const handleSave = async () => {
+    if (!validate() || isSaving) {
       return;
     }
+    setIsSaving(true);
     const updatedService: Service = {
       ...service,
       name: formData.name.trim(),
       description: formData.description.trim(),
       price: `Php${parseFloat(formData.price).toFixed(2)}`,
     };
-    onUpdateService(updatedService);
+    // now async and handles the api call
+    await onUpdateService(updatedService);
+    setIsSaving(false);
   };
 
   if (isCurrentlyEditing) {
     return (
-      <div className={`${styles.serviceRow} ${styles.isEditingRow}`}>
+      <div className={rowClassNames}>
         <div className={styles.tableCell}>
           <input
             type="text"
@@ -160,7 +170,7 @@ const ServiceRow = ({
   }
 
   return (
-    <div className={styles.serviceRow}>
+    <div className={rowClassNames}>
       <div className={styles.tableCell}>{service.name}</div>
       <div className={styles.tableCell}>{service.description}</div>
       <div className={styles.tableCell}>{service.price}</div>
@@ -191,15 +201,35 @@ const ServiceRow = ({
   );
 };
 
-const ServicesOfferedPage: NextPage = () => {
+type ServicesOfferedClient = {
+  initialData: Service[];
+};
+
+const ServicesOffered: NextPage<ServicesOfferedClient> = ({ initialData }) => {
   const router = useRouter();
-  const [services, setServices] = useState<Service[]>(mockServices);
+  const [services, setServices] = useState<Service[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [isEditMode, setIsEditMode] = useState(false);
   const [editingServiceId, setEditingServiceId] = useState<number | null>(null);
+  const [saveTrigger, setSaveTrigger] = useState(0);
+
+  useEffect(() => {
+    const loadServices = async () => {
+      const { data, error } = await getServices();
+      if (error) {
+        alert("Failed to load services: " + error);
+      } else if (data) {
+        setServices(data);
+      }
+      setIsLoading(false);
+    };
+    loadServices();
+  }, []);
 
   const cleanupUnsavedService = () => {
     if (editingServiceId === null) return;
     const serviceToCancel = services.find((s) => s.id === editingServiceId);
+
     if (
       serviceToCancel &&
       serviceToCancel.name === "" &&
@@ -215,18 +245,56 @@ const ServicesOfferedPage: NextPage = () => {
     setIsEditMode((prevMode) => !prevMode);
   };
 
-  const handleDeleteService = (idToDelete: number) => {
-    setServices((prevServices) =>
-      prevServices.filter((service) => service.id !== idToDelete)
-    );
+  const handleDeleteService = async (idToDelete: number) => {
+    if (!confirm("Are you sure you want to delete this service?")) return;
+
+    const { error } = await deleteService(idToDelete);
+
+    if (error) {
+      alert("Failed to delete service: " + error);
+    } else {
+      setServices((prevServices) =>
+        prevServices.filter((service) => service.id !== idToDelete)
+      );
+    }
   };
 
-  const handleUpdateService = (updatedService: Service) => {
-    setServices((prevServices) =>
-      prevServices.map((service) =>
-        service.id === updatedService.id ? updatedService : service
-      )
-    );
+  const handleUpdateService = async (updatedService: Service) => {
+    const originalService = services.find((s) => s.id === updatedService.id);
+    const isNewService = originalService?.name === "";
+
+    const payload = {
+      name: updatedService.name,
+      description: updatedService.description,
+      price: parseFloat(updatedService.price.replace(/[^0-9.]/g, "")),
+    };
+
+    if (isNewService) {
+      // add new service
+      const { data: newServiceFromDB, error } = await addService(payload);
+      if (error) {
+        alert("Failed to add service: " + error);
+        setServices((prev) => prev.filter((s) => s.id !== updatedService.id));
+      } else if (newServiceFromDB) {
+        setServices((prev) =>
+          prev.map((s) => (s.id === updatedService.id ? newServiceFromDB : s))
+        );
+        setIsEditMode(false);
+      }
+    } else {
+      // update existing service
+      const { error } = await updateService(updatedService.id, payload);
+      if (error) {
+        alert("Failed to update service: " + error);
+      } else {
+        setServices((prevServices) =>
+          prevServices.map((service) =>
+            service.id === updatedService.id ? updatedService : service
+          )
+        );
+      }
+    }
+
     setEditingServiceId(null);
   };
 
@@ -234,7 +302,7 @@ const ServicesOfferedPage: NextPage = () => {
     if (editingServiceId !== null) return;
 
     const newService: Service = {
-      id: Date.now(),
+      id: Math.random(),
       name: "",
       description: "",
       price: "",
@@ -242,11 +310,17 @@ const ServicesOfferedPage: NextPage = () => {
 
     setServices((prev) => [...prev, newService]);
     setEditingServiceId(newService.id);
+    setIsEditMode(true); // enter edit mode automatically
   };
 
   const handleCancelEdit = () => {
     cleanupUnsavedService();
     setEditingServiceId(null);
+
+    const serviceToCancel = services.find((s) => s.id === editingServiceId);
+    if (serviceToCancel && serviceToCancel.name === "") {
+      setIsEditMode(false);
+    }
   };
 
   return (
@@ -275,18 +349,27 @@ const ServicesOfferedPage: NextPage = () => {
           )}
 
           <div className={styles.tableBody}>
-            {services.map((service) => (
-              <ServiceRow
-                key={service.id}
-                service={service}
-                isGlobalEditMode={isEditMode}
-                isCurrentlyEditing={editingServiceId === service.id}
-                onDelete={handleDeleteService}
-                onStartEdit={setEditingServiceId}
-                onCancelEdit={handleCancelEdit}
-                onUpdateService={handleUpdateService}
-              />
-            ))}
+            {[...services]
+              .sort((a, b) => {
+                // push any service with an empty name to the bottom of the list
+                if (a.name === "") return 1;
+                if (b.name === "") return -1;
+
+                // for all other services, sort alphabetically by name
+                return a.name.localeCompare(b.name);
+              })
+              .map((service) => (
+                <ServiceRow
+                  key={service.id}
+                  service={service}
+                  isGlobalEditMode={isEditMode}
+                  isCurrentlyEditing={editingServiceId === service.id}
+                  onDelete={handleDeleteService}
+                  onStartEdit={setEditingServiceId}
+                  onCancelEdit={handleCancelEdit}
+                  onUpdateService={handleUpdateService}
+                />
+              ))}
           </div>
         </div>
 
@@ -322,4 +405,4 @@ const ServicesOfferedPage: NextPage = () => {
   );
 };
 
-export default ServicesOfferedPage;
+export default ServicesOffered;
