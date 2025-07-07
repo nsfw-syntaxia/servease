@@ -5,6 +5,19 @@ import Image from "next/image";
 import { useState, useMemo, useRef, useEffect } from "react";
 import { createClient } from "../lib/supabase/client";
 import styles from "../styles/client-appointments.module.css";
+import { X, Star } from "lucide-react";
+
+interface ReviewFormData {
+  rating: number;
+  reviewText: string;
+  name: string;
+  email: string;
+}
+
+interface ReviewFormProps {
+  onClose?: () => void;
+  onSubmit?: (data: ReviewFormData) => void;
+}
 
 export interface ClientInfo {
   full_name: string;
@@ -55,10 +68,12 @@ const formatDisplayTime = (timeString: string) => {
 const AppointmentCard = ({
   appointment,
   onShowDetails,
+  onShowReview,
   onStatusUpdate,
 }: {
   appointment: Appointment;
   onShowDetails: () => void;
+  onShowReview: () => void;
   onStatusUpdate: (appointmentId: string, newStatus: string) => void;
 }) => {
   const providerName =
@@ -209,6 +224,19 @@ const AppointmentCard = ({
                 )}
               </>
             )}
+          {appointment.status === "completed" && (
+            <>
+              <Image
+                className={styles.reviewIcon}
+                width={24}
+                height={24}
+                alt="review"
+                src="/review.svg"
+                style={{ cursor: "pointer" }}
+                onClick={onShowReview}
+              />
+            </>
+          )}
         </div>
       </div>
     </div>
@@ -342,6 +370,66 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
     return () => window.removeEventListener("keydown", onEsc);
   }, [showConfirmDialog]);
 
+  /*review */
+  const [selectedAppointmentReview, setSelectedAppointmentReview] =
+    useState<Appointment | null>(null);
+
+  const [rating, setRating] = useState<number>(0);
+  const [hoveredRating, setHoveredRating] = useState<number>(0);
+  const [reviewText, setReviewText] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (rating > 0 && reviewText.trim() && name.trim()) {
+      const formData: ReviewFormData = {
+        rating,
+        reviewText: reviewText.trim(),
+        name: name.trim(),
+        email: email.trim(),
+      };
+
+      setIsSubmitted(true);
+      //ichange lang ni to sumbit jd sa datbase poo
+      setSelectedAppointmentReview(null);
+
+      // Reset form after a delay
+      setTimeout(() => {
+        handleCancel();
+      }, 2000);
+    }
+  };
+
+  const handleCancel = () => {
+    setRating(0);
+    setHoveredRating(0);
+    setReviewText("");
+    setName("");
+    setEmail("");
+    setIsSubmitted(false);
+    setSelectedAppointmentReview(null);
+  };
+
+  const getRatingText = (rating: number): string => {
+    switch (rating) {
+      case 1:
+        return "Poor";
+      case 2:
+        return "Fair";
+      case 3:
+        return "Good";
+      case 4:
+        return "Very Good";
+      case 5:
+        return "Excellent";
+      default:
+        return "";
+    }
+  };
+  const isFormValid = rating > 0 && reviewText.trim() && name.trim();
+
   return (
     <div className={styles.appointmentsPage}>
       <main className={styles.mainContent}>
@@ -381,6 +469,7 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
                 key={appointment.id}
                 appointment={appointment}
                 onShowDetails={() => setSelectedAppointment(appointment)}
+                onShowReview={() => setSelectedAppointmentReview(appointment)}
                 onStatusUpdate={handleStatusUpdate}
               />
             ))
@@ -505,6 +594,114 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
                 {isCancelling ? "Cancelling..." : "Cancel Appointment"}
               </button>
             </div>
+          </div>
+        </div>
+      )}
+      {selectedAppointmentReview && (
+        <div className={styles.overlay}>
+          <div className={styles.modal}>
+            <button
+              className={styles.closeButton}
+              onClick={handleCancel}
+              aria-label="Close"
+            >
+              <X size={20} />
+            </button>
+
+            <h2 className={styles.title}>Write a Review</h2>
+            <p className={styles.subtitle}>
+              Share your experience at{" "}
+              {selectedAppointmentReview.provider?.business_name || "N/A"} to
+              help others make informed decisions.
+            </p>
+
+            <form onSubmit={handleSubmit} className={styles.form}>
+              <div className={styles.fieldGroup}>
+                <label className={styles.label}>Rating *</label>
+                <div className={styles.starContainer}>
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      type="button"
+                      onClick={() => setRating(star)}
+                      onMouseEnter={() => setHoveredRating(star)}
+                      onMouseLeave={() => setHoveredRating(0)}
+                      className={styles.starButton}
+                      aria-label={`Rate ${star} stars`}
+                    >
+                      <Star
+                        size={24}
+                        className={`${styles.star} ${
+                          star <= (hoveredRating || rating)
+                            ? styles.starActive
+                            : styles.starInactive
+                        }`}
+                        fill={
+                          star <= (hoveredRating || rating)
+                            ? "currentColor"
+                            : "none"
+                        }
+                      />
+                    </button>
+                  ))}
+                </div>
+                {rating > 0 && (
+                  <p className={styles.ratingText}>{getRatingText(rating)}</p>
+                )}
+              </div>
+
+              <div className={styles.fieldGroup}>
+                <label className={styles.label} htmlFor="name">
+                  Your Name *
+                </label>
+                <input
+                  id="name"
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className={styles.input}
+                  placeholder="Enter your name"
+                  required
+                />
+              </div>
+
+              <div className={styles.fieldGroup}>
+                <label className={styles.label} htmlFor="review">
+                  Review *
+                </label>
+                <textarea
+                  id="review"
+                  value={reviewText}
+                  onChange={(e) => setReviewText(e.target.value)}
+                  className={styles.textarea}
+                  placeholder="Tell us about your experience..."
+                  maxLength={500}
+                  required
+                />
+                <p className={styles.charCounter}>
+                  {reviewText.length}/500 characters
+                </p>
+              </div>
+
+              <div className={styles.buttonContainer}>
+                <button
+                  type="button"
+                  onClick={handleCancel}
+                  className={styles.cancelButton}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={!isFormValid}
+                  className={`${styles.submitButton} ${
+                    !isFormValid ? styles.submitButtonDisabled : ""
+                  }`}
+                >
+                  Submit Review
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
