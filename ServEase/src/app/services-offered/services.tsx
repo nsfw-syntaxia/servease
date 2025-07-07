@@ -343,18 +343,20 @@ const ServicesOffered: NextPage<ServicesOfferedClient> = ({ initialData }) => {
           )}
 
           <div className={styles.tableBody}>
-            {services.map((service) => (
-              <ServiceRow
-                key={service.id}
-                service={service}
-                isGlobalEditMode={isEditMode}
-                isCurrentlyEditing={editingServiceId === service.id}
-                onDelete={handleDeleteService}
-                onStartEdit={setEditingServiceId}
-                onCancelEdit={handleCancelEdit}
-                onUpdateService={handleUpdateService}
-              />
-            ))}
+            {[...services]
+              .sort((a, b) => a.name.localeCompare(b.name))
+              .map((service) => (
+                <ServiceRow
+                  key={service.id}
+                  service={service}
+                  isGlobalEditMode={isEditMode}
+                  isCurrentlyEditing={editingServiceId === service.id}
+                  onDelete={handleDeleteService}
+                  onStartEdit={setEditingServiceId}
+                  onCancelEdit={handleCancelEdit}
+                  onUpdateService={handleUpdateService}
+                />
+              ))}
           </div>
         </div>
 
