@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "../utils/supabase/server";
+import { revalidatePath } from "next/cache";
 
 export type Appointment = {
   id: number;
@@ -103,4 +104,36 @@ export async function getFacilityAppointments(): Promise<{
   });
 
   return { data: enrichedAppointments };
+}
+
+export async function updateAppointmentStatus(
+  appointmentId: number,
+  newStatus: "pending" | "confirmed" | "completed" | "canceled"
+): Promise<{ error?: string }> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { error: "You must be logged in to update an appointment." };
+  }
+
+  // update the 'appointments' table.
+  // included .eq("provider_id", user.id) to ensure a provider can only update their own appointments
+  const { error } = await supabase
+    .from("appointments")
+    .update({ status: newStatus })
+    .eq("id", appointmentId)
+    .eq("provider_id", user.id);
+
+  if (error) {
+    console.error("Error updating appointment status:", error.message);
+    return { error: "Failed to update appointment status." };
+  }
+
+  // revalidate the page cache to ensure the ui shows the latest data on refresh.
+  revalidatePath("/facility-appointments"); // adjust this path if your url is different
+
+  return {}; // successful ><
 }

@@ -3,9 +3,8 @@
 import type { NextPage } from "next";
 import Image from "next/image";
 import { useState, useMemo, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
 import styles from "../styles/facility-appointments.module.css";
-import { type Appointment } from "./actions";
+import { type Appointment, updateAppointmentStatus } from "./actions";
 
 const capitalize = (s: string) => {
   if (typeof s !== "string" || s.length === 0) return "";
@@ -180,13 +179,23 @@ const AppointmentsFacility: NextPage<{
     setActiveFilter(filter);
   };
 
-  const handleStatusChange = (
+  const handleStatusChange = async (
     appointmentId: number,
     newStatus: Appointment["status"]
   ) => {
+    const result = await updateAppointmentStatus(appointmentId, newStatus);
+
+    if (result.error) {
+      alert(`Error: ${result.error}`);
+      return;
+    }
+
+    // if the database update succeeds, update the local state to reflect the change instantly
     setAppointments((prevAppointments) =>
       prevAppointments.map((app) =>
-        app.id === appointmentId ? { ...app, status: newStatus } : app
+        app.id === appointmentId
+          ? { ...app, status: newStatus, display_status: capitalize(newStatus) } // also update the display status
+          : app
       )
     );
   };
