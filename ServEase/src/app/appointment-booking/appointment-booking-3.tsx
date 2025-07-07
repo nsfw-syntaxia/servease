@@ -32,8 +32,8 @@ const formatCurrency = (amount: number) => {
 
 const formatDateForDB = (date: Date): string => {
   const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 };
 
@@ -79,14 +79,14 @@ export default function Booking3({ onNext }: Props) {
 
       const fetchProvider = supabase
         .from("profiles")
-        .select("id, business_name, address, contact_number") 
+        .select("id, business_name, address, contact_number")
         .eq("id", facilityId)
         .single();
 
       const fetchClient = supabase
-        .from("profiles") 
+        .from("profiles")
         .select("id, full_name")
-        .eq("id", user.id) 
+        .eq("id", user.id)
         .single();
 
       const [providerResponse, clientResponse] = await Promise.all([
@@ -129,19 +129,19 @@ export default function Booking3({ onNext }: Props) {
     setIsSubmitting(true);
     setErrorMessage("");
     try {
-      const serviceNames = selectedServices.map(service => service.name);
+      const serviceNames = selectedServices.map((service) => service.name);
 
       const appointmentToInsert = {
         client_id: clientProfile.id,
         provider_id: providerProfile.id,
-        date: formatDateForDB(selectedDate), 
+        date: formatDateForDB(selectedDate),
         time: selectedTime,
         status: "pending",
         price: selectedServices.reduce((sum, s) => sum + s.price, 0),
-        services: serviceNames, 
-        address: providerProfile.address, 
+        services: serviceNames,
+        address: providerProfile.address,
       };
-      
+
       const { error: insertError } = await supabase
         .from("appointments")
         .insert(appointmentToInsert);
@@ -279,8 +279,7 @@ export default function Booking3({ onNext }: Props) {
               </b>
             </div>
           </>
-        ) : 
-        null}
+        ) : null}
       </div>
 
       <div

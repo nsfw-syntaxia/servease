@@ -21,15 +21,18 @@ type DatabaseAppointment = {
 export default async function AppointmentsPage() {
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect("/login");
   }
 
   const { data: rawAppointments, error } = await supabase
-    .from('appointments')
-    .select(`
+    .from("appointments")
+    .select(
+      `
       id,
       date,
       time,
@@ -42,10 +45,11 @@ export default async function AppointmentsPage() {
         picture_url,
         contact_number
       )
-    `)
-    .eq('client_id', user.id)
-    .order('date', { ascending: true }) 
-    .order('time', { ascending: true });
+    `
+    )
+    .eq("client_id", user.id)
+    .order("date", { ascending: true })
+    .order("time", { ascending: true });
 
   if (error) {
     console.error("Error fetching appointments:", error);
@@ -53,52 +57,59 @@ export default async function AppointmentsPage() {
   }
 
   const allServiceNames = new Set<string>();
-  rawAppointments?.forEach(apt => {
+  rawAppointments?.forEach((apt) => {
     if (apt.services) {
-      apt.services.forEach(serviceName => allServiceNames.add(serviceName));
+      apt.services.forEach((serviceName) => allServiceNames.add(serviceName));
     }
   });
 
   const { data: serviceDetails, error: servicesError } = await supabase
-    .from('services')
-    .select('name, price')
-    .in('name', Array.from(allServiceNames));
+    .from("services")
+    .select("name, price")
+    .in("name", Array.from(allServiceNames));
 
   if (servicesError) {
     console.error("Error fetching service details:", servicesError);
   }
 
   const serviceDetailsMap = new Map();
-  serviceDetails?.forEach(service => {
+  serviceDetails?.forEach((service) => {
     serviceDetailsMap.set(service.name, service);
   });
 
-  const appointments: Appointment[] = (rawAppointments || []).map((apt: any) => {
-    const servicesWithDetails = apt.services?.map(serviceName => {
-      const serviceDetail = serviceDetailsMap.get(serviceName);
-      return {
-        name: serviceName,
-        price: serviceDetail?.price || 0
-      };
-    }) || [];
+  const appointments: Appointment[] = (rawAppointments || []).map(
+    (apt: any) => {
+      const servicesWithDetails =
+        apt.services?.map((serviceName) => {
+          const serviceDetail = serviceDetailsMap.get(serviceName);
+          return {
+            name: serviceName,
+            price: serviceDetail?.price || 0,
+          };
+        }) || [];
 
-    return {
-      id: apt.id,
-      date: apt.date,
-      time: apt.time,
-      status: apt.status as "pending" | "confirmed" | "completed" | "canceled",
-      address: apt.address,
-      price: apt.price, 
-      services: servicesWithDetails, 
-      provider: apt.provider ? {
-        business_name: apt.provider.business_name,
-        picture_url: apt.provider.picture_url,
-        contact_number: apt.provider.contact_number
-      } : null
-    };
-  });
-  
-  return (
-    <AppointmentsClient initialAppointments={appointments} />
+      return {
+        id: apt.id,
+        date: apt.date,
+        time: apt.time,
+        status: apt.status as
+          | "pending"
+          | "confirmed"
+          | "completed"
+          | "canceled",
+        address: apt.address,
+        price: apt.price,
+        services: servicesWithDetails,
+        provider: apt.provider
+          ? {
+              business_name: apt.provider.business_name,
+              picture_url: apt.provider.picture_url,
+              contact_number: apt.provider.contact_number,
+            }
+          : null,
+      };
+    }
   );
+
+  return <AppointmentsClient initialAppointments={appointments} />;
 }

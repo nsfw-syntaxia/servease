@@ -1,6 +1,5 @@
-
 import { createClient } from "../../../utils/supabase/server";
-import FASS from "./category-c"; 
+import FASS from "./category-c";
 
 interface Profile {
   id: string;
@@ -30,14 +29,14 @@ export default async function HealthAndMedicalPage() {
   }
 
   const processedProfiles: Profile[] = data.map((profile) => {
-    let finalAvatarUrl = "/avatar.svg"; 
+    let finalAvatarUrl = "/avatar.svg";
 
     if (profile.avatar_url) {
       if (profile.avatar_url.startsWith("http")) {
         finalAvatarUrl = profile.avatar_url;
       } else {
         const { data: urlData } = supabase.storage
-          .from("avatars") 
+          .from("avatars")
           .getPublicUrl(profile.avatar_url);
 
         finalAvatarUrl = urlData.publicUrl;

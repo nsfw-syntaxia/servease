@@ -1,6 +1,12 @@
 "use client";
 import type { NextPage } from "next";
-import React, { useState, useEffect, useMemo, useCallback, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+  useRef,
+} from "react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import styles from "../styles/appointment-booking-2.module.css";
@@ -15,8 +21,8 @@ type Props = {
 // Helper function to format date consistently and avoid timezone issues
 const formatDateForDatabase = (date: Date): string => {
   const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 };
 
@@ -35,7 +41,10 @@ export default function AppointmentScheduler({ onNext }: Props) {
   const [buttonClicked, setButtonClicked] = useState(false);
   const [availableTimeslots, setAvailableTimeslots] = useState<string[]>([]);
   const [isFetchingSlots, setIsFetchingSlots] = useState(false);
-  const [operatingHours, setOperatingHours] = useState<{ start_time: string; end_time: string } | null>(null);
+  const [operatingHours, setOperatingHours] = useState<{
+    start_time: string;
+    end_time: string;
+  } | null>(null);
 
   const supabase = useMemo(() => createClient(), []);
   const searchParams = useSearchParams();
@@ -46,7 +55,10 @@ export default function AppointmentScheduler({ onNext }: Props) {
 
   const prevDateRef = useRef<Date | null>(null);
   const totalBookingDuration = useMemo(() => {
-    return selectedServices.reduce((sum, service) => sum + service.duration_minutes, 0);
+    return selectedServices.reduce(
+      (sum, service) => sum + service.duration_minutes,
+      0
+    );
   }, [selectedServices]);
 
   // Generate all possible time slots (8 AM to 6 PM, 30-minute intervals)
@@ -55,7 +67,9 @@ export default function AppointmentScheduler({ onNext }: Props) {
     for (let hour = 8; hour <= 18; hour++) {
       for (let minute = 0; minute < 60; minute += 30) {
         if (hour === 18 && minute > 0) break; // Stop at 6:00 PM
-        const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+        const time = `${hour.toString().padStart(2, "0")}:${minute
+          .toString()
+          .padStart(2, "0")}`;
         slots.push(time);
       }
     }
@@ -63,35 +77,38 @@ export default function AppointmentScheduler({ onNext }: Props) {
   }, []);
 
   // Fetch operating hours for the provider
-  const fetchOperatingHours = useCallback(async (providerId: string) => {
-    try {
-      const { data: profile, error } = await supabase
-        .from('profiles')
-        .select('start_time, end_time')
-        .eq('id', providerId)
-        .single();
+  const fetchOperatingHours = useCallback(
+    async (providerId: string) => {
+      try {
+        const { data: profile, error } = await supabase
+          .from("profiles")
+          .select("start_time, end_time")
+          .eq("id", providerId)
+          .single();
 
-      if (error) {
+        if (error) {
+          console.error("Error fetching operating hours:", error);
+          setOperatingHours({ start_time: "08:00", end_time: "18:00" });
+          return;
+        }
+
+        if (profile && profile.start_time && profile.end_time) {
+          console.log("Operating hours fetched:", profile);
+          setOperatingHours({
+            start_time: profile.start_time,
+            end_time: profile.end_time,
+          });
+        } else {
+          console.log("No operating hours found, using defaults");
+          setOperatingHours({ start_time: "08:00", end_time: "18:00" });
+        }
+      } catch (error) {
         console.error("Error fetching operating hours:", error);
-        setOperatingHours({ start_time: '08:00', end_time: '18:00' });
-        return;
+        setOperatingHours({ start_time: "08:00", end_time: "18:00" });
       }
-      
-      if (profile && profile.start_time && profile.end_time) {
-        console.log("Operating hours fetched:", profile);
-        setOperatingHours({
-          start_time: profile.start_time,
-          end_time: profile.end_time
-        });
-      } else {
-        console.log("No operating hours found, using defaults");
-        setOperatingHours({ start_time: '08:00', end_time: '18:00' });
-      }
-    } catch (error) {
-      console.error("Error fetching operating hours:", error);
-      setOperatingHours({ start_time: '08:00', end_time: '18:00' });
-    }
-  }, [supabase]);
+    },
+    [supabase]
+  );
 
   useEffect(() => {
     if (facilityId) {
@@ -99,86 +116,94 @@ export default function AppointmentScheduler({ onNext }: Props) {
     }
   }, [facilityId, fetchOperatingHours]);
 
-  const fetchAvailableSlots = useCallback(async (date: Date, providerId: string) => {
-    const formattedDate = formatDateForDatabase(date);
-    const requestKey = `${providerId}-${formattedDate}`;
-    
-    if (fetchingRef.current || lastFetchRef.current === requestKey) {
-      console.log("Already fetching or duplicate request, skipping");
-      return;
-    }
+  const fetchAvailableSlots = useCallback(
+    async (date: Date, providerId: string) => {
+      const formattedDate = formatDateForDatabase(date);
+      const requestKey = `${providerId}-${formattedDate}`;
 
-    fetchingRef.current = true;
-    lastFetchRef.current = requestKey;
-    setIsFetchingSlots(true);
-    setErrorMessage("");
-
-    console.log("Fetching appointments for:", { providerId, date: formattedDate });
-
-    try {
-      const { data: appointments, error } = await supabase
-        .from('appointments')
-        .select('*') 
-        .eq('provider_id', providerId) 
-        .eq('date', formattedDate);
-
-      if (error) {
-        console.error("Supabase Error details:", error);
-        console.log("Error message:", error.message);
-        console.log("Error details:", error.details);
-        console.log("Error hint:", error.hint);
-        throw new Error(`Database error: ${error.message}`);
-      }
-      
-      console.log("Fetched appointments:", appointments);
-      console.log("Number of appointments found:", appointments?.length || 0);
-      
-      const bookedTimes = new Set();
-      if (appointments && Array.isArray(appointments)) {
-        appointments.forEach(appointment => {
-          const timeField = appointment.appointment_time || 
-                           appointment.time || 
-                           appointment.start_time || 
-                           appointment.scheduled_time;
-          
-          if (timeField) {
-            let timeString = timeField;
-            if (timeField.includes(':')) {
-              timeString = timeField.substring(0, 5); 
-            }
-            bookedTimes.add(timeString);
-            console.log("Added booked time:", timeString);
-          }
-        });
+      if (fetchingRef.current || lastFetchRef.current === requestKey) {
+        console.log("Already fetching or duplicate request, skipping");
+        return;
       }
 
-      console.log("All booked times:", Array.from(bookedTimes));
+      fetchingRef.current = true;
+      lastFetchRef.current = requestKey;
+      setIsFetchingSlots(true);
+      setErrorMessage("");
 
-      const availableSlots = allTimeSlots.filter(timeSlot => {
-        return !bookedTimes.has(timeSlot);
+      console.log("Fetching appointments for:", {
+        providerId,
+        date: formattedDate,
       });
 
-      console.log("Available slots:", availableSlots);
-      console.log("Total possible slots:", allTimeSlots.length);
-      console.log("Booked slots count:", bookedTimes.size);
-      console.log("Available slots count:", availableSlots.length);
-      
-      if (!appointments || appointments.length === 0) {
-        console.log("No appointments found - all slots should be available");
-        setAvailableTimeslots(allTimeSlots);
-      } else {
-        setAvailableTimeslots(availableSlots);
-      }
+      try {
+        const { data: appointments, error } = await supabase
+          .from("appointments")
+          .select("*")
+          .eq("provider_id", providerId)
+          .eq("date", formattedDate);
 
-    } catch (error: any) {
-      console.error("Error fetching appointments:", error);
-      setErrorMessage(error.message || "Could not load times. Please try another date.");
-      setAvailableTimeslots([]);
-    } finally {
-      setIsFetchingSlots(false);
-      fetchingRef.current = false;
-    }
-  }, [supabase, allTimeSlots]);
+        if (error) {
+          console.error("Supabase Error details:", error);
+          console.log("Error message:", error.message);
+          console.log("Error details:", error.details);
+          console.log("Error hint:", error.hint);
+          throw new Error(`Database error: ${error.message}`);
+        }
+
+        console.log("Fetched appointments:", appointments);
+        console.log("Number of appointments found:", appointments?.length || 0);
+
+        const bookedTimes = new Set();
+        if (appointments && Array.isArray(appointments)) {
+          appointments.forEach((appointment) => {
+            const timeField =
+              appointment.appointment_time ||
+              appointment.time ||
+              appointment.start_time ||
+              appointment.scheduled_time;
+
+            if (timeField) {
+              let timeString = timeField;
+              if (timeField.includes(":")) {
+                timeString = timeField.substring(0, 5);
+              }
+              bookedTimes.add(timeString);
+              console.log("Added booked time:", timeString);
+            }
+          });
+        }
+
+        console.log("All booked times:", Array.from(bookedTimes));
+
+        const availableSlots = allTimeSlots.filter((timeSlot) => {
+          return !bookedTimes.has(timeSlot);
+        });
+
+        console.log("Available slots:", availableSlots);
+        console.log("Total possible slots:", allTimeSlots.length);
+        console.log("Booked slots count:", bookedTimes.size);
+        console.log("Available slots count:", availableSlots.length);
+
+        if (!appointments || appointments.length === 0) {
+          console.log("No appointments found - all slots should be available");
+          setAvailableTimeslots(allTimeSlots);
+        } else {
+          setAvailableTimeslots(availableSlots);
+        }
+      } catch (error: any) {
+        console.error("Error fetching appointments:", error);
+        setErrorMessage(
+          error.message || "Could not load times. Please try another date."
+        );
+        setAvailableTimeslots([]);
+      } finally {
+        setIsFetchingSlots(false);
+        fetchingRef.current = false;
+      }
+    },
+    [supabase, allTimeSlots]
+  );
 
   useEffect(() => {
     if (!selectedDate) {
@@ -188,7 +213,12 @@ export default function AppointmentScheduler({ onNext }: Props) {
   }, [selectedDate, setSelectedDate]);
 
   useEffect(() => {
-    if (!selectedDate || !facilityId || totalBookingDuration === 0 || !operatingHours) {
+    if (
+      !selectedDate ||
+      !facilityId ||
+      totalBookingDuration === 0 ||
+      !operatingHours
+    ) {
       if (totalBookingDuration === 0) {
         setErrorMessage("Please go back and select at least one service.");
         setAvailableTimeslots([]);
@@ -200,21 +230,27 @@ export default function AppointmentScheduler({ onNext }: Props) {
     }
 
     setErrorMessage("");
-    
+
     if (selectedTime) {
       setSelectedTime(null);
     }
 
-    const hasDateChanged = prevDateRef.current?.getTime() !== selectedDate?.getTime();
-    
+    const hasDateChanged =
+      prevDateRef.current?.getTime() !== selectedDate?.getTime();
+
     if (hasDateChanged) {
-        console.log("Date has changed, clearing selected time.");
-        setSelectedTime(null);
+      console.log("Date has changed, clearing selected time.");
+      setSelectedTime(null);
     }
 
     fetchAvailableSlots(selectedDate, facilityId);
-
-  }, [selectedDate, facilityId, totalBookingDuration, operatingHours, fetchAvailableSlots]);
+  }, [
+    selectedDate,
+    facilityId,
+    totalBookingDuration,
+    operatingHours,
+    fetchAvailableSlots,
+  ]);
 
   const handleNextClick = () => {
     setButtonClicked(true);
@@ -226,7 +262,11 @@ export default function AppointmentScheduler({ onNext }: Props) {
     }
 
     setErrorMessage("");
-    console.log("Proceeding with booking:", { selectedDate, selectedTime, selectedServices });
+    console.log("Proceeding with booking:", {
+      selectedDate,
+      selectedTime,
+      selectedServices,
+    });
     onNext();
   };
 
@@ -234,10 +274,13 @@ export default function AppointmentScheduler({ onNext }: Props) {
     if (date) {
       const normalizedDate = normalizeDate(date);
       console.log("Date selected:", normalizedDate);
-      console.log("Formatted date for DB:", formatDateForDatabase(normalizedDate));
-      
+      console.log(
+        "Formatted date for DB:",
+        formatDateForDatabase(normalizedDate)
+      );
+
       lastFetchRef.current = "";
-      
+
       setSelectedDate(normalizedDate);
     }
   };
@@ -252,13 +295,23 @@ export default function AppointmentScheduler({ onNext }: Props) {
     console.log("Current booking data:", {
       selectedDate: selectedDate ? formatDateForDatabase(selectedDate) : null,
       selectedTime,
-      selectedServices: selectedServices.map(s => s.name),
+      selectedServices: selectedServices.map((s) => s.name),
       facilityId,
-      operatingHours
+      operatingHours,
     });
-  }, [selectedDate, selectedTime, selectedServices, facilityId, operatingHours]);
+  }, [
+    selectedDate,
+    selectedTime,
+    selectedServices,
+    facilityId,
+    operatingHours,
+  ]);
 
-  console.log("Rendering with availableTimeslots:", availableTimeslots.length, "slots");
+  console.log(
+    "Rendering with availableTimeslots:",
+    availableTimeslots.length,
+    "slots"
+  );
 
   return (
     <div className={styles.frameGroup}>
@@ -276,7 +329,9 @@ export default function AppointmentScheduler({ onNext }: Props) {
             mode="single"
             selected={selectedDate || undefined}
             onSelect={handleDateSelect}
-            disabled={{ before: new Date(new Date().setDate(new Date().getDate() - 1)) }}
+            disabled={{
+              before: new Date(new Date().setDate(new Date().getDate() - 1)),
+            }}
             className="p-0"
           />
         </div>
@@ -285,7 +340,9 @@ export default function AppointmentScheduler({ onNext }: Props) {
       <div className={styles.date}>Select a Timeslot</div>
       <div className={styles.buttonContainer}>
         {isFetchingSlots ? (
-          <div className={styles.loadingMessage}>Loading available slots...</div>
+          <div className={styles.loadingMessage}>
+            Loading available slots...
+          </div>
         ) : availableTimeslots.length > 0 ? (
           availableTimeslots.map((time) => (
             <button
@@ -296,9 +353,9 @@ export default function AppointmentScheduler({ onNext }: Props) {
               }`}
               onClick={() => handleTimeSelect(time)}
               style={{
-                cursor: 'pointer',
-                pointerEvents: 'auto',
-                userSelect: 'none'
+                cursor: "pointer",
+                pointerEvents: "auto",
+                userSelect: "none",
               }}
             >
               {time}
@@ -308,8 +365,12 @@ export default function AppointmentScheduler({ onNext }: Props) {
           <div className={styles.loadingMessage}>
             {errorMessage || (
               <div>
-                <div>No available slots for this day. Please try another date.</div>
-                <div style={{ fontSize: '12px', color: '#666', marginTop: '8px' }}>
+                <div>
+                  No available slots for this day. Please try another date.
+                </div>
+                <div
+                  style={{ fontSize: "12px", color: "#666", marginTop: "8px" }}
+                >
                   Debug: Check browser console for details
                 </div>
               </div>
@@ -320,36 +381,47 @@ export default function AppointmentScheduler({ onNext }: Props) {
 
       <div className={styles.messageWrapper}>
         <div
-          className={`${styles.privacyNotice} ${selectedTime ? styles.visible : styles.hidden}`}
+          className={`${styles.privacyNotice} ${
+            selectedTime ? styles.visible : styles.hidden
+          }`}
         >
           <div className={styles.timeSection}>
             <Image src="/app_clock.svg" alt="time" width={20} height={20} />
             <span>{selectedTime}</span>
           </div>
           <div className={styles.dateSection}>
-            <Image src="/calendar_month.svg" alt="calendar" width={20} height={20}/>
+            <Image
+              src="/calendar_month.svg"
+              alt="calendar"
+              width={20}
+              height={20}
+            />
             <span>
               {selectedDate
                 ? selectedDate.toLocaleDateString("en-US", {
-                    weekday: "long", month: "long", day: "numeric",
+                    weekday: "long",
+                    month: "long",
+                    day: "numeric",
                   })
                 : "No date selected"}
             </span>
           </div>
         </div>
         {errorMessage && (
-             <div className={`${styles.errorbox} ${styles.visible}`}>
-                {errorMessage}
-            </div>
+          <div className={`${styles.errorbox} ${styles.visible}`}>
+            {errorMessage}
+          </div>
         )}
       </div>
 
       <button
         type="button"
-        className={`${styles.buttoncontainer} ${buttonClicked ? styles.clicked : ""}`}
+        className={`${styles.buttoncontainer} ${
+          buttonClicked ? styles.clicked : ""
+        }`}
         style={{
           opacity: selectedTime ? 1 : 0.5,
-          cursor: selectedTime ? 'pointer' : 'not-allowed',
+          cursor: selectedTime ? "pointer" : "not-allowed",
         }}
         onClick={handleNextClick}
         disabled={!selectedTime}
