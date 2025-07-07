@@ -473,6 +473,7 @@
   .discover1 {
     height: 3680px;
   }
+
   .heroImage,
   .image10 {
     width: 98%;
@@ -491,7 +492,7 @@
   }
   .ourServices {
     position: relative;
-    top: -200px;
+    top: 700px;
     left: 27%;
   }
 
@@ -510,7 +511,7 @@
     flex-direction: column;
     justify-content: flex-end;
     left: 5px;
-    top: -190px;
+    top: 725px;
   }
 
   .personalBeautyAnd,
@@ -556,6 +557,24 @@
     .foodAndBeverages,
     .miscellaneous {
       font-size: 85%;
+    }
+
+    .background1,
+    .background2,
+    .background3,
+    .background4,
+    .background5,
+    .background6,
+    .background {
+      position: relative !important;
+      width: 75% !important;
+      margin: 20px auto !important;
+      height: 264px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      left: 5px;
+      top: 725px;
     }
   }
 }
