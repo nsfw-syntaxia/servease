@@ -815,7 +815,7 @@
 
 .profileFacility {
   margin-top: -50px;
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
   position: relative;
   background-color: var(--color-whitesmoke);
