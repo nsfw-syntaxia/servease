@@ -229,13 +229,24 @@ export default function FacilitySignup1({ onNext }: Props) {
           <div className={styles.errorMessage}>{error}</div>
         </div>
         <div
-          className={styles.buttoncontainer}
+          className={`${styles.buttoncontainer} ${
+            buttonClicked ? styles.clicked : ""
+          }`}
           style={{
             backgroundColor: "#a68465",
             opacity: isFormValid ? "1" : "0.5",
             transition: "opacity 0.2s ease",
           }}
           onClick={handleSignUpClick}
+          /* fix anims */
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              handleSignUpClick();
+            }
+          }}
+          role="button"
+          tabIndex={0}
         >
           <div className={styles.signup}>
             <div className={styles.signupText}>Next</div>

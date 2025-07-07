@@ -1,0 +1,1658 @@
+.saveProfileBtn,
+.editProfileBtn,
+.circleEditPfp,
+.editPfpIcon,
+.viewServicesBtn,
+.viewAppointmentsBtn,
+.changePassBtn,
+.enableBtn,
+.deleteAccBtn,
+.photoContainerIcon,
+.addPhotos {
+  cursor: pointer;
+}
+
+.pfpContainer {
+  position: absolute;
+  top: 363px;
+  left: 207px;
+  border-radius: var(--br-10);
+  background-color: var(--color-white);
+  width: 1032px;
+  height: 724px;
+}
+
+.pfpCoverIcon {
+  position: absolute;
+  top: 313px;
+  left: 207px;
+  width: 1032px;
+  height: 148px;
+}
+
+.servicefacilityemailcom {
+  position: absolute;
+  top: 36px;
+  left: 0px;
+  opacity: 0.5;
+}
+
+.serviceFacilityName {
+  position: relative;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.subheadingInfo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+.verified1 {
+  position: absolute;
+  top: 1px;
+  left: 0px;
+  font-weight: 500;
+}
+
+.verified {
+  position: absolute;
+  top: 2px;
+  left: 31px;
+  width: 58px;
+  height: 21px;
+}
+
+.verifiedAccIcon {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 26px;
+  height: 26px;
+  overflow: hidden;
+}
+
+.verifiedProfile {
+  width: 89px;
+  position: relative;
+  height: 26px;
+  font-size: var(--font-size-16);
+  color: var(--color-tan);
+  flex-shrink: 0;
+}
+
+.verifiedFaci {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--font-size-20);
+}
+
+.profileInfo {
+  position: absolute;
+  top: 513px;
+  left: 360px;
+  /* width is no longer needed here */
+  height: 57px;
+}
+
+.contactNumTbx {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+  left: 0%;
+  border-radius: var(--br-8);
+  background-color: var(--color-snow);
+}
+
+.icon {
+  position: absolute;
+  height: 34.62%;
+  width: 3.85%;
+  top: 30.77%;
+  right: 4.7%;
+  bottom: 34.62%;
+  left: 91.45%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+  opacity: 0.5;
+}
+
+.tags {
+  position: absolute;
+  top: 997px;
+  left: 236px;
+  width: 468px;
+  height: 52px;
+}
+
+.tags2 {
+  position: absolute;
+  top: 961px;
+  left: 236px;
+  opacity: 0.8;
+}
+
+.tagsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  height: 100%;
+  padding-left: 15px;
+}
+
+.tagItem {
+  background-color: #e0e0e0;
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 14px;
+  color: #2e231d;
+  opacity: 0.5;
+  white-space: nowrap;
+}
+
+.tagsInputContainer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  height: 100%;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+.tagPill {
+  display: flex;
+  align-items: center;
+  background-color: var(--color-tan);
+  color: white;
+  padding: 4px 5px 4px 10px;
+  border-radius: 16px;
+  font-size: 14px;
+  white-space: nowrap;
+  gap: 5px;
+}
+
+.tagRemoveBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 0;
+}
+
+.tagRemoveBtn:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.tagInputField {
+  flex-grow: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: var(--font-size-16);
+  color: var(--color-black);
+  font-family: var(--font-dm-sans);
+  min-width: 100px;
+  height: 100%;
+}
+
+.emailAdd {
+  position: absolute;
+  top: 885px;
+  left: 736px;
+  width: 468px;
+  height: 52px;
+}
+
+.emailAddress1 {
+  position: absolute;
+  top: 849px;
+  left: 736px;
+  opacity: 0.8;
+}
+
+.specCategory {
+  position: absolute;
+  top: 773px;
+  left: 736px;
+  width: 468px;
+  height: 52px;
+}
+
+.specificCategory1 {
+  position: absolute;
+  top: 737px;
+  left: 736px;
+  opacity: 0.8;
+}
+
+.address {
+  position: absolute;
+  top: 661px;
+  left: 736px;
+  width: 468px;
+  height: 52px;
+}
+
+.address2 {
+  position: absolute;
+  top: 625px;
+  left: 736px;
+  opacity: 0.8;
+}
+
+.contactNum {
+  position: absolute;
+  top: 885px;
+  left: 236px;
+  width: 468px;
+  height: 52px;
+}
+
+.contactNumber {
+  position: absolute;
+  top: 849px;
+  left: 236px;
+  opacity: 0.8;
+}
+
+.category {
+  position: absolute;
+  top: 773px;
+  left: 236px;
+  width: 468px;
+  height: 52px;
+}
+
+.category2 {
+  position: absolute;
+  top: 737px;
+  left: 236px;
+  opacity: 0.8;
+}
+
+.name {
+  position: absolute;
+  top: 661px;
+  left: 236px;
+  width: 468px;
+  height: 52px;
+}
+
+.serviceFacilityName2 {
+  position: absolute;
+  top: 625px;
+  left: 236px;
+  opacity: 0.8;
+}
+
+.avatarIcon {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pfp {
+  position: absolute;
+  top: 493px;
+  left: 236px;
+  border-radius: 100px;
+  background-color: var(--color-tan);
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+}
+
+.save {
+  position: absolute;
+  top: calc(50% - 14px);
+  left: calc(50% - 30px);
+  line-height: 27.75px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 28px;
+}
+
+.editLabel {
+  position: absolute;
+  top: calc(50% - 13.5px);
+  left: calc(50% - 19px);
+  width: 60px;
+  height: 28px;
+}
+
+.checkIcon {
+  position: absolute;
+  top: 13px;
+  left: 13px;
+  width: 20px;
+  height: 20px;
+}
+
+.saveProfileBtn {
+  position: absolute;
+  top: 538px;
+  left: 1108px;
+  border-radius: var(--br-12);
+  background-color: var(--color-dimgray);
+  border: 1px solid var(--color-tan);
+  box-sizing: border-box;
+  width: 96px;
+  height: 45px;
+  text-align: center;
+  font-size: var(--font-size-20);
+  color: var(--color-white);
+}
+
+.editProfileBtn {
+  position: absolute;
+  top: 538px;
+  left: 1108px;
+  border-radius: var(--br-12);
+  background-color: var(--color-tan);
+  border: 1px solid var(--color-tan);
+  box-sizing: border-box;
+  width: 96px;
+  height: 45px;
+  text-align: center;
+  font-size: var(--font-size-20);
+  color: var(--color-white);
+}
+
+.circleEditPfp {
+  position: absolute;
+  top: 560px;
+  left: 304px;
+  box-shadow: 0px 1px 4px rgba(26, 15, 1, 0.12);
+  border-radius: 50%;
+  background-color: var(--color-white);
+  width: 30px;
+  height: 30px;
+}
+
+.editPfpIcon {
+  position: absolute;
+  top: 566px;
+  left: 309px;
+  width: 19px;
+  height: 19px;
+  overflow: hidden;
+}
+
+.faciPhotos {
+  position: absolute;
+  top: 1147px;
+  left: 207px;
+  border-radius: var(--br-10);
+  background-color: var(--color-white);
+  width: 1032px;
+  height: 302px;
+}
+
+.addContainerIcon {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  border-radius: var(--br-10);
+  width: 108px;
+  height: 200px;
+}
+
+.iconplus {
+  position: absolute;
+  height: 24px;
+  width: 24px;
+  align-items: center;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+
+.plus {
+  position: absolute;
+  top: 88px;
+  left: 42px;
+  width: 24px;
+  height: 24px;
+  overflow: hidden;
+}
+
+.addPhotos {
+  position: relative;
+  width: 108px;
+  height: 200px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.photosDisplay {
+  position: absolute;
+  top: 1222px;
+  left: 239px;
+  height: 200px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 15px;
+  width: auto;
+}
+
+.photos {
+  position: absolute;
+  top: 1172px;
+  left: 239px;
+  font-size: var(--font-size-20);
+  font-weight: 500;
+}
+
+.photoImage {
+  z-index: 1;
+}
+
+.photoItem {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  border-radius: var(--br-10);
+  overflow: hidden;
+  flex-shrink: 0;
+  background-color: #e0d9c9;
+  cursor: pointer;
+}
+
+.photoItem img {
+  object-fit: cover;
+}
+
+.deletePhotoBtn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 20px;
+  line-height: 28px;
+  text-align: center;
+  cursor: pointer;
+  z-index: 2;
+
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.9);
+
+  transition: all 0.2s ease-in-out;
+}
+
+.photoItem:hover .deletePhotoBtn {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+}
+
+.deletePhotoBtn:hover {
+  background-color: rgba(255, 0, 0, 0.8);
+  transform: scale(1.1);
+}
+
+.moreActions {
+  position: absolute;
+  top: 1509px;
+  left: 207px;
+  border-radius: var(--br-10);
+  background-color: var(--color-white);
+  width: 1032px;
+  height: 170px;
+}
+
+.password {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+.passLabel {
+  position: absolute;
+  top: 1620px;
+  left: 307px;
+  width: 71px;
+  height: 21px;
+}
+
+.btn {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+  left: 0%;
+  border-radius: var(--br-8);
+  background-color: var(--color-tan);
+  opacity: 0.1;
+  transition: opacity 0.3s ease;
+}
+
+.changePassword {
+  position: absolute;
+  width: 86.19%;
+  top: 25%;
+  left: 7.18%;
+  display: inline-block;
+}
+
+.changePassBtn {
+  position: absolute;
+  height: 1.87%;
+  width: 12.57%;
+  top: 68.16%;
+  right: 50.97%;
+  bottom: 29.97%;
+  left: 36.46%;
+  text-align: center;
+  color: var(--color-tan);
+}
+
+.circlePassword {
+  position: absolute;
+  top: 1606px;
+  left: 239px;
+  border-radius: 50%;
+  background-color: var(--color-tan);
+  width: 48px;
+  height: 48px;
+  opacity: 0.1;
+}
+
+.lockIcon {
+  position: absolute;
+  height: 1.02%;
+  width: 1.67%;
+  top: 68.59%;
+  right: 80.9%;
+  bottom: 30.39%;
+  left: 17.43%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+
+.notifLabel {
+  position: absolute;
+  top: 1692px;
+  left: 307px;
+  width: 94px;
+  height: 21px;
+}
+
+.enableBtn {
+  position: absolute;
+  height: 1.87%;
+  width: 12.57%;
+  top: 71.22%;
+  right: 50.97%;
+  bottom: 26.92%;
+  left: 36.46%;
+  text-align: center;
+  color: var(--color-tan);
+}
+
+.circleNotif {
+  position: absolute;
+  top: 1678px;
+  left: 239px;
+  border-radius: 50%;
+  background-color: var(--color-tan);
+  width: 48px;
+  height: 48px;
+  opacity: 0.1;
+}
+
+.notificationIcon {
+  position: absolute;
+  height: 1.02%;
+  width: 1.67%;
+  top: 71.64%;
+  right: 80.9%;
+  bottom: 27.34%;
+  left: 17.43%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+
+.accountLabel {
+  position: absolute;
+  top: 1620px;
+  left: 808px;
+  width: 63px;
+  height: 21px;
+}
+
+.deleteAccBtn {
+  position: absolute;
+  height: 1.87%;
+  width: 12.57%;
+  top: 68.16%;
+  right: 16.18%;
+  bottom: 29.97%;
+  left: 71.25%;
+  text-align: center;
+  color: var(--color-tan);
+}
+
+.circleSetting {
+  position: absolute;
+  top: 1606px;
+  left: 740px;
+  border-radius: 50%;
+  background-color: var(--color-tan);
+  width: 48px;
+  height: 48px;
+  opacity: 0.1;
+}
+
+.settingIcon {
+  position: absolute;
+  height: 1.02%;
+  width: 1.67%;
+  top: 68.59%;
+  right: 46.11%;
+  bottom: 30.39%;
+  left: 52.22%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+
+.servicesOfferedLabel {
+  position: absolute;
+  top: 1548px;
+  left: 307px;
+  width: 124px;
+  height: 21px;
+}
+
+.viewServicesBtn {
+  position: absolute;
+  height: 1.87%;
+  width: 12.57%;
+  top: 65.11%;
+  right: 50.97%;
+  bottom: 33.02%;
+  left: 36.46%;
+  text-align: center;
+  color: var(--color-tan);
+}
+
+.servicesCircle {
+  position: absolute;
+  top: 1534px;
+  left: 239px;
+  border-radius: 50%;
+  background-color: var(--color-tan);
+  width: 48px;
+  height: 48px;
+  opacity: 0.1;
+}
+
+.briefcaseIcon {
+  position: absolute;
+  height: 1.02%;
+  width: 1.67%;
+  top: 65.54%;
+  right: 80.9%;
+  bottom: 33.45%;
+  left: 17.43%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+
+.appointmentLabel {
+  position: absolute;
+  top: 1548px;
+  left: 808px;
+  width: 174px;
+  height: 21px;
+}
+
+.viewAppointmentsBtn {
+  position: absolute;
+  height: 1.87%;
+  width: 12.57%;
+  top: 65.11%;
+  right: 16.18%;
+  bottom: 33.02%;
+  left: 71.25%;
+  text-align: center;
+  color: var(--color-tan);
+}
+
+.appointmentsCircle {
+  position: absolute;
+  top: 1534px;
+  left: 740px;
+  border-radius: 50%;
+  background-color: var(--color-tan);
+  width: 48px;
+  height: 48px;
+  opacity: 0.1;
+}
+
+.clockIcon {
+  position: absolute;
+  height: 1.02%;
+  width: 1.67%;
+  top: 65.54%;
+  right: 46.11%;
+  bottom: 33.45%;
+  left: 52.22%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+
+.content {
+  position: absolute;
+  margin-top: -30px;
+  height: 100%;
+  top: 0px;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--color-whitesmoke);
+  width: 1440px;
+  overflow: hidden;
+}
+
+.profile {
+  position: absolute;
+  top: 172px;
+  left: 140px;
+  font-size: 55px;
+  line-height: 150%;
+  display: flex;
+  color: #2e231d;
+  align-items: center;
+  width: 441px;
+  height: 75px;
+}
+
+.background {
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-whitesmoke);
+  z-index: -1;
+}
+
+.profileFacility {
+  margin-top: -50px;
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  background-color: var(--color-whitesmoke);
+  box-sizing: border-box;
+  height: 2359px;
+  overflow: hidden;
+  text-align: left;
+  font-size: var(--font-size-16);
+  color: var(--color-black);
+  font-family: var(--font-dm-sans);
+  cursor: default;
+}
+
+.profileDataText {
+  position: absolute;
+  top: 26.92%;
+  left: 4.27%;
+  opacity: 0.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 85%;
+}
+
+/* for the input fields that appear during editing */
+.profileInput {
+  position: absolute;
+  top: 26.92%;
+  left: 4.27%;
+  width: 85%;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: var(--font-size-16);
+  color: #2e231d;
+  font-family: var(--font-dm-sans);
+  opacity: 1;
+}
+
+/* styles for error states on textboxes */
+.tbxError {
+  border: 1px solid #d8000c !important;
+  background-color: #fff2f0 !important;
+}
+
+.tbxError:hover {
+  border-color: #d8000c !important;
+}
+
+.tbxError:focus-within {
+  border-color: #d8000c !important;
+}
+
+/* styles for error states on input text */
+.inputError {
+  color: #d8000c !important;
+}
+
+/* styles for the error message display */
+.errorMessage {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 4px;
+  font-size: 12px;
+  color: #d8000c;
+  background-color: rgba(255, 242, 240, 0.9);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-weight: 400;
+  z-index: 10;
+  white-space: nowrap;
+}
+
+.uploadingPlaceholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--color-tan);
+  font-weight: 500;
+  opacity: 0.8;
+  background-color: #efe9e1;
+}
+
+/* base – pointer + smooth transitions */
+.actionButton {
+  transition: transform 0.25s ease;
+}
+
+/* hover – slight enlarge + overall darken */
+.actionButton:hover {
+  transform: scale(1.05);
+}
+
+.actionButton:hover .btn {
+  opacity: 0.3;
+}
+
+/*change password*/
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(17, 17, 17, 0.5); /* semi-transparent dark */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.xIcon {
+  width: 100%;
+  position: absolute;
+  margin: 0 !important;
+  top: 0px;
+  left: 200px;
+  height: 20px;
+  overflow: hidden;
+  flex-shrink: 0;
+  z-index: 0;
+  color: var(--color-tan);
+  cursor: pointer;
+  transition: scale 0.2s ease;
+}
+
+.xWrapper {
+  width: 471px;
+  height: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  position: relative;
+}
+
+.changeYourPassword {
+  position: relative;
+  line-height: 24px;
+}
+
+.changeYourPasswordWrapper {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.enterYourCurrent {
+  align-self: stretch;
+  position: relative;
+  font-size: var(--font-size-16);
+  line-height: 24px;
+  color: var(--color-gray-100);
+  text-align: center;
+}
+
+.frameContainer {
+  width: 454px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+.frameGroup {
+  width: 454px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 55px;
+}
+
+.frameChild {
+  width: 471px;
+  position: relative;
+  max-height: 100%;
+}
+
+.frameItem {
+  width: 471px;
+  height: 0px;
+}
+
+.currentPasswordWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.inputs {
+  position: absolute;
+  top: 15px;
+  left: 24px;
+  width: 56px;
+  height: 24px;
+  display: none;
+}
+
+.icons {
+  position: absolute;
+  top: 40px;
+  right: 24px;
+  width: 24px;
+  height: 24px;
+  overflow: hidden;
+  display: none;
+}
+
+.textField {
+  width: 454px;
+  position: relative;
+  height: 56px;
+  flex-shrink: 0;
+}
+
+.tbxError {
+  border-color: #d8000c !important;
+  background-color: #fff2f0 !important;
+}
+
+.tbxError:hover {
+  border-color: #d8000c !important;
+}
+
+.frameInner {
+  width: 107px;
+  height: 10px;
+}
+
+.frameParent1 {
+  width: 454px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-top: -17px;
+  position: relative;
+}
+
+.frameDiv {
+  width: 454px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: var(--font-size-16);
+  color: var(--color-gray-100);
+}
+
+.updatePassword {
+  position: absolute;
+  top: calc(50% - 14px);
+  left: calc(50% - 93px);
+  line-height: 27.75px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 186px;
+  height: 28px;
+}
+
+.buttonInner {
+  position: absolute;
+  top: calc(50% - 14px);
+  left: calc(50% - 93px);
+  width: 186px;
+  height: 28px;
+}
+
+.button {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  border-radius: var(--br-12);
+  background-color: var(--color-tan);
+  border: 1px solid var(--color-tan);
+  box-sizing: border-box;
+  width: 454px;
+  height: 50px;
+}
+
+.buttonWrapper {
+  width: 454px;
+  position: relative;
+  height: 50px;
+  text-align: center;
+  font-size: 20px;
+  color: var(--color-white);
+  margin-top: 10%;
+}
+
+.frameParent {
+  width: 454px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 30px;
+}
+
+.changePasswordpage {
+  position: relative;
+  border-radius: var(--br-12);
+  background-color: var(--color-white);
+  width: 534px;
+  height: 700px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 40px;
+  box-sizing: border-box;
+  text-align: left;
+  font-size: 24px;
+  color: var(--color-gray-200);
+  font-family: var(--font-dm-sans);
+}
+
+.passwordInput {
+  width: 100%;
+  padding: 15px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  font-size: 16px;
+  transition: all 0.2s ease;
+  color: #a68465;
+  outline: none;
+}
+
+.passwordInput::placeholder {
+  color: #a0a0a0;
+}
+
+.inputBox {
+  position: absolute;
+  flex-direction: row;
+  justify-content: flex-start;
+  display: flex;
+  align-items: center;
+  padding-left: 16px;
+  gap: 8px;
+}
+
+.inputBox input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-family: var(--font-dm-sans);
+  font-size: 16px;
+  background: transparent;
+  color: var(--color-gray-100);
+}
+
+.tbx {
+  align-self: stretch;
+  padding-left: 12px;
+  position: relative;
+  border-radius: var(--br-12);
+  border: 1px solid var(--color-dimgray-200);
+  box-sizing: border-box;
+  height: 56px;
+
+  overflow: hidden;
+  flex-shrink: 0;
+  color: var(--color-gray-100);
+  font-family: var(--font-dm-sans);
+  cursor: text;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.hideIcon {
+  width: 30px;
+  position: absolute;
+  margin: 0 !important;
+  top: calc(50% - 12px);
+  right: 25px;
+  height: 25px;
+  overflow: hidden;
+  flex-shrink: 0;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.buttonSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  height: 80px;
+  justify-content: flex-end;
+  position: relative;
+}
+
+.errorbox {
+  width: 454px;
+  background-color: #ffe6e6;
+  border: 1px solid #d8000c;
+  border-radius: 12px;
+  padding: 8px;
+  text-align: center;
+  color: #d8000c;
+  font-size: 15px;
+  font-weight: 400;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  position: absolute;
+  bottom: 72px;
+}
+
+.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.hidden {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+}
+
+.errorMessage {
+  color: #d8000c;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.buttoncontainer {
+  width: 454px;
+  position: relative;
+  border-radius: 12px;
+  background-color: var(--color-tan);
+  height: 50px;
+  overflow: hidden;
+  flex-shrink: 0;
+  font-size: 22px;
+  cursor: pointer;
+  opacity: 0.5;
+  margin-top: -3%;
+  transition: all 0.3s ease;
+}
+
+.buttoncontainerActive {
+  opacity: 1 !important;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.clicked {
+  animation: pressDown 0.2s ease-in-out;
+}
+
+@keyframes pressDown {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.96);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/*delete account*/
+
+.xIcon {
+  width: 100%;
+  position: absolute;
+  margin: 0 !important;
+  top: 0px;
+  left: 204px;
+  height: 25px;
+  overflow: hidden;
+  flex-shrink: 0;
+  z-index: 0;
+  transition: scale 0.2s ease;
+}
+
+.xWrapper {
+  width: 471px;
+  height: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  position: relative;
+}
+
+.deleteAccountWrapper {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.areYouSure {
+  align-self: stretch;
+  position: relative;
+  font-size: var(--font-size-16);
+  line-height: 24px;
+  color: var(--color-gray-100);
+  text-align: center;
+}
+
+.frameContainer {
+  width: 454px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+.frameGroup {
+  width: 454px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 55px;
+}
+
+.frameChild {
+  width: 471px;
+  position: relative;
+  max-height: 100%;
+}
+
+.frameItem {
+  width: 471px;
+  height: 0px;
+}
+
+.password {
+  position: relative;
+  line-height: 24px;
+}
+
+.passwordWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.inputs {
+  position: absolute;
+  top: 15px;
+  left: 24px;
+  width: 56px;
+  height: 24px;
+  display: none;
+}
+
+.iconeye {
+  position: absolute;
+  height: 91.67%;
+  width: 100%;
+  top: 4.17%;
+  right: 4.21%;
+  bottom: 4.17%;
+  left: 4.17%;
+  max-width: 100%;
+  max-height: 100%;
+  cursor: pointer;
+}
+
+.eyeOff {
+  position: absolute;
+  top: 13.29px;
+  left: 399px;
+  width: 37px;
+  height: 30px;
+}
+
+.textField {
+  width: 454px;
+  position: relative;
+  height: 56px;
+  flex-shrink: 0;
+}
+
+.passwordInput:focus {
+  border-color: #a68465;
+  box-shadow: 0 0 0 3px rgba(166, 132, 101, 0.1);
+}
+
+.frameParent1 {
+  width: 454px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-top: -17px;
+  position: relative;
+}
+
+.frameDiv {
+  width: 454px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: var(--font-size-16);
+  color: var(--color-gray-100);
+}
+
+.cancel {
+  position: absolute;
+  top: calc(50% - 14px);
+  left: calc(50% - 74.5px);
+  line-height: 27.75px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 149px;
+  height: 28px;
+}
+
+.cancelWrapper {
+  position: absolute;
+  top: calc(50% - 14px);
+  left: calc(50% - 74.5px);
+  width: 149px;
+  height: 28px;
+}
+.buttonInner {
+  position: absolute;
+  top: calc(50% - 14px);
+  left: calc(50% - 74.85px);
+  width: 149px;
+  height: 28px;
+}
+
+.buttoncancel {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  border-radius: var(--br-12);
+  border: 1px solid #a68465;
+  background-color: white;
+  color: #a68465;
+  box-sizing: border-box;
+  width: 141.7px;
+  height: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.groupWrapper {
+  position: absolute;
+  top: 15px;
+  left: 0px;
+  width: 141.7px;
+  height: 50px;
+}
+
+.buttonChild {
+  position: absolute;
+  top: calc(50% - 14px);
+  left: calc(50% - 74.7px);
+  width: 149px;
+  height: 28px;
+}
+
+.button1 {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  border-radius: var(--br-12);
+  background-color: var(--color-tan);
+  border: 1px solid var(--color-tan);
+  box-sizing: border-box;
+  width: 215.4px;
+  height: 50px;
+}
+
+.buttonContainer {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 215.4px;
+  height: 50px;
+}
+
+.groupContainer {
+  position: absolute;
+  top: 30px;
+  left: 162.6px;
+  width: 215.4px;
+  height: 50px;
+  color: var(--color-white);
+}
+
+.groupParent {
+  width: 378px;
+  position: relative;
+  height: 50px;
+  text-align: center;
+  font-size: var(--font-size-20);
+  color: var(--color-tan);
+}
+
+.frameParentdelete {
+  width: 454px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+
+.deleteAccount {
+  position: relative;
+  border-radius: var(--br-12);
+  background-color: var(--color-white);
+  width: 534px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 40px;
+  box-sizing: border-box;
+  text-align: left;
+  font-size: 24px;
+  color: var(--color-gray-200);
+  font-family: var(--font-dm-sans);
+}
+
+.buttonWrapperDelete {
+  width: 454px;
+  position: relative;
+  height: 50px;
+  text-align: center;
+  font-size: 20px;
+  color: var(--color-white);
+  margin-top: 6%;
+}
+
+.buttoncontainerdelete {
+  width: 215px;
+  position: relative;
+  border-radius: 12px;
+  background-color: var(--color-tan);
+  height: 50px;
+  flex-shrink: 0;
+  font-size: 22px;
+  cursor: pointer;
+  opacity: 0.5;
+  margin-top: -3%;
+  transition: all 0.3s ease;
+}
+
+.buttoncontainerActivedelete {
+  opacity: 1 !important;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.errorboxdelete {
+  width: 454px;
+  background-color: #ffe6e6;
+  border: 1px solid #d8000c;
+  border-radius: 12px;
+  padding: 8px;
+  text-align: center;
+  color: #d8000c;
+  font-size: 15px;
+  font-weight: 400;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  position: absolute;
+  top: 355px;
+}
+.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.hidden {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+}
+.xIcondelete {
+  width: 100%;
+  position: absolute;
+  margin: 0 !important;
+  top: 0px;
+  left: 200px;
+  height: 25px;
+  overflow: hidden;
+  flex-shrink: 0;
+  z-index: 0;
+  cursor: pointer;
+  transition: scale 0.2s ease;
+}
+
+.buttoncancel:hover,
+.buttoncontainerdelete:hover,
+.buttoncontainer:hover {
+  transform: translateY(-2px);
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.xIcon:hover,
+.xIcondelete:hover {
+  scale: 1.2;
+}
+
+.actionButton {
+  transition: transform 0.25s ease;
+}
+
+/* hover – slight enlarge + overall darken */
+.actionButton:hover {
+  transform: scale(1.05);
+}
+
+.actionButton:hover .btn {
+  opacity: 0.3;
+}

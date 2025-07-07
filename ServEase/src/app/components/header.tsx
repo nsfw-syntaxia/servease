@@ -19,12 +19,44 @@ const Header = ({ avatarUrl, userRole, homePath }: HeaderProps) => {
   const [hovered, setHovered] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  const handleAccountClick = () => {
+    if (userRole === "client") {
+      router.push("/client-profile");
+    } else if (userRole === "provider") {
+      router.push("/facility-profile");
+    }
+    setOpen(false);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/logout", {
+        method: "POST",
+      });
+      router.push("/login");
+      router.refresh();
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+    setOpen(false);
+  };
+
+  const handleItemClick = (href?: string, onClick?: () => void) => {
+    if (onClick) {
+      onClick();
+    } else if (href) {
+      router.push(href);
+    }
+    setOpen(false); // close the dropdown after clicking an item
+  };
+
+  // Move the items array after handleLogout is defined
   const items = [
-    { label: "My Account", href: "/account" }, //*should have a separate href for account-client and account-facility*/
+    { label: "My Account", onClick: handleAccountClick },
     { label: "Appointments", href: "/appointments" },
     { label: "Messages", href: "/messages" },
     { label: "Notifications", href: "/notifications" },
-    { label: "Log out", href: "/logout" },
+    { label: "Log out", onClick: handleLogout }, // Use onClick instead of href
   ];
 
   useEffect(() => {
@@ -49,7 +81,7 @@ const Header = ({ avatarUrl, userRole, homePath }: HeaderProps) => {
           width={40}
           height={40}
           alt="Servease Logo"
-          src="/Servease Logo.svg"
+          src="/logo.svg"
         />
         <div className={styles.logoText}>
           <span className={styles.serv}>serv</span>
@@ -87,9 +119,12 @@ const Header = ({ avatarUrl, userRole, homePath }: HeaderProps) => {
 
         {userRole === "provider" && (
           <>
+            <a className={styles.navLink} onClick={() => router.push(homePath)}>
+              Home
+            </a>
             <a
               className={styles.navLink}
-              onClick={() => router.push("/provider/schedule")}
+              onClick={() => router.push("/schedule")}
             >
               Schedule
             </a>
@@ -109,7 +144,6 @@ const Header = ({ avatarUrl, userRole, homePath }: HeaderProps) => {
         </a>
       </nav>
 
-      {/* Conditionally render the avatar or a "Login" button */}
       <div className={styles.userActions}>
         {userRole === "guest" ? (
           <button
@@ -145,17 +179,21 @@ const Header = ({ avatarUrl, userRole, homePath }: HeaderProps) => {
                   }
 
                   return (
-                    <Link
-                      href={item.href}
+                    <div
                       key={item.label}
                       className={`${styles.dropdownItem} ${
                         isActive ? styles.active : ""
                       } ${borderClass}`}
                       onMouseEnter={() => setHovered(item.label)}
                       onMouseLeave={() => setHovered("")}
+                      onClick={
+                        item.onClick
+                          ? item.onClick
+                          : () => router.push(item.href!)
+                      }
                     >
                       {item.label}
-                    </Link>
+                    </div>
                   );
                 })}
               </div>

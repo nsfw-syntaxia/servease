@@ -136,7 +136,7 @@ const ClientSignup: NextPage = () => {
   const router = useRouter();
 
   const handleBackClick = () => {
-    router.push("/landingpage");
+    router.push("/home");
   };
 
   return (

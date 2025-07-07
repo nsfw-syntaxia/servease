@@ -3,10 +3,43 @@
 import type { NextPage } from "next";
 import Image from "next/image";
 import styles from "../styles/dashboard-client.module.css";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { type Appointment, type Service } from "../lib/supabase/types";
+
+export interface ProviderInfo {
+  business_name: string;
+  picture_url: string | null;
+  contact_number: string | null; // Added for modal
+}
+
+export interface AppointmentService { // New type for services in the modal
+  name: string;
+  price: number;
+}
+
+export interface Appointment {
+  id: string;
+  date: string;
+  time: string;
+  address: string;
+  status: "pending" | "confirmed" | "completed" | "canceled"; // Added for modal
+  price: number; // Added for modal (total price)
+  services: AppointmentService[]; // Added for modal
+  provider: ProviderInfo | null;
+}
+
+export interface Service {
+  id: number | null;
+  name: string | null;
+  price: number | null;
+  provider_name: string;
+  provider_picture_url: string | null;
+  facility_photo_url: string | null;
+  provider_address: string | null;
+  rating: number | null;
+  provider_id: string;
+}
 
 interface DashboardClientProps {
   avatarUrl: string;
@@ -14,32 +47,48 @@ interface DashboardClientProps {
   featuredServices: Service[];
 }
 
-const UpcomingAppointmentCard = ({
-  appointment,
-}: {
-  appointment: Appointment;
-}) => {
-  const appointmentDate = new Date(appointment.start_time);
-  const time = appointmentDate.toLocaleTimeString([], {
-    hour: "numeric",
-    minute: "2-digit",
-  });
-  const date = appointmentDate.toLocaleDateString([], {
+const formatDisplayDate = (dateString: string) => {
+  const date = new Date(dateString + "T00:00:00");
+  return date.toLocaleDateString("en-US", {
     weekday: "short",
     month: "short",
     day: "numeric",
   });
+};
 
+const formatDisplayTime = (timeString: string) => {
+  const [hours, minutes] = timeString.split(":");
+  const date = new Date();
+  date.setHours(parseInt(hours, 10), parseInt(minutes, 10));
+  return date.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+};
+
+const UpcomingAppointmentCard = ({
+  appointment,
+  onShowDetails,
+}: {
+  appointment: Appointment;
+  onShowDetails: () => void;
+}) => {
   const providerName =
-    appointment.provider?.[0]?.business_name || "Unknown Provider";
-  const providerAddress =
-    appointment.provider?.[0]?.address || "No address provided";
-
+    appointment.provider?.business_name || "Unknown Provider";
+  const providerAddress = appointment.address || "No address provided";
+  const providerAvatar = appointment.provider?.picture_url || "/circle.svg";
   return (
-    <div className={styles.appointmentCard}>
+    <div className={styles.appointmentCard} onClick={onShowDetails}>
       <div className={styles.cardContent}>
         <div className={styles.serviceInfo}>
-          <div className={styles.serviceAvatar}></div>
+          <Image
+            className={styles.serviceAvatar}
+            src={providerAvatar}
+            alt="Provider Avatar"
+            width={40}
+            height={40}
+          />
           <div className={styles.serviceDetails}>
             <h3 className={styles.serviceName}>{providerName}</h3>
             <p className={styles.serviceLocation}>{providerAddress}</p>
@@ -48,7 +97,7 @@ const UpcomingAppointmentCard = ({
         <div className={styles.appointmentInfo}>
           <div className={styles.timeInfo}>
             <Image width={16} height={16} src="/Vector.svg" alt="Time" />
-            <span>{time}</span>
+            <span>{formatDisplayTime(appointment.time)}</span>
           </div>
           <div className={styles.dateInfo}>
             <Image
@@ -57,7 +106,7 @@ const UpcomingAppointmentCard = ({
               src="/calendar_month.svg"
               alt="Date"
             />
-            <span>{date}</span>
+            <span>{formatDisplayDate(appointment.date)}</span>
           </div>
         </div>
       </div>
@@ -65,36 +114,93 @@ const UpcomingAppointmentCard = ({
   );
 };
 
+const renderStars = (rating: number) => {
+  const stars = [];
+  for (let i = 1; i <= 5; i++) {
+    if (rating >= i) {
+      stars.push(
+        <Image
+          key={`star-${i}`}
+          width={16}
+          height={16}
+          src="/Star 3.svg"
+          alt="Full Star"
+        />
+      );
+    } else if (rating >= i - 0.5) {
+      stars.push(
+        <Image
+          key={`star-${i}`}
+          width={16}
+          height={16}
+          src="/star_half.svg"
+          alt="Half Star"
+        />
+      );
+    } else {
+      stars.push(
+        <Image
+          key={`star-${i}`}
+          width={16}
+          height={16}
+          src="/Star 4.svg"
+          alt="Empty Star"
+        />
+      );
+    }
+  }
+  return stars;
+};
 
 const FeaturedServiceCard = ({ service }: { service: Service }) => {
-  // Safely access the provider's name and avatar
-  const providerName =
-    service.provider?.[0]?.business_name || "Unknown Provider";
-  const providerAvatar = service.provider?.[0]?.avatar_url || "/avatar.svg"; // Fallback to default avatar
+  const displayRating = useMemo(() => {
+    if (service.rating) return service.rating;
+    return parseFloat((Math.random() * (5 - 3.7) + 3.7).toFixed(1));
+  }, [service.rating]);
+
+  const router = useRouter();
+
+  const providerName = service.provider_name || "Unknown Provider";
+  const providerAvatar = service.provider_picture_url || "/avatar.svg";
+  const providerAddress = service.provider_address;
+  const providerid = service.provider_id;
+  const facilityPhoto =
+    service.facility_photo_url || "/placeholder-service.jpg";
 
   return (
-    <div className={styles.serviceCard}>
+    <div
+      className={styles.serviceCard}
+      onClick={() => router.push(`/facility/${providerid}`)}
+    >
       <div className={styles.serviceImage}>
-        {/* You could put the service image here if you had one */}
+        <Image
+          src={facilityPhoto}
+          alt={`${providerName} facility photo`}
+          layout="fill"
+          objectFit="cover"
+        />
       </div>
       <div className={styles.serviceCardContent}>
         <div className={styles.serviceProvider}>
-          <div className={styles.providerAvatar}>
-            {/* In the future, this can use the providerAvatar variable */}
-          </div>
+          <Image
+            className={styles.providerAvatar}
+            src={providerAvatar}
+            alt="Provider Avatar"
+            width={32}
+            height={32}
+          />
           <div className={styles.providerInfo}>
-            <h3 className={styles.providerName}>{providerName}</h3>
+            <h3 className={styles.providerName}>
+              {service.name || providerName}
+            </h3>
+            <p className={styles.serviceLocation}>
+              {providerAddress || "Unknown Location"}
+            </p>
             <div className={styles.rating}>
-              <div className={styles.stars}>
-                {/* You would fetch and display real ratings here */}
-                <Image width={16} height={16} src="/Star 3.svg" alt="Star" />
-                <Image width={16} height={16} src="/Star 3.svg" alt="Star" />
-                <Image width={16} height={16} src="/Star 3.svg" alt="Star" />
-                <Image width={16} height={16} src="/Star 3.svg" alt="Star" />
-                <Image width={16} height={16} src="/Star 4.svg" alt="Star" />
-              </div>
-              {/* This rating would also come from your data */}
-              <span className={styles.ratingScore}>4.5</span>
+              <div className={styles.stars}>{renderStars(displayRating)}</div>
+              <span className={styles.ratingScore}>
+                {displayRating.toFixed(1)}
+              </span>
             </div>
           </div>
         </div>
@@ -142,35 +248,18 @@ const DashboardClient: NextPage<DashboardClientProps> = ({
     return () => clearInterval(timer);
   }, [slides.length]);
 
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const [open, setOpen] = useState(false);
-  const [hovered, setHovered] = useState("");
+  const [selectedAppointment, setSelectedAppointment] =
+    useState<Appointment | null>(null);
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setOpen(false);
-      }
+    const onEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSelectedAppointment(null);
     };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    window.addEventListener("keydown", onEsc);
+    return () => window.removeEventListener("keydown", onEsc);
   }, []);
 
-  const items = [
-    { label: "My Account", href: "/account" },
-    { label: "Appointments", href: "/appointments" },
-    { label: "Messages", href: "/messages" },
-    { label: "Notifications", href: "/notifications" },
-    { label: "Log out", href: "/logout" },
-  ];
-
   const goToSlide = (slideIndex: number) => setCurrentSlide(slideIndex);
-  console.log("Avatar URL from props:", avatarUrl);
-
 
   return (
     <div className={styles.dashboardClient}>
@@ -219,20 +308,23 @@ const DashboardClient: NextPage<DashboardClientProps> = ({
               <span>Upcoming</span>
               <span className={styles.titleAccent}> Appointments</span>
             </h2>
-            {appointments && appointments.length >= 3 && (
+            {appointments && appointments.length >= 2 && (
               <button
                 className={styles.viewAllBtn}
-                onClick={() => router.push("/appointments")}
+                onClick={() => router.push("/client-appointments")}
               >
                 View All
               </button>
             )}
           </div>
           <div className={styles.appointmentsGrid}>
-            {/* The map function now correctly uses the 'appointments' prop */}
             {appointments && appointments.length > 0 ? (
               appointments.map((app) => (
-                <UpcomingAppointmentCard key={app.id} appointment={app} />
+                <UpcomingAppointmentCard
+                  key={app.id}
+                  appointment={app}
+                  onShowDetails={() => setSelectedAppointment(app)}
+                />
               ))
             ) : (
               <p className={styles.none}>You have no upcoming appointments.</p>
@@ -269,7 +361,6 @@ const DashboardClient: NextPage<DashboardClientProps> = ({
                   transform: `translateX(calc(-${currentIndex} * (100% / ${visibleServices})))`,
                 }}
               >
-                {/* FIX 3: THE MAP FUNCTION ON LINE 259 NOW CORRECTLY USES THE 'featuredServices' PROP */}
                 {featuredServices &&
                   featuredServices.map((service) => (
                     <FeaturedServiceCard key={service.id} service={service} />
@@ -293,49 +384,99 @@ const DashboardClient: NextPage<DashboardClientProps> = ({
           </div>
         </section>
       </main>
-
-      <footer className={styles.footer}>
-        <div className={styles.footerContent}>
-          <div className={styles.footerColumn}>
-            <div className={styles.footerLogo}>
+      {selectedAppointment && (
+        <div
+          className={styles.modalOverlay}
+          onClick={() => setSelectedAppointment(null)}
+        >
+          <div
+            className={styles.calendarSelectChangeSize}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className={styles.facilityNameParent}>
+              <div className={styles.rowContainer}>
+                <div className={styles.facilityName}>Appointment Status</div>
+                <b className={styles.facilityNameCap}>
+                  {/* DYNAMIC STATUS */}
+                  {selectedAppointment.status.charAt(0).toUpperCase() +
+                    selectedAppointment.status.slice(1)}
+                </b>
+              </div>
+              <div className={styles.rowContainer}>
+                <div className={styles.facilityName}>Facility Name</div>
+                <b className={styles.facilityNameCap}>
+                  {/* DYNAMIC NAME */}
+                  {selectedAppointment.provider?.business_name || "N/A"}
+                </b>
+              </div>
+              <div className={styles.rowContainer}>
+                <div className={styles.facilityName}>Address</div>
+                <b className={styles.facilityNameCap}>
+                  {/* DYNAMIC ADDRESS */}
+                  {selectedAppointment.address}
+                </b>
+              </div>
+              <div className={styles.rowContainer}>
+                <div className={styles.facilityName}>Phone Number</div>
+                <b className={styles.facilityNameCap}>
+                  {/* DYNAMIC PHONE */}
+                  {selectedAppointment.provider?.contact_number || "Not provided"}
+                </b>
+              </div>
+              <div className={styles.rowContainer}>
+                <div className={styles.facilityName}>Booking Date</div>
+                <b className={styles.facilityNameCap}>
+                  {new Date(selectedAppointment.date).toLocaleDateString([], {
+                    weekday: "short",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </b>
+              </div>
+              <div className={styles.rowContainer}>
+                <div className={styles.facilityName}>Booking Hours</div>
+                <b className={styles.facilityNameCap}>
+                  {formatDisplayTime(selectedAppointment.time)}
+                </b>
+              </div>
               <Image
-                className={styles.logoIcon}
-                width={40}
-                height={40}
-                alt="Servease Logo"
-                src="/Servease Logo (Album Cover) (3) 2.png"
+                className={styles.dividerIcon}
+                width={390}
+                height={1}
+                sizes="100vw"
+                alt=""
+                src="/Divider1.svg"
               />
-              <b className={styles.footerTitle}>servease</b>
+              <div className={styles.serviceNameParent}>
+                {/* DYNAMIC SERVICES LIST */}
+                {selectedAppointment.services.map((service) => (
+                  <div className={styles.rowContainer} key={service.name}>
+                    <div className={styles.facilityName}>{service.name}</div>
+                    <b className={styles.facilityNameCap}>
+                      PHP {service.price.toFixed(2)}
+                    </b>
+                  </div>
+                ))}
+              </div>
+              <Image
+                className={styles.dividerIcon1}
+                width={390}
+                height={1}
+                sizes="100vw"
+                alt=""
+                src="/Divider1.svg"
+              />
+              <div className={styles.rowContainerTotal}>
+                <div className={styles.facilityName}>Total</div>
+                <b className={styles.facilityNameCap}>
+                  {/* DYNAMIC TOTAL PRICE */}
+                  PHP {selectedAppointment.price.toFixed(2)}
+                </b>
+              </div>
             </div>
-            <p className={styles.yourTrustedPlatform}>
-              Your trusted platform to discover, book, and manage local
-              services—anytime, anywhere.
-            </p>
-          </div>
-          <div className={styles.footerColumn}>
-            <b className={styles.footerTitle}>Quick Links</b>
-            <a className={styles.footerLink}>Home</a>
-            <a className={styles.footerLink}>Discover</a>
-            <a className={styles.footerLink}>Create an Account</a>
-          </div>
-          <div className={styles.footerColumn}>
-            <b className={styles.footerTitle}>Support</b>
-            <a className={styles.footerLink}>FAQs</a>
-            <a className={styles.footerLink}>Privacy Policy</a>
-            <a className={styles.footerLink}>Terms & Conditions</a>
-            <a className={styles.footerLink}>About Us</a>
-          </div>
-          <div className={styles.footerColumn}>
-            <b className={styles.footerTitle}>Contact Us</b>
-            <a className={styles.footerLink}>support@servease.com</a>
-            <a className={styles.footerLink}>+63 996 3175 214</a>
           </div>
         </div>
-        <div className={styles.footerBottom}>
-          <div className={styles.footerLine} />
-          <p>servease 2025 © All rights reserved</p>
-        </div>
-      </footer>
+      )}
     </div>
   );
 };
