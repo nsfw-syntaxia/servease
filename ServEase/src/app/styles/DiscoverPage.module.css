@@ -601,15 +601,16 @@
   }
 
   /* ─────────────── Mobile Styles ─────────────── */
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 768px) 
+  {
    .enterAService {
-  left: 18px;
+  left: 20px;
   width: calc(100% - 50px);
   font-size: var(--font-size-14);
 }
 .inputBox {
   width: calc(100% - 200px);
-  left: 10px;
+  left: 20px;
 }
 .icon2 {
   position: absolute;
@@ -680,4 +681,22 @@
       top: 725px;
     }
   }
+  /* ---------- Small Mobile (max-width: 480px) ---------- */
+@media screen and (max-width: 480px) {
+     .enterAService {
+  left: 18px;
+  width: 80.5%;
+  font-size: var(--font-size-14);
+}
+.inputBox {
+  width: calc(115% - 200px);
+  left: 10px;
+}
+.filtering {
+  left: 200px;
+  right: 201.09px;
+  z-index: 1;
+  width: 50%;
+}
+}
 }
