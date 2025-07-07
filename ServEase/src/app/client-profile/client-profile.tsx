@@ -620,8 +620,8 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
                 <div className={styles.xWrapper} onClick={handleClose}>
                   <Image
                     className={styles.xIcon}
-                    width={30}
-                    height={30}
+                    width={20}
+                    height={20}
                     sizes="100vw"
                     alt="close"
                     src="/close.svg"
@@ -657,24 +657,22 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
                       Current Password
                     </div>
                   </div>
-                  <div
-                    className={`${styles.textField} ${
-                      showError && (!password || password === Newpassword)
-                        ? styles.tbxError
-                        : ""
-                    }`}
-                  >
+                  <div className={styles.textField}>
                     <input
                       type={passwordVisible ? "text" : "password"}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="Enter your password"
-                      className={styles.passwordInput}
+                      className={`${styles.passwordInput} ${
+                        showError && (!password || password === Newpassword)
+                          ? styles.tbxError
+                          : ""
+                      }`}
                     />
                     <div className={styles.eyeOff}>
                       <Image
                         className={styles.iconeye}
-                        width={30}
+                        width={25}
                         height={25}
                         alt={
                           passwordVisible ? "Hide password" : "Show password"
@@ -688,20 +686,18 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
                   {/* New Password */}
                   <div className={styles.frameInner} />
                   <div className={styles.changeYourPassword}>New Password</div>
-                  <div
-                    className={`${styles.textField} ${
-                      showError &&
-                      (!Newpassword || Newpassword !== Confirmpassword)
-                        ? styles.tbxError
-                        : ""
-                    }`}
-                  >
+                  <div className={styles.textField}>
                     <input
                       type={NewpasswordVisible ? "text" : "password"}
                       value={Newpassword}
                       onChange={(e) => NewsetPassword(e.target.value)}
                       placeholder="Enter your password"
-                      className={styles.passwordInput}
+                      className={`${styles.passwordInput} ${
+                        showError &&
+                        (!Newpassword || Newpassword !== Confirmpassword)
+                          ? styles.tbxError
+                          : ""
+                      }`}
                     />
                     <div className={styles.eyeOff}>
                       <Image
@@ -724,20 +720,18 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
                       Confirm New Password
                     </div>
                   </div>
-                  <div
-                    className={`${styles.textField} ${
-                      showError &&
-                      (!Confirmpassword || Newpassword !== Confirmpassword)
-                        ? styles.tbxError
-                        : ""
-                    }`}
-                  >
+                  <div className={styles.textField}>
                     <input
                       type={ConfirmpasswordVisible ? "text" : "password"}
                       value={Confirmpassword}
                       onChange={(e) => ConfirmsetPassword(e.target.value)}
                       placeholder="Enter your password"
-                      className={styles.passwordInput}
+                      className={`${styles.passwordInput} ${
+                        showError &&
+                        (!Confirmpassword || Newpassword !== Confirmpassword)
+                          ? styles.tbxError
+                          : ""
+                      }`}
                     />
                     <div className={styles.eyeOff}>
                       <Image
@@ -832,19 +826,17 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
                   <div className={styles.passwordWrapper}>
                     <div className={styles.password}>Password</div>
                   </div>
-                  <div
-                    className={`${styles.textField} ${
-                      showError && (!password || password === Newpassword)
-                        ? styles.tbxError
-                        : ""
-                    }`}
-                  >
+                  <div className={styles.textField}>
                     <input
                       type={passwordVisible ? "text" : "password"}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="Enter your password"
-                      className={styles.passwordInput}
+                      className={`${styles.passwordInput} ${
+                        showError && (!password || password === Newpassword)
+                          ? styles.tbxError
+                          : ""
+                      }`}
                     />
                     <div className={styles.eyeOff}>
                       <Image
