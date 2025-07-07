@@ -1,7 +1,6 @@
 import * as React from "react";
 
-// Define the shape of the props this component will receive from the API route
-interface EmailProps {
+interface CancellationConfirmationToClientProps {
   clientName: string;
   providerName: string;
   providerContact: string;
@@ -13,13 +12,13 @@ interface EmailProps {
   totalPrice: number;
 }
 
-// Reusable helper functions
 const formatDisplayDate = (dateString: string) =>
   new Date(dateString + "T00:00:00").toLocaleDateString("en-US", {
     weekday: "long",
     month: "long",
     day: "numeric",
   });
+
 const formatDisplayTime = (timeString: string) => {
   const [h, m] = timeString.split(":");
   const date = new Date();
@@ -30,15 +29,27 @@ const formatDisplayTime = (timeString: string) => {
     hour12: true,
   });
 };
+
 const formatCurrency = (amount: number) =>
   new Intl.NumberFormat("en-PH", { style: "currency", currency: "PHP" }).format(
     amount
   );
+
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
 export const CancellationConfirmationToClient: React.FC<
-  Readonly<EmailProps>
-> = (props) => (
+  Readonly<CancellationConfirmationToClientProps>
+> = ({
+  clientName,
+  providerName,
+  providerContact,
+  address,
+  date,
+  time,
+  status,
+  services,
+  totalPrice,
+}) => (
   <html lang="en">
     <head>
       <meta charSet="UTF-8" />
@@ -50,59 +61,70 @@ export const CancellationConfirmationToClient: React.FC<
     </head>
     <body style={styles.body}>
       <div style={styles.mainContainer}>
+        {/* Header */}
         <div style={styles.header}>
           <a href={baseUrl} target="_blank" style={styles.link}>
-            <div style={styles.logo}>servease</div>
+            <div style={styles.logo}>
+              <span style={{ fontWeight: 500 }}>serv</span>
+              <span style={{ fontWeight: 600 }}>ease</span>
+            </div>
           </a>
         </div>
+
         <div style={styles.content}>
           <h1 style={styles.h1}>Cancellation Confirmed</h1>
-          <p style={styles.paragraph}>Hello {props.clientName},</p>
+          <p style={styles.paragraph}>Hello {clientName},</p>
           <p style={styles.paragraph}>
-            This email confirms that your appointment with {props.providerName}{" "}
-            has been successfully cancelled. Below are the details of the
-            cancelled appointment.
+            This email confirms that your appointment with {providerName} has
+            been successfully cancelled. Below are the details of the cancelled
+            appointment.
           </p>
 
           <div style={styles.summarySection}>
             <h2 style={styles.h2}>Cancelled Appointment Summary</h2>
-            <DetailRow label="Client Name:" value={props.clientName} />
-            <DetailRow
-              label="Status:"
-              value={props.status}
-              valueColor={colors.alert}
-            />
-            <DetailRow label="Facility:" value={props.providerName} />
-            <DetailRow label="Address:" value={props.address} />
-            <DetailRow
-              label="Provider Contact:"
-              value={props.providerContact}
-            />
-            <DetailRow label="Date:" value={formatDisplayDate(props.date)} />
-            <DetailRow label="Time:" value={formatDisplayTime(props.time)} />
+
+            <div style={{ marginBottom: "20px" }}>
+              <DetailRow label="Client Name: " value={clientName} />
+              <DetailRow
+                label="Status: "
+                value={status}
+                valueColor={colors.alert}
+              />
+              <DetailRow label="Facility: " value={providerName} />
+              <DetailRow label="Address: " value={address} />
+              <DetailRow label="Provider Contact: " value={providerContact} />
+              <DetailRow label="Date: " value={formatDisplayDate(date)} />
+              <DetailRow label="Time: " value={formatDisplayTime(time)} />
+            </div>
 
             <div style={styles.divider} />
 
-            <h3 style={styles.h3}>Cancelled Services</h3>
-            {props.services.map((service) => (
-              <div key={service.name} style={styles.serviceRow}>
-                <span>{service.name}</span>
-                <span>{formatCurrency(service.price)}</span>
+            <h3 style={styles.h3}>Cancelled Service/s</h3>
+
+            {services.map((service, index) => (
+              <div key={index} style={styles.serviceRow}>
+                <span style={styles.serviceName}>{service.name}:</span>
+                <span style={styles.servicePrice}>
+                  {formatCurrency(service.price)}
+                </span>
               </div>
             ))}
+
             <div style={styles.totalRow}>
-              <span style={styles.totalLabel}>Total</span>
-              <span>{formatCurrency(props.totalPrice)}</span>
+              <span style={styles.totalLabel}>Total: </span>
+              <span style={styles.totalPrice}>
+                {formatCurrency(totalPrice)}
+              </span>
             </div>
           </div>
         </div>
+
         <div style={styles.footer}>
           <p style={styles.footerText}>
-            © {new Date().getFullYear()}{" "}
-            <a href={baseUrl} target="_blank" style={styles.footerLink}>
-              servease
-            </a>
-            . All rights reserved.
+            © {new Date().getFullYear()} servease. All rights reserved.
+          </p>
+          <p style={styles.footerText}>
+            This is an automated notification. Please do not reply to this email.
           </p>
         </div>
       </div>
@@ -110,7 +132,6 @@ export const CancellationConfirmationToClient: React.FC<
   </html>
 );
 
-// Helper and Style objects
 const DetailRow = ({
   label,
   value,
@@ -125,16 +146,21 @@ const DetailRow = ({
       display: "flex",
       justifyContent: "space-between",
       padding: "8px 0",
-      fontSize: "14px",
-      borderBottom: "1px solid #f0f0f0",
+      fontSize: "16px",
     }}
   >
-    <span style={{ color: "#666", fontWeight: 500, paddingRight: "16px" }}>
+    <span
+      style={{
+        color: "#604c3d",
+        fontWeight: 500,
+        paddingRight: "16px",
+      }}
+    >
       {label}
     </span>
     <span
       style={{
-        color: valueColor || "#333",
+        color: valueColor || "#050b20",
         fontWeight: 400,
         textAlign: "right",
       }}
@@ -143,89 +169,132 @@ const DetailRow = ({
     </span>
   </div>
 );
+
 const colors = {
-  emailBackground: "#f4f4f4",
-  cardBackground: "#ffffff",
-  textPrimary: "#333333",
-  textSecondary: "#555555",
+  emailBackground: "#f8f7f3",
+  cardBackground: "#fff",
+  textPrimary: "#050b20",
+  textSecondary: "#241f1b",
+  textMuted: "#a9a9a9",
   brandPrimary: "#a68465",
-  border: "#eeeeee",
+  border: "#e0d9c9",
   alert: "#D93025",
 };
+
+const fonts = {
+  fontFamily: "'DM Sans', 'Helvetica Neue', 'Arial', sans-serif",
+};
+
 const styles = {
   body: {
-    fontFamily: "'DM Sans', sans-serif",
+    fontFamily: fonts.fontFamily,
     backgroundColor: colors.emailBackground,
     margin: 0,
-    padding: "20px",
+    padding: "40px 20px",
   },
   mainContainer: {
     maxWidth: "600px",
     margin: "0 auto",
     backgroundColor: colors.cardBackground,
-    borderRadius: "8px",
+    borderRadius: "12px",
     border: `1px solid ${colors.border}`,
+    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.05)",
     overflow: "hidden",
   },
   header: {
-    padding: "20px",
+    padding: "24px",
     borderBottom: `1px solid ${colors.border}`,
-    backgroundColor: "#fafafa",
   },
   link: { textDecoration: "none" },
   logo: {
     color: colors.brandPrimary,
-    fontSize: "24px",
-    fontWeight: "bold",
+    fontSize: "32px",
     textAlign: "center" as const,
+    letterSpacing: "-0.5px",
+    margin: "10px 0",
   },
-  content: { padding: "20px 30px 40px" },
-  h1: { color: colors.textPrimary, fontSize: "22px", margin: "0 0 16px" },
-  h2: {
-    color: colors.textPrimary,
-    fontSize: "18px",
-    margin: "0 0 16px",
-    borderBottom: `2px solid ${colors.brandPrimary}`,
-    paddingBottom: "8px",
+  content: {
+    padding: "40px",
   },
-  h3: {
+  h1: {
     color: colors.textPrimary,
-    fontSize: "16px",
-    fontWeight: "bold",
-    margin: "0 0 12px",
+    fontSize: "24px",
+    fontWeight: 600,
+    margin: "0 0 24px",
   },
   paragraph: {
     color: colors.textSecondary,
     fontSize: "16px",
     lineHeight: 1.6,
+    fontWeight: 400,
     margin: "0 0 16px",
   },
-  summarySection: { marginTop: "24px" },
-  divider: { height: "1px", backgroundColor: colors.border, margin: "24px 0" },
+  summarySection: {
+    paddingTop: "24px",
+    borderTop: `1.5px solid ${colors.border}`,
+  },
+  h2: {
+    color: colors.textPrimary,
+    fontSize: "20px",
+    fontWeight: 600,
+    margin: "0 0 24px",
+  },
+  divider: {
+    height: "1px",
+    backgroundColor: colors.border,
+    margin: "24px 0",
+  },
+  h3: {
+    color: colors.textPrimary,
+    fontSize: "18px",
+    fontWeight: 600,
+    margin: "0 0 20px",
+  },
   serviceRow: {
     display: "flex",
     justifyContent: "space-between",
-    marginBottom: "8px",
-    fontSize: "14px",
+    marginBottom: "12px",
+    fontSize: "16px",
+  },
+  serviceName: {
     color: colors.textSecondary,
+    paddingRight: "20px",
+  },
+  servicePrice: {
+    color: colors.textPrimary,
+    fontWeight: 400,
+    whiteSpace: "nowrap" as const,
   },
   totalRow: {
     display: "flex",
     justifyContent: "space-between",
-    marginTop: "16px",
+    alignItems: "center",
+    marginTop: "20px",
     paddingTop: "16px",
-    borderTop: `1px solid ${colors.border}`,
-    fontSize: "18px",
-    fontWeight: "bold",
-    color: colors.textPrimary,
+    borderTop: `1.5px solid ${colors.border}`,
   },
-  totalLabel: {},
+  totalLabel: {
+    color: colors.textPrimary,
+    fontWeight: 500,
+    fontSize: "20px",
+    paddingRight: "20px",
+  },
+  totalPrice: {
+    color: colors.brandPrimary,
+    fontWeight: 500,
+    fontSize: "20px",
+    whiteSpace: "nowrap" as const,
+  },
   footer: {
-    backgroundColor: "#fafafa",
-    padding: "20px",
-    borderTop: `1px solid ${colors.border}`,
+    backgroundColor: colors.emailBackground,
+    padding: "20px 40px",
+    borderTop: `1.5px solid ${colors.border}`,
+  },
+  footerText: {
+    color: colors.textMuted,
+    fontSize: "12px",
+    margin: "0 0 5px 0",
+    fontWeight: 400,
     textAlign: "center" as const,
   },
-  footerText: { color: "#999999", fontSize: "12px", margin: 0 },
-  footerLink: { color: colors.brandPrimary, textDecoration: "none" },
 };

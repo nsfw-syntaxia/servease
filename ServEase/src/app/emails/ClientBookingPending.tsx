@@ -1,7 +1,5 @@
-// emails/ClientBookingPending.tsx
 import * as React from "react";
 
-// --- INTERFACE AND PROPS (No changes here) ---
 interface ClientBookingPendingProps {
   clientName: string;
   providerName: string;
@@ -13,7 +11,6 @@ interface ClientBookingPendingProps {
   totalPrice: string;
 }
 
-// --- HELPER FUNCTION (No changes here) ---
 const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat("en-PH", {
     style: "currency",
@@ -23,7 +20,6 @@ const formatCurrency = (amount: number) => {
 
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
 
-// --- MAIN COMPONENT ---
 export const ClientBookingPending: React.FC<
   Readonly<ClientBookingPendingProps>
 > = ({
@@ -47,15 +43,15 @@ export const ClientBookingPending: React.FC<
     </head>
     <body style={styles.body}>
       <div style={styles.mainContainer}>
-        {/* Header */}
+       
         <div style={styles.header}>
           <div style={styles.logo}>
+            <a href={baseUrl} target="_blank" style={styles.link}></a>
             <span style={{ fontWeight: 500 }}>serv</span>
             <span style={{ fontWeight: 600 }}>ease</span>
           </div>
         </div>
 
-        {/* Content */}
         <div style={styles.content}>
           <h1 style={styles.h1}>Your Booking Request is Pending</h1>
           <p style={styles.paragraph}>Hello {clientName},</p>
@@ -65,7 +61,6 @@ export const ClientBookingPending: React.FC<
             appointment. We will notify you again as soon as it is approved.
           </p>
 
-          {/* Booking Summary Section */}
           <div style={styles.summarySection}>
             <h2 style={styles.h2}>Booking Summary</h2>
 
@@ -96,7 +91,6 @@ export const ClientBookingPending: React.FC<
           </div>
         </div>
 
-        {/* Footer */}
         <div style={styles.footer}>
           <p style={styles.footerText}>
             © {new Date().getFullYear()} servease. All rights reserved.
@@ -112,7 +106,6 @@ export const ClientBookingPending: React.FC<
 );
 
 
-// --- HELPER COMPONENT (No changes here) ---
 const DetailRow = ({ label, value }: { label: string; value: string }) => (
   <div
     style={{
@@ -124,7 +117,7 @@ const DetailRow = ({ label, value }: { label: string; value: string }) => (
   >
     <span
       style={{
-        color: "#604c3d", // textLabel color
+        color: "#604c3d", 
         fontWeight: 500,
         paddingRight: "16px",
       }}
@@ -132,17 +125,13 @@ const DetailRow = ({ label, value }: { label: string; value: string }) => (
       {label}
     </span>
     <span
-      style={{ color: "#050b20", fontWeight: 400, textAlign: "right" }} // textPrimary color
+      style={{ color: "#050b20", fontWeight: 400, textAlign: "right" }} 
     >
       {value}
     </span>
   </div>
 );
 
-
-// --- UPDATED: Centralized Style Definitions ---
-// All styles are now organized here for better readability and maintenance.
-// The final rendered email will look exactly the same.
 
 const colors = {
   emailBackground: "#f8f7f3",
@@ -177,7 +166,8 @@ const styles = {
   header: {
     padding: "24px",
     borderBottom: `1px solid ${colors.border}`,
-  },
+  }, 
+  link: { textDecoration: "none" },
   logo: {
     color: colors.brandPrimary,
     fontSize: "32px",

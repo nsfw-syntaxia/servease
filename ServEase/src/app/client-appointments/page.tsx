@@ -4,7 +4,6 @@ import { redirect } from "next/navigation";
 import AppointmentsClient from "./appointments";
 import { type Appointment } from "./appointments";
 
-// --- TYPE DEFINITIONS ---
 type RawDatabaseAppointment = {
   id: any;
   date: any;
@@ -21,13 +20,10 @@ type RawDatabaseAppointment = {
   } | null;
 };
 
-// --- THIS IS THE FIX ---
-// Define a simple type for the user object we expect from the admin listUsers call.
 type AuthUser = {
   id: string;
   email?: string;
 };
-// --- END OF FIX ---
 
 
 export default async function AppointmentsPage() {
@@ -38,7 +34,6 @@ export default async function AppointmentsPage() {
     redirect("/login");
   }
 
-  // --- Step 1: Fetch the client's own profile ---
   const { data: clientProfile, error: clientProfileError } = await supabase
     .from('profiles')
     .select('full_name')
@@ -53,7 +48,6 @@ export default async function AppointmentsPage() {
     email: user.email || ''
   };
 
-  // --- Step 2: Fetch the appointments and join the provider's profile ---
   const { data: rawAppointments, error } = await supabase
     .from('appointments')
     .select(`
@@ -69,7 +63,6 @@ export default async function AppointmentsPage() {
     return <div>Error loading appointments.</div>;
   }
 
-  // --- Step 3: Fetch provider emails using the Admin client ---
   const adminClient = createAdminClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!
@@ -84,17 +77,13 @@ export default async function AppointmentsPage() {
     if (emailError) {
       console.error("Error fetching provider emails:", emailError);
     } else {
-      // --- THIS IS THE FIX ---
-      // We cast the generic 'users' array to our specific 'AuthUser[]' type.
       const users = emailData.users as AuthUser[];
       users
         .filter(user => providerIds.includes(user.id))
         .forEach(user => providerEmailMap.set(user.id, user.email || ''));
-      // --- END OF FIX ---
     }
   }
 
-  // --- Step 4: Fetch service details ---
   const allServiceNames = new Set<string>();
   rawAppointments?.forEach(apt => {
     if (apt.services) apt.services.forEach(serviceName => allServiceNames.add(serviceName));
@@ -110,7 +99,6 @@ export default async function AppointmentsPage() {
     serviceDetails.forEach(service => serviceDetailsMap.set(service.name, service));
   }
 
-  // --- Step 5: Map all data into the final, clean Appointment structure ---
   const appointments: Appointment[] = (rawAppointments || []).map((apt: RawDatabaseAppointment) => {
     const servicesWithDetails = apt.services?.map(serviceName => {
       const serviceDetail = serviceDetailsMap.get(serviceName);
