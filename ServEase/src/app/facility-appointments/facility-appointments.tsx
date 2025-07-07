@@ -5,115 +5,26 @@ import Image from "next/image";
 import { useState, useMemo, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import styles from "../styles/facility-appointments.module.css";
-import { X, Star } from "lucide-react";
+import { type Appointment } from "./actions";
 
-interface ReviewFormData {
-  rating: number;
-  reviewText: string;
-  name: string;
-  email: string;
-}
-
-interface ReviewFormProps {
-  onClose?: () => void;
-  onSubmit?: (data: ReviewFormData) => void;
-}
-
-// updated appointment type definition
-type Appointment = {
-  id: number;
-  start_time: string;
-  status: "pending" | "confirmed" | "completed" | "canceled";
-  service: Array<{
-    client_name: string;
-    service_type: string;
-  }>;
+const capitalize = (s: string) => {
+  if (typeof s !== "string" || s.length === 0) return "";
+  return s.charAt(0).toUpperCase() + s.slice(1);
 };
-
-// updated mock Data with client_name and service_type
-const mockAppointments: Appointment[] = [
-  {
-    id: 1,
-    start_time: new Date(2025, 7, 10, 10, 0).toISOString(), // August 10, 2025, 10:00 AM
-    status: "pending",
-    service: [
-      {
-        client_name: "John Doe",
-        service_type: "Haircut",
-      },
-    ],
-  },
-  {
-    id: 2,
-    start_time: new Date(2025, 7, 15, 14, 30).toISOString(), // August 15, 2025, 2:30 PM
-    status: "completed",
-    service: [
-      {
-        client_name: "Jane Smith",
-        service_type: "Hair Coloring",
-      },
-    ],
-  },
-  {
-    id: 3,
-    start_time: new Date(2025, 6, 5, 9, 0).toISOString(), // July 5, 2025, 9:00 AM
-    status: "canceled",
-    service: [
-      {
-        client_name: "Mike Johnson",
-        service_type: "Manicure",
-      },
-    ],
-  },
-  {
-    id: 4,
-    start_time: new Date(2025, 8, 1, 11, 0).toISOString(), // September 1, 2025, 11:00 AM
-    status: "pending",
-    service: [
-      {
-        client_name: "Sarah Williams",
-        service_type: "Spa Treatment",
-      },
-    ],
-  },
-  {
-    id: 5,
-    start_time: new Date(2025, 7, 20, 16, 0).toISOString(), // August 20, 2025, 4:00 PM
-    status: "confirmed",
-    service: [
-      {
-        client_name: "David Brown",
-        service_type: "Beard Trim",
-      },
-    ],
-  },
-];
 
 const AppointmentCard = ({
   appointment,
   onShowDetails,
-  onShowReview,
   onStatusChange,
 }: {
   appointment: Appointment;
   onShowDetails: () => void;
-  onShowReview: () => void;
   onStatusChange: (id: number, newStatus: Appointment["status"]) => void;
 }) => {
-  const appointmentDate = new Date(appointment.start_time);
-  const time = appointmentDate.toLocaleTimeString([], {
-    hour: "numeric",
-    minute: "2-digit",
-  });
-  const date = appointmentDate.toLocaleDateString([], {
-    weekday: "short",
-    month: "long",
-    day: "numeric",
-  });
-
   const clientName = appointment.service?.[0]?.client_name || "Unknown Client";
   const serviceType =
     appointment.service?.[0]?.service_type || "Unknown Service";
+  const clientAvatar = appointment.client_avatar_url || "/avatar.svg";
 
   const [showDropdown, setShowDropdown] = useState(false);
   const [hovered, setHovered] = useState("");
@@ -136,7 +47,6 @@ const AppointmentCard = ({
         setShowDropdown(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -151,7 +61,7 @@ const AppointmentCard = ({
           width={100}
           height={100}
           alt="Client Avatar"
-          src="/circle.svg"
+          src={clientAvatar} // use the fetched avatar url
         />
         <div className={styles.cardHeaderText}>
           <h3 className={styles.clientName}>{clientName}</h3>
@@ -172,7 +82,6 @@ const AppointmentCard = ({
           />
         </div>
       </div>
-
       <div className={styles.cardBody}>
         <div className={styles.infoItem}>
           <Image
@@ -181,17 +90,17 @@ const AppointmentCard = ({
             alt="Calendar"
             src="/calendar_month.svg"
           />
-          <span>{date}</span>
+          <span>{appointment.display_date}</span>
         </div>
         <div className={styles.infoItem}>
           <Image width={21} height={21} alt="Clock" src="/Vector.svg" />
-          <span>{time}</span>
+          <span>{appointment.display_time}</span>
         </div>
         <div
           className={styles.infoItem}
           style={{ position: "relative" }}
           onClick={(e) => {
-            e.stopPropagation(); // prevent bubbling to parent
+            e.stopPropagation();
             if (
               appointment.status === "pending" ||
               appointment.status === "confirmed"
@@ -204,10 +113,7 @@ const AppointmentCard = ({
           <span
             className={`${styles.statusButton} ${styles[appointment.status]}`}
           ></span>
-          <span>
-            {appointment.status.charAt(0).toUpperCase() +
-              appointment.status.slice(1)}
-          </span>
+          <span>{appointment.display_status}</span>
 
           {(appointment.status === "pending" ||
             appointment.status === "confirmed") && (
@@ -223,53 +129,26 @@ const AppointmentCard = ({
               {showDropdown && (
                 <div className={styles.dropdownMenu}>
                   {getAvailableStatusOptions(appointment.status).map(
-                    (item, index) => {
-                      const isActive = hovered === item;
-                      const isFirst = index === 0;
-                      const isLast =
-                        index ===
-                        getAvailableStatusOptions(appointment.status).length -
-                          1;
-
-                      let borderClass = "";
-                      if (isActive && isFirst) borderClass = styles.activeTop;
-                      else if (isActive && isLast)
-                        borderClass = styles.activeBottom;
-
-                      return (
-                        <div
-                          key={item}
-                          className={`${styles.dropdownItem} ${
-                            isActive ? styles.active : ""
-                          } ${borderClass}`}
-                          onMouseEnter={() => setHovered(item)}
-                          onMouseLeave={() => setHovered("")}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onStatusChange(appointment.id, item);
-                            setShowDropdown(false);
-                          }}
-                        >
-                          {item.charAt(0).toUpperCase() + item.slice(1)}
-                        </div>
-                      );
-                    }
+                    (item, index) => (
+                      <div
+                        key={item}
+                        className={`${styles.dropdownItem} ${
+                          hovered === item ? styles.active : ""
+                        }`}
+                        onMouseEnter={() => setHovered(item)}
+                        onMouseLeave={() => setHovered("")}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onStatusChange(appointment.id, item);
+                          setShowDropdown(false);
+                        }}
+                      >
+                        {capitalize(item)}
+                      </div>
+                    )
                   )}
                 </div>
               )}
-            </>
-          )}
-          {appointment.status === "completed" && (
-            <>
-              <Image
-                className={styles.reviewIcon}
-                width={24}
-                height={24}
-                alt="review"
-                src="/review.svg"
-                style={{ cursor: "pointer" }}
-                onClick={onShowReview}
-              />
             </>
           )}
         </div>
@@ -278,15 +157,16 @@ const AppointmentCard = ({
   );
 };
 
-const AppointmentsFacility: NextPage = () => {
+const AppointmentsFacility: NextPage<{
+  initialAppointments: Appointment[];
+}> = ({ initialAppointments }) => {
   const [activeFilter, setActiveFilter] = useState("upcoming");
-  const router = useRouter();
+
   const [selectedAppointment, setSelectedAppointment] =
     useState<Appointment | null>(null);
 
-  // new state for appointments
   const [appointments, setAppointments] =
-    useState<Appointment[]>(mockAppointments);
+    useState<Appointment[]>(initialAppointments);
 
   useEffect(() => {
     const onEsc = (e: KeyboardEvent) => {
@@ -300,7 +180,6 @@ const AppointmentsFacility: NextPage = () => {
     setActiveFilter(filter);
   };
 
-  // new handler for status change
   const handleStatusChange = (
     appointmentId: number,
     newStatus: Appointment["status"]
@@ -326,66 +205,6 @@ const AppointmentsFacility: NextPage = () => {
         return [];
     }
   }, [activeFilter, appointments]);
-
-  /* review */
-
-  const [selectedAppointmentReview, setSelectedAppointmentReview] =
-    useState<Appointment | null>(null);
-
-  const [rating, setRating] = useState<number>(0);
-  const [hoveredRating, setHoveredRating] = useState<number>(0);
-  const [reviewText, setReviewText] = useState<string>("");
-  const [name, setName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (rating > 0 && reviewText.trim() && name.trim()) {
-      const formData: ReviewFormData = {
-        rating,
-        reviewText: reviewText.trim(),
-        name: name.trim(),
-        email: email.trim(),
-      };
-
-      setIsSubmitted(true);
-      setSelectedAppointmentReview(null);
-
-      setTimeout(() => {
-        handleCancel();
-      }, 2000);
-    }
-  };
-
-  const handleCancel = () => {
-    setRating(0);
-    setHoveredRating(0);
-    setReviewText("");
-    setName("");
-    setEmail("");
-    setIsSubmitted(false);
-    setSelectedAppointmentReview(null);
-  };
-
-  const getRatingText = (rating: number): string => {
-    switch (rating) {
-      case 1:
-        return "Poor";
-      case 2:
-        return "Fair";
-      case 3:
-        return "Good";
-      case 4:
-        return "Very Good";
-      case 5:
-        return "Excellent";
-      default:
-        return "";
-    }
-  };
-
-  const isFormValid = rating > 0 && reviewText.trim() && name.trim();
 
   return (
     <div className={styles.appointmentsPage}>
@@ -435,8 +254,7 @@ const AppointmentsFacility: NextPage = () => {
                 key={appointment.id}
                 appointment={appointment}
                 onShowDetails={() => setSelectedAppointment(appointment)}
-                onShowReview={() => setSelectedAppointmentReview(appointment)}
-                onStatusChange={handleStatusChange} // pass handler to card
+                onStatusChange={handleStatusChange}
               />
             ))
           ) : (
@@ -446,6 +264,7 @@ const AppointmentsFacility: NextPage = () => {
           )}
         </div>
       </main>
+
       {selectedAppointment && (
         <div
           className={styles.modalOverlay}
@@ -459,8 +278,7 @@ const AppointmentsFacility: NextPage = () => {
               <div className={styles.rowContainer}>
                 <div className={styles.facilityName}>Appointment Status</div>
                 <b className={styles.facilityNameCap}>
-                  {selectedAppointment.status.charAt(0).toUpperCase() +
-                    selectedAppointment.status.slice(1)}
+                  {selectedAppointment.display_status}
                 </b>
               </div>
               <div className={styles.rowContainer}>
@@ -477,31 +295,26 @@ const AppointmentsFacility: NextPage = () => {
               </div>
               <div className={styles.rowContainer}>
                 <div className={styles.facilityName}>Phone Number</div>
-                <b className={styles.facilityNameCap}>+63 123 4567 789</b>
+                <b className={styles.facilityNameCap}>
+                  {selectedAppointment.phone_number}
+                </b>
               </div>
               <div className={styles.rowContainer}>
                 <div className={styles.facilityName}>Booking Date</div>
                 <b className={styles.facilityNameCap}>
-                  {new Date(selectedAppointment.start_time).toLocaleDateString(
-                    [],
-                    { weekday: "short", month: "long", day: "numeric" }
-                  )}
+                  {selectedAppointment.display_date}
                 </b>
               </div>
               <div className={styles.rowContainer}>
                 <div className={styles.facilityName}>Booking Hours</div>
                 <b className={styles.facilityNameCap}>
-                  {new Date(selectedAppointment.start_time).toLocaleTimeString(
-                    [],
-                    { hour: "numeric", minute: "2-digit" }
-                  )}
+                  {selectedAppointment.display_time}
                 </b>
               </div>
               <Image
                 className={styles.dividerIcon}
                 width={390}
                 height={1}
-                sizes="100vw"
                 alt=""
                 src="/Divider1.svg"
               />
@@ -510,130 +323,25 @@ const AppointmentsFacility: NextPage = () => {
                   <div className={styles.facilityName}>
                     {selectedAppointment.service[0].service_type}
                   </div>
-                  <b className={styles.facilityNameCap}>PHP 500.00</b>
+                  <b className={styles.facilityNameCap}>
+                    PHP {selectedAppointment.price.toFixed(2)}
+                  </b>
                 </div>
               </div>
               <Image
                 className={styles.dividerIcon1}
                 width={390}
                 height={1}
-                sizes="100vw"
                 alt=""
                 src="/Divider1.svg"
               />
               <div className={styles.rowContainerTotal}>
                 <div className={styles.facilityName}>Total</div>
-                <b className={styles.facilityNameCap}>PHP 1000.00</b>
+                <b className={styles.facilityNameCap}>
+                  PHP {selectedAppointment.price.toFixed(2)}
+                </b>
               </div>
             </div>
-          </div>
-        </div>
-      )}
-      {selectedAppointmentReview && (
-        <div className={styles.overlay}>
-          <div className={styles.modal}>
-            <button
-              className={styles.closeButton}
-              onClick={handleCancel}
-              aria-label="Close"
-            >
-              <X size={20} />
-            </button>
-
-            <h2 className={styles.title}>Write a Review</h2>
-            <p className={styles.subtitle}>
-              Share your experience at{" "}
-              {selectedAppointmentReview.service[0].client_name} to help others
-              make informed decisions.
-            </p>
-
-            <form onSubmit={handleSubmit} className={styles.form}>
-              <div className={styles.fieldGroup}>
-                <label className={styles.label}>Rating *</label>
-                <div className={styles.starContainer}>
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <button
-                      key={star}
-                      type="button"
-                      onClick={() => setRating(star)}
-                      onMouseEnter={() => setHoveredRating(star)}
-                      onMouseLeave={() => setHoveredRating(0)}
-                      className={styles.starButton}
-                      aria-label={`Rate ${star} stars`}
-                    >
-                      <Star
-                        size={24}
-                        className={`${styles.star} ${
-                          star <= (hoveredRating || rating)
-                            ? styles.starActive
-                            : styles.starInactive
-                        }`}
-                        fill={
-                          star <= (hoveredRating || rating)
-                            ? "currentColor"
-                            : "none"
-                        }
-                      />
-                    </button>
-                  ))}
-                </div>
-                {rating > 0 && (
-                  <p className={styles.ratingText}>{getRatingText(rating)}</p>
-                )}
-              </div>
-
-              <div className={styles.fieldGroup}>
-                <label className={styles.label} htmlFor="name">
-                  Your Name *
-                </label>
-                <input
-                  id="name"
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className={styles.input}
-                  placeholder="Enter your name"
-                  required
-                />
-              </div>
-
-              <div className={styles.fieldGroup}>
-                <label className={styles.label} htmlFor="review">
-                  Review *
-                </label>
-                <textarea
-                  id="review"
-                  value={reviewText}
-                  onChange={(e) => setReviewText(e.target.value)}
-                  className={styles.textarea}
-                  placeholder="Tell us about your experience..."
-                  maxLength={500}
-                  required
-                />
-                <p className={styles.charCounter}>
-                  {reviewText.length}/500 characters
-                </p>
-              </div>
-
-              <div className={styles.buttonContainer}>
-                <button
-                  type="button"
-                  onClick={handleCancel}
-                  className={styles.cancelButton}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={!isFormValid}
-                  className={`${styles.submitButton} ${
-                    !isFormValid ? styles.submitButtonDisabled : ""
-                  }`}
-                >
-                  Submit Review
-                </button>
-              </div>
-            </form>
           </div>
         </div>
       )}
