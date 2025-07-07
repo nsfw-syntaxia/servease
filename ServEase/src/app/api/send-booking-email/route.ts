@@ -1,7 +1,7 @@
 // app/api/send-booking-email/route.ts
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
-import { ClientBookingConfirmation } from "../../emails/ClientBookingConfirmation";
+//import { ClientBookingConfirmation } from "../../emails/ClientBookingConfirmation";
 import { ProviderBookingNotification } from "../../emails/ProviderBookingNotification";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
