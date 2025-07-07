@@ -154,7 +154,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem;
+  gap: 2rem;
   width: calc(100% - 4rem);
   margin: 0 auto;
 }
@@ -166,9 +166,9 @@
   font-size: 20px;
   font-weight: 500;
   color: var(--color-tan);
-  margin-left: 60px;
+  margin-left: 45px;
   justify-content: flex-start;
-  min-width: 200px;
+  min-width: 225px;
 }
 
 .dropdownIcon {
@@ -233,6 +233,7 @@
     flex-direction: column;
     align-items: flex-start;
     padding: 1.5rem;
+    gap: 10px;
   }
 
   .infoItem {
@@ -257,7 +258,7 @@
   }
 }
 
-/*dropdown*/
+/* dropdown */
 .dropdownMenu {
   position: absolute;
   right: 0;
@@ -296,7 +297,7 @@
   border-bottom-right-radius: 8px;
 }
 
-/*view details*/
+/* view details */
 .modalOverlay {
   position: fixed;
   top: 0;
@@ -654,7 +655,7 @@
   background-color: #2563eb;
 }
 
-/* Responsive Design */
+/* responsive design */
 @media (max-width: 640px) {
   .modal {
     margin: 1rem;

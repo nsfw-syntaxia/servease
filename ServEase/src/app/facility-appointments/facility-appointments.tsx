@@ -1,167 +1,3 @@
-/*
-dropdown for appointment status management
-
-const Dropdown: NextPage = () => {
-  return (
-    <div className={styles.dropdown}>
-      <div className={styles.image8Wrapper}>
-        <div className={styles.image8} />
-      </div>
-      <div className={styles.image11Parent}>
-        <div className={styles.image11} />
-        <div className={styles.paraContentWrapper}>
-          <div className={styles.paraContent}>
-            <div className={styles.confirmed}>Confirmed</div>
-          </div>
-        </div>
-        <div className={styles.paraContentContainer}>
-          <div className={styles.paraContent1}>
-            <div className={styles.pending}>Pending</div>
-          </div>
-        </div>
-        <div className={styles.paraContentFrame}>
-          <div className={styles.paraContent}>
-            <div className={styles.pending}>Completed</div>
-          </div>
-        </div>
-        <div className={styles.frameDiv}>
-          <div className={styles.paraContent}>
-            <div className={styles.pending}>Cancelled</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default Dropdown;
-*/
-
-/*
-css for dropdown menu
-
-note:
-if upcoming, show "completed" and "canceled"
-if pending, show "confirmed" and "canceled"
-
-.image8 {
-  	position: absolute;
-  	top: 0px;
-  	left: 0px;
-  	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  	border-radius: var(--br-12);
-  	background-color: var(--color-white);
-  	width: 186px;
-  	height: 255px;
-}
-
-.image8Wrapper {
-  	position: absolute;
-  	top: 0px;
-  	left: 0px;
-  	width: 186px;
-  	height: 255px;
-}
-
-.image11 {
-  	position: absolute;
-  	top: 0px;
-  	left: 0px;
-  	border-radius: var(--br-12) var(--br-12) 0px 0px;
-  	background-color: var(--color-tan);
-  	width: 186px;
-  	height: 67.5px;
-}
-
-.confirmed {
-  	position: relative;
-  	line-height: 26px;
-  	font-weight: 600;
-}
-.paraContent {
-  	display: flex;
-  	flex-direction: row;
-  	align-items: flex-start;
-  	justify-content: flex-start;
-}
-
-.paraContentWrapper {
-  	position: absolute;
-  	top: 19.69px;
-  	left: 25px;
-  	width: 135.9px;
-  	display: flex;
-  	flex-direction: row;
-  	align-items: flex-start;
-  	justify-content: flex-start;
-  	color: var(--color-white);
-}
-
-.pending {
-  	position: relative;
-  	line-height: 26px;
-}
-
-.paraContent1 {
-  	width: 128px;
-  	display: flex;
-  	flex-direction: row;
-  	align-items: flex-start;
-  	justify-content: flex-start;
-}
-
-.paraContentContainer {
-  	position: absolute;
-  	top: 81.39px;
-  	left: 25px;
-  	width: 76.6px;
-  	display: flex;
-  	flex-direction: row;
-  	align-items: flex-start;
-  	justify-content: flex-start;
-}
-
-.paraContentFrame {
-  	position: absolute;
-  	top: 143.09px;
-  	left: 25px;
-  	width: 135.9px;
-  	display: flex;
-  	flex-direction: row;
-  	align-items: flex-start;
-  	justify-content: flex-start;
-}
-
-.frameDiv {
-  	position: absolute;
-  	top: 204.79px;
-  	left: 25px;
-  	width: 135.9px;
-  	display: flex;
-  	flex-direction: row;
-  	align-items: flex-start;
-  	justify-content: flex-start;
-}
-
-.image11Parent {
-  	position: absolute;
-  	top: 0px;
-  	left: 0px;
-  	width: 186px;
-  	height: 230.8px;
-}
-
-.dropdown {
-  	width: 100%;
-  	position: relative;
-  	height: 255px;
-  	text-align: left;
-  	font-size: var(--font-size-18);
-  	color: var(--color-gray);
-  	font-family: var(--font-dm-sans);
-}
-*/
-
 "use client";
 
 import type { NextPage } from "next";
@@ -257,10 +93,12 @@ const AppointmentCard = ({
   appointment,
   onShowDetails,
   onShowReview,
+  onStatusChange,
 }: {
   appointment: Appointment;
   onShowDetails: () => void;
   onShowReview: () => void;
+  onStatusChange: (id: number, newStatus: Appointment["status"]) => void;
 }) => {
   const appointmentDate = new Date(appointment.start_time);
   const time = appointmentDate.toLocaleTimeString([], {
@@ -281,7 +119,9 @@ const AppointmentCard = ({
   const [hovered, setHovered] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const getAvailableStatusOptions = (status: string): string[] => {
+  const getAvailableStatusOptions = (
+    status: string
+  ): Appointment["status"][] => {
     if (status === "pending") return ["confirmed", "canceled"];
     if (status === "confirmed") return ["completed", "canceled"];
     return [];
@@ -352,7 +192,12 @@ const AppointmentCard = ({
           style={{ position: "relative" }}
           onClick={(e) => {
             e.stopPropagation(); // prevent bubbling to parent
-            setShowDropdown((prev) => !prev);
+            if (
+              appointment.status === "pending" ||
+              appointment.status === "confirmed"
+            ) {
+              setShowDropdown((prev) => !prev);
+            }
           }}
           ref={dropdownRef}
         >
@@ -400,8 +245,8 @@ const AppointmentCard = ({
                           onMouseEnter={() => setHovered(item)}
                           onMouseLeave={() => setHovered("")}
                           onClick={(e) => {
-                            e.stopPropagation(); // prevent click bubbling to parent (and closing)
-                            console.log("Selected new status:", item);
+                            e.stopPropagation();
+                            onStatusChange(appointment.id, item);
                             setShowDropdown(false);
                           }}
                         >
@@ -439,6 +284,10 @@ const AppointmentsFacility: NextPage = () => {
   const [selectedAppointment, setSelectedAppointment] =
     useState<Appointment | null>(null);
 
+  // new state for appointments
+  const [appointments, setAppointments] =
+    useState<Appointment[]>(mockAppointments);
+
   useEffect(() => {
     const onEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") setSelectedAppointment(null);
@@ -451,24 +300,35 @@ const AppointmentsFacility: NextPage = () => {
     setActiveFilter(filter);
   };
 
+  // new handler for status change
+  const handleStatusChange = (
+    appointmentId: number,
+    newStatus: Appointment["status"]
+  ) => {
+    setAppointments((prevAppointments) =>
+      prevAppointments.map((app) =>
+        app.id === appointmentId ? { ...app, status: newStatus } : app
+      )
+    );
+  };
+
   const filteredAppointments = useMemo(() => {
     switch (activeFilter) {
       case "upcoming":
-        return mockAppointments.filter(
-          (app) => app.status === "confirmed" // only confirmed appointments for upcoming
-        );
+        return appointments.filter((app) => app.status === "confirmed");
       case "pending":
-        return mockAppointments.filter((app) => app.status === "pending");
+        return appointments.filter((app) => app.status === "pending");
       case "completed":
-        return mockAppointments.filter((app) => app.status === "completed");
+        return appointments.filter((app) => app.status === "completed");
       case "canceled":
-        return mockAppointments.filter((app) => app.status === "canceled");
+        return appointments.filter((app) => app.status === "canceled");
       default:
         return [];
     }
-  }, [activeFilter]);
+  }, [activeFilter, appointments]);
 
-  /*review */
+  /* review */
+
   const [selectedAppointmentReview, setSelectedAppointmentReview] =
     useState<Appointment | null>(null);
 
@@ -490,10 +350,8 @@ const AppointmentsFacility: NextPage = () => {
       };
 
       setIsSubmitted(true);
-      //ichange lang ni to sumbit jd sa datbase poo
       setSelectedAppointmentReview(null);
 
-      // Reset form after a delay
       setTimeout(() => {
         handleCancel();
       }, 2000);
@@ -578,6 +436,7 @@ const AppointmentsFacility: NextPage = () => {
                 appointment={appointment}
                 onShowDetails={() => setSelectedAppointment(appointment)}
                 onShowReview={() => setSelectedAppointmentReview(appointment)}
+                onStatusChange={handleStatusChange} // pass handler to card
               />
             ))
           ) : (
