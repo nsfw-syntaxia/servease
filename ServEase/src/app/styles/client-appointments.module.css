@@ -620,8 +620,8 @@
 /*review*/
 
 .reviewIcon {
-  margin-left: -5px;
-  margin-top: -5px;
+  margin-left: 3px;
+  margin-top: -1px;
   vertical-align: middle;
   animation: pulse 2s infinite alternate ease-in-out;
   -webkit-animation: pulse 2s infinite alternate ease-in-out;
