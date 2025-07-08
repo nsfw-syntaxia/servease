@@ -42,6 +42,15 @@ const Header = ({ avatarUrl, userRole, homePath }: HeaderProps) => {
     closeDropdown();
   };
 
+  const handleNotificationClick = () => {
+    if (userRole === "client") {
+      router.push("/client-notification");
+    } else if (userRole === "provider") {
+      router.push("/facility-notification");
+    }
+    closeDropdown();
+  };
+
   const handleLogout = async () => {
     try {
       await fetch("/api/logout", {
@@ -59,7 +68,7 @@ const Header = ({ avatarUrl, userRole, homePath }: HeaderProps) => {
     { label: "My Account", onClick: handleAccountClick },
     { label: "Appointments", onClick: handleAppointmentsClick },
     { label: "Messages", href: "/messages" },
-    { label: "Notifications", href: "/notifications" },
+    { label: "Notifications", onClick: handleNotificationClick },
     { label: "Log out", onClick: handleLogout },
   ];
 

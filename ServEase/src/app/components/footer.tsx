@@ -1,7 +1,16 @@
+"use client";
+
 import Image from "next/image";
 import styles from "../styles/footer.module.css";
+import { type UserRole } from "../layout";
+import { useRouter } from "next/navigation";
 
-const Footer = () => {
+interface HeaderProps {
+  userRole: UserRole;
+}
+
+const Footer = ({ userRole }: HeaderProps) => {
+  const router = useRouter();
   return (
     <footer className={styles.footer}>
       <div className={styles.footerContent}>
@@ -23,9 +32,60 @@ const Footer = () => {
         </div>
         <div className={styles.footerColumn}>
           <b className={styles.footerTitle}>Quick Links</b>
-          <a className={styles.footerLink}>Home</a>
-          <a className={styles.footerLink}>Discover</a>
-          <a className={styles.footerLink}>Create an Account</a>
+          {userRole === "guest" && (
+            <>
+              <a
+                className={styles.footerLink}
+                onClick={() => router.push("/home")}
+              >
+                Home
+              </a>
+              <a
+                className={styles.footerLink}
+                onClick={() => router.push("/login")}
+              >
+                Discover
+              </a>
+              <a
+                className={styles.footerLink}
+                onClick={() => router.push("/login")}
+              >
+                Create an Account
+              </a>
+            </>
+          )}
+          {userRole === "client" && (
+            <>
+              <a
+                className={styles.footerLink}
+                onClick={() => router.push("/client-dashboard")}
+              >
+                Home
+              </a>
+              <a
+                className={styles.footerLink}
+                onClick={() => router.push("/discover")}
+              >
+                Discover
+              </a>
+            </>
+          )}
+          {userRole === "provider" && (
+            <>
+              <a
+                className={styles.footerLink}
+                onClick={() => router.push("/provider-dashboard")}
+              >
+                Home
+              </a>
+              <a
+                className={styles.footerLink}
+                onClick={() => router.push("/facility-appointments")}
+              >
+                Schedule
+              </a>
+            </>
+          )}
         </div>
         <div className={styles.footerColumn}>
           <b className={styles.footerTitle}>Support</b>
