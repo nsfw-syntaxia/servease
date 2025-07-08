@@ -189,3 +189,96 @@ export async function getUpcomingAppointments(): Promise<
 
   return formattedAppointments;
 }
+
+export type PendingAppointment = {
+  id: number;
+  clientName: string;
+  serviceName: string; // The first service in the list
+  time: string;
+  date: string;
+};
+
+// fetches all pending appointments
+export async function getPendingAppointments(): Promise<PendingAppointment[]> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return [];
+  }
+
+  // fetch all appointments with a 'pending' status
+  const { data: appointments, error: appointmentsError } = await supabase
+    .from("appointments")
+    .select("id, client_id, time, date, services")
+    .eq("provider_id", user.id)
+    .eq("status", "pending")
+    .order("date", { ascending: true })
+    .order("time", { ascending: true });
+
+  if (appointmentsError) {
+    console.error(
+      "Error fetching pending appointments:",
+      appointmentsError.message
+    );
+    return [];
+  }
+
+  if (!appointments) {
+    return [];
+  }
+
+  // get unique client IDs to fetch their names efficiently
+  const clientIds = [...new Set(appointments.map((a) => a.client_id))];
+
+  if (clientIds.length === 0) {
+    return [];
+  }
+
+  // fetch the profiles for just those clients
+  const { data: profiles, error: profilesError } = await supabase
+    .from("profiles")
+    .select("id, full_name")
+    .in("id", clientIds);
+
+  if (profilesError) {
+    console.error(
+      "Error fetching client profiles for pending:",
+      profilesError.message
+    );
+    return [];
+  }
+
+  const profilesMap = new Map(profiles.map((p) => [p.id, p]));
+
+  // combine and format the data
+  const formattedAppointments: PendingAppointment[] = appointments.map(
+    (appt) => {
+      const clientProfile = profilesMap.get(appt.client_id);
+
+      // format date to "Month Day" e.g., "November 1"
+      const dateObj = new Date(`${appt.date}T00:00:00`);
+      const formattedDate = dateObj.toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+      });
+
+      const serviceName =
+        appt.services && appt.services.length > 0
+          ? appt.services[0]
+          : "Appointment";
+
+      return {
+        id: appt.id,
+        clientName: clientProfile?.full_name || "Unknown Client",
+        serviceName: serviceName,
+        time: appt.time.substring(0, 5), // format "HH:mm:ss" to "HH:mm"
+        date: formattedDate,
+      };
+    }
+  );
+
+  return formattedAppointments;
+}

@@ -3,7 +3,11 @@
 import type { NextPage } from "next";
 import Image from "next/image";
 import styles from "../styles/facility-dashboard.module.css";
-import { type DashboardStats, type UpcomingAppointment } from "./actions";
+import {
+  type DashboardStats,
+  type UpcomingAppointment,
+  type PendingAppointment,
+} from "./actions";
 import { useRouter } from "next/navigation";
 
 type AppointmentProps = {
@@ -154,7 +158,8 @@ const AppointmentCard = ({ clientName, serviceName, time, date }) => {
 const DashboardFacility: NextPage<{
   initialStats: DashboardStats;
   upcomingAppointments: UpcomingAppointment[];
-}> = ({ initialStats, upcomingAppointments }) => {
+  pendingAppointments: PendingAppointment[];
+}> = ({ initialStats, upcomingAppointments, pendingAppointments }) => {
   const router = useRouter();
 
   // fetch and display real data here later
@@ -254,15 +259,21 @@ const DashboardFacility: NextPage<{
           <div className={styles.TitlePdate}>Date</div>
         </div>
         <div className={styles.PappointmentsContainer}>
-          {pendingappointments.map((appointment, index) => (
-            <AppointmentCard
-              key={index}
-              clientName={appointment.clientName}
-              serviceName={appointment.serviceName}
-              time={appointment.time}
-              date={appointment.date}
-            />
-          ))}
+          {pendingAppointments.length > 0 ? (
+            pendingAppointments.map((appointment) => (
+              <AppointmentCard
+                key={appointment.id}
+                clientName={appointment.clientName}
+                serviceName={appointment.serviceName}
+                time={appointment.time}
+                date={appointment.date}
+              />
+            ))
+          ) : (
+            <p className={styles.noAppointmentsMessage}>
+              No pending appointments.
+            </p>
+          )}
         </div>
       </div>
     </div>
