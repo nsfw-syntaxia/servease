@@ -4,34 +4,48 @@ import { createClient } from "../lib/supabase/server";
 import { redirect } from "next/navigation";
 import DashboardClient from "./dashboardclient";
 import { type Appointment, type Service } from "./dashboardclient";
+import { createClient as createAdminClient } from "@supabase/supabase-js";
+
+type AuthUser = {
+  id: string;
+  email?: string;
+};
 
 export default async function ClientDashboardPage() {
   const supabase = await createClient();
 
   try {
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) redirect("/login");
 
     const { data: profile } = await supabase
       .from("profiles")
-      .select("role, picture_url")
+      .select("role, picture_url, full_name")
       .eq("id", user.id)
       .single();
 
     if (!profile || profile.role !== "client") redirect("/login");
 
+    const clientInfo = {
+      full_name: profile.full_name || user.email || "Unnamed Client",
+      email: user.email || "",
+    };
+
     let avatarUrl = "/avatar.svg";
     if (profile.picture_url) {
-      const { data } = supabase.storage.from("avatars").getPublicUrl(profile.picture_url);
+      const { data } = supabase.storage
+        .from("avatars")
+        .getPublicUrl(profile.picture_url);
       avatarUrl = data.publicUrl;
     }
 
-    // --- STEP 1: FETCH APPOINTMENTS WITH MORE DETAILS ---
     const { data: rawAppointments, error: appointmentsError } = await supabase
       .from("appointments")
       .select(
         `
-        id, date, time, status, address, price, services, provider_id,
+        id, date, time, status, address, price, services, provider_id, client_id,
         provider:provider_id(business_name, picture_url, contact_number)
         `
       )
@@ -43,65 +57,84 @@ export default async function ClientDashboardPage() {
 
     if (appointmentsError) {
       console.error("Error fetching appointments:", appointmentsError);
+      throw appointmentsError;
     }
 
-    // --- STEP 2: FETCH SERVICE DETAILS (PRICE LOOKUP) ---
+    const adminClient = createAdminClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
+    );
+
+    const providerIds = [
+      ...new Set(
+        rawAppointments?.map((apt) => apt.provider_id).filter(Boolean) || []
+      ),
+    ];
+    const providerEmailMap = new Map<string, string>();
+
+    if (providerIds.length > 0) {
+      const { data: emailData, error: emailError } =
+        await adminClient.auth.admin.listUsers({ page: 1, perPage: 1000 });
+
+      if (emailError) {
+        console.error("Error fetching provider emails:", emailError);
+      } else {
+        const users = emailData.users as AuthUser[];
+        users
+          .filter((user) => providerIds.includes(user.id))
+          .forEach((user) => providerEmailMap.set(user.id, user.email || ""));
+      }
+    }
+
+    // --- FIX: THIS ENTIRE BLOCK NOW FOLLOWS YOUR WORKING REFERENCE LOGIC ---
+
+    // Step 1: Gather service names (as strings)
     const allServiceNames = new Set<string>();
-    rawAppointments?.forEach(apt => {
-      if (apt.services) {
-        (apt.services as string[]).forEach(serviceName => allServiceNames.add(serviceName));
+    rawAppointments?.forEach((apt) => {
+      if (Array.isArray(apt.services)) {
+        apt.services.forEach((serviceName) => allServiceNames.add(serviceName));
       }
     });
 
-    const serviceDetailsMap = new Map<string, { name: string; price: number }>();
+    // Step 2: Fetch details for those names
+    const serviceDetailsMap = new Map();
     if (allServiceNames.size > 0) {
       const { data: serviceDetails, error: servicesError } = await supabase
-        .from('services')
-        .select('name, price')
-        .in('name', Array.from(allServiceNames));
-        
-      if (servicesError) {
-        console.error("Error fetching service details:", servicesError);
-      } else {
-        serviceDetails?.forEach(service => {
-          serviceDetailsMap.set(service.name, service);
-        });
+        .from("services")
+        .select("name, price")
+        .in("name", Array.from(allServiceNames));
+
+      if (serviceDetails) {
+        serviceDetails.forEach((service) =>
+          serviceDetailsMap.set(service.name, service)
+        );
       }
     }
 
-    // --- STEP 3: MAP THE RAW DATA TO THE FINAL 'Appointment' TYPE ---
+    // Step 3: Map raw appointments to the final structure, using the details map
     const appointments: Appointment[] = (rawAppointments || []).map((app) => {
-      const provider = Array.isArray(app.provider) ? app.provider[0] : app.provider;
-      
-      // Fix: Handle provider picture URL properly
+      const provider = Array.isArray(app.provider)
+        ? app.provider[0]
+        : app.provider;
+
       let providerAvatarUrl = null;
       if (provider && provider.picture_url) {
-        try {
-          // Check if it's already a full URL
-          if (provider.picture_url.startsWith('http')) {
-            providerAvatarUrl = provider.picture_url;
-          } else {
-            // Generate public URL for Supabase storage
-            const { data } = supabase.storage.from("avatars").getPublicUrl(provider.picture_url);
-            providerAvatarUrl = data.publicUrl;
-          }
-        } catch (error) {
-          console.error("Error generating provider avatar URL:", error);
-          providerAvatarUrl = null;
-        }
+        providerAvatarUrl = provider.picture_url.startsWith("http")
+          ? provider.picture_url
+          : supabase.storage.from("avatars").getPublicUrl(provider.picture_url)
+              .data.publicUrl;
       }
-      
-      const servicesWithDetails = (app.services as string[])?.map(serviceName => {
-        const serviceDetail = serviceDetailsMap.get(serviceName);
-        return {
-          name: serviceName,
-          price: serviceDetail?.price || 0
-        };
-      }) || [];
 
-      // Debug log to check the URL
-      console.log("Provider avatar URL:", providerAvatarUrl);
+      // Rebuild the services array with price details from the map
+      const servicesWithDetails =
+        (Array.isArray(app.services) ? app.services : []).map(
+          (serviceName: string) => {
+            const serviceDetail = serviceDetailsMap.get(serviceName);
+            return { name: serviceName, price: serviceDetail?.price || 0 };
+          }
+        ) || [];
 
+      console.log(servicesWithDetails);
       return {
         id: app.id,
         date: app.date,
@@ -109,23 +142,26 @@ export default async function ClientDashboardPage() {
         status: app.status,
         address: app.address,
         price: app.price,
-        services: servicesWithDetails,
+        services: servicesWithDetails, // Use the newly created array
         provider: provider
           ? {
               business_name: provider.business_name,
               picture_url: providerAvatarUrl,
               contact_number: provider.contact_number,
+              email: providerEmailMap.get(app.provider_id) || "",
             }
           : null,
+        client: clientInfo,
       };
     });
-    
-    const { data: rawFeaturedServices, error: rpcError } = await supabase.rpc(
+
+    // --- Featured Services fetching logic (Unchanged) ---
+    const { data: rawFeaturedServices } = await supabase.rpc(
       "get_random_featured_services_with_provider"
     );
 
     const featuredServices = await Promise.all(
-      rawFeaturedServices?.map(async (service, index) => {
+      rawFeaturedServices?.map(async (service: any, index: number) => {
         const { data: providerProfile } = await supabase
           .from("profiles")
           .select("picture_url, facility_image_url")
@@ -134,26 +170,23 @@ export default async function ClientDashboardPage() {
 
         let providerPictureUrl = "/avatar.svg";
         if (providerProfile?.picture_url) {
-          if (providerProfile.picture_url.startsWith("http")) {
-            providerPictureUrl = providerProfile.picture_url;
-          } else {
-            const { data } = supabase.storage
-              .from("avatars")
-              .getPublicUrl(providerProfile.picture_url);
-            providerPictureUrl = data.publicUrl;
-          }
+          providerPictureUrl = providerProfile.picture_url.startsWith("http")
+            ? providerProfile.picture_url
+            : supabase.storage
+                .from("avatars")
+                .getPublicUrl(providerProfile.picture_url).data.publicUrl;
         }
 
         let facilityPhotoUrl = "/placeholder-facility.jpg";
         if (providerProfile?.facility_image_url) {
-          if (providerProfile.facility_image_url.startsWith("http")) {
-            facilityPhotoUrl = providerProfile.facility_image_url;
-          } else {
-            const { data } = supabase.storage
-              .from("documents")
-              .getPublicUrl(providerProfile.facility_image_url);
-            facilityPhotoUrl = data.publicUrl;
-          }
+          facilityPhotoUrl = providerProfile.facility_image_url.startsWith(
+            "http"
+          )
+            ? providerProfile.facility_image_url
+            : supabase.storage
+                .from("documents")
+                .getPublicUrl(providerProfile.facility_image_url).data
+                .publicUrl;
         }
 
         return {
@@ -164,10 +197,11 @@ export default async function ClientDashboardPage() {
         };
       }) || []
     );
+
     return (
       <DashboardClient
         avatarUrl={avatarUrl}
-        appointments={appointments} // Pass the fully detailed appointments
+        appointments={appointments}
         featuredServices={(featuredServices as Service[]) || []}
       />
     );

@@ -13,6 +13,7 @@ type RawDatabaseAppointment = {
   price: any;
   services: any;
   provider_id: any;
+  client_id: any;
   profiles: {
     business_name: any;
     picture_url: any;
@@ -50,20 +51,21 @@ export default async function AppointmentsPage() {
   };
 
   const { data: rawAppointments, error } = (await supabase
-    .from("appointments")
-    .select(
-      `
-      id, date, time, status, address, price, services, provider_id,
+  .from("appointments")
+  .select(
+    `
+      id, date, time, status, address, price, services, provider_id, client_id,
       profiles:provider_id ( business_name, picture_url, contact_number )
     `
-    )
-    .eq("client_id", user.id)
-    .order("date", { ascending: true })
-    .order("time", { ascending: true })) as {
-    data: RawDatabaseAppointment[] | null;
-    error: any;
-  };
+  )
+  .eq("client_id", user.id)
+  .order("date", { ascending: true })
+  .order("time", { ascending: true })) as {
+  data: RawDatabaseAppointment[] | null;
+  error: any;
+};
 
+console.log("Raw appointments data:", rawAppointments);
   if (error) {
     console.error("Error fetching appointments:", error);
     return <div>Error loading appointments.</div>;
@@ -114,35 +116,36 @@ export default async function AppointmentsPage() {
   }
 
   const appointments: Appointment[] = (rawAppointments || []).map(
-    (apt: RawDatabaseAppointment) => {
-      const servicesWithDetails =
-        apt.services?.map((serviceName) => {
-          const serviceDetail = serviceDetailsMap.get(serviceName);
-          return { name: serviceName, price: serviceDetail?.price || 0 };
-        }) || [];
+  (apt: RawDatabaseAppointment) => {
+    const servicesWithDetails =
+      apt.services?.map((serviceName) => {
+        const serviceDetail = serviceDetailsMap.get(serviceName);
+        return { name: serviceName, price: serviceDetail?.price || 0 };
+      }) || [];
 
-      const providerProfile = apt.profiles;
-
-      return {
-        id: apt.id,
-        date: apt.date,
-        time: apt.time,
-        status: apt.status,
-        address: apt.address,
-        price: apt.price,
-        services: servicesWithDetails,
-        provider: providerProfile
-          ? {
-              business_name: providerProfile.business_name,
-              picture_url: providerProfile.picture_url,
-              contact_number: providerProfile.contact_number,
-              email: providerEmailMap.get(apt.provider_id) || "",
-            }
-          : null,
-        client: clientInfo,
-      };
-    }
-  );
+    const providerProfile = apt.profiles;
+    return {
+      id: apt.id,
+      client_id: apt.client_id,
+      provider_id: apt.provider_id, // <-- Add this
+      date: apt.date,
+      time: apt.time,
+      status: apt.status,
+      address: apt.address,
+      price: apt.price,
+      services: servicesWithDetails,
+      provider: providerProfile
+        ? {
+            business_name: providerProfile.business_name,
+            picture_url: providerProfile.picture_url,
+            contact_number: providerProfile.contact_number,
+            email: providerEmailMap.get(apt.provider_id) || "",
+          }
+        : null,
+      client: clientInfo,
+    };
+  }
+);
 
   return <AppointmentsClient initialAppointments={appointments} />;
 }

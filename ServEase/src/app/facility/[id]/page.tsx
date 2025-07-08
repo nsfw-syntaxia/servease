@@ -3,6 +3,8 @@ import { createAdminClient } from "../../utils/supabase/admin";
 import FacilityDetailsClientPage from "./FacilityDetailsClientPage";
 import { notFound } from "next/navigation";
 
+// --- FIX 1: Update the interfaces to match the client component's needs ---
+
 interface Profile {
   id: string;
   business_name: string;
@@ -17,7 +19,7 @@ interface Profile {
   category: string;
   start_time: string | null;
   end_time: string | null;
-  working_days: string[] | null; // Added working_days
+  working_days: string[] | null;
   location: { lat: number; lng: number } | null;
 }
 
@@ -28,8 +30,17 @@ interface Service {
   provider_id: string;
 }
 
+
+// This is the new, detailed Review interface
 interface Review {
   id: string;
+  rating: number;
+  comment: string;
+  client_name: string;
+  created_at: string;
+  client: {
+    picture_url: string | null;
+  } | null;
 }
 
 interface FacilityData extends Profile {
@@ -41,7 +52,7 @@ interface FacilityPageProps {
 }
 
 interface RelatedServices {
-  id: string;
+  id:string;
   business_name: string;
   address: string;
   facility_image_url: string | null;
@@ -50,7 +61,6 @@ interface RelatedServices {
 }
 
 export default async function FacilityPage({ params }: FacilityPageProps) {
-  // Await the params first
   const { id } = await params;
 
   const supabase = await createClient();
@@ -67,24 +77,28 @@ export default async function FacilityPage({ params }: FacilityPageProps) {
     notFound();
   }
 
-  console.log(
-    `Searching for related services where 'specific_category' equals: "${profile.specific_category}"`
-  );
+  const { data: { user }, error: userError } = await supabaseAdmin.auth.admin.getUserById(profile.id);
 
-  const {
-    data: { user },
-    error: userError,
-  } = await supabaseAdmin.auth.admin.getUserById(profile.id);
-
-  const { data: services } = await supabase
+ const { data: services } = await supabase
     .from("services")
     .select("*")
     .eq("provider_id", id);
-
+    
   const { data: reviews } = await supabase
     .from("reviews")
-    .select("*")
-    .eq("provider_id", id);
+    .select(`
+      id,
+      rating,
+      comment,
+      client_name,
+      created_at,
+      service_name,
+      client:client_id (
+        picture_url
+      )
+    `)
+    .eq("provider_id", id)
+    .order('created_at', { ascending: false }); // Optional: show newest reviews first
 
   const { data: relatedServices } = await supabase
     .from("profiles")
@@ -95,26 +109,42 @@ export default async function FacilityPage({ params }: FacilityPageProps) {
     .neq("id", id)
     .limit(6);
 
-  console.log("Services found:", services?.length || 0);
-  console.log("Services data:", services);
-  console.log("Related service providers found:", relatedServices?.length || 0);
-  console.log("Related service providers data:", relatedServices);
   const facilityData: FacilityData = {
     ...profile,
     email: userError || !user ? "Not Available" : user.email,
     rating: profile.rating || 0,
   };
+
+  const processedReviews = (reviews || []).map(review => {
+    let clientData = null; 
+
+    if (Array.isArray(review.client) && review.client.length > 0) {
+      clientData = review.client[0];
+    } 
+    else if (review.client && typeof review.client === 'object' && !Array.isArray(review.client)) {
+      clientData = review.client;
+    }
+
+    return {
+      ...review,
+      client: clientData,
+    };
+  });
+
   const processedRelatedServices = (relatedServices || []).map((service) => ({
     ...service,
-    rating: service.rating || Math.random() * (5 - 3.5) + 3.5,
+    rating: service.rating || 0, 
   }));
+
+  console.log(reviews);
+  console.log(processedReviews);
 
   return (
     <FacilityDetailsClientPage
       facility={facilityData}
       services={services || []}
-      reviews={reviews || []}
-      relatedServices={processedRelatedServices || []}
+      reviews={processedReviews}
+      relatedServices={processedRelatedServices}
     />
   );
 }
