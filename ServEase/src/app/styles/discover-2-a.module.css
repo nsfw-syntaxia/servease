@@ -3,8 +3,8 @@
 .footer {
   position: relative;
   top: 900px;
-  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
-    var(--color-white);
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), var(--color-white);
   width: 100%;
   height: 475px;
   text-align: left;
@@ -234,7 +234,9 @@
 .home,
 .discover,
 .createAnAccount {
-  transition: transform 0.3s ease, color 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    color 0.3s ease;
 }
 
 .supportserveasecom:hover,
@@ -253,7 +255,7 @@
 
 .popularServices {
   position: relative;
-  top: 945px;
+  top: 820px;
   margin: 0 auto;
   width: 1200px;
   display: flex;
@@ -265,7 +267,7 @@
 
 .newServices {
   position: relative;
-  top: 1020px;
+  top: 920px;
   margin: 0 auto;
   width: 1195px;
   display: flex;
@@ -285,7 +287,9 @@
   gap: 30px;
   font-size: var(--font-size-16);
   color: var(--color-gray-100);
-  transition: transform 0.4s ease, justify-content 0.4s ease;
+  transition:
+    transform 0.4s ease,
+    justify-content 0.4s ease;
 }
 .servicesCarousel {
   position: relative;
@@ -356,7 +360,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   cursor: pointer;
 }
 
@@ -431,7 +437,9 @@
 
 .service {
   position: relative;
-  transition: transform 0.12s ease-out, box-shadow 0.12s ease-out,
+  transition:
+    transform 0.12s ease-out,
+    box-shadow 0.12s ease-out,
     border 0.12s ease-out;
   cursor: pointer;
 }
@@ -452,7 +460,9 @@
   overflow: hidden;
   transition: all 0.3s ease;
   position: relative;
-  transition: transform 0.12s ease-out, box-shadow 0.12s ease-out,
+  transition:
+    transform 0.12s ease-out,
+    box-shadow 0.12s ease-out,
     border 0.12s ease-out;
   cursor: pointer;
   background-color: #ffff;
@@ -720,7 +730,9 @@
   color: var(--color-white);
   margin: 0 auto;
   cursor: pointer;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .button:active {
@@ -749,7 +761,7 @@
 
 .allServices {
   position: relative;
-  top: 1100px;
+  top: 1050px;
   margin: 0 auto;
   width: 1201px;
   display: flex;
@@ -847,14 +859,14 @@
   position: absolute;
   background-color: var(--color-linen);
   width: 100%;
-  height: 830px;
+  height: 700px;
 }
 
 /* icons */
 
 .icons {
   position: relative;
-  margin-top: 5%;
+  margin-top: 6%;
   display: flex;
   gap: 70px;
   justify-content: center;
@@ -878,7 +890,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   z-index: 1;
 }
 
@@ -892,7 +906,9 @@
   font-size: 14px;
   color: #402f27;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
   pointer-events: none;
   white-space: nowrap;
   position: absolute;
@@ -993,7 +1009,9 @@
   text-align: center;
   color: var(--color-white);
   cursor: pointer;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .btnfind:active {
@@ -1222,7 +1240,9 @@
 
   color: var(--color-snow);
   cursor: pointer;
-  transition: transform 0.3s ease, background-position 0.5s ease;
+  transition:
+    transform 0.3s ease,
+    background-position 0.5s ease;
 }
 
 .button1:hover {
