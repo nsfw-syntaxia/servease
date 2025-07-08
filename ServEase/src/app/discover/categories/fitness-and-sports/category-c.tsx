@@ -234,39 +234,6 @@ const FASS: NextPage<{
             Fitness and Sports Services
           </div>
         </div>
-        <div className={styles.searchBox}>
-          <div className={styles.filtering}>
-            <div className={styles.link6}>
-              <Image
-                className={styles.icon2}
-                width={20}
-                height={20}
-                sizes="100vw"
-                alt=""
-                src="/filtering.svg"
-              />
-              <div className={styles.moreFilters}>More Filters</div>
-            </div>
-          </div>
-          <div className={styles.btnfind}>
-            <Image
-              className={styles.icon3}
-              width={15}
-              height={15}
-              sizes="100vw"
-              alt=""
-              src="/search.svg"
-            />
-            <div className={styles.findListing}>Find Listing</div>
-          </div>
-          <div className={styles.inputBox}>
-            <input
-              type="text"
-              className={styles.enterAService}
-              placeholder="Enter a Service Name, Category, or Location"
-            />
-          </div>
-        </div>
         <div className={styles.icons}>
           <Link
             href={{
