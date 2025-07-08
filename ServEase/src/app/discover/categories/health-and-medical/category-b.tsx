@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import styles from "../../../styles/discover-2-b.module.css";
+import { createClient } from "../../../utils/supabase/client";
 
 interface Profile {
   id: string;
@@ -16,6 +17,12 @@ interface Profile {
   avatar_url: string | null;
   created_at: string;
   rating: number;
+}
+
+interface SearchResult {
+  id: string;
+  business_name: string;
+  specific_category: string; 
 }
 
 const PopularServiceCard = ({ service }: { service: Profile }) => {
@@ -195,6 +202,61 @@ const HAMSClientPage: NextPage<{
   const visibleServices = 3;
   const visibleServices1 = 3;
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const searchContainerRef = useRef<HTMLDivElement>(null);
+
+  // Search functionality
+  useEffect(() => {
+    // Debounce to prevent firing queries on every keystroke
+    const debounceSearch = setTimeout(async () => {
+      const trimmedSearchTerm = searchTerm.trim();
+      if (trimmedSearchTerm.length > 0) {
+        setIsSearching(true);
+        setSearchResults([]);
+
+        const supabase = createClient();
+
+        // Search specifically in Personal Beauty and Care category
+        const { data, error } = await supabase
+          .from("profiles")
+          .select("id, business_name, specific_category")
+          .eq("category", "Health & Medical Services")
+          .or(
+            `business_name.ilike.%${trimmedSearchTerm}%,tags.ilike.%${trimmedSearchTerm}%,specific_category.ilike.%${trimmedSearchTerm}%`
+          )
+          .limit(10);
+
+        if (error) {
+          console.error("Error fetching search results:", error);
+          setSearchResults([]);
+        } else {
+          console.log("Search results received:", data);
+          setSearchResults(data || []);
+        }
+        setIsSearching(false);
+      } else {
+        setSearchResults([]); // Clear results if search is empty
+        setIsSearching(false);
+      }
+    }, 300); // 300ms delay
+
+    return () => clearTimeout(debounceSearch);
+  }, [searchTerm]);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
+        setSearchTerm(""); // Clear search to hide dropdown
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [searchContainerRef]);
+
+
   const handleNext = () => {
     if (currentIndex < top6PopularServices.length - visibleServices) {
       setCurrentIndex((prevIndex) => prevIndex + 3);
@@ -227,6 +289,8 @@ const HAMSClientPage: NextPage<{
     return result;
   };
 
+  const isDropdownVisible = (isSearching || searchResults.length > 0) && searchTerm.trim().length > 0;
+
   return (
     <div className={styles.hams}>
       <div className={styles.bg}>
@@ -234,6 +298,71 @@ const HAMSClientPage: NextPage<{
           <div className={styles.personalBeautyAnd}>
             Health and Medical Services
           </div>
+        </div>
+         <div 
+          ref={searchContainerRef}
+          className={`${styles.searchBox} ${isDropdownVisible ? styles.searchBoxActive : ''}`}
+        >
+          <div className={styles.filtering}>
+            <div className={styles.link6}>
+              <Image
+                className={styles.icon2}
+                width={20}
+                height={20}
+                sizes="100vw"
+                alt=""
+                src="/filtering.svg"
+              />
+              <div className={styles.moreFilters}>More Filters</div>
+            </div>
+          </div>
+          <div className={styles.btnfind}>
+            <Image
+              className={styles.icon3}
+              width={15}
+              height={15}
+              sizes="100vw"
+              alt=""
+              src="/search.svg"
+            />
+            <div className={styles.findListing}>Find Listing</div>
+          </div>
+          <div className={styles.inputBox}>
+            <input
+              type="text"
+              className={styles.enterAService}
+              placeholder="Search in Personal Beauty and Care..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              autoComplete="off"
+            />
+          </div>
+          {(isSearching || searchResults.length > 0) &&
+            searchTerm.trim().length > 0 && (
+              <div className={styles.searchResultsDropdown}>
+                {isSearching && (
+                  <div className={styles.searchResultItem}>Searching...</div>
+                )}
+                {!isSearching && searchResults.length === 0 && (
+                  <div className={styles.searchResultItem}>
+                    No results found.
+                  </div>
+                )}
+                {!isSearching &&
+                  searchResults.map((result) => (
+                    <Link
+                      key={result.id}
+                      href={`/facility/${result.id}`}
+                      className={styles.searchResultLink}
+                    >
+                      <div className={styles.searchResultItem}>
+                        <b>{result.business_name}</b>
+                        <small>{result.specific_category}</small>
+                      </div>
+                    </Link>
+                  ))}
+              </div>
+            )}
         </div>
         <div className={styles.icons}>
           <Link
