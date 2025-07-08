@@ -86,9 +86,7 @@ export default async function RootLayout({
         className={`${DmSansFont.variable} ${BenneFont.variable} ${poppins.variable} antialiased`}
       >
         <Header avatarUrl={avatarUrl} userRole={userRole} homePath={homePath} />
-
         <main>{children}</main>
-
         <Footer userRole={userRole} />
       </body>
     </html>

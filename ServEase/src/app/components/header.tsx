@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import styles from "../styles/header.module.css";
 import { type UserRole } from "../layout";
@@ -18,6 +18,22 @@ const Header = ({ avatarUrl, userRole, homePath }: HeaderProps) => {
   const [open, setOpen] = useState(false);
   const [hovered, setHovered] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        closeDropdown();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const closeDropdown = () => {
     setOpen(false);
@@ -71,19 +87,10 @@ const Header = ({ avatarUrl, userRole, homePath }: HeaderProps) => {
     { label: "Log out", onClick: handleLogout },
   ];
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        closeDropdown();
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  const hideHeaderRoutes = ["/login", "/signup", "/register-client", "/register-facility"];
+  if (hideHeaderRoutes.includes(pathname)) {
+    return null;
+  }
 
   return (
     <header className={styles.navigation}>
@@ -94,6 +101,7 @@ const Header = ({ avatarUrl, userRole, homePath }: HeaderProps) => {
           height={40}
           alt="Servease Logo"
           src="/logo.svg"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         />
         <div className={styles.logoText}>
           <span className={styles.serv}>serv</span>
