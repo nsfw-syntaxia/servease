@@ -221,7 +221,7 @@ const MS: NextPage<{
         const { data, error } = await supabase
           .from("profiles")
           .select("id, business_name, specific_category")
-          .eq("category", "Personal Care & Beauty Services")
+          .eq("category", "Miscellaneous Services")
           .or(
             `business_name.ilike.%${trimmedSearchTerm}%,tags.ilike.%${trimmedSearchTerm}%,specific_category.ilike.%${trimmedSearchTerm}%`
           )

@@ -233,7 +233,11 @@ const EATSClientPage: NextPage<{
             Education and Tutoring Services
           </div>
         </div>
-        <div className={styles.searchBox}>
+         <div 
+          ref={searchContainerRef}
+          className={`${styles.searchBox} ${isDropdownVisible ? styles.searchBoxActive : ''}`}
+        >
+
           <div className={styles.filtering}>
             <div className={styles.link6}>
               <Image
@@ -262,10 +266,40 @@ const EATSClientPage: NextPage<{
             <input
               type="text"
               className={styles.enterAService}
-              placeholder="Enter a Service Name, Category, or Location"
+              placeholder="Search in Personal Beauty and Care..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              autoComplete="off"
             />
           </div>
+          {(isSearching || searchResults.length > 0) &&
+            searchTerm.trim().length > 0 && (
+              <div className={styles.searchResultsDropdown}>
+                {isSearching && (
+                  <div className={styles.searchResultItem}>Searching...</div>
+                )}
+                {!isSearching && searchResults.length === 0 && (
+                  <div className={styles.searchResultItem}>
+                    No results found.
+                  </div>
+                )}
+                {!isSearching &&
+                  searchResults.map((result) => (
+                    <Link
+                      key={result.id}
+                      href={`/facility/${result.id}`}
+                      className={styles.searchResultLink}
+                    >
+                      <div className={styles.searchResultItem}>
+                        <b>{result.business_name}</b>
+                        <small>{result.specific_category}</small>
+                      </div>
+                    </Link>
+                  ))}
+              </div>
+            )}
         </div>
+
         <div className={styles.icons}>
           <Link
             href={{
