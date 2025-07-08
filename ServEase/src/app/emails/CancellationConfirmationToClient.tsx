@@ -1,12 +1,15 @@
 import * as React from "react";
 
-// The props interface is kept simple, without prices.
-interface ProviderCancellationNoticeToClientProps {
+interface CancellationConfirmationToClientProps {
   clientName: string;
   providerName: string;
+  providerContact: string;
+  address: string;
   date: string;
   time: string;
-  services: { name: string }[];
+  status: string;
+  services: { name: string; price: number }[];
+  totalPrice: number;
 }
 
 const formatDisplayDate = (dateString: string) =>
@@ -27,116 +30,163 @@ const formatDisplayTime = (timeString: string) => {
   });
 };
 
+const formatCurrency = (amount: number) =>
+  new Intl.NumberFormat("en-PH", { style: "currency", currency: "PHP" }).format(
+    amount
+  );
+
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
-export const ProviderCancellationNoticeToClient: React.FC<
-  Readonly<ProviderCancellationNoticeToClientProps>
-> = ({ clientName, providerName, date, time, services }) => {
-  // Join service names into a clean, comma-separated string for display.
-  const serviceListString = services.map((s) => s.name).join(", ");
+export const CancellationConfirmationToClient: React.FC<
+  Readonly<CancellationConfirmationToClientProps>
+> = ({
+  clientName,
+  providerName,
+  providerContact,
+  address,
+  date,
+  time,
+  status,
+  services,
+  totalPrice,
+}) => (
+  <html lang="en">
+    <head>
+      <meta charSet="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <style>
+        {`@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');`}
+      </style>
+      <title>Cancellation Confirmed</title>
+    </head>
+    <body style={styles.body}>
+      <div style={styles.mainContainer}>
+        {/* Header */}
+        <div style={styles.header}>
+          <a href={baseUrl} target="_blank" style={styles.link}>
+            <div style={styles.logo}>
+              <span style={{ fontWeight: 500 }}>serv</span>
+              <span style={{ fontWeight: 600 }}>ease</span>
+            </div>
+          </a>
+        </div>
 
-  return (
-    <html lang="en">
-      <head>
-        <meta charSet="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        {/* --- FONT FIX: Using Poppins as requested --- */}
-        <style>
-          {`@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');`}
-        </style>
-        <title>Appointment Cancellation</title>
-      </head>
-      <body style={styles.body}>
-        <div style={styles.mainContainer}>
-          {/* --- HEADER FIX: Using the new text-based logo --- */}
-          <div style={styles.header}>
-            <a href={baseUrl} target="_blank" style={styles.link}>
-              <div style={styles.logo}>
-                <span style={{ fontWeight: 500 }}>serv</span>
-                <span style={{ fontWeight: 700 }}>ease</span>
-              </div>
-            </a>
-          </div>
+        <div style={styles.content}>
+          <h1 style={styles.h1}>Cancellation Confirmed</h1>
+          <p style={styles.paragraph}>Hello {clientName},</p>
+          <p style={styles.paragraph}>
+            This email confirms that your appointment with {providerName} has
+            been successfully cancelled. Below are the details of the cancelled
+            appointment.
+          </p>
 
-          <div style={styles.content}>
-            <h1 style={styles.h1}>Appointment Cancellation</h1>
-            <p style={styles.paragraph}>Hi {clientName},</p>
-            {/* --- WORDING FIX: Updated message --- */}
-            <p style={styles.paragraph}>
-              We regret to inform you that <strong>{providerName}</strong> has
-              had to cancel your upcoming appointment. We sincerely apologize
-              for any inconvenience this may cause.
-            </p>
+          <div style={styles.summarySection}>
+            <h2 style={styles.h2}>Cancelled Appointment Summary</h2>
 
-            {/* --- LAYOUT FIX: Stylish table in a branded container --- */}
-            <div style={styles.summarySection}>
-              <h2 style={styles.h2}>Cancelled Appointment Summary</h2>
-              <table
-                style={styles.detailsTable}
-                cellPadding="0"
-                cellSpacing="0"
-              >
-                <tbody>
-                  <tr style={styles.tableRow}>
-                    <td style={styles.tableLabel}>Provider</td>
-                    <td style={styles.tableValue}>{providerName}</td>
-                  </tr>
-                  <tr style={styles.tableRow}>
-                    <td style={styles.tableLabel}>Date</td>
-                    <td style={styles.tableValue}>{formatDisplayDate(date)}</td>
-                  </tr>
-                  <tr style={styles.tableRow}>
-                    <td style={styles.tableLabel}>Time</td>
-                    <td style={styles.tableValue}>{formatDisplayTime(time)}</td>
-                  </tr>
-                  {/* Last row for services, without a bottom border */}
-                  <tr style={{ ...styles.tableRow, borderBottom: "none" }}>
-                    <td style={styles.tableLabel}>Services</td>
-                    <td style={styles.tableValue}>{serviceListString}</td>
-                  </tr>
-                </tbody>
-              </table>
+            <div style={{ marginBottom: "20px" }}>
+              <DetailRow label="Client Name: " value={clientName} />
+              <DetailRow
+                label="Status: "
+                value={status}
+                valueColor={colors.alert}
+              />
+              <DetailRow label="Facility: " value={providerName} />
+              <DetailRow label="Address: " value={address} />
+              <DetailRow label="Provider Contact: " value={providerContact} />
+              <DetailRow label="Date: " value={formatDisplayDate(date)} />
+              <DetailRow label="Time: " value={formatDisplayTime(time)} />
             </div>
 
-            <p style={styles.paragraph}>
-              If you would like to find another provider, please visit our
-              platform.
-            </p>
-            {/* --- BUTTON FIX: Kept the brown branded button --- */}
-            <a href={baseUrl} target="_blank" style={styles.button}>
-              Browse Services
-            </a>
-          </div>
+            <div style={styles.divider} />
 
-          {/* --- FOOTER FIX: Simplified to prevent clipping --- */}
-          <div style={styles.footer}>
-            <p style={styles.footerText}>
-              © {new Date().getFullYear()} ServEase. All rights reserved.
-              <br />
-              This is an automated notification. Please do not reply.
-            </p>
+            <h3 style={styles.h3}>Cancelled Service/s</h3>
+
+            {services.map((service, index) => (
+              <div key={index} style={styles.serviceRow}>
+                <span style={styles.serviceName}>{service.name}:</span>
+                <span style={styles.servicePrice}>
+                  {formatCurrency(service.price)}
+                </span>
+              </div>
+            ))}
+
+            <div style={styles.totalRow}>
+              <span style={styles.totalLabel}>Total: </span>
+              <span style={styles.totalPrice}>
+                {formatCurrency(totalPrice)}
+              </span>
+            </div>
           </div>
         </div>
-      </body>
-    </html>
-  );
-};
 
-// --- STYLES OBJECT ---
+        <div style={styles.footer}>
+          <p style={styles.footerText}>
+            © {new Date().getFullYear()} servease. All rights reserved.
+          </p>
+          <p style={styles.footerText}>
+            This is an automated notification. Please do not reply to this
+            email.
+          </p>
+        </div>
+      </div>
+    </body>
+  </html>
+);
+
+const DetailRow = ({
+  label,
+  value,
+  valueColor,
+}: {
+  label: string;
+  value: string;
+  valueColor?: string;
+}) => (
+  <div
+    style={{
+      display: "flex",
+      justifyContent: "space-between",
+      padding: "8px 0",
+      fontSize: "16px",
+    }}
+  >
+    <span
+      style={{
+        color: "#604c3d",
+        fontWeight: 500,
+        paddingRight: "16px",
+      }}
+    >
+      {label}
+    </span>
+    <span
+      style={{
+        color: valueColor || "#050b20",
+        fontWeight: 400,
+        textAlign: "right",
+      }}
+    >
+      {value}
+    </span>
+  </div>
+);
+
 const colors = {
-  emailBackground: "#f8f7f3", // The "brown-ish" color for containers
+  emailBackground: "#f8f7f3",
   cardBackground: "#fff",
   textPrimary: "#050b20",
   textSecondary: "#241f1b",
-  brandPrimary: "#a68465", // The main brown for buttons and logo
+  textMuted: "#a9a9a9",
+  brandPrimary: "#a68465",
   border: "#e0d9c9",
+  alert: "#D93025",
 };
 
 const fonts = {
-  fontFamily: "'Poppins', 'Arial', sans-serif",
+  fontFamily: "'DM Sans', 'Helvetica Neue', 'Arial', sans-serif",
 };
 
-const styles: { [key: string]: React.CSSProperties } = {
+const styles = {
   body: {
     fontFamily: fonts.fontFamily,
     backgroundColor: colors.emailBackground,
@@ -149,6 +199,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     backgroundColor: colors.cardBackground,
     borderRadius: "12px",
     border: `1px solid ${colors.border}`,
+    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.05)",
     overflow: "hidden",
   },
   header: {
@@ -159,81 +210,92 @@ const styles: { [key: string]: React.CSSProperties } = {
   logo: {
     color: colors.brandPrimary,
     fontSize: "32px",
-    textAlign: "center",
+    textAlign: "center" as const,
     letterSpacing: "-0.5px",
     margin: "10px 0",
   },
   content: {
-    padding: "30px 40px",
+    padding: "40px",
   },
   h1: {
     color: colors.textPrimary,
     fontSize: "24px",
     fontWeight: 600,
-    margin: "0 0 20px",
+    margin: "0 0 24px",
   },
   paragraph: {
     color: colors.textSecondary,
     fontSize: "16px",
-    lineHeight: 1.7,
-    margin: "0 0 20px",
+    lineHeight: 1.6,
+    fontWeight: 400,
+    margin: "0 0 16px",
   },
   summarySection: {
-    padding: "20px",
-    marginTop: "25px",
-    marginBottom: "30px",
-    border: `1px solid ${colors.border}`,
-    borderRadius: "8px",
-    backgroundColor: colors.emailBackground, // Kept your branded background
+    paddingTop: "24px",
+    borderTop: `1.5px solid ${colors.border}`,
   },
   h2: {
     color: colors.textPrimary,
+    fontSize: "20px",
+    fontWeight: 600,
+    margin: "0 0 24px",
+  },
+  divider: {
+    height: "1px",
+    backgroundColor: colors.border,
+    margin: "24px 0",
+  },
+  h3: {
+    color: colors.textPrimary,
     fontSize: "18px",
     fontWeight: 600,
-    margin: "0 0 15px",
+    margin: "0 0 20px",
   },
-  detailsTable: {
-    width: "100%",
-    borderCollapse: "collapse",
+  serviceRow: {
+    display: "flex",
+    justifyContent: "space-between",
+    marginBottom: "12px",
+    fontSize: "16px",
   },
-  tableRow: {
-    borderBottom: `1px solid ${colors.border}`,
-  },
-  tableLabel: {
+  serviceName: {
     color: colors.textSecondary,
-    fontWeight: 500,
-    padding: "12px 10px 12px 0",
-    textAlign: "left",
-    width: "100px",
+    paddingRight: "20px",
   },
-  tableValue: {
+  servicePrice: {
     color: colors.textPrimary,
     fontWeight: 400,
-    padding: "12px 0",
-    textAlign: "left",
+    whiteSpace: "nowrap" as const,
   },
-  button: {
-    display: "inline-block",
-    backgroundColor: colors.brandPrimary, // Kept your branded button color
-    color: "#ffffff",
-    padding: "12px 25px",
-    borderRadius: "8px",
-    textDecoration: "none",
-    fontWeight: 500,
-    fontSize: "16px",
-    textAlign: "center",
+  totalRow: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginTop: "20px",
+    paddingTop: "16px",
+    borderTop: `1.5px solid ${colors.border}`,
+  },
+  totalLabel: {
+    color: colors.textPrimary,
+    fontWeight: 500,
+    fontSize: "20px",
+    paddingRight: "20px",
+  },
+  totalPrice: {
+    color: colors.brandPrimary,
+    fontWeight: 500,
+    fontSize: "20px",
+    whiteSpace: "nowrap" as const,
   },
   footer: {
-    backgroundColor: "#fff",
+    backgroundColor: colors.emailBackground,
     padding: "20px 40px",
-    borderTop: `1px solid ${colors.border}`,
+    borderTop: `1.5px solid ${colors.border}`,
   },
   footerText: {
-    color: "#a9a9a9",
+    color: colors.textMuted,
     fontSize: "12px",
-    margin: 0,
-    textAlign: "center",
-    lineHeight: 1.5,
+    margin: "0 0 5px 0",
+    fontWeight: 400,
+    textAlign: "center" as const,
   },
 };

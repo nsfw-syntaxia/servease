@@ -147,8 +147,9 @@ export async function updateAppointmentStatus(
     return { error: "Failed to update appointment status." };
   }
 
-  // --- Start Email Trigger Logic ---
-  if (newStatus === "canceled" || newStatus === "confirmed") {
+  // --- MODIFIED: Start Email Trigger Logic ---
+  // Now triggers for confirmed, canceled, AND completed
+  if (["confirmed", "canceled", "completed"].includes(newStatus)) {
     try {
       const { data: app, error: appError } = await supabase
         .from("appointments")
@@ -177,7 +178,6 @@ export async function updateAppointmentStatus(
           .select("business_name")
           .eq("id", app.provider_id)
           .single(),
-        // --- NEW: Fetch service prices right here ---
         supabase
           .from("services")
           .select("name, price")
@@ -198,7 +198,6 @@ export async function updateAppointmentStatus(
       const clientEmail = clientAuthUser.data.user?.email;
       if (!clientEmail) throw new Error("Client email not found.");
 
-      // Create a map for easy price lookup
       const servicePriceMap = new Map(
         servicesWithPricesResult.data.map((s) => [s.name, s.price])
       );
@@ -210,18 +209,31 @@ export async function updateAppointmentStatus(
         date: app.date,
         time: app.time,
         status: capitalize(newStatus),
-        // --- CORRECTED: Populate services with real names and prices ---
         services: (app.services || []).map((s: string) => ({
           name: s,
           price: servicePriceMap.get(s) || 0,
         })),
-        totalPrice: app.price, // Pass the total price
+        totalPrice: app.price,
       };
 
-      const apiEndpoint =
-        newStatus === "canceled"
-          ? "/api/cancellation-by-provider"
-          : "/api/confirmation-by-provider"; // <-- Your new API route for confirmations
+      // --- MODIFIED: Determine API endpoint based on status ---
+      let apiEndpoint = "";
+      switch (newStatus) {
+        case "confirmed":
+          apiEndpoint = "/api/confirmation-by-provider";
+          break;
+        case "canceled":
+          apiEndpoint = "/api/cancellation-by-provider";
+          break;
+        case "completed":
+          apiEndpoint = "/api/completed-by-provider";
+          break;
+        default:
+          // Should not happen, but good practice
+          console.log(`No email configured for status: ${newStatus}`);
+          revalidatePath("/facility-appointments");
+          return {};
+      }
 
       const baseUrl =
         process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";

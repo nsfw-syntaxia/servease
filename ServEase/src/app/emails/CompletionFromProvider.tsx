@@ -1,14 +1,12 @@
 import * as React from "react";
 
-// This interface matches the data we will send from the server
-interface ConfirmationFromProviderProps {
+interface CompletionByProviderProps {
   clientName: string;
   providerName: string;
   date: string;
   time: string;
   services: { name: string; price: number }[];
   totalPrice: number;
-  status: string;
 }
 
 const formatDisplayDate = (dateString: string) =>
@@ -18,17 +16,6 @@ const formatDisplayDate = (dateString: string) =>
     day: "numeric",
   });
 
-const formatDisplayTime = (timeString: string) => {
-  const [h, m] = timeString.split(":");
-  const date = new Date();
-  date.setHours(parseInt(h), parseInt(m));
-  return date.toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true,
-  });
-};
-
 const formatCurrency = (amount: number) =>
   new Intl.NumberFormat("en-PH", { style: "currency", currency: "PHP" }).format(
     amount
@@ -36,17 +23,9 @@ const formatCurrency = (amount: number) =>
 
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
-export const ConfirmationFromProvider: React.FC<
-  Readonly<ConfirmationFromProviderProps>
-> = ({
-  clientName,
-  providerName,
-  date,
-  time,
-  services,
-  totalPrice,
-  status,
-}) => (
+export const CompletionFromProvider: React.FC<
+  Readonly<CompletionByProviderProps>
+> = ({ clientName, providerName, date, services, totalPrice }) => (
   <html lang="en">
     <head>
       <meta charSet="UTF-8" />
@@ -54,7 +33,7 @@ export const ConfirmationFromProvider: React.FC<
       <style>
         {`@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');`}
       </style>
-      <title>Appointment Confirmed</title>
+      <title>Appointment Completed</title>
     </head>
     <body style={styles.body}>
       <div style={styles.mainContainer}>
@@ -68,49 +47,16 @@ export const ConfirmationFromProvider: React.FC<
         </div>
 
         <div style={styles.content}>
-          <h1 style={styles.h1}>Appointment Confirmed!</h1>
+          <h1 style={styles.h1}>Appointment Completed!</h1>
           <p style={styles.paragraph}>Hi {clientName},</p>
           <p style={styles.paragraph}>
-            Thank you for using ServEase! Your appointment with{" "}
-            <strong>{providerName}</strong> is confirmed by the service
-            provider.
+            Thank you for your visit! Your appointment with{" "}
+            <strong>{providerName}</strong> on {formatDisplayDate(date)} is now
+            complete. We hope you had a great experience.
           </p>
 
-          {/* --- Container 1: Appointment Summary --- */}
           <div style={styles.summarySection}>
-            <h2 style={styles.h2}>Appointment Summary</h2>
-            <table style={styles.detailsTable} cellPadding="0" cellSpacing="0">
-              <tbody>
-                <tr style={styles.tableRow}>
-                  <td style={styles.tableLabel}>Service Provider</td>
-                  <td style={styles.tableValue}>{providerName}</td>
-                </tr>
-                <tr style={styles.tableRow}>
-                  <td style={styles.tableLabel}>Status</td>
-                  <td
-                    style={{
-                      ...styles.tableValue,
-                      ...styles.statusConfirmed,
-                    }}
-                  >
-                    {status}
-                  </td>
-                </tr>
-                <tr style={styles.tableRow}>
-                  <td style={styles.tableLabel}>Date</td>
-                  <td style={styles.tableValue}>{formatDisplayDate(date)}</td>
-                </tr>
-                <tr style={{ ...styles.tableRow, borderBottom: "none" }}>
-                  <td style={styles.tableLabel}>Time</td>
-                  <td style={styles.tableValue}>{formatDisplayTime(time)}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          {/* --- Container 2: Services & Cost --- */}
-          <div style={styles.servicesSection}>
-            <h2 style={styles.h2}>Services & Cost</h2>
+            <h2 style={styles.h2}>Service Summary</h2>
             <table style={styles.detailsTable} cellPadding="0" cellSpacing="0">
               <tbody>
                 {/* Services List */}
@@ -124,7 +70,7 @@ export const ConfirmationFromProvider: React.FC<
                 ))}
                 {/* Total Row */}
                 <tr style={styles.totalRow}>
-                  <td style={styles.totalLabel}>Total</td>
+                  <td style={styles.totalLabel}>Total Paid</td>
                   <td style={styles.totalPrice}>
                     {formatCurrency(totalPrice)}
                   </td>
@@ -134,11 +80,11 @@ export const ConfirmationFromProvider: React.FC<
           </div>
 
           <p style={styles.paragraph}>
-            If you need to make any changes, please manage your booking through
-            our platform.
+            We value your feedback. Please take a moment to review your
+            experience with <strong>{providerName}</strong>.
           </p>
           <a href={baseUrl} target="_blank" style={styles.button}>
-            Manage My Appointments
+            Leave a Review
           </a>
         </div>
 
@@ -154,7 +100,7 @@ export const ConfirmationFromProvider: React.FC<
   </html>
 );
 
-// --- STYLES OBJECT (Now matching cancellation styles) ---
+// --- STYLES OBJECT ---
 const colors = {
   emailBackground: "#f8f7f3",
   cardBackground: "#fff",
@@ -162,7 +108,6 @@ const colors = {
   textSecondary: "#241f1b",
   brandPrimary: "#a68465",
   border: "#e0d9c9",
-  success: "#28a745",
 };
 
 const fonts = {
@@ -214,13 +159,6 @@ const styles: { [key: string]: React.CSSProperties } = {
   summarySection: {
     padding: "20px",
     marginTop: "25px",
-    marginBottom: "15px",
-    border: `1px solid ${colors.border}`,
-    borderRadius: "8px",
-    backgroundColor: colors.emailBackground,
-  },
-  servicesSection: {
-    padding: "20px",
     marginBottom: "30px",
     border: `1px solid ${colors.border}`,
     borderRadius: "8px",
@@ -238,24 +176,6 @@ const styles: { [key: string]: React.CSSProperties } = {
   },
   tableRow: {
     borderBottom: `1px solid ${colors.border}`,
-  },
-  // --- UPDATED STYLES ---
-  tableLabel: {
-    color: colors.textSecondary,
-    fontWeight: 500,
-    padding: "12px 10px 12px 0",
-    textAlign: "left",
-    width: "100px", // Matched to cancellation email
-  },
-  tableValue: {
-    color: colors.textPrimary,
-    fontWeight: 400,
-    padding: "12px 0 12px 10px", // Matched to cancellation email
-    textAlign: "left",
-  },
-  statusConfirmed: {
-    color: colors.success,
-    fontWeight: 600,
   },
   serviceNameCell: {
     color: colors.textPrimary,
