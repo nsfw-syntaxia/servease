@@ -147,12 +147,8 @@ export async function updateAppointmentStatus(
     return { error: "Failed to update appointment status." };
   }
 
-  if (newStatus === "canceled") {
-    // --- START DEBUGGING BLOCK ---
-    console.log(
-      `[DEBUG] Status changed to 'canceled' for appointment ID: ${appointmentId}. Starting email process...`
-    );
-
+  // --- Start Email Trigger Logic ---
+  if (newStatus === "canceled" || newStatus === "confirmed") {
     try {
       const { data: app, error: appError } = await supabase
         .from("appointments")
@@ -160,102 +156,88 @@ export async function updateAppointmentStatus(
         .eq("id", appointmentId)
         .single();
 
-      if (appError || !app) {
-        // This will now be logged on your server
-        console.error(
-          "[DEBUG] FAILED at step 1: Could not fetch appointment details.",
-          appError
-        );
-        throw new Error(`Could not fetch appointment details for email.`);
-      }
-      console.log("[DEBUG] Step 1 SUCCESS: Fetched appointment details.", app);
+      if (appError || !app)
+        throw new Error("Could not fetch appointment details for email.");
 
       const supabaseAdmin = createAdminClient();
-
-      const [clientProfile, clientAuthUser, providerProfile] =
-        await Promise.all([
-          supabase
-            .from("profiles")
-            .select("full_name")
-            .eq("id", app.client_id)
-            .single(),
-          supabaseAdmin.auth.admin.getUserById(app.client_id),
-          supabase
-            .from("profiles")
-            .select("business_name")
-            .eq("id", app.provider_id)
-            .single(),
-        ]);
+      const [
+        clientProfile,
+        clientAuthUser,
+        providerProfile,
+        servicesWithPricesResult,
+      ] = await Promise.all([
+        supabase
+          .from("profiles")
+          .select("full_name")
+          .eq("id", app.client_id)
+          .single(),
+        supabaseAdmin.auth.admin.getUserById(app.client_id),
+        supabase
+          .from("profiles")
+          .select("business_name")
+          .eq("id", app.provider_id)
+          .single(),
+        // --- NEW: Fetch service prices right here ---
+        supabase
+          .from("services")
+          .select("name, price")
+          .in("name", app.services || []),
+      ]);
 
       if (
         clientProfile.error ||
         clientAuthUser.error ||
-        providerProfile.error
+        providerProfile.error ||
+        servicesWithPricesResult.error
       ) {
-        console.error(
-          "[DEBUG] FAILED at step 2: Error fetching profile or auth data.",
-          {
-            clientProfileError: clientProfile.error,
-            clientAuthUserError: clientAuthUser.error,
-            providerProfileError: providerProfile.error,
-          }
+        throw new Error(
+          "Could not fetch all required user/profile/service data."
         );
-        throw new Error("Could not fetch all required user/profile data.");
       }
-      console.log(
-        "[DEBUG] Step 2 SUCCESS: Fetched client and provider details."
+
+      const clientEmail = clientAuthUser.data.user?.email;
+      if (!clientEmail) throw new Error("Client email not found.");
+
+      // Create a map for easy price lookup
+      const servicePriceMap = new Map(
+        servicesWithPricesResult.data.map((s) => [s.name, s.price])
       );
 
       const emailPayload = {
         clientName: clientProfile.data.full_name || "Valued Client",
-        clientEmail: clientAuthUser.data.user?.email,
+        clientEmail,
         providerName: providerProfile.data.business_name || "Your Provider",
         date: app.date,
         time: app.time,
-        status: "Cancelled",
+        status: capitalize(newStatus),
+        // --- CORRECTED: Populate services with real names and prices ---
         services: (app.services || []).map((s: string) => ({
           name: s,
-          price: 0,
+          price: servicePriceMap.get(s) || 0,
         })),
-        totalPrice: app.price,
+        totalPrice: app.price, // Pass the total price
       };
 
-      // THIS IS THE MOST IMPORTANT LOG. It shows the data being sent.
-      console.log("[DEBUG] Step 3: Prepared email payload:", emailPayload);
-
-      if (!emailPayload.clientEmail) {
-        console.error(
-          "[DEBUG] FAILED at Step 3: Client email is missing. Aborting email send."
-        );
-        throw new Error("Client email not found, cannot send notification.");
-      }
+      const apiEndpoint =
+        newStatus === "canceled"
+          ? "/api/cancellation-by-provider"
+          : "/api/confirmation-by-provider"; // <-- Your new API route for confirmations
 
       const baseUrl =
         process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-      const response = await fetch(`${baseUrl}/api/cancellation-by-provider`, {
+      const response = await fetch(`${baseUrl}${apiEndpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(emailPayload),
       });
 
-      if (!response.ok) {
-        const errorBody = await response.text();
-        // Updated debug log for clarity
-        console.error(
-          `[DEBUG] FAILED at Step 4: API endpoint /api/provider-cancellation returned an error. Status: ${response.status}`,
-          errorBody
-        );
-        throw new Error("API endpoint failed.");
-      }
-
+      if (!response.ok) throw new Error(`API endpoint ${apiEndpoint} failed.`);
       console.log(
-        "[DEBUG] Step 4 SUCCESS: API call to /api/provider-cancellation was successful!"
+        `Email notification for status '${newStatus}' sent successfully.`
       );
-      // --- END DEBUGGING BLOCK ---
     } catch (emailError: any) {
-      // This will catch any of the thrown errors above and log them.
       console.error(
-        "[DEBUG] An error occurred in the email sending process:",
+        `Error in email sending process for status '${newStatus}':`,
         emailError.message
       );
     }

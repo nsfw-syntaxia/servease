@@ -44,7 +44,7 @@ export async function POST(req: Request) {
 
     // CHANGE: Send only ONE email to the client
     await transporter.sendMail({
-      from: `"servease" <${process.env.GMAIL_EMAIL}>`,
+      from: `"ServEase" <${process.env.GMAIL_EMAIL}>`,
       to: payload.clientEmail,
       subject: emailSubject,
       html: clientEmailHtml,

@@ -58,16 +58,16 @@ export const ProviderCancellationNoticeToClient: React.FC<
           </div>
 
           <div style={styles.content}>
-            <h1 style={styles.h1}>Appointment Cancellation</h1>
+            <h1 style={styles.h1}>Appointment Canceled!</h1>
             <p style={styles.paragraph}>Hi {clientName},</p>
             <p style={styles.paragraph}>
               We regret to inform you that <strong>{providerName}</strong> has
-              had to cancel your booked appointment. We sincerely apologize
-              for any inconvenience this may cause.
+              had to cancel your booked appointment. We sincerely apologize for
+              any inconvenience this may cause.
             </p>
 
             <div style={styles.summarySection}>
-              <h2 style={styles.h2}>Cancelled Appointment Summary</h2>
+              <h2 style={styles.h2}>Appointment Summary</h2>
               <table
                 style={styles.detailsTable}
                 cellPadding="0"
@@ -216,7 +216,7 @@ const styles: { [key: string]: React.CSSProperties } = {
   tableValue: {
     color: colors.textPrimary,
     fontWeight: 400,
-    padding: "12px 0",
+    padding: "12px 0 12px 10px",
     textAlign: "left",
   },
   // --- CHANGE 3: Add the new style for the red text ---
@@ -234,7 +234,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     fontWeight: 500,
     fontSize: "16px",
     textAlign: "center",
-    marginTop: "20px",
+    marginTop: "5px",
   },
   footer: {
     backgroundColor: "#fff",
