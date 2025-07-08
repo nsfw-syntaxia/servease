@@ -562,7 +562,7 @@ const FacilityDetailsClientPage: NextPage<{
       <div className={styles.facilityDetails}>
         <div className={styles.frameParent}>
           <div className={styles.image7Parent}>
-          {/* --- 4. UPDATE the main image to use the new `displayImages` array --- */}
+            {/* --- 4. UPDATE the main image to use the new `displayImages` array --- */}
             <div className={styles.image7}>
               <Image
                 src={displayImages[0]}
@@ -594,27 +594,44 @@ const FacilityDetailsClientPage: NextPage<{
                     transform: `translateX(-${
                       carouselIndex * (100 / visibleImages)
                     }%)`,
-                    transition: disableAnim ? "none" : "transform 0.5s ease-in-out",
+                    transition: disableAnim
+                      ? "none"
+                      : "transform 0.5s ease-in-out",
                   }}
                 >
                   {/* Clones for infinite effect */}
                   {displayImages.slice(-visibleImages).map((imgSrc, idx) => (
                     <div className={styles.image71} key={`clone-start-${idx}`}>
-                      <Image src={imgSrc} alt="Clone Start" layout="fill" objectFit="cover" />
+                      <Image
+                        src={imgSrc}
+                        alt="Clone Start"
+                        layout="fill"
+                        objectFit="cover"
+                      />
                     </div>
                   ))}
-                  
+
                   {/* Maps over the REAL fetched photos */}
                   {displayImages.map((imgSrc, idx) => (
                     <div className={styles.image71} key={idx}>
-                      <Image src={imgSrc} alt={`Facility Image ${idx + 1}`} layout="fill" objectFit="cover" />
+                      <Image
+                        src={imgSrc}
+                        alt={`Facility Image ${idx + 1}`}
+                        layout="fill"
+                        objectFit="cover"
+                      />
                     </div>
                   ))}
 
                   {/* Clones for infinite effect */}
                   {displayImages.slice(0, visibleImages).map((imgSrc, idx) => (
                     <div className={styles.image71} key={`clone-end-${idx}`}>
-                      <Image src={imgSrc} alt="Clone End" layout="fill" objectFit="cover" />
+                      <Image
+                        src={imgSrc}
+                        alt="Clone End"
+                        layout="fill"
+                        objectFit="cover"
+                      />
                     </div>
                   ))}
                 </div>
@@ -636,7 +653,14 @@ const FacilityDetailsClientPage: NextPage<{
             </div>
 
             <div className={styles.groupParent}>
-              <div className={styles.frameChild}></div>
+              <Image
+                className={styles.avatarIcon} // You may need to create this class for positioning
+                src={facility.picture_url || "/avatar.svg"}
+                alt={facility.business_name || "Facility Avatar"}
+                width={60}
+                height={60}
+                style={{ borderRadius: "50%", objectFit: "cover" }}
+              />
               <div className={styles.dividerIcon}></div>
               <div className={styles.wrapper2}>
                 <div className={styles.circle}>
