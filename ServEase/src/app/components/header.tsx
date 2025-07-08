@@ -42,6 +42,15 @@ const Header = ({ avatarUrl, userRole, homePath }: HeaderProps) => {
     closeDropdown();
   };
 
+  const handleNotificationClick = () => {
+    if (userRole === "client") {
+      router.push("/client-notification");
+    } else if (userRole === "provider") {
+      router.push("/facility-notification");
+    }
+    closeDropdown();
+  };
+
   const handleLogout = async () => {
     try {
       await fetch("/api/logout", {
@@ -58,8 +67,7 @@ const Header = ({ avatarUrl, userRole, homePath }: HeaderProps) => {
   const items = [
     { label: "My Account", onClick: handleAccountClick },
     { label: "Appointments", onClick: handleAppointmentsClick },
-    { label: "Messages", href: "/messages" },
-    { label: "Notifications", href: "/notifications" },
+    { label: "Notifications", onClick: handleNotificationClick },
     { label: "Log out", onClick: handleLogout },
   ];
 
@@ -128,7 +136,7 @@ const Header = ({ avatarUrl, userRole, homePath }: HeaderProps) => {
             </a>
             <a
               className={styles.navLink}
-              onClick={() => router.push("/schedule")}
+              onClick={() => router.push("/facility-appointments")}
             >
               Schedule
             </a>
@@ -190,11 +198,7 @@ const Header = ({ avatarUrl, userRole, homePath }: HeaderProps) => {
                       } ${borderClass}`}
                       onMouseEnter={() => setHovered(item.label)}
                       onMouseLeave={() => setHovered("")}
-                      onClick={
-                        item.onClick
-                          ? item.onClick
-                          : () => router.push(item.href!)
-                      }
+                      onClick={item.onClick}
                     >
                       {item.label}
                     </div>

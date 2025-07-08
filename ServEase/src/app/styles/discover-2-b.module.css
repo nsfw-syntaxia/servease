@@ -455,7 +455,7 @@
     box-shadow 0.12s ease-out,
     border 0.12s ease-out;
   cursor: pointer;
-  background-color: #ffff;
+  background-color: #e0d9c9;
 }
 
 .serviceCard:hover {
@@ -1149,8 +1149,7 @@
   background-color: #f8f7f3;
   position: relative;
   box-sizing: border-box;
-  height: auto;
-  overflow: auto;
+  height: 340rem;
   text-align: left;
   font-size: 50px;
   color: var(--color-tan-200);

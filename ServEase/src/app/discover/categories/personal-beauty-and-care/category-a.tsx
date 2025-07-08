@@ -461,7 +461,7 @@ const PBACS: NextPage<{
         </div>
       </div>
 
-      <div className={styles.popularServices}>
+      <section className={styles.popularServices}>
         <b className={styles.allServices1}>
           <span>Popular</span>
           <span className={styles.services}> Services</span>
@@ -509,9 +509,9 @@ const PBACS: NextPage<{
           )}
         </div>
         <div className={styles.line1} />
-      </div>
+      </section>
 
-      <div className={styles.newServices}>
+      <section className={styles.newServices}>
         <b className={styles.allServices1}>
           <span>New</span>
           <span className={styles.services}> Services</span>
@@ -559,9 +559,9 @@ const PBACS: NextPage<{
           )}
         </div>
         <div className={styles.line1} />
-      </div>
+      </section>
 
-      <div className={styles.allServices}>
+      <section className={styles.allServices}>
         <b className={styles.allServices1}>
           <span>All</span>
           <span className={styles.services}> Services</span>
@@ -577,7 +577,7 @@ const PBACS: NextPage<{
             ))}
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 };

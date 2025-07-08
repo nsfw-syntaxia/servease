@@ -1,24 +1,15 @@
 .landingPage {
   width: 100%;
-position: relative;
-background-color: #f8f7f3;
-box-sizing: border-box;
-height: 4189px;
-overflow: hidden;
-text-align: center;
-font-size: 16px;
-color: #fbf7f4;
-font-family: 'DM Sans';
-cursor: default;
   position: relative;
   background-color: #f8f7f3;
   box-sizing: border-box;
-  height: 4189px;
+  height: 3500px;
   overflow: hidden;
   text-align: center;
   font-size: 16px;
   color: #fbf7f4;
   font-family: "DM Sans";
+  cursor: default;
 }
 
 .serveaseLogoAlbumCover31,
@@ -178,7 +169,9 @@ cursor: default;
   gap: 8px;
   cursor: pointer;
   color: #fbf7f4;
-  transition: transform 0.3s ease, background-position 0.5s ease;
+  transition:
+    transform 0.3s ease,
+    background-position 0.5s ease;
 }
 
 .button1:hover {
@@ -332,7 +325,10 @@ cursor: default;
   font-family: var(--font-dm-sans);
   margin-top: 5%;
 
-  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease,
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    transform 0.2s ease,
     border 0.3s ease;
 }
 
@@ -828,7 +824,9 @@ cursor: default;
 .serviceDirectory,
 .dualDahsboard {
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .onlineBooking:hover,
@@ -1731,7 +1729,9 @@ cursor: default;
 .home,
 .discover,
 .createAnAccount {
-  transition: transform 0.3s ease, color 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    color 0.3s ease;
 }
 
 .supportserveasecom:hover,
@@ -1953,7 +1953,7 @@ cursor: default;
     height: auto;
     min-height: 100vh;
   }
-  
+
   .navigation {
     display: flex;
     flex-direction: row;

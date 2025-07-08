@@ -80,3 +80,16 @@
     padding: 40px 5% 20px;
   }
 }
+
+.servease {
+  font-size: x-large;
+  font-family: "DM Sans";
+  width: 148px;
+  font-size: 30px;
+  color: #a68465;
+  cursor: pointer;
+}
+
+.serv {
+  font-weight: bolder;
+}
