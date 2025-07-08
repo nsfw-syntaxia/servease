@@ -105,14 +105,15 @@ export const CancellationNoticeToProvider: React.FC<
             </div>
 
             <p style={styles.paragraph}>
-              You can view your updated schedule on the ServEase platform.
+              You can manage your other upcoming and pending appointments on the
+              ServEase platform.
             </p>
             <a
               href={`${baseUrl}/facility-appointments`}
               target="_blank"
               style={styles.button}
             >
-              View My Schedule
+              Manage Appointments
             </a>
           </div>
 
