@@ -130,6 +130,49 @@ export async function updateUserEmail(
   return {};
 }
 
+export async function deleteClientAccount(
+  password: string
+): Promise<{ success?: boolean; error?: string }> {
+  const supabase = await createClient();
+
+  // 1. Get the currently logged-in user from the server-side session.
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user || !user.email) {
+    return { error: "User not authenticated." };
+  }
+
+  // 2. Verify the user's current password by trying to sign in with it.
+  const { error: signInError } = await supabase.auth.signInWithPassword({
+    email: user.email,
+    password: password,
+  });
+
+  if (signInError) {
+    return { error: "Incorrect password. Account not deleted." };
+  }
+
+  // 3. If the password is correct, use the Supabase Admin Client to delete the user.
+  // This is a protected, administrative action.
+  const supabaseAdmin = createAdminClient();
+  const { error: deleteError } = await supabaseAdmin.auth.admin.deleteUser(
+    user.id
+  );
+
+  if (deleteError) {
+    console.error("Supabase admin delete error:", deleteError.message);
+    return { error: "Failed to delete account. Please contact support." };
+  }
+
+  // 4. Sign the user out from the server-side to invalidate their session.
+  await supabase.auth.signOut();
+
+  // Return success. The client-side will handle the redirect.
+  return { success: true };
+}
+
 export async function changeUserPassword(
   currentPassword: string,
   newPassword: string

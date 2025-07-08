@@ -11,6 +11,7 @@ import {
   updateUserEmail,
   uploadFacilityPhoto,
   deleteFacilityPhoto,
+  deleteFacilityAccount,
   changeUserPassword,
 } from "./actions";
 import { createClient } from "../utils/supabase/client";
@@ -504,18 +505,43 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
   };
 
   const handleDelete = async () => {
-    setIsdeleteClicked(true);
+    // Reset errors and start the click animation
     setError("");
     setShowError(false);
+    setIsdeleteClicked(true);
 
+    // 1. Client-side validation
     if (!password) {
-      setError("Please fill in all required fields.");
+      setError("Please enter your password to confirm.");
       setShowError(true);
       setTimeout(() => setIsdeleteClicked(false), 100);
       return;
     }
 
-    setShowOverlayDelete(false);
+    try {
+      // 2. Call the server action with the password
+      const result = await deleteFacilityAccount(password);
+
+      // 3. Handle the response from the server
+      if (result.error) {
+        // If the server returned an error (e.g., "Incorrect password")
+        setError(result.error);
+        setShowError(true);
+      } else if (result.success) {
+        // On success, close the modal and redirect
+        setShowOverlayDelete(false);
+        alert("Your account has been successfully deleted.");
+        router.push("/login"); // Redirect to login page
+        router.refresh(); // Ensure a clean slate
+      }
+    } catch (e: any) {
+      // Handle unexpected network errors
+      setError("An unexpected error occurred. Please try again.");
+      setShowError(true);
+    } finally {
+      // 4. Always stop the loading/clicked animation
+      setIsdeleteClicked(false);
+    }
   };
 
   const handleClose = () => {
