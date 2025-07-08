@@ -370,54 +370,70 @@ const FacilityDetailsClientPage: NextPage<{
     setTimeout(() => setIsAnimating(false), 300);
   };
 
-  // ======================================================================
-  // === CORE FIX: ISOLATED LOGIC FOR EACH CAROUSEL ===
-  // ======================================================================
+  const top6PopularServices = relatedServices.slice(0, 6);
 
-  // --- 1. LOGIC FOR MAIN IMAGE CAROUSEL ---
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const visibleServices = 3;
+
+  const handleNext = () => {
+    if (currentIndex < top6PopularServices.length - visibleServices) {
+      setCurrentIndex((prevIndex) => prevIndex + 3);
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex((prevIndex) => prevIndex - 3);
+    }
+  };
+
   const displayImages = useMemo(() => {
+    // If photos were passed from the server, use them
     if (facilityPhotos && facilityPhotos.length > 0) {
       return facilityPhotos;
     }
+    // Otherwise, fall back to the main facility image
     return [facility.facility_image_url || "/placeholder-facility.jpg"];
   }, [facilityPhotos, facility.facility_image_url]);
 
-  const [imageIndex, setImageIndex] = useState(0); // State for the BIG image
+  const visibleImages = 3;
+  const [carouselIndex, setCarouselIndex] = useState(visibleImages);
   const totalImages = displayImages.length;
-  const visibleThumbnails = 3; // How many thumbnails to show
 
-  const handleNextImage = () => {
-    if (totalImages <= 1) return;
-    // This loops the index for the big image display
-    setImageIndex((prevIndex) => (prevIndex + 1) % totalImages);
+  const handleNext1 = () => {
+    if (carouselIndex >= totalImages + visibleImages) return;
+    setCarouselIndex((prev) => prev + 1);
   };
 
-  const handlePrevImage = () => {
-    if (totalImages <= 1) return;
-    // This loops the index for the big image display
-    setImageIndex((prevIndex) => (prevIndex - 1 + totalImages) % totalImages);
+  const handlePrev1 = () => {
+    if (carouselIndex <= 0) return;
+    setCarouselIndex((prev) => prev - 1);
   };
+  const [disableAnim, setDisableAnim] = useState(false);
 
-  // --- 2. LOGIC FOR RELATED SERVICES CAROUSEL ---
-  const top6PopularServices = relatedServices.slice(0, 6);
-  const [serviceCarouselIndex, setServiceCarouselIndex] = useState(0); // A unique name
-  const visibleServices = 3;
+  // Use useCallback to prevent unnecessary re-renders of the effect
+  const disableTransition = useCallback(() => {
+    setDisableAnim(true);
+    setTimeout(() => setDisableAnim(false), 50);
+  }, []);
 
-  const handleNextService = () => {
-    // A unique name
-    if (serviceCarouselIndex < top6PopularServices.length - visibleServices) {
-      setServiceCarouselIndex((prevIndex) => prevIndex + 1);
+  useEffect(() => {
+    if (carouselIndex >= totalImages + visibleImages) {
+      setTimeout(() => {
+        setCarouselIndex(visibleImages);
+        disableTransition();
+      }, 300);
+    } else if (
+      carouselIndex < visibleImages &&
+      totalImages > visibleImages &&
+      carouselIndex <= 0
+    ) {
+      setTimeout(() => {
+        setCarouselIndex(totalImages);
+        disableTransition();
+      }, 300);
     }
-  };
-
-  const handlePrevService = () => {
-    // A unique name
-    if (serviceCarouselIndex > 0) {
-      setServiceCarouselIndex((prevIndex) => prevIndex - 1);
-    }
-  };
-
-  // ======================================================================
+  }, [carouselIndex, totalImages, visibleImages, disableTransition]);
 
   useEffect(() => {
     if (services && services.length > 0 && !activeServiceName) {
@@ -545,20 +561,18 @@ const FacilityDetailsClientPage: NextPage<{
     <div className={styles.facilityDetailsParent}>
       <div className={styles.facilityDetails}>
         <div className={styles.frameParent}>
-          {/* === 3. CORRECTED JSX FOR MAIN IMAGE CAROUSEL === */}
           <div className={styles.image7Parent}>
-            {/* BIG IMAGE DISPLAY */}
+          {/* --- 4. UPDATE the main image to use the new `displayImages` array --- */}
             <div className={styles.image7}>
               <Image
-                src={displayImages[imageIndex]} // Uses imageIndex to show the correct big photo
+                src={displayImages[0]}
                 alt={facility.business_name}
                 layout="fill"
                 objectFit="cover"
               />
             </div>
-            {/* THUMBNAIL CAROUSEL */}
             <div className={styles.image7Group}>
-              <div className={styles.buttonFrame} onClick={handlePrevImage}>
+              <div className={styles.buttonFrame} onClick={handlePrev1}>
                 <div className={styles.button11}>
                   <div className={styles.chevronLeft}>
                     <Image
@@ -571,29 +585,42 @@ const FacilityDetailsClientPage: NextPage<{
                   </div>
                 </div>
               </div>
+
               <div className={styles.carouselViewport1}>
+                {/* --- 5. UPDATE the carousel to map over the new `displayImages` array --- */}
                 <div
                   className={styles.carouselTrack1}
                   style={{
-                    // This transform slides the track by one thumbnail width at a time.
-                    // It tries to keep the active image centered if possible.
-                    transform: `translateX(-${Math.max(0, Math.min(imageIndex - 1, totalImages - visibleThumbnails)) * (100 / visibleThumbnails)}%)`,
-                    transition: "transform 0.5s ease-in-out",
+                    transform: `translateX(-${
+                      carouselIndex * (100 / visibleImages)
+                    }%)`,
+                    transition: disableAnim ? "none" : "transform 0.5s ease-in-out",
                   }}
                 >
+                  {/* Clones for infinite effect */}
+                  {displayImages.slice(-visibleImages).map((imgSrc, idx) => (
+                    <div className={styles.image71} key={`clone-start-${idx}`}>
+                      <Image src={imgSrc} alt="Clone Start" layout="fill" objectFit="cover" />
+                    </div>
+                  ))}
+                  
+                  {/* Maps over the REAL fetched photos */}
                   {displayImages.map((imgSrc, idx) => (
                     <div className={styles.image71} key={idx}>
-                      <Image
-                        src={imgSrc}
-                        alt={`Facility Image ${idx + 1}`}
-                        layout="fill"
-                        objectFit="cover"
-                      />
+                      <Image src={imgSrc} alt={`Facility Image ${idx + 1}`} layout="fill" objectFit="cover" />
+                    </div>
+                  ))}
+
+                  {/* Clones for infinite effect */}
+                  {displayImages.slice(0, visibleImages).map((imgSrc, idx) => (
+                    <div className={styles.image71} key={`clone-end-${idx}`}>
+                      <Image src={imgSrc} alt="Clone End" layout="fill" objectFit="cover" />
                     </div>
                   ))}
                 </div>
               </div>
-              <div className={styles.buttonWrapper} onClick={handleNextImage}>
+
+              <div className={styles.buttonWrapper} onClick={handleNext1}>
                 <div className={styles.button11}>
                   <div className={styles.chevronRight}>
                     <Image
@@ -981,15 +1008,15 @@ const FacilityDetailsClientPage: NextPage<{
             </span>
           </b>
           <div className={styles.servicesCarousel}>
-            {serviceCarouselIndex > 0 && ( // Use unique state
+            {currentIndex > 0 && (
               <button
                 className={`${styles.carouselButton} ${styles.prevButton}`}
-                onClick={handlePrevService} // Use unique handler
+                onClick={handlePrev}
               >
                 <Image
                   width={28}
                   height={28}
-                  src="/Chevron left.svg"
+                  src="/Chevron right.svg"
                   alt="Previous"
                 />
               </button>
@@ -998,8 +1025,9 @@ const FacilityDetailsClientPage: NextPage<{
               <div
                 className={styles.carouselTrack}
                 style={{
-                  // Use unique state and correct formula
-                  transform: `translateX(calc(-${serviceCarouselIndex * (100 / visibleServices)}%))`,
+                  transform: `translateX(calc(-${
+                    currentIndex * (100 / visibleServices)
+                  }%))`,
                 }}
               >
                 {top6PopularServices.map((related) => (
@@ -1007,11 +1035,10 @@ const FacilityDetailsClientPage: NextPage<{
                 ))}
               </div>
             </div>
-            {serviceCarouselIndex <
-              top6PopularServices.length - visibleServices && ( // Use unique state
+            {currentIndex < top6PopularServices.length - visibleServices && (
               <button
                 className={`${styles.carouselButton} ${styles.nextButton}`}
-                onClick={handleNextService} // Use unique handler
+                onClick={handleNext}
               >
                 <Image
                   width={28}
