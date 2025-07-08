@@ -465,7 +465,7 @@
     box-shadow 0.12s ease-out,
     border 0.12s ease-out;
   cursor: pointer;
-  background-color: #ffff;
+  background-color: #e0d9c9;
 }
 
 .serviceCard:hover {
