@@ -2,12 +2,13 @@
 
 import type { NextPage } from "next";
 import { useRouter } from "next/navigation";
-import { useState, useMemo, useEffect, useRef } from "react";
+import { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import styles from "../../styles/facilitydetails.module.css";
 import * as maptilerClient from "@maptiler/client";
 import { Map, Marker, config } from "@maptiler/sdk";
 import "@maptiler/sdk/dist/maptiler-sdk.css";
+import { toggleFacilityLike, getFacilityPhotos } from "./actions";
 
 interface Profile {
   id: string;
@@ -43,7 +44,7 @@ interface Review {
   created_at: string;
   service_name;
   client: {
-  picture_url: string | null;
+    picture_url: string | null;
   } | null;
 }
 
@@ -179,8 +180,8 @@ const formatWorkingDays = (days: string[] | null): string => {
 
 const RatingCircle: React.FC<RatingCircleProps> = ({
   rating,
-  size = 130, 
-  strokeWidth = 15, 
+  size = 130,
+  strokeWidth = 15,
 }) => {
   const center = size / 2;
   const radius = center - strokeWidth / 2;
@@ -206,7 +207,7 @@ const RatingCircle: React.FC<RatingCircleProps> = ({
         strokeWidth={strokeWidth}
         strokeDasharray={circumference}
         strokeDashoffset={offset}
-        strokeLinecap="round" 
+        strokeLinecap="round"
       />
     </svg>
   );
@@ -271,14 +272,28 @@ const FacilityDetailsClientPage: NextPage<{
   services: Service[];
   reviews: Review[];
   relatedServices: RelatedService[];
-}> = ({ facility, services, reviews, relatedServices }) => {
+  initialIsLiked: boolean;
+  initialTotalLikes: number;
+  facilityPhotos: string[];
+}> = ({
+  facility,
+  services,
+  reviews,
+  relatedServices,
+  initialIsLiked,
+  initialTotalLikes,
+  facilityPhotos,
+}) => {
   const router = useRouter();
-  const [isLiked, setIsLiked] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [activeFilter, setActiveFilter] = useState("All");
   const [active, setActive] = useState(1);
   const serviceNames = services ? services.map((service) => service.name) : [];
   const [activeServiceName, setActiveServiceName] = useState("");
+
+  // --- ADD THIS ---
+  const [isLiked, setIsLiked] = useState(initialIsLiked);
+  const [totalLikes, setTotalLikes] = useState(initialTotalLikes);
 
   const [coordinates, setCoordinates] = useState<{
     lat: number;
@@ -332,13 +347,29 @@ const FacilityDetailsClientPage: NextPage<{
     { label: "With Media", hasStar: false },
   ];
 
-  const handleClick = () => {
+  // --- REPLACE the old handleClick with this ---
+  const handleLikeToggle = async () => {
+    if (isAnimating) return;
     setIsAnimating(true);
-    setTimeout(() => {
-      setIsLiked((prev) => !prev);
-      setIsAnimating(false);
-    }, 100);
+
+    // UI updates instantly for a good user experience
+    const previouslyLiked = isLiked;
+    setIsLiked(!previouslyLiked);
+    setTotalLikes((prev) => (previouslyLiked ? prev - 1 : prev + 1));
+
+    // Call the server to update the database
+    const { error } = await toggleFacilityLike(facility.id);
+
+    // If the server call fails, revert the UI changes
+    if (error) {
+      alert(`Error: ${error}`);
+      setIsLiked(previouslyLiked);
+      setTotalLikes((prev) => (previouslyLiked ? prev + 1 : prev - 1));
+    }
+
+    setTimeout(() => setIsAnimating(false), 300);
   };
+
   const top6PopularServices = relatedServices.slice(0, 6);
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -356,13 +387,18 @@ const FacilityDetailsClientPage: NextPage<{
     }
   };
 
-  const facilityImages = Array(5).fill(
-    facility.facility_image_url || "/placeholder-facility.jpg"
-  );
+  const displayImages = useMemo(() => {
+    // If photos were passed from the server, use them
+    if (facilityPhotos && facilityPhotos.length > 0) {
+      return facilityPhotos;
+    }
+    // Otherwise, fall back to the main facility image
+    return [facility.facility_image_url || "/placeholder-facility.jpg"];
+  }, [facilityPhotos, facility.facility_image_url]);
 
   const visibleImages = 3;
   const [carouselIndex, setCarouselIndex] = useState(visibleImages);
-  const totalImages = facilityImages.length;
+  const totalImages = displayImages.length;
 
   const handleNext1 = () => {
     if (carouselIndex >= totalImages + visibleImages) return;
@@ -375,24 +411,29 @@ const FacilityDetailsClientPage: NextPage<{
   };
   const [disableAnim, setDisableAnim] = useState(false);
 
-  const disableTransition = () => {
+  // Use useCallback to prevent unnecessary re-renders of the effect
+  const disableTransition = useCallback(() => {
     setDisableAnim(true);
     setTimeout(() => setDisableAnim(false), 50);
-  };
+  }, []);
 
   useEffect(() => {
-    if (carouselIndex === totalImages + visibleImages) {
+    if (carouselIndex >= totalImages + visibleImages) {
       setTimeout(() => {
         setCarouselIndex(visibleImages);
         disableTransition();
       }, 300);
-    } else if (carouselIndex === 0) {
+    } else if (
+      carouselIndex < visibleImages &&
+      totalImages > visibleImages &&
+      carouselIndex <= 0
+    ) {
       setTimeout(() => {
         setCarouselIndex(totalImages);
         disableTransition();
       }, 300);
     }
-  }, [carouselIndex]);
+  }, [carouselIndex, totalImages, visibleImages, disableTransition]);
 
   useEffect(() => {
     if (services && services.length > 0 && !activeServiceName) {
@@ -417,7 +458,7 @@ const FacilityDetailsClientPage: NextPage<{
     ? selectedService.price.toFixed(2)
     : "0.00";
 
-    const filteredReviews = useMemo(() => {
+  const filteredReviews = useMemo(() => {
     if (!reviews) return [];
 
     if (activeFilter === "All") {
@@ -426,13 +467,17 @@ const FacilityDetailsClientPage: NextPage<{
 
     if (activeFilter === "With Media") {
       // Assuming 'With Media' means reviews that have a non-empty comment.
-      return reviews.filter(review => review.comment && review.comment.trim() !== '');
+      return reviews.filter(
+        (review) => review.comment && review.comment.trim() !== ""
+      );
     }
 
     const ratingFilter = parseInt(activeFilter, 10);
     if (!isNaN(ratingFilter)) {
       // Filters reviews where the rounded rating matches the filter (e.g., 4.2 is considered 4 stars)
-      return reviews.filter(review => Math.round(review.rating) === ratingFilter);
+      return reviews.filter(
+        (review) => Math.round(review.rating) === ratingFilter
+      );
     }
 
     return reviews; // Fallback to all reviews
@@ -449,70 +494,78 @@ const FacilityDetailsClientPage: NextPage<{
     router.push(bookingUrl);
   };
 
+  const ReviewCard = ({ review }: { review: Review }) => {
+    const formattedDate = new Date(review.created_at).toLocaleDateString(
+      "en-US",
+      {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      }
+    );
 
-const ReviewCard = ({ review }: { review: Review }) => {
-  const formattedDate = new Date(review.created_at).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit'
-  });
-
-  return (
-    <div className={styles.reviewCard}>
-      <div className={styles.reviewHeader}>
-        <div className={styles.reviewAvatar}>
-          <Image
-            src={review.client?.picture_url || "/avatar.svg"}
-            alt={review.client_name}
-            width={50}
-            height={50}
-            className={styles.avatarImg}
-          />
-        </div>
-
-        <div className={styles.reviewInfo}>
-          <div className={styles.reviewRow}>
-            <div className={styles.clientName}>{review.client_name}</div>
-            <div className={styles.reviewDate}>{formattedDate}</div>
+    return (
+      <div className={styles.reviewCard}>
+        <div className={styles.reviewHeader}>
+          <div className={styles.reviewAvatar}>
+            <Image
+              src={review.client?.picture_url || "/avatar.svg"}
+              alt={review.client_name}
+              width={50}
+              height={50}
+              className={styles.avatarImg}
+            />
           </div>
 
-          <div className={styles.reviewRow}>
-            <div className={styles.ratingContainer}>
-              {[...Array(5)].map((_, i) => (
-                <Image
-                  key={i}
-                  className={styles.starIcon}
-                  width={20}
-                  height={20}
-                  alt="Star"
-                  src={i < Math.round(review.rating) ? "/Star 31.svg" : "/Star 4.svg"}
-                />
-              ))}
-              <div className={styles.ratingValue}>{review.rating.toFixed(1)}</div>
+          <div className={styles.reviewInfo}>
+            <div className={styles.reviewRow}>
+              <div className={styles.clientName}>{review.client_name}</div>
+              <div className={styles.reviewDate}>{formattedDate}</div>
             </div>
-            <div className={styles.serviceOption}>{review.service_name}</div>
+
+            <div className={styles.reviewRow}>
+              <div className={styles.ratingContainer}>
+                {[...Array(5)].map((_, i) => (
+                  <Image
+                    key={i}
+                    className={styles.starIcon}
+                    width={20}
+                    height={20}
+                    alt="Star"
+                    src={
+                      i < Math.round(review.rating)
+                        ? "/Star 31.svg"
+                        : "/Star 4.svg"
+                    }
+                  />
+                ))}
+                <div className={styles.ratingValue}>
+                  {review.rating.toFixed(1)}
+                </div>
+              </div>
+              <div className={styles.serviceOption}>{review.service_name}</div>
+            </div>
           </div>
         </div>
-      </div>
 
-      {review.comment && (
-        <div className={styles.reviewComment}>
-          <p>{review.comment}</p>
-        </div>
-      )}
-    </div>
-  );
-};
+        {review.comment && (
+          <div className={styles.reviewComment}>
+            <p>{review.comment}</p>
+          </div>
+        )}
+      </div>
+    );
+  };
 
   return (
     <div className={styles.facilityDetailsParent}>
       <div className={styles.facilityDetails}>
         <div className={styles.frameParent}>
-          {/* ... (Your existing JSX for images and facility info) ... */}
           <div className={styles.image7Parent}>
+            {/* --- 4. UPDATE the main image to use the new `displayImages` array --- */}
             <div className={styles.image7}>
               <Image
-                src={facility.facility_image_url || "/placeholder-facility.jpg"}
+                src={displayImages[0]}
                 alt={facility.business_name}
                 layout="fill"
                 objectFit="cover"
@@ -534,6 +587,7 @@ const ReviewCard = ({ review }: { review: Review }) => {
               </div>
 
               <div className={styles.carouselViewport1}>
+                {/* --- 5. UPDATE the carousel to map over the new `displayImages` array --- */}
                 <div
                   className={styles.carouselTrack1}
                   style={{
@@ -545,7 +599,8 @@ const ReviewCard = ({ review }: { review: Review }) => {
                       : "transform 0.5s ease-in-out",
                   }}
                 >
-                  {facilityImages.slice(-visibleImages).map((imgSrc, idx) => (
+                  {/* Clones for infinite effect */}
+                  {displayImages.slice(-visibleImages).map((imgSrc, idx) => (
                     <div className={styles.image71} key={`clone-start-${idx}`}>
                       <Image
                         src={imgSrc}
@@ -556,7 +611,8 @@ const ReviewCard = ({ review }: { review: Review }) => {
                     </div>
                   ))}
 
-                  {facilityImages.map((imgSrc, idx) => (
+                  {/* Maps over the REAL fetched photos */}
+                  {displayImages.map((imgSrc, idx) => (
                     <div className={styles.image71} key={idx}>
                       <Image
                         src={imgSrc}
@@ -567,8 +623,8 @@ const ReviewCard = ({ review }: { review: Review }) => {
                     </div>
                   ))}
 
-                  {/* Clone first N items at the end */}
-                  {facilityImages.slice(0, visibleImages).map((imgSrc, idx) => (
+                  {/* Clones for infinite effect */}
+                  {displayImages.slice(0, visibleImages).map((imgSrc, idx) => (
                     <div className={styles.image71} key={`clone-end-${idx}`}>
                       <Image
                         src={imgSrc}
@@ -597,7 +653,14 @@ const ReviewCard = ({ review }: { review: Review }) => {
             </div>
 
             <div className={styles.groupParent}>
-              <div className={styles.frameChild}></div>
+              <Image
+                className={styles.avatarIcon} // You may need to create this class for positioning
+                src={facility.picture_url || "/avatar.svg"}
+                alt={facility.business_name || "Facility Avatar"}
+                width={60}
+                height={60}
+                style={{ borderRadius: "50%", objectFit: "cover" }}
+              />
               <div className={styles.dividerIcon}></div>
               <div className={styles.wrapper2}>
                 <div className={styles.circle}>
@@ -788,7 +851,7 @@ const ReviewCard = ({ review }: { review: Review }) => {
                 src="/Divider1.svg"
               />
               <div className={styles.buttonParent2}>
-                <div className={styles.button9} onClick={handleClick}>
+                <div className={styles.button9} onClick={handleLikeToggle}>
                   <div className={styles.heart}>
                     <Image
                       src="/Heart.svg"
@@ -809,7 +872,9 @@ const ReviewCard = ({ review }: { review: Review }) => {
                       }`}
                     />
                   </div>
-                  <div className={styles.favorite11k}>Favorite</div>
+                  <div className={styles.favorite11k}>
+                    {totalLikes} {totalLikes === 1 ? "Favorite" : "Favorites"}
+                  </div>
                 </div>
                 <div className={styles.button4} onClick={handleBookNow}>
                   <div className={styles.star} />
@@ -893,58 +958,64 @@ const ReviewCard = ({ review }: { review: Review }) => {
         </section>
 
         <div className={styles.location2}>
-  <section id="ratings">
-    <b className={styles.serviceRatings}>Service Ratings</b>
-  </section>
-  <div className={styles.group}>
-    {/* The new dynamic circle component */}
-    <RatingCircle rating={facility.rating} size={130} strokeWidth={15} />
+          <section id="ratings">
+            <b className={styles.serviceRatings}>Service Ratings</b>
+          </section>
+          <div className={styles.group}>
+            {/* The new dynamic circle component */}
+            <RatingCircle
+              rating={facility.rating}
+              size={130}
+              strokeWidth={15}
+            />
 
-    {/* The text block is now positioned over the circle via CSS */}
-    <div className={styles.parent2}>
-      <b className={styles.b8}>{facility.rating.toFixed(1)}</b>
-      <div className={styles.outOf5}>Out of 5</div>
-    </div>
-    
-    <div className={styles.paraContentGroup}>
-      <div className={styles.paraContent17}>
-        <b className={styles.workSchedule}>{reviews.length} Reviews</b>
-      </div>
-      <div className={styles.grid}>
-        {filters.map((filter) => (
-          <div
-            key={filter.label}
-            className={`${styles.buttonstar} ${
-              activeFilter === filter.label ? styles.activerating : ""
-            }`}
-            onClick={() => setActiveFilter(filter.label)}
-          >
-            {filter.hasStar && (
-              <Image
-                src="/Star 31.svg"
-                alt="star"
-                width={18}
-                height={18}
-                className={styles.iconstar}
-              />
-            )}
-            <span>{filter.label}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  </div>
-          <div className={styles.frameParent}>
-          {filteredReviews.length > 0 ? (
-            filteredReviews.map((review) => (
-              <ReviewCard key={review.id} review={review} />
-            ))
-          ) : (
-            <div className={styles.noReviewsMessage}>
-              <p className={styles.none}>No reviews match the current filter.</p>
+            {/* The text block is now positioned over the circle via CSS */}
+            <div className={styles.parent2}>
+              <b className={styles.b8}>{facility.rating.toFixed(1)}</b>
+              <div className={styles.outOf5}>Out of 5</div>
             </div>
-          )}
-        </div>
+
+            <div className={styles.paraContentGroup}>
+              <div className={styles.paraContent17}>
+                <b className={styles.workSchedule}>{reviews.length} Reviews</b>
+              </div>
+              <div className={styles.grid}>
+                {filters.map((filter) => (
+                  <div
+                    key={filter.label}
+                    className={`${styles.buttonstar} ${
+                      activeFilter === filter.label ? styles.activerating : ""
+                    }`}
+                    onClick={() => setActiveFilter(filter.label)}
+                  >
+                    {filter.hasStar && (
+                      <Image
+                        src="/Star 31.svg"
+                        alt="star"
+                        width={18}
+                        height={18}
+                        className={styles.iconstar}
+                      />
+                    )}
+                    <span>{filter.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className={styles.frameParent}>
+            {filteredReviews.length > 0 ? (
+              filteredReviews.map((review) => (
+                <ReviewCard key={review.id} review={review} />
+              ))
+            ) : (
+              <div className={styles.noReviewsMessage}>
+                <p className={styles.none}>
+                  No reviews match the current filter.
+                </p>
+              </div>
+            )}
+          </div>
         </div>
         <Image
           className={styles.dividerrelated}

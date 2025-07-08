@@ -2,6 +2,7 @@ import { createClient } from "../../utils/supabase/server";
 import { createAdminClient } from "../../utils/supabase/admin";
 import FacilityDetailsClientPage from "./FacilityDetailsClientPage";
 import { notFound } from "next/navigation";
+import { getFacilityLikeStatus, getFacilityPhotos } from "./actions";
 
 // --- FIX 1: Update the interfaces to match the client component's needs ---
 
@@ -30,7 +31,6 @@ interface Service {
   provider_id: string;
 }
 
-
 // This is the new, detailed Review interface
 interface Review {
   id: string;
@@ -52,7 +52,7 @@ interface FacilityPageProps {
 }
 
 interface RelatedServices {
-  id:string;
+  id: string;
   business_name: string;
   address: string;
   facility_image_url: string | null;
@@ -77,16 +77,20 @@ export default async function FacilityPage({ params }: FacilityPageProps) {
     notFound();
   }
 
-  const { data: { user }, error: userError } = await supabaseAdmin.auth.admin.getUserById(profile.id);
+  const {
+    data: { user },
+    error: userError,
+  } = await supabaseAdmin.auth.admin.getUserById(profile.id);
 
- const { data: services } = await supabase
+  const { data: services } = await supabase
     .from("services")
     .select("*")
     .eq("provider_id", id);
-    
+
   const { data: reviews } = await supabase
     .from("reviews")
-    .select(`
+    .select(
+      `
       id,
       rating,
       comment,
@@ -96,9 +100,10 @@ export default async function FacilityPage({ params }: FacilityPageProps) {
       client:client_id (
         picture_url
       )
-    `)
+    `
+    )
     .eq("provider_id", id)
-    .order('created_at', { ascending: false }); // Optional: show newest reviews first
+    .order("created_at", { ascending: false }); // Optional: show newest reviews first
 
   const { data: relatedServices } = await supabase
     .from("profiles")
@@ -109,19 +114,25 @@ export default async function FacilityPage({ params }: FacilityPageProps) {
     .neq("id", id)
     .limit(6);
 
+  const { isLiked, totalLikes } = await getFacilityLikeStatus(id);
+  const facilityPhotos = await getFacilityPhotos(id);
+
   const facilityData: FacilityData = {
     ...profile,
     email: userError || !user ? "Not Available" : user.email,
     rating: profile.rating || 0,
   };
 
-  const processedReviews = (reviews || []).map(review => {
-    let clientData = null; 
+  const processedReviews = (reviews || []).map((review) => {
+    let clientData = null;
 
     if (Array.isArray(review.client) && review.client.length > 0) {
       clientData = review.client[0];
-    } 
-    else if (review.client && typeof review.client === 'object' && !Array.isArray(review.client)) {
+    } else if (
+      review.client &&
+      typeof review.client === "object" &&
+      !Array.isArray(review.client)
+    ) {
       clientData = review.client;
     }
 
@@ -133,7 +144,7 @@ export default async function FacilityPage({ params }: FacilityPageProps) {
 
   const processedRelatedServices = (relatedServices || []).map((service) => ({
     ...service,
-    rating: service.rating || 0, 
+    rating: service.rating || 0,
   }));
 
   console.log(reviews);
@@ -145,6 +156,9 @@ export default async function FacilityPage({ params }: FacilityPageProps) {
       services={services || []}
       reviews={processedReviews}
       relatedServices={processedRelatedServices}
+      initialIsLiked={isLiked} 
+      initialTotalLikes={totalLikes} 
+      facilityPhotos={facilityPhotos}
     />
   );
 }
