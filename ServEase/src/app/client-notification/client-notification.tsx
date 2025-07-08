@@ -147,7 +147,7 @@ const NotificationPage = () => {
       icon: "/calendar_month noti.svg",
       timestamp: "2 minutes ago",
       isRead: false,
-      avatarUrl: "/default-avatar.jpg", // Added missing property
+      avatarUrl: "/default-avatar.jpg",
     },
     {
       id: "2",
@@ -158,7 +158,7 @@ const NotificationPage = () => {
       icon: "/autorenew.svg",
       timestamp: "15 minutes ago",
       isRead: true,
-      avatarUrl: "/default-avatar.jpg", // Added missing property
+      avatarUrl: "/default-avatar.jpg",
     },
   ]);
 
