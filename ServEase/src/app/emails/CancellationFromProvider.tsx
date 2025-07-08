@@ -1,14 +1,15 @@
 import * as React from "react";
 
+// The props interface now includes all details needed for the table.
 interface ProviderCancellationNoticeToClientProps {
   clientName: string;
   providerName: string;
   date: string;
   time: string;
-  status: string;
-  services: { name: string; price: number }[];
+  services: { name: string }[]; // We still don't need the price here.
 }
 
+// Helper functions for formatting are correct.
 const formatDisplayDate = (dateString: string) =>
   new Date(dateString + "T00:00:00").toLocaleDateString("en-US", {
     weekday: "long",
@@ -27,279 +28,209 @@ const formatDisplayTime = (timeString: string) => {
   });
 };
 
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://servease-exceptionhandlers.vercel.app" || "http://localhost:3000";
 const logoUrl = `${baseUrl}/authLogo.svg`;
 
 export const ProviderCancellationNoticeToClient: React.FC<
   Readonly<ProviderCancellationNoticeToClientProps>
-> = ({ clientName, providerName, date, time, status, services }) => (
-  <html lang="en">
-    <head>
-      <meta charSet="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <style>
-        {`@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');`}
-      </style>
-      <title>Cancellation Confirmed</title>
-    </head>
-    <body style={styles.body}>
-      <div style={styles.mainContainer}>
-        <div style={styles.header}>
-          {/* 
-              disabling the Next.js image rule for this one line
-              because standard <img> is required for email clients
-            */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={logoUrl} alt="Servease Logo" style={styles.logoImage} />
+> = ({ clientName, providerName, date, time, services }) => {
+  // Join service names into a simple string for display in the table.
+  const serviceListString = services.map((s) => s.name).join(", ");
 
-          <a href={baseUrl} target="_blank" style={styles.link}>
-            <div style={styles.logo}>
-              <span style={{ fontWeight: 500 }}>serv</span>
-              <span style={{ fontWeight: 600 }}>ease</span>
+  return (
+    <html lang="en">
+      <head>
+        <meta charSet="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        {/* --- FONT FIX: Changed to Poppins --- */}
+        <style>
+          {`@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');`}
+        </style>
+        <title>Appointment Cancellation</title>
+      </head>
+      <body style={styles.body}>
+        <div style={styles.mainContainer}>
+          <div style={styles.header}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={logoUrl} alt="Servease Logo" style={styles.logoImage} />
+          </div>
+
+          <div style={styles.content}>
+            <h1 style={styles.h1}>Appointment Cancellation</h1>
+            <p style={styles.paragraph}>Hi {clientName},</p>
+            {/* --- WORDING FIX: Updated message --- */}
+            <p style={styles.paragraph}>
+              We regret to inform you that <strong>{providerName}</strong> has
+              had to cancel your upcoming appointment. We sincerely apologize
+              for any inconvenience this may cause.
+            </p>
+
+            {/* --- LAYOUT FIX: Stylish table in a brown-ish container --- */}
+            <div style={styles.summarySection}>
+              <h2 style={styles.h2}>Cancelled Appointment Summary</h2>
+              <table
+                style={styles.detailsTable}
+                cellPadding="0"
+                cellSpacing="0"
+              >
+                <tbody>
+                  <tr style={styles.tableRow}>
+                    <td style={styles.tableLabel}>Provider</td>
+                    <td style={styles.tableValue}>{providerName}</td>
+                  </tr>
+                  <tr style={styles.tableRow}>
+                    <td style={styles.tableLabel}>Date</td>
+                    <td style={styles.tableValue}>{formatDisplayDate(date)}</td>
+                  </tr>
+                  <tr style={styles.tableRow}>
+                    <td style={styles.tableLabel}>Time</td>
+                    <td style={styles.tableValue}>{formatDisplayTime(time)}</td>
+                  </tr>
+                  {/* Last row for services, without a bottom border */}
+                  <tr style={{ ...styles.tableRow, borderBottom: "none" }}>
+                    <td style={styles.tableLabel}>Services</td>
+                    <td style={styles.tableValue}>{serviceListString}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-          </a>
-        </div>
 
-        <div style={styles.content}>
-          <h1 style={styles.h1}>Appointment Cancellation Notice</h1>
-          <p style={styles.paragraph}>Hello {clientName},</p>
-          <p style={styles.paragraph}>
-            We regret to inform you that <strong>{providerName}</strong> has had
-            to cancel your upcoming appointment. We apologize for any
-            inconvenience this may cause.
-          </p>
-          <p style={styles.paragraph}>
-            You can browse for other available services on our platform.
-          </p>
+            <p style={styles.paragraph}>
+              If you would like to find another provider, please visit our
+              platform.
+            </p>
+            {/* --- BUTTON FIX: Kept the brown branded button --- */}
+            <a href={baseUrl} target="_blank" style={styles.button}>
+              Browse Services
+            </a>
+          </div>
 
-          <div style={styles.summarySection}>
-            <h2 style={styles.h2}>Cancelled Appointment Details</h2>
-
-            <div style={{ marginBottom: "20px" }}>
-              <DetailRow
-                label="Status: "
-                value={status}
-                valueColor={colors.alert}
-              />
-              <DetailRow label="Date: " value={formatDisplayDate(date)} />
-              <DetailRow label="Time: " value={formatDisplayTime(time)} />
-            </div>
-
-            <div style={styles.divider} />
-
-            {services.map((service, index) => (
-              <div key={index} style={styles.serviceRow}>
-                <span style={styles.serviceName}>{service.name}:</span>
-                <span style={styles.servicePrice}>{service.price}</span>
-              </div>
-            ))}
+          <div style={styles.footer}>
+            <p style={styles.footerText}>
+              © {new Date().getFullYear()} ServEase. All rights reserved.
+            </p>
+            <p style={styles.footerText}>
+              This is an automated notification. Please do not reply.
+            </p>
           </div>
         </div>
+      </body>
+    </html>
+  );
+};
 
-        <div style={styles.footer}>
-          <p style={styles.footerText}>
-            © {new Date().getFullYear()} servease. All rights reserved.
-          </p>
-          <p style={styles.footerText}>
-            This is an automated notification. Please do not reply to this
-            email.
-          </p>
-        </div>
-      </div>
-    </body>
-  </html>
-);
-
-const DetailRow = ({
-  label,
-  value,
-  valueColor,
-}: {
-  label: string;
-  value: string;
-  valueColor?: string;
-}) => (
-  <div
-    style={{
-      display: "flex",
-      justifyContent: "space-between",
-      padding: "8px 0",
-      fontSize: "16px",
-    }}
-  >
-    <span
-      style={{
-        color: "#604c3d",
-        fontWeight: 500,
-        paddingRight: "16px",
-      }}
-    >
-      {label}
-    </span>
-    <span
-      style={{
-        color: valueColor || "#050b20",
-        fontWeight: 400,
-        textAlign: "right",
-      }}
-    >
-      {value}
-    </span>
-  </div>
-);
-
+// --- STYLES OBJECT ---
 const colors = {
+  // Using the brown-ish theme you liked
   emailBackground: "#f8f7f3",
   cardBackground: "#fff",
   textPrimary: "#050b20",
   textSecondary: "#241f1b",
-  textMuted: "#a9a9a9",
   brandPrimary: "#a68465",
   border: "#e0d9c9",
-  alert: "#D93025",
 };
 
 const fonts = {
-  fontFamily: "'DM Sans', 'Helvetica Neue', 'Arial', sans-serif",
+  // --- FONT FIX: Set to Poppins ---
+  fontFamily: "'Poppins', 'Arial', sans-serif",
 };
 
-const styles = {
+const styles: { [key: string]: React.CSSProperties } = {
   body: {
     fontFamily: fonts.fontFamily,
     backgroundColor: colors.emailBackground,
     margin: 0,
     padding: "40px 20px",
   },
-
   mainContainer: {
     maxWidth: "600px",
     margin: "0 auto",
     backgroundColor: colors.cardBackground,
     borderRadius: "12px",
     border: `1px solid ${colors.border}`,
-    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.05)",
     overflow: "hidden",
   },
-
   header: {
-    padding: "24px",
+    padding: "20px",
+    textAlign: "center",
     borderBottom: `1px solid ${colors.border}`,
-    textAlign: "center" as const,
   },
-
-  link: { textDecoration: "none" },
-
-  logo: {
-    color: colors.brandPrimary,
-    fontSize: "32px",
-    textAlign: "center" as const,
-    letterSpacing: "-0.5px",
-    margin: "0",
-  },
-
   logoImage: {
-    width: "50px",
-    height: "50px",
-    marginBottom: "12px",
+    width: "140px",
+    height: "auto",
   },
-
   content: {
-    padding: "40px",
-    textAlign: "left" as const,
+    padding: "30px 40px",
   },
-
   h1: {
     color: colors.textPrimary,
     fontSize: "24px",
     fontWeight: 600,
-    margin: "0 0 24px",
+    margin: "0 0 20px",
   },
-
   paragraph: {
     color: colors.textSecondary,
     fontSize: "16px",
-    lineHeight: 1.6,
-    fontWeight: 400,
-    margin: "0 0 16px",
+    lineHeight: 1.7,
+    margin: "0 0 20px",
   },
-
+  // --- STYLES FOR THE BROWN-ISH SUMMARY BOX ---
   summarySection: {
-    paddingTop: "24px",
-    borderTop: `1.5px solid ${colors.border}`,
+    padding: "20px",
+    marginTop: "25px",
+    marginBottom: "30px",
+    border: `1px solid ${colors.border}`,
+    borderRadius: "8px",
+    backgroundColor: colors.emailBackground, // The brown-ish background
   },
-
   h2: {
-    color: colors.textPrimary,
-    fontSize: "20px",
-    fontWeight: 600,
-    margin: "0 0 24px",
-  },
-
-  divider: {
-    height: "1px",
-    backgroundColor: colors.border,
-    margin: "24px 0",
-  },
-
-  h3: {
     color: colors.textPrimary,
     fontSize: "18px",
     fontWeight: 600,
-    margin: "0 0 20px",
+    margin: "0 0 15px",
   },
-
-  serviceRow: {
-    display: "flex",
-    justifyContent: "space-between",
-    marginBottom: "12px",
-    fontSize: "16px",
+  // --- NEW TABLE STYLES ---
+  detailsTable: {
+    width: "100%",
+    borderCollapse: "collapse",
   },
-
-  serviceName: {
+  tableRow: {
+    borderBottom: `1px solid ${colors.border}`,
+  },
+  tableLabel: {
     color: colors.textSecondary,
-    paddingRight: "20px",
+    fontWeight: 500,
+    padding: "12px 10px 12px 0",
+    textAlign: "left",
+    width: "100px",
   },
-
-  servicePrice: {
+  tableValue: {
     color: colors.textPrimary,
     fontWeight: 400,
-    whiteSpace: "nowrap" as const,
+    padding: "12px 0",
+    textAlign: "left",
   },
-
-  totalRow: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginTop: "20px",
-    paddingTop: "16px",
-    borderTop: `1.5px solid ${colors.border}`,
-  },
-
-  totalLabel: {
-    color: colors.textPrimary,
+  // --- STYLES FOR THE BRANDED BUTTON ---
+  button: {
+    display: "inline-block",
+    backgroundColor: colors.brandPrimary, // The brown color
+    color: "#ffffff",
+    padding: "12px 25px",
+    borderRadius: "8px",
+    textDecoration: "none",
     fontWeight: 500,
-    fontSize: "20px",
-    paddingRight: "20px",
+    fontSize: "16px",
+    textAlign: "center",
   },
-
-  totalPrice: {
-    color: colors.brandPrimary,
-    fontWeight: 500,
-    fontSize: "20px",
-    whiteSpace: "nowrap" as const,
-  },
-
   footer: {
-    backgroundColor: colors.emailBackground,
+    backgroundColor: "#fff",
     padding: "20px 40px",
-    borderTop: `1.5px solid ${colors.border}`,
+    borderTop: `1px solid ${colors.border}`,
   },
-
   footerText: {
-    color: colors.textMuted,
+    color: "#a9a9a9",
     fontSize: "12px",
-    margin: "0 0 5px 0",
-    fontWeight: 400,
-    textAlign: "center" as const,
+    margin: "0",
+    textAlign: "center",
   },
 };

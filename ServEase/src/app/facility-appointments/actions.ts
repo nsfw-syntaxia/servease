@@ -4,22 +4,25 @@ import { createClient } from "../utils/supabase/server";
 import { createAdminClient } from "../utils/supabase/admin";
 import { revalidatePath } from "next/cache";
 
+// --- NEW, CORRECTED DATA TYPES ---
+export type ServiceInfo = {
+  name: string;
+  price: number;
+};
+
 export type Appointment = {
   id: number;
   client_avatar_url: string;
   start_time: string;
   status: "pending" | "confirmed" | "completed" | "canceled";
-  service: Array<{
-    client_name: string;
-    service_type: string;
-  }>;
-  price: number;
+  services: ServiceInfo[]; // Uses the new type for an array of services with prices
+  price: number; // This remains the total price of the appointment
   address: string;
   phone_number: string;
-
   display_date: string;
   display_time: string;
   display_status: string;
+  client_name: string; // Add client_name to the top level for easier access
 };
 
 const capitalize = (s: string) => {
@@ -32,7 +35,6 @@ export async function getFacilityAppointments(): Promise<{
   error?: string;
 }> {
   const supabase = await createClient();
-
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -41,12 +43,10 @@ export async function getFacilityAppointments(): Promise<{
     return { error: "User not authenticated." };
   }
 
-  // fetch all appointments for the logged-in provider
+  // Step 1: Fetch appointments
   const { data: appointments, error: appointmentsError } = await supabase
     .from("appointments")
-    .select(
-      "id, client_id, time, status, created_at, price, date, services, address"
-    )
+    .select("id, client_id, time, status, price, date, services, address")
     .eq("provider_id", user.id);
 
   if (appointmentsError) {
@@ -55,38 +55,54 @@ export async function getFacilityAppointments(): Promise<{
   }
 
   if (!appointments || appointments.length === 0) {
-    return { data: [] }; // no appointments found
+    return { data: [] };
   }
 
-  // fetch client profiles info
-  const clientIds = appointments.map((a) => a.client_id);
-  const { data: profiles, error: profilesError } = await supabase
-    .from("profiles")
-    .select("id, full_name, picture_url, contact_number")
-    .in("id", clientIds);
+  // Step 2: Aggregate unique IDs and names for efficient fetching
+  const clientIds = [...new Set(appointments.map((a) => a.client_id))];
+  const allServiceNames = [
+    ...new Set(appointments.flatMap((a) => a.services || [])),
+  ];
 
-  if (profilesError) {
-    console.error("Error fetching client profiles:", profilesError.message);
-    return { error: "Could not retrieve client information." };
-  }
+  // Step 3: Fetch profiles and service prices in parallel
+  const [profilesResult, servicesResult] = await Promise.all([
+    supabase
+      .from("profiles")
+      .select("id, full_name, picture_url, contact_number")
+      .in("id", clientIds),
+    supabase.from("services").select("name, price").in("name", allServiceNames),
+  ]);
 
-  // map for ookup of client profiles
-  const profilesMap = new Map(profiles.map((p) => [p.id, p]));
+  if (profilesResult.error)
+    return { error: "Could not retrieve client profiles." };
+  if (servicesResult.error)
+    return { error: "Could not retrieve service prices." };
 
-  // format data
+  // Step 4: Create maps for fast lookups
+  const profilesMap = new Map(profilesResult.data.map((p) => [p.id, p]));
+  const servicePriceMap = new Map(
+    servicesResult.data.map((s) => [s.name, s.price])
+  );
+
+  // Step 5: Combine all data into the final structure
   const enrichedAppointments = appointments.map((appointment) => {
     const clientProfile = profilesMap.get(appointment.client_id);
     const startTime = new Date(`${appointment.date}T${appointment.time}`);
 
+    const servicesWithPrices: ServiceInfo[] = (appointment.services || []).map(
+      (serviceName: string) => ({
+        name: serviceName,
+        price: servicePriceMap.get(serviceName) || 0,
+      })
+    );
+
     return {
       id: appointment.id,
+      client_name: clientProfile?.full_name || "Unknown Client", // Set client name here
       client_avatar_url: clientProfile?.picture_url || "/circle.svg",
       start_time: startTime.toISOString(),
       status: appointment.status,
-      service: (appointment.services || []).map((s: string) => ({
-        client_name: clientProfile?.full_name || "Unknown Client",
-        service_type: s,
-      })),
+      services: servicesWithPrices, // Use the correctly structured services array
       price: appointment.price,
       address: appointment.address,
       phone_number: clientProfile?.contact_number || "Not available",
@@ -196,7 +212,7 @@ export async function updateAppointmentStatus(
         providerName: providerProfile.data.business_name || "Your Provider",
         date: app.date,
         time: app.time,
-        status: "Cancelled by Provider",
+        status: "Cancelled",
         services: (app.services || []).map((s: string) => ({
           name: s,
           price: 0,
