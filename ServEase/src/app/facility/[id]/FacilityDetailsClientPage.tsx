@@ -450,8 +450,6 @@ const FacilityDetailsClientPage: NextPage<{
   };
 
 
-  // A component to render a single review card, matching the new design
-// A component to render a single review card with a logical structure
 const ReviewCard = ({ review }: { review: Review }) => {
   const formattedDate = new Date(review.created_at).toLocaleDateString('en-US', {
     year: 'numeric',
@@ -461,7 +459,6 @@ const ReviewCard = ({ review }: { review: Review }) => {
 
   return (
     <div className={styles.reviewCard}>
-      {/* Main container for the avatar and the info block beside it */}
       <div className={styles.reviewHeader}>
         <div className={styles.reviewAvatar}>
           <Image
@@ -473,17 +470,13 @@ const ReviewCard = ({ review }: { review: Review }) => {
           />
         </div>
 
-        {/* This block holds all the text content, organized into two rows */}
         <div className={styles.reviewInfo}>
-          {/* TOP ROW: Contains the client's name and the review date */}
           <div className={styles.reviewRow}>
             <div className={styles.clientName}>{review.client_name}</div>
             <div className={styles.reviewDate}>{formattedDate}</div>
           </div>
 
-          {/* BOTTOM ROW: Contains the rating (stars + number) and the service name */}
           <div className={styles.reviewRow}>
-            {/* A new container to keep the stars and number together on the left */}
             <div className={styles.ratingContainer}>
               {[...Array(5)].map((_, i) => (
                 <Image
@@ -497,13 +490,11 @@ const ReviewCard = ({ review }: { review: Review }) => {
               ))}
               <div className={styles.ratingValue}>{review.rating.toFixed(1)}</div>
             </div>
-            {/* The service option is now here, and flexbox will push it to the right */}
             <div className={styles.serviceOption}>{review.service_name}</div>
           </div>
         </div>
       </div>
 
-      {/* The comment text, displayed only if it exists */}
       {review.comment && (
         <div className={styles.reviewComment}>
           <p>{review.comment}</p>
@@ -950,7 +941,7 @@ const ReviewCard = ({ review }: { review: Review }) => {
             ))
           ) : (
             <div className={styles.noReviewsMessage}>
-              <p>No reviews match the current filter.</p>
+              <p className={styles.none}>No reviews match the current filter.</p>
             </div>
           )}
         </div>
