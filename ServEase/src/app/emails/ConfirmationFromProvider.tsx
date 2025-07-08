@@ -72,8 +72,8 @@ export const ConfirmationFromProvider: React.FC<
           <p style={styles.paragraph}>Hi {clientName},</p>
           <p style={styles.paragraph}>
             Thank you for using ServEase! Your appointment with{" "}
-            <strong>{providerName}</strong> is confirmed by the service
-            provider.
+            <strong>{providerName}</strong> is confirmed. Below is a summary of
+            your booking.
           </p>
 
           {/* --- Container 1: Appointment Summary --- */}
@@ -108,12 +108,12 @@ export const ConfirmationFromProvider: React.FC<
             </table>
           </div>
 
-          {/* --- Container 2: Services & Cost (Aligned) --- */}
+          {/* --- Container 2: Services & Cost --- */}
           <div style={styles.servicesSection}>
             <h2 style={styles.h2}>Services & Cost</h2>
             <table style={styles.detailsTable} cellPadding="0" cellSpacing="0">
               <tbody>
-                {/* Aligned Services List */}
+                {/* Services List */}
                 {services.map((service, index) => (
                   <tr key={index} style={styles.tableRow}>
                     <td style={styles.serviceNameCell}>{service.name}</td>
@@ -122,7 +122,7 @@ export const ConfirmationFromProvider: React.FC<
                     </td>
                   </tr>
                 ))}
-                {/* Aligned Total Row */}
+                {/* Total Row */}
                 <tr style={styles.totalRow}>
                   <td style={styles.totalLabel}>Total</td>
                   <td style={styles.totalPrice}>
@@ -154,7 +154,7 @@ export const ConfirmationFromProvider: React.FC<
   </html>
 );
 
-// --- STYLES OBJECT ---
+// --- STYLES OBJECT (Now matching cancellation styles) ---
 const colors = {
   emailBackground: "#f8f7f3",
   cardBackground: "#fff",
@@ -239,36 +239,36 @@ const styles: { [key: string]: React.CSSProperties } = {
   tableRow: {
     borderBottom: `1px solid ${colors.border}`,
   },
+  // --- UPDATED STYLES ---
   tableLabel: {
     color: colors.textSecondary,
     fontWeight: 500,
     padding: "12px 10px 12px 0",
     textAlign: "left",
-    width: "120px",
+    width: "100px", // Matched to cancellation email
   },
   tableValue: {
     color: colors.textPrimary,
     fontWeight: 400,
-    padding: "12px 0 12px 10px",
+    padding: "12px 0 12px 10px", // Matched to cancellation email
     textAlign: "left",
   },
   statusConfirmed: {
     color: colors.success,
     fontWeight: 600,
   },
-  // --- NEW STYLES for the second table ---
   serviceNameCell: {
     color: colors.textPrimary,
     fontWeight: 400,
     padding: "12px 10px 12px 0",
     textAlign: "left",
-    width: "120px", // Align with tableLabel
+    width: "100px",
   },
   servicePriceCell: {
     color: colors.textPrimary,
     fontWeight: 400,
     padding: "12px 0 12px 10px",
-    textAlign: "right", // Align price to the right
+    textAlign: "right",
   },
   totalRow: {
     border: "none",
@@ -280,7 +280,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     fontSize: "16px",
     padding: "15px 10px 0 0",
     textAlign: "left",
-    width: "120px", // Align with tableLabel
+    width: "100px",
   },
   totalPrice: {
     color: colors.brandPrimary,
