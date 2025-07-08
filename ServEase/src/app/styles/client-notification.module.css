@@ -126,7 +126,7 @@
 }
 
 .notification:hover::before {
-  width: 6px;
+  width: 10px;
 }
 
 .notification.read {
