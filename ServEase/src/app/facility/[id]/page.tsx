@@ -48,7 +48,7 @@ interface FacilityData extends Profile {
 }
 
 interface FacilityPageProps {
-  params: { id: string }; // No need for Promise here, Next.js handles it
+  params: Promise<{ id: string }>;
 }
 
 interface RelatedServices {
