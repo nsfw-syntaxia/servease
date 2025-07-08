@@ -43,7 +43,6 @@ export const ClientBookingPending: React.FC<
     </head>
     <body style={styles.body}>
       <div style={styles.mainContainer}>
-       
         <div style={styles.header}>
           <div style={styles.logo}>
             <a href={baseUrl} target="_blank" style={styles.link}></a>
@@ -105,7 +104,6 @@ export const ClientBookingPending: React.FC<
   </html>
 );
 
-
 const DetailRow = ({ label, value }: { label: string; value: string }) => (
   <div
     style={{
@@ -117,30 +115,27 @@ const DetailRow = ({ label, value }: { label: string; value: string }) => (
   >
     <span
       style={{
-        color: "#604c3d", 
+        color: "#604c3d",
         fontWeight: 500,
         paddingRight: "16px",
       }}
     >
       {label}
     </span>
-    <span
-      style={{ color: "#050b20", fontWeight: 400, textAlign: "right" }} 
-    >
+    <span style={{ color: "#050b20", fontWeight: 400, textAlign: "right" }}>
       {value}
     </span>
   </div>
 );
 
-
 const colors = {
   emailBackground: "#f8f7f3",
   cardBackground: "#fff",
-  textPrimary: "#050b20", 
-  textSecondary: "#241f1b", 
+  textPrimary: "#050b20",
+  textSecondary: "#241f1b",
   textMuted: "#a9a9a9",
   brandPrimary: "#a68465",
-  border: "#e0d9c9", 
+  border: "#e0d9c9",
 };
 
 const fonts = {
@@ -166,7 +161,7 @@ const styles = {
   header: {
     padding: "24px",
     borderBottom: `1px solid ${colors.border}`,
-  }, 
+  },
   link: { textDecoration: "none" },
   logo: {
     color: colors.brandPrimary,

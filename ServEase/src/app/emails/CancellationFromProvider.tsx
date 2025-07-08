@@ -1,19 +1,14 @@
 import * as React from "react";
 
-// --- INTERFACE AND PROPS ---
-// Defines the data shape for the provider's cancellation notice email.
-interface CancellationNoticeToProviderProps {
+interface ProviderCancellationNoticeToClientProps {
   clientName: string;
   providerName: string;
   date: string;
   time: string;
   status: string;
   services: { name: string; price: number }[];
-  totalPrice: number;
 }
 
-// --- HELPER FUNCTIONS ---
-// Reusable functions to format data for display.
 const formatDisplayDate = (dateString: string) =>
   new Date(dateString + "T00:00:00").toLocaleDateString("en-US", {
     weekday: "long",
@@ -32,25 +27,11 @@ const formatDisplayTime = (timeString: string) => {
   });
 };
 
-const formatCurrency = (amount: number) =>
-  new Intl.NumberFormat("en-PH", { style: "currency", currency: "PHP" }).format(
-    amount
-  );
-
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
-// --- MAIN COMPONENT ---
-export const CancellationNoticeToProvider: React.FC<
-  Readonly<CancellationNoticeToProviderProps>
-> = ({
-  clientName,
-  providerName,
-  date,
-  time,
-  status,
-  services,
-  totalPrice,
-}) => (
+export const ProviderCancellationNoticeToClient: React.FC<
+  Readonly<ProviderCancellationNoticeToClientProps>
+> = ({ clientName, providerName, date, time, status, services }) => (
   <html lang="en">
     <head>
       <meta charSet="UTF-8" />
@@ -58,11 +39,10 @@ export const CancellationNoticeToProvider: React.FC<
       <style>
         {`@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');`}
       </style>
-      <title>Appointment Cancellation</title>
+      <title>Cancellation Confirmed</title>
     </head>
     <body style={styles.body}>
       <div style={styles.mainContainer}>
-        {/* Header */}
         <div style={styles.header}>
           <a href={baseUrl} target="_blank" style={styles.link}>
             <div style={styles.logo}>
@@ -72,22 +52,22 @@ export const CancellationNoticeToProvider: React.FC<
           </a>
         </div>
 
-        {/* Content */}
         <div style={styles.content}>
           <h1 style={styles.h1}>Appointment Cancellation Notice</h1>
-          <p style={styles.paragraph}>Hello {providerName},</p>
+          <p style={styles.paragraph}>Hello {clientName},</p>
           <p style={styles.paragraph}>
-            A client has cancelled their appointment with you. Your schedule for
-            this time has been cleared. Below are the details of the
-            cancellation.
+            We regret to inform you that <strong>{providerName}</strong> has had
+            to cancel your upcoming appointment. We apologize for any
+            inconvenience this may cause.
+          </p>
+          <p style={styles.paragraph}>
+            You can browse for other available services on our platform.
           </p>
 
-          {/* Cancelled Appointment Summary Section */}
           <div style={styles.summarySection}>
-            <h2 style={styles.h2}>Cancelled Appointment Summary</h2>
+            <h2 style={styles.h2}>Cancelled Appointment Details</h2>
 
             <div style={{ marginBottom: "20px" }}>
-              <DetailRow label="Client Name: " value={clientName} />
               <DetailRow
                 label="Status: "
                 value={status}
@@ -99,14 +79,10 @@ export const CancellationNoticeToProvider: React.FC<
 
             <div style={styles.divider} />
 
-            <h3 style={styles.h3}>Cancelled Service/s</h3>
-
             {services.map((service, index) => (
               <div key={index} style={styles.serviceRow}>
                 <span style={styles.serviceName}>{service.name}:</span>
-                <span style={styles.servicePrice}>
-                  {formatCurrency(service.price)}
-                </span>
+                <span style={styles.servicePrice}>{service.price}</span>
               </div>
             ))}
           </div>
@@ -145,7 +121,7 @@ const DetailRow = ({
   >
     <span
       style={{
-        color: "#604c3d", // textLabel color
+        color: "#604c3d",
         fontWeight: 500,
         paddingRight: "16px",
       }}
@@ -154,7 +130,7 @@ const DetailRow = ({
     </span>
     <span
       style={{
-        color: valueColor || "#050b20", // Use custom color or default textPrimary
+        color: valueColor || "#050b20",
         fontWeight: 400,
         textAlign: "right",
       }}
@@ -164,9 +140,6 @@ const DetailRow = ({
   </div>
 );
 
-// --- UPDATED: Centralized Style Definitions ---
-// All styles are organized here for better readability and maintenance.
-
 const colors = {
   emailBackground: "#f8f7f3",
   cardBackground: "#fff",
@@ -175,7 +148,7 @@ const colors = {
   textMuted: "#a9a9a9",
   brandPrimary: "#a68465",
   border: "#e0d9c9",
-  alert: "#D93025", // Color for alerts like "Cancelled"
+  alert: "#D93025",
 };
 
 const fonts = {

@@ -109,7 +109,6 @@ export const CancellationConfirmationToClient: React.FC<
                 </span>
               </div>
             ))}
-
           </div>
         </div>
 
@@ -118,7 +117,8 @@ export const CancellationConfirmationToClient: React.FC<
             © {new Date().getFullYear()} servease. All rights reserved.
           </p>
           <p style={styles.footerText}>
-            This is an automated notification. Please do not reply to this email.
+            This is an automated notification. Please do not reply to this
+            email.
           </p>
         </div>
       </div>

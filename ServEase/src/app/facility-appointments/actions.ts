@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "../utils/supabase/server";
+import { createAdminClient } from "../utils/supabase/admin";
 import { revalidatePath } from "next/cache";
 
 export type Appointment = {
@@ -119,8 +120,6 @@ export async function updateAppointmentStatus(
     return { error: "You must be logged in to update an appointment." };
   }
 
-  // update the 'appointments' table.
-  // included .eq("provider_id", user.id) to ensure a provider can only update their own appointments
   const { error } = await supabase
     .from("appointments")
     .update({ status: newStatus })
@@ -131,9 +130,84 @@ export async function updateAppointmentStatus(
     console.error("Error updating appointment status:", error.message);
     return { error: "Failed to update appointment status." };
   }
+  
+  if (newStatus === 'canceled') {
+    // --- START DEBUGGING BLOCK ---
+    console.log(`[DEBUG] Status changed to 'canceled' for appointment ID: ${appointmentId}. Starting email process...`);
+    
+    try {
+      const { data: app, error: appError } = await supabase
+        .from('appointments')
+        .select('date, time, services, price, client_id, provider_id')
+        .eq('id', appointmentId)
+        .single();
 
-  // revalidate the page cache to ensure the ui shows the latest data on refresh.
-  revalidatePath("/facility-appointments"); // adjust this path if your url is different
+      if (appError || !app) {
+        // This will now be logged on your server
+        console.error('[DEBUG] FAILED at step 1: Could not fetch appointment details.', appError);
+        throw new Error(`Could not fetch appointment details for email.`);
+      }
+      console.log('[DEBUG] Step 1 SUCCESS: Fetched appointment details.', app);
 
-  return {}; // successful ><
+      const supabaseAdmin = createAdminClient();
+
+      const [clientProfile, clientAuthUser, providerProfile] = await Promise.all([
+        supabase.from('profiles').select('full_name').eq('id', app.client_id).single(),
+        supabaseAdmin.auth.admin.getUserById(app.client_id),
+        supabase.from('profiles').select('business_name').eq('id', app.provider_id).single()
+      ]);
+
+      if (clientProfile.error || clientAuthUser.error || providerProfile.error) {
+        console.error('[DEBUG] FAILED at step 2: Error fetching profile or auth data.', {
+          clientProfileError: clientProfile.error,
+          clientAuthUserError: clientAuthUser.error,
+          providerProfileError: providerProfile.error,
+        });
+        throw new Error('Could not fetch all required user/profile data.');
+      }
+      console.log('[DEBUG] Step 2 SUCCESS: Fetched client and provider details.');
+
+      const emailPayload = {
+        clientName: clientProfile.data.full_name || 'Valued Client',
+        clientEmail: clientAuthUser.data.user?.email,
+        providerName: providerProfile.data.business_name || 'Your Provider',
+        date: app.date,
+        time: app.time,
+        status: 'Cancelled by Provider',
+        services: (app.services || []).map((s: string) => ({ name: s, price: 0 })), 
+        totalPrice: app.price,
+      };
+      
+      // THIS IS THE MOST IMPORTANT LOG. It shows the data being sent.
+      console.log('[DEBUG] Step 3: Prepared email payload:', emailPayload);
+
+      if (!emailPayload.clientEmail) {
+         console.error('[DEBUG] FAILED at Step 3: Client email is missing. Aborting email send.');
+         throw new Error('Client email not found, cannot send notification.');
+      }
+
+      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+      const response = await fetch(`${baseUrl}/api/send-provider-cancellation`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(emailPayload),
+      });
+
+      if (!response.ok) {
+        const errorBody = await response.text();
+        console.error(`[DEBUG] FAILED at Step 4: API endpoint returned an error. Status: ${response.status}`, errorBody);
+        throw new Error('API endpoint failed.');
+      }
+
+      console.log('[DEBUG] Step 4 SUCCESS: API call to send email was successful!');
+      // --- END DEBUGGING BLOCK ---
+
+    } catch (emailError: any) {
+      // This will catch any of the thrown errors above and log them.
+      console.error('[DEBUG] An error occurred in the email sending process:', emailError.message);
+    }
+  }
+
+  revalidatePath("/facility-appointments");
+  return {};
 }
