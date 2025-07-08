@@ -358,7 +358,8 @@
 .featuredSection {
   position: relative;
   margin: 0 auto;
-  width: 1200px;
+  width: 100%;
+  max-width: 1200px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -366,6 +367,7 @@
   gap: 64px;
   margin-bottom: 80px;
   margin-top: 8%;
+  padding: 0 20px;
 }
 .servicesCarousel {
   position: relative;
@@ -375,12 +377,13 @@
   margin-top: -15%;
 }
 .carouselViewport {
-  width: 100%;
+width: 100%;
   overflow: hidden;
   height: 500px;
   display: flex;
   flex-direction: row;
   align-items: flex-end;
+  margin: 0 60px; /* Add margin for button space */
 }
 .carouselTrack {
   display: flex;
@@ -388,7 +391,7 @@
   transition: transform 0.5s ease-in-out;
 }
 .serviceCard {
-  flex: 0 0 calc(95% / 3);
+flex: 0 0 calc(33.333% - 14px); /* 3 cards per row on desktop */
   box-sizing: border-box;
   background-color: #e0d9c9;
   border: 2px solid var(--color-antiquewhite);
@@ -396,9 +399,8 @@
   overflow: hidden;
   transition: all 0.3s ease;
   position: relative;
-  transition: transform 0.12s ease-out, box-shadow 0.12s ease-out,
-    border 0.12s ease-out;
   cursor: pointer;
+  min-width: 280px; /* Minimum width to prevent cards from being too small */
 }
 .serviceCard:hover {
   transform: translateY(-5px);
@@ -450,8 +452,10 @@
   gap: -0.5px;
   color: var(--color-tan-100);
 }
+
+/* Carousel Buttons - Always visible */
 .carouselButton {
-  position: absolute;
+ position: absolute;
   top: 50%;
   transform: translateY(-50%);
   width: 55px;
@@ -465,16 +469,18 @@
   cursor: pointer;
   z-index: 10;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 .carouselButton:hover {
-  background-color: var(--color-tan);
-  transform: translateY(-60%) scale(1.05);
+ background-color: var(--color-tan);
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 .nextButton {
-  right: -45px;
+  right: 0;
 }
 .prevButton {
-  left: -65px;
+  left: 0;
 }
 .prevButton img {
   transform: scaleX(-1);
@@ -538,17 +544,36 @@
 }
 
 /* --- Responsive Design --- */
+@media screen and (max-width: 1024px) {
+  .heroSection {
+  width: 98%;
+  height: 60vh;
+  border-radius: 40px;
+  margin-top: 5%;
+}
+}
 @media (max-width: 1200px) {
   /* On tablets, make the navbar a bit wider and reduce padding */
   .navigation {
     width: 90%;
     padding: 0.75rem 1.5rem;
   }
-
-  .serviceCard {
-    flex-basis: calc(100% / 2);
+  .featuredSection {
+    width: 95%;
+    padding: 0 15px;
   }
-
+  
+  .carouselViewport {
+    margin: 0 auto;
+  }
+  .serviceCard {
+     flex: 0 0 calc(10% - 10px); /* 2 cards per row on tablet */
+    min-width: 300px;
+  }
+   .carouselButton {
+    width: 50px;
+    height: 50px;
+  }
   .footerContent {
     grid-template-columns: 1fr 1fr;
   }
@@ -596,8 +621,10 @@
     grid-template-columns: 1fr;
   }
 
-  .serviceCard {
-    flex-basis: 100%;
+ .serviceCard {
+    flex: 0 0 calc(45% - 20px); /* 1 card per row on mobile */
+    min-width: 195px;
+    max-width: 400px;
   }
 
   .carouselButton {
@@ -605,10 +632,10 @@
     height: 45px;
   }
   .nextButton {
-    right: -10px;
+    right: -5px;
   }
   .prevButton {
-    left: -10px;
+    left: -5px;
   }
 
   .footerContent {
@@ -625,13 +652,63 @@
   .footer {
     padding: 40px 5% 20px;
   }
+  .featuredSection {
+    width: 100%;
+    padding: 0 10px;
+    gap: 32px;
+  }
+  .servicesCarousel {
+    margin-top: -10%;
+  }
+  .carouselViewport {
+    margin: 0 45px;
+    height: 450px;
+  }
 }
 
 @media (max-width: 480px) {
   .navigation {
     padding: 0.5rem 1rem;
   }
-
+  .featuredSection {
+    padding: 0 5px;
+    gap: 24px;
+  }
+  
+  .servicesCarousel {
+    margin-top: -5%;
+  }
+  
+  .carouselViewport {
+    margin: 0 40px;
+    height: 400px;
+  }
+  
+  .serviceCard {
+    flex: 0 0 calc(10% - 10px); /* 1 card per row on mobile */
+    min-width: 230px;
+  }
+  
+  .carouselButton {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .nextButton {
+    right: -10px;
+  }
+  
+  .prevButton {
+    left: -10px;
+  }
+  
+  .serviceCardContent {
+    padding: 15px;
+  }
+  
+  .serviceImage {
+    height: 200px;
+  }
   /* On very small screens, hide the brand name text to save space */
   .brandName {
     display: none;
