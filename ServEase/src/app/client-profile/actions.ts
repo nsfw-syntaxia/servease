@@ -129,3 +129,41 @@ export async function updateUserEmail(
   // The email won't actually change until the user clicks the link.
   return {};
 }
+
+export async function changeUserPassword(
+  currentPassword: string,
+  newPassword: string
+): Promise<{ success?: string; error?: string }> {
+  const supabase = await createClient();
+
+  // Get the user's email to verify their current password.
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user || !user.email) {
+    return { error: "User not authenticated." };
+  }
+
+  // Step 1: Verify the current password by trying to sign in.
+  const { error: signInError } = await supabase.auth.signInWithPassword({
+    email: user.email,
+    password: currentPassword,
+  });
+
+  if (signInError) {
+    // If sign-in fails, the password was incorrect.
+    return { error: "Incorrect current password. Please try again." };
+  }
+
+  // Step 2: If verification is successful, update the user with the new password.
+  const { error: updateError } = await supabase.auth.updateUser({
+    password: newPassword,
+  });
+
+  if (updateError) {
+    console.error("Error updating password:", updateError.message);
+    return { error: "Failed to update password. Please try again later." };
+  }
+
+  return { success: "Password updated successfully!" };
+}
