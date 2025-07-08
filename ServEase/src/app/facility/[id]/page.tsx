@@ -2,7 +2,7 @@ import { createClient } from "../../utils/supabase/server";
 import { createAdminClient } from "../../utils/supabase/admin";
 import FacilityDetailsClientPage from "./FacilityDetailsClientPage";
 import { notFound } from "next/navigation";
-import { getFacilityLikeStatus } from "./actions";
+import { getFacilityLikeStatus, getFacilityPhotos } from "./actions";
 
 // --- FIX 1: Update the interfaces to match the client component's needs ---
 
@@ -115,6 +115,7 @@ export default async function FacilityPage({ params }: FacilityPageProps) {
     .limit(6);
 
   const { isLiked, totalLikes } = await getFacilityLikeStatus(id);
+  const facilityPhotos = await getFacilityPhotos(id);
 
   const facilityData: FacilityData = {
     ...profile,
@@ -149,20 +150,15 @@ export default async function FacilityPage({ params }: FacilityPageProps) {
   console.log(reviews);
   console.log(processedReviews);
 
-  // --- ADD THIS BLOCK to process services correctly ---
-  const processedServices = (services || []).map((service) => ({
-    ...service,
-    name: service.service_name, // This fixes the service name display
-  }));
-
   return (
     <FacilityDetailsClientPage
       facility={facilityData}
       services={services || []}
       reviews={processedReviews}
       relatedServices={processedRelatedServices}
-      initialIsLiked={isLiked} // <-- ADD THIS PROP
-      initialTotalLikes={totalLikes} // <-- ADD THIS PROP
+      initialIsLiked={isLiked} 
+      initialTotalLikes={totalLikes} 
+      facilityPhotos={facilityPhotos}
     />
   );
 }

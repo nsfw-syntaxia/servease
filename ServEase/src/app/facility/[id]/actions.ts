@@ -92,3 +92,41 @@ export async function getFacilityLikeStatus(
   // If likeData is not null, the user has liked this facility.
   return { isLiked: !!likeData, totalLikes };
 }
+
+export async function getFacilityPhotos(facilityId: string): Promise<string[]> {
+  const supabase = await createClient();
+
+  try {
+    const { data: documents, error } = await supabase
+      .from("facility_documents")
+      .select("file_path")
+      .eq("user_id", facilityId) // Assuming the facility's ID is the user_id in this table
+      .eq("document_type", "Facility Photos")
+      .order("created_at", { ascending: true });
+
+    if (error) {
+      console.error("Error fetching facility photos records:", error.message);
+      throw error;
+    }
+
+    if (!documents || documents.length === 0) {
+      return [];
+    }
+
+    // Get public URLs for each photo path
+    const photoUrls = documents
+      .map((doc) => {
+        if (!doc.file_path) return null;
+        const { data: urlData } = supabase.storage
+          .from("documents")
+          .getPublicUrl(doc.file_path);
+        return urlData.publicUrl;
+      })
+      .filter((url): url is string => !!url); // Filter out any nulls and assert type
+
+    return photoUrls;
+  } catch (error) {
+    console.error("Failed to get facility photos:", error);
+    return []; // Return an empty array on failure
+  }
+}

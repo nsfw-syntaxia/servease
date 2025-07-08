@@ -272,15 +272,17 @@ const FacilityDetailsClientPage: NextPage<{
   services: Service[];
   reviews: Review[];
   relatedServices: RelatedService[];
-  initialIsLiked: boolean; // <-- ADD THIS
-  initialTotalLikes: number; // <-- ADD THIS
+  initialIsLiked: boolean;
+  initialTotalLikes: number;
+  facilityPhotos: string[];
 }> = ({
   facility,
   services,
   reviews,
   relatedServices,
-  initialIsLiked, // <-- ADD THIS
-  initialTotalLikes, // <-- ADD THIS
+  initialIsLiked,
+  initialTotalLikes,
+  facilityPhotos,
 }) => {
   const router = useRouter();
   const [isAnimating, setIsAnimating] = useState(false);
