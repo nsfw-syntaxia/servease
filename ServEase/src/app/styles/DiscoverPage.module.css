@@ -6,7 +6,7 @@
 
 .ourServices {
   position: relative;
-  top: 725px;
+  top: 590px;
   margin-left: -55%;
   font-size: 50px;
   line-height: 150%;
@@ -106,7 +106,7 @@
   position: absolute;
   height: calc(100% - 2433px);
   width: 560px;
-  top: 813px;
+  top: 750px;
   right: 736px;
   bottom: 1620px;
   left: 144px;
@@ -122,7 +122,7 @@
   position: absolute;
   height: calc(100% - 2433px);
   width: 560px;
-  top: 813px;
+  top: 750px;
   right: 141px;
   bottom: 1620px;
   left: 739px;
@@ -136,7 +136,7 @@
   position: absolute;
   height: calc(100% - 2433px);
   width: 560px;
-  top: 1161px;
+  top: 1100px;
   right: 736px;
   bottom: 1272px;
   left: 144px;
@@ -150,7 +150,7 @@
   position: absolute;
   height: calc(100% - 2433px);
   width: 560px;
-  top: 1161px;
+  top: 1100px;
   right: 141px;
   bottom: 1272px;
   left: 739px;
@@ -164,7 +164,7 @@
   position: absolute;
   height: calc(100% - 2433px);
   width: 560px;
-  top: 1509px;
+  top: 1450px;
   right: 736px;
   bottom: 924px;
   left: 144px;
@@ -178,7 +178,7 @@
   position: absolute;
   height: calc(100% - 2433px);
   width: 560px;
-  top: 1509px;
+  top: 1450px;
   right: 141px;
   bottom: 924px;
   left: 739px;
@@ -191,7 +191,7 @@
 .background {
   position: absolute;
   height: calc(100% - 2433px);
-  top: 1857px;
+  top: 1840px;
   bottom: 576px;
   left: calc(50% - 279px);
   border-radius: var(--br-12);
@@ -213,11 +213,11 @@
 
 .whatweofferbox {
   position: absolute;
-  top: 625px;
+  top: 500px;
   left: 0px;
   background-color: var(--color-linen);
   width: 100%;
-  height: 1621px;
+  height: 172gi0px;
 }
 
 .link {
@@ -228,7 +228,10 @@
   background-color: #402f27;
   width: 560px;
   height: 56px;
-  transition: transform 0.3s ease, background-color 0.3s ease, height 0.3s ease,
+  transition:
+    transform 0.3s ease,
+    background-color 0.3s ease,
+    height 0.3s ease,
     top 0.3s ease;
 }
 
@@ -257,7 +260,9 @@
 .chevronRight,
 .icon {
   opacity: 0;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
 }
 
 .background:hover .chevronRight,
@@ -408,7 +413,9 @@
   text-align: center;
   color: var(--color-white);
   cursor: pointer;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .btnfind:active {
@@ -482,59 +489,59 @@
     border-radius: 40px;
   }
   .searchBox {
-  width: 90%;
-}
-.enterAService {
-  left: 29px;
-  width: calc(100% - 58px);
-  font-size: var(--font-size-14);
-}
-.inputBox {
-  width: calc(100% - 370px);
-}
+    width: 90%;
+  }
+  .enterAService {
+    left: 29px;
+    width: calc(100% - 58px);
+    font-size: var(--font-size-14);
+  }
+  .inputBox {
+    width: calc(100% - 370px);
+  }
 
-.filtering {
-  position: absolute;
-  top: calc(50% - 18px);
-  left: 430px;
-  right: 201.09px;
-  color: #402f27;
-  border-left: 1px solid #e9e9e9;
-  box-sizing: border-box;
-  width: 185.6px;
-  height: 35.8px;
-  z-index: 1;
-}
-.icon3 {
-  position: absolute;
-  top: 50%;
-  left: 25px;
-  transform: translateY(-50%);
-  width: 16px;
-  height: 16px;
-  overflow: hidden;
-}
+  .filtering {
+    position: absolute;
+    top: calc(50% - 18px);
+    left: 430px;
+    right: 201.09px;
+    color: #402f27;
+    border-left: 1px solid #e9e9e9;
+    box-sizing: border-box;
+    width: 185.6px;
+    height: 35.8px;
+    z-index: 1;
+  }
+  .icon3 {
+    position: absolute;
+    top: 50%;
+    left: 25px;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    overflow: hidden;
+  }
 
-.findListing {
-  position: absolute;
-  top: 50%;
-  left: 85px;
-  transform: translate(-50%, -50%);
-  line-height: 1;
-  font-weight: 300;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: max-content;
-  height: auto;
-}
+  .findListing {
+    position: absolute;
+    top: 50%;
+    left: 85px;
+    transform: translate(-50%, -50%);
+    line-height: 1;
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: max-content;
+    height: auto;
+  }
 
-.btnfind {
-  width: 150px;
-  height: 55.8px;
-  text-align: center;
-  color: var(--color-white);
-}
+  .btnfind {
+    width: 150px;
+    height: 55.8px;
+    text-align: center;
+    color: var(--color-white);
+  }
   .whatweofferbox {
     position: absolute;
     top: 625px;
@@ -601,58 +608,57 @@
   }
 
   /* ─────────────── Mobile Styles ─────────────── */
-  @media screen and (max-width: 768px) 
-  {
-   .enterAService {
-  left: 20px;
-  width: calc(100% - 50px);
-  font-size: var(--font-size-14);
-}
-.inputBox {
-  width: calc(100% - 200px);
-  left: 20px;
-}
-.icon2 {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
-  width: 20px;
-  height: 20px;
-  overflow: hidden;
-}
+  @media screen and (max-width: 768px) {
+    .enterAService {
+      left: 20px;
+      width: calc(100% - 50px);
+      font-size: var(--font-size-14);
+    }
+    .inputBox {
+      width: calc(100% - 200px);
+      left: 20px;
+    }
+    .icon2 {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      overflow: hidden;
+    }
 
-.moreFilters {
-  display: none;
-}
+    .moreFilters {
+      display: none;
+    }
 
-.filtering {
-  left: 450px;
-  right: 201.09px;
-  z-index: 1;
-  width: 50%;
-}
-.icon3 {
-  position: absolute;
-  top: 50%;
-  left: 12px;
-  transform: translateY(-50%);
-  width: 25px;
-  height: 25px;
-  overflow: hidden;
-}
+    .filtering {
+      left: 450px;
+      right: 201.09px;
+      z-index: 1;
+      width: 50%;
+    }
+    .icon3 {
+      position: absolute;
+      top: 50%;
+      left: 12px;
+      transform: translateY(-50%);
+      width: 25px;
+      height: 25px;
+      overflow: hidden;
+    }
 
-.findListing {
-  display: none;
-}
+    .findListing {
+      display: none;
+    }
 
-.btnfind {
-  margin-top: 2px;
-  width: 50px;
-  height: 50px;
-  text-align: center;
-  color: var(--color-white);
-}
+    .btnfind {
+      margin-top: 2px;
+      width: 50px;
+      height: 50px;
+      text-align: center;
+      color: var(--color-white);
+    }
     .personalBeautyAnd,
     .healthAndMedical,
     .fitnessAndSports,
@@ -682,21 +688,21 @@
     }
   }
   /* ---------- Small Mobile (max-width: 480px) ---------- */
-@media screen and (max-width: 480px) {
-     .enterAService {
-  left: 18px;
-  width: 80.5%;
-  font-size: var(--font-size-14);
-}
-.inputBox {
-  width: calc(115% - 200px);
-  left: 10px;
-}
-.filtering {
-  left: 200px;
-  right: 201.09px;
-  z-index: 1;
-  width: 50%;
-}
-}
+  @media screen and (max-width: 480px) {
+    .enterAService {
+      left: 18px;
+      width: 80.5%;
+      font-size: var(--font-size-14);
+    }
+    .inputBox {
+      width: calc(115% - 200px);
+      left: 10px;
+    }
+    .filtering {
+      left: 200px;
+      right: 201.09px;
+      z-index: 1;
+      width: 50%;
+    }
+  }
 }
