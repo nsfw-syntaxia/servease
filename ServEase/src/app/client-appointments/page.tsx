@@ -124,7 +124,6 @@ console.log("Raw appointments data:", rawAppointments);
       }) || [];
 
     const providerProfile = apt.profiles;
-    console.log(apt.client_id);
     return {
       id: apt.id,
       client_id: apt.client_id,

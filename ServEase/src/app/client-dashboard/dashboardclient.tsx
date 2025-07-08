@@ -7,10 +7,16 @@ import { useState, useRef, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "../utils/supabase/client";
 
+export interface ClientInfo {
+  full_name: string;
+  email: string;
+}
+
 export interface ProviderInfo {
   business_name: string;
   picture_url: string | null;
   contact_number: string | null;
+  email: string; // <-- ADD THIS LINE
 }
 
 export interface AppointmentService {
@@ -27,6 +33,7 @@ export interface Appointment {
   price: number;
   services: AppointmentService[];
   provider: ProviderInfo | null;
+  client: ClientInfo | null; // <-- ADD THIS LINE
 }
 
 export interface Service {
@@ -359,14 +366,27 @@ const DashboardClient: NextPage<DashboardClientProps> = ({
   const handleConfirmCancel = async () => {
     if (!appointmentToCancel) return;
 
-    const appointmentData = appointments.find((apt) => apt.id === appointmentToCancel);
-    if (!appointmentData || !appointmentData.provider) {
-      alert("Error: Could not find appointment details. Please refresh.");
+    // Find the full appointment details
+    const appointmentData = appointments.find(
+      (apt) => apt.id === appointmentToCancel
+    );
+
+    // This new check ensures client and provider emails are available
+    if (
+      !appointmentData ||
+      !appointmentData.provider ||
+      !appointmentData.client
+    ) {
+      alert(
+        "Error: Could not find full appointment details. Cannot send email. Please refresh."
+      );
+      setShowConfirmDialog(false);
       return;
     }
 
     setIsCancelling(true);
     try {
+      // 1. Update the database
       const { error: dbError } = await supabase
         .from("appointments")
         .update({ status: "canceled" })
@@ -374,12 +394,19 @@ const DashboardClient: NextPage<DashboardClientProps> = ({
       
       if (dbError) throw dbError;
 
+      // 2. Refresh the UI by removing the appointment from the list
       setAppointments((prev) => 
-  prev.filter((apt) => apt.id !== appointmentToCancel)
-);
+        prev.filter((apt) => apt.id !== appointmentToCancel)
+      );
 
+      // 3. Construct the FULL payload for the email API
       const payload = {
+        clientName: appointmentData.client.full_name,
+        clientEmail: appointmentData.client.email,
         providerName: appointmentData.provider.business_name,
+        providerEmail: appointmentData.provider.email,
+        providerContact:
+          appointmentData.provider.contact_number || "Not Provided",
         address: appointmentData.address,
         date: appointmentData.date,
         time: appointmentData.time,
@@ -388,18 +415,20 @@ const DashboardClient: NextPage<DashboardClientProps> = ({
         totalPrice: appointmentData.price,
       };
       
+      // 4. Send the notification
       fetch("/api/cancel-appointment", {
         method: "POST", 
         headers: { "Content-Type": "application/json" }, 
         body: JSON.stringify(payload)
       }).catch((emailError) => 
-        console.error("Sending email notification failed:", emailError)
+        console.error("Sending email notifications failed:", emailError)
       );
 
     } catch (error: any) {
       console.error("Error canceling appointment:", error);
       alert(`Cancellation failed: ${error.message}`);
     } finally {
+      // 5. Reset all state
       setIsCancelling(false);
       setShowConfirmDialog(false);
       setAppointmentToCancel(null);
@@ -639,8 +668,8 @@ const DashboardClient: NextPage<DashboardClientProps> = ({
                   <div className={styles.rowContainer} key={service.name}>
                     <div className={styles.facilityName}>{service.name}</div>
                     <b className={styles.facilityNameCap}>
-                      PHP {service.price.toFixed(2)}
-                    </b>
+  PHP {(Number(service.price) || 0).toFixed(2)}
+</b>
                   </div>
                 ))}
               </div>

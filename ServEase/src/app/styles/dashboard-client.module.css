@@ -236,7 +236,7 @@
 .sectionTitle {
   font-size: 48px;
   font-weight: 700;
-  margin: 0;
+  margin-top: 3%;
   color: var(--color-tan);
 }
 
@@ -245,6 +245,7 @@
 }
 
 .viewAllBtn {
+  margin-top: 45px;
   background-color: var(--color-tan);
   color: var(--color-white);
   border: none;
@@ -286,6 +287,7 @@
   padding: 30px;
   transition: all 0.3s ease;
   cursor: pointer;
+  margin-bottom: 30px;
 }
 
 .appointmentCard:hover {
@@ -370,7 +372,7 @@
   width: 100%;
   display: flex;
   align-items: center;
-  margin-top: -5%;
+  margin-top: -15%;
 }
 .carouselViewport {
   width: 100%;
