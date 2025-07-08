@@ -34,6 +34,7 @@ export async function addContactAndCompleteProfile(
   }
 
   console.log(`Fetching initial profile for user_id: ${user.id}`);
+
   const { data: initialProfile, error: fetchError } = await supabase
     .from("client_initial_profile")
     .select("first_name, last_name, middle_name, birth_date, gender")
@@ -42,6 +43,7 @@ export async function addContactAndCompleteProfile(
 
   if (fetchError || !initialProfile) {
     const errorMsg = `Could not find initial profile for user or fetch error: ${fetchError?.message}`;
+
     console.error(errorMsg);
     return {
       error:
@@ -79,6 +81,7 @@ export async function addContactAndCompleteProfile(
 
   if (insertError) {
     const errorMsg = `--- SUPABASE FINAL PROFILES INSERT ERROR ---: ${insertError.message}`;
+    
     console.error(errorMsg);
     // If this fails, do NOT delete the temporary data, so the user can maybe try again.
     return { error: "There was a database error creating your final profile." };

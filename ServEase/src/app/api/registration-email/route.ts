@@ -3,8 +3,7 @@ import nodemailer from "nodemailer";
 import { render } from "@react-email/render";
 import React from "react";
 import { RegistrationSuccessClient } from "../../emails/RegistrationSuccessClient";
-// Import other email components here as needed, e.g.:
-// import { ProviderRegistrationSuccess } from "../../emails/ProviderRegistrationSuccess";
+import { RegistrationSuccessFacility } from "../../emails/RegistrationSuccessFacility";
 
 // --- CRITICAL FIX 1: Force Node.js Runtime ---
 // This ensures nodemailer has the necessary environment and prevents crashes.
@@ -64,8 +63,30 @@ export async function POST(req: Request) {
         break;
       }
 
-      // You can add more cases for other emails here later
-      // case "providerRegistration": { ... }
+      case "facilityRegistration": {
+        const { facilityEmail, facilityName } = data;
+        if (!facilityEmail || !facilityName) {
+          return NextResponse.json(
+            {
+              error:
+                "Missing facilityEmail or facilityName for facilityRegistration",
+            },
+            { status: 400 }
+          );
+        }
+
+        const emailHtml = await render(
+          React.createElement(RegistrationSuccessFacility, { facilityName })
+        );
+
+        mailOptions = {
+          from: `"ServEase" <${process.env.GMAIL_EMAIL}>`,
+          to: facilityEmail,
+          subject: "Welcome to ServEase!",
+          html: emailHtml,
+        };
+        break;
+      }
 
       default:
         console.error(`Unknown email type requested: ${emailType}`);

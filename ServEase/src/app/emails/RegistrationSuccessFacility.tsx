@@ -1,14 +1,14 @@
 import * as React from "react";
 
-interface RegistrationSuccessClientProps {
-  clientName: string;
+interface RegistrationSuccessFacilityProps {
+  facilityName: string;
 }
 
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
-export const RegistrationSuccessClient: React.FC<
-  Readonly<RegistrationSuccessClientProps>
-> = ({ clientName }) => (
+export const RegistrationSuccessFacility: React.FC<
+  Readonly<RegistrationSuccessFacilityProps>
+> = ({ facilityName }) => (
   <html lang="en">
     <head>
       <meta charSet="UTF-8" />
@@ -30,20 +30,24 @@ export const RegistrationSuccessClient: React.FC<
         </div>
 
         <div style={styles.content}>
-          <h1 style={styles.h1}>Welcome to ServEase!</h1>
-          <p style={styles.paragraph}>Hi {clientName},</p>
+          <h1 style={styles.h1}>Welcome Aboard, {facilityName}!</h1>
           <p style={styles.paragraph}>
-            Thank you for joining ServEase! Your account has been successfully
-            created. We are excited to help you find and book the best services
-            with ease.
+            Thank you for joining the ServEase family! Your registration is
+            complete, and we are excited to partner with you.
           </p>
           <p style={styles.paragraph}>
-            You can now explore your dashboard to manage your profile and start
-            booking appointments.
+            Your profile has been successfully submitted and is now under review
+            by our team. This process typically takes 1-2 business days. We will
+            notify you via email as soon as your profile is approved and live on
+            the platform.
+          </p>
+          <p style={styles.paragraph}>
+            In the meantime, you can access your dashboard to get familiar with
+            our tools.
           </p>
 
           <a
-            href={`${baseUrl}/client-dashboard`}
+            href={`${baseUrl}/provider-dashboard`}
             target="_blank"
             style={styles.button}
           >
@@ -63,7 +67,7 @@ export const RegistrationSuccessClient: React.FC<
   </html>
 );
 
-// --- STYLES OBJECT (Standardized) ---
+// --- STYLES OBJECT (Consistent with other emails) ---
 const colors = {
   emailBackground: "#f8f7f3",
   cardBackground: "#fff",
