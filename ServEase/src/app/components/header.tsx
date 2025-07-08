@@ -118,7 +118,7 @@ const Header = ({ avatarUrl, userRole, homePath }: HeaderProps) => {
         {userRole === "client" && (
           <>
             <a className={styles.navLink} onClick={() => router.push(homePath)}>
-              Home
+              Dashboard
             </a>
             <a
               className={styles.navLink}
@@ -132,7 +132,7 @@ const Header = ({ avatarUrl, userRole, homePath }: HeaderProps) => {
         {userRole === "provider" && (
           <>
             <a className={styles.navLink} onClick={() => router.push(homePath)}>
-              Home
+              Dashboard
             </a>
             <a
               className={styles.navLink}

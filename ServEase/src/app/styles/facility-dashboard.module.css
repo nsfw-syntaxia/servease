@@ -602,7 +602,9 @@
   font-size: var(--font-size-15);
   color: var(--color-white);
   cursor: pointer;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .button:active {
@@ -637,7 +639,9 @@
   font-size: var(--font-size-15);
   color: var(--color-white);
   cursor: pointer;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 .button1:active {
   transform: scale(0.97);
@@ -789,6 +793,7 @@
   background-color: #f8f6f3;
   min-height: 50vh;
   margin-top: 1%;
+  cursor: default;
 }
 
 .container {
@@ -829,7 +834,9 @@
   padding: 1.5rem;
   position: relative;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .statCard:hover {
@@ -1232,6 +1239,7 @@
   font-size: 25px;
   color: var(--color-linen);
   font-family: var(--font-dm-sans);
+  cursor: default;
 }
 
 /*Upcoming Appointment Card*/
@@ -1311,7 +1319,9 @@
   flex-shrink: 0;
   margin-top: 10%;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .appointmentCard:hover {
@@ -1513,7 +1523,9 @@
   font-family: var(--font-dm-sans);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin: 0 auto;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
   cursor: pointer;
 }
 .PappointmentCard:hover {
