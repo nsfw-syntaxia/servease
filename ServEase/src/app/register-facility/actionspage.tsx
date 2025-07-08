@@ -120,7 +120,7 @@ export async function facilityProfile(formData: FormData): Promise<void> {
     working_days: parsedWorkingDays,
     start_time: formattedStartTime,
     end_time: formattedEndTime,
-    status: 'pending',
+    status: "pending",
     tags: null,
   };
 
@@ -298,6 +298,33 @@ export async function completeProviderProfile(
     };
   }
   console.log("Successfully upserted provider data into 'profiles' table.");
+
+  // --- ADD THIS SECTION TO SEND THE EMAIL ---
+  try {
+    console.log("Attempting to send registration success email...");
+    const emailPayload = {
+      emailType: "facilityRegistration",
+      data: {
+        facilityEmail: user.email, // The registered user's email
+        facilityName: initialProfileData.facility_name, // The facility name
+      },
+    };
+
+    // Make sure to use the full URL of your deployed application
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+
+    await fetch(`${appUrl}/api/registration-email`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(emailPayload),
+    });
+
+    console.log("Registration success email request sent.");
+  } catch (emailError) {
+    // Log the error but don't block the user registration process
+    console.error("--- FAILED TO SEND REGISTRATION EMAIL ---", emailError);
+  }
+  // --- END OF EMAIL SENDING SECTION ---
 
   const { error: deleteError } = await supabase
     .from("facility_initial_profile")

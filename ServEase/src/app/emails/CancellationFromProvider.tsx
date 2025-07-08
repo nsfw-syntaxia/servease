@@ -1,13 +1,13 @@
 import * as React from "react";
 
-// Updated props to remove pricing information
-interface CancellationNoticeToProviderProps {
+// --- CHANGE 1: Add 'status' to the props ---
+interface ProviderCancellationNoticeToClientProps {
   clientName: string;
   providerName: string;
   date: string;
   time: string;
-  status: string;
   services: { name: string }[];
+  status: string; // The status of the appointment, e.g., "Cancelled"
 }
 
 const formatDisplayDate = (dateString: string) =>
@@ -30,10 +30,10 @@ const formatDisplayTime = (timeString: string) => {
 
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
-export const CancellationNoticeToProvider: React.FC<
-  Readonly<CancellationNoticeToProviderProps>
-> = ({ clientName, providerName, date, time, status, services }) => {
-  // Create a string from the list of service names
+export const ProviderCancellationNoticeToClient: React.FC<
+  Readonly<ProviderCancellationNoticeToClientProps>
+> = ({ clientName, providerName, date, time, services, status }) => {
+  // <-- Destructure `status` here
   const serviceListString = services.map((s) => s.name).join(", ");
 
   return (
@@ -58,11 +58,12 @@ export const CancellationNoticeToProvider: React.FC<
           </div>
 
           <div style={styles.content}>
-            <h1 style={styles.h1}>Appointment Cancellation Notice</h1>
-            <p style={styles.paragraph}>Hello {providerName},</p>
+            <h1 style={styles.h1}>Appointment Canceled!</h1>
+            <p style={styles.paragraph}>Hi {clientName},</p>
             <p style={styles.paragraph}>
-              A client has cancelled their appointment with you. Your schedule
-              for this time has been cleared.
+              We regret to inform you that <strong>{providerName}</strong> has
+              had to cancel your booked appointment. We sincerely apologize for
+              any inconvenience this may cause.
             </p>
 
             <div style={styles.summarySection}>
@@ -74,9 +75,10 @@ export const CancellationNoticeToProvider: React.FC<
               >
                 <tbody>
                   <tr style={styles.tableRow}>
-                    <td style={styles.tableLabel}>Client Name</td>
-                    <td style={styles.tableValue}>{clientName}</td>
+                    <td style={styles.tableLabel}>Service Provider</td>
+                    <td style={styles.tableValue}>{providerName}</td>
                   </tr>
+                  {/* --- CHANGE 2: Add the new Status row --- */}
                   <tr style={styles.tableRow}>
                     <td style={styles.tableLabel}>Status</td>
                     <td
@@ -105,15 +107,11 @@ export const CancellationNoticeToProvider: React.FC<
             </div>
 
             <p style={styles.paragraph}>
-              You can manage your other upcoming and pending appointments on the
-              ServEase platform.
+              If you would like to find another provider, please visit our
+              platform.
             </p>
-            <a
-              href={`${baseUrl}/facility-appointments`}
-              target="_blank"
-              style={styles.button}
-            >
-              Manage Appointments
+            <a href={baseUrl} target="_blank" style={styles.button}>
+              Browse Services
             </a>
           </div>
 
@@ -130,7 +128,7 @@ export const CancellationNoticeToProvider: React.FC<
   );
 };
 
-// --- STYLES OBJECT (Standardized) ---
+// --- STYLES OBJECT ---
 const colors = {
   emailBackground: "#f8f7f3",
   cardBackground: "#fff",
@@ -138,7 +136,7 @@ const colors = {
   textSecondary: "#241f1b",
   brandPrimary: "#a68465",
   border: "#e0d9c9",
-  alert: "#D93025",
+  alert: "#D93025", // Red color for cancellations
 };
 
 const fonts = {
@@ -214,7 +212,6 @@ const styles: { [key: string]: React.CSSProperties } = {
     padding: "12px 10px 12px 0",
     textAlign: "left",
     width: "100px",
-    verticalAlign: "top",
   },
   tableValue: {
     color: colors.textPrimary,
@@ -222,6 +219,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     padding: "12px 0 12px 10px",
     textAlign: "left",
   },
+  // --- CHANGE 3: Add the new style for the red text ---
   statusCancelled: {
     color: colors.alert,
     fontWeight: 600,

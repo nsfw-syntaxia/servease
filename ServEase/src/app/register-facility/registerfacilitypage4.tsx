@@ -24,6 +24,7 @@ const FacilitySignup4: NextPage<Props> = ({ onNext }) => {
   const [otpErrorMessage, setOtpErrorMessage] = useState("");
   const otpRefs = useRef<HTMLInputElement[]>([]);
 
+  const [isButtonPressed, setIsButtonPressed] = useState(false);
   const router = useRouter();
 
   const isPhoneValid = phone.replace(/\D/g, "").trim().length === 10;
@@ -117,9 +118,22 @@ const FacilitySignup4: NextPage<Props> = ({ onNext }) => {
       router.push("/provider-dashboard");
     } catch (error: any) {
       setErrorMessage(error.message || "Verification failed");
+      setLoading(false);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleButtonClick = () => {
+    setIsButtonPressed(true);
+
+    if (isNextEnabled) {
+      handleSubmit();
+    }
+
+    setTimeout(() => {
+      setIsButtonPressed(false);
+    }, 200);
   };
 
   return (
@@ -265,14 +279,14 @@ const FacilitySignup4: NextPage<Props> = ({ onNext }) => {
       </div>
 
       <div
-        className={styles.button3}
+        className={`${styles.button3} ${isButtonPressed ? styles.pressed : ""}`}
         style={{
           backgroundColor: "#a68465",
           opacity: isNextEnabled ? "1" : "0.5",
           transition: "opacity 0.2s ease",
           cursor: isNextEnabled ? "pointer" : "not-allowed",
         }}
-        onClick={isNextEnabled ? handleSubmit : undefined}
+        onClick={handleButtonClick}
       >
         <div className={styles.signUpWrapper}>
           <div className={styles.webDesigns}>

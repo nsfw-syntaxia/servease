@@ -629,7 +629,24 @@
   font-size: 22px;
   color: white;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transform: scale(1);
+  transition: opacity 0.2s ease, transform 0.2s ease-in-out;
+}
+
+.pressed {
+  animation: pressDown 0.2s ease-in-out;
+}
+
+@keyframes pressDown {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.96);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .button4 {

@@ -20,9 +20,11 @@ const AppointmentCard = ({
   onShowDetails: () => void;
   onStatusChange: (id: number, newStatus: Appointment["status"]) => void;
 }) => {
-  const clientName = appointment.service?.[0]?.client_name || "Unknown Client";
-  const serviceType =
-    appointment.service?.[0]?.service_type || "Unknown Service";
+  // Use the top-level client_name property
+  const clientName = appointment.client_name;
+  // Join the service names for a concise display
+  const serviceDisplay =
+    appointment.services.map((s) => s.name).join(", ") || "No services listed";
   const clientAvatar = appointment.client_avatar_url || "/avatar.svg";
 
   const [showDropdown, setShowDropdown] = useState(false);
@@ -60,11 +62,11 @@ const AppointmentCard = ({
           width={100}
           height={100}
           alt="Client Avatar"
-          src={clientAvatar} // use the fetched avatar url
+          src={clientAvatar}
         />
         <div className={styles.cardHeaderText}>
           <h3 className={styles.clientName}>{clientName}</h3>
-          <p className={styles.serviceType}>{serviceType}</p>
+          <p className={styles.serviceType}>{serviceDisplay}</p>
         </div>
         <div
           className={styles.viewDetails}
@@ -113,7 +115,6 @@ const AppointmentCard = ({
             className={`${styles.statusButton} ${styles[appointment.status]}`}
           ></span>
           <span>{appointment.display_status}</span>
-
           {(appointment.status === "pending" ||
             appointment.status === "confirmed") && (
             <>
@@ -127,25 +128,21 @@ const AppointmentCard = ({
               />
               {showDropdown && (
                 <div className={styles.dropdownMenu}>
-                  {getAvailableStatusOptions(appointment.status).map(
-                    (item, index) => (
-                      <div
-                        key={item}
-                        className={`${styles.dropdownItem} ${
-                          hovered === item ? styles.active : ""
-                        }`}
-                        onMouseEnter={() => setHovered(item)}
-                        onMouseLeave={() => setHovered("")}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onStatusChange(appointment.id, item);
-                          setShowDropdown(false);
-                        }}
-                      >
-                        {capitalize(item)}
-                      </div>
-                    )
-                  )}
+                  {getAvailableStatusOptions(appointment.status).map((item) => (
+                    <div
+                      key={item}
+                      className={`${styles.dropdownItem} ${hovered === item ? styles.active : ""}`}
+                      onMouseEnter={() => setHovered(item)}
+                      onMouseLeave={() => setHovered("")}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onStatusChange(appointment.id, item);
+                        setShowDropdown(false);
+                      }}
+                    >
+                      {capitalize(item)}
+                    </div>
+                  ))}
                 </div>
               )}
             </>
@@ -160,10 +157,8 @@ const AppointmentsFacility: NextPage<{
   initialAppointments: Appointment[];
 }> = ({ initialAppointments }) => {
   const [activeFilter, setActiveFilter] = useState("upcoming");
-
   const [selectedAppointment, setSelectedAppointment] =
     useState<Appointment | null>(null);
-
   const [appointments, setAppointments] =
     useState<Appointment[]>(initialAppointments);
 
@@ -184,17 +179,14 @@ const AppointmentsFacility: NextPage<{
     newStatus: Appointment["status"]
   ) => {
     const result = await updateAppointmentStatus(appointmentId, newStatus);
-
     if (result.error) {
       alert(`Error: ${result.error}`);
       return;
     }
-
-    // if the database update succeeds, update the local state to reflect the change instantly
-    setAppointments((prevAppointments) =>
-      prevAppointments.map((app) =>
+    setAppointments((prev) =>
+      prev.map((app) =>
         app.id === appointmentId
-          ? { ...app, status: newStatus, display_status: capitalize(newStatus) } // also update the display status
+          ? { ...app, status: newStatus, display_status: capitalize(newStatus) }
           : app
       )
     );
@@ -221,41 +213,17 @@ const AppointmentsFacility: NextPage<{
         <div className={styles.contentHeader}>
           <h1 className={styles.pageTitle}>Appointments</h1>
           <div className={styles.filterButtons}>
-            <button
-              className={`${styles.filterButton} ${
-                activeFilter === "upcoming" ? styles.active : ""
-              }`}
-              onClick={() => handleFilterChange("upcoming")}
-            >
-              Upcoming
-            </button>
-            <button
-              className={`${styles.filterButton} ${
-                activeFilter === "pending" ? styles.active : ""
-              }`}
-              onClick={() => handleFilterChange("pending")}
-            >
-              Pending
-            </button>
-            <button
-              className={`${styles.filterButton} ${
-                activeFilter === "completed" ? styles.active : ""
-              }`}
-              onClick={() => handleFilterChange("completed")}
-            >
-              Completed
-            </button>
-            <button
-              className={`${styles.filterButton} ${
-                activeFilter === "canceled" ? styles.active : ""
-              }`}
-              onClick={() => handleFilterChange("canceled")}
-            >
-              Canceled
-            </button>
+            {["upcoming", "pending", "completed", "canceled"].map((filter) => (
+              <button
+                key={filter}
+                className={`${styles.filterButton} ${activeFilter === filter ? styles.active : ""}`}
+                onClick={() => handleFilterChange(filter)}
+              >
+                {capitalize(filter)}
+              </button>
+            ))}
           </div>
         </div>
-
         <div className={styles.appointmentsList}>
           {filteredAppointments.length > 0 ? (
             filteredAppointments.map((appointment) => (
@@ -293,13 +261,7 @@ const AppointmentsFacility: NextPage<{
               <div className={styles.rowContainer}>
                 <div className={styles.facilityName}>Client Name</div>
                 <b className={styles.facilityNameCap}>
-                  {selectedAppointment.service[0].client_name}
-                </b>
-              </div>
-              <div className={styles.rowContainer}>
-                <div className={styles.facilityName}>Service</div>
-                <b className={styles.facilityNameCap}>
-                  {selectedAppointment.service[0].service_type}
+                  {selectedAppointment.client_name}
                 </b>
               </div>
               <div className={styles.rowContainer}>
@@ -328,14 +290,14 @@ const AppointmentsFacility: NextPage<{
                 src="/Divider1.svg"
               />
               <div className={styles.serviceNameParent}>
-                <div className={styles.rowContainer}>
-                  <div className={styles.facilityName}>
-                    {selectedAppointment.service[0].service_type}
+                {selectedAppointment.services.map((service, index) => (
+                  <div className={styles.rowContainer} key={index}>
+                    <div className={styles.facilityName}>{service.name}</div>
+                    <b className={styles.facilityNameCap}>
+                      PHP {service.price.toFixed(2)}
+                    </b>
                   </div>
-                  <b className={styles.facilityNameCap}>
-                    PHP {selectedAppointment.price.toFixed(2)}
-                  </b>
-                </div>
+                ))}
               </div>
               <Image
                 className={styles.dividerIcon1}
