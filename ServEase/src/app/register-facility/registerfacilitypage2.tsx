@@ -143,21 +143,18 @@ export default function FacilitySignup2({ onNext }: Props) {
 
   const isDaySelected = (day: string) => selectedDays.includes(day);
 
-
-
-
   const generateTimeOptions = () => {
     const times: string[] = [];
-
     const periods = ["AM", "PM"];
 
     periods.forEach((period) => {
-      for (let hour = 1; hour <= 12; hour++) {
-        for (let minute = 0; minute < 60; minute += 5) {
-          const h = hour.toString().padStart(2, "0");
-          const m = minute.toString().padStart(2, "0");
-          times.push(`${h}:${m} ${period}`);
-        }
+      for (let hour = 12; hour <= 12; hour++) {
+        times.push(`${hour.toString().padStart(2, "0")}:00 ${period}`);
+        times.push(`${hour.toString().padStart(2, "0")}:30 ${period}`);
+      }
+      for (let hour = 1; hour < 12; hour++) {
+        times.push(`${hour.toString().padStart(2, "0")}:00 ${period}`);
+        times.push(`${hour.toString().padStart(2, "0")}:30 ${period}`);
       }
     });
 
@@ -275,7 +272,7 @@ export default function FacilitySignup2({ onNext }: Props) {
       formData.append("working_days", JSON.stringify(selectedDays));
       formData.append("start_time", selectedStartTime);
       formData.append("end_time", selectedEndTime);
-      await facilityProfile(formData)
+      await facilityProfile(formData);
       console.log("All fields valid. Continue to next step.");
       onNext();
     } catch {}
