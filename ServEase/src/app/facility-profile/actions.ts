@@ -257,3 +257,41 @@ export async function deleteFacilityAccount(
   // Return success
   return { success: true };
 }
+
+export async function changeUserPassword(
+  currentPassword: string,
+  newPassword: string
+): Promise<{ success?: string; error?: string }> {
+  const supabase = await createClient();
+
+  // First, get the user's email. We need it to verify the current password.
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user || !user.email) {
+    return { error: "User not authenticated." };
+  }
+
+  // Step 1: Verify the user's current password by trying to sign in with it.
+  const { error: signInError } = await supabase.auth.signInWithPassword({
+    email: user.email,
+    password: currentPassword,
+  });
+
+  if (signInError) {
+    // If this fails, the current password was incorrect.
+    return { error: "Incorrect current password. Please try again." };
+  }
+
+  // Step 2: If verification was successful, update the user with the new password.
+  const { error: updateError } = await supabase.auth.updateUser({
+    password: newPassword,
+  });
+
+  if (updateError) {
+    console.error("Error updating password:", updateError.message);
+    return { error: "Failed to update password. Please try again later." };
+  }
+
+  return { success: "Password updated successfully!" };
+}

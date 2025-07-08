@@ -12,6 +12,7 @@ import {
   uploadFacilityPhoto,
   deleteFacilityPhoto,
   deleteFacilityAccount,
+  changeUserPassword,
 } from "./actions";
 import { createClient } from "../utils/supabase/client";
 
@@ -449,6 +450,7 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
     setError("");
     setShowError(false);
 
+    // --- YOUR EXISTING VALIDATION (UNCHANGED) ---
     if (!Confirmpassword || !password || !Newpassword) {
       setError("Please fill in all required fields.");
       setShowError(true);
@@ -456,19 +458,42 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
       return;
     }
     if (Newpassword !== Confirmpassword) {
-      setError("New Password and Confirm Password do not match.");
+      setError("Passwords do not match.");
       setShowError(true);
       setTimeout(() => setIsClicked(false), 100);
       return;
     }
-
     if (password === Newpassword) {
       setError("New Password cannot be the same as the Old Password.");
       setShowError(true);
       setTimeout(() => setIsClicked(false), 100);
       return;
     }
-    setShowOverlayPassword(false);
+
+    // --- ADD THIS LOGIC TO CALL THE SERVER ---
+    try {
+      const result = await changeUserPassword(password, Newpassword);
+
+      if (result.error) {
+        // If the server returns an error (like "Incorrect current password")
+        setError(result.error);
+        setShowError(true);
+      } else if (result.success) {
+        // If the server returns a success message
+        alert(result.success);
+        setShowOverlayPassword(false); // Close the modal on success
+        // Reset fields after successful change
+        setPassword("");
+        NewsetPassword("");
+        ConfirmsetPassword("");
+      }
+    } catch (e) {
+      setError("An unexpected error occurred.");
+      setShowError(true);
+    } finally {
+      // Ensure the button animation resets
+      setTimeout(() => setIsClicked(false), 100);
+    }
   };
 
   const handleCancel = async () => {
@@ -1092,7 +1117,7 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
                       <Image
                         className={styles.iconeye}
                         width={30}
-                        height={25}
+                        height={30}
                         alt={
                           NewpasswordVisible ? "Hide password" : "Show password"
                         }
@@ -1126,7 +1151,7 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
                       <Image
                         className={styles.iconeye}
                         width={30}
-                        height={25}
+                        height={30}
                         alt={
                           ConfirmpasswordVisible
                             ? "Hide password"
@@ -1231,7 +1256,7 @@ const ProfileFacility: NextPage<{ initialData: FacilityProfileDataType }> = ({
                       <Image
                         className={styles.iconeye}
                         width={30}
-                        height={25}
+                        height={30}
                         alt={
                           passwordVisible ? "Hide password" : "Show password"
                         }

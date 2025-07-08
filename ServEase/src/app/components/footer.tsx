@@ -68,7 +68,7 @@ const Footer = ({ userRole }: HeaderProps) => {
                 className={styles.footerLink}
                 onClick={() => router.push("/client-dashboard")}
               >
-                Home
+                Dashboard
               </a>
               <a
                 className={styles.footerLink}
@@ -84,7 +84,7 @@ const Footer = ({ userRole }: HeaderProps) => {
                 className={styles.footerLink}
                 onClick={() => router.push("/provider-dashboard")}
               >
-                Home
+                Dashboard
               </a>
               <a
                 className={styles.footerLink}

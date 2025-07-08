@@ -8,6 +8,7 @@ import { type ProfileDataType } from "./actions";
 import {
   updateUserProfile,
   updateUserEmail,
+  changeUserPassword,
   deleteClientAccount,
 } from "./actions";
 import { createClient } from "../utils/supabase/client";
@@ -267,6 +268,7 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
     setError("");
     setShowError(false);
 
+    // --- YOUR EXISTING VALIDATION (This is correct and unchanged) ---
     if (!Confirmpassword || !password || !Newpassword) {
       setError("Please fill in all required fields.");
       setShowError(true);
@@ -274,19 +276,39 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
       return;
     }
     if (Newpassword !== Confirmpassword) {
-      setError("New Password and Confirm Password do not match.");
+      setError("Passwords do not match.");
       setShowError(true);
       setTimeout(() => setIsClicked(false), 100);
       return;
     }
-
     if (password === Newpassword) {
       setError("New Password cannot be the same as the Old Password.");
       setShowError(true);
       setTimeout(() => setIsClicked(false), 100);
       return;
     }
-    setShowOverlayPassword(false);
+
+    try {
+      // Call the server action with the current and new passwords
+      const result = await changeUserPassword(password, Newpassword);
+
+      if (result.error) {
+        // If the server returns an error (e.g., incorrect password), show it.
+        setError(result.error);
+        setShowError(true);
+      } else if (result.success) {
+        // On success, show an alert and close the modal.
+        alert(result.success);
+        handleClose(); // Use your existing close function
+      }
+    } catch (e) {
+      // Catch any unexpected errors
+      setError("An unexpected error occurred. Please try again.");
+      setShowError(true);
+    } finally {
+      // Reset the button animation state
+      setTimeout(() => setIsClicked(false), 100);
+    }
   };
 
   const handleCancel = async () => {
