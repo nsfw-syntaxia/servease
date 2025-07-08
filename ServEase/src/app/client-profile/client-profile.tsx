@@ -5,8 +5,13 @@ import type { NextPage } from "next";
 import Image from "next/image";
 import styles from "../styles/client-profile.module.css";
 import { type ProfileDataType } from "./actions";
-import { updateUserProfile, updateUserEmail } from "./actions";
+import {
+  updateUserProfile,
+  updateUserEmail,
+  deleteClientAccount,
+} from "./actions";
 import { createClient } from "../utils/supabase/client";
+import { useRouter } from "next/navigation";
 
 const capitalizeWords = (str: string): string => {
   if (!str) return "";
@@ -38,6 +43,8 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
     birthdate: initialData.birthdate,
     profileImage: initialData.profileImage,
   });
+
+  const router = useRouter();
 
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState({ ...profileData });
@@ -295,6 +302,7 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
     setError("");
     setShowError(false);
 
+    // Your existing validation is correct
     if (!password) {
       setError("Please fill in all required fields.");
       setShowError(true);
@@ -302,7 +310,27 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
       return;
     }
 
-    setShowOverlayDelete(false);
+    // --- ADD THIS LOGIC TO CALL THE SERVER ---
+    try {
+      const result = await deleteClientAccount(password);
+
+      if (result.error) {
+        // If the server returns an error (e.g., incorrect password), show it.
+        setError(result.error);
+        setShowError(true);
+      } else if (result.success) {
+        // On success, show a final message and redirect the user.
+        alert("Account deleted successfully.");
+        // Redirect to the login page after deletion.
+        router.push("/login");
+      }
+    } catch (e) {
+      setError("An unexpected error occurred. Please try again.");
+      setShowError(true);
+    } finally {
+      // Reset the button animation state
+      setTimeout(() => setIsdeleteClicked(false), 100);
+    }
   };
 
   const handleClose = () => {
@@ -903,207 +931,3 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
 };
 
 export default ProfileClient;
-
-/*
-
-change password
-
-const ChangePassword: NextPage = () => {
-  return (
-    <div className={styles.changePassword}>
-      <div className={styles.frameParent}>
-        <div className={styles.frameGroup}>
-          <div className={styles.xWrapper}>
-            <Image
-              className={styles.xIcon}
-              width={30}
-              height={30}
-              sizes="100vw"
-              alt=""
-              src="x.svg"
-            />
-          </div>
-          <div className={styles.frameContainer}>
-            <div className={styles.changeYourPasswordWrapper}>
-              <b className={styles.changeYourPassword}>Change your password</b>
-            </div>
-            <div className={styles.enterYourCurrent}>
-              Enter your current password and new password.
-            </div>
-          </div>
-        </div>
-        <Image
-          className={styles.frameChild}
-          width={471}
-          height={1}
-          sizes="100vw"
-          alt=""
-          src="Line 261.svg"
-        />
-        <div className={styles.frameDiv}>
-          <div className={styles.frameItem} />
-          <div className={styles.frameParent1}>
-            <div className={styles.currentPasswordWrapper}>
-              <div className={styles.changeYourPassword}>Current Password</div>
-            </div>
-            <div className={styles.textField}>
-              <div className={styles.inputs} />
-              <div className={styles.icons} />
-              <div className={styles.eyeOff}>
-                <Image
-                  className={styles.icon}
-                  width={33.9}
-                  height={27.5}
-                  sizes="100vw"
-                  alt=""
-                  src="Icon.svg"
-                />
-              </div>
-            </div>
-            <div className={styles.frameInner} />
-            <div className={styles.changeYourPassword}>New Password</div>
-            <div className={styles.textField}>
-              <div className={styles.inputs} />
-              <div className={styles.icons} />
-              <div className={styles.eyeOff}>
-                <Image
-                  className={styles.icon}
-                  width={33.9}
-                  height={27.5}
-                  sizes="100vw"
-                  alt=""
-                  src="Icon.svg"
-                />
-              </div>
-            </div>
-            <div className={styles.frameInner} />
-            <div className={styles.currentPasswordWrapper}>
-              <div className={styles.changeYourPassword}>
-                Confirm New Password
-              </div>
-            </div>
-            <div className={styles.textField}>
-              <div className={styles.inputs} />
-              <div className={styles.icons} />
-              <div className={styles.eyeOff}>
-                <Image
-                  className={styles.icon}
-                  width={33.9}
-                  height={27.5}
-                  sizes="100vw"
-                  alt=""
-                  src="Icon.svg"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className={styles.buttonWrapper}>
-          <div className={styles.button}>
-            <div className={styles.buttonInner}>
-              <div className={styles.buttonInner}>
-                <div className={styles.updatePassword}>Update Password</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default ChangePassword;
-
-*/
-
-/*
-
-delete account
-
-const DeleteAccount: NextPage = () => {
-  return (
-    <div className={styles.deleteAccount}>
-      <div className={styles.frameParent}>
-        <div className={styles.frameGroup}>
-          <div className={styles.xWrapper}>
-            <Image
-              className={styles.xIcon}
-              width={30}
-              height={30}
-              sizes="100vw"
-              alt=""
-              src="x.svg"
-            />
-          </div>
-          <div className={styles.frameContainer}>
-            <div className={styles.deleteAccountWrapper}>
-              <b className={styles.password}>Delete Account</b>
-            </div>
-            <div className={styles.areYouSure}>
-              Are you sure you want to delete your account? This will
-              immediately log you out of your account and you will not be able
-              to log in again.
-            </div>
-          </div>
-        </div>
-        <Image
-          className={styles.frameChild}
-          width={471}
-          height={1}
-          sizes="100vw"
-          alt=""
-          src="Line 261.svg"
-        />
-        <div className={styles.frameDiv}>
-          <div className={styles.frameItem} />
-          <div className={styles.frameParent1}>
-            <div className={styles.passwordWrapper}>
-              <div className={styles.password}>Password</div>
-            </div>
-            <div className={styles.textField}>
-              <div className={styles.inputs} />
-              <div className={styles.eyeOff}>
-                <Image
-                  className={styles.icon}
-                  width={33.9}
-                  height={27.5}
-                  sizes="100vw"
-                  alt=""
-                  src="Icon.svg"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className={styles.groupParent}>
-          <div className={styles.groupWrapper}>
-            <div className={styles.groupWrapper}>
-              <div className={styles.button}>
-                <div className={styles.buttonInner}>
-                  <div className={styles.cancelWrapper}>
-                    <div className={styles.cancel}>Cancel</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className={styles.groupContainer}>
-            <div className={styles.buttonContainer}>
-              <div className={styles.button1}>
-                <div className={styles.buttonChild}>
-                  <div className={styles.cancelWrapper}>
-                    <div className={styles.cancel}>Delete Account</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default DeleteAccount;
-
-*/

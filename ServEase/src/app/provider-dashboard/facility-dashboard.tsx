@@ -270,7 +270,7 @@ const DashboardFacility: NextPage<{
               />
             ))
           ) : (
-            <p className={styles.noAppointmentsMessage}>
+            <p className={styles.noAppointmentsMessage1}>
               No pending appointments.
             </p>
           )}

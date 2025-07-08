@@ -396,6 +396,15 @@
   color: var(--color-gray-100);
 }
 
+.noAppointmentsMessage1 {
+  margin-top: 25px;
+  margin-bottom: 50px;
+  font-size: 20px;
+  color: var(--color-gray-100);
+  display: flex;
+  justify-content: center;
+}
+
 .appointments {
   color: var(--color-gray-100);
 }
