@@ -24,6 +24,19 @@ export async function POST(req: Request) {
       );
     }
 
+    // Also validate that the status is present
+    if (!payload.status) {
+      return NextResponse.json(
+        { error: "Missing appointment status for email subject." },
+        { status: 400 }
+      );
+    }
+
+    // --- THIS IS THE FIX ---
+    // Create the dynamic subject line using the status from the payload
+    const emailSubject = `ServEase Appointment Update: ${payload.status}`;
+    // -----------------------
+
     // CHANGE: Render the new email template
     const clientEmailHtml = await render(
       React.createElement(ProviderCancellationNoticeToClient, payload)
@@ -33,7 +46,7 @@ export async function POST(req: Request) {
     await transporter.sendMail({
       from: `"servease" <${process.env.GMAIL_EMAIL}>`,
       to: payload.clientEmail,
-      subject: `Update on your Servease Appointment with ${payload.providerName}`,
+      subject: emailSubject,
       html: clientEmailHtml,
     });
 

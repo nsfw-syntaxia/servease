@@ -1,15 +1,15 @@
 import * as React from "react";
 
-// The props interface now includes all details needed for the table.
+// --- CHANGE 1: Add 'status' to the props ---
 interface ProviderCancellationNoticeToClientProps {
   clientName: string;
   providerName: string;
   date: string;
   time: string;
-  services: { name: string }[]; // We still don't need the price here.
+  services: { name: string }[];
+  status: string; // The status of the appointment, e.g., "Cancelled"
 }
 
-// Helper functions for formatting are correct.
 const formatDisplayDate = (dateString: string) =>
   new Date(dateString + "T00:00:00").toLocaleDateString("en-US", {
     weekday: "long",
@@ -28,13 +28,12 @@ const formatDisplayTime = (timeString: string) => {
   });
 };
 
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://servease-exceptionhandlers.vercel.app" || "http://localhost:3000";
-const logoUrl = `${baseUrl}/authLogo.svg`;
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
 export const ProviderCancellationNoticeToClient: React.FC<
   Readonly<ProviderCancellationNoticeToClientProps>
-> = ({ clientName, providerName, date, time, services }) => {
-  // Join service names into a simple string for display in the table.
+> = ({ clientName, providerName, date, time, services, status }) => {
+  // <-- Destructure `status` here
   const serviceListString = services.map((s) => s.name).join(", ");
 
   return (
@@ -42,30 +41,31 @@ export const ProviderCancellationNoticeToClient: React.FC<
       <head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        {/* --- FONT FIX: Changed to Poppins --- */}
         <style>
-          {`@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');`}
+          {`@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');`}
         </style>
         <title>Appointment Cancellation</title>
       </head>
       <body style={styles.body}>
         <div style={styles.mainContainer}>
           <div style={styles.header}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={logoUrl} alt="Servease Logo" style={styles.logoImage} />
+            <a href={baseUrl} target="_blank" style={styles.link}>
+              <div style={styles.logo}>
+                <span style={{ fontWeight: 500 }}>serv</span>
+                <span style={{ fontWeight: 700 }}>ease</span>
+              </div>
+            </a>
           </div>
 
           <div style={styles.content}>
             <h1 style={styles.h1}>Appointment Cancellation</h1>
             <p style={styles.paragraph}>Hi {clientName},</p>
-            {/* --- WORDING FIX: Updated message --- */}
             <p style={styles.paragraph}>
               We regret to inform you that <strong>{providerName}</strong> has
-              had to cancel your upcoming appointment. We sincerely apologize
+              had to cancel your booked appointment. We sincerely apologize
               for any inconvenience this may cause.
             </p>
 
-            {/* --- LAYOUT FIX: Stylish table in a brown-ish container --- */}
             <div style={styles.summarySection}>
               <h2 style={styles.h2}>Cancelled Appointment Summary</h2>
               <table
@@ -75,8 +75,20 @@ export const ProviderCancellationNoticeToClient: React.FC<
               >
                 <tbody>
                   <tr style={styles.tableRow}>
-                    <td style={styles.tableLabel}>Provider</td>
+                    <td style={styles.tableLabel}>Service Provider</td>
                     <td style={styles.tableValue}>{providerName}</td>
+                  </tr>
+                  {/* --- CHANGE 2: Add the new Status row --- */}
+                  <tr style={styles.tableRow}>
+                    <td style={styles.tableLabel}>Status</td>
+                    <td
+                      style={{
+                        ...styles.tableValue,
+                        ...styles.statusCancelled,
+                      }}
+                    >
+                      {status}
+                    </td>
                   </tr>
                   <tr style={styles.tableRow}>
                     <td style={styles.tableLabel}>Date</td>
@@ -86,7 +98,6 @@ export const ProviderCancellationNoticeToClient: React.FC<
                     <td style={styles.tableLabel}>Time</td>
                     <td style={styles.tableValue}>{formatDisplayTime(time)}</td>
                   </tr>
-                  {/* Last row for services, without a bottom border */}
                   <tr style={{ ...styles.tableRow, borderBottom: "none" }}>
                     <td style={styles.tableLabel}>Services</td>
                     <td style={styles.tableValue}>{serviceListString}</td>
@@ -99,7 +110,6 @@ export const ProviderCancellationNoticeToClient: React.FC<
               If you would like to find another provider, please visit our
               platform.
             </p>
-            {/* --- BUTTON FIX: Kept the brown branded button --- */}
             <a href={baseUrl} target="_blank" style={styles.button}>
               Browse Services
             </a>
@@ -108,8 +118,7 @@ export const ProviderCancellationNoticeToClient: React.FC<
           <div style={styles.footer}>
             <p style={styles.footerText}>
               © {new Date().getFullYear()} ServEase. All rights reserved.
-            </p>
-            <p style={styles.footerText}>
+              <br />
               This is an automated notification. Please do not reply.
             </p>
           </div>
@@ -121,18 +130,17 @@ export const ProviderCancellationNoticeToClient: React.FC<
 
 // --- STYLES OBJECT ---
 const colors = {
-  // Using the brown-ish theme you liked
   emailBackground: "#f8f7f3",
   cardBackground: "#fff",
   textPrimary: "#050b20",
   textSecondary: "#241f1b",
   brandPrimary: "#a68465",
   border: "#e0d9c9",
+  alert: "#D93025", // Red color for cancellations
 };
 
 const fonts = {
-  // --- FONT FIX: Set to Poppins ---
-  fontFamily: "'Poppins', 'Arial', sans-serif",
+  fontFamily: "'DM Sans', 'Helvetica Neue', 'Arial', sans-serif",
 };
 
 const styles: { [key: string]: React.CSSProperties } = {
@@ -151,13 +159,16 @@ const styles: { [key: string]: React.CSSProperties } = {
     overflow: "hidden",
   },
   header: {
-    padding: "20px",
-    textAlign: "center",
+    padding: "24px",
     borderBottom: `1px solid ${colors.border}`,
   },
-  logoImage: {
-    width: "140px",
-    height: "auto",
+  link: { textDecoration: "none" },
+  logo: {
+    color: colors.brandPrimary,
+    fontSize: "32px",
+    textAlign: "center",
+    letterSpacing: "-0.5px",
+    margin: "10px 0",
   },
   content: {
     padding: "30px 40px",
@@ -174,14 +185,13 @@ const styles: { [key: string]: React.CSSProperties } = {
     lineHeight: 1.7,
     margin: "0 0 20px",
   },
-  // --- STYLES FOR THE BROWN-ISH SUMMARY BOX ---
   summarySection: {
     padding: "20px",
     marginTop: "25px",
     marginBottom: "30px",
     border: `1px solid ${colors.border}`,
     borderRadius: "8px",
-    backgroundColor: colors.emailBackground, // The brown-ish background
+    backgroundColor: colors.emailBackground,
   },
   h2: {
     color: colors.textPrimary,
@@ -189,7 +199,6 @@ const styles: { [key: string]: React.CSSProperties } = {
     fontWeight: 600,
     margin: "0 0 15px",
   },
-  // --- NEW TABLE STYLES ---
   detailsTable: {
     width: "100%",
     borderCollapse: "collapse",
@@ -210,10 +219,14 @@ const styles: { [key: string]: React.CSSProperties } = {
     padding: "12px 0",
     textAlign: "left",
   },
-  // --- STYLES FOR THE BRANDED BUTTON ---
+  // --- CHANGE 3: Add the new style for the red text ---
+  statusCancelled: {
+    color: colors.alert,
+    fontWeight: 600,
+  },
   button: {
     display: "inline-block",
-    backgroundColor: colors.brandPrimary, // The brown color
+    backgroundColor: colors.brandPrimary,
     color: "#ffffff",
     padding: "12px 25px",
     borderRadius: "8px",
@@ -221,6 +234,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     fontWeight: 500,
     fontSize: "16px",
     textAlign: "center",
+    marginTop: "20px",
   },
   footer: {
     backgroundColor: "#fff",
@@ -230,7 +244,8 @@ const styles: { [key: string]: React.CSSProperties } = {
   footerText: {
     color: "#a9a9a9",
     fontSize: "12px",
-    margin: "0",
+    margin: 0,
     textAlign: "center",
+    lineHeight: 1.5,
   },
 };
