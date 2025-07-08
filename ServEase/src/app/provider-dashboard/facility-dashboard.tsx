@@ -1,7 +1,14 @@
+"use client";
+
 import type { NextPage } from "next";
 import Image from "next/image";
 import styles from "../styles/facility-dashboard.module.css";
-import { DateLib } from "react-day-picker";
+import {
+  type DashboardStats,
+  type UpcomingAppointment,
+  type PendingAppointment,
+} from "./actions";
+import { useRouter } from "next/navigation";
 
 type AppointmentProps = {
   clientName: string;
@@ -10,7 +17,10 @@ type AppointmentProps = {
   appointmentDate: string;
 };
 
-const Overview = () => {
+// update the overview component to accept props
+const Overview = ({ stats }: { stats: DashboardStats }) => {
+  // fix date display
+  // always be the user's current date
   const currentDate = new Date().toLocaleDateString("en-US", {
     weekday: "long",
     day: "2-digit",
@@ -18,28 +28,33 @@ const Overview = () => {
     year: "numeric",
   });
 
+  // make the stats data dynamic
   const statsData = [
     {
       icon: "/facility card.svg",
-      value: "Php 15,735.00",
+      value: `Php ${stats.todaysRevenue.toFixed(2)}`, // use real data
       label: "Today's Total Revenue",
       iconBg: styles.iconRevenue,
     },
     {
       icon: "/facility note.svg",
-      value: "5",
+      value: stats.upcomingAppointmentsCount.toString(), // use real data
       label: "Today's Upcoming Appointments",
       iconBg: styles.iconAppointments,
     },
     {
       icon: "/facility heart.svg",
-      value: "4.78K",
+      // format likes to show 'K' for thousands
+      value:
+        stats.totalLikes > 999
+          ? `${(stats.totalLikes / 1000).toFixed(2)}K`
+          : stats.totalLikes.toString(),
       label: "Total Likes",
       iconBg: styles.iconLikes,
     },
     {
       icon: "/facility star.svg",
-      value: "4.2/5.0",
+      value: `${stats.rating.toFixed(1)}/5.0`, // use real data
       label: "Ratings",
       iconBg: styles.iconRatings,
     },
@@ -52,7 +67,6 @@ const Overview = () => {
           <h2 className={styles.title}>Overview</h2>
           <p className={styles.dated}>{currentDate}</p>
         </div>
-
         <div className={styles.statsGrid}>
           {statsData.map((stat, index) => (
             <div key={index} className={styles.statCard}>
@@ -81,11 +95,20 @@ const UpcomingAppointments = ({
   service,
   timeslot,
   appointmentDate,
+  avatarUrl,
 }) => {
   return (
     <div className={styles.appointmentCard}>
       <div className={styles.header}>
-        <div className={styles.avatar}></div>
+        <div className={styles.avatar}>
+          <Image
+            src={avatarUrl}
+            alt={clientName}
+            width={90}
+            height={90}
+            style={{ borderRadius: "50%", objectFit: "cover" }}
+          />
+        </div>
         <div className={styles.clientInfo}>
           <h3 className={styles.clientName}>{clientName}</h3>
           <p className={styles.service}>{service}</p>
@@ -132,23 +155,14 @@ const AppointmentCard = ({ clientName, serviceName, time, date }) => {
   );
 };
 
-const DashboardFacility: NextPage = () => {
-  const upcomingappointments = [
-    {
-      index: 1,
-      clientName: "Trixie Dolera",
-      service: "Opao",
-      timeslot: "1:00 PM",
-      appointmentDate: "Wed, Jun 30",
-    },
-    {
-      index: 2, // Fixed: should be unique
-      clientName: "Shan Michael",
-      service: "Haircut",
-      timeslot: "2:00 PM",
-      appointmentDate: "Wed, Jun 30",
-    },
-  ];
+const DashboardFacility: NextPage<{
+  initialStats: DashboardStats;
+  upcomingAppointments: UpcomingAppointment[];
+  pendingAppointments: PendingAppointment[];
+}> = ({ initialStats, upcomingAppointments, pendingAppointments }) => {
+  const router = useRouter();
+
+  // fetch and display real data here later
 
   const pendingappointments = [
     {
@@ -185,13 +199,14 @@ const DashboardFacility: NextPage = () => {
               height={15}
               sizes="100vw"
               alt=""
-              src="Group 126.svg"
+              src="/Group 126.svg"
             />
           </div>
         </div>
-        <Overview />
 
-        {/*upcoming appointments */}
+        <Overview stats={initialStats} />
+
+        {/* upcoming appointments */}
         <div className={styles.upcomingAppointmentsContainer}>
           <div className={styles.sectionHeader}>
             <h2 className={styles.upcomingAppointments}>
@@ -202,23 +217,35 @@ const DashboardFacility: NextPage = () => {
             </h2>
           </div>
           <div className={styles.appointmentsContainer}>
-            {upcomingappointments.map((appointment, index) => (
-              <UpcomingAppointments
-                key={appointment.index || index} // Better key using unique ID
-                clientName={appointment.clientName}
-                service={appointment.service}
-                timeslot={appointment.timeslot}
-                appointmentDate={appointment.appointmentDate}
-              />
-            ))}
+            {/* update this map to use the real data */}
+            {upcomingAppointments.length > 0 ? (
+              upcomingAppointments.map((appointment) => (
+                <UpcomingAppointments
+                  key={appointment.id} // use the real ID for the key
+                  clientName={appointment.clientName}
+                  service={appointment.service}
+                  timeslot={appointment.time}
+                  appointmentDate={appointment.date}
+                  avatarUrl={appointment.avatarUrl} // pass the new prop
+                />
+              ))
+            ) : (
+              // show a message if there are no appointments
+              <p className={styles.noAppointmentsMessage}>
+                No upcoming appointments today.
+              </p>
+            )}
           </div>
         </div>
 
-        <div className={styles.button}>
+        <div
+          className={styles.button}
+          onClick={() => router.push("/facility-appointments")}
+        >
           <div className={styles.viewAll}>View All</div>
         </div>
 
-        {/*pending appointments*/}
+        {/* pending appointments*/}
         <b className={styles.pendingAppointments}>
           <span className={styles.upcomingAppointmentsTxtContainer}>
             <span>Pending</span>
@@ -232,18 +259,21 @@ const DashboardFacility: NextPage = () => {
           <div className={styles.TitlePdate}>Date</div>
         </div>
         <div className={styles.PappointmentsContainer}>
-          {pendingappointments.map((appointment, index) => (
-            <AppointmentCard
-              key={index}
-              clientName={appointment.clientName}
-              serviceName={appointment.serviceName}
-              time={appointment.time}
-              date={appointment.date}
-            />
-          ))}
-        </div>
-        <div className={styles.button1}>
-          <div className={styles.viewAll}>View All</div>
+          {pendingAppointments.length > 0 ? (
+            pendingAppointments.map((appointment) => (
+              <AppointmentCard
+                key={appointment.id}
+                clientName={appointment.clientName}
+                serviceName={appointment.serviceName}
+                time={appointment.time}
+                date={appointment.date}
+              />
+            ))
+          ) : (
+            <p className={styles.noAppointmentsMessage}>
+              No pending appointments.
+            </p>
+          )}
         </div>
       </div>
     </div>
