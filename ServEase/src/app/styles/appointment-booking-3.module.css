@@ -1165,10 +1165,11 @@
   margin: 0 auto;
   width: 390px;
   height: 157px;
+  margin-top: -35px;
 }
 .dividerIcon {
   position: relative;
-  margin: 3% auto;
+  margin: 13% auto;
   width: 390px;
   height: 1px;
 }
