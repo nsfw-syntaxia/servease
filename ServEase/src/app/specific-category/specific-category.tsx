@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import styles from "../styles/specific-category.module.css";
+import { createClient } from "../utils/supabase/client";
 
 interface Profile {
   id: string;
@@ -16,6 +17,13 @@ interface Profile {
   avatar_url: string | null;
   created_at: string;
   rating: number;
+  tags?: string | null;
+}
+
+interface SearchResult {
+  id: string;
+  business_name: string;
+  address: string;
 }
 
 const AllServiceCard = ({
@@ -97,6 +105,65 @@ const SpecificCategoryClientPage: NextPage<{
 }> = ({ services, subCategoryName }) => {
   const router = useRouter();
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const searchContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Debounce function to prevent API calls on every keystroke
+    const debounceSearch = setTimeout(async () => {
+      const trimmedSearchTerm = searchTerm.trim();
+      if (trimmedSearchTerm.length > 0) {
+        setIsSearching(true);
+        setSearchResults([]); // Clear previous results
+
+        const supabase = createClient();
+
+        // Query profiles where the specific_category matches,
+        // and the business_name or tags contain the search term.
+        // The 'ilike' operator is case-insensitive.
+        const { data, error } = await supabase
+          .from("profiles")
+          .select("id, business_name, address")
+          .eq("specific_category", subCategoryName)
+          .or(
+            `business_name.ilike.%${trimmedSearchTerm}%,tags.ilike.%${trimmedSearchTerm}%`
+          );
+
+        if (error) {
+          console.error("Error fetching search results:", error);
+          setSearchResults([]);
+        } else {
+          setSearchResults(data || []);
+        }
+        setIsSearching(false);
+      } else {
+        setSearchResults([]); // Clear results if search term is empty
+      }
+    }, 300); // 300ms delay
+
+    // Cleanup function to clear the timeout if the user types again
+    return () => clearTimeout(debounceSearch);
+  }, [searchTerm, subCategoryName]);
+
+  // --- HOOK TO CLOSE DROPDOWN ON OUTSIDE CLICK ---
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        searchContainerRef.current &&
+        !searchContainerRef.current.contains(event.target as Node)
+      ) {
+        setSearchTerm(""); // Clear search term to hide dropdown
+        setSearchResults([]);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [searchContainerRef]);
+
   const chunkArray = (arr: any[], size: number) => {
     const result = [];
     for (let i = 0; i < arr.length; i += size) {
@@ -104,6 +171,8 @@ const SpecificCategoryClientPage: NextPage<{
     }
     return result;
   };
+
+   const isDropdownVisible = (isSearching || searchResults.length > 0) && searchTerm.trim().length > 0;
 
   return (
     <div className={styles.pbacs}>
@@ -117,7 +186,10 @@ const SpecificCategoryClientPage: NextPage<{
           />
           <div className={styles.personalBeautyAnd}>{subCategoryName}</div>
         </div>
-        <div className={styles.searchBox}>
+        <div 
+          ref={searchContainerRef}
+          className={`${styles.searchBox} ${isDropdownVisible ? styles.searchBoxActive : ''}`}
+        >
           <div className={styles.filtering}>
             <div className={styles.link6}>
               <Image
@@ -146,9 +218,39 @@ const SpecificCategoryClientPage: NextPage<{
             <input
               type="text"
               className={styles.enterAService}
-              placeholder="Enter a Service Name, Category, or Location"
+              placeholder="Enter a Service Name or Tag"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              autoComplete="off" // Prevent browser's default autocomplete
             />
           </div>
+
+          {(isSearching || searchResults.length > 0) &&
+            searchTerm.trim().length > 0 && (
+              <div className={styles.searchResultsDropdown}>
+                {isSearching && (
+                  <div className={styles.searchResultItem}>Searching...</div>
+                )}
+                {!isSearching && searchResults.length === 0 && (
+                  <div className={styles.searchResultItem}>
+                    No results found.
+                  </div>
+                )}
+                {!isSearching &&
+                  searchResults.map((result) => (
+                    <Link
+                      key={result.id}
+                      href={`/facility/${result.id}`}
+                      className={styles.searchResultLink}
+                    >
+                      <div className={styles.searchResultItem}>
+                        <b>{result.business_name}</b>
+                        <small>{result.address}</small>
+                      </div>
+                    </Link>
+                  ))}
+              </div>
+            )}
         </div>
       </div>
 
