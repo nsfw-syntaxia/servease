@@ -321,22 +321,21 @@
 }
 
 .changePassword {
-  position: absolute;
-  width: 86.19%;
-  top: 25%;
-  left: 7.18%;
-  display: inline-block;
+  position: relative;
 }
 
 .changePassBtn {
   position: absolute;
-  height: 2.45%;
+  height: 44px;
   width: 12.57%;
-  top: 58.94%;
+  top: 1060px;
   right: 51.18%;
   bottom: 38.61%;
   left: 36.25%;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--color-tan);
   transition: all 0.3s ease;
 }
@@ -356,13 +355,14 @@
   position: absolute;
   height: 1.34%;
   width: 1.67%;
-  top: 59.5%;
+  top: 1056px;
   right: 81.11%;
   bottom: 39.16%;
   left: 17.22%;
   max-width: 100%;
   overflow: hidden;
   max-height: 100%;
+  margin-top: 1%;
 }
 
 .notifLabel {
@@ -375,13 +375,16 @@
 
 .enableBtn {
   position: absolute;
-  height: 2.45%;
+  height: 44px;
   width: 12.57%;
-  top: 62.95%;
+  top: 1130px;
   right: 51.18%;
   bottom: 34.6%;
   left: 36.25%;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--color-tan);
 }
 
@@ -400,13 +403,14 @@
   position: absolute;
   height: 1.34%;
   width: 1.67%;
-  top: 63.51%;
+  top: 1128px;
   right: 81.11%;
   bottom: 35.15%;
   left: 17.22%;
   max-width: 100%;
   overflow: hidden;
   max-height: 100%;
+  margin-top: 1%;
 }
 
 .accountLabel {
@@ -419,20 +423,22 @@
 
 .deleteAccBtn {
   position: absolute;
-  height: 2.45%;
+  height: 44px;
   width: 12.57%;
-  top: 58.94%;
+  top: 1056px;
   right: 16.39%;
-  bottom: 38.61%;
   left: 71.04%;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--color-tan);
   transition: all 0.3s ease;
 }
 
 .circleSetting {
   position: absolute;
-  top: 1056px;
+  top: 1057px;
   left: 737px;
   border-radius: 50%;
   background-color: var(--color-tan);
@@ -445,13 +451,14 @@
   position: absolute;
   height: 1.34%;
   width: 1.67%;
-  top: 59.5%;
+  top: 1056px;
   right: 46.32%;
   bottom: 39.16%;
   left: 52.01%;
   max-width: 100%;
   overflow: hidden;
   max-height: 100%;
+  margin-top: 1%;
 }
 
 .content {
@@ -490,11 +497,10 @@
 .profileClient {
   margin-top: -50px;
   width: 100%;
-  min-height: 100vh;
+  min-height: 80rem;
   position: relative;
   background-color: var(--color-whitesmoke);
   box-sizing: border-box;
-  height: 1795px;
   overflow: hidden;
   text-align: left;
   font-size: var(--font-size-16);
@@ -812,7 +818,9 @@
   color: var(--color-gray-100);
   font-family: var(--font-dm-sans);
   cursor: text;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .hideIcon {
@@ -851,7 +859,9 @@
   opacity: 0;
   visibility: hidden;
   transform: translateY(10px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
   position: absolute;
   bottom: 72px;
 }
@@ -1223,7 +1233,9 @@
   opacity: 0;
   visibility: hidden;
   transform: translateY(10px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
   position: absolute;
   top: 355px;
 }
