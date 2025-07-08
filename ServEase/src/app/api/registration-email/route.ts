@@ -4,6 +4,7 @@ import { render } from "@react-email/render";
 import React from "react";
 import { RegistrationSuccessClient } from "../../emails/RegistrationSuccessClient";
 import { RegistrationSuccessFacility } from "../../emails/RegistrationSuccessFacility";
+import { FacilityApproved } from "../../emails/FacilityApproved";
 
 // --- CRITICAL FIX 1: Force Node.js Runtime ---
 // This ensures nodemailer has the necessary environment and prevents crashes.
@@ -88,8 +89,31 @@ export async function POST(req: Request) {
         break;
       }
 
+      case "facilityApproved": {
+        const { facilityEmail, facilityName } = data;
+        if (!facilityEmail || !facilityName) {
+          return NextResponse.json(
+            { error: "Missing data for facilityApproved" },
+            { status: 400 }
+          );
+        }
+
+        const emailHtml = await render(
+          React.createElement(FacilityApproved, { facilityName })
+        );
+
+        mailOptions = {
+          from: `"ServEase" <${process.env.GMAIL_EMAIL}>`,
+          to: facilityEmail,
+          subject: "Congratulations! Your ServEase Profile is Verified",
+          html: emailHtml,
+        };
+        break;
+      }
+
       default:
         console.error(`Unknown email type requested: ${emailType}`);
+
         return NextResponse.json(
           { error: `Unknown email type: ${emailType}` },
           { status: 400 }
