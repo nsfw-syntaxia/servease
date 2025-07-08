@@ -24,6 +24,7 @@ const ClientSignup3: NextPage<Props> = ({ onNext }) => {
   const [otpErrorMessage, setOtpErrorMessage] = useState("");
   const otpRefs = useRef<HTMLInputElement[]>([]);
 
+  const [isButtonPressed, setIsButtonPressed] = useState(false);
   const router = useRouter();
 
   const isPhoneValid = phone.replace(/\D/g, "").trim().length === 10;
@@ -113,15 +114,33 @@ const ClientSignup3: NextPage<Props> = ({ onNext }) => {
 
       setLoading(true);
       await new Promise((resolve) => setTimeout(resolve, 1000));
+
       const formData = new FormData();
       formData.append("contact", countryCode + phone);
       await addContactAndCompleteProfile(formData);
+
       router.push("/client-dashboard");
     } catch (error: any) {
       setErrorMessage(error.message || "Verification failed");
+      setLoading(false);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleButtonClick = () => {
+    // trigger the animation immediately on any click
+    setIsButtonPressed(true);
+
+    // if the button is enabled, proceed with the submission logic
+    if (isNextEnabled) {
+      handleSubmit();
+    }
+
+    // reset the animation state after a short delay so it can run again
+    setTimeout(() => {
+      setIsButtonPressed(false);
+    }, 200);
   };
 
   return (
@@ -267,14 +286,14 @@ const ClientSignup3: NextPage<Props> = ({ onNext }) => {
       </div>
 
       <div
-        className={styles.button3}
+        className={`${styles.button3} ${isButtonPressed ? styles.pressed : ""}`}
         style={{
           backgroundColor: "#a68465",
           opacity: isNextEnabled ? "1" : "0.5",
           transition: "opacity 0.2s ease",
           cursor: isNextEnabled ? "pointer" : "not-allowed",
         }}
-        onClick={isNextEnabled ? handleSubmit : undefined}
+        onClick={handleButtonClick}
       >
         <div className={styles.signUpWrapper}>
           <div className={styles.webDesigns}>
