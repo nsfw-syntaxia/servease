@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "../utils/supabase/server";
+import { createAdminClient } from "../utils/supabase/admin";
 
 // this is the shape of the data we will return
 export type DashboardStats = {
@@ -86,4 +87,105 @@ export async function getDashboardStats(): Promise<DashboardStats> {
     totalLikes,
     rating,
   };
+}
+
+export type UpcomingAppointment = {
+  id: number;
+  clientName: string;
+  service: string;
+  time: string;
+  date: string;
+  avatarUrl: string;
+};
+
+export async function getUpcomingAppointments(): Promise<
+  UpcomingAppointment[]
+> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return [];
+  }
+
+  const today = new Date().toISOString().split("T")[0];
+
+  // fetch top 2 upcoming appointments
+  const { data: appointments, error: appointmentsError } = await supabase
+    .from("appointments")
+    .select("id, client_id, time, date, services") // fetch only necessary fields
+    .eq("provider_id", user.id)
+    .eq("status", "confirmed")
+    .gte("date", today)
+    .order("date", { ascending: true })
+    .order("time", { ascending: true })
+    .limit(2);
+
+  if (appointmentsError) {
+    console.error("Error fetching appointments:", appointmentsError.message);
+    return [];
+  }
+
+  if (!appointments || appointments.length === 0) {
+    return [];
+  }
+
+  // get the unique client IDs from the fetched appointments
+  const clientIds = [...new Set(appointments.map((a) => a.client_id))];
+
+  // fetch the profiles for just those clients in a single query
+  const { data: profiles, error: profilesError } = await supabase
+    .from("profiles")
+    .select("id, full_name, picture_url")
+    .in("id", clientIds);
+
+  if (profilesError) {
+    console.error("Error fetching client profiles:", profilesError.message);
+    return [];
+  }
+
+  // create a Map for easy and fast lookup of client profiles
+  const profilesMap = new Map(profiles.map((p) => [p.id, p]));
+
+  // combine the appointment data with the client profile data
+  const formattedAppointments: UpcomingAppointment[] = appointments.map(
+    (appt) => {
+      const clientProfile = profilesMap.get(appt.client_id);
+
+      // format time from "HH:mm:ss" to "h:mm AM/PM"
+      const timeParts = appt.time.split(":");
+      const hours = parseInt(timeParts[0], 10);
+      const minutes = timeParts[1];
+      const ampm = hours >= 12 ? "PM" : "AM";
+      const formattedHours = hours % 12 || 12;
+      const formattedTime = `${formattedHours}:${minutes} ${ampm}`;
+
+      // format date from "YYYY-MM-DD" to "W, M D"
+      const dateObj = new Date(`${appt.date}T00:00:00`);
+      const formattedDate = dateObj.toLocaleDateString("en-US", {
+        weekday: "short",
+        month: "long",
+        day: "numeric",
+      });
+
+      // get the first service from the array, or a default string if empty
+      const serviceName =
+        appt.services && appt.services.length > 0
+          ? appt.services[0]
+          : "Appointment";
+
+      return {
+        id: appt.id,
+        clientName: clientProfile?.full_name || "Unknown Client",
+        service: serviceName,
+        time: formattedTime,
+        date: formattedDate,
+        avatarUrl: clientProfile?.picture_url || "/avatar.svg",
+      };
+    }
+  );
+
+  return formattedAppointments;
 }

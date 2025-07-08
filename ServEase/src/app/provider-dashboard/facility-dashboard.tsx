@@ -3,7 +3,8 @@
 import type { NextPage } from "next";
 import Image from "next/image";
 import styles from "../styles/facility-dashboard.module.css";
-import { type DashboardStats } from "./actions";
+import { type DashboardStats, type UpcomingAppointment } from "./actions";
+import { useRouter } from "next/navigation";
 
 type AppointmentProps = {
   clientName: string;
@@ -90,11 +91,20 @@ const UpcomingAppointments = ({
   service,
   timeslot,
   appointmentDate,
+  avatarUrl,
 }) => {
   return (
     <div className={styles.appointmentCard}>
       <div className={styles.header}>
-        <div className={styles.avatar}></div>
+        <div className={styles.avatar}>
+          <Image
+            src={avatarUrl}
+            alt={clientName}
+            width={90}
+            height={90}
+            style={{ borderRadius: "50%", objectFit: "cover" }}
+          />
+        </div>
         <div className={styles.clientInfo}>
           <h3 className={styles.clientName}>{clientName}</h3>
           <p className={styles.service}>{service}</p>
@@ -141,15 +151,33 @@ const AppointmentCard = ({ clientName, serviceName, time, date }) => {
   );
 };
 
-const DashboardFacility: NextPage<{ initialStats: DashboardStats }> = ({
-  initialStats,
-}) => {
-  // You would fetch and display real data here later
-  const upcomingappointments = [
-    /* ... placeholder data ... */
-  ];
+const DashboardFacility: NextPage<{
+  initialStats: DashboardStats;
+  upcomingAppointments: UpcomingAppointment[];
+}> = ({ initialStats, upcomingAppointments }) => {
+  const router = useRouter();
+
+  // fetch and display real data here later
+
   const pendingappointments = [
-    /* ... placeholder data ... */
+    {
+      clientName: "Shan Michael Raboy",
+      serviceName: "Haircut",
+      time: "13:00",
+      date: "November 1",
+    },
+    {
+      clientName: "John Doe",
+      serviceName: "Hair Color",
+      time: "14:30",
+      date: "November 1",
+    },
+    {
+      clientName: "Jane Smith",
+      serviceName: "Trim & Style",
+      time: "16:00",
+      date: "November 2",
+    },
   ];
 
   return (
@@ -166,7 +194,7 @@ const DashboardFacility: NextPage<{ initialStats: DashboardStats }> = ({
               height={15}
               sizes="100vw"
               alt=""
-              src="Group 126.svg"
+              src="/Group 126.svg"
             />
           </div>
         </div>
@@ -184,19 +212,31 @@ const DashboardFacility: NextPage<{ initialStats: DashboardStats }> = ({
             </h2>
           </div>
           <div className={styles.appointmentsContainer}>
-            {upcomingappointments.map((appointment, index) => (
-              <UpcomingAppointments
-                key={appointment.index || index} // better key using unique ID
-                clientName={appointment.clientName}
-                service={appointment.service}
-                timeslot={appointment.timeslot}
-                appointmentDate={appointment.appointmentDate}
-              />
-            ))}
+            {/* update this map to use the real data */}
+            {upcomingAppointments.length > 0 ? (
+              upcomingAppointments.map((appointment) => (
+                <UpcomingAppointments
+                  key={appointment.id} // use the real ID for the key
+                  clientName={appointment.clientName}
+                  service={appointment.service}
+                  timeslot={appointment.time}
+                  appointmentDate={appointment.date}
+                  avatarUrl={appointment.avatarUrl} // pass the new prop
+                />
+              ))
+            ) : (
+              // show a message if there are no appointments
+              <p className={styles.noAppointmentsMessage}>
+                No upcoming appointments today.
+              </p>
+            )}
           </div>
         </div>
 
-        <div className={styles.button}>
+        <div
+          className={styles.button}
+          onClick={() => router.push("/facility-appointments")}
+        >
           <div className={styles.viewAll}>View All</div>
         </div>
 
@@ -223,9 +263,6 @@ const DashboardFacility: NextPage<{ initialStats: DashboardStats }> = ({
               date={appointment.date}
             />
           ))}
-        </div>
-        <div className={styles.button1}>
-          <div className={styles.viewAll}>View All</div>
         </div>
       </div>
     </div>
