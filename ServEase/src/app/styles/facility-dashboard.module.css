@@ -401,7 +401,7 @@
 .upcomingAppointments {
   position: absolute;
   top: 1064px;
-  left: 136px;
+  left: 13%;
   font-size: 50px;
   line-height: 150%;
   display: flex;
@@ -591,7 +591,7 @@
 .button {
   position: absolute;
   top: 1120px;
-  left: 1145px;
+  left: 1275px;
   border-radius: var(--br-12);
   background-color: var(--color-tan);
   border: 1px solid var(--color-tan);
@@ -619,14 +619,14 @@
   width: 618px;
   height: 75px;
   margin-top: 7%;
-  margin-left: 12%;
+  left: 16.5%;
   color: var(--color-tan);
 }
 
 .button1 {
   position: absolute;
   top: 1645px;
-  left: 1152px;
+  left: 1275px;
   border-radius: var(--br-12);
   background-color: var(--color-tan);
   border: 1px solid var(--color-tan);
@@ -890,45 +890,6 @@
   line-height: 1.4;
 }
 
-/* Tablet Styles */
-@media (max-width: 768px) {
-  .overview {
-    padding: 1.5rem 0;
-  }
-
-  .container {
-    padding: 0 0.75rem;
-  }
-
-  .title {
-    font-size: 2rem;
-  }
-
-  .statsGrid {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
-  }
-
-  .statCard {
-    padding: 1.25rem;
-  }
-
-  .statValue {
-    font-size: 1.75rem;
-  }
-
-  .iconWrapper {
-    width: 2.5rem;
-    height: 2.5rem;
-    top: -1.625rem;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  .icon {
-    font-size: 1rem;
-  }
-}
 /* Tablet (max-width: 1024px) */
 @media screen and (max-width: 1024px) {
   .manageYour,
@@ -944,7 +905,6 @@
     line-height: 80%;
     justify-content: left;
   }
-
   .heroImageChild {
     left: 50%;
     transform: translateX(-50%);
@@ -960,6 +920,137 @@
     border-radius: 30px;
     top: 10px;
   }
+   .statsGrid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+
+  .statCard {
+    padding: 2.3rem;
+  }
+
+  .dated {
+  color: #a0845c;
+  font-size: 1rem;
+  margin-top: 7%;
+  margin-left: -30%;
+  font-size: 21px;
+}
+.upcomingAppointments {
+  position: absolute;
+  top: 1200px;
+  left: 0%;
+  font-size: 50px;
+  line-height: 150%;
+  display: flex;
+  align-items: center;
+  width: 618px;
+  height: 75px;
+  color: var(--color-tan);
+}
+.button {
+  position: absolute;
+  top: 1235px;
+  left: 670px;
+  border-radius: var(--br-12);
+  background-color: var(--color-tan);
+  border: 1px solid var(--color-tan);
+  box-sizing: border-box;
+  width: 146px;
+  height: 43px;
+  text-align: center;
+  font-size: var(--font-size-15);
+  color: var(--color-white);
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.pendingAppointments {
+  position: relative;
+  font-size: 50px;
+  line-height: 150%;
+  display: flex;
+  align-items: center;
+  width: 618px;
+  height: 75px;
+  margin-top: 7%;
+  left: 3%;
+  color: var(--color-tan);
+}
+
+.button1 {
+  position: absolute;
+  top: 1670px;
+  left: 670px;
+  border-radius: var(--br-12);
+  background-color: var(--color-tan);
+  border: 1px solid var(--color-tan);
+  box-sizing: border-box;
+  width: 146px;
+  height: 43px;
+  text-align: center;
+  font-size: var(--font-size-15);
+  color: var(--color-white);
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+}
+
+@media screen and (max-width: 768px)
+{
+    .dated {
+  color: #a0845c;
+  font-size: 1rem;
+  margin-top: 9%;
+  margin-left: -39%;
+  font-size: 21px;
+}
+ .button
+ {
+  top: 1230px;
+  left: 83%;
+  width: 80px;
+  height: 40px;
+ }
+ .pendingAppointments {
+  font-size: 120%;
+}
+ .button1
+ {
+  top: 1614px;
+  left: 83%;
+  width: 80px;
+  height: 40px;
+ }
+}
+@media (max-width: 668px)
+{
+      .dated {
+  color: #a0845c;
+  font-size: 1rem;
+  margin-top: 11%;
+  margin-left: -47%;
+  font-size: 19px;
+}
+  .upcomingAppointments {
+    top: 58%;
+  }
+.button
+ {
+  top: 59%;
+  left: 83%;
+  width: 80px;
+  height: 40px;
+ }
+ .pendingAppointments {
+  font-size: 110%;
+}
+ .button1
+ {
+  top: 87%;
+  left: 83%;
+  width: 80px;
+  height: 40px;
+ }
 }
 /* Mobile Styles */
 @media (max-width: 480px) {
@@ -981,11 +1072,11 @@
 
   .statsGrid {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 2rem;
   }
 
   .statCard {
-    padding: 1rem;
+    padding: 1.5rem;
   }
 
   .statValue {
@@ -1007,6 +1098,70 @@
   .icon {
     font-size: 0.875rem;
   }
+  .upcomingAppointments {
+  position: absolute;
+  top: 1190px;
+  left: 0%;
+  font-size: 20px;
+  line-height: 150%;
+  display: flex;
+  align-items: center;
+  width: 600px;
+  height: 75px;
+  color: var(--color-tan);
+}
+.button {
+  position: absolute;
+  top: 1257px;
+  left: 72%;
+  border-radius: var(--br-12);
+  background-color: var(--color-tan);
+  border: 1px solid var(--color-tan);
+  box-sizing: border-box;
+  width: 75px;
+  height: 20px;
+  text-align: center;
+  font-size: var(--font-size-14);
+  color: var(--color-white);
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.pendingAppointments {
+  position: relative;
+  font-size: 23px;
+  line-height: 150%;
+  display: flex;
+  align-items: center;
+  width: 618px;
+  height: 75px;
+  margin-top: 5%;
+  left: 4%;
+  color: var(--color-tan);
+}
+
+.button1 {
+  position: absolute;
+  top: 1830px;
+  left: 72%;
+  border-radius: var(--br-12);
+  background-color: var(--color-tan);
+  border: 1px solid var(--color-tan);
+  box-sizing: border-box;
+   width: 75px;
+  height: 20px;
+  text-align: center;
+  font-size: var(--font-size-14);
+  color: var(--color-white);
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.dated {
+  color: #a0845c;
+  font-size: 1rem;
+  margin-top: 8.5%;
+  margin-left: -40%;
+  font-size: 17px;
+}
 }
 
 /* Large Desktop Styles */
@@ -1233,7 +1388,6 @@
   color: #a68b5b;
 }
 
-/* Tablet Styles */
 @media (max-width: 768px) {
   .upcomingAppointmentsContainer {
     gap: 15px;
