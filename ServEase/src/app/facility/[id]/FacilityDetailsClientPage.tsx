@@ -37,6 +37,20 @@ interface Service {
 
 interface Review {
   id: string;
+  rating: number;
+  comment: string;
+  client_name: string;
+  created_at: string;
+  service_name;
+  client: {
+  picture_url: string | null;
+  } | null;
+}
+
+interface RatingCircleProps {
+  rating: number;
+  size?: number; // The width and height of the circle
+  strokeWidth?: number; // The thickness of the circle's line
 }
 
 interface RelatedService {
@@ -59,8 +73,8 @@ const DynamicMap = ({ lat, lng }: { lat: number; lng: number }) => {
     const map = new Map({
       container: mapContainer.current,
       style: "streets-v2",
-      center: [lng, lat], 
-      zoom: 16, 
+      center: [lng, lat],
+      zoom: 16,
     });
 
     new Marker({ color: "#FF0000" }).setLngLat([lng, lat]).addTo(map);
@@ -163,6 +177,41 @@ const formatWorkingDays = (days: string[] | null): string => {
     .join(", ");
 };
 
+const RatingCircle: React.FC<RatingCircleProps> = ({
+  rating,
+  size = 130, 
+  strokeWidth = 15, 
+}) => {
+  const center = size / 2;
+  const radius = center - strokeWidth / 2;
+  const circumference = 2 * Math.PI * radius;
+
+  const progress = rating / 5;
+  const offset = circumference * (1 - progress);
+
+  return (
+    <svg width={size} height={size} className={styles.ratingSvg}>
+      <circle
+        className={styles.ratingCircleBg}
+        cx={center}
+        cy={center}
+        r={radius}
+        strokeWidth={strokeWidth}
+      />
+      <circle
+        className={styles.ratingCircleProgress}
+        cx={center}
+        cy={center}
+        r={radius}
+        strokeWidth={strokeWidth}
+        strokeDasharray={circumference}
+        strokeDashoffset={offset}
+        strokeLinecap="round" 
+      />
+    </svg>
+  );
+};
+
 const RelatedServiceCard = ({ related }: { related: RelatedService }) => {
   const router = useRouter();
 
@@ -257,7 +306,7 @@ const FacilityDetailsClientPage: NextPage<{
         );
 
         if (results.features.length > 0) {
-          const { center } = results.features[0]; 
+          const { center } = results.features[0];
           setCoordinates({ lng: center[0], lat: center[1] });
         } else {
           setMapError("Location could not be found on the map.");
@@ -335,7 +384,7 @@ const FacilityDetailsClientPage: NextPage<{
     if (carouselIndex === totalImages + visibleImages) {
       setTimeout(() => {
         setCarouselIndex(visibleImages);
-        disableTransition(); 
+        disableTransition();
       }, 300);
     } else if (carouselIndex === 0) {
       setTimeout(() => {
@@ -368,6 +417,27 @@ const FacilityDetailsClientPage: NextPage<{
     ? selectedService.price.toFixed(2)
     : "0.00";
 
+    const filteredReviews = useMemo(() => {
+    if (!reviews) return [];
+
+    if (activeFilter === "All") {
+      return reviews;
+    }
+
+    if (activeFilter === "With Media") {
+      // Assuming 'With Media' means reviews that have a non-empty comment.
+      return reviews.filter(review => review.comment && review.comment.trim() !== '');
+    }
+
+    const ratingFilter = parseInt(activeFilter, 10);
+    if (!isNaN(ratingFilter)) {
+      // Filters reviews where the rounded rating matches the filter (e.g., 4.2 is considered 4 stars)
+      return reviews.filter(review => Math.round(review.rating) === ratingFilter);
+    }
+
+    return reviews; // Fallback to all reviews
+  }, [reviews, activeFilter]);
+
   const handleBookNow = () => {
     if (!selectedService) {
       alert("Please select a service to book.");
@@ -378,6 +448,70 @@ const FacilityDetailsClientPage: NextPage<{
 
     router.push(bookingUrl);
   };
+
+
+  // A component to render a single review card, matching the new design
+// A component to render a single review card with a logical structure
+const ReviewCard = ({ review }: { review: Review }) => {
+  const formattedDate = new Date(review.created_at).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  });
+
+  return (
+    <div className={styles.reviewCard}>
+      {/* Main container for the avatar and the info block beside it */}
+      <div className={styles.reviewHeader}>
+        <div className={styles.reviewAvatar}>
+          <Image
+            src={review.client?.picture_url || "/avatar.svg"}
+            alt={review.client_name}
+            width={50}
+            height={50}
+            className={styles.avatarImg}
+          />
+        </div>
+
+        {/* This block holds all the text content, organized into two rows */}
+        <div className={styles.reviewInfo}>
+          {/* TOP ROW: Contains the client's name and the review date */}
+          <div className={styles.reviewRow}>
+            <div className={styles.clientName}>{review.client_name}</div>
+            <div className={styles.reviewDate}>{formattedDate}</div>
+          </div>
+
+          {/* BOTTOM ROW: Contains the rating (stars + number) and the service name */}
+          <div className={styles.reviewRow}>
+            {/* A new container to keep the stars and number together on the left */}
+            <div className={styles.ratingContainer}>
+              {[...Array(5)].map((_, i) => (
+                <Image
+                  key={i}
+                  className={styles.starIcon}
+                  width={20}
+                  height={20}
+                  alt="Star"
+                  src={i < Math.round(review.rating) ? "/Star 31.svg" : "/Star 4.svg"}
+                />
+              ))}
+              <div className={styles.ratingValue}>{review.rating.toFixed(1)}</div>
+            </div>
+            {/* The service option is now here, and flexbox will push it to the right */}
+            <div className={styles.serviceOption}>{review.service_name}</div>
+          </div>
+        </div>
+      </div>
+
+      {/* The comment text, displayed only if it exists */}
+      {review.comment && (
+        <div className={styles.reviewComment}>
+          <p>{review.comment}</p>
+        </div>
+      )}
+    </div>
+  );
+};
 
   return (
     <div className={styles.facilityDetailsParent}>
@@ -768,55 +902,58 @@ const FacilityDetailsClientPage: NextPage<{
         </section>
 
         <div className={styles.location2}>
-          <section id="ratings">
-            <b className={styles.serviceRatings}>Service Ratings</b>
-          </section>
-          <div className={styles.group}>
-            <div className={styles.parent2}>
-              <b className={styles.b8}>{facility.rating.toFixed(1)}</b>
-              <div className={styles.outOf5}>Out of 5</div>
+  <section id="ratings">
+    <b className={styles.serviceRatings}>Service Ratings</b>
+  </section>
+  <div className={styles.group}>
+    {/* The new dynamic circle component */}
+    <RatingCircle rating={facility.rating} size={130} strokeWidth={15} />
+
+    {/* The text block is now positioned over the circle via CSS */}
+    <div className={styles.parent2}>
+      <b className={styles.b8}>{facility.rating.toFixed(1)}</b>
+      <div className={styles.outOf5}>Out of 5</div>
+    </div>
+    
+    <div className={styles.paraContentGroup}>
+      <div className={styles.paraContent17}>
+        <b className={styles.workSchedule}>{reviews.length} Reviews</b>
+      </div>
+      <div className={styles.grid}>
+        {filters.map((filter) => (
+          <div
+            key={filter.label}
+            className={`${styles.buttonstar} ${
+              activeFilter === filter.label ? styles.activerating : ""
+            }`}
+            onClick={() => setActiveFilter(filter.label)}
+          >
+            {filter.hasStar && (
+              <Image
+                src="/Star 31.svg"
+                alt="star"
+                width={18}
+                height={18}
+                className={styles.iconstar}
+              />
+            )}
+            <span>{filter.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+          <div className={styles.frameParent}>
+          {filteredReviews.length > 0 ? (
+            filteredReviews.map((review) => (
+              <ReviewCard key={review.id} review={review} />
+            ))
+          ) : (
+            <div className={styles.noReviewsMessage}>
+              <p>No reviews match the current filter.</p>
             </div>
-            <Image
-              className={styles.icon5}
-              width={160}
-              height={160}
-              alt=""
-              src="/75.svg"
-            />
-            <div className={styles.paraContentGroup}>
-              <div className={styles.paraContent17}>
-                <b className={styles.workSchedule}>{reviews.length} Reviews</b>
-              </div>
-              <div className={styles.grid}>
-                {filters.map((filter) => (
-                  <div
-                    key={filter.label}
-                    className={`${styles.buttonstar} ${
-                      activeFilter === filter.label ? styles.activerating : ""
-                    }`}
-                    onClick={() => setActiveFilter(filter.label)}
-                  >
-                    {filter.hasStar && (
-                      <Image
-                        src="/Star 31.svg"
-                        alt="star"
-                        width={18}
-                        height={18}
-                        className={styles.iconstar}
-                      />
-                    )}
-                    <span>{filter.label}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-          <div className={styles.locationInner}>
-            <div className={styles.frameContainer}>...</div>
-          </div>
-          <div className={styles.locationChild}>
-            <div className={styles.frameParent1}>...</div>
-          </div>
+          )}
+        </div>
         </div>
         <Image
           className={styles.dividerrelated}

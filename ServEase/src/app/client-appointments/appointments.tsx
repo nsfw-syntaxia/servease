@@ -410,6 +410,7 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
         appointment_id : selectedAppointmentReview.id,
         client_id: selectedAppointmentReview.client_id,
         provider_id: selectedAppointmentReview.provider_id,
+        service_name: selectedAppointmentReview.services?.[0]?.name || 'Unknown Service', 
         rating: rating,
         comment: reviewText.trim(),
         client_name: name.trim(),

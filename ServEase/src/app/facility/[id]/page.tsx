@@ -23,13 +23,13 @@ interface Profile {
   location: { lat: number; lng: number } | null;
 }
 
-// Corrected the Service interface
 interface Service {
-  id: number;
-  name: string; // The client expects 'name', not 'service_name'
+  id: string;
+  service_name: string;
   price: number;
   provider_id: string;
 }
+
 
 // This is the new, detailed Review interface
 interface Review {
@@ -61,7 +61,7 @@ interface RelatedServices {
 }
 
 export default async function FacilityPage({ params }: FacilityPageProps) {
-  const { id } = params;
+  const { id } = await params;
 
   const supabase = await createClient();
   const supabaseAdmin = await createAdminClient();
@@ -79,12 +79,11 @@ export default async function FacilityPage({ params }: FacilityPageProps) {
 
   const { data: { user }, error: userError } = await supabaseAdmin.auth.admin.getUserById(profile.id);
 
-  const { data: rawServices } = await supabase
+ const { data: services } = await supabase
     .from("services")
-    .select("id, service_name, price, provider_id") // Be specific with selects
+    .select("*")
     .eq("provider_id", id);
     
-  // --- FIX 2: This is the most important change. Update the query for reviews. ---
   const { data: reviews } = await supabase
     .from("reviews")
     .select(`
@@ -93,6 +92,7 @@ export default async function FacilityPage({ params }: FacilityPageProps) {
       comment,
       client_name,
       created_at,
+      service_name,
       client:client_id (
         picture_url
       )
@@ -115,25 +115,35 @@ export default async function FacilityPage({ params }: FacilityPageProps) {
     rating: profile.rating || 0,
   };
 
-  // --- FIX 3: Process the services data to match the client component's 'Service' interface ---
-  const processedServices = (rawServices || []).map(service => ({
-      id: service.id,
-      name: service.service_name, // Rename 'service_name' to 'name'
-      price: service.price,
-      provider_id: service.provider_id
-  }));
+  const processedReviews = (reviews || []).map(review => {
+    let clientData = null; 
+
+    if (Array.isArray(review.client) && review.client.length > 0) {
+      clientData = review.client[0];
+    } 
+    else if (review.client && typeof review.client === 'object' && !Array.isArray(review.client)) {
+      clientData = review.client;
+    }
+
+    return {
+      ...review,
+      client: clientData,
+    };
+  });
 
   const processedRelatedServices = (relatedServices || []).map((service) => ({
     ...service,
-    rating: service.rating || 0, // Fallback to 0 if rating is null
+    rating: service.rating || 0, 
   }));
+
+  console.log(reviews);
+  console.log(processedReviews);
 
   return (
     <FacilityDetailsClientPage
       facility={facilityData}
-      // Pass the correctly formatted data to the client component
-      services={processedServices}
-      reviews={reviews || []}
+      services={services || []}
+      reviews={processedReviews}
       relatedServices={processedRelatedServices}
     />
   );
