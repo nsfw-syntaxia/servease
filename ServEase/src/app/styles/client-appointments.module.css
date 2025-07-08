@@ -485,7 +485,7 @@
   font-size: var(--font-size-16);
   color: var(--color-dimgray);
   font-family: var(--font-dm-sans);
-  min-height: 54vh;
+  min-height: 63vh;
   padding: 0 auto;
 }
 .rowContainer {
@@ -660,7 +660,8 @@
 .modal {
   background-color: white;
   border-radius: 8px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
     0 10px 10px -5px rgba(0, 0, 0, 0.04);
   max-width: 28rem;
   width: 100%;

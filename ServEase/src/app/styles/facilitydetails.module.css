@@ -13,7 +13,9 @@
   overflow: hidden;
   transition: all 0.3s ease;
   position: relative;
-  transition: transform 0.12s ease-out, box-shadow 0.12s ease-out,
+  transition:
+    transform 0.12s ease-out,
+    box-shadow 0.12s ease-out,
     border 0.12s ease-out;
   cursor: pointer;
   background-color: #e0d9c9;
@@ -94,7 +96,6 @@
 /*main*/
 
 .facilityDetailsParent {
-  margin-top: 5%;
   width: 100%;
   position: relative;
   height: auto;
@@ -119,7 +120,7 @@
 .frameParent {
   position: relative;
   margin: 0 auto;
-  margin-top: 2%;
+  margin-top: 9%;
   width: 1225px;
   display: flex;
   flex-direction: row;
@@ -673,7 +674,9 @@
   box-sizing: border-box;
   gap: 8px;
   color: white;
-  transition: transform 0.3s ease, background-position 0.5s ease,
+  transition:
+    transform 0.3s ease,
+    background-position 0.5s ease,
     opacity 0.3s ease;
 }
 
@@ -698,7 +701,9 @@
 
   color: #fbf7f4;
   cursor: pointer;
-  transition: transform 0.3s ease, background-position 0.5s ease,
+  transition:
+    transform 0.3s ease,
+    background-position 0.5s ease,
     opacity 0.3s ease;
 }
 
@@ -782,7 +787,9 @@
   left: 6.45%;
   max-width: 100%;
   max-height: 100%;
-  transition: opacity 0.25s ease, transform 0.25s ease;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
   opacity: 0;
   transform: scale(0.8);
 }
@@ -1218,7 +1225,7 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1; /* Takes up all available horizontal space */
-  gap: 8px;   /* Space between the top and bottom rows */
+  gap: 8px; /* Space between the top and bottom rows */
 }
 
 /* This single class styles both the top and bottom rows perfectly. */
@@ -1291,15 +1298,15 @@
 
 .reviewAvatar {
   flex-shrink: 0;
-  align-self: center; 
-  width: 80px;      
-  height: 80px;     
+  align-self: center;
+  width: 80px;
+  height: 80px;
 }
 
 /* Make the image fill its container */
 .avatarImg {
   border-radius: 50%;
-  object-fit: cover;  /* This prevents the image from stretching */
+  object-fit: cover; /* This prevents the image from stretching */
   width: 100%;
   height: 100%;
 }
@@ -1338,21 +1345,22 @@
 
 .relatedServicesbox {
   position: relative;
+  margin: 0 auto;
   margin-top: 3rem;
   background-color: #efebe2;
-  width: 100%;
+  width: 80%;
   height: 780px;
 }
 
 .relatedServices {
   position: relative;
   margin-top: 3rem;
-  margin-left: 10%;
+  padding-left: 13%;
   font-size: 50px;
   line-height: 150%;
   display: flex;
   align-items: center;
-  width: 408px;
+  width: 100%;
   height: 75px;
 }
 
@@ -1368,11 +1376,11 @@
 
 .servicesCarousel {
   position: relative;
-  width: 85%;
+  width: 80%;
   display: flex;
   align-items: center;
   margin: 3% auto;
-  padding: 0px 10px;
+  padding: 0px auto;
 }
 
 .carouselViewport {
@@ -1382,7 +1390,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding-left: 15px;
+  justify-content: center;
 }
 
 .carouselTrack {
