@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 
 export async function POST(req: Request) {
   // 1. Security Check: Ensure the request is coming from Supabase
-  const headersList = headers();
+  const headersList = req.headers;
   const authToken = headersList.get("auth-token");
 
   if (authToken !== process.env.SUPABASE_WEBHOOK_SECRET) {
@@ -20,6 +20,7 @@ export async function POST(req: Request) {
     const oldStatus = payload.old_record?.status;
     const newStatus = payload.record?.status;
 
+    // Kept your change to check for "verified"
     if (
       isProfileUpdate &&
       oldStatus === "pending" &&
