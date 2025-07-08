@@ -309,7 +309,6 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
     setShowOverlayPassword(false);
     setShowOverlayDelete(false);
     setShowError(false);
-    // Reset all fields
     setPassword("");
     NewsetPassword("");
     ConfirmsetPassword("");
@@ -399,7 +398,9 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
                 placeholder="Address"
               />
             ) : (
-              <div className={styles.emailAddress}>{profileData.address}</div>
+              <div className={styles.emailAddress}>
+                {profileData.address || placeholders.address}
+              </div>
             )}
             {errors.address && (
               <div className={styles.errorMessage}>{errors.address}</div>
@@ -672,8 +673,8 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
                     <div className={styles.eyeOff}>
                       <Image
                         className={styles.iconeye}
-                        width={25}
-                        height={25}
+                        width={30}
+                        height={30}
                         alt={
                           passwordVisible ? "Hide password" : "Show password"
                         }
@@ -703,7 +704,7 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
                       <Image
                         className={styles.iconeye}
                         width={30}
-                        height={25}
+                        height={30}
                         alt={
                           NewpasswordVisible ? "Hide password" : "Show password"
                         }
@@ -737,7 +738,7 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
                       <Image
                         className={styles.iconeye}
                         width={30}
-                        height={25}
+                        height={30}
                         alt={
                           ConfirmpasswordVisible
                             ? "Hide password"
@@ -842,7 +843,7 @@ const ProfileClient: NextPage<{ initialData: ProfileDataType }> = ({
                       <Image
                         className={styles.iconeye}
                         width={30}
-                        height={25}
+                        height={30}
                         alt={
                           passwordVisible ? "Hide password" : "Show password"
                         }
