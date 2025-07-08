@@ -1,19 +1,15 @@
 import * as React from "react";
 
-// --- INTERFACE AND PROPS ---
-// Defines the data shape for the provider's cancellation notice email.
+// Updated props to remove pricing information
 interface CancellationNoticeToProviderProps {
   clientName: string;
   providerName: string;
   date: string;
   time: string;
   status: string;
-  services: { name: string; price: number }[];
-  totalPrice: number;
+  services: { name: string }[];
 }
 
-// --- HELPER FUNCTIONS ---
-// Reusable functions to format data for display.
 const formatDisplayDate = (dateString: string) =>
   new Date(dateString + "T00:00:00").toLocaleDateString("en-US", {
     weekday: "long",
@@ -32,157 +28,123 @@ const formatDisplayTime = (timeString: string) => {
   });
 };
 
-const formatCurrency = (amount: number) =>
-  new Intl.NumberFormat("en-PH", { style: "currency", currency: "PHP" }).format(
-    amount
-  );
-
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
-// --- MAIN COMPONENT ---
 export const CancellationNoticeToProvider: React.FC<
   Readonly<CancellationNoticeToProviderProps>
-> = ({
-  clientName,
-  providerName,
-  date,
-  time,
-  status,
-  services,
-  totalPrice,
-}) => (
-  <html lang="en">
-    <head>
-      <meta charSet="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <style>
-        {`@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');`}
-      </style>
-      <title>Appointment Cancellation</title>
-    </head>
-    <body style={styles.body}>
-      <div style={styles.mainContainer}>
-        {/* Header */}
-        <div style={styles.header}>
-          <a href={baseUrl} target="_blank" style={styles.link}>
-            <div style={styles.logo}>
-              <span style={{ fontWeight: 500 }}>serv</span>
-              <span style={{ fontWeight: 600 }}>ease</span>
-            </div>
-          </a>
-        </div>
+> = ({ clientName, providerName, date, time, status, services }) => {
+  // Create a string from the list of service names
+  const serviceListString = services.map((s) => s.name).join(", ");
 
-        {/* Content */}
-        <div style={styles.content}>
-          <h1 style={styles.h1}>Appointment Cancellation Notice</h1>
-          <p style={styles.paragraph}>Hello {providerName},</p>
-          <p style={styles.paragraph}>
-            A client has cancelled their appointment with you. Your schedule for
-            this time has been cleared. Below are the details of the
-            cancellation.
-          </p>
-
-          {/* Cancelled Appointment Summary Section */}
-          <div style={styles.summarySection}>
-            <h2 style={styles.h2}>Cancelled Appointment Summary</h2>
-
-            <div style={{ marginBottom: "20px" }}>
-              <DetailRow label="Client Name: " value={clientName} />
-              <DetailRow
-                label="Status: "
-                value={status}
-                valueColor={colors.alert}
-              />
-              <DetailRow label="Date: " value={formatDisplayDate(date)} />
-              <DetailRow label="Time: " value={formatDisplayTime(time)} />
-            </div>
-
-            <div style={styles.divider} />
-
-            <h3 style={styles.h3}>Cancelled Service/s</h3>
-
-            {services.map((service, index) => (
-              <div key={index} style={styles.serviceRow}>
-                <span style={styles.serviceName}>{service.name}:</span>
-                <span style={styles.servicePrice}>
-                  {formatCurrency(service.price)}
-                </span>
+  return (
+    <html lang="en">
+      <head>
+        <meta charSet="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <style>
+          {`@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');`}
+        </style>
+        <title>Appointment Cancellation</title>
+      </head>
+      <body style={styles.body}>
+        <div style={styles.mainContainer}>
+          <div style={styles.header}>
+            <a href={baseUrl} target="_blank" style={styles.link}>
+              <div style={styles.logo}>
+                <span style={{ fontWeight: 500 }}>serv</span>
+                <span style={{ fontWeight: 700 }}>ease</span>
               </div>
-            ))}
+            </a>
+          </div>
+
+          <div style={styles.content}>
+            <h1 style={styles.h1}>Appointment Cancellation Notice</h1>
+            <p style={styles.paragraph}>Hello {providerName},</p>
+            <p style={styles.paragraph}>
+              A client has cancelled their appointment with you. Your schedule
+              for this time has been cleared.
+            </p>
+
+            <div style={styles.summarySection}>
+              <h2 style={styles.h2}>Appointment Summary</h2>
+              <table
+                style={styles.detailsTable}
+                cellPadding="0"
+                cellSpacing="0"
+              >
+                <tbody>
+                  <tr style={styles.tableRow}>
+                    <td style={styles.tableLabel}>Client Name</td>
+                    <td style={styles.tableValue}>{clientName}</td>
+                  </tr>
+                  <tr style={styles.tableRow}>
+                    <td style={styles.tableLabel}>Status</td>
+                    <td
+                      style={{
+                        ...styles.tableValue,
+                        ...styles.statusCancelled,
+                      }}
+                    >
+                      {status}
+                    </td>
+                  </tr>
+                  <tr style={styles.tableRow}>
+                    <td style={styles.tableLabel}>Date</td>
+                    <td style={styles.tableValue}>{formatDisplayDate(date)}</td>
+                  </tr>
+                  <tr style={styles.tableRow}>
+                    <td style={styles.tableLabel}>Time</td>
+                    <td style={styles.tableValue}>{formatDisplayTime(time)}</td>
+                  </tr>
+                  <tr style={{ ...styles.tableRow, borderBottom: "none" }}>
+                    <td style={styles.tableLabel}>Services</td>
+                    <td style={styles.tableValue}>{serviceListString}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p style={styles.paragraph}>
+              You can view your updated schedule on the ServEase platform.
+            </p>
+            <a
+              href={`${baseUrl}/facility-appointments`}
+              target="_blank"
+              style={styles.button}
+            >
+              View My Schedule
+            </a>
+          </div>
+
+          <div style={styles.footer}>
+            <p style={styles.footerText}>
+              © {new Date().getFullYear()} ServEase. All rights reserved.
+              <br />
+              This is an automated notification. Please do not reply.
+            </p>
           </div>
         </div>
+      </body>
+    </html>
+  );
+};
 
-        <div style={styles.footer}>
-          <p style={styles.footerText}>
-            © {new Date().getFullYear()} servease. All rights reserved.
-          </p>
-          <p style={styles.footerText}>
-            This is an automated notification. Please do not reply to this
-            email.
-          </p>
-        </div>
-      </div>
-    </body>
-  </html>
-);
-
-const DetailRow = ({
-  label,
-  value,
-  valueColor,
-}: {
-  label: string;
-  value: string;
-  valueColor?: string;
-}) => (
-  <div
-    style={{
-      display: "flex",
-      justifyContent: "space-between",
-      padding: "8px 0",
-      fontSize: "16px",
-    }}
-  >
-    <span
-      style={{
-        color: "#604c3d", // textLabel color
-        fontWeight: 500,
-        paddingRight: "16px",
-      }}
-    >
-      {label}
-    </span>
-    <span
-      style={{
-        color: valueColor || "#050b20", // Use custom color or default textPrimary
-        fontWeight: 400,
-        textAlign: "right",
-      }}
-    >
-      {value}
-    </span>
-  </div>
-);
-
-// --- UPDATED: Centralized Style Definitions ---
-// All styles are organized here for better readability and maintenance.
-
+// --- STYLES OBJECT (Standardized) ---
 const colors = {
   emailBackground: "#f8f7f3",
   cardBackground: "#fff",
   textPrimary: "#050b20",
   textSecondary: "#241f1b",
-  textMuted: "#a9a9a9",
   brandPrimary: "#a68465",
   border: "#e0d9c9",
-  alert: "#D93025", // Color for alerts like "Cancelled"
+  alert: "#D93025",
 };
 
 const fonts = {
   fontFamily: "'DM Sans', 'Helvetica Neue', 'Arial', sans-serif",
 };
 
-const styles = {
+const styles: { [key: string]: React.CSSProperties } = {
   body: {
     fontFamily: fonts.fontFamily,
     backgroundColor: colors.emailBackground,
@@ -195,7 +157,6 @@ const styles = {
     backgroundColor: colors.cardBackground,
     borderRadius: "12px",
     border: `1px solid ${colors.border}`,
-    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.05)",
     overflow: "hidden",
   },
   header: {
@@ -206,92 +167,86 @@ const styles = {
   logo: {
     color: colors.brandPrimary,
     fontSize: "32px",
-    textAlign: "center" as const,
+    textAlign: "center",
     letterSpacing: "-0.5px",
     margin: "10px 0",
   },
   content: {
-    padding: "40px",
+    padding: "30px 40px",
   },
   h1: {
     color: colors.textPrimary,
     fontSize: "24px",
     fontWeight: 600,
-    margin: "0 0 24px",
+    margin: "0 0 20px",
   },
   paragraph: {
     color: colors.textSecondary,
     fontSize: "16px",
-    lineHeight: 1.6,
-    fontWeight: 400,
-    margin: "0 0 16px",
+    lineHeight: 1.7,
+    margin: "0 0 20px",
   },
   summarySection: {
-    paddingTop: "24px",
-    borderTop: `1.5px solid ${colors.border}`,
+    padding: "20px",
+    marginTop: "25px",
+    marginBottom: "30px",
+    border: `1px solid ${colors.border}`,
+    borderRadius: "8px",
+    backgroundColor: colors.emailBackground,
   },
   h2: {
     color: colors.textPrimary,
-    fontSize: "20px",
-    fontWeight: 600,
-    margin: "0 0 24px",
-  },
-  divider: {
-    height: "1px",
-    backgroundColor: colors.border,
-    margin: "24px 0",
-  },
-  h3: {
-    color: colors.textPrimary,
     fontSize: "18px",
     fontWeight: 600,
-    margin: "0 0 20px",
+    margin: "0 0 15px",
   },
-  serviceRow: {
-    display: "flex",
-    justifyContent: "space-between",
-    marginBottom: "12px",
-    fontSize: "16px",
+  detailsTable: {
+    width: "100%",
+    borderCollapse: "collapse",
   },
-  serviceName: {
+  tableRow: {
+    borderBottom: `1px solid ${colors.border}`,
+  },
+  tableLabel: {
     color: colors.textSecondary,
-    paddingRight: "20px",
+    fontWeight: 500,
+    padding: "12px 10px 12px 0",
+    textAlign: "left",
+    width: "100px",
+    verticalAlign: "top",
   },
-  servicePrice: {
+  tableValue: {
     color: colors.textPrimary,
     fontWeight: 400,
-    whiteSpace: "nowrap" as const,
+    padding: "12px 0 12px 10px",
+    textAlign: "left",
   },
-  totalRow: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginTop: "20px",
-    paddingTop: "16px",
-    borderTop: `1.5px solid ${colors.border}`,
+  statusCancelled: {
+    color: colors.alert,
+    fontWeight: 600,
   },
-  totalLabel: {
-    color: colors.textPrimary,
+  button: {
+    display: "inline-block",
+    backgroundColor: colors.brandPrimary,
+    color: "#ffffff",
+    padding: "12px 25px",
+    borderRadius: "8px",
+    textDecoration: "none",
     fontWeight: 500,
-    fontSize: "20px",
-    paddingRight: "20px",
-  },
-  totalPrice: {
-    color: colors.brandPrimary,
-    fontWeight: 500,
-    fontSize: "20px",
-    whiteSpace: "nowrap" as const,
+    fontSize: "16px",
+    textAlign: "center",
+    marginTop: "5px",
   },
   footer: {
-    backgroundColor: colors.emailBackground,
+    backgroundColor: "#fff",
     padding: "20px 40px",
-    borderTop: `1.5px solid ${colors.border}`,
+    borderTop: `1px solid ${colors.border}`,
   },
   footerText: {
-    color: colors.textMuted,
+    color: "#a9a9a9",
     fontSize: "12px",
-    margin: "0 0 5px 0",
-    fontWeight: 400,
-    textAlign: "center" as const,
+    margin: 0,
+    textAlign: "center",
+    lineHeight: 1.5,
   },
 };
