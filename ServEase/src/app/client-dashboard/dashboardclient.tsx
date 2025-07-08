@@ -4,17 +4,22 @@ import type { NextPage } from "next";
 import Image from "next/image";
 import styles from "../styles/dashboard-client.module.css";
 import { useState, useRef, useEffect, useMemo } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { createClient } from "../utils/supabase/client";
+
+export interface ClientInfo {
+  full_name: string;
+  email: string;
+}
 
 export interface ProviderInfo {
   business_name: string;
   picture_url: string | null;
-  contact_number: string | null; // Added for modal
+  contact_number: string | null;
+  email: string; // <-- ADD THIS LINE
 }
 
 export interface AppointmentService {
-  // New type for services in the modal
   name: string;
   price: number;
 }
@@ -24,10 +29,11 @@ export interface Appointment {
   date: string;
   time: string;
   address: string;
-  status: "pending" | "confirmed" | "completed" | "canceled"; // Added for modal
-  price: number; // Added for modal (total price)
-  services: AppointmentService[]; // Added for modal
+  status: "pending" | "confirmed" | "completed" | "canceled";
+  price: number;
+  services: AppointmentService[];
   provider: ProviderInfo | null;
+  client: ClientInfo | null; // <-- ADD THIS LINE
 }
 
 export interface Service {
@@ -92,7 +98,6 @@ const UpcomingAppointmentCard = ({
   }, [appointment.provider?.picture_url]);
 
   const [imageError, setImageError] = useState(false);
-  const [imageLoading, setImageLoading] = useState(true);
 
   const formattedStatus =
     appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1);
@@ -108,23 +113,12 @@ const UpcomingAppointmentCard = ({
       : status.charAt(0).toUpperCase() + status.slice(1);
   };
 
-  const handleStatusChange = async (newStatus: string) => {
-    if (isUpdating) return;
-
-    setIsUpdating(true);
-    try {
-      await onStatusUpdate(appointment.id, newStatus);
-      setShowDropdown(false);
-    } catch (error) {
-      console.error("Error updating appointment status:", error);
-    } finally {
-      setIsUpdating(false);
-    }
+  const handleStatusChange = (newStatus: string) => {
+    onStatusUpdate(appointment.id, newStatus);
+    setShowDropdown(false);
   };
 
   const [showDropdown, setShowDropdown] = useState(false);
-  const [hovered, setHovered] = useState("");
-  const [isUpdating, setIsUpdating] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -162,7 +156,6 @@ const UpcomingAppointmentCard = ({
                 width={40}
                 height={40}
                 onError={() => setImageError(true)}
-                onLoad={() => setImageLoading(false)}
                 style={{
                   borderRadius: "50%",
                   objectFit: "cover",
@@ -218,6 +211,7 @@ const UpcomingAppointmentCard = ({
               }
             }}
             ref={dropdownRef}
+            style={{ position: "relative" }}
           >
             <span>{formattedStatus}</span>
             <Image
@@ -228,28 +222,23 @@ const UpcomingAppointmentCard = ({
               src="/arrow_drop_down.svg"
               style={{ cursor: "pointer" }}
             />
+            {showDropdown && (
+              <div className={styles.dropdownMenu}>
+                {getAvailableStatusOptions(appointment.status).map((item) => (
+                  <div
+                    key={item}
+                    className={styles.dropdownItem}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleStatusChange(item);
+                    }}
+                  >
+                    {getStatusDisplayText(item)}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
-
-          {showDropdown && (
-            <div className={styles.dropdownMenu}>
-              {getAvailableStatusOptions(appointment.status).map((item) => (
-                <div
-                  key={item}
-                  className={`${styles.dropdownItem} ${
-                    hovered === item ? styles.active : ""
-                  }`}
-                  onMouseEnter={() => setHovered(item)}
-                  onMouseLeave={() => setHovered("")}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleStatusChange(item);
-                  }}
-                >
-                  {getStatusDisplayText(item)}
-                </div>
-              ))}
-            </div>
-          )}
         </div>
       </div>
     </div>
@@ -353,21 +342,96 @@ const FeaturedServiceCard = ({ service }: { service: Service }) => {
 
 const DashboardClient: NextPage<DashboardClientProps> = ({
   avatarUrl,
-  appointments,
+  appointments: initialAppointments,
   featuredServices,
 }) => {
   const router = useRouter();
+  const supabase = createClient();
+  const [appointments, setAppointments] = useState(initialAppointments);
   const [currentIndex, setCurrentIndex] = useState(0);
   const visibleServices = 3;
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [appointmentToCancel, setAppointmentToCancel] = useState<string | null>(
     null
   );
+  const [isCancelling, setIsCancelling] = useState(false);
 
-  const handleStatusUpdate = (appointmentId: string, newStatus: string) => {
+  const handleStatusUpdate = async (appointmentId: string, newStatus: string) => {
     if (newStatus === "canceled") {
       setAppointmentToCancel(appointmentId);
       setShowConfirmDialog(true);
+    }
+  };
+
+  const handleConfirmCancel = async () => {
+    if (!appointmentToCancel) return;
+
+    // Find the full appointment details
+    const appointmentData = appointments.find(
+      (apt) => apt.id === appointmentToCancel
+    );
+
+    // This new check ensures client and provider emails are available
+    if (
+      !appointmentData ||
+      !appointmentData.provider ||
+      !appointmentData.client
+    ) {
+      alert(
+        "Error: Could not find full appointment details. Cannot send email. Please refresh."
+      );
+      setShowConfirmDialog(false);
+      return;
+    }
+
+    setIsCancelling(true);
+    try {
+      // 1. Update the database
+      const { error: dbError } = await supabase
+        .from("appointments")
+        .update({ status: "canceled" })
+        .eq("id", appointmentToCancel);
+      
+      if (dbError) throw dbError;
+
+      // 2. Refresh the UI by removing the appointment from the list
+      setAppointments((prev) => 
+        prev.filter((apt) => apt.id !== appointmentToCancel)
+      );
+
+      // 3. Construct the FULL payload for the email API
+      const payload = {
+        clientName: appointmentData.client.full_name,
+        clientEmail: appointmentData.client.email,
+        providerName: appointmentData.provider.business_name,
+        providerEmail: appointmentData.provider.email,
+        providerContact:
+          appointmentData.provider.contact_number || "Not Provided",
+        address: appointmentData.address,
+        date: appointmentData.date,
+        time: appointmentData.time,
+        status: "Cancelled",
+        services: appointmentData.services,
+        totalPrice: appointmentData.price,
+      };
+      
+      // 4. Send the notification
+      fetch("/api/cancel-appointment", {
+        method: "POST", 
+        headers: { "Content-Type": "application/json" }, 
+        body: JSON.stringify(payload)
+      }).catch((emailError) => 
+        console.error("Sending email notifications failed:", emailError)
+      );
+
+    } catch (error: any) {
+      console.error("Error canceling appointment:", error);
+      alert(`Cancellation failed: ${error.message}`);
+    } finally {
+      // 5. Reset all state
+      setIsCancelling(false);
+      setShowConfirmDialog(false);
+      setAppointmentToCancel(null);
     }
   };
 
@@ -538,6 +602,7 @@ const DashboardClient: NextPage<DashboardClientProps> = ({
           </div>
         </section>
       </main>
+
       {selectedAppointment && (
         <div
           className={styles.modalOverlay}
@@ -551,7 +616,6 @@ const DashboardClient: NextPage<DashboardClientProps> = ({
               <div className={styles.rowContainer}>
                 <div className={styles.facilityName}>Appointment Status</div>
                 <b className={styles.facilityNameCap}>
-                  {/* DYNAMIC STATUS */}
                   {selectedAppointment.status.charAt(0).toUpperCase() +
                     selectedAppointment.status.slice(1)}
                 </b>
@@ -559,21 +623,18 @@ const DashboardClient: NextPage<DashboardClientProps> = ({
               <div className={styles.rowContainer}>
                 <div className={styles.facilityName}>Facility Name</div>
                 <b className={styles.facilityNameCap}>
-                  {/* DYNAMIC NAME */}
                   {selectedAppointment.provider?.business_name || "N/A"}
                 </b>
               </div>
               <div className={styles.rowContainer}>
                 <div className={styles.facilityName}>Address</div>
                 <b className={styles.facilityNameCap}>
-                  {/* DYNAMIC ADDRESS */}
                   {selectedAppointment.address}
                 </b>
               </div>
               <div className={styles.rowContainer}>
                 <div className={styles.facilityName}>Phone Number</div>
                 <b className={styles.facilityNameCap}>
-                  {/* DYNAMIC PHONE */}
                   {selectedAppointment.provider?.contact_number ||
                     "Not provided"}
                 </b>
@@ -603,13 +664,12 @@ const DashboardClient: NextPage<DashboardClientProps> = ({
                 src="/Divider1.svg"
               />
               <div className={styles.serviceNameParent}>
-                {/* DYNAMIC SERVICES LIST */}
                 {selectedAppointment.services.map((service) => (
                   <div className={styles.rowContainer} key={service.name}>
                     <div className={styles.facilityName}>{service.name}</div>
                     <b className={styles.facilityNameCap}>
-                      PHP {service.price.toFixed(2)}
-                    </b>
+  PHP {(Number(service.price) || 0).toFixed(2)}
+</b>
                   </div>
                 ))}
               </div>
@@ -624,10 +684,37 @@ const DashboardClient: NextPage<DashboardClientProps> = ({
               <div className={styles.rowContainerTotal}>
                 <div className={styles.facilityName}>Total</div>
                 <b className={styles.facilityNameCap}>
-                  {/* DYNAMIC TOTAL PRICE */}
                   PHP {selectedAppointment.price.toFixed(2)}
                 </b>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showConfirmDialog && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.confirmDialog}>
+            <h3>Cancel Appointment</h3>
+            <p>Are you sure you want to cancel this appointment? This action cannot be undone.</p>
+            <div className={styles.confirmButtons}>
+              <button 
+                className={styles.cancelButton} 
+                onClick={() => { 
+                  setShowConfirmDialog(false); 
+                  setAppointmentToCancel(null); 
+                }} 
+                disabled={isCancelling}
+              >
+                Keep Appointment
+              </button>
+              <button 
+                className={styles.confirmButton} 
+                onClick={handleConfirmCancel} 
+                disabled={isCancelling}
+              >
+                {isCancelling ? "Cancelling..." : "Cancel Appointment"}
+              </button>
             </div>
           </div>
         </div>
