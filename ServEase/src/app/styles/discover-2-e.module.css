@@ -1065,6 +1065,42 @@
   flex-direction: column;
 }
 
+/* This makes the border-radius change when the dropdown is open */
+.searchBoxActive {
+  border-radius: 30px 30px 0 0;
+}
+
+.searchResultsDropdown {
+  position: absolute;
+  top: 100%; /* Position it right below the search box */
+  left: 0;
+  right: 0;
+  background-color: var(--color-white);
+  border-radius: 0 0 30px 30px; /* Match the search box corners */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000; /* Ensure it's on top of other content */
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: -2px; /* Slight overlap for a seamless look */
+  padding: 8px 0;
+}
+
+
+.searchResultLink {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  text-align: left;
+}
+
+.searchResultItem {
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
 /* hero img */
 
 .image12 {
