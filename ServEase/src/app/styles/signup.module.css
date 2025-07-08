@@ -555,13 +555,124 @@
 
   .authwindow {
     width: 95%;
+    height: 58%;
+    border-radius: 26px;
+    background: white;
+    top: 150px;
+    position: relative;
+    margin: 40px auto;
+    margin-left: -123%;
+  }
+
+  .authwindow1 {
+    width: 95%;
+    height: auto;
+    top: 0;
+    left: 0;
+  }
+
+  .authlogoIcon {
+    position: absolute;
+    width: 35%;
+    height: 120px;
+    margin-top: 9%;
+    margin-left: 47px;
+  }
+
+  .title {
+    font-size: 40px;
+    margin: 20px 0 10px;
+    width: 100%;
+    margin-right: 15%;
+  }
+
+  .signupcontent {
+    padding: 0 20px;
+    gap: 30px;
+  }
+
+  .buttoncontainer {
+    width: 250px;
+    height: 44px;
+    bottom: 20px;
+    right: 25%;
+    font-size: 20px;
+  }
+.buttontext {
+  position: absolute;
+  top: calc(50% - 15px);
+  left: calc(53% - 100px);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+  .usertype {
+    width: 60px;
+    height: 190px;
+    right: 280px;
+  }
+
+  .service,
+  .client {
+    width: 100%;
+    left: -23%;
+    right: -10%;
+  }
+
+  .navbar {
+    width: 500px;
+    border-radius: var(--br-12);
+    height: 56px;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0px;
+    cursor: pointer;
+    margin-right: 5%;
+  }
+
+  .login {
+    width: 250px;
+    position: relative;
+    background-color: var(--color-tan);
+    height: 56px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .signup2 {
+    width: 250px;
+    position: relative;
+    background-color: var(--color-tan);
+    height: 56px;
+    overflow: hidden;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+}
+/* ─────────────── Small Mobile Styles ─────────────── */
+@media screen and (max-width: 480px)
+{
+  .background {
+    left: 0;
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  .authwindow {
+    width: 95%;
     height: 55%;
     border-radius: 26px;
     background: white;
     top: 150px;
     position: relative;
     margin: 40px auto;
-    margin-left: -129%;
+    margin-left: -146%;
   }
 
   .authwindow1 {
@@ -580,12 +691,16 @@
   }
 
   .title {
-    font-size: 25px;
+    font-size: 30px;
     margin: 20px 0 10px;
     width: 100%;
-    margin-right: 39%;
+    margin-right: 68%;
   }
-
+.createYourAccount {
+  position: relative;
+  font-size: var(--font-size-15);
+  color: var(--color-slategray);
+}
   .signupcontent {
     padding: 0 20px;
     gap: 30px;
@@ -595,7 +710,7 @@
     width: 250px;
     height: 44px;
     bottom: 20px;
-    right: 42%;
+    right: 80%;
     font-size: 20px;
   }
 .buttontext {
@@ -622,7 +737,7 @@
   }
 
   .navbar {
-    width: 500px;
+    width: 300px;
     border-radius: var(--br-12);
     height: 56px;
     overflow: hidden;
@@ -633,11 +748,11 @@
     justify-content: space-between;
     gap: 0px;
     cursor: pointer;
-    margin-right: 25%;
+    margin-right: 55%;
   }
 
   .login {
-    width: 250px;
+    width: 150px;
     position: relative;
     background-color: var(--color-tan);
     height: 56px;
@@ -645,7 +760,7 @@
     flex-shrink: 0;
   }
   .signup2 {
-    width: 250px;
+    width: 150px;
     position: relative;
     background-color: var(--color-tan);
     height: 56px;
@@ -653,126 +768,6 @@
     flex-shrink: 0;
     cursor: pointer;
   }
-}
-/* ---------- Small Mobile (max-width: 480px) ---------- */
-@media screen and (max-width: 480px) {
-    .background {
-    left: 0;
-    width: 100%;
-    height: auto;
-    position: relative;
-  }
-
-  .authwindow {
-     width: 96%;
-    height: 55%;
-    border-radius: 26px;
-    background: white;
-    top: 150px;
-    position: relative;
-     margin: 40px auto;
-     margin-left: -147%;
-  }
-
-  .authwindow1 {
-    width: 95%;
-    height: auto;
-    top: 0;
-    left: 0;
-  }
-
-  .authlogoIcon {
-    position: absolute;
-    width: 35%;
-    height: 120px;
-    margin-top: 10%;
-    margin-left: 1px;
-  }
-
-  .title {
-    font-size: 25px;
-    margin: 10px 0 10px;
-    width: 100%;
-    margin-right: 65%;
-  }
-
-  .createYourAccount {
-  position: relative;
-  font-size: var(--font-size-16);
-  color: var(--color-slategray);
-}
-  .signupcontent {
-    padding: 0 20px;
-    gap: 30px;
-  }
-
-  .buttoncontainer {
-    width: 240px;
-    height: 44px;
-    bottom: 15px;
-    right: 80%;
-    font-size: 20px;
-  }
-.buttontext {
-  position: absolute;
-  top: calc(50% - 15px);
-  left: calc(53% - 100px);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
-
-  .usertype {
-    width: 60px;
-    height: 190px;
-    right: 300px;
-  }
-
-  .service, .client {
-    width: 100%;
-    left: -40%;
-    right: -10%;
-  }
-
-.navbar {
-  width: 300px;
-  border-radius: var(--br-12);
-  height: 50px;
-  overflow: hidden;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0px;
-  cursor: pointer;
-  margin-right: 55%;
-
-}
-
-.login {
-  width: 150px;
-  position: relative;
-  background-color: var(--color-tan);
-  height: 50px;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-.signup2 {
-  width: 250px;
-  position: relative;
-  background-color: var(--color-tan);
-  height: 50px;
-  overflow: hidden;
-  flex-shrink: 0;
-  cursor: pointer;
-}
-.signUp {
-  position: absolute;
-  top: calc(50% - 11px);
-  left: calc(50% - 80px);
-}
 }
 
 /* ---------- Landscape Mobile (max-height: 500px) ---------- */
