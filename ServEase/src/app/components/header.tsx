@@ -67,7 +67,6 @@ const Header = ({ avatarUrl, userRole, homePath }: HeaderProps) => {
   const items = [
     { label: "My Account", onClick: handleAccountClick },
     { label: "Appointments", onClick: handleAppointmentsClick },
-    { label: "Messages", href: "/messages" },
     { label: "Notifications", onClick: handleNotificationClick },
     { label: "Log out", onClick: handleLogout },
   ];
@@ -137,7 +136,7 @@ const Header = ({ avatarUrl, userRole, homePath }: HeaderProps) => {
             </a>
             <a
               className={styles.navLink}
-              onClick={() => router.push("/schedule")}
+              onClick={() => router.push("/facility-appointments")}
             >
               Schedule
             </a>
@@ -199,11 +198,7 @@ const Header = ({ avatarUrl, userRole, homePath }: HeaderProps) => {
                       } ${borderClass}`}
                       onMouseEnter={() => setHovered(item.label)}
                       onMouseLeave={() => setHovered("")}
-                      onClick={
-                        item.onClick
-                          ? item.onClick
-                          : () => router.push(item.href!)
-                      }
+                      onClick={item.onClick}
                     >
                       {item.label}
                     </div>
