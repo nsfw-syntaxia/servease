@@ -21,9 +21,17 @@ const Footer = ({ userRole }: HeaderProps) => {
               width={40}
               height={40}
               alt="Servease Logo"
-              src="/Servease Logo (Album Cover) (3) 2.png"
+              src="/logo.svg"
             />
-            <b className={styles.footerTitle}>servease</b>
+            <div
+              className={styles.servease}
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+            >
+              <span>serv</span>
+              <span className={styles.serv}>ease</span>
+            </div>
           </div>
           <p className={styles.yourTrustedPlatform}>
             Your trusted platform to discover, book, and manage local
