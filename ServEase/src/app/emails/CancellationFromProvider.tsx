@@ -28,6 +28,7 @@ const formatDisplayTime = (timeString: string) => {
 };
 
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+const logoUrl = `${baseUrl}/authLogo.svg`;
 
 export const ProviderCancellationNoticeToClient: React.FC<
   Readonly<ProviderCancellationNoticeToClientProps>
@@ -44,6 +45,13 @@ export const ProviderCancellationNoticeToClient: React.FC<
     <body style={styles.body}>
       <div style={styles.mainContainer}>
         <div style={styles.header}>
+          {/* 
+              disabling the Next.js image rule for this one line
+              because standard <img> is required for email clients
+            */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={logoUrl} alt="Servease Logo" style={styles.logoImage} />
+
           <a href={baseUrl} target="_blank" style={styles.link}>
             <div style={styles.logo}>
               <span style={{ fontWeight: 500 }}>serv</span>
@@ -162,6 +170,7 @@ const styles = {
     margin: 0,
     padding: "40px 20px",
   },
+
   mainContainer: {
     maxWidth: "600px",
     margin: "0 auto",
@@ -171,27 +180,41 @@ const styles = {
     boxShadow: "0 4px 12px rgba(0, 0, 0, 0.05)",
     overflow: "hidden",
   },
+
   header: {
     padding: "24px",
     borderBottom: `1px solid ${colors.border}`,
+    textAlign: "center" as const,
   },
+
   link: { textDecoration: "none" },
+
   logo: {
     color: colors.brandPrimary,
     fontSize: "32px",
     textAlign: "center" as const,
     letterSpacing: "-0.5px",
-    margin: "10px 0",
+    margin: "0",
   },
+
+  logoImage: {
+    width: "50px",
+    height: "50px",
+    marginBottom: "12px",
+  },
+
   content: {
     padding: "40px",
+    textAlign: "left" as const,
   },
+
   h1: {
     color: colors.textPrimary,
     fontSize: "24px",
     fontWeight: 600,
     margin: "0 0 24px",
   },
+
   paragraph: {
     color: colors.textSecondary,
     fontSize: "16px",
@@ -199,42 +222,50 @@ const styles = {
     fontWeight: 400,
     margin: "0 0 16px",
   },
+
   summarySection: {
     paddingTop: "24px",
     borderTop: `1.5px solid ${colors.border}`,
   },
+
   h2: {
     color: colors.textPrimary,
     fontSize: "20px",
     fontWeight: 600,
     margin: "0 0 24px",
   },
+
   divider: {
     height: "1px",
     backgroundColor: colors.border,
     margin: "24px 0",
   },
+
   h3: {
     color: colors.textPrimary,
     fontSize: "18px",
     fontWeight: 600,
     margin: "0 0 20px",
   },
+
   serviceRow: {
     display: "flex",
     justifyContent: "space-between",
     marginBottom: "12px",
     fontSize: "16px",
   },
+
   serviceName: {
     color: colors.textSecondary,
     paddingRight: "20px",
   },
+
   servicePrice: {
     color: colors.textPrimary,
     fontWeight: 400,
     whiteSpace: "nowrap" as const,
   },
+
   totalRow: {
     display: "flex",
     justifyContent: "space-between",
@@ -243,23 +274,27 @@ const styles = {
     paddingTop: "16px",
     borderTop: `1.5px solid ${colors.border}`,
   },
+
   totalLabel: {
     color: colors.textPrimary,
     fontWeight: 500,
     fontSize: "20px",
     paddingRight: "20px",
   },
+
   totalPrice: {
     color: colors.brandPrimary,
     fontWeight: 500,
     fontSize: "20px",
     whiteSpace: "nowrap" as const,
   },
+
   footer: {
     backgroundColor: colors.emailBackground,
     padding: "20px 40px",
     borderTop: `1.5px solid ${colors.border}`,
   },
+
   footerText: {
     color: colors.textMuted,
     fontSize: "12px",

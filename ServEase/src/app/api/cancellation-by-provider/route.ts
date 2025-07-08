@@ -1,10 +1,7 @@
-// app/api/send-provider-cancellation/route.ts
-
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import { render } from "@react-email/render";
 import React from "react";
-// CHANGE: Import the new email template
 import { ProviderCancellationNoticeToClient } from "../../emails/CancellationFromProvider";
 
 const transporter = nodemailer.createTransport({
