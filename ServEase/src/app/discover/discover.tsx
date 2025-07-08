@@ -40,7 +40,6 @@ const DiscoverPage: NextPage = () => {
   return (
     <div className={styles.discover1Parent}>
       <div className={styles.discover1}>
-
         <div className={styles.whatweofferbox} />
         <b className={styles.ourServices}>
           <span>{`Our `}</span>
@@ -171,41 +170,6 @@ const DiscoverPage: NextPage = () => {
         {/* hero img */}
         <div className={styles.heroImage}>
           <div className={styles.image10} />
-        </div>
-
-        {/* search */}
-        <div className={styles.searchBox}>
-          <div className={styles.filtering}>
-            <div className={styles.link6}>
-              <Image
-                className={styles.icon2}
-                width={20}
-                height={20}
-                sizes="100vw"
-                alt=""
-                src="/filtering.svg"
-              />
-              <div className={styles.moreFilters}>More Filters</div>
-            </div>
-          </div>
-          <div className={styles.btnfind}>
-            <Image
-              className={styles.icon3}
-              width={15}
-              height={15}
-              sizes="100vw"
-              alt=""
-              src="/search.svg"
-            />
-            <div className={styles.findListing}>Find Listing</div>
-          </div>
-          <div className={styles.inputBox}>
-            <input
-              type="text"
-              className={styles.enterAService}
-              placeholder="Enter a Service Name, Category, or Location"
-            />
-          </div>
         </div>
       </div>
     </div>
