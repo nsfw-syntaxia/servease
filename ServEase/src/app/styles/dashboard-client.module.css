@@ -389,7 +389,7 @@
   transition: transform 0.5s ease-in-out;
 }
 .serviceCard {
-  flex: 0 0 calc(33.333% - 14px); /* 3 cards per row on desktop */
+  flex: 0 0 calc(19.6% - 14px); /* 3 cards per row on desktop */
   box-sizing: border-box;
   background-color: #e0d9c9;
   border: 2px solid var(--color-antiquewhite);
