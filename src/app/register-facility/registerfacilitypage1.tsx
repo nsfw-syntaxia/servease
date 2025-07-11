@@ -3,7 +3,7 @@
 import type { NextPage } from "next";
 import Image from "next/image";
 import { useState } from "react";
-import styles from "../styles/RegisterFacilityPage1copy.module.css";
+import styles from "../../styles/RegisterFacilityPage1copy.module.css";
 import { loginCredentials } from "./actionspage";
 
 type Props = {

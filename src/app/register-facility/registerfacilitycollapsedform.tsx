@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import styles from "../styles/RegisterFacilityCopy.module.css";
+import styles from "../../styles/RegisterFacilityCopy.module.css";
 import FacilitySignup1 from "./registerfacilitypage1";
 import FacilitySignup2 from "./registerfacilitypage2";
 import FacilitySignup3 from "./registerfacilitypage3";

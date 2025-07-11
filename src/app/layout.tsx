@@ -1,8 +1,8 @@
 import { DM_Sans, Benne, Poppins } from "next/font/google";
-import "./styles/globals.css";
-import { createClient } from "./lib/supabase/server";
-import Header from "./components/header";
-import Footer from "./components/footer";
+import "../styles/globals.css";
+import { createClient } from "../lib/supabase/server";
+import Header from "../components/header";
+import Footer from "../components/footer";
 
 export type UserRole = "client" | "provider" | "guest";
 

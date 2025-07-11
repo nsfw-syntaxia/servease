@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import styles from "../styles/register-client.module.css";
+import styles from "../../styles/register-client.module.css";
 import ClientSignup1 from "./registerclientpage1";
 import ClientSignup2 from "./registerclientpage2";
 import ClientSignup3 from "./registerclientpage3";

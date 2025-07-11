@@ -1,6 +1,6 @@
 // app/categories/personal-beauty-and-care/page.tsx
 
-import { createClient } from "../../../utils/supabase/server";
+import { createClient } from "../../../../utils/supabase/server";
 // Corrected the import name to match the exported component
 import PBACS from "./category-a";
 

@@ -1,6 +1,6 @@
 // app/dashboard/page.tsx
 
-import { createClient } from "../lib/supabase/server";
+import { createClient } from "../../lib/supabase/server";
 import { redirect } from "next/navigation";
 import DashboardClient from "./dashboardclient";
 import { type Appointment, type Service } from "./dashboardclient";

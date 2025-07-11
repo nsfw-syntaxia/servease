@@ -2,10 +2,10 @@
 
 import type { NextPage } from "next";
 import Image from "next/image";
-import styles from "../styles/dashboard-client.module.css";
+import styles from "../../styles/dashboard-client.module.css";
 import { useState, useRef, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { createClient } from "../utils/supabase/client";
+import { createClient } from "../../utils/supabase/client";
 
 export interface ClientInfo {
   full_name: string;

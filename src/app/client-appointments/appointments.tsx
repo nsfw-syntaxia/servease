@@ -3,8 +3,8 @@
 import type { NextPage } from "next";
 import Image from "next/image";
 import { useState, useMemo, useRef, useEffect } from "react";
-import { createClient } from "../lib/supabase/client";
-import styles from "../styles/client-appointments.module.css";
+import { createClient } from "../../lib/supabase/client";
+import styles from "../../styles/client-appointments.module.css";
 import { X, Star } from "lucide-react";
 
 interface ReviewFormData {

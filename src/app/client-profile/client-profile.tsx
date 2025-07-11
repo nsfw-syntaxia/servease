@@ -3,7 +3,7 @@
 import React, { useState, useRef } from "react";
 import type { NextPage } from "next";
 import Image from "next/image";
-import styles from "../styles/client-profile.module.css";
+import styles from "../../styles/client-profile.module.css";
 import { type ProfileDataType } from "./actions";
 import {
   updateUserProfile,
@@ -11,7 +11,7 @@ import {
   changeUserPassword,
   deleteClientAccount,
 } from "./actions";
-import { createClient } from "../utils/supabase/client";
+import { createClient } from "../../utils/supabase/client";
 import { useRouter } from "next/navigation";
 
 const capitalizeWords = (str: string): string => {

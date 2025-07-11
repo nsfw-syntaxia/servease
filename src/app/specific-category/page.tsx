@@ -1,4 +1,4 @@
-import { createClient } from "../utils/supabase/server";
+import { createClient } from "../../utils/supabase/server";
 import SpecificCategoryClientPage from "./specific-category";
 import { notFound } from "next/navigation";
 

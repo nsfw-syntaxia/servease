@@ -9,10 +9,10 @@ import React, {
 } from "react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import styles from "../styles/appointment-booking-2.module.css";
+import styles from "../../styles/appointment-booking-2.module.css";
 import { Calendar } from "@/components/components/ui/calendar";
 import { useBooking } from "./BookingContext";
-import { createClient } from "../lib/supabase/client";
+import { createClient } from "../../lib/supabase/client";
 
 type Props = {
   onNext: () => void;

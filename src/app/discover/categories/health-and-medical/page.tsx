@@ -1,4 +1,4 @@
-import { createClient } from "../../../utils/supabase/server";
+import { createClient } from "../../../../utils/supabase/server";
 import HAMSClientPage from "./category-b";
 
 interface Profile {

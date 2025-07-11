@@ -2,9 +2,9 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import { createClient } from "../lib/supabase/client";
+import { createClient } from "../../lib/supabase/client";
 import { useBooking, Service } from "./BookingContext";
-import styles from "../styles/appointment-booking-1.module.css";
+import styles from "../../styles/appointment-booking-1.module.css";
 
 type Props = {
   onNext: () => void;

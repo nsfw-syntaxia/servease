@@ -4,7 +4,7 @@ import type { NextPage } from "next";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
-import styles from "../styles/register-client-3.module.css";
+import styles from "../../styles/register-client-3.module.css";
 import { addContactAndCompleteProfile } from "./actions3";
 
 type Props = {

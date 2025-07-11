@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useRef } from "react";
 import Image from "next/image";
-import styles from "../styles/client-notification.module.css";
+import styles from "../../styles/client-notification.module.css";
 import { useRouter } from "next/navigation";
 
 export interface Notification {

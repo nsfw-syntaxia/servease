@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import styles from "../styles/facility-profile.module.css";
+import styles from "../../styles/facility-profile.module.css";
 import {
   type FacilityProfileDataType,
   updateUserProfile,
@@ -14,7 +14,7 @@ import {
   deleteFacilityAccount,
   changeUserPassword,
 } from "./actions";
-import { createClient } from "../utils/supabase/client";
+import { createClient } from "../../utils/supabase/client";
 
 const capitalizeWords = (str: string): string => {
   if (!str) return "";

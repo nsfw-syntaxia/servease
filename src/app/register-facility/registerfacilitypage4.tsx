@@ -4,7 +4,7 @@ import type { NextPage } from "next";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
-import styles from "../styles/RegisterFacilityPage4copy.module.css";
+import styles from "../../styles/RegisterFacilityPage4copy.module.css";
 import { completeProviderProfile } from "./actionspage";
 
 type Props = {

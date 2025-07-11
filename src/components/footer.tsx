@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import styles from "../styles/footer.module.css";
-import { type UserRole } from "../layout";
+import { type UserRole } from "../app/layout";
 import { useRouter } from "next/navigation";
 
 interface HeaderProps {

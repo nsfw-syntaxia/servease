@@ -5,8 +5,8 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import styles from "../styles/DiscoverPage.module.css";
-import { createClient } from "../utils/supabase/client";
+import styles from "../../styles/DiscoverPage.module.css";
+import { createClient } from "../../utils/supabase/client";
 
 interface SearchResult {
   id: string;

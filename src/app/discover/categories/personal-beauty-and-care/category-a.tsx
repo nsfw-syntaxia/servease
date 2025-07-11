@@ -5,8 +5,8 @@ import type { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import styles from "../../../styles/discover-2-a.module.css";
-import { createClient } from "../../../utils/supabase/client";
+import styles from "../../../../styles/discover-2-a.module.css";
+import { createClient } from "../../../../utils/supabase/client";
 
 interface Profile {
   id: string;

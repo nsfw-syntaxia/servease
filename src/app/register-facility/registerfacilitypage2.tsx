@@ -3,7 +3,7 @@ import type { NextPage } from "next";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Image from "next/image";
-import styles from "../styles/RegisterFacilityPage2copy.module.css";
+import styles from "../../styles/RegisterFacilityPage2copy.module.css";
 import { facilityProfile } from "./actionspage";
 import Link from "next/link";
 

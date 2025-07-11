@@ -1,7 +1,7 @@
 "use server";
 
-import { createClient } from "../utils/supabase/server";
-import { createAdminClient } from "../utils/supabase/admin";
+import { createClient } from "../../utils/supabase/server";
+import { createAdminClient } from "../../utils/supabase/admin";
 
 // this is the shape of the data we will return
 export type DashboardStats = {

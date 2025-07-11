@@ -1,11 +1,11 @@
 "use client";
 
-import "../styles/globals.css";
+import "../../styles/globals.css";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { NextPage } from "next";
 import Image from "next/image";
-import styles from "../styles/login.module.css";
+import styles from "../../styles/login.module.css";
 import { login } from "./actions";
 
 const Login: NextPage = () => {

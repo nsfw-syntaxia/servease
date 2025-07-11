@@ -3,7 +3,7 @@
 import type { NextPage } from "next";
 import Image from "next/image";
 import { useState, useMemo, useEffect, useRef } from "react";
-import styles from "../styles/facility-appointments.module.css";
+import styles from "../../styles/facility-appointments.module.css";
 import { type Appointment, updateAppointmentStatus } from "./actions";
 
 const capitalize = (s: string) => {

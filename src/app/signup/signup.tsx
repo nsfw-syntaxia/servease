@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { NextPage } from "next";
 import Image from "next/image";
-import styles from "../styles/signup.module.css";
+import styles from "../../styles/signup.module.css";
 
 import ClientSignup from "../register-client/registerclientcollapsedform";
 import FacilitySignup from "../register-facility/registerfacilitycollapsedform";

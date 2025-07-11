@@ -3,9 +3,9 @@ import type { NextPage } from "next";
 import React, { useState, useEffect, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
-import styles from "../styles/appointment-booking-3.module.css";
+import styles from "../../styles/appointment-booking-3.module.css";
 import { useBooking } from "./BookingContext";
-import { createClient } from "../lib/supabase/client";
+import { createClient } from "../../lib/supabase/client";
 
 type Props = {
   onNext: () => void;

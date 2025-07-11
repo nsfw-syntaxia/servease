@@ -1,7 +1,7 @@
 'use server';
 
 import { type SignUpWithPasswordCredentials } from '@supabase/supabase-js';
-import { createClient } from '../utils/supabase/server';
+import { createClient } from '../../utils/supabase/server';
 
 export async function clientLoginCredentials(formData: FormData): Promise<void> {
   console.log("--- SIGNUP SERVER ACTION RUNNING ---");

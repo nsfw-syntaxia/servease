@@ -1,7 +1,7 @@
 'use server';
 
 import { redirect } from 'next/navigation';
-import { createClient } from '../utils/supabase/server'; // akoang giadd bag-o
+import { createClient } from '../../utils/supabase/server'; // akoang giadd bag-o
 
 
 interface ProfileData {

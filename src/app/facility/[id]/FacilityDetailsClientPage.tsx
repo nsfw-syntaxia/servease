@@ -4,7 +4,7 @@ import type { NextPage } from "next";
 import { useRouter } from "next/navigation";
 import { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
-import styles from "../../styles/facilitydetails.module.css";
+import styles from "../../../styles/facilitydetails.module.css";
 import * as maptilerClient from "@maptiler/client";
 import { Map, Marker, config } from "@maptiler/sdk";
 import "@maptiler/sdk/dist/maptiler-sdk.css";

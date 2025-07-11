@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import styles from "../styles/appointment-booking.module.css";
+import styles from "../../styles/appointment-booking.module.css";
 import Booking1 from "./appointment-booking-1";
 import Booking2 from "./appointment-booking-2";
 import Booking3 from "./appointment-booking-3";

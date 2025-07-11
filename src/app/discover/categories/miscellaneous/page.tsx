@@ -1,4 +1,4 @@
-import { createClient } from "../../../utils/supabase/server";
+import { createClient } from "../../../../utils/supabase/server";
 import MS from "./category-g";
 
 interface Profile {

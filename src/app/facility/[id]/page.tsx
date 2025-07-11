@@ -1,5 +1,5 @@
-import { createClient } from "../../utils/supabase/server";
-import { createAdminClient } from "../../utils/supabase/admin";
+import { createClient } from "../../../utils/supabase/server";
+import { createAdminClient } from "../../../utils/supabase/admin";
 import FacilityDetailsClientPage from "./FacilityDetailsClientPage";
 import { notFound } from "next/navigation";
 import { getFacilityLikeStatus, getFacilityPhotos } from "./actions";

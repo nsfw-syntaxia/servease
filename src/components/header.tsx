@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import styles from "../styles/header.module.css";
-import { type UserRole } from "../layout";
+import { type UserRole } from "../app/layout";
 
 interface HeaderProps {
   avatarUrl: string;
