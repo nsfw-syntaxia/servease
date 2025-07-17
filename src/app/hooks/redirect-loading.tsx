@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useLoading } from "@/components/components/ui/loading-context";
+import { useLoading } from "src/components/loading-context";
 
 export const useRedirectLoading = () => {
   const router = useRouter();
