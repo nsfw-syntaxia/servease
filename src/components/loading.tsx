@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useLoading } from "@/components/components/ui/loading-context";
+import { useLoading } from "src/components/loading-context";
 import styles from "../../../src/app/styles/loading.module.css";
 
 const Loading = () => {

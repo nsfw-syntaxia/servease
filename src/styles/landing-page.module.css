@@ -12,24 +12,11 @@
   cursor: default;
 }
 
-.serveaseLogoAlbumCover31,
-.servease1,
-.home1,
-.contactUs1,
-.button1,
+/* hero */
+
 .button,
 .link,
-.link1,
-.supportserveasecom,
-.home,
-.discover,
-.createAnAccount,
-.faqs,
-.privacyPolicy,
-.termsConditions,
-.aboutUs,
-.servease,
-.serveaseLogoAlbumCover3 {
+.link1 {
   position: relative;
   top: auto;
   left: auto;
@@ -40,173 +27,6 @@
   cursor: pointer;
 }
 
-.navigation {
-  position: fixed;
-  top: 1.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  gap: 1rem;
-  width: 930px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 50px;
-  background-color: #fff;
-  height: 69px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 0px 90px 0px 60px;
-  box-sizing: border-box;
-  gap: 10px;
-  text-align: center;
-  font-size: 18px;
-  color: #000;
-  font-family: "DM Sans";
-  z-index: 100;
-  animation: bounceInTop 0.8s ease forwards;
-}
-
-.navigationlogo {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 0.5rem;
-  flex-shrink: 0;
-}
-
-.serveaseLogoAlbumCover31 {
-  width: 40px;
-  position: relative;
-  max-height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
-.serveaseLogoAlbumCover31:hover {
-  transform: scale(1.1);
-}
-
-.servease1 {
-  position: relative;
-  font-size: 28px;
-  line-height: 150%;
-  text-align: left;
-  color: var(--color-tan);
-}
-
-.serv1 {
-  font-weight: 500;
-}
-
-.navigationChild {
-  width: 124px;
-  height: 45px;
-}
-
-.homeParent {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 25px;
-  color: #241f1b;
-}
-
-.home1 {
-  position: relative;
-  line-height: 120%;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  white-space: nowrap;
-  min-width: fit-content;
-  flex-shrink: 0;
-  font-size: clamp(14px, 1.8vw, 18px);
-  padding: 0.2rem 1rem;
-  transition: all 0.3s ease;
-}
-.contactUs1 {
-  position: relative;
-  line-height: 150%;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  white-space: nowrap;
-  min-width: fit-content;
-  flex-shrink: 0;
-  font-size: clamp(14px, 1.8vw, 18px);
-  padding: 0.2rem 0.5rem;
-  transition: all 0.3s ease;
-}
-
-.home1:hover,
-.contactUs1:hover {
-  color: var(--color-tan);
-  font-weight: 700;
-  text-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
-  transform: translateY(-1px);
-  transition: all 0.3s ease;
-}
-
-.button1 {
-  width: 100px;
-  border-radius: 8px;
-  background-color: #a68465;
-  border: 1px solid #a68465;
-  box-sizing: border-box;
-  height: 40px;
-  overflow: hidden;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: 12px;
-  gap: 8px;
-  cursor: pointer;
-  color: #fbf7f4;
-  transition:
-    transform 0.3s ease,
-    background-position 0.5s ease;
-}
-
-.button1:hover {
-  background-position: 100% 50%;
-  transform: scale(1.05);
-}
-
-.signIn {
-  width: 75px;
-  position: relative;
-  line-height: 100%;
-  font-weight: 600;
-  display: inline-block;
-  flex-shrink: 0;
-  z-index: 1;
-  transition: all 0.3s ease;
-}
-
-@keyframes bounceInTop {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, -80px);
-  }
-  60% {
-    opacity: 1;
-    transform: translate(-50%, 15px);
-  }
-  80% {
-    transform: translate(-50%, -5px);
-  }
-  100% {
-    transform: translate(-50%, 0);
-  }
-}
-
 @keyframes fadeInSoft {
   from {
     opacity: 0;
@@ -214,10 +34,6 @@
   to {
     opacity: 1;
   }
-}
-
-.navAnimate {
-  animation: dropIn 0.8s ease-out forwards;
 }
 
 .heroFade {
@@ -357,7 +173,7 @@
   flex-shrink: 0;
 }
 
-/* abt us */
+/* about us */
 
 .aboutUsSection {
   display: flex;
@@ -509,7 +325,7 @@
   height: 100%;
   border-radius: var(--br-20);
   clip-path: ellipse(100% 85% at 100% 50%);
-  background-image: url("/AboutusPic.png");
+  background-image: url("/exceptionHandlers.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -580,7 +396,6 @@
   padding-top: 1%;
   font-size: 25px;
   overflow: hidden;
-  /* initially hide background */
   background-color: transparent;
   transition: background-color 0.8s ease;
 }
@@ -630,7 +445,6 @@
   color: var(--color-tan);
 }
 
-/* hide and show animations */
 .hiddenOffer {
   opacity: 1;
 }
@@ -681,7 +495,6 @@
   }
 }
 
-/* service cards styling */
 .icon {
   display: block;
   margin: 10% auto;
@@ -930,7 +743,6 @@
   opacity: 1;
 }
 
-/* staggered animation delays for smooth sequence */
 .showWhyChoose .slideFromTopTitle {
   transition-delay: 0.1s;
 }
@@ -951,7 +763,6 @@
   transition-delay: 0.5s;
 }
 
-/* ensure the grid maintains its layout during animations */
 .whyChooseGrid {
   margin: 0 auto;
   justify-content: center;
@@ -967,7 +778,6 @@
   height: auto;
 }
 
-/* existing styles for the why choose section */
 .whyChooseServeaseContainer {
   margin: 5% 0 2% 12%;
   font-size: 48px;
@@ -1103,11 +913,11 @@
   grid-column-start: 1;
   grid-row-start: 2;
   border-radius: var(--br-20);
-  background-image: url("/WhyChoose.png");
+  background-image: url("/tt.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-color: var(--color-antiquewhite); /* fallback color */
+  background-color: var(--color-antiquewhite);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1116,7 +926,7 @@
   padding: 20px;
   min-height: 250px;
   position: relative;
-  overflow: hidden; /* ensures image doesn't overflow the border radius */
+  overflow: hidden;
 }
 
 .transparentTrustworthy {
@@ -1219,7 +1029,7 @@
   max-width: 277px;
 }
 
-/* regis */
+/* get started */
 
 .register {
   position: relative;
@@ -1368,7 +1178,7 @@
 }
 
 .link:hover .svgIcon {
-  content: url("/SVG1.svg");
+  content: url("/arrow-light.svg");
 }
 
 .link1 {
@@ -1409,7 +1219,7 @@
 }
 
 .link1:hover .svgIcon {
-  content: url("/SVG2.svg");
+  content: url("/arrow-dark.svg");
 }
 
 .getStarted {
@@ -1529,227 +1339,6 @@
   animation: floatIcon 3s ease-in-out infinite;
 }
 
-/* footer */
-
-.footer {
-  position: absolute;
-  top: 3708px;
-  left: 0px;
-  background: #fff;
-  width: 100%;
-  height: 475px;
-  text-align: left;
-  color: #000;
-}
-
-.footerChild {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  background-color: var(--color-white);
-  width: 100%;
-  height: 475px;
-}
-
-.yourTrustedPlatform {
-  position: absolute;
-  top: 157px;
-  left: 143px;
-  line-height: 40px;
-  display: inline-block;
-  width: 359px;
-}
-
-.contactUs {
-  position: absolute;
-  top: 87px;
-  left: calc(50% + 343px);
-  font-size: var(--font-size-26);
-  line-height: 128.02%;
-  display: inline-block;
-  width: 217px;
-}
-
-.supportserveasecom {
-  position: absolute;
-  top: 157px;
-  left: calc(50% + 343px);
-  line-height: 40px;
-}
-
-.contactNumber {
-  position: absolute;
-  top: 197px;
-  left: calc(50% + 343px);
-  line-height: 40px;
-  display: inline-block;
-  width: 233px;
-}
-
-.support {
-  position: absolute;
-  top: 87px;
-  left: calc(50% + 144px);
-  font-size: var(--font-size-26);
-  line-height: 128.02%;
-  display: inline-block;
-  width: 196px;
-}
-
-.faqs {
-  position: absolute;
-  top: 158px;
-  left: calc(50% + 144px);
-  line-height: 40px;
-  display: inline-block;
-  width: 233px;
-}
-
-.privacyPolicy {
-  position: absolute;
-  top: 197px;
-  left: calc(50% + 144px);
-  line-height: 40px;
-  display: inline-block;
-  width: 233px;
-}
-
-.termsConditions {
-  position: absolute;
-  top: 237px;
-  left: calc(50% + 144px);
-  line-height: 40px;
-  display: inline-block;
-  width: 233px;
-}
-
-.aboutUs {
-  position: absolute;
-  top: 277px;
-  left: calc(50% + 144px);
-  line-height: 40px;
-  display: inline-block;
-  width: 233px;
-}
-
-.quickLinks {
-  position: absolute;
-  top: 87px;
-  left: calc(50% - 126px);
-  font-size: var(--font-size-26);
-  line-height: 128.02%;
-  display: inline-block;
-  width: 196px;
-}
-
-.servease {
-  position: absolute;
-  top: 87px;
-  left: 200px;
-  font-size: var(--font-size-26);
-  line-height: 128.02%;
-  display: inline-block;
-  width: 148px;
-  color: #a68465;
-}
-
-.serv {
-  font-weight: 500;
-}
-
-.home {
-  position: absolute;
-  top: 158px;
-  left: calc(50% - 126px);
-  line-height: 40px;
-  display: inline-block;
-  width: 233px;
-}
-
-.discover {
-  position: absolute;
-  top: 197px;
-  left: calc(50% - 126px);
-  line-height: 40px;
-  display: inline-block;
-  width: 233px;
-}
-
-.createAnAccount {
-  position: absolute;
-  top: 236px;
-  left: calc(50% - 126px);
-  line-height: 40px;
-  display: inline-block;
-  width: 233px;
-}
-
-.lineDiv {
-  position: absolute;
-  top: -1px;
-  left: -1px;
-  border-top: 2px solid var(--color-black);
-  box-sizing: border-box;
-  width: 100%;
-  height: 2px;
-  border-top: 2px solid var(--color-black);
-  box-sizing: border-box;
-  height: 2px;
-}
-
-.servease2025 {
-  position: absolute;
-  top: 27px;
-  left: 14px;
-}
-
-.lineParent {
-  position: absolute;
-  top: 389px;
-  left: 129px;
-  width: calc(100% - 258px);
-  height: 53px;
-  font-size: var(--font-size-20);
-}
-
-.serveaseLogoAlbumCover3 {
-  position: absolute;
-  top: 84px;
-  left: 143px;
-  width: 40px;
-  height: 40px;
-  object-fit: cover;
-}
-
-.supportserveasecom,
-.faqs,
-.privacyPolicy,
-.termsConditions,
-.aboutUs,
-.home,
-.discover,
-.createAnAccount {
-  transition:
-    transform 0.3s ease,
-    color 0.3s ease;
-}
-
-.supportserveasecom:hover,
-.faqs:hover,
-.privacyPolicy:hover,
-.termsConditions:hover,
-.aboutUs:hover,
-.home:hover,
-.discover:hover,
-.createAnAccount:hover {
-  transform: translateX(8px);
-  color: var(--color-tan);
-}
-
-/* Mobile Responsive Styles - Add these media queries to your existing CSS */
-/* ---------- Zoom Scaling & Desktop Base ---------- */
-
-/* ---------- Large Screens ---------- */
 @media screen and (min-width: 1441px) {
   .landingPage {
     transform: scale(1);
@@ -1757,20 +1346,9 @@
   }
 }
 
-/* ─────────────── Tablet Styles ─────────────── */
 @media screen and (max-width: 1024px) {
   .landingPage {
     height: auto;
-  }
-  .navigation {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 0rem;
-    flex-shrink: 0;
-    padding: 0 30px;
-    width: 700px;
   }
 
   .heroImageWrapper {
@@ -1810,6 +1388,7 @@
   .yourTrustedPlatform {
     text-align: left;
   }
+
   .areYouLookingContainer,
   .areYouOffering {
     width: 250px;
@@ -1818,6 +1397,7 @@
     font-size: 30px;
     line-height: 30px;
   }
+
   .findTrustedProfessionals {
     margin: 5% 5%;
     font-size: 15px;
@@ -1827,6 +1407,7 @@
     left: 3px;
     top: 120px;
   }
+
   .link,
   .link1 {
     top: 240px;
@@ -1835,170 +1416,12 @@
     width: 159px;
     height: 56px;
   }
-  .footer {
-    position: relative;
-    top: auto;
-    height: auto;
-    padding: 40px 0;
-    background: white;
-    border-top: 1px solid #e9ecef;
-  }
-
-  .footerChild {
-    position: relative;
-    height: auto;
-  }
-
-  .servease {
-    position: flex;
-    text-align: center;
-    top: 30px;
-    width: 60%;
-    align-items: center;
-  }
-
-  .serveaseLogoAlbumCover3 {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    top: 30px;
-    left: 340px;
-    margin-bottom: 50px;
-  }
-
-  .yourTrustedPlatform {
-    position: relative;
-    left: 80px;
-    top: 20px;
-    text-align: center;
-    width: 80%;
-    margin: 20px auto;
-    font-size: 14px;
-    line-height: 20px;
-  }
-
-  .quickLinks {
-    position: relative;
-    top: 60px;
-    left: auto;
-    text-align: center;
-    width: 100%;
-    margin: 30px 0 10px 0;
-    font-size: 20px;
-  }
-  .support {
-    position: relative;
-    top: 60px;
-    left: auto;
-    text-align: center;
-    width: 100%;
-    margin: 30px 0 10px 0;
-    font-size: 20px;
-  }
-  .contactUs {
-    position: relative;
-    top: 60px;
-    left: auto;
-    text-align: center;
-    width: 100%;
-    margin: 30px 0 10px 0;
-    font-size: 20px;
-  }
-
-  .contactNumber,
-  .supportserveasecom,
-  .aboutUs,
-  .termsConditions,
-  .privacyPolicy,
-  .faqs,
-  .createAnAccount,
-  .discover,
-  .home {
-    position: relative;
-    top: 50px;
-    left: auto;
-    text-align: center;
-    width: 100%;
-    margin: 10px 0;
-    font-size: 14px;
-    line-height: 25px;
-  }
-
-  .lineParent {
-    position: relative;
-    top: 45px;
-    left: auto;
-    width: 90%;
-    margin: 30px auto 0 auto;
-    text-align: center;
-  }
-
-  .lineDiv {
-    width: 100%;
-  }
-
-  .servease2025 {
-    position: relative;
-    top: auto;
-    left: 30%;
-    text-align: center;
-    margin-top: 20px;
-    width: 50%;
-  }
 }
 
-/* ─────────────── Mobile Styles ─────────────── */
 @media screen and (max-width: 768px) {
   .landingPage {
     height: auto;
     min-height: 100vh;
-  }
-
-  .navigation {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 0rem;
-    flex-shrink: 0;
-    padding: 0 30px;
-    width: 500px;
-    position: absolute;
-  }
-
-  .navigationlogo {
-    gap: 1px;
-  }
-
-  .serveaseLogoAlbumCover31 {
-    width: 38px;
-  }
-
-  .servease1 {
-    font-size: 20px;
-  }
-
-  .homeParent {
-    gap: 1px;
-  }
-
-  .home1,
-  .discover,
-  .contactUs1 {
-    width: 15px;
-    font-size: 15px;
-    gap: 1px;
-    justify-content: center;
-  }
-
-  .button1 {
-    width: 60px;
-    height: 30px;
-    padding: 8px;
-  }
-
-  .signIn {
-    font-size: 13px;
   }
 
   .heroImageWrapper {
@@ -2219,121 +1642,8 @@
     bottom: 10px;
     right: 10px;
   }
-
-  /* ──────── Footer Section ──────── */
-  .footer {
-    position: relative;
-    top: auto;
-    height: auto;
-    padding: 40px 0;
-    background: white;
-    border-top: 1px solid #e9ecef;
-  }
-
-  .footerChild {
-    position: relative;
-    height: auto;
-  }
-
-  .servease {
-    position: flex;
-    text-align: center;
-    top: 30px;
-    width: 38%;
-    align-items: center;
-  }
-
-  .serveaseLogoAlbumCover3 {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    top: 30px;
-    left: 200px;
-    margin-bottom: 50px;
-  }
-
-  .yourTrustedPlatform {
-    position: relative;
-    left: 80px;
-    top: 20px;
-    text-align: center;
-    width: 80%;
-    margin: 20px auto;
-    font-size: 14px;
-    line-height: 20px;
-  }
-
-  .quickLinks {
-    position: relative;
-    top: 60px;
-    left: 240px;
-    text-align: left;
-    width: 900px;
-    margin: 30px 0 10px 0;
-    font-size: 20px;
-  }
-  .support {
-    position: relative;
-    top: 60px;
-    left: 250px;
-    text-align: left;
-    width: 900px;
-    margin: 30px 0 10px 0;
-    font-size: 20px;
-  }
-  .contactUs {
-    position: relative;
-    top: 60px;
-    left: 235px;
-    text-align: left;
-    width: 900px;
-    margin: 30px 0 10px 0;
-    font-size: 20px;
-  }
-
-  .contactNumber,
-  .supportserveasecom,
-  .aboutUs,
-  .termsConditions,
-  .privacyPolicy,
-  .faqs,
-  .createAnAccount,
-  .discover,
-  .home {
-    position: relative;
-    top: 50px;
-    left: auto;
-    text-align: center;
-    width: 580px;
-    margin: 10px 0;
-    font-size: 14px;
-    line-height: 25px;
-  }
-
-  .lineParent {
-    position: relative;
-    top: 45px;
-    left: auto;
-    width: 90%;
-    margin: 30px auto 0 auto;
-    text-align: center;
-  }
-
-  .lineDiv {
-    width: 100%;
-  }
-
-  .servease2025 {
-    position: relative;
-    top: auto;
-    left: 30%;
-    text-align: center;
-    margin-top: 20px;
-    width: 50%;
-  }
 }
 
-/* ─────────────── Small Mobile Styles ─────────────── */
 @media screen and (max-width: 480px) {
   .navigation {
     flex-direction: row;
@@ -2384,7 +1694,6 @@
   }
 }
 
-/* ─────────────── Landscape Mobile Styles ─────────────── */
 @media screen and (max-height: 500px) and (orientation: landscape) {
   .heroImageWrapper {
     height: 250px;
@@ -2404,10 +1713,5 @@
 
   .discoverASmarter {
     font-size: 14px;
-  }
-
-  .navigation {
-    flex-direction: row;
-    top: 0.5rem;
   }
 }

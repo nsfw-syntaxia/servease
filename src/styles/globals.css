@@ -1,16 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Benne:wght@400&display=swap");
 
 @import "tailwindcss";
 
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Benne:wght@400&display=swap");
-
-/* ---------- Zoom Scaling Support (Windows Display Scaling) ---------- */
 html {
   font-size: 100%;
   scroll-behavior: smooth;
@@ -20,241 +14,46 @@ html {
 
 body {
   zoom: 1;
-}
-
-@media screen and (min-resolution: 120dpi),
-  screen and (min--moz-device-pixel-ratio: 1.25),
-  screen and (min-device-pixel-ratio: 1.25),
-  screen and (min-resolution: 1.25dppx) {
-  html {
-    font-size: 90%;
-  }
-}
-
-@media screen and (min-resolution: 144dpi),
-  screen and (min-device-pixel-ratio: 1.5) {
-  html {
-    font-size: 85%;
-  }
-}
-
-body {
   margin: 0;
   line-height: normal;
 }
+
 :root {
   font-size: 100%;
   scroll-behavior: smooth;
-}
-:root {
+
+  --color-tan: #a68465;
+  --color-whitesmoke: #f8f7f3;
+  --color-whitesmoke-100: #f8f7f3;
+  --color-whitesmoke-200: #f0ebeb;
+  --color-linen: #efebe2;
+  --color-snow: #fbf7f4;
+  --color-antiquewhite: #e0d9c9;
+  --color-gainsboro: #e5e5e5;
+  --color-silver: #cfbdac;
+  --color-crimson: #ee1d52;
+  --color-slategray: #5c6c7e;
+  --color-darkslategray: #333;
+  --color-gray: #111;
+  --color-gray-100: #402f27;
+  --color-gray-200: #38281b;
+  --color-gray-300: #2e231d;
   --color-gray-400: #241f1b;
   --color-gray-500: #050b20;
   --color-gray-600: #cccccc;
   --color-gray-700: #a9a9a9;
   --color-gray-800: #d9d9d9;
-  --color-whitesmoke: #f8f7f3;
-  --color-black: #000;
-  --color-tan: #a68465;
-  --color-white: #fff;
-  --color-gray-200: #38281b;
-  --color-gray-100: #402f27;
-  --color-antiquewhite: #e0d9c9;
-  --color-gray-300: #2e231d;
-  --color-linen: #efebe2;
-  --color-snow: #fbf7f4;
   --color-dimgray: #604c3d;
-
-  --gap-8: 8px;
-
-  --padding-12: 12px;
-
-  --br-8: 8px;
-  --br-12: 12px;
-  --br-20: 20px;
-
-  --font-dm-sans: DM Sans;
-  --font-benne: Benne;
-
-  --font-size-15: 15px;
-  --font-size-16: 16px;
-  --font-size-18: 18px;
-  --font-size-20: 20px;
-  --font-size-26: 26px;
-  --font-size-30: 30px;
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
-
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap");
-
-body {
-  margin: 0;
-  line-height: normal;
-}
-:root {
-  --color-gray-100: #2e231d;
-  --color-gray-200: #050f1a;
-  --color-white: #fff;
-  --color-tan: #a68465;
-  --color-whitesmoke: #f8f7f3;
-  --color-black: #000;
-  --color-slategray: #5c6c7e;
-  --color-dimgray: #604c3d;
-  --color-gainsboro: #e5e5e5;
-
-  --br-15: 15px;
-
-  --font-dm-sans: DM Sans;
-  --font-poppins: Poppins;
-
-  --font-size-16: 16px;
-  --font-size-18: 18px;
-  --font-size-20: 20px;
-}
-
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap");
-
-body {
-  margin: 0;
-  line-height: normal;
-}
-:root {
-  --color-dimgray-200: #604c3d;
+  --color-dimgray-100: #666;
+  --color-dimgray-200: rgba(102, 102, 102, 0.35);
   --color-dimgray-300: rgba(102, 102, 102, 0.35);
   --color-dimgray-400: rgba(102, 102, 102, 0.25);
   --color-dimgray-500: rgba(102, 102, 102, 0.8);
-  --color-gray: #111;
-  --color-black: #000;
   --color-white: #fff;
-  --color-dimgray-100: #666;
-  --color-whitesmoke: #f8f7f3;
-  --color-tan: #a68465;
-  --color-darkslategray: #333;
+  --color-black: #000;
 
   --gap-4: 4px;
   --gap-6: 6px;
-  --gap-8: 8px;
-  --gap-12: 12px;
-  --gap-24: 24px;
-
-  --padding-8: 8px;
-  --padding-24: 24px;
-
-  --br-8: 8px;
-  --br-12: 12px;
-  --br-24: 24px;
-
-  --font-poppins: Poppins;
-  --font-dm-sans: DM Sans;
-
-  --font-size-12: 12px;
-  --font-size-14: 14px;
-  --font-size-16: 16px;
-  --font-size-24: 24px;
-}
-
-:root {
-  --color-gray-100: #2e231d;
-  --color-tan: #a68465;
-  --color-whitesmoke: #f8f7f3;
-  --color-black: #000;
-  --color-white: #fff;
-  --color-crimson: #ee1d52;
-  --color-dimgray: #604c3d;
-  --color-dimgray-100: #666;
-  --color-dimgray-200: rgba(102, 102, 102, 0.35);
-  --color-gray-100: #111;
-  --color-gray-200: #050f1a;
-  --color-slategray: #5c6c7e;
-  --color-gainsboro: #e5e5e5;
-
-  --gap-4: 4px;
-  --br-12: 12px;
-  --br-15: 15px;
-
-  --font-dm-sans: DM Sans;
-  --font-poppins: Poppins;
-
-  --font-size-14: 14px;
-  --font-size-16: 16px;
-  --font-size-18: 18px;
-  --font-size-20: 20px;
-}
-
-input[type="password"]::-ms-reveal,
-input[type="password"]::-webkit-credentials-auto-fill-button,
-input[type="password"]::-webkit-inner-spin-button,
-input[type="password"]::-webkit-clear-button {
-  display: none !important;
-  appearance: none !important;
-}
-
-/* rexis overall global css */
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap");
-
-body {
-  margin: 0;
-  line-height: normal;
-}
-
-:root {
-  --color-gray-100: #2e231d;
-  --color-tan: #a68465;
-  --color-snow: #fbf7f4;
-  --color-whitesmoke: #f8f7f3;
-  --color-whitesmoke-100: #f8f7f3;
-  --color-whitesmoke-200: #f0ebeb;
-  --color-black: #000;
-  --color-white: #fff;
-  --color-crimson: #ee1d52;
-  --color-dimgray: #604c3d;
-  --color-dimgray-100: #666;
-  --color-dimgray-200: rgba(102, 102, 102, 0.35);
-  --color-dimgray-300: rgba(102, 102, 102, 0.25);
-  --color-dimgray-400: rgba(102, 102, 102, 0.8);
-  --color-dimgray-500: #604c3d;
-  --color-gray-100: #111;
-  --color-gray-200: #050f1a;
-  --color-gray-300: rgba(34, 34, 34, 0.1);
-  --color-gray-400: #222;
-  --color-slategray: #5c6c7e;
-  --color-darkslategray: #333;
-  --color-gainsboro: #e5e5e5;
-
-  --gap-4: 4px;
   --gap-8: 8px;
   --gap-10: 10px;
   --gap-12: 12px;
@@ -277,8 +76,8 @@ body {
   --br-30: 30px;
 
   --font-dm-sans: DM Sans;
-  --font-poppins: Poppins;
   --font-inter: Inter;
+  --font-poppins: Poppins;
   --font-benne: Benne;
 
   --font-size-12: 12px;
@@ -291,6 +90,49 @@ body {
   --font-size-26: 26px;
   --font-size-28: 28px;
   --font-size-30: 30px;
+
+  --radius: 0.625rem;
+
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
 }
 
 input[type="password"]::-ms-reveal,
@@ -301,31 +143,18 @@ input[type="password"]::-webkit-clear-button {
   appearance: none !important;
 }
 
-/* rexi unchecked & might be duplicate global css */
-:root {
-  --color-dimgray-300: rgba(102, 102, 102, 0.35);
-  --color-dimgray-400: rgba(102, 102, 102, 0.25);
-  --color-dimgray-500: rgba(102, 102, 102, 0.8);
-  --color-gray: #111;
-  --color-dimgray-200: #604c3d;
-  --color-dimgray-100: #666;
-  --color-darkslategray: #333;
+@media screen and (min-resolution: 120dpi),
+  screen and (min--moz-device-pixel-ratio: 1.25),
+  screen and (min-device-pixel-ratio: 1.25),
+  screen and (min-resolution: 1.25dppx) {
+  html {
+    font-size: 90%;
+  }
+}
 
-  --color-gray-400: #241f1b;
-  --color-gray-500: #050b20;
-  --color-whitesmoke: #f8f7f3;
-  --color-black: #000;
-  --color-tan: #a68465;
-  --color-white: #fff;
-  --color-gray-200: #38281b;
-  --color-gray-100: #402f27;
-  --color-antiquewhite: #e0d9c9;
-  --color-gray-300: #2e231d;
-  --color-linen: #efebe2;
-  --color-snow: #fbf7f4;
-  --color-dimgray: #604c3d;
-
-  --color-gray-200: #241f1b;
-  --color-gray-100: #2e231d;
-  --color-silver: #cfbdac;
+@media screen and (min-resolution: 144dpi),
+  screen and (min-device-pixel-ratio: 1.5) {
+  html {
+    font-size: 85%;
+  }
 }
