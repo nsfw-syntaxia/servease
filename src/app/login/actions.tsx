@@ -1,7 +1,6 @@
 "use server";
 
 import { createClient } from "../../lib/supabase/server";
-import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 
 export interface LoginResult {
@@ -37,7 +36,7 @@ export async function login(formData: FormData): Promise<LoginResult> {
 
   if (profileError || !profile) {
     await supabase.auth.signOut();
-    console.error("Profile fetch error:", profileError?.message);
+    console.error("Profile Error:", profileError?.message);
     return {
       success: false,
       error: "Could not find user profile. Please contact support.",

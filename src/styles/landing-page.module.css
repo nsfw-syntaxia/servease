@@ -1645,11 +1645,6 @@
 }
 
 @media screen and (max-width: 480px) {
-  .navigation {
-    flex-direction: row;
-    gap: 0.5rem;
-  }
-
   .heroImageWrapper {
     height: 300px;
     margin: 120px auto 30px auto;

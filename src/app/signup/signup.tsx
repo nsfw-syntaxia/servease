@@ -64,7 +64,7 @@ const Signup: NextPage = () => {
           height={978}
           sizes="100vw"
           alt=""
-          src="/authLogo.svg"
+          src="/logo3d.svg"
         />
         <div className={styles.background} />
         <div className={styles.authwindow}>
@@ -131,7 +131,7 @@ const Signup: NextPage = () => {
                     height={35}
                     sizes="100vw"
                     alt=""
-                    src="/service 3.svg"
+                    src="/service3.svg"
                   />
                   <Image
                     className={styles.service2Icon}
@@ -139,7 +139,7 @@ const Signup: NextPage = () => {
                     height={35}
                     sizes="100vw"
                     alt=""
-                    src="/service 2.svg"
+                    src="/service2.svg"
                   />
                   <Image
                     className={styles.service1Icon}
@@ -147,7 +147,7 @@ const Signup: NextPage = () => {
                     height={45}
                     sizes="100vw"
                     alt=""
-                    src="/service 1.svg"
+                    src="/service1.svg"
                   />
                   <div className={styles.notselected}>
                     <div className={styles.notselected1} />
@@ -193,7 +193,7 @@ const Signup: NextPage = () => {
                     height={35}
                     sizes="100vw"
                     alt=""
-                    src="/client 3.svg"
+                    src="/client3.svg"
                   />
                   <Image
                     className={styles.service2Icon}
@@ -201,7 +201,7 @@ const Signup: NextPage = () => {
                     height={35}
                     sizes="100vw"
                     alt=""
-                    src="/client 2.svg"
+                    src="/client2.svg"
                   />
                   <Image
                     className={styles.client1Icon}
@@ -209,7 +209,7 @@ const Signup: NextPage = () => {
                     height={45}
                     sizes="100vw"
                     alt=""
-                    src="/client 1.svg"
+                    src="/client1.svg"
                   />
                 </div>
               </div>

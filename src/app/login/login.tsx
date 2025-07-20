@@ -66,7 +66,7 @@ const Login: NextPage = () => {
         setShowError(true);
       }
     } catch (err) {
-      console.error("Login failed:", err);
+      console.error("Login Failed:", err);
       setError("An unexpected error occurred. Please try again.");
       setShowError(true);
     } finally {
@@ -83,7 +83,7 @@ const Login: NextPage = () => {
           height={978}
           sizes="100vw"
           alt=""
-          src="/authLogo.svg"
+          src="/logo3d.svg"
         />
         <div className={styles.background} />
 
