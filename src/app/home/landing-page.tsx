@@ -8,12 +8,12 @@ import styles from "../../styles/landing-page.module.css";
 import React, { createContext, useContext } from "react";
 
 const heroImages = [
-  "/LandingPageImage1.png",
-  "/LandingPageImage2.png",
-  "/LandingPageImage3.png",
-  "/LandingPageImage4.png",
-  "/LandingPageImage5.png",
-  "/LandingPageImage6.png",
+  "/hero1.png",
+  "/hero2.png",
+  "/hero3.png",
+  "/hero4.png",
+  "/hero5.png",
+  "/hero6.png",
 ];
 
 const TypewriterContext = createContext({
@@ -100,8 +100,6 @@ const TypewriterText = ({
   const [isPaused, setIsPaused] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
-
-  console.log("TypewriterText lines:", lines);
 
   useEffect(() => {
     if (shouldStart && !hasStarted) {
@@ -332,7 +330,6 @@ const LandingPage = () => {
   return (
     <TypewriterProvider>
       <div className={styles.landingPage}>
-
         {/* hero */}
         {showHero && (
           <div className={`${styles.heroImageWrapper} ${styles.heroFade}`}>
@@ -382,8 +379,8 @@ const LandingPage = () => {
               className={styles.subtractIcon}
               width={110}
               height={110}
-              alt="Subtract"
-              src="/Subtract.png"
+              alt=""
+              src="/design1.svg"
             />
             <div className={styles.servChild1}>100+</div>
             <div className={styles.serviceFacilities}>Service Facilities</div>
@@ -438,7 +435,7 @@ const LandingPage = () => {
                 height={50.8}
                 sizes="100vw"
                 alt=""
-                src="/Intersect.svg"
+                src="/design2.svg"
               />
               <Image
                 className={styles.intersectIcon1}
@@ -446,7 +443,7 @@ const LandingPage = () => {
                 height={189}
                 sizes="100vw"
                 alt=""
-                src="/Intersect1.svg"
+                src="/design3.svg"
               />
               <Image
                 className={styles.icon}
@@ -454,7 +451,7 @@ const LandingPage = () => {
                 height={100}
                 sizes="100vw"
                 alt=""
-                src="/3.svg"
+                src="/obs.svg"
               />
               <b className={styles.onlineBookingSystem}>
                 Online Booking System
@@ -474,7 +471,7 @@ const LandingPage = () => {
                 height={173.7}
                 sizes="100vw"
                 alt=""
-                src="/Intersect4.svg"
+                src="/design4.svg"
               />
               <Image
                 className={styles.intersectIcon5}
@@ -482,7 +479,7 @@ const LandingPage = () => {
                 height={168.3}
                 sizes="100vw"
                 alt=""
-                src="/Intersect5.svg"
+                src="/design5.svg"
               />
               <Image
                 className={styles.icon}
@@ -490,7 +487,7 @@ const LandingPage = () => {
                 height={100}
                 sizes="100vw"
                 alt=""
-                src="/4.svg"
+                src="/sd.svg"
               />
               <b className={styles.serviceDirectory1}>Service Directory</b>
               <div className={styles.searchForService}>
@@ -508,7 +505,7 @@ const LandingPage = () => {
                 height={135.6}
                 sizes="100vw"
                 alt=""
-                src="/Intersect2.svg"
+                src="/design6.svg"
               />
               <Image
                 className={styles.intersectIcon3}
@@ -516,7 +513,7 @@ const LandingPage = () => {
                 height={165}
                 sizes="100vw"
                 alt=""
-                src="/Intersect3.svg"
+                src="/design7.svg"
               />
               <Image
                 className={styles.icon}
@@ -524,7 +521,7 @@ const LandingPage = () => {
                 height={100}
                 sizes="100vw"
                 alt=""
-                src="/5.svg"
+                src="/dda.svg"
               />
               <b className={styles.dualDashboardAccess}>
                 Dual Dashboard Access
@@ -572,7 +569,7 @@ const LandingPage = () => {
                 height={91}
                 sizes="100vw"
                 alt=""
-                src="/Intersect8.svg"
+                src="/design8.svg"
               />
             </div>
 
@@ -587,7 +584,7 @@ const LandingPage = () => {
                   height={84}
                   sizes="100vw"
                   alt=""
-                  src="/Intersect6.svg"
+                  src="/design9.svg"
                 />
               </div>
               <div className={styles.landingPageInner} />
@@ -619,7 +616,7 @@ const LandingPage = () => {
                   height={283}
                   sizes="100vw"
                   alt=""
-                  src="/Intersect7.svg"
+                  src="/design10.svg"
                 />
               </div>
               <div className={styles.builtForGrowthDiv}>
@@ -654,6 +651,7 @@ const LandingPage = () => {
                   typingSpeed={120}
                   pauseBetweenLines={300}
                   className={styles.aboutUsTxtContainer}
+                  style={{ fontWeight: "bold" }}
                   shouldStart={startTypewriter}
                 />
               </b>
@@ -675,7 +673,7 @@ const LandingPage = () => {
                 height={14}
                 sizes="100vw"
                 alt=""
-                src="/SVG2.svg"
+                src="/arrow-dark.svg"
               />
             </div>
             <Image
@@ -684,7 +682,7 @@ const LandingPage = () => {
               height={145}
               sizes="100vw"
               alt=""
-              src="/Client Logo.svg"
+              src="/client-gs.svg"
             />
           </div>
           <div className={`${styles.background1} ${styles.slideInRight}`}>
@@ -715,7 +713,7 @@ const LandingPage = () => {
                 height={14}
                 sizes="100vw"
                 alt=""
-                src="/SVG1.svg"
+                src="/arrow-light.svg"
               />
             </div>
             <div className={styles.electricCar2svgFill} />
@@ -725,7 +723,7 @@ const LandingPage = () => {
               height={145}
               sizes="100vw"
               alt=""
-              src="/Facility Logo.svg"
+              src="/facility-gs.svg"
             />
           </div>
         </div>

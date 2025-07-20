@@ -325,7 +325,7 @@
   height: 100%;
   border-radius: var(--br-20);
   clip-path: ellipse(100% 85% at 100% 50%);
-  background-image: url("/AboutusPic.png");
+  background-image: url("/exceptionHandlers.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -913,7 +913,7 @@
   grid-column-start: 1;
   grid-row-start: 2;
   border-radius: var(--br-20);
-  background-image: url("/WhyChoose.png");
+  background-image: url("/tt.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -1178,7 +1178,7 @@
 }
 
 .link:hover .svgIcon {
-  content: url("/SVG1.svg");
+  content: url("/arrow-light.svg");
 }
 
 .link1 {
@@ -1219,7 +1219,7 @@
 }
 
 .link1:hover .svgIcon {
-  content: url("/SVG2.svg");
+  content: url("/arrow-dark.svg");
 }
 
 .getStarted {
