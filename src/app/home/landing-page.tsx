@@ -113,7 +113,7 @@ const TypewriterText = ({
     if (isPaused || isComplete || !hasStarted) return;
 
     const timer = setTimeout(() => {
-      // only typing phase - no erasing
+      // types & doesnt erase
       if (currentLineIndex < lines.length) {
         const currentLine = lines[currentLineIndex];
 
@@ -131,7 +131,6 @@ const TypewriterText = ({
           setDisplayText(newText);
           setCurrentCharIndex((prev) => prev + 1);
         } else {
-          // finished current line
           if (currentLineIndex < lines.length - 1) {
             setIsPaused(true);
             setTimeout(() => {
@@ -159,7 +158,7 @@ const TypewriterText = ({
     hasStarted,
   ]);
 
-  // cursor blinking - continues forever
+  // cursor blinking continues
   useEffect(() => {
     const cursorTimer = setInterval(() => {
       setShowCursor((prev) => !prev);
@@ -333,7 +332,8 @@ const LandingPage = () => {
   return (
     <TypewriterProvider>
       <div className={styles.landingPage}>
-        {/* hero img */}
+
+        {/* hero */}
         {showHero && (
           <div className={`${styles.heroImageWrapper} ${styles.heroFade}`}>
             {heroImages.map((img, index) => (
@@ -370,7 +370,7 @@ const LandingPage = () => {
 
         <div className={styles.spacer}></div>
 
-        {/* abt us */}
+        {/* about us */}
         <div
           ref={aboutRef}
           className={`${styles.aboutUsSection} ${
@@ -560,7 +560,6 @@ const LandingPage = () => {
             </span>
           </div>
 
-          {/* grid Section */}
           <div className={styles.whyChooseGrid}>
             <div className={`${styles.allInOneBox} ${styles.slideFromLeft}`}>
               <b className={styles.allInOnePlatform}>All-in-One Platform</b>
@@ -640,7 +639,7 @@ const LandingPage = () => {
           </div>
         </div>
 
-        {/* signup */}
+        {/* get started */}
         <div
           ref={registerRef}
           className={`${styles.register} ${

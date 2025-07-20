@@ -10,8 +10,8 @@
 
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Changed from space-evenly for better alignment */
-  gap: 2rem; /* A flexible gap is better than a fixed one */
+  justify-content: space-between;
+  gap: 2rem;
 
   background-color: var(--color-white);
   border-radius: 50px;
@@ -22,7 +22,6 @@
   animation: bounceInTop 0.8s ease forwards;
 }
 
-/* The animation from your requested style */
 @keyframes bounceInTop {
   0% {
     opacity: 0;
@@ -40,7 +39,6 @@
   }
 }
 
-/* === Logo and Brand Name === */
 .logoIcon:hover {
   transform: scale(1.1);
 }
@@ -91,7 +89,9 @@
   text-decoration: none;
   font-size: 18px;
   font-weight: 600;
-  transition: color 0.3s ease, transform 0.3s ease;
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
   cursor: pointer;
   white-space: nowrap;
 }
@@ -101,7 +101,6 @@
   transform: translateY(-1px);
 }
 
-/* === User Actions (Avatar and Login Button) === */
 .userActions {
   display: flex;
   align-items: center;
@@ -120,9 +119,11 @@
   transition: transform 0.3s ease;
   cursor: pointer;
 }
+
 .avataricon:hover {
   transform: scale(1.1);
 }
+
 .dropdownWrapper {
   position: relative;
   display: inline-block;
@@ -165,13 +166,12 @@
   border-bottom-right-radius: 8px;
 }
 
-/* NEW: Styles for the Login button */
 .loginButton {
   position: relative;
   overflow: hidden;
   z-index: 0;
 
-  background-color: var(--color-tan); /* fallback if gradient doesn't load */
+  background-color: var(--color-tan);
   color: var(--color-white);
   border: 1px solid transparent;
   padding: 10px 24px;
@@ -202,58 +202,6 @@
   background-position: 100% 50%;
 }
 
-/*
-
-.loginButton {
-  position: relative;       
-  overflow: hidden;      
-  z-index: 0;         
-
-  background-color: var(--color-tan);  
-  color: var(--color-white);
-  border: 1px solid transparent;       
-  padding: 10px 24px;
-  border-radius: 50px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 0.3s ease,
-              box-shadow 0.3s ease,
-              opacity 0.3s ease;     
-  white-space: nowrap;
-}
-
-.loginButton::before {
-  content: "";
-  position: absolute;
-  inset: 0;                 
-  z-index: -1;    
-
-  background: linear-gradient(
-      120deg,
-      #a68465,
-      #c3a68c,
-      #a68465
-  );
-  background-size: 200% 100%;
-  background-position: 0% 50%;
-  transition: background-position 0.5s ease;
-}
-
-.loginButton:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-.loginButton:hover::before {
-  background-position: 100% 50%;
-}
-
-*/
-
-/* === Responsive Design === */
-
 @media (max-width: 1200px) {
   .navigation {
     width: 90%;
@@ -266,7 +214,6 @@
 }
 
 @media (max-width: 992px) {
-  /* On tablets, hide the links to prepare for a hamburger menu */
   .navLinks {
     display: none;
   }
@@ -286,7 +233,6 @@
     padding: 0.5rem 1rem;
     top: 1rem;
   }
-  /* Hide the brand name text on very small screens */
   .logoText {
     display: none;
   }
