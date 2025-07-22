@@ -262,7 +262,7 @@ export default function Booking3({ onNext }: Props) {
                   })}
                 </b>
               </div>
-               <div className={styles.rowContainer}>
+              <div className={styles.rowContainer}>
                 <div className={styles.facilityName}>Booking Time</div>
                 <b className={styles.facilityNameCap}>{selectedTime}</b>
               </div>

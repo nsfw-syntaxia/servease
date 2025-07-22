@@ -22,7 +22,7 @@ interface Profile {
 interface SearchResult {
   id: string;
   business_name: string;
-  specific_category: string; 
+  specific_category: string;
 }
 
 // This PopularServiceCard is now correct
@@ -270,14 +270,16 @@ const RATS: NextPage<{
   // Close dropdown on outside click
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
+      if (
+        searchContainerRef.current &&
+        !searchContainerRef.current.contains(event.target as Node)
+      ) {
         setSearchTerm(""); // Clear search to hide dropdown
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [searchContainerRef]);
-
 
   const handleNext = () => {
     if (currentIndex < top6PopularServices.length - visibleServices) {
@@ -311,8 +313,8 @@ const RATS: NextPage<{
     return result;
   };
 
-
-  const isDropdownVisible = (isSearching || searchResults.length > 0) && searchTerm.trim().length > 0;
+  const isDropdownVisible =
+    (isSearching || searchResults.length > 0) && searchTerm.trim().length > 0;
 
   return (
     <div className={styles.pbacs}>
@@ -322,9 +324,9 @@ const RATS: NextPage<{
             Repair and Technical Services
           </div>
         </div>
-        <div 
+        <div
           ref={searchContainerRef}
-          className={`${styles.searchBox} ${isDropdownVisible ? styles.searchBoxActive : ''}`}
+          className={`${styles.searchBox} ${isDropdownVisible ? styles.searchBoxActive : ""}`}
         >
           <div className={styles.filtering}>
             <div className={styles.link6}>

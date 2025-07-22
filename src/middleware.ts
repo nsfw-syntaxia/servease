@@ -47,8 +47,8 @@ export async function middleware(request: NextRequest) {
       role === "client"
         ? "/client-dashboard"
         : role === "provider"
-        ? "/provider-dashboard"
-        : "/home"; // Fallback if role not found
+          ? "/provider-dashboard"
+          : "/home"; // Fallback if role not found
 
     const guestAndGenericRoutes = ["/", "/home", "/login", "/signup"];
 

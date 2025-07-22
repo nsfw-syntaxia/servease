@@ -156,8 +156,8 @@ export default async function FacilityPage({ params }: FacilityPageProps) {
       services={services || []}
       reviews={processedReviews}
       relatedServices={processedRelatedServices}
-      initialIsLiked={isLiked} 
-      initialTotalLikes={totalLikes} 
+      initialIsLiked={isLiked}
+      initialTotalLikes={totalLikes}
       facilityPhotos={facilityPhotos}
     />
   );

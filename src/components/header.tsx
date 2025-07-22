@@ -86,7 +86,12 @@ const Header = ({ avatarUrl, userRole, homePath }: HeaderProps) => {
     { label: "Log out", onClick: handleLogout },
   ];
 
-  const hideHeaderRoutes = ["/login", "/signup", "/register-client", "/register-facility"];
+  const hideHeaderRoutes = [
+    "/login",
+    "/signup",
+    "/register-client",
+    "/register-facility",
+  ];
   if (hideHeaderRoutes.includes(pathname)) {
     return null;
   }

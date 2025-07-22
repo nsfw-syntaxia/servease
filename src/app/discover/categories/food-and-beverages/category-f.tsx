@@ -22,7 +22,7 @@ interface Profile {
 interface SearchResult {
   id: string;
   business_name: string;
-  specific_category: string; 
+  specific_category: string;
 }
 
 const PopularServiceCard = ({ service }: { service: Profile }) => {
@@ -201,7 +201,7 @@ const FABS: NextPage<{
   const visibleServices = 3;
   const visibleServices1 = 3;
 
-    const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const searchContainerRef = useRef<HTMLDivElement>(null);
@@ -247,7 +247,10 @@ const FABS: NextPage<{
   // Close dropdown on outside click
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
+      if (
+        searchContainerRef.current &&
+        !searchContainerRef.current.contains(event.target as Node)
+      ) {
         setSearchTerm(""); // Clear search to hide dropdown
       }
     }
@@ -287,7 +290,8 @@ const FABS: NextPage<{
     return result;
   };
 
-  const isDropdownVisible = (isSearching || searchResults.length > 0) && searchTerm.trim().length > 0;
+  const isDropdownVisible =
+    (isSearching || searchResults.length > 0) && searchTerm.trim().length > 0;
 
   return (
     <div className={styles.hams}>
@@ -297,9 +301,9 @@ const FABS: NextPage<{
             Food and Beverages Services
           </div>
         </div>
-         <div 
+        <div
           ref={searchContainerRef}
-          className={`${styles.searchBox} ${isDropdownVisible ? styles.searchBoxActive : ''}`}
+          className={`${styles.searchBox} ${isDropdownVisible ? styles.searchBoxActive : ""}`}
         >
           <div className={styles.filtering}>
             <div className={styles.link6}>

@@ -1,7 +1,5 @@
 "use client"; // <--- THIS IS THE FIX
 
-import type { NextPage } from "next";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useState, useCallback, useTransition, useRef, useEffect } from "react";
 import styles from "../../styles/register-client-2.module.css";
