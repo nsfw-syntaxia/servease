@@ -1,7 +1,6 @@
 "use server";
 
 import { createClient } from "../../utils/supabase/server";
-import { redirect } from "next/navigation";
 
 export async function addContactAndCompleteProfile(
   formData: FormData
@@ -81,7 +80,7 @@ export async function addContactAndCompleteProfile(
 
   if (insertError) {
     const errorMsg = `--- SUPABASE FINAL PROFILES INSERT ERROR ---: ${insertError.message}`;
-    
+
     console.error(errorMsg);
     // If this fails, do NOT delete the temporary data, so the user can maybe try again.
     return { error: "There was a database error creating your final profile." };

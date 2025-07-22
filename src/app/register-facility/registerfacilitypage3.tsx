@@ -15,8 +15,8 @@ export default function FacilitySignup3({ onNext }: Props) {
   const [selectedDocumentType, setSelectedDocumentType] = useState<
     string | null
   >(null);
-   const [uploadedFiles, setUploadedFiles] = useState<{
-    [key: string]: File | null; 
+  const [uploadedFiles, setUploadedFiles] = useState<{
+    [key: string]: File | null;
   }>({
     businessRegistration: null,
     governmentId: null,
@@ -55,9 +55,9 @@ export default function FacilitySignup3({ onNext }: Props) {
     if (file && selectedDocumentType) {
       setUploadedFiles((prev) => ({
         ...prev,
-        [selectedDocumentType]: file, 
+        [selectedDocumentType]: file,
       }));
-      setSelectedDocumentType(null); 
+      setSelectedDocumentType(null);
     }
   };
 
@@ -65,7 +65,7 @@ export default function FacilitySignup3({ onNext }: Props) {
     (file) => file !== null
   );
 
-const allFilesUploaded = Object.values(uploadedFiles).every(
+  const allFilesUploaded = Object.values(uploadedFiles).every(
     (fileName) => fileName !== null
   );
 
@@ -75,35 +75,40 @@ const allFilesUploaded = Object.values(uploadedFiles).every(
     setSubmissionError(null);
 
     if (!allFilesSelected) {
-      setSubmissionError("Please select a file for all required documents before continuing.");
+      setSubmissionError(
+        "Please select a file for all required documents before continuing."
+      );
       return;
     }
 
     setIsSubmitting(true);
 
     try {
-      const uploadPromises = Object.entries(uploadedFiles).map(([docType, file]) => {
-        if (!file) {
-          throw new Error(`File for ${docType} is missing.`);
-        }
-                const formData = new FormData();
-        formData.append('document', file);
+      const uploadPromises = Object.entries(uploadedFiles).map(
+        ([docType, file]) => {
+          if (!file) {
+            throw new Error(`File for ${docType} is missing.`);
+          }
+          const formData = new FormData();
+          formData.append("document", file);
 
-        const documentLabel = documentTypes.find(d => d.key === docType)?.label || docType;
-        console.log("server upload");
-        formData.append('documentType', documentLabel);
-        
-        return uploadDocument(formData);
-      });
+          const documentLabel =
+            documentTypes.find((d) => d.key === docType)?.label || docType;
+          console.log("server upload");
+          formData.append("documentType", documentLabel);
+
+          return uploadDocument(formData);
+        }
+      );
       const results = await Promise.all(uploadPromises);
-      
-      const firstError = results.find(res => res.error);
+
+      const firstError = results.find((res) => res.error);
 
       if (firstError) {
         setSubmissionError(firstError.error as string);
       } else {
         console.log("All files uploaded successfully, proceeding to next step");
-        
+
         onNext();
       }
     } catch (error) {
@@ -145,7 +150,8 @@ const allFilesUploaded = Object.values(uploadedFiles).every(
                   src="/file-add.svg"
                 />
                 <div className={styles.clickToUpload}>
-                  {uploadedFiles[selectedDocumentType]?.name ?? "Click to upload"}
+                  {uploadedFiles[selectedDocumentType]?.name ??
+                    "Click to upload"}
                 </div>
               </div>
               <input
@@ -197,15 +203,15 @@ const allFilesUploaded = Object.values(uploadedFiles).every(
                     uploadedFiles[docType.key]
                       ? styles.uploadComplete
                       : showError
-                      ? styles.uploadIncompleteError
-                      : styles.uploadComplete
+                        ? styles.uploadIncompleteError
+                        : styles.uploadComplete
                   }
                 >
                   {uploadedFiles[docType.key]
                     ? "Upload complete"
                     : showError
-                    ? "Upload incomplete"
-                    : "Upload"}
+                      ? "Upload incomplete"
+                      : "Upload"}
                 </div>
               </div>
               <Image

@@ -172,7 +172,8 @@ const SpecificCategoryClientPage: NextPage<{
     return result;
   };
 
-   const isDropdownVisible = (isSearching || searchResults.length > 0) && searchTerm.trim().length > 0;
+  const isDropdownVisible =
+    (isSearching || searchResults.length > 0) && searchTerm.trim().length > 0;
 
   return (
     <div className={styles.pbacs}>
@@ -186,9 +187,9 @@ const SpecificCategoryClientPage: NextPage<{
           />
           <div className={styles.personalBeautyAnd}>{subCategoryName}</div>
         </div>
-        <div 
+        <div
           ref={searchContainerRef}
-          className={`${styles.searchBox} ${isDropdownVisible ? styles.searchBoxActive : ''}`}
+          className={`${styles.searchBox} ${isDropdownVisible ? styles.searchBoxActive : ""}`}
         >
           <div className={styles.filtering}>
             <div className={styles.link6}>

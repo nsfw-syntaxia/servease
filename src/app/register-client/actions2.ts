@@ -1,8 +1,7 @@
-'use server';
+"use server";
 
-import { redirect } from 'next/navigation';
-import { createClient } from '../../utils/supabase/server'; // akoang giadd bag-o
-
+import { redirect } from "next/navigation";
+import { createClient } from "../../utils/supabase/server";
 
 interface ProfileData {
   user_id: string;
@@ -18,17 +17,21 @@ export async function profile(formData: FormData): Promise<void> {
 
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     console.error("User is not authenticated. Cannot create profile.");
-    const { data: { user: sessionUser } } = await supabase.auth.getUser();
+    const {
+      data: { user: sessionUser },
+    } = await supabase.auth.getUser();
     console.error("Session user: ", sessionUser?.id);
   }
   console.log("Authenticated user found:", user.id);
 
   const formObject = Object.fromEntries(formData.entries());
-  
+
   // 2. Extract form data
   const firstName = formObject.first_name as string;
   const lastName = formObject.last_name as string;
@@ -39,24 +42,39 @@ export async function profile(formData: FormData): Promise<void> {
   const birthYear = formObject.birth_year as string;
 
   // 3. Validate form data
-  if (!firstName?.trim() || !lastName?.trim() || !birthDay || !birthMonth || !birthYear) {
+  if (
+    !firstName?.trim() ||
+    !lastName?.trim() ||
+    !birthDay ||
+    !birthMonth ||
+    !birthYear
+  ) {
     console.log("VALIDATION FAILED: Required profile fields missing.");
-    return redirect('/register-client?error=missing_fields');
+    return redirect("/register-client?error=missing_fields");
   }
 
   const monthMap: { [key: string]: string } = {
-    'January': '01', 'February': '02', 'March': '03', 'April': '04', 
-    'May': '05', 'June': '06', 'July': '07', 'August': '08', 
-    'September': '09', 'October': '10', 'November': '11', 'December': '12'
+    January: "01",
+    February: "02",
+    March: "03",
+    April: "04",
+    May: "05",
+    June: "06",
+    July: "07",
+    August: "08",
+    September: "09",
+    October: "10",
+    November: "11",
+    December: "12",
   };
   const monthNumber = monthMap[birthMonth];
 
   if (!monthNumber) {
     console.error("Invalid month value received:", birthMonth);
-    return redirect('/register-client?error=invalid_month');
+    return redirect("/register-client?error=invalid_month");
   }
 
-  const formattedDay = String(birthDay).padStart(2, '0');
+  const formattedDay = String(birthDay).padStart(2, "0");
   const birthDate = `${birthYear}-${monthNumber}-${formattedDay}`;
 
   const profileData: ProfileData = {
@@ -68,16 +86,15 @@ export async function profile(formData: FormData): Promise<void> {
 
   if (middleName?.trim()) profileData.middle_name = middleName.trim();
   if (gender?.trim()) profileData.gender = gender.trim();
-  
+
   console.log("Data to insert:", profileData);
-  
 
   const { error } = await supabase
-    .from('client_initial_profile')
+    .from("client_initial_profile")
     .insert(profileData);
 
   if (error) {
-    console.error('--- SUPABASE PROFILE INSERT ERROR ---', error);
+    console.error("--- SUPABASE PROFILE INSERT ERROR ---", error);
     return redirect(`/register-client?error=database_error&code=${error.code}`);
   }
 

@@ -36,8 +36,8 @@ export interface ServiceInfo {
 
 export interface Appointment {
   id: string;
-  client_id: string; 
-  provider_id: string; 
+  client_id: string;
+  provider_id: string;
   date: string;
   time: string;
   status: "pending" | "confirmed" | "completed" | "canceled";
@@ -397,7 +397,9 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isFormValid || !selectedAppointmentReview) {
-      alert("Please ensure you have selected a rating and filled all required fields.");
+      alert(
+        "Please ensure you have selected a rating and filled all required fields."
+      );
       return;
     }
 
@@ -407,10 +409,11 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
       // Prepare the data for the 'reviews' table based on its fields:
       // client_id, provider_id, rating, comment, client_name
       const reviewPayload = {
-        appointment_id : selectedAppointmentReview.id,
+        appointment_id: selectedAppointmentReview.id,
         client_id: selectedAppointmentReview.client_id,
         provider_id: selectedAppointmentReview.provider_id,
-        service_name: selectedAppointmentReview.services?.[0]?.name || 'Unknown Service', 
+        service_name:
+          selectedAppointmentReview.services?.[0]?.name || "Unknown Service",
         rating: rating,
         comment: reviewText.trim(),
         client_name: name.trim(),
@@ -418,7 +421,10 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
 
       const { error } = await supabase.from("reviews").insert([reviewPayload]);
       if (error) {
-        console.log("Submitting this payload to 'reviews' table:", reviewPayload);
+        console.log(
+          "Submitting this payload to 'reviews' table:",
+          reviewPayload
+        );
 
         console.error("Error submitting review:", error);
         alert(`Failed to submit review: ${error.message}`);
@@ -430,7 +436,10 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
         }, 2000); // Wait 2 seconds before closing
       }
     } catch (err: any) {
-      console.error("An unexpected error occurred during review submission:", err);
+      console.error(
+        "An unexpected error occurred during review submission:",
+        err
+      );
       alert("An unexpected error occurred. Please try again.");
     } finally {
       // Ensure the submitting state is reset regardless of outcome
@@ -720,7 +729,7 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
                   {reviewText.length}/500 characters
                 </p>
               </div>
-              
+
               <div className={styles.buttonContainer}>
                 <button
                   type="button"
@@ -742,8 +751,8 @@ const AppointmentsClient: NextPage<{ initialAppointments: Appointment[] }> = ({
                   {isSubmitting
                     ? "Submitting..."
                     : isSubmitted
-                    ? "Submitted!"
-                    : "Submit Review"}
+                      ? "Submitted!"
+                      : "Submit Review"}
                 </button>
               </div>
             </form>

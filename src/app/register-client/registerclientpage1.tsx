@@ -1,6 +1,5 @@
 "use client";
 
-import type { NextPage } from "next";
 import Image from "next/image";
 import { useState } from "react";
 import styles from "../../styles/RegisterFacilityPage1copy.module.css";
@@ -87,16 +86,15 @@ export default function ClientSignup1({ onNext }: Props) {
 
     try {
       const formData = new FormData();
-      formData.append('email', email);
-      formData.append('password', password);
+      formData.append("email", email);
+      formData.append("password", password);
       await clientLoginCredentials(formData);
       setFieldErrors(newFieldErrors);
       setError("");
       setShowError(false);
       console.log("Form is valid, proceeding to next step");
       onNext();
-    }
-    catch (error) {
+    } catch (error) {
       console.log("Error registration");
     }
   };

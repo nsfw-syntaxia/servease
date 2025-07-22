@@ -17,7 +17,6 @@ const formatCurrency = (amount: number) => {
   }).format(amount);
 };
 
-
 export const ProviderBookingNotification: React.FC<
   Readonly<ProviderBookingNotificationProps>
 > = ({
@@ -38,7 +37,6 @@ export const ProviderBookingNotification: React.FC<
     </head>
     <body style={styles.body}>
       <div style={styles.mainContainer}>
-      
         <div style={styles.header}>
           <div style={styles.logo}>
             <span style={{ fontWeight: 500 }}>serv</span>
@@ -89,14 +87,14 @@ export const ProviderBookingNotification: React.FC<
             © {new Date().getFullYear()} servease. All rights reserved.
           </p>
           <p style={styles.footerText}>
-            This is an automated notification. Please do not reply to this email.
+            This is an automated notification. Please do not reply to this
+            email.
           </p>
         </div>
       </div>
     </body>
   </html>
 );
-
 
 const DetailRow = ({ label, value }: { label: string; value: string }) => (
   <div
@@ -109,22 +107,18 @@ const DetailRow = ({ label, value }: { label: string; value: string }) => (
   >
     <span
       style={{
-        color: "#604c3d", 
+        color: "#604c3d",
         fontWeight: 500,
         paddingRight: "16px",
       }}
     >
       {label}
     </span>
-    <span
-      style={{ color: "#050b20", fontWeight: 400, textAlign: "right" }} 
-    >
+    <span style={{ color: "#050b20", fontWeight: 400, textAlign: "right" }}>
       {value}
     </span>
   </div>
 );
-
-
 
 const colors = {
   emailBackground: "#f8f7f3",

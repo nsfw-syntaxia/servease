@@ -107,7 +107,6 @@ const DiscoverPage: NextPage = () => {
   return (
     <div className={styles.discover1Parent}>
       <div className={styles.discover1}>
-
         <div className={styles.whatweofferbox} />
         <b className={styles.ourServices}>
           <span>{`Our `}</span>
@@ -281,7 +280,7 @@ const DiscoverPage: NextPage = () => {
               autoComplete="off"
             />
           </div>
-         {(isSearching || searchResults.length > 0) &&
+          {(isSearching || searchResults.length > 0) &&
             searchTerm.trim().length > 0 && (
               <div className={styles.searchResultsDropdown}>
                 {isSearching && (
